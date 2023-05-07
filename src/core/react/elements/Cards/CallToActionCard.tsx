@@ -1071,29 +1071,26 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 		const getDamPrice = () => {
 			const shortDamPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 4 })}`
-			const damPriceTitle = `This price is calculated using on-chain Uniswap ${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'}->ETH->USD data in realtime through smart contracts.`
 			const actualDamPrice = `$ ${shortDamPrice}`;
 
 			return <>
-				<LightTooltip title={damPriceTitle}><Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.DAM)} <Typography variant="body2" color="textSecondary" display="inline">{isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'}:</Typography> {actualDamPrice}</Box></LightTooltip>
+				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.DAM)} <Typography variant="body2" color="textSecondary" display="inline">{isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'}:</Typography> {actualDamPrice}</Box>
 			</>
 		}
 		const getFluxPrice = () => {
 			const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 4 })}`
-			const fluxPriceTitle = `This price is calculated using on-chain Uniswap ${isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX (L1)'}->ETH->USD data in realtime through smart contracts.`
 			const actualFluxPrice = `$ ${shortFluxPrice}`;
 
 			return <>
-				<LightTooltip title={fluxPriceTitle}><Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.FLUX)} <Typography variant="body2" color="textSecondary" display="inline">{isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'}:</Typography> {actualFluxPrice}</Box></LightTooltip>
+				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.FLUX)} <Typography variant="body2" color="textSecondary" display="inline">{isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'}:</Typography> {actualFluxPrice}</Box>
 			</>
 		}
 		const getEthPrice = () => {
 			const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })}`
-			const fluxPriceTitle = `This price is calculated using on-chain Uniswap ETH->USD data in realtime through smart contracts.`
 			const actualFluxPrice = `$ ${shortFluxPrice}`;
 
 			return <>
-				<LightTooltip title={fluxPriceTitle}><Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.ETH)} <Typography variant="body2" color="textSecondary" display="inline">ETH:</Typography> {actualFluxPrice}</Box></LightTooltip>
+				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.ETH)} <Typography variant="body2" color="textSecondary" display="inline">ETH:</Typography> {actualFluxPrice}</Box>
 			</>
 		}
 		return <>

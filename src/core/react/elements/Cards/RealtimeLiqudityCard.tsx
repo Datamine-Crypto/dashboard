@@ -42,8 +42,6 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 
 	const lockedPercent = getBNPercent(addressDetails.globalLockedAmount, balances.damTotalSupply, false)
 
-	const fluxPriceTitle = `This price is calculated using on-chain Uniswap ${isArbitrumMainnet ? 'Arbi' : ''}FLUX->ETH->USD data in realtime through smart contracts.`
-	const fluxMarketCapTitle = `This market cap is calculated using on-chain Uniswap ${isArbitrumMainnet ? 'Arbi' : ''}FLUX->ETH->USD data in realtime through smart contracts.`
 
 	const shortDamPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 4 })}`
 
@@ -56,28 +54,12 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 
 	document.title = `${isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'}: $${shortFluxPrice} ${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'}: $${shortDamPrice}`
 
-	const getDamPrice = () => {
-		const damPriceTitle = `This price is calculated using on-chain Uniswap ${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'}->ETH->USD data in realtime through smart contracts.`
-		const actualDamPrice = `$ ${shortDamPrice} USD`;
-
-		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Realtime Price:`}
-			main={<LightTooltip title={damPriceTitle}><Box display="inline">{actualDamPrice}</Box></LightTooltip>}
-		/>
-	}
-
 	const getDamMarketCap = () => {
-		const damMarketCapTitle = <>
-			<Box mb={2}>
-				This market cap is calculated using on-chain Uniswap {isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'}-&gt;ETH-&gt;USDC data in realtime through smart contracts.
-			</Box>
-			Circulating market cap is based on <Box display="inline" fontWeight="bold">{lockedPercent}%</Box> of locked-in {isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} tokens.
-		</>
 
 		return <DetailedListItem
-			title={<><LightTooltip title={damMarketCapTitle}><Box display="inline">{isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Realtime Market Cap{isArbitrumMainnet ? ' (on L2)' : ''}:</Box></LightTooltip></>}
-			main={<><LightTooltip title={damMarketCapTitle}><Box display="inline">{circulatingDamMarketCap} <Typography variant="body2" color="textSecondary" display="inline">(Circulating)</Typography></Box></LightTooltip></>}
-			sub={<><LightTooltip title={damMarketCapTitle}><Box display="inline">{actualDamMarketCap} <Typography variant="body2" color="textSecondary" display="inline">(Total)</Typography></Box></LightTooltip></>}
+			title={<><Box display="inline">{isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Realtime Market Cap{isArbitrumMainnet ? ' (on L2)' : ''}:</Box></>}
+			main={<><Box display="inline">{circulatingDamMarketCap} <Typography variant="body2" color="textSecondary" display="inline">(Circulating)</Typography></Box></>}
+			sub={<><Box display="inline">{actualDamMarketCap} <Typography variant="body2" color="textSecondary" display="inline">(Total)</Typography></Box></>}
 		/>
 	}
 
@@ -118,8 +100,8 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 
 	const getFluxMarketCap = () => {
 		return <DetailedListItem
-			title={<><LightTooltip title={fluxMarketCapTitle}><Box display="inline">{isArbitrumMainnet ? 'Arbi' : ''}FLUX Realtime Market Cap: </Box></LightTooltip></>}
-			main={<><LightTooltip title={fluxMarketCapTitle}><Box display="inline">{actualFluxMarketCap}</Box></LightTooltip></>}
+			title={<><Box display="inline">{isArbitrumMainnet ? 'Arbi' : ''}FLUX Realtime Market Cap: </Box></>}
+			main={<><Box display="inline">{actualFluxMarketCap}</Box></>}
 		/>
 	}
 
