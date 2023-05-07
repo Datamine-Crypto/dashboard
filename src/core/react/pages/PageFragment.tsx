@@ -12,7 +12,7 @@ import { HelpArticle, helpArticles } from '../../helpArticles';
 import HelpPage from './HelpPage';
 import { MainDrawer } from '../elements/Fragments/Drawer';
 import CommunityPage from './CommunityPage';
-import { NetworkType } from '../../../config';
+import { NetworkType } from '../../../config.base';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;

@@ -29,7 +29,7 @@ import moment from 'moment';
 import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
 import { getApy, TokenPair } from '../../../utils/getApy';
 import { formatMoney } from '../../../utils/formatMoney';
-import { NetworkType } from '../../../../config';
+import { NetworkType } from '../../../../config.base';
 import ArbitrumLogo from '../../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../../svgs/ethereumPurple.svg';
 import fluxLogo from '../../../../svgs/fluxLogo.svg';

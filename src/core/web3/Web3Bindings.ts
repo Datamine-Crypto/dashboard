@@ -20,9 +20,10 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import axios from 'axios'
-import { getConfig, NetworkType } from '../../config';
+import { NetworkType } from '../../config.base';
 import { devLog } from '../utils/devLog';
 import { decodeMulticall, encodeMulticall } from '../utils/web3multicall';
+import { getConfig } from '../../config';
 
 let web3provider: any = null;
 

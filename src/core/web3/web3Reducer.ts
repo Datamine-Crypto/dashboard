@@ -3,7 +3,7 @@ import Web3 from "web3";
 import BN from 'bn.js'
 import { getPriceToggle, parseBN } from "./helpers";
 import { v4 as uuidv4 } from 'uuid';
-import { NetworkType } from '../../config';
+import { NetworkType } from '../../config.base';
 import copyToClipBoard from "../utils/copyToClipboard";
 import Big from 'big.js'
 import { ReducerQuery, ReducerQueryHandler, ReducerCommand } from "../sideEffectReducer";

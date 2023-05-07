@@ -8,7 +8,7 @@ import HelpComboboxFragment from '../elements/Fragments/HelpComboboxFragment';
 import { helpArticles, SearchCategory, SearchCategoryText, SearchCategoryTextL2 } from '../../helpArticles';
 import { commonLanguage } from '../../web3/web3Reducer';
 import { Web3Context } from '../../web3/Web3Context';
-import { NetworkType } from '../../../config';
+import { NetworkType } from '../../../config.base';
 
 import ArbitrumLogo from '../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../svgs/ethereumPurple.svg';
