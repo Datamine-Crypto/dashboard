@@ -33,7 +33,6 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 						type: 'main',
 						typeDisplay: 'Ethereum Mainnet'
 					},
-					baseURL: 'http://localhost:3001',
 
 					uniswapV3EthDamTokenContractAddress: '0xa8e5873b838fa39c381cb3e29cb0b6b9deda7a87',
 					uniswapV3EthFluxTokenContractAddress: '0xa99c670879888df9ccfaa46b1f3b0c9cfb771bee',
@@ -62,7 +61,6 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 						type: 'main',
 						typeDisplay: 'Ethereum Mainnet'
 					},
-					baseURL: 'http://localhost:3001',
 
 					uniswapV3EthDamTokenContractAddress: '0xBd233D685eDE81E00faaEFEbD55150C76778a34e',
 					uniswapV3EthFluxTokenContractAddress: '0x07aa6584385cca15c2c6e13a5599ffc2d177e33b',
@@ -89,7 +87,6 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 						type: 'main',
 						typeDisplay: 'Localhost'
 					},
-					baseURL: 'http://localhost:3001'
 				}
 		}
 	}
