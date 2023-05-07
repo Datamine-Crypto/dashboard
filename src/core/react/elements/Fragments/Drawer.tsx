@@ -18,6 +18,7 @@ import Arbitrum from '../../../../svgs/arbitrum.svg';
 import discordWhiteLogo from '../../../../svgs/discordWhite.svg';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
+import { getConfig } from '../../../../config';
 
 const drawerWidth = 280;
 
@@ -117,6 +118,35 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 	const isDrawerOpen = true;
 	const isBigDrawerOpen = true;
 
+	const { isL1PageEnabled, isL2PageEnabled } = getConfig()
+
+	const getL1Page = () => {
+		if (!isL1PageEnabled) {
+			return []
+		}
+		return [
+			{
+				title: <>FLUX <Typography display="inline" variant="body2" color="textSecondary">(L1 Ecosystem)</Typography></>,
+				icon: <img src={EthereumPurple} width="24" height="24" />,
+				href: '#token/flux',
+				className: classes.nested
+			},
+		]
+	}
+	const getL2Page = () => {
+		if (!isL2PageEnabled) {
+			return []
+		}
+		return [
+			{
+				title: <>ArbiFLUX <Typography display="inline" variant="body2" color="textSecondary">(L2 Ecosystem)</Typography></>,
+				icon: <img src={Arbitrum} width="24" height="24" />,
+				href: '#token/arbiflux',
+				className: classes.nested
+			},
+		]
+	}
+
 	const buttons = [
 		{
 			isBasicDivider: true
@@ -139,18 +169,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			href: '#dashboard',
 			className: classes.nested
 		},
-		{
-			title: <>FLUX <Typography display="inline" variant="body2" color="textSecondary">(L1 Ecosystem)</Typography></>,
-			icon: <img src={EthereumPurple} width="24" height="24" />,
-			href: '#token/flux',
-			className: classes.nested
-		},
-		{
-			title: <>ArbiFLUX <Typography display="inline" variant="body2" color="textSecondary">(L2 Ecosystem)</Typography></>,
-			icon: <img src={Arbitrum} width="24" height="24" />,
-			href: '#token/arbiflux',
-			className: classes.nested
-		},
+		...getL1Page(),
+		...getL2Page(),
 		{
 			title: 'Community',
 			icon: <PeopleIcon />,

@@ -2,7 +2,6 @@
 import fluxLogo from './svgs/fluxLogo.svg';
 import arbiFluxLogo from './svgs/arbiFluxLogo.svg';
 import logo from './svgs/logo.svg';
-import { getConfigOverrides } from './config.overrides';
 
 export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 
@@ -13,7 +12,14 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 
 			case NetworkType.Arbitrum:
 				return {
+					/**
+					 * What is the address of token that you have to "lock-in" (ex: DAM)
+					 */
 					damTokenContractAddress: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
+
+					/**
+					 * What is the address of token that you have to "mint" (ex: FLUX)
+					 */
 					fluxTokenContractAddress: '0x64081252c497fcfec247a664e9d10ca8ed71b276',
 
 					uniswapEthDamTokenContractAddress: '0x447f8D287120B66F39856AE5ceb01512A7A47444',
@@ -64,26 +70,10 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 					uniswapMulticallAdress: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
 					wrappedEthAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
 				}
-			/*
-			case NetworkType.Testnet:
-				return {
-					damTokenContractAddress: '0x4e80bdcc3ba564bd9a548c3349d394794d28ccea',
-					fluxTokenContractAddress: '0x51a4486753e745e2c155b23e23e2d8ab886b3a03',
-					uniswapEthDamTokenContractAddress: '0x447f8D287120B66F39856AE5ceb01512A7A47444',
-					uniswapFluxEthTokenContractAddress: '0x27fa67302c513f5512bbfa5065800c2d7b3871f4',
-					uniswapUsdcEthTokenContractAddress: '0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc',
-					failsafeStartBlockNumber: 8048180,
-					failsafeDuration: 161280,
-					network: {
-						type: 'ropsten',
-						typeDisplay: 'Ethereum Testnet (Ropsten)'
-					},
-					baseURL: 'http://localhost:3001'
-				}
-			*/
 
 			default:
 				// These might change when you `truffle develop`
+				// These are some old values for example of how to use Testnet
 				return {
 					damTokenContractAddress: '0x2dBef6c8042e12d4D2aCf766d3019F72f4eA2c61',
 					fluxTokenContractAddress: '0xd3Dd50781D88503D1c3445D60155F5a994093f72',
@@ -178,8 +168,26 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 
 		liquidityPoolGroups,
 
+		/**
+		 * Enable various "Explore Liquidity" buttons on website.
+		 * If your token doesn't have liquidity pools setup yet set this to false
+		 */
 		isLiquidityPoolsEnabled: true,
+
+		/**
+		 * If your token doesn't have an explainer video on homepage set this to false
+		 */
 		isHomepageVideoVisible: true,
+
+		/**
+		 * Left side navigation for explaining about L1 Token (Ex: FLUX L1 Ecosystem)
+		 */
+		isL1PageEnabled: true,
+
+		/**
+		 * Left side navigation for explaining about L2 Token (Ex: FLUX L2 Ecosystem)
+		 */
+		isL2PageEnabled: true
 	}
 
 	return baseConfig
