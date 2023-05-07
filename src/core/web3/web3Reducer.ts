@@ -963,7 +963,9 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 const priceMultiplierAmount = localStorage.getItem('clientSettingsPriceMultiplierAmount') ? localStorage.getItem('clientSettingsPriceMultiplierAmount') as string : '1.00';
 const currency = localStorage.getItem('clientSettingsCurrency') ? localStorage.getItem('clientSettingsCurrency') as string : 'USD';
 const useEip1559 = !localStorage.getItem('clientSettingsUseEip1559') || localStorage.getItem('clientSettingsUseEip1559') === 'true'
-const helpArticlesNetworkType = localStorage.getItem('helpArticlesNetworkType') ? localStorage.getItem('helpArticlesNetworkType') as NetworkType : NetworkType.Mainnet;
+
+const defaultHelpArticlesNetworkType = config.isArbitrumOnlyToken ? NetworkType.Arbitrum : NetworkType.Mainnet
+const helpArticlesNetworkType = localStorage.getItem('helpArticlesNetworkType') && !config.isArbitrumOnlyToken ? localStorage.getItem('helpArticlesNetworkType') as NetworkType : defaultHelpArticlesNetworkType;
 
 const initialState: Web3State = {
 	pendingQueries: [],

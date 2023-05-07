@@ -103,7 +103,7 @@ interface RenderProps {
 const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetworkType }) => {
 	const classes = useStyles();
 
-	const { navigation } = getConfig()
+	const { navigation, isArbitrumOnlyToken } = getConfig()
 	const { discordInviteLink } = navigation
 
 	const isArbitrumMainnet = helpArticlesNetworkType === NetworkType.Arbitrum;
@@ -148,6 +148,9 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 	}
 
 	const getHelpArticlesNetworkTypeDropdown = () => {
+		if (isArbitrumOnlyToken) {
+			return null
+		}
 
 		return <>
 			<FormControl size="medium" variant="outlined" fullWidth  >
