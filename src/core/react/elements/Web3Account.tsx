@@ -21,6 +21,7 @@ import MessageDialog from './Dialogs/MessageDialog';
 import { commonLanguage } from '../../web3/web3Reducer';
 import RealtimeLiqudityCard from './Cards/RealtimeLiqudityCard';
 import SettingsDialog from './Dialogs/SettingsDialog';
+import { getConfig } from '../../../config';
 
 interface RenderParams {
 	dialog: DialogType | null;
@@ -47,6 +48,7 @@ const useStyles = makeStyles((theme) => {
 
 const Render: React.FC<RenderParams> = React.memo(({ dialog, dialogParams, dispatch }) => {
 	const classes = useStyles();
+	const { isLiquidityPoolsEnabled, isRealtimeOnChainMarketSentimentEnabled } = getConfig()
 
 	const onClose = () => {
 		dispatch({ type: commonLanguage.commands.CloseDialog });
@@ -82,6 +84,25 @@ const Render: React.FC<RenderParams> = React.memo(({ dialog, dialogParams, dispa
 			}
 		}
 	}
+	const getRealtimeLiqudityCard = () => {
+		if (!isLiquidityPoolsEnabled) {
+			return null;
+		}
+		return (
+			<Box my={3}>
+				<RealtimeLiqudityCard />
+			</Box>)
+	}
+	const getMarketSentimentCard = () => {
+		if (!isRealtimeOnChainMarketSentimentEnabled) {
+			return null;
+		}
+		return (
+			<Box my={3}>
+				<MarketSentiment />
+			</Box>
+		)
+	}
 	return <>
 		{getDialog()}
 
@@ -89,12 +110,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dialog, dialogParams, dispa
 			<CallToActionCard />
 		</Box>
 		<Box className={classes.cardsContainer}>
-			<Box my={3}>
-				<RealtimeLiqudityCard />
-			</Box>
-			<Box my={3}>
-				<MarketSentiment />
-			</Box>
+			{getRealtimeLiqudityCard()}
+			{getMarketSentimentCard()}
 			<Box my={3}>
 				<MintStatsCard />
 			</Box>

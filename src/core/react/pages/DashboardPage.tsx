@@ -251,7 +251,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 		}
 		const getBuild = () => {
 			return <>
-				{ecosystemName} - Build 914 {getBlock()}
+				{ecosystemName} {getBlock()}
 
 				<Menu
 					id="advanced-options"

@@ -198,6 +198,11 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		mitCopyrightYear: 2020,
 
 		/**
+		 * Market sentiment card in validator dashboard. Set this to false if you don't have any meaninful numbers yet
+		 */
+		isRealtimeOnChainMarketSentimentEnabled: true,
+
+		/**
 		 * Left side navigation (buttons on left side or top right on mobile)
 		 */
 		navigation: {

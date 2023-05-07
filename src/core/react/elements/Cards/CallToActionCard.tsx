@@ -36,6 +36,7 @@ import fluxLogo from '../../../../svgs/fluxLogo.svg';
 import damLogo from '../../../../svgs/logo.svg';
 
 import { theme } from '../../../styles'
+import { getConfig } from '../../../../config';
 
 const useStyles = makeStyles(() => ({
 	progressBarLeft: {
@@ -122,13 +123,16 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, isArbitrumMainnet }) => {
 	const classes = useStyles();
 
+	const { navigation, isArbitrumOnlyToken } = getConfig()
+	const { isHelpPageEnabled } = navigation
+
 	// Only show CTA once account is loaded
 	if (addressDetails === null || selectedAddress === null) {
 		return null;
 	}
 
 	const getMintHeaderLabel = () => {
-		if (!isArbitrumMainnet) {
+		if (!isArbitrumMainnet || isArbitrumOnlyToken) {
 			return null;
 		}
 
@@ -989,7 +993,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 		return button
 	}
 	const getNetworkDropdown = () => {
-		if (!selectedAddress) {
+		if (!selectedAddress || isArbitrumOnlyToken) {
 			return null;
 		}
 
@@ -1107,6 +1111,21 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 		</>
 	}
 
+	const getLearnMoreButton = () => {
+		if (!isHelpPageEnabled) {
+			return null;
+		}
+		return (
+			<Box ml={2} display={"inline-block"}>
+				<Link href={ctaDetails.learnMoreHref} rel="noopener noreferrer" target="_blank">
+					<Button size="large">
+						Learn More
+					</Button>
+				</Link>
+			</Box>
+		)
+	}
+
 	return <>
 		<Box mb={1.5}>
 			<Grid container justify="space-between" alignItems="center" className={classes.topContainer} spacing={3}>
@@ -1146,13 +1165,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						<Grid item>
 							<Box mb={2}>
 								{getButton()}
-								<Box ml={2} display={"inline-block"}>
-									<Link href={ctaDetails.learnMoreHref} rel="noopener noreferrer" target="_blank">
-										<Button size="large">
-											Learn More
-										</Button>
-									</Link>
-								</Box>
+								{getLearnMoreButton()}
 							</Box>
 						</Grid>
 						{ctaDetails.bottomRightItem}
