@@ -153,7 +153,7 @@ export const addToMetamask = (isArbitrumMainnet: boolean) => {
 	const { ethereum } = window as any;
 
 	const addDam = () => {
-		const tokenAddress = config.damTokenContractAddress;
+		const tokenAddress = config.lockableTokenContractAddress;
 		const tokenSymbol = isArbitrumMainnet ? 'FLUX (L2)' : 'DAM';
 		const tokenDecimals = 18;
 		const tokenImage = `https://datamine-crypto.github.io/realtime-decentralized-dashboard/logos/${isArbitrumMainnet ? 'flux' : 'dam'}.png`;
@@ -180,7 +180,7 @@ export const addToMetamask = (isArbitrumMainnet: boolean) => {
 
 	///////////////////////////////////////////////////
 	const addFlux = () => {
-		const tokenAddress = config.fluxTokenContractAddress;
+		const tokenAddress = config.mintableTokenContractAddress;
 		const tokenSymbol = `${isArbitrumMainnet ? 'Arbi' : ''}FLUX`;
 		const tokenDecimals = 18;
 		const tokenImage = `https://datamine-crypto.github.io/realtime-decentralized-dashboard/logos/${isArbitrumMainnet ? 'arbiFlux' : 'flux'}.png`;

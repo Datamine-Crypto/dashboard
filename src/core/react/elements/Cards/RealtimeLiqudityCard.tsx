@@ -158,9 +158,9 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 
 				const getAddToPoolLink = () => {
 					if (isArbitrumMainnet) {
-						return `https://app.sushi.com/add/${config.fluxTokenContractAddress}/ETH`
+						return `https://app.sushi.com/add/${config.mintableTokenContractAddress}/ETH`
 					}
-					return `https://uniswap.exchange/add/${config.fluxTokenContractAddress}/ETH/10000`
+					return `https://uniswap.exchange/add/${config.mintableTokenContractAddress}/ETH/10000`
 				}
 				const button = <Link href={getAddToPoolLink()} target="_blank" rel="noopener noreferrer">
 					<Button size="small" variant="outlined" color="secondary">

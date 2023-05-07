@@ -38,7 +38,7 @@ const Render: React.FC<RenderParams> = React.memo(({ token, selectedAddress, add
 		dispatch({ type: commonLanguage.commands.CloseDialog });
 	}
 
-	const inputCurrency = token === Token.DAM ? config.damTokenContractAddress : config.fluxTokenContractAddress;
+	const inputCurrency = token === Token.DAM ? config.lockableTokenContractAddress : config.mintableTokenContractAddress;
 
 
 	return <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">

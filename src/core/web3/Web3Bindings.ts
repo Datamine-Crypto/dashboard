@@ -114,8 +114,8 @@ const axiosInstance = axios.create({});
 const getContracts = (web3: Web3, isArbitrumMainnet: boolean) => {
 	const config = getConfig(isArbitrumMainnet);
 	return {
-		damToken: new web3.eth.Contract(damTokenAbi as any, config.damTokenContractAddress),
-		fluxToken: new web3.eth.Contract(fluxTokenAbi as any, config.fluxTokenContractAddress),
+		damToken: new web3.eth.Contract(damTokenAbi as any, config.lockableTokenContractAddress),
+		fluxToken: new web3.eth.Contract(fluxTokenAbi as any, config.mintableTokenContractAddress),
 		uniswapDamToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapEthDamTokenContractAddress),
 		uniswapFluxToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapFluxEthTokenContractAddress),
 		usdcEthToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapUsdcEthTokenContractAddress),
@@ -677,7 +677,7 @@ const queryHandlers = {
 				},
 				// FLUX: Total Supply
 				{
-					address: config.fluxTokenContractAddress,
+					address: config.mintableTokenContractAddress,
 					function: {
 						signature: {
 							name: 'totalSupply',
@@ -697,7 +697,7 @@ const queryHandlers = {
 
 				// DAM: Total Supply
 				{
-					address: config.damTokenContractAddress,
+					address: config.lockableTokenContractAddress,
 					function: {
 						signature: {
 							name: 'totalSupply',
@@ -718,7 +718,7 @@ const queryHandlers = {
 
 				// FLUX: Address token details
 				{
-					address: config.fluxTokenContractAddress,
+					address: config.mintableTokenContractAddress,
 					function: {
 						signature: {
 							name: 'getAddressTokenDetails',
@@ -750,7 +750,7 @@ const queryHandlers = {
 
 				// FLUX: Address locks
 				{
-					address: config.fluxTokenContractAddress,
+					address: config.mintableTokenContractAddress,
 					function: {
 						signature: {
 							name: 'addressLocks',
@@ -781,7 +781,7 @@ const queryHandlers = {
 
 				// FLUX: Address details
 				{
-					address: config.fluxTokenContractAddress,
+					address: config.mintableTokenContractAddress,
 					function: {
 						signature: {
 							name: 'getAddressDetails',
@@ -820,7 +820,7 @@ const queryHandlers = {
 
 				// DAM: Total Supply of Uniswap
 				{
-					address: config.damTokenContractAddress,
+					address: config.lockableTokenContractAddress,
 					function: {
 						signature: {
 							name: 'balanceOf',
@@ -848,7 +848,7 @@ const queryHandlers = {
 
 				// FLUX: Total Supply of Uniswap
 				{
-					address: config.fluxTokenContractAddress, //@change this
+					address: config.mintableTokenContractAddress, //@change this
 					function: {
 						signature: {
 							name: 'balanceOf',
@@ -872,7 +872,7 @@ const queryHandlers = {
 
 				// FLUX: Total Supply of Arbitrum Bridge
 				{
-					address: config.fluxTokenContractAddress,
+					address: config.mintableTokenContractAddress,
 					function: {
 						signature: {
 							name: 'balanceOf',
@@ -1107,7 +1107,7 @@ const queryHandlers = {
 		const damToken = withWeb3(web3, contracts.damToken);
 
 		const response = await damToken.authorizeOperator({
-			operator: config.fluxTokenContractAddress,
+			operator: config.mintableTokenContractAddress,
 			from: selectedAddress
 		});
 

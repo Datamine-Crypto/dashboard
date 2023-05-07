@@ -15,12 +15,12 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 					/**
 					 * What is the address of token that you have to "lock-in" (ex: DAM)
 					 */
-					damTokenContractAddress: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
+					lockableTokenContractAddress: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
 
 					/**
 					 * What is the address of token that you have to "mint" (ex: FLUX)
 					 */
-					fluxTokenContractAddress: '0x64081252c497fcfec247a664e9d10ca8ed71b276',
+					mintableTokenContractAddress: '0x64081252c497fcfec247a664e9d10ca8ed71b276',
 
 					uniswapEthDamTokenContractAddress: '0x447f8D287120B66F39856AE5ceb01512A7A47444',
 					uniswapFluxEthTokenContractAddress: '0x27fa67302c513f5512bbfa5065800c2d7b3871f4',
@@ -50,8 +50,8 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				}
 			case NetworkType.Mainnet:
 				return {
-					damTokenContractAddress: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
-					fluxTokenContractAddress: '0x469eda64aed3a3ad6f868c44564291aa415cb1d9',
+					lockableTokenContractAddress: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
+					mintableTokenContractAddress: '0x469eda64aed3a3ad6f868c44564291aa415cb1d9',
 
 					uniswapEthDamTokenContractAddress: '0x447f8D287120B66F39856AE5ceb01512A7A47444',
 					uniswapFluxEthTokenContractAddress: '0x27fa67302c513f5512bbfa5065800c2d7b3871f4',
@@ -75,8 +75,9 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				// These might change when you `truffle develop`
 				// These are some old values for example of how to use Testnet
 				return {
-					damTokenContractAddress: '0x2dBef6c8042e12d4D2aCf766d3019F72f4eA2c61',
-					fluxTokenContractAddress: '0xd3Dd50781D88503D1c3445D60155F5a994093f72',
+					lockableTokenContractAddress: '0x2dBef6c8042e12d4D2aCf766d3019F72f4eA2c61',
+					mintableTokenContractAddress: '0xd3Dd50781D88503D1c3445D60155F5a994093f72',
+
 					uniswapEthDamTokenContractAddress: '0x447f8D287120B66F39856AE5ceb01512A7A47444',
 					uniswapFluxEthTokenContractAddress: '0x27fa67302c513f5512bbfa5065800c2d7b3871f4',
 					uniswapUsdcEthTokenContractAddress: '0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc',
