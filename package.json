@@ -32,7 +32,7 @@
 		"web3": "^1.6.0"
 	},
 	"scripts": {
-		"start": "react-scripts start --openssl-legacy-provider start",
+		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"eject": "react-scripts eject",
 		"deploy": "npm run build --nomaps"

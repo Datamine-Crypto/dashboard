@@ -17,10 +17,17 @@ This realtime analytics dashboard builds feature:
 - Works in any folder structure. Drop this into a subfolder or a subdomain, all paths are relative.
 - IPFS, SWARM & TOR compatible. Move one step closer to true decentralization by hosting our dashboard on Distributed Web.
 
+## Prerequisites
+
+To run this project locally you will need to download Node.js: https://nodejs.org/en
+
+This project was originally developed using Node v16 but it's compatible with Node v18. (This node version was forced with Docker which might be added to this source code in the future.)
+
 ## Installation
 
 1. Navigate to your project directory.
-2. Run `npm install` (this is a one time requirement). If you get `ENOENT: no such file or directory, open 'package.json'` then you did not complete previous step
+2. Type in `set NODE_OPTIONS=--openssl-legacy-provider`. If you are using Linux or macOS type in `export NODE_OPTIONS=--openssl-legacy-provider` instead. (This is only needed if you are using Node v18)
+3. Run `npm install` (this is a one time requirement). If you get `ENOENT: no such file or directory, open 'package.json'` then you did not complete previous step
 
 ## Running dApp Locally
 
