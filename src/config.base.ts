@@ -197,6 +197,9 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		 */
 		mitCopyrightYear: 2020,
 
+		/**
+		 * Left side navigation (buttons on left side or top right on mobile)
+		 */
 		navigation: {
 
 			/**

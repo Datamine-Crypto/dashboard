@@ -76,7 +76,8 @@ interface Props {
 const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible }) => {
 	const classes = useStyles();
 
-	const { isLiquidityPoolsEnabled } = getConfig()
+	const { isLiquidityPoolsEnabled, navigation } = getConfig()
+	const { isHelpPageEnabled } = navigation
 
 	const navigateDashboard = () => {
 		window.location.href = '#dashboard' // @todo
@@ -131,6 +132,16 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible }) => {
 				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} />
 			</Grid>
 		}
+		const getHelpButton = () => {
+			if (!isHelpPageEnabled) {
+				return null
+			}
+			return (<Grid item>
+				<Button variant="text" href="#help">
+					Help &amp; Knowledgebase
+				</Button>
+			</Grid>)
+		}
 		return <Box mt={4}>
 			<Grid container spacing={4} justify="center" alignItems="center">
 				{getLiqudityPoolsButton()}
@@ -158,11 +169,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible }) => {
 							Technical Whitepaper
 						</Button>
 					</Grid>
-					<Grid item>
-						<Button variant="text" href="#help">
-							Help &amp; Knowledgebase
-						</Button>
-					</Grid>
+					{getHelpButton()}
 					<Grid item>
 						<Button variant="text" href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf" rel="noopener noreferrer" target="_blank">
 							View Security Audit
