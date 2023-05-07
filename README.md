@@ -17,6 +17,18 @@ This realtime analytics dashboard builds feature:
 - Works in any folder structure. Drop this into a subfolder or a subdomain, all paths are relative.
 - IPFS, SWARM & TOR compatible. Move one step closer to true decentralization by hosting our dashboard on Distributed Web.
 
+## Getting Started
+
+In the project directory, you can run:
+
+### `npm start` or `yarn start`
+
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
+
 # Configuration
 
 - check out [src/config.ts](src/config.ts) for customization
@@ -25,50 +37,19 @@ This realtime analytics dashboard builds feature:
 - [src/core/web3/web3Reducer.ts](src/core/web3/web3Reducer.ts) contains the main state & reducer of the project and contains all the actions user can perform
 - [src/core/web3/Web3Bindings.ts](src/core/web3/Web3Bindings.ts) contains all the handling of recuder queries (async logic)
 
+This project does not contain any unit tests but this can be improved in the future.
+
 ## To Deploy
 
-Be sure `GENERATE_SOURCEMAP=false` is in .env file
+### `npm run build` or `yarn run build`
 
-`npm run deploy`
+This will create a new build in build/ folder that you can host. We currently host this on github(https://datamine-crypto.github.io/realtime-decentralized-dashboard/) for decentralization reasons & proof of builds.
+
+The builds can be hosted in subfolders and do not perform external http calls for security & decentralization.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Be sure `GENERATE_SOURCEMAP=false` is in .env file
 
 ## Learn More
 
