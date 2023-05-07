@@ -118,7 +118,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 	const isDrawerOpen = true;
 	const isBigDrawerOpen = true;
 
-	const { isL1PageEnabled, isL2PageEnabled } = getConfig()
+	const { navigation } = getConfig()
+	const { isL1PageEnabled, isL2PageEnabled, isCommunityPageEnabled, isAnalyticsPagesEnabled, ecosystemButtonlabel } = navigation
 
 	const getL1Page = () => {
 		if (!isL1PageEnabled) {
@@ -146,13 +147,55 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			},
 		]
 	}
+	const getCommunityPage = () => {
+		if (!isCommunityPageEnabled) {
+			return []
+		}
+		return [
+			{
+				title: 'Community',
+				icon: <PeopleIcon />,
+				href: '#community',
+				className: classes.nested
+			},
+		]
+	}
+	const getAnalyticsPages = () => {
+		if (!isAnalyticsPagesEnabled) {
+			return []
+		}
+		return [
+			{
+				isBasicDivider: true
+			},
+			{
+				title: 'Ecosystem Analytics',
+				icon: <EqualizerIcon />,
+				expandIcon: true,
+				href: 'https://datamine-crypto.github.io/datamine-pro-portal/'
+			},
+			{
+				isBasicDivider: true
+			},
+			{
+				title: <>Trend Analytics <Typography display="inline" color="textSecondary">(Beta)</Typography></>,
+				icon: <TrendingUpIcon />,
+				expandIcon: false,
+				href: 'https://datamine-crypto.github.io/datamine-pro-portal/#/trends/datamine'
+			},
+			{
+				isBasicDivider: true
+			},
+		]
+	}
 
 	const buttons = [
 		{
 			isBasicDivider: true
 		},
 		{
-			title: 'Datamine Ecosystem',
+			title: ecosystemButtonlabel,
+
 			icon: <WhatshotIcon />,
 			className: classes.parent,
 			expandIcon: true
@@ -171,39 +214,14 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		},
 		...getL1Page(),
 		...getL2Page(),
-		{
-			title: 'Community',
-			icon: <PeopleIcon />,
-			href: '#community',
-			className: classes.nested
-		},
+		...getCommunityPage(),
 		{
 			title: 'Help',
 			icon: <HelpIcon />,
 			href: '#help',
 			className: `${classes.nested} ${classes.lastExpandedItem}`
 		},
-		{
-			isBasicDivider: true
-		},
-		{
-			title: 'Ecosystem Analytics',
-			icon: <EqualizerIcon />,
-			expandIcon: true,
-			href: 'https://datamine-crypto.github.io/datamine-pro-portal/'
-		},
-		{
-			isBasicDivider: true
-		},
-		{
-			title: <>Trend Analytics <Typography display="inline" color="textSecondary">(Beta)</Typography></>,
-			icon: <TrendingUpIcon />,
-			expandIcon: false,
-			href: 'https://datamine-crypto.github.io/datamine-pro-portal/#/trends/datamine'
-		},
-		{
-			isBasicDivider: true
-		},
+		...getAnalyticsPages()
 	]
 
 	const getDrawer = () => {

@@ -167,7 +167,6 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		...getNetworkConfig(),
 
 		liquidityPoolGroups,
-
 		/**
 		 * Enable various "Explore Liquidity" buttons on website.
 		 * If your token doesn't have liquidity pools setup yet set this to false
@@ -179,15 +178,33 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		 */
 		isHomepageVideoVisible: true,
 
-		/**
-		 * Left side navigation for explaining about L1 Token (Ex: FLUX L1 Ecosystem)
-		 */
-		isL1PageEnabled: true,
+		navigation: {
 
-		/**
-		 * Left side navigation for explaining about L2 Token (Ex: FLUX L2 Ecosystem)
-		 */
-		isL2PageEnabled: true
+			/**
+			 * Left side navigation for explaining about L1 Token (Ex: FLUX L1 Ecosystem)
+			 */
+			isL1PageEnabled: true,
+
+			/**
+			 * Left side navigation for explaining about L2 Token (Ex: FLUX L2 Ecosystem)
+			 */
+			isL2PageEnabled: true,
+
+			/**
+			 * Left side navigation for community page (set this to false if your community page is not setup yet)
+			 */
+			isCommunityPageEnabled: true,
+
+			/**
+			 * Left side navigation for analytics (This should only be set to true for Datamine Network)
+			 */
+			isAnalyticsPagesEnabled: true,
+
+			/**
+			 * Left side button label for the navigation dropdown
+			 */
+			ecosystemButtonlabel: 'Datamine Ecosystem'
+		}
 	}
 
 	return baseConfig
