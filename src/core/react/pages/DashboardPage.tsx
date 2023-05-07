@@ -63,7 +63,6 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 
 	// Add loading to middle of the page
 	const getLoadingIndicator = () => {
-
 		if (isIncorrectNetwork) {
 			if (config.network.type === 'ropsten') {
 				return getCenterContent({
@@ -73,9 +72,11 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 				})
 			}
 
+			const errorTitle = config.isArbitrumOnlyToken ? 'Arbitrum' : 'Ethereum Mainnet & Arbitrum'
+
 			return getCenterContent({
-				title: 'Looks like you are not on Ethereum Mainnet & Arbitrum Network...',
-				message: <>Currently Datamine Dashboard only works on Ethereum Mainnet &amp; Arbitrum. Please change your network provider to <Box fontWeight="bold" display="inline">"Ethereum Mainnet" or Arbitrum L2</Box></>,
+				title: `Looks like you are not on ${errorTitle} Network...`,
+				message: <>Currently Datamine Dashboard only works on {errorTitle}. Please change your network provider to <Box fontWeight="bold" display="inline">{errorTitle} L2</Box></>,
 				content: <img src="./images/network2.png" />
 			})
 		}

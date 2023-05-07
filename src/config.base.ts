@@ -176,6 +176,12 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		 */
 		isHomepageVideoVisible: true,
 
+		/**
+		 * If set to true your token is only deployed on Arbitrum. If a user connects to Ethereum mainnet or other network they'll gen an "Unsupported Network" error
+		 * Set this to true if your token is only deployed on Arbitrum
+		 */
+		isArbitrumOnlyToken: false,
+
 		navigation: {
 
 			/**

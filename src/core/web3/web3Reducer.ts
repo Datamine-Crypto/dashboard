@@ -9,6 +9,7 @@ import Big from 'big.js'
 import { ReducerQuery, ReducerQueryHandler, ReducerCommand } from "../sideEffectReducer";
 import { HelpArticle } from "../helpArticles";
 import { devLog } from "../utils/devLog";
+import { getConfig } from "../../config";
 
 export enum ConnectionMethod {
 	MetaMask = 'MetaMask',
@@ -137,9 +138,11 @@ const createWithWithQueries = (state: any) => {
 	return withQueries
 }
 
+const config = getConfig()
 
 const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>) => {
 	const { query, err, response } = payload;
+
 
 	const withQueries = createWithWithQueries(state)
 
@@ -159,9 +162,11 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 				const isArbitrumMainnet = chainId === 42161
 				devLog('FindWeb3Instance reducer isArbitrumMainnet:', { networkType, chainId, isArbitrumMainnet })
 
-				if (networkType !== 'main' && (chainId !== 1)) { // private is for cloudflare RPC. chainId 1 is Ehtereum Mainnet (others is BSC for example)
+				const isUnsupportedNetwork = config.isArbitrumOnlyToken && !isArbitrumMainnet
 
-					if (!isArbitrumMainnet) {
+				if (networkType !== 'main' && (chainId !== 1) || isUnsupportedNetwork) { // private is for cloudflare RPC. chainId 1 is Ehtereum Mainnet (others is BSC for example)
+
+					if (!isArbitrumMainnet || isUnsupportedNetwork) {
 						return {
 							...state,
 							isIncorrectNetwork: true
