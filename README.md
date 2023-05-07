@@ -1,3 +1,5 @@
+*Preface: For true decentralization and openness we've decided to open source 3 years of work for Datamine Network dApp. We believe this will close another gap of centralization and bring us closer to true vision of DeFi.*
+
 You can access the latest version of Datamine Realtime Decentralized Dashboard by clicking the following link:
 
 https://datamine-crypto.github.io/realtime-decentralized-dashboard/
@@ -19,9 +21,9 @@ This realtime analytics dashboard builds feature:
 
 - check out [src/config.ts](src/config.ts) for customization
 - You can add in `?devLog=1` to url to get a console output for debugging 3rd party wallet connection. See `vconsole` npm package in [package.json](package.json) for more info.
-- [src\core\helpArticles.ts](src\core\helpArticles.ts) contains our unique "instant help desk" solution. You can modify help articles here and they'll be added to "Help" tab
-- [src\core\web3\web3Reducer.ts](src\core\web3\web3Reducer.ts) contains the main state & reducer of the project and contains all the actions user can perform
-- [src\core\web3\Web3Bindings.ts](src\core\web3\Web3Bindings.ts) contains all the handling of recuder queries (async logic)
+- [src/core/helpArticles.ts](src/core/helpArticles.ts) contains our unique "instant help desk" solution. You can modify help articles here and they'll be added to "Help" tab
+- [src/core/web3/web3Reducer.ts](src/core/web3/web3Reducer.ts) contains the main state & reducer of the project and contains all the actions user can perform
+- [src/core/web3/Web3Bindings.ts](src/core/web3/Web3Bindings.ts) contains all the handling of recuder queries (async logic)
 
 ## To Deploy
 
