@@ -8,6 +8,7 @@ import logo from '../../../../svgs/logo.svg';
 import { theme } from '../../../styles'
 import LightTooltip from '../../elements/LightTooltip';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
+import { getConfig } from '../../../../config';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {
@@ -75,6 +76,8 @@ interface Props {
 const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible }) => {
 	const classes = useStyles();
 
+	const { isLiquidityPoolsEnabled } = getConfig()
+
 	const navigateDashboard = () => {
 		window.location.href = '#dashboard' // @todo
 	}
@@ -119,12 +122,18 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible }) => {
 				</Box>
 			</Box>
 		}
+		const getLiqudityPoolsButton = () => {
+			if (!isLiquidityPoolsEnabled) {
+				return null;
+			}
+			return <Grid item>
+
+				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} />
+			</Grid>
+		}
 		return <Box mt={4}>
 			<Grid container spacing={4} justify="center" alignItems="center">
-				<Grid item>
-
-					<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} />
-				</Grid>
+				{getLiqudityPoolsButton()}
 				<Grid item>
 					<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard}>
 

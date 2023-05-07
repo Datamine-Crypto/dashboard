@@ -3,11 +3,19 @@ import fluxLogo from './svgs/fluxLogo.svg';
 import arbiFluxLogo from './svgs/arbiFluxLogo.svg';
 import logo from './svgs/logo.svg';
 
-export const getConfig = (isArbitrumMainnet: boolean) => {
+export const getConfig = (isArbitrumMainnet: boolean = false) => {
+
+	/**
+	 * Your token can override these configs instead of overriding base values
+	 */
+	const getConfigOverrides = () => {
+		return {
+		}
+	}
+
 	const getNetworkConfig = () => {
 
 		const networkType = isArbitrumMainnet ? NetworkType.Arbitrum : NetworkType.Mainnet;
-
 		switch (networkType) {
 
 			case NetworkType.Arbitrum:
@@ -172,9 +180,19 @@ export const getConfig = (isArbitrumMainnet: boolean) => {
 		],
 	]
 
-	return {
+
+	const baseValues = {
 		...getNetworkConfig(),
-		liquidityPoolGroups
+
+		liquidityPoolGroups,
+
+		isLiquidityPoolsEnabled: true,
+		isHomepageVideoVisible: true,
+	}
+
+	return {
+		...baseValues,
+		...getConfigOverrides()
 	}
 }
 
