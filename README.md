@@ -17,9 +17,14 @@ This realtime analytics dashboard builds feature:
 - Works in any folder structure. Drop this into a subfolder or a subdomain, all paths are relative.
 - IPFS, SWARM & TOR compatible. Move one step closer to true decentralization by hosting our dashboard on Distributed Web.
 
-## Getting Started
+## Installation
 
-In the project directory, you can run:
+1. Navigate to your project directory.
+2. Run `npm install` (this is a one time requirement). If you get `ENOENT: no such file or directory, open 'package.json'` then you did not complete previous step
+
+## Running dApp Locally
+
+After completing previous getting started steps you can now run the project:
 
 ### `npm start` or `yarn start`
 
