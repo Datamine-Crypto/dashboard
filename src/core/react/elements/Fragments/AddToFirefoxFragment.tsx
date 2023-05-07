@@ -1,5 +1,6 @@
 import { Box, CardMedia, Grid, Link } from '@material-ui/core';
 import React, { useContext } from 'react';
+import { getConfig } from '../../../../config';
 
 import metamaskIcon from '../../../../svgs/metamask.svg';
 import { DialogType } from '../../../interfaces';
@@ -14,6 +15,10 @@ interface RenderParams {
 	isArbitrumMainnet: boolean;
 }
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod, isArbitrumMainnet }) => {
+
+	const { navigation } = getConfig()
+	const { isHelpPageEnabled } = navigation
+
 	// Hide "Add To Metamask" button if we're not connected to MetaMask
 	if (connectionMethod === ConnectionMethod.WalletConnect) {
 		return null;
@@ -45,8 +50,10 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 		}
 		return false;
 	}
+	const addTokensToMetamaskLink = isHelpPageEnabled ? '#help/onboarding/addTokensToMetamask' : '#'
+
 	return <LightTooltip title={`Click to display ${isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} & ${isArbitrumMainnet ? 'Arbi' : ''}FLUX token balances in Metamask assets list.`}>
-		<Link href="https://support.datamine.network/hc/en-us/articles/360049129794-How-to-add-DAM-FLUX-to-MetaMask" target="_blank" rel="noopener noreferrer" onClick={handleAddToMetamask} color="textSecondary">
+		<Link href={addTokensToMetamaskLink} target="_blank" rel="noopener noreferrer" onClick={handleAddToMetamask} color="textSecondary">
 			<img src={metamaskIcon} alt="Metamask" width="24" height="24" style={{ verticalAlign: 'middle' }} /> Add Tokens To Metamask
 		</Link>
 	</LightTooltip>

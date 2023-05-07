@@ -909,7 +909,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						onClick: () => {
 							dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Mint } })
 						},
-						learnMoreHref: 'https://support.datamine.network/hc/en-us/articles/360049137434-Minting-FLUX-Tokens-'
+						learnMoreHref: isHelpPageEnabled ? '#help/dashboard/mintFluxTokens' : undefined
 					}
 				}
 			}
@@ -925,7 +925,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 				onClick: () => {
 					dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.LockIn } })
 				},
-				learnMoreHref: 'https://support.datamine.network/hc/en-us/articles/360049137334-Locking-DAM-Tokens-'
+				learnMoreHref: isHelpPageEnabled ? '#help/dashboard/startingDecentralizedMint' : undefined
 			}
 		}
 
@@ -970,7 +970,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			onClick: () => {
 				dispatch({ type: commonLanguage.commands.AuthorizeFluxOperator });
 			},
-			learnMoreHref: 'https://support.datamine.network/hc/en-us/articles/360049137194-7-Connecting-to-MetaMask'
+			learnMoreHref: isHelpPageEnabled ? '#help/onboarding/connectingMetamask' : undefined
 		}
 	}
 

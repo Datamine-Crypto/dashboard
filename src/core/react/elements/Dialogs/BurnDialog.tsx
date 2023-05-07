@@ -5,6 +5,7 @@ import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage, Balances } from '../../../web3/web3Reducer';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import { BNToDecimal } from '../../../web3/helpers';
+import { getConfig } from '../../../../config';
 
 interface RenderParams {
 	selectedAddress: string;
@@ -19,6 +20,10 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, amount, setAmount, isArbitrumMainnet }) => {
+
+	const { navigation } = getConfig()
+	const { isHelpPageEnabled } = navigation
+
 	const [targetAddress, setTargetAddress] = React.useState(selectedAddress);
 
 	const onSubmit = async (e: any) => {
@@ -48,6 +53,16 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 
 	}
 
+	const getLearnMoreBurningLink = () => {
+		if (!isHelpPageEnabled) {
+			return null;
+		}
+
+		return <>
+			{' '}
+			<Link color="textSecondary" href="#help/dashboard/burningFluxTokens" rel="noopener noreferrer" target="_blank">Click here</Link> to learn more about {isArbitrumMainnet ? 'Arbi' : ''}FLUX burning.
+		</>
+	}
 
 	return <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 		<form onSubmit={onSubmit}>
@@ -64,7 +79,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 
 				<Typography gutterBottom={true}>To continue select how many {isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens you wish to burn. You can target any Ethereum based address that current is an active Datamine Validator.</Typography>
 				<Box my={4}>
-					<Typography>Burning {isArbitrumMainnet ? 'Arbi' : ''}FLUX permanently increases your {isArbitrumMainnet ? 'Arbi' : ''}FLUX minting rate on the destination address. <Link color="textSecondary" href="https://support.datamine.network/hc/en-us/articles/360049903353-Burning-FLUX-Tokens-" rel="noopener noreferrer" target="_blank">Click here</Link> to learn more about {isArbitrumMainnet ? 'Arbi' : ''}FLUX burning.</Typography>
+					<Typography>Burning {isArbitrumMainnet ? 'Arbi' : ''}FLUX permanently increases your {isArbitrumMainnet ? 'Arbi' : ''}FLUX minting rate on the destination address. {getLearnMoreBurningLink()}</Typography>
 				</Box>
 				<Box mt={3} mb={3}>
 					<TextField
