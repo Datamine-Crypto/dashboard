@@ -234,7 +234,7 @@ export const makeBatchRequest = (web3: Web3, calls: any) => {
 }
 
 export const getBNPercent = (bnA: BN, bnB: BN, shouldAdd: boolean = true) => {
-	if (bnB.isZero() && bnA.isZero()) {
+	if (bnB.isZero() || bnA.isZero()) {
 		return "0.00";
 	}
 	const big = new Big(bnA.toString(10)).div(new Big(shouldAdd ? bnA.toString(10) : new BN(0).toString(10)).add(bnB.toString(10))).mul(100);
