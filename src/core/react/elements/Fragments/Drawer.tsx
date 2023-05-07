@@ -119,7 +119,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 	const isBigDrawerOpen = true;
 
 	const { navigation } = getConfig()
-	const { isL1PageEnabled, isL2PageEnabled, isCommunityPageEnabled, isAnalyticsPagesEnabled, ecosystemButtonlabel, discordInviteLink } = navigation
+	const { isL1PageEnabled, isL2PageEnabled, isCommunityPageEnabled, isAnalyticsPagesEnabled, ecosystemButtonlabel, discordInviteLink, isHelpPageEnabled } = navigation
 
 	const getL1Page = () => {
 		if (!isL1PageEnabled) {
@@ -188,6 +188,19 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			},
 		]
 	}
+	const getHelpPage = () => {
+		if (!isHelpPageEnabled) {
+			return []
+		}
+		return [
+			{
+				title: 'Help',
+				icon: <HelpIcon />,
+				href: '#help',
+				className: `${classes.nested} ${classes.lastExpandedItem}`
+			},
+		]
+	}
 
 	const buttons = [
 		{
@@ -215,12 +228,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		...getL1Page(),
 		...getL2Page(),
 		...getCommunityPage(),
-		{
-			title: 'Help',
-			icon: <HelpIcon />,
-			href: '#help',
-			className: `${classes.nested} ${classes.lastExpandedItem}`
-		},
+		...getHelpPage(),
 		...getAnalyticsPages()
 	]
 

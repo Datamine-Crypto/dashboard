@@ -205,6 +205,11 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 			isAnalyticsPagesEnabled: true,
 
 			/**
+			 * Left side navigation for help page (Set this to false if you haven't updated help articles yet)
+			 */
+			isHelpPageEnabled: true,
+
+			/**
 			 * Left side button label for the navigation dropdown
 			 */
 			ecosystemButtonlabel: 'Datamine Ecosystem',
