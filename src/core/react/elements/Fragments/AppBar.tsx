@@ -12,6 +12,7 @@ import TimelineIcon from '@material-ui/icons/Timeline';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import HelpComboboxFragment from './HelpComboboxFragment';
+import { getConfig } from '../../../../config';
 
 const useStyles = makeStyles(theme => ({
 	toolbar: {
@@ -85,6 +86,8 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch }) => {
 		return <HelpComboboxFragment id={'nav-search'} />
 	}
 
+	const { ecosystemName } = getConfig()
+
 	return <AppBar className={clsx(classes.appBar)}>
 		<Toolbar className={classes.toolbar}>
 			{isToggleEnabled && sidebar && (
@@ -107,7 +110,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch }) => {
 						</Box>
 						<Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
 							<Hidden smDown>
-								Datamine Network
+								{ecosystemName}
 							</Hidden>
 						</Typography>
 

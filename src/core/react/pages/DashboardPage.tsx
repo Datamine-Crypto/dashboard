@@ -58,6 +58,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 	const classes = useStyles();
 
 	const config = getConfig(false); // Mainnet
+	const { ecosystemName } = config
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -67,7 +68,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 			if (config.network.type === 'ropsten') {
 				return getCenterContent({
 					title: 'Looks like you are not on Ropsten Testnet Network...',
-					message: <>This Subdomain of Datamine Dashboard only works on Ethereum Ropsten Testnet. Please change your network provider to <Box fontWeight="bold" display="inline">"Ropsten Test Network"</Box></>,
+					message: <>This Subdomain of {ecosystemName} Dashboard only works on Ethereum Ropsten Testnet. Please change your network provider to <Box fontWeight="bold" display="inline">"Ropsten Test Network"</Box></>,
 					content: <img src="./images/network.png" />
 				})
 			}
@@ -76,7 +77,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 
 			return getCenterContent({
 				title: `Looks like you are not on ${errorTitle} Network...`,
-				message: <>Currently Datamine Dashboard only works on {errorTitle}. Please change your network provider to <Box fontWeight="bold" display="inline">{errorTitle} L2</Box></>,
+				message: <>Currently {ecosystemName} Dashboard only works on {errorTitle}. Please change your network provider to <Box fontWeight="bold" display="inline">{errorTitle} L2</Box></>,
 				content: <img src="./images/network2.png" />
 			})
 		}
@@ -250,7 +251,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 		}
 		const getBuild = () => {
 			return <>
-				Datamine Network - Build 914 {getBlock()}
+				{ecosystemName} - Build 914 {getBlock()}
 
 				<Menu
 					id="advanced-options"

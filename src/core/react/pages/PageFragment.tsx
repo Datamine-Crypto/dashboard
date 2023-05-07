@@ -13,6 +13,7 @@ import HelpPage from './HelpPage';
 import { MainDrawer } from '../elements/Fragments/Drawer';
 import CommunityPage from './CommunityPage';
 import { NetworkType } from '../../../config.base';
+import { getConfig } from '../../../config';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
@@ -116,6 +117,8 @@ const getPageDetails = () => {
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType }) => {
 	const classes = useStyles();
 
+	const { ecosystemName } = getConfig()
+
 	const [count, setCount] = useState(0);
 	useEffect(() => {
 		const onHashChanged = () => {
@@ -155,24 +158,24 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 
 		switch (pageDetails.page) {
 			case Page.Dashboard:
-				document.title = `${pageDetails.address ? pageDetails.address : 'Dashboard'} - Cryptocurrency backed by Proof of Burn - Datamine Network`;
+				document.title = `${pageDetails.address ? pageDetails.address : 'Dashboard'} - Cryptocurrency backed by Proof of Burn - ${ecosystemName}`;
 
 				return <DashboardPage address={pageDetails.address as string | null} />
 			case Page.Help:
-				document.title = 'Help & Knowledgebase - Datamine Network';
+				document.title = `Help & Knowledgebase - ${ecosystemName}`;
 				return <HelpPage />
 			case Page.Community:
-				document.title = 'Community - Datamine Network';
+				document.title = `Community - ${ecosystemName}`;
 				return <CommunityPage />
 			case Page.Terms:
-				document.title = 'MIT License - Cryptocurrency backed by Proof of Burn - Datamine Network';
+				document.title = `MIT License - Cryptocurrency backed by Proof of Burn - ${ecosystemName}`;
 				return <Terms />
 			case Page.TokenPage:
-				document.title = `${pageDetails.isArbitrumMainnet ? 'ArbiFLUX Ecosystem' : 'FLUX Ecosystem'} - Datamine Network`;
+				document.title = `${pageDetails.isArbitrumMainnet ? 'ArbiFLUX Ecosystem' : 'FLUX Ecosystem'} - ${ecosystemName}`;
 				return <TokenPage isArbitrumMainnet={!!pageDetails.isArbitrumMainnet} />
 		}
 
-		document.title = 'Cryptocurrency backed by Proof of Burn - Datamine Network';
+		document.title = `Cryptocurrency backed by Proof of Burn - ${ecosystemName}`;
 		return <HomePage />
 	}
 

@@ -182,6 +182,21 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		 */
 		isArbitrumOnlyToken: false,
 
+		/**
+		 * What is the name of the ecosystem (override to change things like titles and few mentions)
+		 */
+		ecosystemName: 'Datamine Network',
+
+		/**
+		 * In a few places we'll have this absolute url to the dashboard (ex: Terms page)
+		 */
+		dashboardAbsoluteUrl: 'https://github.com/Datamine-Crypto/realtime-decentralized-dashboard',
+
+		/**
+		 * For your MIT license, what copyright year do you want to show
+		 */
+		mitCopyrightYear: 2020,
+
 		navigation: {
 
 			/**

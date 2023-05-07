@@ -5,6 +5,7 @@ import { theme } from '../../styles'
 
 import FooterFragment from '../elements/Fragments/FooterFragment';
 import Header from '../elements/Fragments/Header';
+import { getConfig } from '../../../config';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {
@@ -59,6 +60,7 @@ const useStyles = makeStyles(() => ({
 
 const Terms: React.FC = React.memo(() => {
 	const classes = useStyles();
+	const { ecosystemName, dashboardAbsoluteUrl, mitCopyrightYear } = getConfig()
 
 	return <>
 		<Box mt={8}>
@@ -67,10 +69,10 @@ const Terms: React.FC = React.memo(() => {
 			<Paper className={classes.paperBorders}>
 				<Box py={6}>
 					<Container style={{ lineHeight: '2rem' }}>
-						<p>You are browsing a build of Datamine Decentralized Dashboard: <Link href="https://github.com/Datamine-Crypto/realtime-decentralized-dashboard" rel="noopener noreferrer" target="_blank" color="secondary">https://github.com/Datamine-Crypto/realtime-decentralized-dashboard</Link></p>
+						<p>You are browsing a build of {ecosystemName} Decentralized Dashboard: <Link href={dashboardAbsoluteUrl} rel="noopener noreferrer" target="_blank" color="secondary">{dashboardAbsoluteUrl}</Link></p>
 						<p>MIT License</p>
 
-						<p>Copyright (c) 2020 Datamine Network</p>
+						<p>Copyright (c) {mitCopyrightYear} {ecosystemName}</p>
 
 						<p>Permission is hereby granted, free of charge, to any person obtaining a copy
 							of this software and associated documentation files (the "Software"), to deal
