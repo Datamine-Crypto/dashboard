@@ -119,7 +119,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 	const isBigDrawerOpen = true;
 
 	const { navigation } = getConfig()
-	const { isL1PageEnabled, isL2PageEnabled, isCommunityPageEnabled, isAnalyticsPagesEnabled, ecosystemButtonlabel } = navigation
+	const { isL1PageEnabled, isL2PageEnabled, isCommunityPageEnabled, isAnalyticsPagesEnabled, ecosystemButtonlabel, discordInviteLink } = navigation
 
 	const getL1Page = () => {
 		if (!isL1PageEnabled) {
@@ -276,6 +276,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		})
 
 		const getDiscordButton = () => {
+			if (!discordInviteLink) {
+				return null;
+			}
 			return <Box my={3}>
 				<Grid
 					container
@@ -287,7 +290,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 							startIcon={<img src={discordWhiteLogo} alt="Discord: Datamine Network" width="18" height="18" />}
 							size="medium"
 							className={classes.discordButton}
-							href="https://discord.gg/2dQ7XAB22u"
+							href={discordInviteLink}
 							target="_blank"
 							rel="noopener noreferrer"
 						>

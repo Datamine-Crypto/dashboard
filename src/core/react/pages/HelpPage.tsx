@@ -12,6 +12,7 @@ import { NetworkType } from '../../../config.base';
 
 import ArbitrumLogo from '../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../svgs/ethereumPurple.svg';
+import { getConfig } from '../../../config';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {
@@ -101,6 +102,9 @@ interface RenderProps {
 
 const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetworkType }) => {
 	const classes = useStyles();
+
+	const { navigation } = getConfig()
+	const { discordInviteLink } = navigation
 
 	const isArbitrumMainnet = helpArticlesNetworkType === NetworkType.Arbitrum;
 
@@ -193,6 +197,14 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 		</>
 	}
 
+	const getAdditionalHelpText = () => {
+		if (!discordInviteLink) {
+			return <>If you need to chat with someone please reach out to our community for assistance.</>
+
+		}
+		return <>If you need to chat with someone check out our <Link href={discordInviteLink} target="_blank" rel="noopener noreferrer" color="textSecondary">Discord</Link> for community assistance.</>
+	}
+
 	return <>
 		<Box mt={8}>
 			<Box mt={6} mb={6}>
@@ -231,7 +243,8 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 					<Typography variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
 						<Typography display="inline" variant="h6" color="textPrimary">
 							Still can't find what you are looking for?
-							If you need to chat with someone check out our <Link href="https://discord.gg/2dQ7XAB22u" target="_blank" rel="noopener noreferrer" color="textSecondary">Discord</Link> for community assistance.
+							{' '}
+							{getAdditionalHelpText()}
 						</Typography>
 					</Typography>
 				</Container>

@@ -204,7 +204,13 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 			/**
 			 * Left side button label for the navigation dropdown
 			 */
-			ecosystemButtonlabel: 'Datamine Ecosystem'
+			ecosystemButtonlabel: 'Datamine Ecosystem',
+
+			/**
+			 * Create an invite link to your Discord community that doesn't expire.
+			 * If you set this to null it won't show the button on link
+			 */
+			discordInviteLink: 'https://discord.gg/2dQ7XAB22u' as string | null
 		}
 	}
 
