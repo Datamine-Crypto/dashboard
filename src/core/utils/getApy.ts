@@ -1,5 +1,6 @@
 
 import Big from 'big.js';
+import { getConfig } from '../../config';
 
 export enum TokenPair {
 	USDC_ETH = 'USDC_ETH',
@@ -7,6 +8,7 @@ export enum TokenPair {
 	DAM_ETH = 'DAM_ETH'
 }
 export const getApy = (pools: Map<TokenPair, any>) => {
+	const { mintableTokenMintPerBlockDivisor } = getConfig()
 	const damPool = pools.get(TokenPair.DAM_ETH);
 	const fluxPool = pools.get(TokenPair.FLUX_ETH);
 	const ethPool = pools.get(TokenPair.USDC_ETH);
@@ -32,8 +34,8 @@ export const getApy = (pools: Map<TokenPair, any>) => {
 	const ethPriceUsd = ethPrice.toNumber()
 
 	//const avgBlockTime = 12
-	const blocksPerDay = 7200
-	const fluxPerBlock = 0.00000001
+	const blocksPerDay = 7200 // ((60 * 60 * 24) / 12)
+	const fluxPerBlock = 1 / (10 ** mintableTokenMintPerBlockDivisor)
 
 	const boughtDam = 10000
 	const costOf10kDam = boughtDam * damPriceUsd
@@ -51,7 +53,7 @@ export const getApy = (pools: Map<TokenPair, any>) => {
 				generatedFlux365daysNoMultiplierUSD: generatedFlux365daysNoMultiplier,
 				generatedFluxUSDBreakdown: {
 					boughtDam,
-					blocksPerDay, // based on 13 seconds average
+					blocksPerDay, // based on 12 seconds average
 					fluxPerBlock,
 					daysInYear: 365,
 					timeMultiplier: 3,
