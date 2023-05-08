@@ -123,6 +123,15 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 	}
 
 	const getConnectWalletSplash = () => {
+
+		const getLiquidityPoolsButton = () => {
+			if (!isLiquidityPoolsEnabled) {
+				return null
+			}
+			return (
+				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.LargeButton} />
+			)
+		}
 		return <Box className={classes.fullScreenSplash}>
 			<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
 				<Grid container justify="center"><Grid item>{getLogo()}</Grid></Grid>
@@ -139,7 +148,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 					</Box>
 					<WalletConnectButton />
 				</Box>
-				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.LargeButton} />
+				{getLiquidityPoolsButton()}
 			</Box></Box>
 	}
 
