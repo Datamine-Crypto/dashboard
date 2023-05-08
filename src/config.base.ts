@@ -226,6 +226,16 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		isTokenLogoEnabled: true,
 
 		/**
+		 * For your tokenomics what is the maximum burn (the default for Datamine is 10x). Be sure to update this if you've updated the smart contract values
+		 */
+		maxBurnMultiplier: 10,
+
+		/**
+		 * Smart contract value from _mintPerBlockDivisor (this is the second number in 10 ** 8)
+		 */
+		mintableTokenMintPerBlockDivisor: 8,
+
+		/**
 		 * Left side navigation (buttons on left side or top right on mobile)
 		 */
 		navigation: {

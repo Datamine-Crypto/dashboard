@@ -124,7 +124,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, isArbitrumMainnet }) => {
 	const classes = useStyles();
 
-	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled } = getConfig()
+	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, mintableTokenMintPerBlockDivisor } = getConfig()
 	const { isHelpPageEnabled } = navigation
 
 	// Only show CTA once account is loaded
@@ -216,10 +216,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						return addressLock.amount;
 					}
 
-					const rawAmount = getLockedInAmount().div(new BN(10).pow(new BN(8))).mul(new BN(unmintedBlocks));
+					const rawAmount = getLockedInAmount().div(new BN(10).pow(new BN(mintableTokenMintPerBlockDivisor))).mul(new BN(unmintedBlocks));
 
 					const blanceWithoutBonusesInUsdc = getPriceToggle({ value: rawAmount, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 6 });
-					const blanceWitMaxBonusesInUsdc = getPriceToggle({ value: rawAmount.mul(new BN(30)), inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 6 });
+					const blanceWitMaxBonusesInUsdc = getPriceToggle({ value: rawAmount.mul(new BN(3 * maxBurnMultiplier)), inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 6 });
 
 					const getMintAmount = () => {
 						if (forecastSettings.enabled) {
@@ -241,7 +241,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								}
 								return <TableRow>
 									<TableCell>
-										With x30 Multiplier
+										With x{3 * maxBurnMultiplier} Multiplier
 									</TableCell>
 									<TableCell align="right">
 										$ {blanceWitMaxBonusesInUsdc} USD
@@ -359,7 +359,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							return null
 						}
 						const getStartArea = () => {
-							const value = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).add(parseFloat(forecastSettings.forecastStartBlocks) / (60 / 13), 'minutes')
+							const value = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).add(parseFloat(forecastSettings.forecastStartBlocks) / (60 / 12), 'minutes')
 
 							const getBlocksDropdown = () => {
 								return <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -389,7 +389,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 												const currentDate = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
 
-												const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 13)
+												const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 12)
 												//const additionalBlocks = addressLock.amount.isZero() ? 0 : (forecastSettings.alreadyMintedBlocks)
 
 												dispatch({ type: commonLanguage.commands.ForecastSetStartBlocks, payload: (blocksDiff).toString() })
@@ -438,7 +438,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 						if (forecastSettings.enabled) {
 							//const additionalBlocks = forecastSettings.forecastStartBlocks
-							const value = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).add(parseFloat(forecastSettings.forecastBlocks) / (60 / 13), 'minutes')
+							const value = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).add(parseFloat(forecastSettings.forecastBlocks) / (60 / 12), 'minutes')
 
 							const getBlocksDropdown = () => {
 								return <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -468,7 +468,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 												const currentDate = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
 
-												const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 13)
+												const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 12)
 												//const additionalBlocks = addressLock.amount.isZero() ? 0 : (forecastSettings.alreadyMintedBlocks)
 
 												dispatch({ type: commonLanguage.commands.ForecastSetBlocks, payload: blocksDiff.toString() })
@@ -511,7 +511,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 								const getDateFormat = () => {
 									const date = getBlocksDateFromNow(blocksDuration)
-									if (blocksDuration * 13 < 60 * 60 * 24) {
+									if (blocksDuration * 12 < 60 * 60 * 24) {
 										return `. Mint ${date.fromNow()}`
 									}
 
@@ -534,7 +534,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								value={forecastSettings.forecastBurn}
 								className={classes.largeSlider}
 								min={10000}
-								max={100000}
+								max={10000 * maxBurnMultiplier}
 								onChange={(event: any, newValue: number | number[]) => {
 									dispatch({ type: commonLanguage.commands.ForecastSetBurn, payload: newValue as number });
 								}}
@@ -659,13 +659,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								return <>(~<strong style={{ color: '#0FF' }}>{numberWithCommas(fluxRequiredToBurn.toFixed(4))} {mintableTokenShortName}</strong> / <strong style={{ color: '#0FF' }}>${amountToBurnUsd}</strong> left to burn for x{getTargetBurnMultiplierDecimal().toFixed(4)} burn multiplier)</>
 							}
 
-							/*if (isTargetReached) {
-								//return <>(You are already at x10 max multiplier)</>
-							}*/
 						}
 
 
-						return <>(Applied at time of mint, x10 max)</>
+						return <>(Applied at time of mint, x{maxBurnMultiplier} max)</>
 					}
 					const getDisabledText = () => {
 						if (!isLocked) {
@@ -849,7 +846,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 													<AddIcon style={{ color: '#00ffff', verticalAlign: 'middle' }} />
 												</TableCell>
 												<TableCell component="th" scope="row" align="left">
-													x 0.00000001
+													x {(1 / (10 ** mintableTokenMintPerBlockDivisor)).toFixed(mintableTokenMintPerBlockDivisor)}
 												</TableCell>
 											</TableRow>
 											{getStartDateArea()}

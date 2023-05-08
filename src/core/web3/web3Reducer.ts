@@ -496,7 +496,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 
 				const getUnmintedBlocks = () => {
 					if (!state.addressDetails || !state.addressLock || !isLocked) {
-						return 31 * 24 * 60 * (60 / 13); // 1 Month default
+						return 31 * 24 * 60 * (60 / 12); // 1 Month default
 					}
 					return state.addressDetails.blockNumber - state.addressLock.lastMintBlockNumber;
 				}
@@ -560,11 +560,12 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				}
 			}
 		case commonLanguage.commands.ForecastSetBurnAmount: {
+			const maxBurn = 10000 * config.maxBurnMultiplier
 			const forecastBurnAmountNumberRaw = Math.round(parseFloat(getForecastAmount(command.payload, state.forecastSettings.forecastBurnAmount, true)) * 10000)
-			const forecastBurn = Math.max(10000, Math.min(100000, forecastBurnAmountNumberRaw))
+			const forecastBurn = Math.max(10000, Math.min(maxBurn, forecastBurnAmountNumberRaw))
 
 			const getForecastBurnAmount = () => {
-				if (forecastBurnAmountNumberRaw < 10000 || forecastBurnAmountNumberRaw > 100000) {
+				if (forecastBurnAmountNumberRaw < 10000 || forecastBurnAmountNumberRaw > maxBurn) {
 					return (forecastBurn / 10000).toFixed(4)
 				}
 

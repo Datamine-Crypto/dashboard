@@ -289,7 +289,7 @@ export const getBlocksRemaining = (startBlockNumber: number, blockDuration: numb
 	const blocksDuration = Math.max(0, startBlockNumber + blockDuration - currentBlock); // This number comes from migration (28 days approx)
 
 	const getDuration = () => {
-		const hoursDuration = (blocksDuration * 13) / (60 * 60);
+		const hoursDuration = (blocksDuration * 12) / (60 * 60);
 		if (hoursDuration <= 24) {
 			return {
 				value: hoursDuration,
@@ -321,7 +321,7 @@ export const getBlocksRemaining = (startBlockNumber: number, blockDuration: numb
 }
 
 export const getBlocksDateFromNow = (blocksDuration: number) => {
-	return moment().add(blocksDuration * 13, 'seconds')
+	return moment().add(blocksDuration * 12, 'seconds')
 }
 
 export const getFormattedMultiplier = (multiplier: number) => {
