@@ -313,7 +313,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		return <>
 			<div className={classes.toolbar}>
 				<Hidden lgUp>
-					<Link href="/realtime-decentralized-dashboard">
+					<Link href="#">
 						<Card elevation={0}>
 							<CardActionArea className={classes.logoArea}>
 								<Box mr={2}>

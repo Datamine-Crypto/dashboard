@@ -12,6 +12,10 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 
 			case NetworkType.Arbitrum:
 				return {
+					lockableTokenFullName: 'FLUX (L2)',
+					lockableTokenShortName: 'FLUX (L2)',
+					mintableTokenShortName: 'ArbiFLUX',
+
 					/**
 					 * What is the address of token that you have to "lock-in" (ex: DAM)
 					 */
@@ -46,13 +50,13 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 
 					solidlizardDamFluxPair: '0xd2b09B01DA93D964F0A906321d61e9Fe777Da6Be',
 					solidlizardFluxSlizPair: '0x3e3a7668ab9492a35560fc2f083217af62e33ec4',
-
-					lockableTokenFullName: 'FLUX (L2)',
-					lockableTokenShortName: 'FLUX (L2)',
-					mintableTokenShortName: 'ArbiFLUX'
 				}
 			case NetworkType.Mainnet:
 				return {
+					lockableTokenFullName: 'Datamine (DAM)',
+					lockableTokenShortName: 'DAM',
+					mintableTokenShortName: 'FLUX',
+
 					lockableTokenContractAddress: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
 					mintableTokenContractAddress: '0x469eda64aed3a3ad6f868c44564291aa415cb1d9',
 
@@ -71,16 +75,15 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 					uniswapV3UsdcEthTokenContractAddress: '0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8',
 					uniswapMulticallAdress: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
 					wrappedEthAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-
-					lockableTokenFullName: 'Datamine (DAM)',
-					lockableTokenShortName: 'DAM',
-					mintableTokenShortName: 'FLUX'
 				}
 
 			default:
 				// These might change when you `truffle develop`
 				// These are some old values for example of how to use Testnet
 				return {
+					lockableTokenFullName: 'Datamine (DAM)',
+					lockableTokenShortName: 'DAM',
+
 					lockableTokenContractAddress: '0x2dBef6c8042e12d4D2aCf766d3019F72f4eA2c61',
 					mintableTokenContractAddress: '0xd3Dd50781D88503D1c3445D60155F5a994093f72',
 
@@ -95,9 +98,6 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 						type: 'main',
 						typeDisplay: 'Localhost'
 					},
-
-					lockableTokenFullName: 'Datamine (DAM)',
-					lockableTokenShortName: 'DAM',
 				}
 		}
 	}
@@ -199,7 +199,7 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		ecosystemName: 'Datamine Network',
 
 		/**
-		 * In a few places we'll have this absolute url to the dashboard (ex: Terms page)
+		 * In a few places we'll have this absolute url to the dashboard (ex: Terms page and add to metamask button)
 		 */
 		dashboardAbsoluteUrl: 'https://github.com/Datamine-Crypto/realtime-decentralized-dashboard',
 
@@ -219,6 +219,11 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		 * Set this to false if you don't want this advanced customization
 		 */
 		isSettingsValidatorDashboardButtonEnabled: true,
+
+		/**
+		 * If you just made a token and don't have a logo for your token yet we'll hide it in validator dashboard (set to true to show it)
+		 */
+		isTokenLogoEnabled: true,
 
 		/**
 		 * Left side navigation (buttons on left side or top right on mobile)

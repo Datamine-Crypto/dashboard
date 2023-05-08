@@ -34,6 +34,7 @@ import ArbitrumLogo from '../../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../../svgs/ethereumPurple.svg';
 import fluxLogo from '../../../../svgs/fluxLogo.svg';
 import damLogo from '../../../../svgs/logo.svg';
+import arbiFluxLogo from '../../../../svgs/arbiFluxLogo.svg';
 
 import { theme } from '../../../styles'
 import { getConfig } from '../../../../config';
@@ -123,7 +124,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, isArbitrumMainnet }) => {
 	const classes = useStyles();
 
-	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName } = getConfig()
+	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled } = getConfig()
 	const { isHelpPageEnabled } = navigation
 
 	// Only show CTA once account is loaded
@@ -1063,26 +1064,32 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 				case Token.ETH:
 					return <img src={EthereumPurpleLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
 				case Token.FLUX:
+					if (!isTokenLogoEnabled) {
+						return null
+					}
 					return <img src={fluxLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
 				case Token.DAM:
+					if (isArbitrumMainnet) {
+						return <img src={arbiFluxLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
+					}
 					return <img src={damLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
 			}
 		}
 
-		const getDamPrice = () => {
-			const shortDamPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 4 })}`
-			const actualDamPrice = `$ ${shortDamPrice}`;
-
-			return <>
-				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.DAM)} <Typography variant="body2" color="textSecondary" display="inline">{lockableTokenShortName}:</Typography> {actualDamPrice}</Box>
-			</>
-		}
 		const getFluxPrice = () => {
 			const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 4 })}`
 			const actualFluxPrice = `$ ${shortFluxPrice}`;
 
 			return <>
 				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.FLUX)} <Typography variant="body2" color="textSecondary" display="inline">{mintableTokenShortName}:</Typography> {actualFluxPrice}</Box>
+			</>
+		}
+		const getDamPrice = () => {
+			const shortDamPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 4 })}`
+			const actualDamPrice = `$ ${shortDamPrice}`;
+
+			return <>
+				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.DAM)} <Typography variant="body2" color="textSecondary" display="inline">{lockableTokenShortName}:</Typography> {actualDamPrice}</Box>
 			</>
 		}
 		const getEthPrice = () => {

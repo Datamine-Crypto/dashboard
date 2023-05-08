@@ -70,6 +70,8 @@ interface INavProps {
 
 const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch }) => {
 	//const { state: socketState, dispatch: socketDispatch } = useContext(SocketContext)
+	const { navigation } = getConfig()
+	const { isHelpPageEnabled } = navigation
 
 	const classes = useStyles();
 
@@ -83,6 +85,10 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch }) => {
 	const isToggleEnabled = false
 
 	const getSearchTextField = () => {
+		if (!isHelpPageEnabled) {
+			return null
+		}
+
 		return <HelpComboboxFragment id={'nav-search'} />
 	}
 
