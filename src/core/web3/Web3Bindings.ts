@@ -116,12 +116,13 @@ const getContracts = (web3: Web3, isArbitrumMainnet: boolean) => {
 	return {
 		damToken: new web3.eth.Contract(damTokenAbi as any, config.lockableTokenContractAddress),
 		fluxToken: new web3.eth.Contract(fluxTokenAbi as any, config.mintableTokenContractAddress),
-		uniswapDamToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapEthDamTokenContractAddress),
-		uniswapFluxToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapFluxEthTokenContractAddress),
-		usdcEthToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapUsdcEthTokenContractAddress),
 
-		uniswapV3DamToken: new web3.eth.Contract(uniswapPairV3Abi as any, config.uniswapV3EthDamTokenContractAddress),
-		uniswapV3FluxToken: new web3.eth.Contract(uniswapPairV3Abi as any, config.uniswapV3EthFluxTokenContractAddress),
+		//uniswapDamToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapEthDamTokenContractAddress), // For Legacy Uniswap V2 contract(we use V3 now)
+		//uniswapFluxToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapFluxEthTokenContractAddress), // For Legacy Uniswap V2 contract(we use V3 now)
+		//usdcEthToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapUsdcEthTokenContractAddress), // For Legacy Uniswap V2 contract(we use V3 now)
+
+		uniswapV3DamToken: new web3.eth.Contract(uniswapPairV3Abi as any, config.lockableUniswapV3L1EthTokenContractAddress),
+		uniswapV3FluxToken: new web3.eth.Contract(uniswapPairV3Abi as any, config.mintableUniswapV3L1EthTokenContractAddress),
 		uniswapV3UsdcEthToken: new web3.eth.Contract(uniswapPairV3Abi as any, config.uniswapV3UsdcEthTokenContractAddress),
 
 		multicall: new web3.eth.Contract(multicallAbi as any, config.uniswapMulticallAdress),
@@ -516,23 +517,23 @@ const queryHandlers = {
 
 			const getFluxSupplyAddress = () => {
 				if (isArbitrumMainnet) {
-					return config.sushiSwapFluxEthPair as string
+					return config.mintableSushiSwapL2EthPair as string
 				}
 
-				return config.uniswapV3EthFluxTokenContractAddress as string
+				return config.mintableUniswapV3L1EthTokenContractAddress as string
 			}
 			const getDamSupplyAddress = () => {
 				if (isArbitrumMainnet) {
-					return config.sushiSwapDamEthPair as string
+					return config.lockableSushiSwapL2EthPair as string
 				}
 
-				return config.uniswapV3EthDamTokenContractAddress as string
+				return config.lockableUniswapV3L1EthTokenContractAddress as string
 			}
 
 			const getUniswapFluxPriceCall = () => {
 				if (isArbitrumMainnet) {
 					return [{
-						address: config.sushiSwapFluxEthPair as string, //@todo change this
+						address: config.mintableSushiSwapL2EthPair as string, //@todo change this
 						function: {
 							signature: {
 								name: 'getReserves',
@@ -558,7 +559,7 @@ const queryHandlers = {
 				}
 
 				return [{
-					address: config.uniswapV3EthFluxTokenContractAddress as string, //@todo change this
+					address: config.mintableUniswapV3L1EthTokenContractAddress as string, //@todo change this
 					function: {
 						signature: {
 							name: 'slot0',
@@ -584,7 +585,7 @@ const queryHandlers = {
 			const getUniswapDamPriceCall = () => {
 				if (isArbitrumMainnet) {
 					return [{
-						address: config.sushiSwapDamEthPair as string, //@todo change this
+						address: config.lockableSushiSwapL2EthPair as string, //@todo change this
 						function: {
 							signature: {
 								name: 'getReserves',
@@ -597,6 +598,12 @@ const queryHandlers = {
 						returns: {
 							params: ['uint112', 'uint112'],
 							callback: (reserve0: string, reserve1: string) => {
+
+								// Swap pairs if you have created ETH / Lockable token instead
+								if (config.lockableSushiSwapL2EthPairSwapPairs) {
+									[reserve0, reserve1] = [reserve1, reserve0];
+								}
+
 								return {
 									slot0: {
 										sqrtPriceX96: reserve0
@@ -609,7 +616,7 @@ const queryHandlers = {
 					}]
 				}
 				return [{
-					address: config.uniswapV3EthDamTokenContractAddress as string,
+					address: config.lockableUniswapV3L1EthTokenContractAddress as string,
 					function: {
 						signature: {
 							name: 'slot0',

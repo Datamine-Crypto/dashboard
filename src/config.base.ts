@@ -5,103 +5,43 @@ import logo from './svgs/logo.svg';
 
 export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 
-	const getNetworkConfig = () => {
-
+	const getNetworkConfig = (): NetworkConfig => {
 		const networkType = isArbitrumMainnet ? NetworkType.Arbitrum : NetworkType.Mainnet;
 		switch (networkType) {
 
-			case NetworkType.Arbitrum:
+			case NetworkType.Arbitrum: // L2 Configuration
 				return {
 					lockableTokenFullName: 'FLUX (L2)',
 					lockableTokenShortName: 'FLUX (L2)',
-					mintableTokenShortName: 'ArbiFLUX',
-
-					/**
-					 * What is the address of token that you have to "lock-in" (ex: DAM)
-					 */
 					lockableTokenContractAddress: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
+					lockableSushiSwapL2EthPair: '0x088f6dcde862781db7b01feb67afd265abbc6d90',
 
-					/**
-					 * What is the address of token that you have to "mint" (ex: FLUX)
-					 */
+					mintableTokenShortName: 'ArbiFLUX',
 					mintableTokenContractAddress: '0x64081252c497fcfec247a664e9d10ca8ed71b276',
-
-					uniswapEthDamTokenContractAddress: '0x447f8D287120B66F39856AE5ceb01512A7A47444',
-					uniswapFluxEthTokenContractAddress: '0x27fa67302c513f5512bbfa5065800c2d7b3871f4',
-					uniswapUsdcEthTokenContractAddress: '0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc',
-
+					mintableSushiSwapL2EthPair: '0xbF719D56c5f19ae0833ADC4080BEfC48A9B415b5',
 
 					failsafeStartBlockNumber: 13463591,
-					failsafeDuration: 161280,
-					network: {
-						type: 'main',
-						typeDisplay: 'Ethereum Mainnet'
-					},
-
-					uniswapV3EthDamTokenContractAddress: '0xa8e5873b838fa39c381cb3e29cb0b6b9deda7a87',
-					uniswapV3EthFluxTokenContractAddress: '0xa99c670879888df9ccfaa46b1f3b0c9cfb771bee',
-					uniswapV3UsdcEthTokenContractAddress: '0xc31e54c7a869b9fcbecc14363cf510d1c41fa443',
-					uniswapMulticallAdress: '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F',
-					wrappedEthAddress: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
-
-					sushiSwapDamEthPair: '0x088f6dcde862781db7b01feb67afd265abbc6d90',
-					sushiSwapFluxEthPair: '0xbF719D56c5f19ae0833ADC4080BEfC48A9B415b5',
-					sushiSwapFluxCornPair: '0xc2B3130582904B8aC8E67d6ef9E910322E09Af10',
-
-					solidlizardDamFluxPair: '0xd2b09B01DA93D964F0A906321d61e9Fe777Da6Be',
-					solidlizardFluxSlizPair: '0x3e3a7668ab9492a35560fc2f083217af62e33ec4',
 				}
-			case NetworkType.Mainnet:
+			case NetworkType.Mainnet: // L1 Configuration
 				return {
 					lockableTokenFullName: 'Datamine (DAM)',
 					lockableTokenShortName: 'DAM',
-					mintableTokenShortName: 'FLUX',
-
 					lockableTokenContractAddress: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
+					lockableUniswapV3L1EthTokenContractAddress: '0xBd233D685eDE81E00faaEFEbD55150C76778a34e',
+
+					mintableTokenShortName: 'FLUX',
 					mintableTokenContractAddress: '0x469eda64aed3a3ad6f868c44564291aa415cb1d9',
+					mintableUniswapV3L1EthTokenContractAddress: '0x07aa6584385cca15c2c6e13a5599ffc2d177e33b',
 
-					uniswapEthDamTokenContractAddress: '0x447f8D287120B66F39856AE5ceb01512A7A47444',
-					uniswapFluxEthTokenContractAddress: '0x27fa67302c513f5512bbfa5065800c2d7b3871f4',
-					uniswapUsdcEthTokenContractAddress: '0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc',
 					failsafeStartBlockNumber: 10224578,
-					failsafeDuration: 161280,
-					network: {
-						type: 'main',
-						typeDisplay: 'Ethereum Mainnet'
-					},
-
-					uniswapV3EthDamTokenContractAddress: '0xBd233D685eDE81E00faaEFEbD55150C76778a34e',
-					uniswapV3EthFluxTokenContractAddress: '0x07aa6584385cca15c2c6e13a5599ffc2d177e33b',
-					uniswapV3UsdcEthTokenContractAddress: '0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8',
-					uniswapMulticallAdress: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
-					wrappedEthAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-				}
-
-			default:
-				// These might change when you `truffle develop`
-				// These are some old values for example of how to use Testnet
-				return {
-					lockableTokenFullName: 'Datamine (DAM)',
-					lockableTokenShortName: 'DAM',
-
-					lockableTokenContractAddress: '0x2dBef6c8042e12d4D2aCf766d3019F72f4eA2c61',
-					mintableTokenContractAddress: '0xd3Dd50781D88503D1c3445D60155F5a994093f72',
-
-					uniswapEthDamTokenContractAddress: '0x447f8D287120B66F39856AE5ceb01512A7A47444',
-					uniswapFluxEthTokenContractAddress: '0x27fa67302c513f5512bbfa5065800c2d7b3871f4',
-					uniswapUsdcEthTokenContractAddress: '0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc',
-					uniswapMulticallAdress: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
-					wrappedEthAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-					failsafeStartBlockNumber: 0,
-					failsafeDuration: 161280,
-					network: {
-						type: 'main',
-						typeDisplay: 'Localhost'
-					},
 				}
 		}
 	}
 
+	/**
+	 * "Explore Liquidity Pools" dropdown
+	 * If isLiquidityPoolsEnabled is set to false you don't have to update this
+	 */
 	const liquidityPoolGroups = [
 		[
 			{
@@ -172,8 +112,15 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		],
 	]
 
+
 	const baseConfig = {
 		...getNetworkConfig(),
+
+		failsafeDuration: 161280,
+		network: {
+			type: 'main',
+			typeDisplay: 'Ethereum Mainnet'
+		},
 
 		liquidityPoolGroups,
 		/**
@@ -291,4 +238,64 @@ export enum NetworkType {
 	Testnet = 'TESTNET',
 	Mainnet = 'MAINNET',
 	Arbitrum = 'ARBITRUM',
+}
+
+interface NetworkConfig {
+
+	/**
+	 * What is the address of token that you have to "lock-in" (ex: DAM)
+	 */
+	lockableTokenContractAddress: string;
+
+	/**
+	 * A longer name ex: "Datamine (DAM)" for lockable token that can be displayed on text
+	 */
+	lockableTokenFullName: string;
+
+	/**
+	 * Shortest name to display ex: "DAM" for lockable token 
+	 */
+	lockableTokenShortName: string;
+
+	/**
+	 * A longer name ex: "FLUX" for lockable token that can be displayed on text
+	 */
+	mintableTokenShortName: string;
+
+	/**
+	 * What is the address of token that you have to "mint" (ex: FLUX)
+	 */
+	mintableTokenContractAddress: string;
+
+	/**
+	 * On L1 this is the Uniswap V3 pool address for Lockable / ETH token
+	 */
+	lockableUniswapV3L1EthTokenContractAddress?: string;
+
+	/**
+	 * On L1 this is the Uniswap V3 pool address for Mintable / ETH token
+	 */
+	mintableUniswapV3L1EthTokenContractAddress?: string;
+
+	/**
+	 * On L2 this is the Sushiswap pool address for Lockable / ETH token
+	 */
+	lockableSushiSwapL2EthPair?: string;
+
+	/**
+	 * You can set this to true if your price is a very large/small number (because you've created Lockable/ETH pair instead of ETH/Lockable)
+	 */
+	lockableSushiSwapL2EthPairSwapPairs?: boolean;
+
+	/**
+	 * On L2 this is the Sushiswap pool address for Mintable / ETH token
+	 */
+	mintableSushiSwapL2EthPair?: string;
+
+	/**
+	 * If your token has a failsafe limit enabled, at what block does it start?
+	 * Failsafe allows only a certain amount of tokens to be locked-up in beginning. 
+	 * (These are the settings you've set when initializing smart contract)
+	 */
+	failsafeStartBlockNumber: number;
 }
