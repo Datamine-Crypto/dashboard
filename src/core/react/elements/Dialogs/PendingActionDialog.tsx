@@ -7,6 +7,7 @@ import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 
 import { theme } from '../../../styles'
 import { ReducerQuery } from '../../../sideEffectReducer';
+import { getConfig } from '../../../../config';
 
 interface Params {
 	open: boolean;
@@ -22,6 +23,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const PendingActionDialog: React.FC<Params> = React.memo(({ open, queries, connectionMethod, onClose }) => {
+	const { mintableTokenShortName } = getConfig()
 	const classes = useStyles();
 
 	const getConnectionMethodName = () => {
@@ -55,27 +57,27 @@ const PendingActionDialog: React.FC<Params> = React.memo(({ open, queries, conne
 				case commonLanguage.queries.GetAuthorizeFluxOperatorResponse:
 					return {
 						title: 'Awaiting Authorization Response',
-						message: getConfirmationMessage('Enabling of FLUX minting')
+						message: getConfirmationMessage(`Enabling of ${mintableTokenShortName} validator`)
 					}
 				case commonLanguage.queries.GetBurnFluxResponse:
 					return {
-						title: 'Awaiting FLUX Burn Confirmation',
-						message: getConfirmationMessage('FLUX Burning')
+						title: `Awaiting ${mintableTokenShortName} Burn Confirmation`,
+						message: getConfirmationMessage(`${mintableTokenShortName} Burning`)
 					}
 				case commonLanguage.queries.GetLockInDamTokensResponse:
 					return {
-						title: 'Awaiting Mint Start Confirmation',
-						message: getConfirmationMessage('Mint Starting')
+						title: 'Awaiting Validator Start Confirmation',
+						message: getConfirmationMessage('Validator Starting')
 					}
 				case commonLanguage.queries.GetMintFluxResponse:
 					return {
 						title: 'Awaiting Minting Confirmation',
-						message: getConfirmationMessage('FLUX Minting')
+						message: getConfirmationMessage(`${mintableTokenShortName} Minting`)
 					}
 				case commonLanguage.queries.GetUnlockDamTokensResponse:
 					return {
-						title: 'Awaiting Mint Stop Confirmation',
-						message: getConfirmationMessage('Mint Stopping')
+						title: 'Awaiting Validator Stop Confirmation',
+						message: getConfirmationMessage('Validator Stopping')
 					}
 			}
 		}

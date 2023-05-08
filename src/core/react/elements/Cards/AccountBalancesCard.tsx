@@ -59,23 +59,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 		dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Mint } })
 	}
 
-
-	/**
-	 * This helps show you how much FLUX was burned if DAM isn't locked-in yet
-	 */
-	/*const getFluxBurned = () => {
-		// No longer used because FLUX burned now shows
-		return null;
-
-		if (!addressLock.amount.isZero() && !addressLock.burnedAmount.isZero()) {
-			return null;
-		}
-
-		return <ListItem>
-			<ListItemText primary={'Total Burned FLUX'} secondary={`${BNToDecimal(addressLock.burnedAmount, true)} FLUX`} />
-		</ListItem>
-	}*/
-
 	const getDelegatedMinterAddress = () => {
 		if (new BN(addressLock.amount).isZero()) {
 			return null
