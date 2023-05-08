@@ -25,7 +25,7 @@ interface RenderParams {
 	isArbitrumMainnet: boolean;
 }
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails, addressTokenDetails, selectedAddress, balances, displayedAddress, dispatch, isArbitrumMainnet }) => {
-	const { mintableTokenShortName } = getConfig()
+	const { mintableTokenShortName, maxBurnMultiplier } = getConfig()
 
 	const getBlockDuration = (startBlockNumber: number) => {
 		const blocksDuration = addressDetails.blockNumber - startBlockNumber;
@@ -106,16 +106,16 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 
 		return <Box my={2}>
 			<DetailedListItem
-				title={isTargetReached ? <>{mintableTokenShortName} 10x Bonus Reserves (<Typography color="secondary" display="inline">OVERBURNED</Typography>)</> : `${mintableTokenShortName} to Burn For 2x Bonus:`}
+				title={isTargetReached ? <>{mintableTokenShortName} {maxBurnMultiplier}x Bonus Reserves (<Typography color="secondary" display="inline">OVERBURNED</Typography>)</> : `${mintableTokenShortName} to Burn For 2x Bonus:`}
 				main={<>{fluxRequiredToBurn} {mintableTokenShortName}</>}
 				sub={<>{fluxRequiredToBurnInUsdc}</>}
 			/>
 		</Box>
 	}
 
-	const getFluxToBurnFor10x = () => {
+	const getFluxToBurnForMaxBurn = () => {
 		return <DetailedListItem
-			title={isTargetReached ? <>{mintableTokenShortName} 10x Bonus Reserves (<Typography color="secondary" display="inline">OVERBURNED</Typography>)</> : `${mintableTokenShortName} to Burn For 10x Bonus:`}
+			title={isTargetReached ? <>{mintableTokenShortName} {maxBurnMultiplier}x Bonus Reserves (<Typography color="secondary" display="inline">OVERBURNED</Typography>)</> : `${mintableTokenShortName} to Burn For ${maxBurnMultiplier}x Bonus:`}
 			main={<>{fluxRequiredToBurn} {mintableTokenShortName}</>}
 			sub={<>{fluxRequiredToBurnInUsdc}</>}
 		/>
@@ -150,7 +150,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 				<Grid item xs={12} md={6}>
 					{getTimeUntil3xBonus()}
 					{getFluxToBurnFor2x()}
-					{getFluxToBurnFor10x()}
+					{getFluxToBurnForMaxBurn()}
 				</Grid>
 				<Grid item xs={12} md={6}>
 					{getDamLockinDuration()}

@@ -5,6 +5,7 @@ import { getPriceToggle, BNToDecimal } from './helpers';
 import Big from 'big.js'
 import BN from 'bn.js'
 import { Balances } from './web3Reducer';
+import { getConfig } from '../../config';
 
 export const getRequiredFluxToBurnDecimal = ({ globalFluxBurned, targetMultiplier, globalDamLockedIn, myFluxBurned, myDamLockedIn }: { globalFluxBurned: Big, targetMultiplier: number, globalDamLockedIn: Big, myFluxBurned: Big, myDamLockedIn: Big }) => {
 	const top = new Big(-1).mul(targetMultiplier - 1).mul(globalFluxBurned).mul(myDamLockedIn).add(new Big(globalDamLockedIn).mul(myFluxBurned));
@@ -24,6 +25,7 @@ export const numberWithCommas = (numberToFormat: string) => {
 
 
 export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, targetMultiplier = new BN("9") }: { addressDetails: FluxAddressDetails, addressLock: FluxAddressLock, balances: Balances, targetMultiplier?: BN }) => {
+	const { maxBurnMultiplier } = getConfig()
 
 	const globalFluxBurned = addressDetails.globalBurnedAmount;
 	const globalDamLockedIn = addressDetails.globalLockedAmount
@@ -55,7 +57,7 @@ export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, t
 	}
 	const fluxRequired = getFluxRequired();
 
-	const isTargetReached = fluxRequired.isZero() || addressDetails.addressBurnMultiplier === 100000;
+	const isTargetReached = fluxRequired.isZero() || addressDetails.addressBurnMultiplier === 10000 * maxBurnMultiplier;
 
 	const fluxRequiredToBurn = BNToDecimal(fluxRequired.abs(), true, 18, 2)
 
