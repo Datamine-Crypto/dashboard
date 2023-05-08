@@ -44,7 +44,7 @@ export enum DialogType {
 
 export enum Token {
 	Mintable = 'Mintable',
-	DAM = 'DAM',
+	Lockable = 'Lockable',
 	ETH = 'ETH',
 	USDC = 'USDC'
 }

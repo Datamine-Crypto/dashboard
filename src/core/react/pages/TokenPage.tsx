@@ -390,7 +390,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, isArbitrumMainnet 
 									</Link>
 								</TableCell>
 								<TableCell align="right">
-									<Link href={getUniswapLink(Token.DAM)} target="_blank" rel="noopener noreferrer">
+									<Link href={getUniswapLink(Token.Lockable)} target="_blank" rel="noopener noreferrer">
 										<Button variant="outlined" color="secondary" size="small" >
 											<Grid container alignItems="center">
 												<Grid item>

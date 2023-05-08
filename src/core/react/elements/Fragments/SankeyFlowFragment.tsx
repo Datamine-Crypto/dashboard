@@ -75,15 +75,15 @@ const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addres
 	}
 
 	const lines = [
-		{ title: `${lockableTokenShortName} Powering Validators (${lockedPercent}%)`, subtitle: <>{getFormattedAmount(lockedDamSupply, Token.DAM)}</> },
+		{ title: `${lockableTokenShortName} Powering Validators (${lockedPercent}%)`, subtitle: <>{getFormattedAmount(lockedDamSupply, Token.Lockable)}</> },
 		{ title: null, subtitle: <>{getFormattedAmount(originalSupply, Token.Mintable)}</> },
 		{ title: `${mintableTokenShortName} Destroyed (${burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(addressDetails.globalBurnedAmount, Token.Mintable)}</> },
 		{ title: `${mintableTokenShortName} / ETH Uniswap (M0)`, subtitle: <>{getFormattedAmount(balances.uniswapFluxTokenReserves.flux, Token.Mintable)}</> },
 		{ title: `${mintableTokenShortName} Remaining (${daysMinting - burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(remainingSupply.sub(balances.arbitrumBridgeBalance), Token.Mintable)}</> },
 
-		{ title: `${lockableTokenShortName} Fixed Supply`, subtitle: <>{getFormattedAmount(originalDamSupply, Token.DAM)}</> },
-		{ title: `${lockableTokenShortName} Remaining Supply (${remainingPercent}%)`, subtitle: <>{getFormattedAmount(remainingDamSupply, Token.DAM)}</> },
-		{ title: `${lockableTokenShortName} / ETH Uniswap (${damUniswapPercent}%)`, subtitle: <>{getFormattedAmount(balances.uniswapDamTokenReserves.dam, Token.DAM)}</> },
+		{ title: `${lockableTokenShortName} Fixed Supply`, subtitle: <>{getFormattedAmount(originalDamSupply, Token.Lockable)}</> },
+		{ title: `${lockableTokenShortName} Remaining Supply (${remainingPercent}%)`, subtitle: <>{getFormattedAmount(remainingDamSupply, Token.Lockable)}</> },
+		{ title: `${lockableTokenShortName} / ETH Uniswap (${damUniswapPercent}%)`, subtitle: <>{getFormattedAmount(balances.uniswapDamTokenReserves.dam, Token.Lockable)}</> },
 		...getRemainingSupply(),
 	]
 
@@ -139,12 +139,12 @@ const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addres
 
 	const links = [
 		{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.Burned, value: getNodeValue(addressDetails.globalBurnedAmount, Token.Mintable), color: '#ffb5001a' },
-		{ source: SankeyNodeType.KnownMoney, target: SankeyNodeType.CirculatingSupply, value: getNodeValue(lockedDamSupply, Token.DAM), color: '#00ffff1a' },
+		{ source: SankeyNodeType.KnownMoney, target: SankeyNodeType.CirculatingSupply, value: getNodeValue(lockedDamSupply, Token.Lockable), color: '#00ffff1a' },
 		{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.UniswapSupply, value: getNodeValue(m0Supply, Token.Mintable), color: '#f200751a' },
 
-		{ source: SankeyNodeType.FixedDamSupply, target: SankeyNodeType.KnownMoney, value: getNodeValue(lockedDamSupply, Token.DAM), color: '#00ffff1a' },
-		{ source: SankeyNodeType.FixedDamSupply, target: SankeyNodeType.RemainingDamSupply, value: getNodeValue(remainingDamSupply, Token.DAM), color: '#ffffff1a' },
-		{ source: SankeyNodeType.FixedDamSupply, target: SankeyNodeType.DamUniswapSupply, value: getNodeValue(balances.uniswapDamTokenReserves.dam, Token.DAM), color: '#f200751a' },
+		{ source: SankeyNodeType.FixedDamSupply, target: SankeyNodeType.KnownMoney, value: getNodeValue(lockedDamSupply, Token.Lockable), color: '#00ffff1a' },
+		{ source: SankeyNodeType.FixedDamSupply, target: SankeyNodeType.RemainingDamSupply, value: getNodeValue(remainingDamSupply, Token.Lockable), color: '#ffffff1a' },
+		{ source: SankeyNodeType.FixedDamSupply, target: SankeyNodeType.DamUniswapSupply, value: getNodeValue(balances.uniswapDamTokenReserves.dam, Token.Lockable), color: '#f200751a' },
 		...getRemainingSupplyLinks(),
 	];
 	if (links.some(link => link.value === 0)) {

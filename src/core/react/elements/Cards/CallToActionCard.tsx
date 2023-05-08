@@ -735,7 +735,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							return null;
 						}
 
-						const usdcAmount = getPriceToggle({ value: new BN(lockedAmount.toFixed(0)), inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 2 })
+						const usdcAmount = getPriceToggle({ value: new BN(lockedAmount.toFixed(0)), inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })
 						return `($ ${usdcAmount} USD)`
 					}
 
@@ -1065,7 +1065,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						return null
 					}
 					return <img src={fluxLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
-				case Token.DAM:
+				case Token.Lockable:
 					if (isArbitrumMainnet) {
 						return <img src={arbiFluxLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
 					}
@@ -1082,11 +1082,11 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			</>
 		}
 		const getDamPrice = () => {
-			const shortDamPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 4 })}`
+			const shortDamPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 4 })}`
 			const actualDamPrice = `$ ${shortDamPrice}`;
 
 			return <>
-				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.DAM)} <Typography variant="body2" color="textSecondary" display="inline">{lockableTokenShortName}:</Typography> {actualDamPrice}</Box>
+				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.Lockable)} <Typography variant="body2" color="textSecondary" display="inline">{lockableTokenShortName}:</Typography> {actualDamPrice}</Box>
 			</>
 		}
 		const getEthPrice = () => {

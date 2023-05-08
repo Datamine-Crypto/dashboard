@@ -180,7 +180,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			return <>{BNToDecimal(balances.damToken, true, 18, 2)} {lockableTokenShortName}</>
 		}
 		const getDamBalanceUSD = () => {
-			const balanceInUsdc = `$ ${getPriceToggle({ value: balances.damToken, inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 2 })} USD`;
+			const balanceInUsdc = `$ ${getPriceToggle({ value: balances.damToken, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 			return <>{balanceInUsdc}</>
 		}
 		return <DetailedListItem
@@ -188,7 +188,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			main={getDamBalance()}
 			sub={getDamBalanceUSD()}
 			buttons={
-				[<>{getTradeButton({ token: Token.DAM, isArbitrumMainnet })}</>]
+				[<>{getTradeButton({ token: Token.Lockable, isArbitrumMainnet })}</>]
 			}
 		/>
 	}
@@ -223,7 +223,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			</>
 		}
 		const getLockedInAmountUSD = () => {
-			const lockedInUsdc = `$ ${getPriceToggle({ value: addressLock.amount, inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 2 })} USD`;
+			const lockedInUsdc = `$ ${getPriceToggle({ value: addressLock.amount, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 			return <>
 				{lockedInUsdc}
 			</>

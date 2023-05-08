@@ -43,7 +43,7 @@ export const getPriceToggle = ({ value, inputToken, outputToken, balances, round
 			}
 			return price.replace(commaRegex, '$1,');
 		}
-		if ((inputToken === Token.DAM || inputToken === Token.Mintable) && outputToken === Token.USDC) {
+		if ((inputToken === Token.Lockable || inputToken === Token.Mintable) && outputToken === Token.USDC) {
 			const getEthAmount = () => {
 				switch (inputToken) {
 					case Token.Mintable:
@@ -55,7 +55,7 @@ export const getPriceToggle = ({ value, inputToken, outputToken, balances, round
 						}
 
 						return balances.uniswapFluxTokenReserves.ethPrice
-					case Token.DAM:
+					case Token.Lockable:
 						return balances.uniswapDamTokenReserves.ethPrice
 				}
 			}

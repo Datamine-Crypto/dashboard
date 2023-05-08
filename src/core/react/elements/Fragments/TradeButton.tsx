@@ -30,7 +30,7 @@ const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, isBuy = tr
 	};
 
 
-	const contractAddress = token === Token.DAM ? config.lockableTokenContractAddress : config.mintableTokenContractAddress;
+	const contractAddress = token === Token.Lockable ? config.lockableTokenContractAddress : config.mintableTokenContractAddress;
 	const inputCurrency = isBuy ? 'eth' : contractAddress
 	const outputCurrency = isBuy ? contractAddress : 'eth'
 

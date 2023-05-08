@@ -50,7 +50,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 	const getDamLockedIn = () => {
 		const lockedPercent = getBNPercent(addressDetails.globalLockedAmount, balances.damTotalSupply, false)
 		const getLockedPercent = () => {
-			const balanceInUsdc = `$ ${getPriceToggle({ value: addressDetails.globalLockedAmount, inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 2 })} USD`;
+			const balanceInUsdc = `$ ${getPriceToggle({ value: addressDetails.globalLockedAmount, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 			return <>{balanceInUsdc}</>
 		}
 

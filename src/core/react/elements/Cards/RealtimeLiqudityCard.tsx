@@ -32,7 +32,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 
 	const getAvailableLiquidity = (token: Token) => {
 		switch (token) {
-			case Token.DAM:
+			case Token.Lockable:
 				const damSupply = getBNPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false)
 				return <> <Typography variant="body2" color="textSecondary" display="inline">({damSupply}% of {isArbitrumMainnet ? 'L2' : 'lifetime'} supply)</Typography></>
 			case Token.Mintable:
@@ -44,10 +44,10 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 	const lockedPercent = getBNPercent(addressDetails.globalLockedAmount, balances.damTotalSupply, false)
 
 
-	const shortDamPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 4 })}`
+	const shortDamPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 4 })}`
 
-	const actualDamMarketCap = `$ ${getPriceToggle({ value: balances.damTotalSupply, inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 2 })} USD`;
-	const circulatingDamMarketCap = `$ ${getPriceToggle({ value: balances.damTotalSupply.sub(addressDetails.globalLockedAmount), inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 2 })} USD`;
+	const actualDamMarketCap = `$ ${getPriceToggle({ value: balances.damTotalSupply, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
+	const circulatingDamMarketCap = `$ ${getPriceToggle({ value: balances.damTotalSupply.sub(addressDetails.globalLockedAmount), inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 
 	const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 4 })}`
 	const actualFluxPrice = `$ ${shortFluxPrice} USD`;
@@ -66,7 +66,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 
 	const getDamEthAvailableLiquidity = () => {
 		const ethLiquidity = parseFloat(getPriceToggle({ value: uniswapDamTokenReserves.eth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2, removeCommas: true }))
-		const damLiquidity = parseFloat(getPriceToggle({ value: uniswapDamTokenReserves.dam, inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 2, removeCommas: true }))
+		const damLiquidity = parseFloat(getPriceToggle({ value: uniswapDamTokenReserves.dam, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2, removeCommas: true }))
 		const totalLiquidity = (damLiquidity + ethLiquidity).toFixed(2).replace(commaRegex, '$1,')
 
 		const damEthUsdcLiquidity = `$ ${totalLiquidity} USD`;
@@ -78,15 +78,15 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 	}
 
 	const getDamAvailableLiquidity = () => {
-		const damEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapDamTokenReserves.dam, inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 2 })} USD`;
+		const damEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapDamTokenReserves.dam, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <DetailedListItem
 			title={`${lockableTokenShortName} Available ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Liquidity :`}
 			main={<>{BNToDecimal(uniswapDamTokenReserves.dam, true, 18, 2)} {lockableTokenShortName}</>}
 			sub={<>{damEthUsdcLiquidity}</>}
-			description={<>{getAvailableLiquidity(Token.DAM)}</>}
+			description={<>{getAvailableLiquidity(Token.Lockable)}</>}
 			buttons={[
-				getTradeButton({ token: Token.DAM, isBuy: true, isArbitrumMainnet }),
-				getTradeButton({ token: Token.DAM, isBuy: false, isArbitrumMainnet })
+				getTradeButton({ token: Token.Lockable, isBuy: true, isArbitrumMainnet }),
+				getTradeButton({ token: Token.Lockable, isBuy: false, isArbitrumMainnet })
 			]}
 		/>
 	}
