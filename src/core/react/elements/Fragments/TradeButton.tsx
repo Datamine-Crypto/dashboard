@@ -18,7 +18,7 @@ interface TradeRenderParams {
 }
 const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, isBuy = true, showBuyTokens = false, isArbitrumMainnet = false }) => {
 	const config = getConfig(isArbitrumMainnet);
-	const { isLiquidityPoolsEnabled } = config
+	const { isLiquidityPoolsEnabled, mintableTokenShortName, lockableTokenShortName } = config
 
 	if (!isLiquidityPoolsEnabled) {
 		return <></>
@@ -35,10 +35,7 @@ const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, isBuy = tr
 	const outputCurrency = isBuy ? contractAddress : 'eth'
 
 	const getTokenLabel = () => {
-		if (isArbitrumMainnet) {
-			return token === Token.FLUX ? 'ArbiFLUX' : 'FLUX'
-		}
-		return token === Token.FLUX ? 'FLUX' : 'Datamine (DAM)'
+		return token === Token.FLUX ? mintableTokenShortName : lockableTokenShortName
 	}
 
 	const getButton = () => {

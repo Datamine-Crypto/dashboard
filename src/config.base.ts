@@ -199,6 +199,11 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		ecosystemName: 'Datamine Network',
 
 		/**
+		 * What is your token trying to achieve? This will be added in a few places like titles.
+		 */
+		ecosystemSlogan: 'Cryptocurrency backed by Proof of Burn',
+
+		/**
 		 * In a few places we'll have this absolute url to the dashboard (ex: Terms page and add to metamask button)
 		 */
 		dashboardAbsoluteUrl: 'https://github.com/Datamine-Crypto/realtime-decentralized-dashboard',

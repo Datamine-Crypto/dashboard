@@ -113,13 +113,13 @@ interface RenderParams {
 }
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpen }) => {
 
+	const { navigation, ecosystemName } = getConfig()
+	const { isL1PageEnabled, isL2PageEnabled, isCommunityPageEnabled, isAnalyticsPagesEnabled, ecosystemButtonlabel, discordInviteLink, isHelpPageEnabled } = navigation
+
 	const classes = useStyles();
 
 	const isDrawerOpen = true;
 	const isBigDrawerOpen = true;
-
-	const { navigation } = getConfig()
-	const { isL1PageEnabled, isL2PageEnabled, isCommunityPageEnabled, isAnalyticsPagesEnabled, ecosystemButtonlabel, discordInviteLink, isHelpPageEnabled } = navigation
 
 	const getL1Page = () => {
 		if (!isL1PageEnabled) {
@@ -295,7 +295,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 						<Button
 							variant="contained"
 							color="secondary"
-							startIcon={<img src={discordWhiteLogo} alt="Discord: Datamine Network" width="18" height="18" />}
+							startIcon={<img src={discordWhiteLogo} alt={`Discord: ${ecosystemName}`} width="18" height="18" />}
 							size="medium"
 							className={classes.discordButton}
 							href={discordInviteLink}
@@ -320,7 +320,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 									<img src={Logo} width="54" height="54" />
 								</Box>
 								<Typography color="inherit" noWrap className={classes.title}>
-									Datamine Network
+									{ecosystemName}
 								</Typography>
 
 							</CardActionArea>

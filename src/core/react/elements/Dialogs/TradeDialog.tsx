@@ -23,6 +23,7 @@ interface RenderParams {
 
 const Render: React.FC<RenderParams> = React.memo(({ token, selectedAddress, addressDetails, error, dispatch, address, displayedAddress, setAddress, isArbitrumMainnet }) => {
 	const config = getConfig(isArbitrumMainnet);
+	const { mintableTokenShortName, lockableTokenShortName } = config
 
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
@@ -53,7 +54,7 @@ const Render: React.FC<RenderParams> = React.memo(({ token, selectedAddress, add
 				<Typography gutterBottom={true}>Welcome to Our Built-In Automated Liquidity Pool <Link href={`https://uniswap.exchange/swap?inputCurrency=eth&outputCurrency=${inputCurrency}`} target="_blank" rel="noopener noreferrer" color="secondary">(Powered By Uniswap)</Link></Typography>
 				<Box my={3}><Divider /></Box>
 
-				<Typography gutterBottom={true}>You can instantly Buy/Sell both Datamine (DAM) and FLUX tokens for Ethereum (ETH).</Typography>
+				<Typography gutterBottom={true}>You can instantly Buy/Sell both {lockableTokenShortName} and {mintableTokenShortName} tokens for Ethereum (ETH).</Typography>
 
 				<Box my={3}>
 					<Typography gutterBottom={true}>For additional trading pairs please visit the Uniswap link above.</Typography>

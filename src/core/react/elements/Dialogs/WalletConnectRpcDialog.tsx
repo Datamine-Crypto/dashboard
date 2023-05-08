@@ -5,6 +5,7 @@ import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage } from '../../../web3/web3Reducer';
 
 import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
+import { getConfig } from '../../../../config';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
@@ -16,6 +17,8 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress, setRpcAddress }) => {
+	const { ecosystemName } = getConfig()
+
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
 
@@ -44,7 +47,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress
 				<Box>* This step is not required for MetaMask / Brave Browser</Box>
 				<Box my={3}><Divider /></Box>
 
-				<Typography gutterBottom={true}>Datamine Network uses an advanced real-time dashboard. To connect to our decentralized dashboard you will need to provide a valid Ethereum Mainnet RPC Endpoint.</Typography>
+				<Typography gutterBottom={true}>{ecosystemName} uses an advanced real-time dashboard. To connect to our decentralized dashboard you will need to provide a valid Ethereum Mainnet RPC Endpoint.</Typography>
 				<Typography gutterBottom={true}>You can register for a <strong>FREE</strong> <Link href="https://infura.io/" color="secondary" target="_blank" rel="noopener noreferrer">infura.io</Link> account to generate a personal RPC endpoint. To ensure fair use we do not provide a public RPC endpoint.</Typography>
 
 				<Box my={3}>

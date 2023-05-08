@@ -117,7 +117,7 @@ const getPageDetails = () => {
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType }) => {
 	const classes = useStyles();
 
-	const { ecosystemName, mintableTokenShortName } = getConfig()
+	const { ecosystemName, mintableTokenShortName, ecosystemSlogan } = getConfig()
 
 	const [count, setCount] = useState(0);
 	useEffect(() => {
@@ -158,7 +158,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 
 		switch (pageDetails.page) {
 			case Page.Dashboard:
-				document.title = `${pageDetails.address ? pageDetails.address : 'Dashboard'} - Cryptocurrency backed by Proof of Burn - ${ecosystemName}`;
+				document.title = `${pageDetails.address ? pageDetails.address : 'Dashboard'} - ${ecosystemSlogan} - ${ecosystemName}`;
 
 				return <DashboardPage address={pageDetails.address as string | null} />
 			case Page.Help:
@@ -168,14 +168,14 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				document.title = `Community - ${ecosystemName}`;
 				return <CommunityPage />
 			case Page.Terms:
-				document.title = `MIT License - Cryptocurrency backed by Proof of Burn - ${ecosystemName}`;
+				document.title = `MIT License - ${ecosystemSlogan} - ${ecosystemName}`;
 				return <Terms />
 			case Page.TokenPage:
 				document.title = `${mintableTokenShortName} Ecosystem - ${ecosystemName}`;
 				return <TokenPage isArbitrumMainnet={!!pageDetails.isArbitrumMainnet} />
 		}
 
-		document.title = `Cryptocurrency backed by Proof of Burn - ${ecosystemName}`;
+		document.title = `${ecosystemSlogan} - ${ecosystemName}`;
 		return <HomePage />
 	}
 

@@ -22,7 +22,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, amount, setAmount, isArbitrumMainnet }) => {
 	const { mintableTokenShortName } = getConfig()
 
-	const { navigation } = getConfig()
+	const { navigation, ecosystemName } = getConfig()
 	const { isHelpPageEnabled } = navigation
 
 	const [targetAddress, setTargetAddress] = React.useState(selectedAddress);
@@ -78,7 +78,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 				<Box my={1}>Current Balance: <Box display="inline" fontWeight="fontWeightBold">{BNToDecimal(balances.fluxToken, true)} {mintableTokenShortName}</Box></Box>
 				<Box my={3}><Divider /></Box>
 
-				<Typography gutterBottom={true}>To continue select how many {mintableTokenShortName} tokens you wish to burn. You can target any Ethereum based address that current is an active Datamine Validator.</Typography>
+				<Typography gutterBottom={true}>To continue select how many {mintableTokenShortName} tokens you wish to burn. You can target any Ethereum based address that current is an active {ecosystemName} Validator.</Typography>
 				<Box my={4}>
 					<Typography>Burning {mintableTokenShortName} permanently increases your {mintableTokenShortName} minting rate on the destination address. {getLearnMoreBurningLink()}</Typography>
 				</Box>

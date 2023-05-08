@@ -84,7 +84,7 @@ interface RenderParams {
 	isArbitrumMainnet: boolean;
 }
 const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, addressLock, isArbitrumMainnet }) => {
-	const { lockableTokenShortName, mintableTokenShortName } = getConfig()
+	const { lockableTokenShortName, mintableTokenShortName, ecosystemName } = getConfig()
 
 	const classes = useStyles();
 
@@ -192,7 +192,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, a
 		return <TableRow>
 			<TableCell align="left">
 				<Typography color="textSecondary" variant="body1">
-					Datamine Ecosystem Known Money Supply
+					{ecosystemName} Ecosystem Known Money Supply
 				</Typography>
 			</TableCell>
 			<TableCell align="left">

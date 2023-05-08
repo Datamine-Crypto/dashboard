@@ -41,9 +41,9 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 		switch (dialogType) {
 			case DialogType.ZeroDam:
 				if (isArbitrumMainnet) {
-					return `You'll need a bit of FLUX (L2) Tokens on Arbitrum!`;
+					return `You'll need a bit of ${lockableTokenShortName} Tokens on Arbitrum!`;
 				}
-				return `You'll need a bit of Datamine (DAM) Tokens!`;
+				return `You'll need a bit of ${lockableTokenShortName} Tokens!`;
 		}
 
 		return `You'll need a bit of Ethereum!`;
@@ -83,7 +83,7 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 	const getBody = () => {
 		switch (dialogType) {
 			case DialogType.ZeroDam:
-				return `Before you can mint ${mintableTokenShortName} tokens you will need a bit of Datamine ${lockableTokenShortName} and ETH in your`;
+				return `Before you can mint ${mintableTokenShortName} tokens you will need a bit of ${lockableTokenShortName} and ETH in your`;
 		}
 
 		return `To interact with ${ecosystemName} Smart Contracts you will need a bit of Ethereum (ETH) ${isArbitrumMainnet ? 'on Abtirum L2' : ''} in your`;

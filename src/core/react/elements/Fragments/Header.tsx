@@ -76,7 +76,7 @@ interface Props {
 const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible }) => {
 	const classes = useStyles();
 
-	const { isLiquidityPoolsEnabled, navigation } = getConfig()
+	const { isLiquidityPoolsEnabled, navigation, ecosystemName } = getConfig()
 	const { isHelpPageEnabled } = navigation
 
 	const navigateDashboard = () => {
@@ -85,8 +85,8 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible }) => {
 
 	const getLogo = () => {
 		return <>
-			<img src="./images/oldCoin.png" alt="Datamine Network" className={classes.oldCoin} />
-			<img src={logo} alt="Datamine Network" style={{ width: '128px' }} />
+			<img src="./images/oldCoin.png" alt={ecosystemName} className={classes.oldCoin} />
+			<img src={logo} alt={ecosystemName} style={{ width: '128px' }} />
 		</>
 	}
 
@@ -189,7 +189,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible }) => {
 			<Grid item>
 				<Box display="inline-block">
 					<Card elevation={3} >
-						<LightTooltip title="Watch How Datamine Ecosystem Works" placement="top">
+						<LightTooltip title={`Watch How ${ecosystemName} Ecosystem Works`} placement="top">
 							<CardActionArea href="https://youtu.be/dsqz3XGx7RY" target="_blank" rel="noopener noreferrer">
 								<CardMedia component="img" image="./images/videoSplash.png" style={{ maxWidth: 600 }} />
 							</CardActionArea>
