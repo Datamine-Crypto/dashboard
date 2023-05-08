@@ -24,7 +24,7 @@ interface RenderParams {
 }
 const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, isArbitrumMainnet }) => {
 	const config = getConfig(isArbitrumMainnet);
-	const { mintableTokenShortName } = config
+	const { mintableTokenShortName, lockableTokenShortName } = config
 
 	const commaRegex = /(\d)(?=(\d{3})+(?!\d))/g;
 
@@ -53,12 +53,12 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 	const actualFluxPrice = `$ ${shortFluxPrice} USD`;
 	const actualFluxMarketCap = `$ ${getPriceToggle({ value: balances.fluxTotalSupply, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 2 })} USD`;
 
-	document.title = `${isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'}: $${shortFluxPrice} ${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'}: $${shortDamPrice}`
+	document.title = `${mintableTokenShortName}: $${shortFluxPrice} ${lockableTokenShortName}: $${shortDamPrice}`
 
 	const getDamMarketCap = () => {
 
 		return <DetailedListItem
-			title={<><Box display="inline">{isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Realtime Market Cap{isArbitrumMainnet ? ' (on L2)' : ''}:</Box></>}
+			title={<><Box display="inline">{lockableTokenShortName} Realtime Market Cap{isArbitrumMainnet ? ' (on L2)' : ''}:</Box></>}
 			main={<><Box display="inline">{circulatingDamMarketCap} <Typography variant="body2" color="textSecondary" display="inline">(Circulating)</Typography></Box></>}
 			sub={<><Box display="inline">{actualDamMarketCap} <Typography variant="body2" color="textSecondary" display="inline">(Total)</Typography></Box></>}
 		/>
@@ -72,7 +72,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 		const damEthUsdcLiquidity = `$ ${totalLiquidity} USD`;
 
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} / ETH Total Liquidity${isArbitrumMainnet ? '' : ''}:`}
+			title={`${lockableTokenShortName} / ETH Total Liquidity${isArbitrumMainnet ? '' : ''}:`}
 			main={<>{damEthUsdcLiquidity}</>}
 		/>
 	}
@@ -80,8 +80,8 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 	const getDamAvailableLiquidity = () => {
 		const damEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapDamTokenReserves.dam, inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Available ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Liquidity :`}
-			main={<>{BNToDecimal(uniswapDamTokenReserves.dam, true, 18, 2)} {isArbitrumMainnet ? 'FLUX' : 'DAM'}</>}
+			title={`${lockableTokenShortName} Available ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Liquidity :`}
+			main={<>{BNToDecimal(uniswapDamTokenReserves.dam, true, 18, 2)} {lockableTokenShortName}</>}
 			sub={<>{damEthUsdcLiquidity}</>}
 			description={<>{getAvailableLiquidity(Token.DAM)}</>}
 			buttons={[
@@ -93,7 +93,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 	const getDamAvailableLiquidityEth = () => {
 		const damEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapDamTokenReserves.eth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
+			title={`${lockableTokenShortName} ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
 			main={<>{BNToDecimal(uniswapDamTokenReserves.eth, true, 18, 2)} ETH</>}
 			sub={<>{damEthUsdcLiquidity}</>}
 		/>
@@ -154,10 +154,10 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 
 				const getAddToPoolTooltip = () => {
 					if (isArbitrumMainnet) {
-						return `Add to ArbiFLUX / ETH SushiSwap Pool. Liquidity pool participants share 0.25% from each ArbiFLUX <-> ETH SushiSwap transaction! `
+						return `Add to ${mintableTokenShortName} / ETH SushiSwap Pool. Liquidity pool participants share 0.25% from each ${mintableTokenShortName} <-> ETH SushiSwap transaction! `
 					}
 
-					return `Add to FLUX / ETH Uniswap Pool. Liquidity pool participants share 1.00% from each FLUX <-> ETH Uniswap transaction! `
+					return `Add to ${mintableTokenShortName} / ETH Uniswap Pool. Liquidity pool participants share 1.00% from each ${mintableTokenShortName} <-> ETH Uniswap transaction! `
 				}
 				return <LightTooltip title={getAddToPoolTooltip()}>
 					{button}

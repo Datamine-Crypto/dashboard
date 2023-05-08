@@ -4,6 +4,7 @@ import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, T
 import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage, Balances } from '../../../web3/web3Reducer';
 import { BNToDecimal } from '../../../web3/helpers';
+import { getConfig } from '../../../../config';
 
 interface RenderParams {
 	selectedAddress: string;
@@ -16,6 +17,7 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, total, isArbitrumMainnet }) => {
+	const { lockableTokenShortName, mintableTokenShortName } = getConfig()
 
 	const [amount, setAmount] = React.useState(total);
 	const [minterAddress, setMinterAddress] = React.useState(selectedAddress);
@@ -44,7 +46,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 			<TextField
 				autoFocus
 				id="name"
-				label={`Ethereum Address (Who can mint your ${isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} tokens?)`}
+				label={`Ethereum Address (Who can mint your ${mintableTokenShortName} tokens?)`}
 				type="text"
 				variant="outlined"
 				value={minterAddress}
@@ -58,20 +60,20 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 
 	return <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 		<form onSubmit={onSubmit}>
-			<DialogTitle id="form-dialog-title">Start {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} Validator</DialogTitle>
+			<DialogTitle id="form-dialog-title">Start {mintableTokenShortName} Validator</DialogTitle>
 			<DialogContent>
 				<Box>From Address: <Box display="inline" fontWeight="fontWeightBold">{selectedAddress}</Box></Box>
-				<Box my={1}>Current Balance: <Box display="inline" fontWeight="fontWeightBold">{BNToDecimal(balances.damToken, true)} {isArbitrumMainnet ? 'FLUX' : 'DAM'}</Box></Box>
+				<Box my={1}>Current Balance: <Box display="inline" fontWeight="fontWeightBold">{BNToDecimal(balances.damToken, true)} {lockableTokenShortName}</Box></Box>
 				<Box my={2}><Divider /></Box>
 				<Box mb={4}>
-					<Typography>To continue select how many {isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} tokens you wish to start your validator with. You can stop your validator to get 100% of {isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} tokens back at any time.</Typography>
+					<Typography>To continue select how many {lockableTokenShortName} tokens you wish to start your validator with. You can stop your validator to get 100% of {lockableTokenShortName} tokens back at any time.</Typography>
 				</Box>
 
 				<Box my={1}>
 					<TextField
 						autoFocus
 						id="name"
-						label={`Validator Size (${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'}) Tokens)`}
+						label={`Validator Size (${lockableTokenShortName}) Tokens)`}
 						type="text"
 						variant="outlined"
 						value={amount}
@@ -86,8 +88,8 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 					<FormControl component="fieldset">
 						<FormLabel component="legend">Minting Address</FormLabel>
 						<RadioGroup aria-label="gender" name="gender1" value={minterType} onChange={event => setMinterType((event.target as HTMLInputElement).value)}>
-							<FormControlLabel value="self" control={<Radio />} label={`I want to mint my own ${isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} tokens`} />
-							<FormControlLabel value="delegated" control={<Radio />} label={<>Another address mints {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} on my behalf <Typography color="textSecondary" display="inline" variant="body2">(Delegated Minter)</Typography></>} />
+							<FormControlLabel value="self" control={<Radio />} label={`I want to mint my own ${mintableTokenShortName} tokens`} />
+							<FormControlLabel value="delegated" control={<Radio />} label={<>Another address mints {mintableTokenShortName} on my behalf <Typography color="textSecondary" display="inline" variant="body2">(Delegated Minter)</Typography></>} />
 						</RadioGroup>
 					</FormControl>
 				</Box>

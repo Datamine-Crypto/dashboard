@@ -931,10 +931,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 		const getMintingText = () => {
 			if (isArbitrumMainnet) {
-				return 'To run your own ArbiFLUX validator you must first enable minting on Arbitrum L2. Click the "Enable" button below to continue.'
+				return `To run your own ${mintableTokenShortName} validator you must first enable minting on Arbitrum L2. Click the "Enable" button below to continue.`
 
 			}
-			return 'To run your own validator you must first enable FLUX minting. Click the "Enable" button below to continue.'
+			return `To run your own validator you must first enable ${mintableTokenShortName} minting. Click the "Enable" button below to continue.`
 		}
 
 		return {
@@ -1082,7 +1082,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			const actualFluxPrice = `$ ${shortFluxPrice}`;
 
 			return <>
-				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.FLUX)} <Typography variant="body2" color="textSecondary" display="inline">{isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'}:</Typography> {actualFluxPrice}</Box>
+				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.FLUX)} <Typography variant="body2" color="textSecondary" display="inline">{mintableTokenShortName}:</Typography> {actualFluxPrice}</Box>
 			</>
 		}
 		const getEthPrice = () => {

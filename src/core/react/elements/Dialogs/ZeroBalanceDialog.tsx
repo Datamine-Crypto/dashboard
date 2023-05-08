@@ -21,6 +21,7 @@ interface Params {
 
 const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balances, dialogType, isArbitrumMainnet }) => {
 	const config = getConfig(isArbitrumMainnet);
+	const { mintableTokenShortName, lockableTokenShortName } = config
 
 	const onClose = () => {
 		dispatch({ type: commonLanguage.commands.CloseDialog });
@@ -64,14 +65,14 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 				return '0 DAM';
 			}
 
-			return `${BNToDecimal(damToken, true)} ${isArbitrumMainnet ? 'FLUX' : 'DAM'}`
+			return `${BNToDecimal(damToken, true)} ${lockableTokenShortName}`
 		}
 
 
 		switch (dialogType) {
 			case DialogType.ZeroDam:
 				return <>
-					Current {isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} Balance: <Box display="inline" fontWeight="bold">{getDamBalance()}</Box>
+					Current {lockableTokenShortName} Balance: <Box display="inline" fontWeight="bold">{getDamBalance()}</Box>
 				</>
 		}
 		return <>
@@ -82,7 +83,7 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 	const getBody = () => {
 		switch (dialogType) {
 			case DialogType.ZeroDam:
-				return `Before you can mint ${isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens you will need a bit of Datamine ${isArbitrumMainnet ? 'FLUX' : '(DAM)'} and ETH in your`;
+				return `Before you can mint ${mintableTokenShortName} tokens you will need a bit of Datamine ${lockableTokenShortName} and ETH in your`;
 		}
 
 		return `To interact with Datamine Smart Contracts you will need a bit of Ethereum (ETH) ${isArbitrumMainnet ? 'on Abtirum L2' : ''} in your`;

@@ -149,13 +149,13 @@ export const switchNetwork = async (chainId: string) => {
 
 export const addToMetamask = (isArbitrumMainnet: boolean) => {
 	const config = getConfig(isArbitrumMainnet);
-	const { mintableTokenShortName } = config
+	const { mintableTokenShortName, lockableTokenShortName } = config
 
 	const { ethereum } = window as any;
 
 	const addDam = () => {
 		const tokenAddress = config.lockableTokenContractAddress;
-		const tokenSymbol = isArbitrumMainnet ? 'FLUX (L2)' : 'DAM';
+		const tokenSymbol = lockableTokenShortName;
 		const tokenDecimals = 18;
 		const tokenImage = `https://datamine-crypto.github.io/realtime-decentralized-dashboard/logos/${isArbitrumMainnet ? 'flux' : 'dam'}.png`;
 

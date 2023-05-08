@@ -30,7 +30,7 @@ const localConfig = {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ addressDetails, dispatch, error, amount, isArbitrumMainnet, balances, clientSettings }) => {
-	const { mintableTokenShortName } = getConfig()
+	const { mintableTokenShortName, lockableTokenShortName } = getConfig()
 
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
@@ -71,8 +71,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, dispatch, e
 				<Alert severity="error">
 
 					<Box mb={1} fontWeight="bold">WARNING: YOU ARE ABOUT TO LOSE <Box style={{ color: '#0FF' }} fontSize="1.1rem" display="inline">{moneyAmount} {clientSettings.currency}</Box> IN UNMINTED {mintableTokenShortName}. IF YOU CONTINUE THIS UNMINTED AMOUNT WILL BE LOST!</Box>
-					If you are seeing this warning it means you have at least $5.00 in unminted {mintableTokenShortName}FLUX!
-					Please mint your {mintableTokenShortName}FLUX first before continuing.
+					If you are seeing this warning it means you have at least $5.00 in unminted {mintableTokenShortName}!
+					Please mint your {mintableTokenShortName} first before continuing.
 				</Alert>
 			</Box>
 		)
@@ -87,11 +87,11 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, dispatch, e
 		<form onSubmit={onSubmit}>
 			<DialogTitle id="alert-dialog-title">{"Stop Mint?"}</DialogTitle>
 			<DialogContent>
-				<Box>Tokens To Return: <Box display="inline" fontWeight="fontWeightBold">{amount} {isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'}</Box></Box>
+				<Box>Tokens To Return: <Box display="inline" fontWeight="fontWeightBold">{amount} {lockableTokenShortName}</Box></Box>
 				<Box my={2}><Divider /></Box>
 				<Box mb={6}>
 
-					<Typography gutterBottom={true}>You can stop your validator at any time to get 100% of your {isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} tokens back.</Typography>
+					<Typography gutterBottom={true}>You can stop your validator at any time to get 100% of your {lockableTokenShortName} tokens back.</Typography>
 					<Box my={3}>
 						<Typography gutterBottom={true}>Please note that stopping a validator will cause you to lose your current <Box fontWeight="fontWeightBold" display="inline" style={{ whiteSpace: 'nowrap' }}>{getFormattedMultiplier(addressDetails.addressTimeMultiplier)}</Box> time bonus. Restarting a validator will reset the time bonus.</Typography>
 					</Box>

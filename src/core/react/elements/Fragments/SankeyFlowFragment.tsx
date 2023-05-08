@@ -30,7 +30,7 @@ interface SankeyProps {
 	isArbitrumMainnet: boolean;
 }
 const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addressDetails, isArbitrumMainnet }) => {
-	const { mintableTokenShortName } = getConfig()
+	const { mintableTokenShortName, lockableTokenShortName } = getConfig()
 
 	const mainHeadingStyle = { fill: 'rgba(255, 255, 255, 0.7)' }
 
@@ -75,15 +75,15 @@ const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addres
 	}
 
 	const lines = [
-		{ title: `${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Powering Validators (${lockedPercent}%)`, subtitle: <>{getFormattedAmount(lockedDamSupply, Token.DAM)}</> },
+		{ title: `${lockableTokenShortName} Powering Validators (${lockedPercent}%)`, subtitle: <>{getFormattedAmount(lockedDamSupply, Token.DAM)}</> },
 		{ title: null, subtitle: <>{getFormattedAmount(originalSupply, Token.FLUX)}</> },
-		{ title: `${mintableTokenShortName}FLUX Destroyed (${burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(addressDetails.globalBurnedAmount, Token.FLUX)}</> },
-		{ title: `${mintableTokenShortName}FLUX / ETH Uniswap (M0)`, subtitle: <>{getFormattedAmount(balances.uniswapFluxTokenReserves.flux, Token.FLUX)}</> },
-		{ title: `${mintableTokenShortName}FLUX Remaining (${daysMinting - burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(remainingSupply.sub(balances.arbitrumBridgeBalance), Token.FLUX)}</> },
+		{ title: `${mintableTokenShortName} Destroyed (${burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(addressDetails.globalBurnedAmount, Token.FLUX)}</> },
+		{ title: `${mintableTokenShortName} / ETH Uniswap (M0)`, subtitle: <>{getFormattedAmount(balances.uniswapFluxTokenReserves.flux, Token.FLUX)}</> },
+		{ title: `${mintableTokenShortName} Remaining (${daysMinting - burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(remainingSupply.sub(balances.arbitrumBridgeBalance), Token.FLUX)}</> },
 
-		{ title: `${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Fixed Supply`, subtitle: <>{getFormattedAmount(originalDamSupply, Token.DAM)}</> },
-		{ title: `${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Remaining Supply (${remainingPercent}%)`, subtitle: <>{getFormattedAmount(remainingDamSupply, Token.DAM)}</> },
-		{ title: `${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} / ETH Uniswap (${damUniswapPercent}%)`, subtitle: <>{getFormattedAmount(balances.uniswapDamTokenReserves.dam, Token.DAM)}</> },
+		{ title: `${lockableTokenShortName} Fixed Supply`, subtitle: <>{getFormattedAmount(originalDamSupply, Token.DAM)}</> },
+		{ title: `${lockableTokenShortName} Remaining Supply (${remainingPercent}%)`, subtitle: <>{getFormattedAmount(remainingDamSupply, Token.DAM)}</> },
+		{ title: `${lockableTokenShortName} / ETH Uniswap (${damUniswapPercent}%)`, subtitle: <>{getFormattedAmount(balances.uniswapDamTokenReserves.dam, Token.DAM)}</> },
 		...getRemainingSupply(),
 	]
 

@@ -137,10 +137,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 
 				const getAddToPoolTooltip = () => {
 					if (isArbitrumMainnet) {
-						return `Add to ArbiFLUX / ETH SushiSwap Pool. Liquidity pool participants share 0.25% from each ArbiFLUX <-> ETH SushiSwap transaction! `
+						return `Add to ${mintableTokenShortName} / ETH SushiSwap Pool. Liquidity pool participants share 0.25% from each ${mintableTokenShortName} <-> ETH SushiSwap transaction! `
 					}
 
-					return `Add to FLUX / ETH Uniswap Pool. Liquidity pool participants share 1.00% from each FLUX <-> ETH Uniswap transaction! `
+					return `Add to ${mintableTokenShortName} / ETH Uniswap Pool. Liquidity pool participants share 1.00% from each ${mintableTokenShortName} <-> ETH Uniswap transaction! `
 				}
 				return <LightTooltip title={getAddToPoolTooltip()}>
 					{button}

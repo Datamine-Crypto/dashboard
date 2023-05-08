@@ -15,7 +15,7 @@ interface RenderParams {
 	isArbitrumMainnet: boolean;
 }
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod, isArbitrumMainnet }) => {
-	const { mintableTokenShortName } = getConfig()
+	const { mintableTokenShortName, lockableTokenShortName } = getConfig()
 
 	const { navigation } = getConfig()
 	const { isHelpPageEnabled } = navigation
@@ -34,7 +34,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 				type: commonLanguage.commands.ShowDialog, payload: {
 					dialog: DialogType.TitleMessage, dialogParams: {
 						title: 'Continue In Metamask...', message: <>
-							To display {isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} &amp; {mintableTokenShortName} balances in Metamask, click Add Tokens in Metamask window/popup to add our tokens to your Metamask as in the example below:
+							To display {lockableTokenShortName} &amp; {mintableTokenShortName} balances in Metamask, click Add Tokens in Metamask window/popup to add our tokens to your Metamask as in the example below:
 							<Box mt={3}>
 								<Grid container alignItems="center" justify="center" alignContent="center">
 									<Grid item>
@@ -53,7 +53,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 	}
 	const addTokensToMetamaskLink = isHelpPageEnabled ? '#help/onboarding/addTokensToMetamask' : '#'
 
-	return <LightTooltip title={`Click to display ${isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} & ${mintableTokenShortName} token balances in Metamask assets list.`}>
+	return <LightTooltip title={`Click to display ${lockableTokenShortName} & ${mintableTokenShortName} token balances in Metamask assets list.`}>
 		<Link href={addTokensToMetamaskLink} target="_blank" rel="noopener noreferrer" onClick={handleAddToMetamask} color="textSecondary">
 			<img src={metamaskIcon} alt="Metamask" width="24" height="24" style={{ verticalAlign: 'middle' }} /> Add Tokens To Metamask
 		</Link>

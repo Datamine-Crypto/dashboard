@@ -239,7 +239,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, a
 								<TableRow>
 									<TableCell align="left">
 										<Typography color="textSecondary" variant="body1">
-											{isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Powering Validators: {getDamText()}
+											{lockableTokenShortName} Powering Validators: {getDamText()}
 										</Typography>
 
 										{getTimeSlider()}

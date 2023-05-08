@@ -117,7 +117,7 @@ const getPageDetails = () => {
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType }) => {
 	const classes = useStyles();
 
-	const { ecosystemName } = getConfig()
+	const { ecosystemName, mintableTokenShortName } = getConfig()
 
 	const [count, setCount] = useState(0);
 	useEffect(() => {
@@ -171,7 +171,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				document.title = `MIT License - Cryptocurrency backed by Proof of Burn - ${ecosystemName}`;
 				return <Terms />
 			case Page.TokenPage:
-				document.title = `${pageDetails.isArbitrumMainnet ? 'ArbiFLUX Ecosystem' : 'FLUX Ecosystem'} - ${ecosystemName}`;
+				document.title = `${mintableTokenShortName} Ecosystem - ${ecosystemName}`;
 				return <TokenPage isArbitrumMainnet={!!pageDetails.isArbitrumMainnet} />
 		}
 
