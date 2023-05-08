@@ -1096,10 +1096,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 		return <>
 			<Grid container justify="space-between" alignItems="center" spacing={3} className={classes.topLeftPricesContainer}>
 				<Grid item>
-					{getDamPrice()}
+					{getFluxPrice()}
 				</Grid>
 				<Grid item>
-					{getFluxPrice()}
+					{getDamPrice()}
 				</Grid>
 				<Grid item>
 					{getEthPrice()}

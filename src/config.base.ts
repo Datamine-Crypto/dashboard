@@ -214,6 +214,13 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		isRealtimeOnChainMarketSentimentEnabled: true,
 
 		/**
+		 * Is the settings button visible on validator dashoard?
+		 * This settings button will let you customize currency and select type of transaction to issue (EIP 1559)
+		 * Set this to false if you don't want this advanced customization
+		 */
+		isSettingsValidatorDashboardButtonEnabled: true,
+
+		/**
 		 * Left side navigation (buttons on left side or top right on mobile)
 		 */
 		navigation: {

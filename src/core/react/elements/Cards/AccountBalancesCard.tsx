@@ -44,7 +44,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddress, addressTokenDetails, displayedAddress, addressDetails, balances, dispatch, isArbitrumMainnet }) => {
 
 	const config = getConfig(isArbitrumMainnet);
-	const { lockableTokenFullName, mintableTokenShortName, lockableTokenShortName } = config
+	const { lockableTokenFullName, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolsEnabled } = config
 
 
 	const classes = useStyles();
@@ -119,6 +119,9 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			return <Box mx={1} display="inline-block">{getButton()}</Box>
 		}
 		const getPoolButton = () => {
+			if (!isLiquidityPoolsEnabled) {
+				return <></>
+			}
 
 			const getButton = () => {
 

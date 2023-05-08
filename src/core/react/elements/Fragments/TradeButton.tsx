@@ -18,6 +18,11 @@ interface TradeRenderParams {
 }
 const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, isBuy = true, showBuyTokens = false, isArbitrumMainnet = false }) => {
 	const config = getConfig(isArbitrumMainnet);
+	const { isLiquidityPoolsEnabled } = config
+
+	if (!isLiquidityPoolsEnabled) {
+		return <></>
+	}
 
 	const [tradeAnchorEl, setTradeAnchorEl] = React.useState<null | HTMLElement>(null);
 	const handleCloseTrade = () => {

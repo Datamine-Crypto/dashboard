@@ -21,7 +21,7 @@ interface Params {
 
 const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balances, dialogType, isArbitrumMainnet }) => {
 	const config = getConfig(isArbitrumMainnet);
-	const { mintableTokenShortName, lockableTokenShortName } = config
+	const { mintableTokenShortName, lockableTokenShortName, ecosystemName } = config
 
 	const onClose = () => {
 		dispatch({ type: commonLanguage.commands.CloseDialog });
@@ -86,7 +86,7 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 				return `Before you can mint ${mintableTokenShortName} tokens you will need a bit of Datamine ${lockableTokenShortName} and ETH in your`;
 		}
 
-		return `To interact with Datamine Smart Contracts you will need a bit of Ethereum (ETH) ${isArbitrumMainnet ? 'on Abtirum L2' : ''} in your`;
+		return `To interact with ${ecosystemName} Smart Contracts you will need a bit of Ethereum (ETH) ${isArbitrumMainnet ? 'on Abtirum L2' : ''} in your`;
 	}
 
 	const getButtons = () => {

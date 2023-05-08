@@ -58,7 +58,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 	const classes = useStyles();
 
 	const config = getConfig(false); // Mainnet
-	const { ecosystemName } = config
+	const { ecosystemName, isSettingsValidatorDashboardButtonEnabled, lockableTokenShortName, mintableTokenShortName, isLiquidityPoolsEnabled } = config
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -163,7 +163,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 				<Grid container justify="center"><Grid item>{getLogo()}</Grid></Grid>
 				<Box mt={3} mb={6} textAlign="center">
 					<Typography variant="h5" color="textPrimary" gutterBottom>Connect to Ethereum Network</Typography>
-					<Typography color="textSecondary">To interact with DAM and FLUX tokens you must connect to your wallet and select an address.</Typography>
+					<Typography color="textSecondary">To interact with {lockableTokenShortName} and {mintableTokenShortName} tokens you must connect to your wallet and select an address.</Typography>
 				</Box>
 
 				<Box>
@@ -274,31 +274,48 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 
 			return <Button size="small" variant="outlined" onClick={() => dispatch({ type: commonLanguage.commands.DisconnectFromWalletConnect })} startIcon={<Box mr={1} display="inline"><img src={walletconnectIcon} alt="WalletConnect" width="24" height="24" style={{ verticalAlign: 'middle' }} /></Box>}>Disconnect From WalletConnect</Button>
 		}
+		const getSettingsButton = () => {
+			if (!isSettingsValidatorDashboardButtonEnabled) {
+				return null
+			}
+
+			return (
+				<Grid item>
+					<Box mr={3}>
+						<Grid container alignItems="center">
+							<Grid item>
+								<Button size="small" variant="outlined" color="secondary" onClick={() => { dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.ClientSettings } }) }}>
+									<Box mr={0.5}>
+										<SettingsIcon style={{ verticalAlign: 'middle', marginRight: 8 }} />
+									</Box>
+									Settings
+								</Button>
+							</Grid>
+						</Grid>
+					</Box>
+				</Grid>
+			)
+		}
+
+		const getLiquidityPoolsButton = () => {
+			if (!isLiquidityPoolsEnabled) {
+				return null
+			}
+			return (
+				<Grid item>
+					<Box mr={3}>
+						<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallText} />
+					</Box>
+				</Grid>
+			)
+		}
+
 		const getFooter = () => {
 			return <Box mt={6} pb={6} mx={4} display="flex" justifyContent="space-between">
 				<Typography color="textSecondary" variant="body2">
 					<Grid container alignItems="center">
-						<Grid item>
-							<Box mr={3}>
-								<Grid container alignItems="center">
-									<Grid item>
-										<Button size="small" variant="outlined" color="secondary" onClick={() => { dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.ClientSettings } }) }}>
-											<Box mr={0.5}>
-												<SettingsIcon style={{ verticalAlign: 'middle', marginRight: 8 }} />
-											</Box>
-											Settings
-										</Button>
-									</Grid>
-								</Grid>
-							</Box>
-
-						</Grid>
-						<Grid item>
-							<Box mr={3}>
-								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallText} />
-							</Box>
-
-						</Grid>
+						{getSettingsButton()}
+						{getLiquidityPoolsButton()}
 						<Grid item>
 							<Box mr={3}>
 								<Link href="#terms" color="textSecondary">MIT License</Link>
