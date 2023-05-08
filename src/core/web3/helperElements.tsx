@@ -59,7 +59,7 @@ export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, t
 
 	const fluxRequiredToBurn = BNToDecimal(fluxRequired.abs(), true, 18, 2)
 
-	const fluxRequiredToBurnInUsdc = `$ ${getPriceToggle({ value: fluxRequired.abs(), inputToken: Token.FLUX, outputToken: Token.USDC, balances })} USD`;
+	const fluxRequiredToBurnInUsdc = `$ ${getPriceToggle({ value: fluxRequired.abs(), inputToken: Token.Mintable, outputToken: Token.USDC, balances })} USD`;
 
 	return {
 		fluxRequiredToBurn,

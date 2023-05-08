@@ -336,9 +336,9 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, isArbitrumMainnet 
 		const getUniswapLink = (token: Token) => {
 			if (isArbitrumMainnet) {
 
-				return `https://info.uniswap.org/#/arbitrum/pools/${token === Token.FLUX ? '0xa8e5873b838fa39c381cb3e29cb0b6b9deda7a87' : '0xa99c670879888df9ccfaa46b1f3b0c9cfb771bee'}`
+				return `https://info.uniswap.org/#/arbitrum/pools/${token === Token.Mintable ? '0xa8e5873b838fa39c381cb3e29cb0b6b9deda7a87' : '0xa99c670879888df9ccfaa46b1f3b0c9cfb771bee'}`
 			}
-			return `https://info.uniswap.org/#/pools/${token === Token.FLUX ? '0xbd233d685ede81e00faaefebd55150c76778a34e' : '0x07aa6584385cca15c2c6e13a5599ffc2d177e33b'}`
+			return `https://info.uniswap.org/#/pools/${token === Token.Mintable ? '0xbd233d685ede81e00faaefebd55150c76778a34e' : '0x07aa6584385cca15c2c6e13a5599ffc2d177e33b'}`
 		}
 
 		return <Container maxWidth="md" component="main">
@@ -374,7 +374,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, isArbitrumMainnet 
 								<TableCell component="th" scope="row">
 								</TableCell>
 								<TableCell align="right">
-									<Link href={getUniswapLink(Token.FLUX)} target="_blank" rel="noopener noreferrer">
+									<Link href={getUniswapLink(Token.Mintable)} target="_blank" rel="noopener noreferrer">
 										<Button variant="outlined" color="secondary" size="small" >
 											<Grid container alignItems="center">
 												<Grid item>

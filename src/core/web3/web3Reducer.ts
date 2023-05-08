@@ -520,7 +520,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					if (!state.balances || !enabled) {
 						return ''
 					}
-					return getPriceToggle({ value: new BN(10).pow(new BN(18)), inputToken: Token.FLUX, outputToken: Token.USDC, balances: state.balances, round: 4 })
+					return getPriceToggle({ value: new BN(10).pow(new BN(18)), inputToken: Token.Mintable, outputToken: Token.USDC, balances: state.balances, round: 4 })
 				}
 
 				const forecastFluxPrice = getForecastFluxPrice()

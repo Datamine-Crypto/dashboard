@@ -157,7 +157,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			return <>{BNToDecimal(balances.fluxToken, true, 18, 2)} {mintableTokenShortName}</>
 		}
 		const getFluxAmountUSD = () => {
-			const balanceInUsdc = `$ ${getPriceToggle({ value: balances.fluxToken, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 2 })} USD`;
+			const balanceInUsdc = `$ ${getPriceToggle({ value: balances.fluxToken, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 			return <>{balanceInUsdc}</>
 		}
 
@@ -168,7 +168,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			buttons={
 				[
 					getBurnButton(),
-					getTradeButton({ token: Token.FLUX, isArbitrumMainnet }),
+					getTradeButton({ token: Token.Mintable, isArbitrumMainnet }),
 					getPoolButton()
 				]
 			}
@@ -253,7 +253,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 		}
 
 		const getFluxBurnedBalanceUSD = () => {
-			const balanceInUsdc = `$ ${getPriceToggle({ value: addressLock.burnedAmount, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 2 })} USD`;
+			const balanceInUsdc = `$ ${getPriceToggle({ value: addressLock.burnedAmount, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 			return <>{balanceInUsdc}</>
 		}
 

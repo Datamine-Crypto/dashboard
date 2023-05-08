@@ -66,7 +66,7 @@ const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addres
 		if (!isArbitrumMainnet) {
 			return [
 
-				{ title: `${mintableTokenShortName}Arbitrum Bridge (L2)`, subtitle: <>{getFormattedAmount(balances.arbitrumBridgeBalance, Token.FLUX)}</> },
+				{ title: `${mintableTokenShortName}Arbitrum Bridge (L2)`, subtitle: <>{getFormattedAmount(balances.arbitrumBridgeBalance, Token.Mintable)}</> },
 			]
 		}
 
@@ -76,10 +76,10 @@ const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addres
 
 	const lines = [
 		{ title: `${lockableTokenShortName} Powering Validators (${lockedPercent}%)`, subtitle: <>{getFormattedAmount(lockedDamSupply, Token.DAM)}</> },
-		{ title: null, subtitle: <>{getFormattedAmount(originalSupply, Token.FLUX)}</> },
-		{ title: `${mintableTokenShortName} Destroyed (${burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(addressDetails.globalBurnedAmount, Token.FLUX)}</> },
-		{ title: `${mintableTokenShortName} / ETH Uniswap (M0)`, subtitle: <>{getFormattedAmount(balances.uniswapFluxTokenReserves.flux, Token.FLUX)}</> },
-		{ title: `${mintableTokenShortName} Remaining (${daysMinting - burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(remainingSupply.sub(balances.arbitrumBridgeBalance), Token.FLUX)}</> },
+		{ title: null, subtitle: <>{getFormattedAmount(originalSupply, Token.Mintable)}</> },
+		{ title: `${mintableTokenShortName} Destroyed (${burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(addressDetails.globalBurnedAmount, Token.Mintable)}</> },
+		{ title: `${mintableTokenShortName} / ETH Uniswap (M0)`, subtitle: <>{getFormattedAmount(balances.uniswapFluxTokenReserves.flux, Token.Mintable)}</> },
+		{ title: `${mintableTokenShortName} Remaining (${daysMinting - burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(remainingSupply.sub(balances.arbitrumBridgeBalance), Token.Mintable)}</> },
 
 		{ title: `${lockableTokenShortName} Fixed Supply`, subtitle: <>{getFormattedAmount(originalDamSupply, Token.DAM)}</> },
 		{ title: `${lockableTokenShortName} Remaining Supply (${remainingPercent}%)`, subtitle: <>{getFormattedAmount(remainingDamSupply, Token.DAM)}</> },
@@ -127,20 +127,20 @@ const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addres
 	const getRemainingSupplyLinks = () => {
 		if (!isArbitrumMainnet) {
 			return [
-				{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.RemainingSupply, value: getNodeValue(remainingSupply.div(new BN(2)), Token.FLUX), color: '#ffffff1a' },
-				{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.RemainingSupplyBridge, value: getNodeValue(remainingSupply.div(new BN(2)), Token.FLUX), color: '#2698e41a' },
+				{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.RemainingSupply, value: getNodeValue(remainingSupply.div(new BN(2)), Token.Mintable), color: '#ffffff1a' },
+				{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.RemainingSupplyBridge, value: getNodeValue(remainingSupply.div(new BN(2)), Token.Mintable), color: '#2698e41a' },
 			]
 		}
 
 		return [
-			{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.RemainingSupply, value: getNodeValue(remainingSupply, Token.FLUX), color: '#ffffff1a' },
+			{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.RemainingSupply, value: getNodeValue(remainingSupply, Token.Mintable), color: '#ffffff1a' },
 		]
 	}
 
 	const links = [
-		{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.Burned, value: getNodeValue(addressDetails.globalBurnedAmount, Token.FLUX), color: '#ffb5001a' },
+		{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.Burned, value: getNodeValue(addressDetails.globalBurnedAmount, Token.Mintable), color: '#ffb5001a' },
 		{ source: SankeyNodeType.KnownMoney, target: SankeyNodeType.CirculatingSupply, value: getNodeValue(lockedDamSupply, Token.DAM), color: '#00ffff1a' },
-		{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.UniswapSupply, value: getNodeValue(m0Supply, Token.FLUX), color: '#f200751a' },
+		{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.UniswapSupply, value: getNodeValue(m0Supply, Token.Mintable), color: '#f200751a' },
 
 		{ source: SankeyNodeType.FixedDamSupply, target: SankeyNodeType.KnownMoney, value: getNodeValue(lockedDamSupply, Token.DAM), color: '#00ffff1a' },
 		{ source: SankeyNodeType.FixedDamSupply, target: SankeyNodeType.RemainingDamSupply, value: getNodeValue(remainingDamSupply, Token.DAM), color: '#ffffff1a' },

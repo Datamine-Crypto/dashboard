@@ -43,7 +43,7 @@ export enum DialogType {
 }
 
 export enum Token {
-	FLUX = 'FLUX',
+	Mintable = 'Mintable',
 	DAM = 'DAM',
 	ETH = 'ETH',
 	USDC = 'USDC'

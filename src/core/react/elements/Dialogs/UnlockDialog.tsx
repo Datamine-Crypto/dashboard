@@ -57,7 +57,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, dispatch, e
 		}
 		const mintAmount = getMintAmount()
 
-		const balanceInUsdc = getPriceToggle({ value: mintAmount, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 6, removeCommas: true });
+		const balanceInUsdc = getPriceToggle({ value: mintAmount, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6, removeCommas: true });
 
 		const unmintedUsdAmount = parseFloat(balanceInUsdc)
 		if (unmintedUsdAmount < localConfig.amountToLoseWarningThreshold) {

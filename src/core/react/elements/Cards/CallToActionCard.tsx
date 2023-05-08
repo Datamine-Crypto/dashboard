@@ -218,8 +218,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 					const rawAmount = getLockedInAmount().div(new BN(10).pow(new BN(mintableTokenMintPerBlockDivisor))).mul(new BN(unmintedBlocks));
 
-					const blanceWithoutBonusesInUsdc = getPriceToggle({ value: rawAmount, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 6 });
-					const blanceWitMaxBonusesInUsdc = getPriceToggle({ value: rawAmount.mul(new BN(3 * maxBurnMultiplier)), inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 6 });
+					const blanceWithoutBonusesInUsdc = getPriceToggle({ value: rawAmount, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6 });
+					const blanceWitMaxBonusesInUsdc = getPriceToggle({ value: rawAmount.mul(new BN(3 * maxBurnMultiplier)), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6 });
 
 					const getMintAmount = () => {
 						if (forecastSettings.enabled) {
@@ -232,7 +232,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 					const getUsdcMint = () => {
 						const mintAmount = getMintAmount();
 
-						const balanceInUsdc = getPriceToggle({ value: mintAmount, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 6, removeCommas: true });
+						const balanceInUsdc = getPriceToggle({ value: mintAmount, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6, removeCommas: true });
 
 						const getMintTooltip = () => {
 							const getMaxMultipliers = () => {
@@ -655,7 +655,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 							if (fluxRequiredToBurn.gt(new Big(0))) {
 								const actualFluxRequiredToBurn = fluxRequiredToBurn.mul(new Big(10).pow(18)).round(0).toFixed()
-								const amountToBurnUsd = getPriceToggle({ value: new BN(actualFluxRequiredToBurn), inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 2 })
+								const amountToBurnUsd = getPriceToggle({ value: new BN(actualFluxRequiredToBurn), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })
 								return <>(~<strong style={{ color: '#0FF' }}>{numberWithCommas(fluxRequiredToBurn.toFixed(4))} {mintableTokenShortName}</strong> / <strong style={{ color: '#0FF' }}>${amountToBurnUsd}</strong> left to burn for x{getTargetBurnMultiplierDecimal().toFixed(4)} burn multiplier)</>
 							}
 
@@ -1060,7 +1060,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			switch (type) {
 				case Token.ETH:
 					return <img src={EthereumPurpleLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
-				case Token.FLUX:
+				case Token.Mintable:
 					if (!isTokenLogoEnabled) {
 						return null
 					}
@@ -1074,11 +1074,11 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 		}
 
 		const getFluxPrice = () => {
-			const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 4 })}`
+			const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 4 })}`
 			const actualFluxPrice = `$ ${shortFluxPrice}`;
 
 			return <>
-				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.FLUX)} <Typography variant="body2" color="textSecondary" display="inline">{mintableTokenShortName}:</Typography> {actualFluxPrice}</Box>
+				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.Mintable)} <Typography variant="body2" color="textSecondary" display="inline">{mintableTokenShortName}:</Typography> {actualFluxPrice}</Box>
 			</>
 		}
 		const getDamPrice = () => {

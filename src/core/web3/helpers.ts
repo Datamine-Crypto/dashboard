@@ -43,10 +43,10 @@ export const getPriceToggle = ({ value, inputToken, outputToken, balances, round
 			}
 			return price.replace(commaRegex, '$1,');
 		}
-		if ((inputToken === Token.DAM || inputToken === Token.FLUX) && outputToken === Token.USDC) {
+		if ((inputToken === Token.DAM || inputToken === Token.Mintable) && outputToken === Token.USDC) {
 			const getEthAmount = () => {
 				switch (inputToken) {
-					case Token.FLUX:
+					case Token.Mintable:
 						if (balances.forecastFluxPrice) {
 							const price = parseFloat(balances.forecastFluxPrice);
 							const newEthCost = new Big(price).div(ethPrice)

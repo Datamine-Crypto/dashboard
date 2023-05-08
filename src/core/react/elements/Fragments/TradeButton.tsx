@@ -35,7 +35,7 @@ const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, isBuy = tr
 	const outputCurrency = isBuy ? contractAddress : 'eth'
 
 	const getTokenLabel = () => {
-		return token === Token.FLUX ? mintableTokenShortName : lockableTokenShortName
+		return token === Token.Mintable ? mintableTokenShortName : lockableTokenShortName
 	}
 
 	const getButton = () => {

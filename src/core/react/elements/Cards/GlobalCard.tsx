@@ -22,7 +22,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 	const { globalRatio, blockNumber } = addressTokenDetails;
 
 	const getBurnedUsdc = () => {
-		const balanceInUsdc = `$ ${getPriceToggle({ value: addressDetails.globalBurnedAmount, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 2 })} USD`;
+		const balanceInUsdc = `$ ${getPriceToggle({ value: addressDetails.globalBurnedAmount, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <>{balanceInUsdc}</>
 	}
 	const getBurnPercent = () => {
@@ -31,7 +31,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 	}
 
 	const getFluxCurrentSupply = () => {
-		const balanceInUsdc = `$ ${getPriceToggle({ value: balances.fluxTotalSupply, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 2 })} USD`;
+		const balanceInUsdc = `$ ${getPriceToggle({ value: balances.fluxTotalSupply, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <DetailedListItem
 			title={`${mintableTokenShortName} Current Supply:`}
 			main={<>{BNToDecimal(balances.fluxTotalSupply, true, 18, 2)} {mintableTokenShortName}</>}
