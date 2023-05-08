@@ -44,7 +44,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddress, addressTokenDetails, displayedAddress, addressDetails, balances, dispatch, isArbitrumMainnet }) => {
 
 	const config = getConfig(isArbitrumMainnet);
-	const { lockableTokenFullName, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolsEnabled } = config
+	const { lockableTokenFullName, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolsEnabled, mintableTokenPriceDecimals } = config
 
 
 	const classes = useStyles();
@@ -137,7 +137,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 		}
 
 		const getFluxAmount = () => {
-			return <>{BNToDecimal(balances.fluxToken, true, 18, 2)} {mintableTokenShortName}</>
+			return <>{BNToDecimal(balances.fluxToken, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}</>
 		}
 		const getFluxAmountUSD = () => {
 			const balanceInUsdc = `$ ${getPriceToggle({ value: balances.fluxToken, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
@@ -232,7 +232,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 	const getFluxBurned = () => {
 
 		const getFluxBurnedBalance = () => {
-			return <>{BNToDecimal(addressLock.burnedAmount, true, 18, 2)} {mintableTokenShortName}</>
+			return <>{BNToDecimal(addressLock.burnedAmount, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}</>
 		}
 
 		const getFluxBurnedBalanceUSD = () => {

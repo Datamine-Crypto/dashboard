@@ -17,7 +17,7 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressTokenDetails, balances, isArbitrumMainnet }) => {
-	const { lockableTokenShortName, mintableTokenShortName } = getConfig()
+	const { lockableTokenShortName, mintableTokenShortName, mintableTokenPriceDecimals } = getConfig()
 
 	const { globalRatio, blockNumber } = addressTokenDetails;
 
@@ -34,7 +34,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 		const balanceInUsdc = `$ ${getPriceToggle({ value: balances.fluxTotalSupply, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <DetailedListItem
 			title={`${mintableTokenShortName} Current Supply:`}
-			main={<>{BNToDecimal(balances.fluxTotalSupply, true, 18, 2)} {mintableTokenShortName}</>}
+			main={<>{BNToDecimal(balances.fluxTotalSupply, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}</>}
 			sub={<>{balanceInUsdc}</>}
 		/>
 	}
@@ -42,7 +42,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 	const getFluxBurned = () => {
 		return <DetailedListItem
 			title={`${mintableTokenShortName} Burned:`}
-			main={<>{BNToDecimal(addressDetails.globalBurnedAmount, true, 18, 2)} {mintableTokenShortName}</>}
+			main={<>{BNToDecimal(addressDetails.globalBurnedAmount, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}</>}
 			sub={<>{getBurnedUsdc()}</>}
 			description={<Typography variant="body2" color="textSecondary" display="inline">{getBurnPercent()}</Typography>}
 		/>
