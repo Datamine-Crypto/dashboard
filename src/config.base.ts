@@ -188,6 +188,11 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		mintableTokenMintPerBlockDivisor: 8,
 
 		/**
+		 * When displaying price how many decimials do you want to see when displaying prices?
+		 */
+		mintableTokenPriceDecimals: 4,
+
+		/**
 		 * Left side navigation (buttons on left side or top right on mobile)
 		 */
 		navigation: {

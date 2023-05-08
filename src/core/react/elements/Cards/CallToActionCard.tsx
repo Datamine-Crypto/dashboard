@@ -124,7 +124,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, isArbitrumMainnet }) => {
 	const classes = useStyles();
 
-	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, mintableTokenMintPerBlockDivisor } = getConfig()
+	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals } = getConfig()
 	const { isHelpPageEnabled } = navigation
 
 	// Only show CTA once account is loaded
@@ -1074,7 +1074,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 		}
 
 		const getFluxPrice = () => {
-			const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 4 })}`
+			const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: mintableTokenPriceDecimals })}`
 			const actualFluxPrice = `$ ${shortFluxPrice}`;
 
 			return <>
