@@ -24,6 +24,7 @@ interface RenderParams {
 }
 const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, isArbitrumMainnet }) => {
 	const config = getConfig(isArbitrumMainnet);
+	const { mintableTokenShortName } = config
 
 	const commaRegex = /(\d)(?=(\d{3})+(?!\d))/g;
 
@@ -100,7 +101,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 
 	const getFluxMarketCap = () => {
 		return <DetailedListItem
-			title={<><Box display="inline">{isArbitrumMainnet ? 'Arbi' : ''}FLUX Realtime Market Cap: </Box></>}
+			title={<><Box display="inline">{mintableTokenShortName} Realtime Market Cap: </Box></>}
 			main={<><Box display="inline">{actualFluxMarketCap}</Box></>}
 		/>
 	}
@@ -113,7 +114,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 		const fluxEthUsdcLiquidity = `$ ${totalLiquidity} USD`;
 
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'Arbi' : ''}FLUX / ETH Total Liquidity:`}
+			title={`${mintableTokenShortName} / ETH Total Liquidity:`}
 			main={<>{fluxEthUsdcLiquidity}</>}
 		/>
 
@@ -122,8 +123,8 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 	const getFluxAvailableLiquidity = () => {
 		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapFluxTokenReserves.flux, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'Arbi' : ''}FLUX Available ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Liquidity:`}
-			main={<>{BNToDecimal(uniswapFluxTokenReserves.flux, true, 18, 2)} {isArbitrumMainnet ? 'Arbi' : ''}FLUX</>}
+			title={`${mintableTokenShortName} Available ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Liquidity:`}
+			main={<>{BNToDecimal(uniswapFluxTokenReserves.flux, true, 18, 2)} {mintableTokenShortName}</>}
 			sub={<>{fluxEthUsdcLiquidity}</>}
 			description={<>{getAvailableLiquidity(Token.FLUX)}</>}
 			buttons={[
@@ -168,7 +169,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapFluxTokenReserves.eth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD`;
 
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'Arbi' : ''}FLUX / ETH ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
+			title={`${mintableTokenShortName} / ETH ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
 			main={<>{BNToDecimal(uniswapFluxTokenReserves.eth, true, 18, 2)} ETH</>}
 			sub={<>{fluxEthUsdcLiquidity}</>}
 			buttons={[

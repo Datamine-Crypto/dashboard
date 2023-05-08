@@ -149,6 +149,7 @@ export const switchNetwork = async (chainId: string) => {
 
 export const addToMetamask = (isArbitrumMainnet: boolean) => {
 	const config = getConfig(isArbitrumMainnet);
+	const { mintableTokenShortName } = config
 
 	const { ethereum } = window as any;
 
@@ -181,7 +182,7 @@ export const addToMetamask = (isArbitrumMainnet: boolean) => {
 	///////////////////////////////////////////////////
 	const addFlux = () => {
 		const tokenAddress = config.mintableTokenContractAddress;
-		const tokenSymbol = `${isArbitrumMainnet ? 'Arbi' : ''}FLUX`;
+		const tokenSymbol = `${mintableTokenShortName}`;
 		const tokenDecimals = 18;
 		const tokenImage = `https://datamine-crypto.github.io/realtime-decentralized-dashboard/logos/${isArbitrumMainnet ? 'arbiFlux' : 'flux'}.png`;
 
@@ -276,7 +277,9 @@ export const BNToDecimal = (number: BN | null, addCommas: boolean = false, decim
 }
 
 export const getBurnRatio = (ratio: BN, isArbitrumMainnet: boolean) => {
-	return `${BNToDecimal(ratio, true, 10, 5)} ${isArbitrumMainnet ? 'Arbi' : ''}FLUX / 1 ${isArbitrumMainnet ? 'FLUX' : 'DAM'}`
+	const { mintableTokenShortName } = getConfig()
+
+	return `${BNToDecimal(ratio, true, 10, 5)} ${mintableTokenShortName} / 1 ${isArbitrumMainnet ? 'FLUX' : 'DAM'}`
 }
 
 export const getBlocksRemaining = (startBlockNumber: number, blockDuration: number, currentBlock: number, defaultText: string, showBlocks: boolean = true, showDuration: boolean = true) => {

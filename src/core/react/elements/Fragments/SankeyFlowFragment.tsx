@@ -8,6 +8,7 @@ import { getPriceToggle, getBNPercent } from '../../../web3/helpers';
 import { Token, FluxAddressDetails } from '../../../interfaces';
 import { Balances } from '../../../web3/web3Reducer';
 import BN from 'bn.js'
+import { getConfig } from '../../../../config';
 
 enum SankeyNodeType {
 	KnownMoney,
@@ -29,6 +30,7 @@ interface SankeyProps {
 	isArbitrumMainnet: boolean;
 }
 const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addressDetails, isArbitrumMainnet }) => {
+	const { mintableTokenShortName } = getConfig()
 
 	const mainHeadingStyle = { fill: 'rgba(255, 255, 255, 0.7)' }
 
@@ -64,7 +66,7 @@ const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addres
 		if (!isArbitrumMainnet) {
 			return [
 
-				{ title: `${isArbitrumMainnet ? 'Arbi' : ''}Arbitrum Bridge (L2)`, subtitle: <>{getFormattedAmount(balances.arbitrumBridgeBalance, Token.FLUX)}</> },
+				{ title: `${mintableTokenShortName}Arbitrum Bridge (L2)`, subtitle: <>{getFormattedAmount(balances.arbitrumBridgeBalance, Token.FLUX)}</> },
 			]
 		}
 
@@ -75,9 +77,9 @@ const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addres
 	const lines = [
 		{ title: `${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Powering Validators (${lockedPercent}%)`, subtitle: <>{getFormattedAmount(lockedDamSupply, Token.DAM)}</> },
 		{ title: null, subtitle: <>{getFormattedAmount(originalSupply, Token.FLUX)}</> },
-		{ title: `${isArbitrumMainnet ? 'Arbi' : ''}FLUX Destroyed (${burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(addressDetails.globalBurnedAmount, Token.FLUX)}</> },
-		{ title: `${isArbitrumMainnet ? 'Arbi' : ''}FLUX / ETH Uniswap (M0)`, subtitle: <>{getFormattedAmount(balances.uniswapFluxTokenReserves.flux, Token.FLUX)}</> },
-		{ title: `${isArbitrumMainnet ? 'Arbi' : ''}FLUX Remaining (${daysMinting - burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(remainingSupply.sub(balances.arbitrumBridgeBalance), Token.FLUX)}</> },
+		{ title: `${mintableTokenShortName}FLUX Destroyed (${burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(addressDetails.globalBurnedAmount, Token.FLUX)}</> },
+		{ title: `${mintableTokenShortName}FLUX / ETH Uniswap (M0)`, subtitle: <>{getFormattedAmount(balances.uniswapFluxTokenReserves.flux, Token.FLUX)}</> },
+		{ title: `${mintableTokenShortName}FLUX Remaining (${daysMinting - burnedFluxDays} Days of Labor)`, subtitle: <>{getFormattedAmount(remainingSupply.sub(balances.arbitrumBridgeBalance), Token.FLUX)}</> },
 
 		{ title: `${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Fixed Supply`, subtitle: <>{getFormattedAmount(originalDamSupply, Token.DAM)}</> },
 		{ title: `${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Remaining Supply (${remainingPercent}%)`, subtitle: <>{getFormattedAmount(remainingDamSupply, Token.DAM)}</> },

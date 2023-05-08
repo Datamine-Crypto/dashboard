@@ -123,7 +123,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, isArbitrumMainnet }) => {
 	const classes = useStyles();
 
-	const { navigation, isArbitrumOnlyToken } = getConfig()
+	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName } = getConfig()
 	const { isHelpPageEnabled } = navigation
 
 	// Only show CTA once account is loaded
@@ -162,7 +162,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						if (forecastSettings.enabled) {
 							return <>
 								<TextField
-									label={`${isArbitrumMainnet ? 'FLUX (L2) Amount' : 'DAM Amount'}`}
+									label={`${lockableTokenShortName} Amount`}
 									variant="outlined"
 									size="small"
 									autoFocus
@@ -191,13 +191,13 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 						const getButton = () => {
 							const isDisabled = !isCurrentAddress || addressDetails.fluxBalance.isZero()
-							const button = <Button disabled={isDisabled} size="small" variant="outlined" onClick={() => showBurnDialog()} startIcon={<WhatshotIcon style={{ color: '#ff9b00' }} />}>Burn {isArbitrumMainnet ? 'Arbi' : ''}FLUX</Button>
+							const button = <Button disabled={isDisabled} size="small" variant="outlined" onClick={() => showBurnDialog()} startIcon={<WhatshotIcon style={{ color: '#ff9b00' }} />}>Burn {mintableTokenShortName}</Button>
 
 							if (addressDetails.fluxBalance.isZero()) {
-								return <LightTooltip title={`This address must have ${isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens to burn.`}><Box display="inline-block">{button}</Box></LightTooltip>
+								return <LightTooltip title={`This address must have ${mintableTokenShortName} tokens to burn.`}><Box display="inline-block">{button}</Box></LightTooltip>
 							}
 							if (!isCurrentAddress) {
-								return <LightTooltip title={`You must select this account in your wallet to Burn ${isArbitrumMainnet ? 'Arbi' : ''}FLUX for this address.`}><Box display="inline-block">{button}</Box></LightTooltip>
+								return <LightTooltip title={`You must select this account in your wallet to Burn ${mintableTokenShortName} for this address.`}><Box display="inline-block">{button}</Box></LightTooltip>
 							}
 
 							return button;
@@ -283,15 +283,15 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 					const getFluxBurnTooltip = () => {
 						const getBurnTooltip = () => {
 							return <>
-								<Box fontWeight="bold">{fluxRequiredToBurn} {isArbitrumMainnet ? 'Arbi' : ''}FLUX</Box>
+								<Box fontWeight="bold">{fluxRequiredToBurn} {mintableTokenShortName}</Box>
 								<Box fontWeight="bold">{fluxRequiredToBurnInUsdc}</Box>
 							</>
 						}
 						const getDescription = () => {
 							if (isTargetReached) {
-								return <>You've burned enough {isArbitrumMainnet ? 'Arbi' : ''}FLUX for x10 burn bonus. <Typography color="secondary" display="inline">OVERBURNED</Typography> {isArbitrumMainnet ? 'Arbi' : ''}FLUX remaining: </>
+								return <>You've burned enough {mintableTokenShortName} for x10 burn bonus. <Typography color="secondary" display="inline">OVERBURNED</Typography> {mintableTokenShortName} remaining: </>
 							}
-							return <>The amount of {isArbitrumMainnet ? 'Arbi' : ''}FLUX you burn is permanent and will be used in the burn ratio equation. To get the full 10x burn bonus you will need to burn</>
+							return <>The amount of {mintableTokenShortName} you burn is permanent and will be used in the burn ratio equation. To get the full 10x burn bonus you will need to burn</>
 						}
 						return <>
 							{getDescription()}
@@ -579,7 +579,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 									</LightTooltip>
 								</Grid>
 								<Grid item style={{ width: `${Math.ceil(((30000 - addressDetails.addressTimeMultiplier) / 30000) * 100)}%` }}>
-									<LightTooltip title={`You will receive the full x3 Time Bonus multiplier after leaving your ${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} locked-in for another ${getBlocksRemaining(addressLock.blockNumber, 161280 + 5760, addressDetails.blockNumber, 'Awaiting Mint Start')}`}>
+									<LightTooltip title={`You will receive the full x3 Time Bonus multiplier after leaving your ${lockableTokenShortName} locked-in for another ${getBlocksRemaining(addressLock.blockNumber, 161280 + 5760, addressDetails.blockNumber, 'Awaiting Mint Start')}`}>
 										<LinearProgress variant="determinate" value={0} color="secondary" className={classes.progressBarRight} />
 									</LightTooltip>
 								</Grid>
@@ -655,7 +655,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							if (fluxRequiredToBurn.gt(new Big(0))) {
 								const actualFluxRequiredToBurn = fluxRequiredToBurn.mul(new Big(10).pow(18)).round(0).toFixed()
 								const amountToBurnUsd = getPriceToggle({ value: new BN(actualFluxRequiredToBurn), inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 2 })
-								return <>(~<strong style={{ color: '#0FF' }}>{numberWithCommas(fluxRequiredToBurn.toFixed(4))} {isArbitrumMainnet ? 'Arbi' : ''}FLUX</strong> / <strong style={{ color: '#0FF' }}>${amountToBurnUsd}</strong> left to burn for x{getTargetBurnMultiplierDecimal().toFixed(4)} burn multiplier)</>
+								return <>(~<strong style={{ color: '#0FF' }}>{numberWithCommas(fluxRequiredToBurn.toFixed(4))} {mintableTokenShortName}</strong> / <strong style={{ color: '#0FF' }}>${amountToBurnUsd}</strong> left to burn for x{getTargetBurnMultiplierDecimal().toFixed(4)} burn multiplier)</>
 							}
 
 							/*if (isTargetReached) {
@@ -706,7 +706,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						return <TableRow>
 							<TableCell align="left">
 								<Typography color="textSecondary" variant="body1">
-									Forecasted {isArbitrumMainnet ? 'Arbi' : ''}FLUX Price (in USD)
+									Forecasted {mintableTokenShortName} Price (in USD)
 								</Typography>
 							</TableCell>
 							<TableCell align="left">
@@ -813,7 +813,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								<Box display="inline-block" mb={1}>
 									<Box mb={1}>
 										<Typography color="textSecondary">
-											= {`${BNToDecimal(getMintAmount(), true)} ${isArbitrumMainnet ? 'Arbi' : ''}FLUX`}
+											= {`${BNToDecimal(getMintAmount(), true)} ${mintableTokenShortName}`}
 										</Typography>
 									</Box>
 									<Typography variant="h4">{getUsdcMint()}</Typography>
@@ -823,12 +823,12 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						body: <>
 							<Box>
 								<TableContainer className={classes.tableContainer} >
-									<Table aria-label={`${isArbitrumMainnet ? 'Arbi' : ''}FLUX Token Breakdown`} style={{ minWidth: 450 }}>
+									<Table aria-label={`${mintableTokenShortName} Token Breakdown`} style={{ minWidth: 450 }}>
 										<TableBody>
 											<TableRow>
 												<TableCell align="left">
 													<Typography color="textSecondary" variant="body1">
-														{isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} Tokens Powering Validator {getDamLockedUsdc()}
+														{lockableTokenShortName} Tokens Powering Validator {getDamLockedUsdc()}
 													</Typography>
 												</TableCell>
 												<TableCell align="left" style={{ width: 25 }}>
@@ -841,7 +841,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 											<TableRow>
 												<TableCell align="left">
 													<Typography color="textSecondary" variant="body1">
-														{isArbitrumMainnet ? 'Arbi' : ''}FLUX mintable every new block
+														{mintableTokenShortName} mintable every new block
 													</Typography>
 												</TableCell>
 												<TableCell align="left">
@@ -869,7 +869,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 											<TableRow>
 												<TableCell align="left">
 													<Typography color="textSecondary" variant="body1">
-														{isArbitrumMainnet ? 'Arbi' : ''}FLUX Burn Multiplier <Typography variant="body2" display="inline">{getBurnBonusDescription()}</Typography>
+														{mintableTokenShortName} Burn Multiplier <Typography variant="body2" display="inline">{getBurnBonusDescription()}</Typography>
 														{getBurnButton()}
 													</Typography>
 
@@ -904,7 +904,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 							</Box>
 						</>,
-						action: <>Mint {isArbitrumMainnet ? 'Arbi' : ''}FLUX</>,
+						action: <>Mint {mintableTokenShortName}</>,
 						actionIcon: <RedeemIcon />,
 						onClick: () => {
 							dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Mint } })
@@ -918,7 +918,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			return {
 				title: <>Start Validator</>,
 				body: <>
-					<Box mx={2} mt={3}>{isArbitrumMainnet ? 'Arbi' : ''}FLUX minting is enabled! You can now begin by clicking "Start Validator" button below. After starting your validator you will instantly start generating {isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens!</Box>
+					<Box mx={2} mt={3}>{mintableTokenShortName} minting is enabled! You can now begin by clicking "Start Validator" button below. After starting your validator you will instantly start generating {mintableTokenShortName} tokens!</Box>
 				</>,
 				action: <>Start Validator</>,
 				actionIcon: <LockIcon />,
@@ -1074,7 +1074,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			const actualDamPrice = `$ ${shortDamPrice}`;
 
 			return <>
-				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.DAM)} <Typography variant="body2" color="textSecondary" display="inline">{isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'}:</Typography> {actualDamPrice}</Box>
+				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.DAM)} <Typography variant="body2" color="textSecondary" display="inline">{lockableTokenShortName}:</Typography> {actualDamPrice}</Box>
 			</>
 		}
 		const getFluxPrice = () => {

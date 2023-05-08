@@ -20,6 +20,7 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, amount, setAmount, isArbitrumMainnet }) => {
+	const { mintableTokenShortName } = getConfig()
 
 	const { navigation } = getConfig()
 	const { isHelpPageEnabled } = navigation
@@ -60,7 +61,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 
 		return <>
 			{' '}
-			<Link color="textSecondary" href="#help/dashboard/burningFluxTokens" rel="noopener noreferrer" target="_blank">Click here</Link> to learn more about {isArbitrumMainnet ? 'Arbi' : ''}FLUX burning.
+			<Link color="textSecondary" href="#help/dashboard/burningFluxTokens" rel="noopener noreferrer" target="_blank">Click here</Link> to learn more about {mintableTokenShortName} burning.
 		</>
 	}
 
@@ -68,24 +69,24 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 		<form onSubmit={onSubmit}>
 			<DialogTitle id="form-dialog-title">
 				<Box display="flex" alignItems="center" alignContent="center">
-					Burn {isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens
+					Burn {mintableTokenShortName} tokens
 					<Box display="flex" pl={1} ><WhatshotIcon style={{ color: '#ff9b00' }} /></Box>
 				</Box>
 			</DialogTitle>
 			<DialogContent>
 				<Box>From Address: <Box display="inline" fontWeight="fontWeightBold">{selectedAddress}</Box></Box>
-				<Box my={1}>Current Balance: <Box display="inline" fontWeight="fontWeightBold">{BNToDecimal(balances.fluxToken, true)} {isArbitrumMainnet ? 'Arbi' : ''}FLUX</Box></Box>
+				<Box my={1}>Current Balance: <Box display="inline" fontWeight="fontWeightBold">{BNToDecimal(balances.fluxToken, true)} {mintableTokenShortName}</Box></Box>
 				<Box my={3}><Divider /></Box>
 
-				<Typography gutterBottom={true}>To continue select how many {isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens you wish to burn. You can target any Ethereum based address that current is an active Datamine Validator.</Typography>
+				<Typography gutterBottom={true}>To continue select how many {mintableTokenShortName} tokens you wish to burn. You can target any Ethereum based address that current is an active Datamine Validator.</Typography>
 				<Box my={4}>
-					<Typography>Burning {isArbitrumMainnet ? 'Arbi' : ''}FLUX permanently increases your {isArbitrumMainnet ? 'Arbi' : ''}FLUX minting rate on the destination address. {getLearnMoreBurningLink()}</Typography>
+					<Typography>Burning {mintableTokenShortName} permanently increases your {mintableTokenShortName} minting rate on the destination address. {getLearnMoreBurningLink()}</Typography>
 				</Box>
 				<Box mt={3} mb={3}>
 					<TextField
 						autoFocus
 						id="name"
-						label={`Total ${isArbitrumMainnet ? 'Arbi' : ''}FLUX Tokens to burn`}
+						label={`Total ${mintableTokenShortName} Tokens to burn`}
 						type="text"
 						variant="outlined"
 						value={amount}

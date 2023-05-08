@@ -7,6 +7,7 @@ import { commonLanguage } from '../../../web3/web3Reducer';
 import RedeemIcon from '@material-ui/icons/Redeem';
 import { BNToDecimal } from '../../../web3/helpers';
 import { FluxAddressDetails } from '../../../interfaces';
+import { getConfig } from '../../../../config';
 
 interface RenderParams {
 	selectedAddress: string;
@@ -21,6 +22,8 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, addressDetails, error, dispatch, address, displayedAddress, setAddress, isArbitrumMainnet }) => {
+	const { mintableTokenShortName } = getConfig()
+
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
 
@@ -43,19 +46,19 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, addressDet
 		<form onSubmit={onSubmit}>
 			<DialogTitle id="form-dialog-title">
 				<Box display="flex" alignItems="center" alignContent="center">
-					Mint {isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens
+					Mint {mintableTokenShortName} tokens
 					<Box display="flex" pl={1} ><RedeemIcon style={{ color: '#0ff' }} /></Box>
 				</Box>
 			</DialogTitle>
 			<DialogContent>
 				<Box>From Address: <Box display="inline" fontWeight="fontWeightBold">{displayedAddress}</Box></Box>
-				<Box my={1}>Total Mintable: ~<Box display="inline" fontWeight="fontWeightBold">{BNToDecimal(addressDetails.mintAmount, true)} {isArbitrumMainnet ? 'Arbi' : ''}FLUX</Box></Box>
+				<Box my={1}>Total Mintable: ~<Box display="inline" fontWeight="fontWeightBold">{BNToDecimal(addressDetails.mintAmount, true)} {mintableTokenShortName}</Box></Box>
 				<Box my={3}><Divider /></Box>
 
-				<Typography gutterBottom={true}>To continue specify where you want to mint these {isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens. You can specify any Ethereum-based address.</Typography>
+				<Typography gutterBottom={true}>To continue specify where you want to mint these {mintableTokenShortName} tokens. You can specify any Ethereum-based address.</Typography>
 
 				<Box my={3}>
-					<Typography>Your unminted {isArbitrumMainnet ? 'Arbi' : ''}FLUX balance will be sent to the following address:</Typography>
+					<Typography>Your unminted {mintableTokenShortName} balance will be sent to the following address:</Typography>
 				</Box>
 
 				<Box mt={3} mb={6}>

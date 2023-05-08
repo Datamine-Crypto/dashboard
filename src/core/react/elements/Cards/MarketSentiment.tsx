@@ -12,6 +12,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import SankeyFlowFragment from '../Fragments/SankeyFlowFragment';
+import { getConfig } from '../../../../config';
 
 const useStyles = makeStyles(() => ({
 	progressBarLeft: {
@@ -83,6 +84,8 @@ interface RenderParams {
 	isArbitrumMainnet: boolean;
 }
 const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, addressLock, isArbitrumMainnet }) => {
+	const { lockableTokenShortName, mintableTokenShortName } = getConfig()
+
 	const classes = useStyles();
 
 	const burnPercent = parseFloat(getBNPercent(addressDetails.globalBurnedAmount, balances.fluxTotalSupply))
@@ -101,15 +104,15 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, a
 
 	const getFluxTooltipText = () => {
 		if (burnPercent < 50) {
-			return <>There is currently <Box display="inline" fontWeight="bold">{getBurnMultiplierText(true)}</Box> less {isArbitrumMainnet ? 'Arbi' : ''}FLUX burned than the current circulating supply, proving on-chain excess supply</>
+			return <>There is currently <Box display="inline" fontWeight="bold">{getBurnMultiplierText(true)}</Box> less {mintableTokenShortName} burned than the current circulating supply, proving on-chain excess supply</>
 		}
-		return <>There is currently <Box display="inline" fontWeight="bold">{getBurnMultiplierText()}</Box> more {isArbitrumMainnet ? 'Arbi' : ''}FLUX burned than the current circulating supply, proving on-chain excess demand</>
+		return <>There is currently <Box display="inline" fontWeight="bold">{getBurnMultiplierText()}</Box> more {mintableTokenShortName} burned than the current circulating supply, proving on-chain excess demand</>
 	}
 	const getDamTooltipText = () => {
 		if (lockedPercent < 50) {
-			return <>There is currently <Box display="inline" fontWeight="bold">{getLockedMultiplierText(true)}</Box> less {isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} locked-in than the current circulating supply, proving on-chain excess supply</>
+			return <>There is currently <Box display="inline" fontWeight="bold">{getLockedMultiplierText(true)}</Box> less {lockableTokenShortName} locked-in than the current circulating supply, proving on-chain excess supply</>
 		}
-		return <>There is currently <Box display="inline" fontWeight="bold">{getLockedMultiplierText()}</Box> more {isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} locked-in than the current circulating supply, proving on-chain excess demand</>
+		return <>There is currently <Box display="inline" fontWeight="bold">{getLockedMultiplierText()}</Box> more {lockableTokenShortName} locked-in than the current circulating supply, proving on-chain excess demand</>
 	}
 
 	const getFluxText = () => {
@@ -216,12 +219,12 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, a
 			<Grid container>
 				<Box mt={2} width="100%">
 					<TableContainer >
-						<Table aria-label={`${isArbitrumMainnet ? 'Arbi' : ''}FLUX Token Breakdown`} style={{ minWidth: 450 }} size="small" className={classes.table}>
+						<Table aria-label={`${mintableTokenShortName} Token Breakdown`} style={{ minWidth: 450 }} size="small" className={classes.table}>
 							<TableBody>
 								<TableRow>
 									<TableCell align="left">
 										<Typography color="textSecondary" variant="body1">
-											Burned {isArbitrumMainnet ? 'Arbi' : ''}FLUX: {getFluxText()}
+											Burned {mintableTokenShortName}: {getFluxText()}
 										</Typography>
 
 										{getBurnSlider()}

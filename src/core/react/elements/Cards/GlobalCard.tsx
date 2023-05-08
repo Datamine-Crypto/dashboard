@@ -7,6 +7,7 @@ import { BNToDecimal, getBurnRatio, getBlocksRemaining, getBNPercent, getPriceTo
 import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '../../../interfaces';
 import { Balances } from '../../../web3/web3Reducer';
 import DetailedListItem from '../Fragments/DetailedListItem';
+import { getConfig } from '../../../../config';
 
 interface RenderParams {
 	addressDetails: FluxAddressDetails;
@@ -16,6 +17,8 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressTokenDetails, balances, isArbitrumMainnet }) => {
+	const { lockableTokenShortName, mintableTokenShortName } = getConfig()
+
 	const { globalRatio, blockNumber } = addressTokenDetails;
 
 	const getBurnedUsdc = () => {
@@ -24,22 +27,22 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 	}
 	const getBurnPercent = () => {
 		const burnPercent = getBNPercent(addressDetails.globalBurnedAmount, balances.fluxTotalSupply)
-		return <>({burnPercent}% of minted {isArbitrumMainnet ? 'Arbi' : ''}FLUX)</>
+		return <>({burnPercent}% of minted {mintableTokenShortName})</>
 	}
 
 	const getFluxCurrentSupply = () => {
 		const balanceInUsdc = `$ ${getPriceToggle({ value: balances.fluxTotalSupply, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'Arbi' : ''}FLUX Current Supply:`}
-			main={<>{BNToDecimal(balances.fluxTotalSupply, true, 18, 2)} {isArbitrumMainnet ? 'Arbi' : ''}FLUX</>}
+			title={`${mintableTokenShortName} Current Supply:`}
+			main={<>{BNToDecimal(balances.fluxTotalSupply, true, 18, 2)} {mintableTokenShortName}</>}
 			sub={<>{balanceInUsdc}</>}
 		/>
 	}
 
 	const getFluxBurned = () => {
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'Arbi' : ''}FLUX Burned:`}
-			main={<>{BNToDecimal(addressDetails.globalBurnedAmount, true, 18, 2)} {isArbitrumMainnet ? 'Arbi' : ''}FLUX</>}
+			title={`${mintableTokenShortName} Burned:`}
+			main={<>{BNToDecimal(addressDetails.globalBurnedAmount, true, 18, 2)} {mintableTokenShortName}</>}
 			sub={<>{getBurnedUsdc()}</>}
 			description={<Typography variant="body2" color="textSecondary" display="inline">{getBurnPercent()}</Typography>}
 		/>
@@ -52,8 +55,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 		}
 
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Powering Validators:`}
-			main={<>{BNToDecimal(addressDetails.globalLockedAmount, true, 18, 2)} {isArbitrumMainnet ? 'FLUX' : 'DAM'}</>}
+			title={`${lockableTokenShortName} Powering Validators:`}
+			main={<>{BNToDecimal(addressDetails.globalLockedAmount, true, 18, 2)} {lockableTokenShortName}</>}
 			sub={<>{getLockedPercent()}</>}
 			description={<Typography variant="body2" color="textSecondary" display="inline"> ({lockedPercent}% of {isArbitrumMainnet ? 'L2' : 'lifetime'} supply)</Typography>}
 		/>
@@ -61,7 +64,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 
 	const getFluxBurnRatio = () => {
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'Arbi' : ''}FLUX Burn Ratio:`}
+			title={`${mintableTokenShortName} Burn Ratio:`}
 			main={getBurnRatio(globalRatio, isArbitrumMainnet)}
 		/>
 	}

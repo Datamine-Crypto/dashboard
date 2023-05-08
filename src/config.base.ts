@@ -46,6 +46,10 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 
 					solidlizardDamFluxPair: '0xd2b09B01DA93D964F0A906321d61e9Fe777Da6Be',
 					solidlizardFluxSlizPair: '0x3e3a7668ab9492a35560fc2f083217af62e33ec4',
+
+					lockableTokenFullName: 'FLUX (L2)',
+					lockableTokenShortName: 'FLUX (L2)',
+					mintableTokenShortName: 'ArbiFLUX'
 				}
 			case NetworkType.Mainnet:
 				return {
@@ -67,6 +71,10 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 					uniswapV3UsdcEthTokenContractAddress: '0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8',
 					uniswapMulticallAdress: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
 					wrappedEthAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+
+					lockableTokenFullName: 'Datamine (DAM)',
+					lockableTokenShortName: 'DAM',
+					mintableTokenShortName: 'FLUX'
 				}
 
 			default:
@@ -87,6 +95,9 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 						type: 'main',
 						typeDisplay: 'Localhost'
 					},
+
+					lockableTokenFullName: 'Datamine (DAM)',
+					lockableTokenShortName: 'DAM',
 				}
 		}
 	}

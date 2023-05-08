@@ -44,6 +44,8 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddress, addressTokenDetails, displayedAddress, addressDetails, balances, dispatch, isArbitrumMainnet }) => {
 
 	const config = getConfig(isArbitrumMainnet);
+	const { lockableTokenFullName, mintableTokenShortName, lockableTokenShortName } = config
+
 
 	const classes = useStyles();
 
@@ -81,7 +83,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 
 		const isSelfMinter = addressLock.minterAddress === displayedAddress;
 		const getSuffix = () => {
-			return <LightTooltip title={isSelfMinter ? `The same address that locked-in ${isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} tokens will mint it's own ${isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens` : `The address that locked-in ${isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} tokens delegated this address to mint ${isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens.`}>
+			return <LightTooltip title={isSelfMinter ? `The same address that locked-in ${lockableTokenFullName} tokens will mint it's own ${mintableTokenShortName} tokens` : `The address that locked-in ${lockableTokenFullName} tokens delegated this address to mint ${mintableTokenShortName} tokens.`}>
 				<Typography color="textSecondary" component="span" display="inline" variant="body2">{isSelfMinter ? ' (Self Minter)' : ' (Delegated Minter)'}</Typography>
 			</LightTooltip>
 		}
@@ -102,13 +104,13 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 
 			const getButton = () => {
 				const isDisabled = !isCurrentAddress || addressDetails.fluxBalance.isZero()
-				const button = <Button disabled={isDisabled} size="small" variant="outlined" color="secondary" onClick={() => showBurnDialog()} startIcon={<WhatshotIcon style={{ color: '#ff9b00' }} />}>Burn {isArbitrumMainnet ? 'Arbi' : ''}FLUX</Button>
+				const button = <Button disabled={isDisabled} size="small" variant="outlined" color="secondary" onClick={() => showBurnDialog()} startIcon={<WhatshotIcon style={{ color: '#ff9b00' }} />}>Burn {mintableTokenShortName}</Button>
 
 				if (addressDetails.fluxBalance.isZero()) {
-					return <LightTooltip title={`This address must have ${isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens to burn.`}><Box display="inline-block">{button}</Box></LightTooltip>
+					return <LightTooltip title={`This address must have ${mintableTokenShortName} tokens to burn.`}><Box display="inline-block">{button}</Box></LightTooltip>
 				}
 				if (!isCurrentAddress) {
-					return <LightTooltip title={`You must select this account in your wallet to Burn ${isArbitrumMainnet ? 'Arbi' : ''}FLUX for this address.`}><Box display="inline-block">{button}</Box></LightTooltip>
+					return <LightTooltip title={`You must select this account in your wallet to Burn ${mintableTokenShortName} for this address.`}><Box display="inline-block">{button}</Box></LightTooltip>
 				}
 
 				return button;
@@ -149,7 +151,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 		}
 
 		const getFluxAmount = () => {
-			return <>{BNToDecimal(balances.fluxToken, true, 18, 2)} {isArbitrumMainnet ? 'Arbi' : ''}FLUX</>
+			return <>{BNToDecimal(balances.fluxToken, true, 18, 2)} {mintableTokenShortName}</>
 		}
 		const getFluxAmountUSD = () => {
 			const balanceInUsdc = `$ ${getPriceToggle({ value: balances.fluxToken, inputToken: Token.FLUX, outputToken: Token.USDC, balances, round: 2 })} USD`;
@@ -157,7 +159,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 		}
 
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'Arbi' : ''}FLUX Balance:`}
+			title={`${mintableTokenShortName} Balance:`}
 			main={getFluxAmount()}
 			sub={getFluxAmountUSD()}
 			buttons={
@@ -172,14 +174,14 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 
 	const getDamBalance = () => {
 		const getDamBalance = () => {
-			return <>{BNToDecimal(balances.damToken, true, 18, 2)} {isArbitrumMainnet ? 'FLUX' : 'DAM'}</>
+			return <>{BNToDecimal(balances.damToken, true, 18, 2)} {lockableTokenShortName}</>
 		}
 		const getDamBalanceUSD = () => {
 			const balanceInUsdc = `$ ${getPriceToggle({ value: balances.damToken, inputToken: Token.DAM, outputToken: Token.USDC, balances, round: 2 })} USD`;
 			return <>{balanceInUsdc}</>
 		}
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Balance:`}
+			title={`${lockableTokenShortName} Balance:`}
 			main={getDamBalance()}
 			sub={getDamBalanceUSD()}
 			buttons={
@@ -214,7 +216,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 
 		const getLockedInAmount = () => {
 			return <>
-				{BNToDecimal(addressLock.amount, true, 18, 4)} {isArbitrumMainnet ? 'FLUX' : 'DAM'}
+				{BNToDecimal(addressLock.amount, true, 18, 4)} {lockableTokenShortName}
 			</>
 		}
 		const getLockedInAmountUSD = () => {
@@ -225,7 +227,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 		}
 
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'FLUX (L2)' : 'DAM'} Powering Validators:`}
+			title={`${lockableTokenShortName} Powering Validators:`}
 			main={getLockedInAmount()}
 			sub={getLockedInAmountUSD()}
 			buttons={
@@ -236,7 +238,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 
 	const getFluxBurnRatio = () => {
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'Arbi' : ''}FLUX Burn Ratio:`}
+			title={`${mintableTokenShortName} Burn Ratio:`}
 			main={getBurnRatio(myRatio, isArbitrumMainnet)}
 		/>
 	}
@@ -244,7 +246,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 	const getFluxBurned = () => {
 
 		const getFluxBurnedBalance = () => {
-			return <>{BNToDecimal(addressLock.burnedAmount, true, 18, 2)} {isArbitrumMainnet ? 'Arbi' : ''}FLUX</>
+			return <>{BNToDecimal(addressLock.burnedAmount, true, 18, 2)} {mintableTokenShortName}</>
 		}
 
 		const getFluxBurnedBalanceUSD = () => {
@@ -253,7 +255,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 		}
 
 		return <DetailedListItem
-			title={`${isArbitrumMainnet ? 'Arbi' : ''}FLUX Burned:`}
+			title={`${mintableTokenShortName} Burned:`}
 			main={getFluxBurnedBalance()}
 			sub={getFluxBurnedBalanceUSD()}
 		/>

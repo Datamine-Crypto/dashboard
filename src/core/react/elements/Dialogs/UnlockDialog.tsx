@@ -10,6 +10,7 @@ import { FluxAddressDetails, Token } from '../../../interfaces';
 import { theme } from '../../../styles';
 import { Alert } from '@material-ui/lab';
 import { formatMoney } from '../../../utils/formatMoney';
+import { getConfig } from '../../../../config';
 
 interface RenderParams {
 	addressDetails: FluxAddressDetails;
@@ -29,6 +30,8 @@ const localConfig = {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ addressDetails, dispatch, error, amount, isArbitrumMainnet, balances, clientSettings }) => {
+	const { mintableTokenShortName } = getConfig()
+
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
 
@@ -67,9 +70,9 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, dispatch, e
 			<Box mt={3}>
 				<Alert severity="error">
 
-					<Box mb={1} fontWeight="bold">WARNING: YOU ARE ABOUT TO LOSE <Box style={{ color: '#0FF' }} fontSize="1.1rem" display="inline">{moneyAmount} {clientSettings.currency}</Box> IN UNMINTED {isArbitrumMainnet ? 'Arbi' : ''}FLUX. IF YOU CONTINUE THIS UNMINTED AMOUNT WILL BE LOST!</Box>
-					If you are seeing this warning it means you have at least $5.00 in unminted {isArbitrumMainnet ? 'Arbi' : ''}FLUX!
-					Please mint your {isArbitrumMainnet ? 'Arbi' : ''}FLUX first before continuing.
+					<Box mb={1} fontWeight="bold">WARNING: YOU ARE ABOUT TO LOSE <Box style={{ color: '#0FF' }} fontSize="1.1rem" display="inline">{moneyAmount} {clientSettings.currency}</Box> IN UNMINTED {mintableTokenShortName}. IF YOU CONTINUE THIS UNMINTED AMOUNT WILL BE LOST!</Box>
+					If you are seeing this warning it means you have at least $5.00 in unminted {mintableTokenShortName}FLUX!
+					Please mint your {mintableTokenShortName}FLUX first before continuing.
 				</Alert>
 			</Box>
 		)
@@ -92,7 +95,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, dispatch, e
 					<Box my={3}>
 						<Typography gutterBottom={true}>Please note that stopping a validator will cause you to lose your current <Box fontWeight="fontWeightBold" display="inline" style={{ whiteSpace: 'nowrap' }}>{getFormattedMultiplier(addressDetails.addressTimeMultiplier)}</Box> time bonus. Restarting a validator will reset the time bonus.</Typography>
 					</Box>
-					<Typography style={{ color: theme.classes.palette.highlight }}>Important Note: <Box fontWeight="bold" display="inline">Any unminted {isArbitrumMainnet ? 'Arbi' : ''}FLUX tokens will be lost.</Box></Typography>
+					<Typography style={{ color: theme.classes.palette.highlight }}>Important Note: <Box fontWeight="bold" display="inline">Any unminted {mintableTokenShortName} tokens will be lost.</Box></Typography>
 
 					{getAmountLostAlert()}
 				</Box>

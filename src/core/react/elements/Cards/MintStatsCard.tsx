@@ -12,6 +12,7 @@ import { commonLanguage, Balances } from '../../../web3/web3Reducer';
 import LockOpenIcon from '@material-ui/icons/Stop';
 import { getRequiredFluxToBurn } from '../../../web3/helperElements';
 import DetailedListItem from '../Fragments/DetailedListItem';
+import { getConfig } from '../../../../config';
 
 interface RenderParams {
 	addressLock: FluxAddressLock;
@@ -24,6 +25,8 @@ interface RenderParams {
 	isArbitrumMainnet: boolean;
 }
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails, addressTokenDetails, selectedAddress, balances, displayedAddress, dispatch, isArbitrumMainnet }) => {
+	const { mintableTokenShortName } = getConfig()
+
 	const getBlockDuration = (startBlockNumber: number) => {
 		const blocksDuration = addressDetails.blockNumber - startBlockNumber;
 		const hoursDuration = (blocksDuration * 15) / (60 * 60)
@@ -103,8 +106,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 
 		return <Box my={2}>
 			<DetailedListItem
-				title={isTargetReached ? <>{isArbitrumMainnet ? 'Arbi' : ''}FLUX 10x Bonus Reserves (<Typography color="secondary" display="inline">OVERBURNED</Typography>)</> : `${isArbitrumMainnet ? 'Arbi' : ''}FLUX to Burn For 2x Bonus:`}
-				main={<>{fluxRequiredToBurn} {isArbitrumMainnet ? 'Arbi' : ''}FLUX</>}
+				title={isTargetReached ? <>{mintableTokenShortName} 10x Bonus Reserves (<Typography color="secondary" display="inline">OVERBURNED</Typography>)</> : `${mintableTokenShortName} to Burn For 2x Bonus:`}
+				main={<>{fluxRequiredToBurn} {mintableTokenShortName}</>}
 				sub={<>{fluxRequiredToBurnInUsdc}</>}
 			/>
 		</Box>
@@ -112,8 +115,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 
 	const getFluxToBurnFor10x = () => {
 		return <DetailedListItem
-			title={isTargetReached ? <>{isArbitrumMainnet ? 'Arbi' : ''}FLUX 10x Bonus Reserves (<Typography color="secondary" display="inline">OVERBURNED</Typography>)</> : `${isArbitrumMainnet ? 'Arbi' : ''}FLUX to Burn For 10x Bonus:`}
-			main={<>{fluxRequiredToBurn} {isArbitrumMainnet ? 'Arbi' : ''}FLUX</>}
+			title={isTargetReached ? <>{mintableTokenShortName} 10x Bonus Reserves (<Typography color="secondary" display="inline">OVERBURNED</Typography>)</> : `${mintableTokenShortName} to Burn For 10x Bonus:`}
+			main={<>{fluxRequiredToBurn} {mintableTokenShortName}</>}
 			sub={<>{fluxRequiredToBurnInUsdc}</>}
 		/>
 	}
@@ -136,7 +139,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 			<Grid container justify="space-between" alignItems="center">
 				<Grid item>
 					<Typography variant="h5" component="h2">
-						{isArbitrumMainnet ? 'Arbi' : ''}FLUX Minting Statistics
+						{mintableTokenShortName} Minting Statistics
 					</Typography>
 				</Grid>
 			</Grid>
