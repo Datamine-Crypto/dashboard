@@ -7,11 +7,13 @@ import Arbitrum from '../../../../svgs/arbitrum.svg';
 
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage as web3CommonLanguage } from '../../../web3/web3Reducer';
+import { getConfig } from '../../../../config';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
 }
 const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
+	const { isArbitrumOnlyToken } = getConfig()
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -32,19 +34,28 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 	}
 
 	const getMenuItems = () => {
+		const getL1MenuItem = () => {
+			if (isArbitrumOnlyToken) {
+				return null;
+			}
+
+			return (
+				<MenuItem onClick={() => dispatch({ type: web3CommonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: false } })}>
+					<Grid container>
+						<Grid item>
+							<Box pl={1} pr={2} display="inline">
+								<img src={EthereumPurple} width="24" height="24" />
+							</Box>
+						</Grid>
+						<Grid item>
+							Ethereum (L1)
+						</Grid>
+					</Grid>
+				</MenuItem>
+			)
+		}
 		return <>
-			<MenuItem onClick={() => dispatch({ type: web3CommonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: false } })}>
-				<Grid container>
-					<Grid item>
-						<Box pl={1} pr={2} display="inline">
-							<img src={EthereumPurple} width="24" height="24" />
-						</Box>
-					</Grid>
-					<Grid item>
-						Ethereum (L1)
-					</Grid>
-				</Grid>
-			</MenuItem>
+			{getL1MenuItem()}
 			<MenuItem onClick={() => dispatch({ type: web3CommonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: true } })}>
 				<Grid container>
 					<Grid item>
