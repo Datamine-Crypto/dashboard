@@ -16,6 +16,43 @@ export const getRequiredFluxToBurnDecimal = ({ globalFluxBurned, targetMultiplie
 	}
 
 	return top.div(bottom).div(new Big(10).pow(18))
+
+	/*
+	Here is another way to get to the same output:
+
+	// Here is the math behind target multiplier calculation from smart contract
+	//((((myFluxBurned+fluxToBurn)/myDamLocked) * percentMultiplier) / ((globalFluxBurned+fluxToBurn)/globalDamLocked)) + percentMultiplier = targetMultiplier
+
+	// Let's simplify this into math variables
+	const a = myFluxBurned
+	const c = new Big(10000) //percentMultiplier
+	const d = globalFluxBurned
+	const f = new Big(targetMultiplier).mul(c)
+	const g = myDamLockedIn
+	const h = globalDamLockedIn
+	//((((a+b)/g)*c)/((d+b)/h))+c=f (f is targetMultiplier)
+
+
+	// Now we can solve for b:
+
+	// For top
+	const negativeACH = new Big(-1).mul(a).mul(c).mul(h)
+	const negativeCDG = new Big(-1).mul(c).mul(d).mul(g)
+	const positiveDFG = d.mul(f).mul(g)
+
+	const top = negativeACH.add(negativeCDG).add(positiveDFG)
+
+	//For bottom
+	const positiveCG = c.mul(g)
+	const positiveCH = c.mul(h)
+	const negativeFG = new Big(-1).mul(f).mul(g)
+
+	const bottom = positiveCG.add(positiveCH).add(negativeFG)
+
+
+	const pow18 = new Big(10).pow(18)
+	return top.div(bottom).div(pow18)
+	*/
 }
 export const numberWithCommas = (numberToFormat: string) => {
 	var parts = numberToFormat.split(".");
