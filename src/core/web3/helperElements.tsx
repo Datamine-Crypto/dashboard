@@ -78,8 +78,9 @@ export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, t
 	c = globalDamLockedIn
 	d = myFluxBurned
 	f = myDamLockedIn
+	t = targetMultiplier - 1
 
-	(−9af+cd) / (−c+9f)
+	(−taf+cd) / (−c+tf)
 	*/
 
 	const top = negative.mul(targetMultiplier).mul(globalFluxBurned).mul(myDamLockedIn).add(globalDamLockedIn.mul(myFluxBurned))

@@ -86,7 +86,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 	}
 	const { myRatio } = addressTokenDetails;
 
-	const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances });
+	const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, targetMultiplier: new BN(maxBurnMultiplier - 1) });
 
 	const getDamLockinDuration = () => {
 		const duration = getBlockDuration(addressLock.blockNumber)
