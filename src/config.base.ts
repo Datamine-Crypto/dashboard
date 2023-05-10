@@ -70,7 +70,7 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 			{
 				name: 'FLUX',
 				links: {
-					info: 'https://www.defined.fi/arb/0x088f6dcde862781db7b01feb67afd265abbc6d90',
+					info: 'https://www.defined.fi/arb/0xd2b09b01da93d964f0a906321d61e9fe777da6be',
 					buy: 'https://solidlizard.finance/swap?from=ETH&to=0xf80d589b3dbe130c270a69f1a69d050f268786df',
 					addLiquidity: 'https://solidlizard.finance/liquidity/create'
 				},
