@@ -72,7 +72,7 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				links: {
 					info: 'https://www.defined.fi/arb/0xd2b09b01da93d964f0a906321d61e9fe777da6be',
 					buy: 'https://solidlizard.finance/swap?from=ETH&to=0xf80d589b3dbe130c270a69f1a69d050f268786df',
-					addLiquidity: 'https://solidlizard.finance/liquidity/create'
+					addLiquidity: 'https://solidlizard.finance/liquidity/0xd2b09b01da93d964f0a906321d61e9fe777da6be'
 				},
 				image: fluxLogo,
 				layer: 2,
@@ -83,7 +83,7 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				links: {
 					info: 'https://www.defined.fi/arb/0xbf719d56c5f19ae0833adc4080befc48a9b415b5',
 					buy: 'https://solidlizard.finance/swap?from=ETH&to=0x64081252c497fcfec247a664e9d10ca8ed71b276',
-					addLiquidity: 'https://solidlizard.finance/liquidity/create'
+					addLiquidity: 'https://solidlizard.finance/liquidity/0x31830cb3924e0160b4c6e477650ade5aa018cb48'
 				},
 				image: arbiFluxLogo,
 				layer: 2,
