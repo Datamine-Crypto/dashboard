@@ -103,11 +103,18 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		},
 
 		liquidityPoolGroups,
+
 		/**
 		 * Enable various "Explore Liquidity" buttons on website.
 		 * If your token doesn't have liquidity pools setup yet set this to false
 		 */
 		isLiquidityPoolsEnabled: true,
+
+		/**
+		 * There is an option set of Buy/Sell/Add To Pool buttons that can be present inside the dashboard
+		 * We've disabled these on 2023-05-09 to simplify the UI. Users are directed to "Explore Liquidity Pools" button instead (Which has all these features for entire ecosystem)
+		 */
+		isLiquidityPoolAdditionalButtonsEnabled: false,
 
 		/**
 		 * If your token doesn't have an explainer video on homepage set this to false

@@ -24,7 +24,7 @@ interface RenderParams {
 }
 const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, isArbitrumMainnet }) => {
 	const config = getConfig(isArbitrumMainnet);
-	const { mintableTokenShortName, lockableTokenShortName } = config
+	const { mintableTokenShortName, lockableTokenShortName, isLiquidityPoolAdditionalButtonsEnabled } = config
 
 	const commaRegex = /(\d)(?=(\d{3})+(?!\d))/g;
 
@@ -136,6 +136,9 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 
 	const getFluxAvailableLiquidityEth = () => {
 		const getPoolButton = () => {
+			if (!isLiquidityPoolAdditionalButtonsEnabled) {
+				return <></>;
+			}
 
 			const getButton = () => {
 

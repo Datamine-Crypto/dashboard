@@ -18,9 +18,9 @@ interface TradeRenderParams {
 }
 const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, isBuy = true, showBuyTokens = false, isArbitrumMainnet = false }) => {
 	const config = getConfig(isArbitrumMainnet);
-	const { isLiquidityPoolsEnabled, mintableTokenShortName, lockableTokenShortName } = config
+	const { isLiquidityPoolsEnabled, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolAdditionalButtonsEnabled } = config
 
-	if (!isLiquidityPoolsEnabled) {
+	if (!isLiquidityPoolsEnabled || !isLiquidityPoolAdditionalButtonsEnabled) {
 		return <></>
 	}
 
