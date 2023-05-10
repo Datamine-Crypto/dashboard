@@ -86,12 +86,7 @@ interface TradePool {
 	name: string;
 	links: {
 		info: string;
-		buy: {
-			sushiSwap: string;
-			uniswap: string;
-			oneInch: string;
-			solidLizard?: string;
-		}
+		buy: string;
 		addLiquidity: string;
 	}
 	layer: number;
@@ -211,7 +206,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 								<Grid container spacing={2} className={classes.buttonsContainer}>
 									<Grid item className={classes.buttonGridItem}>
 										<Box ml={3}>
-											<Button size="large" variant="outlined" color="secondary" onClick={handleTradeClick}>Trade</Button>
+											<Button size="large" variant="outlined" href={pool.links.buy} color="secondary" target="_blank" rel="noopener noreferrer">Trade</Button>
 										</Box>
 
 									</Grid>
@@ -252,6 +247,8 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 		})
 	}
 
+	// This was the old dropdown alternative (if we end up going with multiple liquidity providers again)
+	/*
 	const getTadeMenu = () => {
 		if (!tradePool) {
 			return null;
@@ -275,7 +272,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 		}
 
 		const getOneInchMenuItem = () => {
-			if (tradePool.layer === 1) {
+			if (!tradePool.links.buy.oneInch || tradePool.layer === 1) {
 				return null;
 			}
 			return <>
@@ -329,6 +326,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 			{getOneInchMenuItem()}
 		</Menu>
 	}
+	*/
 
 	return <>
 		{getButton()}
@@ -350,7 +348,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 			{getMenuItems()}
 		</Menu>
 
-		{getTadeMenu()}
+		{/*getTadeMenu()*/}
 	</>
 })
 

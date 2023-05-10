@@ -48,12 +48,7 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				name: 'FLUX',
 				links: {
 					info: 'https://www.defined.fi/eth/0x07aa6584385cca15c2c6e13a5599ffc2d177e33b',
-					buy: {
-						uniswap: 'https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0x469eda64aed3a3ad6f868c44564291aa415cb1d9',
-						sushiSwap: '#',
-						oneInch: '#',
-						solidLizard: ''
-					},
+					buy: 'https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0x469eda64aed3a3ad6f868c44564291aa415cb1d9',
 					addLiquidity: 'https://app.uniswap.org/#/add/0x469eda64aed3a3ad6f868c44564291aa415cb1d9/eth/10000'
 				},
 				image: fluxLogo,
@@ -63,12 +58,7 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				name: 'DAM',
 				links: {
 					info: 'https://www.defined.fi/eth/0xbd233d685ede81e00faaefebd55150c76778a34e',
-					buy: {
-						uniswap: 'https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0xf80d589b3dbe130c270a69f1a69d050f268786df',
-						sushiSwap: '#',
-						oneInch: '#',
-						solidLizard: ''
-					},
+					buy: 'https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0xf80d589b3dbe130c270a69f1a69d050f268786df',
 					addLiquidity: 'https://app.uniswap.org/#/add/0xf80d589b3dbe130c270a69f1a69d050f268786df/eth/10000'
 				},
 				image: logo,
@@ -81,13 +71,8 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				name: 'FLUX',
 				links: {
 					info: 'https://www.defined.fi/arb/0x088f6dcde862781db7b01feb67afd265abbc6d90',
-					buy: {
-						uniswap: 'https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0xf80d589b3dbe130c270a69f1a69d050f268786df',
-						sushiSwap: 'https://app.sushi.com/swap?inputCurrency=eth&outputCurrency=0xf80d589b3dbe130c270a69f1a69d050f268786df',
-						oneInch: 'https://app.1inch.io/#/42161/simple/swap/ETH/0xf80d589b3dbe130c270a69f1a69d050f268786df',
-						solidLizard: 'https://solidlizard.finance/swap?from=ETH&to=0xf80d589b3dbe130c270a69f1a69d050f268786df'
-					},
-					addLiquidity: 'https://app.sushi.com/add/0xf80d589b3dbe130c270a69f1a69d050f268786df/ETH'
+					buy: 'https://solidlizard.finance/swap?from=ETH&to=0xf80d589b3dbe130c270a69f1a69d050f268786df',
+					addLiquidity: 'https://solidlizard.finance/liquidity/create'
 				},
 				image: fluxLogo,
 				layer: 2,
@@ -97,13 +82,8 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				name: 'ArbiFLUX',
 				links: {
 					info: 'https://www.defined.fi/arb/0xbf719d56c5f19ae0833adc4080befc48a9b415b5',
-					buy: {
-						uniswap: 'https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
-						sushiSwap: 'https://app.sushi.com/swap?inputCurrency=eth&outputCurrency=0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
-						oneInch: 'https://app.1inch.io/#/42161/simple/swap/ETH/0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
-						solidLizard: 'https://solidlizard.finance/swap?from=ETH&to=0x64081252c497fcfec247a664e9d10ca8ed71b276'
-					},
-					addLiquidity: 'https://app.sushi.com/add/0x64081252c497fcfec247a664e9d10ca8ed71b276/ETH'
+					buy: 'https://solidlizard.finance/swap?from=ETH&to=0x64081252c497fcfec247a664e9d10ca8ed71b276',
+					addLiquidity: 'https://solidlizard.finance/liquidity/create'
 				},
 				image: arbiFluxLogo,
 				layer: 2,
@@ -162,8 +142,9 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 
 		/**
 		 * Market sentiment card in validator dashboard. Set this to false if you don't have any meaninful numbers yet
+		 * We've disabled this for Datamine Network on 2023-05-09 to reduce "extra information bloat"
 		 */
-		isRealtimeOnChainMarketSentimentEnabled: true,
+		isRealtimeOnChainMarketSentimentEnabled: false,
 
 		/**
 		 * Is the settings button visible on validator dashoard?
