@@ -124,7 +124,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, isArbitrumMainnet }) => {
 	const classes = useStyles();
 
-	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals } = getConfig()
+	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals } = getConfig(isArbitrumMainnet)
 	const { isHelpPageEnabled } = navigation
 
 	// Only show CTA once account is loaded
@@ -1064,10 +1064,13 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 					if (!isTokenLogoEnabled) {
 						return null
 					}
+					if (isArbitrumMainnet) {
+						return <img src={arbiFluxLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
+					}
 					return <img src={fluxLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
 				case Token.Lockable:
 					if (isArbitrumMainnet) {
-						return <img src={arbiFluxLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
+						return <img src={fluxLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
 					}
 					return <img src={damLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
 			}
