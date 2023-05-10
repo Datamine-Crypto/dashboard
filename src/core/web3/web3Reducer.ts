@@ -118,7 +118,12 @@ export interface Web3State {
 
 	walletConnectRpc: string | null;
 
-	clientSettings: ClientSettings
+	clientSettings: ClientSettings;
+
+	/**
+	 * Keeps track of last time we called account refresh (we'll rate limit this to ensure we don't call refreshing multiple times in a row)
+	 */
+	lastAccountRefreshTimestampMs: number;
 }
 
 const createWithWithQueries = (state: any) => {
@@ -139,6 +144,13 @@ const createWithWithQueries = (state: any) => {
 }
 
 const config = getConfig()
+
+const localConfig = {
+	/**
+	 * Make sure we don't refresh accounts more than X miliseconds between each call (for thottling)
+	 */
+	throttleAccountRefreshMs: 2000
+}
 
 const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>) => {
 	const { query, err, response } = payload;
@@ -404,6 +416,13 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 		case commonLanguage.commands.RefreshAccountState:
 			const { updateEthBalance, closeDialog } = command.payload ?? {} as any;
 
+			// Apply throttling (only if we're not refreshing ETH balance. ETH balance updates usually happen at important times so think of it like "forced refresh")
+			const currentTimestampMs = Date.now()
+			if (!updateEthBalance &&
+				currentTimestampMs < state.lastAccountRefreshTimestampMs + localConfig.throttleAccountRefreshMs) {
+				return state;
+			}
+
 			const { web3 } = state;
 			if (!web3) {
 				return state
@@ -418,6 +437,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				...state,
 				isLate: false,
 				dialog: closeDialog ? null : state.dialog,
+				lastAccountRefreshTimestampMs: currentTimestampMs,
 				...withQueries([{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance } }])
 			}
 		case commonLanguage.commands.ConnectToWallet:
@@ -1025,7 +1045,9 @@ const initialState: Web3State = {
 		priceMultiplierAmount,
 		currency,
 		useEip1559
-	}
+	},
+
+	lastAccountRefreshTimestampMs: 0
 }
 
 const commonLanguage = {
