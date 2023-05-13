@@ -278,7 +278,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						</>
 					}
 
-					const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances });
+					const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, targetMultiplier: new BN(maxBurnMultiplier - 1) });
 
 
 					const getFluxBurnTooltip = () => {
@@ -292,7 +292,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							if (isTargetReached) {
 								return <>You've burned enough {mintableTokenShortName} for x10 burn bonus. <Typography color="secondary" display="inline">OVERBURNED</Typography> {mintableTokenShortName} remaining: </>
 							}
-							return <>The amount of {mintableTokenShortName} you burn is permanent and will be used in the burn ratio equation. To get the full 10x burn bonus you will need to burn</>
+							return <>The amount of {mintableTokenShortName} you burn is permanent and will be used in the burn ratio equation. To get the full {maxBurnMultiplier}x burn bonus you will need to burn</>
 						}
 						return <>
 							{getDescription()}
@@ -540,15 +540,16 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								}}
 							/>
 						}
+						const maxBurnBarWidth = 10000 * maxBurnMultiplier
 
 						return <Box mt={0.5}>
 							<Grid container>
-								<Grid item style={{ width: `${Math.floor((addressDetails.addressBurnMultiplier / 100000) * 100)}%` }}>
+								<Grid item style={{ width: `${Math.floor((addressDetails.addressBurnMultiplier / maxBurnBarWidth) * 100)}%` }}>
 									<LightTooltip title={getFluxBurnTooltip()}>
 										<LinearProgress variant="determinate" value={100} color="secondary" className={classes.progressBarLeft} />
 									</LightTooltip>
 								</Grid>
-								<Grid item style={{ width: `${Math.ceil(((100000 - addressDetails.addressBurnMultiplier) / 100000) * 100)}%` }}>
+								<Grid item style={{ width: `${Math.ceil(((maxBurnBarWidth - addressDetails.addressBurnMultiplier) / maxBurnBarWidth) * 100)}%` }}>
 									<LightTooltip title={getFluxBurnTooltip()}>
 										<LinearProgress variant="determinate" value={0} color="secondary" className={classes.progressBarRight} />
 									</LightTooltip>
