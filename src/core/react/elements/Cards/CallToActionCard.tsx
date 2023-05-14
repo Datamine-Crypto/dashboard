@@ -124,7 +124,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, isArbitrumMainnet }) => {
 	const classes = useStyles();
 
-	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals } = getConfig(isArbitrumMainnet)
+	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals, mintableTokenContractAddress } = getConfig(isArbitrumMainnet)
 	const { isHelpPageEnabled } = navigation
 
 	// Only show CTA once account is loaded
@@ -1044,14 +1044,14 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 	}
 
 	const getBridgeButton = () => {
-		if (addressDetails.fluxBalance.isZero()) {
+		if (isArbitrumOnlyToken) {
 			return null;
 		}
 
 		const startIcon = !isArbitrumMainnet ? ArbitrumLogo : EthereumPurpleLogo
 		return <Box mr={1}>
 			<LightTooltip title="Click to open Arbitrum L2 Bridge">
-				<Button size="small" variant="outlined" color="secondary" href="https://bridge.arbitrum.io" rel="noopener noreferrer" target="_blank" startIcon={<img src={startIcon} width="24" height="24" />}>Bridge To {isArbitrumMainnet ? 'L1' : 'L2'}</Button>
+				<Button size="small" variant="outlined" color="secondary" href={`https://bridge.arbitrum.io?l2ChainId=42161&token=${mintableTokenContractAddress}`} rel="noopener noreferrer" target="_blank" startIcon={<img src={startIcon} width="24" height="24" />}>Bridge To {isArbitrumMainnet ? 'L1' : 'L2'}</Button>
 			</LightTooltip>
 		</Box>
 	}
