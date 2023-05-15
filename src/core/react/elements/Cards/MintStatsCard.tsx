@@ -25,7 +25,7 @@ interface RenderParams {
 	isArbitrumMainnet: boolean;
 }
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails, addressTokenDetails, selectedAddress, balances, displayedAddress, dispatch, isArbitrumMainnet }) => {
-	const { mintableTokenShortName, maxBurnMultiplier } = getConfig()
+	const { mintableTokenShortName, maxBurnMultiplier } = getConfig(isArbitrumMainnet)
 
 	const getBlockDuration = (startBlockNumber: number) => {
 		const blocksDuration = addressDetails.blockNumber - startBlockNumber;
