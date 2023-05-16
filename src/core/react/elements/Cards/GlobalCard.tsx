@@ -17,7 +17,7 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressTokenDetails, balances, isArbitrumMainnet }) => {
-	const { lockableTokenShortName, mintableTokenShortName, mintableTokenPriceDecimals } = getConfig()
+	const { lockableTokenShortName, mintableTokenShortName, mintableTokenPriceDecimals } = getConfig(isArbitrumMainnet)
 
 	const { globalRatio, blockNumber } = addressTokenDetails;
 

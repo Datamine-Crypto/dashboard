@@ -277,7 +277,7 @@ export const BNToDecimal = (number: BN | null, addCommas: boolean = false, decim
 }
 
 export const getBurnRatio = (ratio: BN, isArbitrumMainnet: boolean) => {
-	const { mintableTokenShortName, lockableTokenShortName } = getConfig()
+	const { mintableTokenShortName, lockableTokenShortName } = getConfig(isArbitrumMainnet)
 
 	return `${BNToDecimal(ratio, true, 10, 5)} ${mintableTokenShortName} / 1 ${lockableTokenShortName}`
 }
