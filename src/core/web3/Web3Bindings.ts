@@ -238,9 +238,10 @@ const getProvider = async ({ isArbitrumMainnet, useWalletConnect }: { isArbitrum
 		return walletConnectProvider;
 	}
 
-	if (window.ethereum) {
+	const { ethereum } = (window as any)
+	if (ethereum) {
 		devLog('found window.ethereum provider:')
-		return window.ethereum
+		return ethereum
 	}
 
 	try {
@@ -266,7 +267,7 @@ const getProvider = async ({ isArbitrumMainnet, useWalletConnect }: { isArbitrum
 		}
 	}
 
-	return window.ethereum as any;
+	return ethereum as any;
 }
 
 
