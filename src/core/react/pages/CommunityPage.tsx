@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Box, Container, Typography, Grid, makeStyles, Paper, Card, CardActionArea, Link, List, ListSubheader, ListItem } from '@material-ui/core';
+import { Box, Container, Typography, Grid, makeStyles, Paper, Card, CardActionArea, Link, List, ListSubheader, ListItem, Chip } from '@material-ui/core';
 
 import RedditIcon from '@material-ui/icons/Reddit';
 import TwitterIcon from '@material-ui/icons/Twitter';
@@ -145,35 +145,13 @@ const Render: React.FC<RenderProps> = React.memo(({ }) => {
 
 	const getSocialPoints = () => {
 		return <>
-			<Link href="https://www.datamineglobal.org" target="_blank" rel="noopener noreferrer">
-				<Card elevation={0}>
-					<CardActionArea>
-						{getPoint({
-							icon: <LanguageIcon style={{ fontSize: theme.muiTheme.typography.h3.fontSize, color: theme.classes.palette.highlight }} />,
-							title: 'Website: datamineglobal.org',
-							content: `Run by the creators of the original Datamine Economic Whitepaper. A community-driven website focusing on exploring the Datamine Ecosystem as a solution to volatility and inflation.`
-						})}
-					</CardActionArea>
-				</Card>
-			</Link>
 			<Link href="https://discord.gg/2dQ7XAB22u" target="_blank" rel="noopener noreferrer">
 				<Card elevation={0}>
 					<CardActionArea>
 						{getPoint({
 							icon: <img src={discordLogo} alt="Discord: Datamine Network" width="48" height="48" />,
-							title: 'Discord: Datamine Network',
+							title: <>Discord: Datamine Network <Chip size="small" label="Most Popular🔥" variant="outlined" /></>,
 							content: <>This Discord community is moderated by Datamine Ecosystem Smart Contact &amp; Analytics Architects. Here you can find regular development &amp; social updates for Datamine Network. <Typography variant="h6" color="textPrimary" display="inline">Currently this is the most active community.</Typography></>
-						})}
-					</CardActionArea>
-				</Card>
-			</Link>
-			<Link href="https://t.me/MintFLUX" target="_blank" rel="noopener noreferrer">
-				<Card elevation={0}>
-					<CardActionArea>
-						{getPoint({
-							icon: <TelegramIcon style={{ fontSize: theme.muiTheme.typography.h3.fontSize, color: theme.classes.palette.highlight }} />,
-							title: 'Telegram: MintFLUX',
-							content: `A popular Telegram community ran completely by community members! This community is ran by a group of long-time community members.`
 						})}
 					</CardActionArea>
 				</Card>
@@ -189,17 +167,6 @@ const Render: React.FC<RenderProps> = React.memo(({ }) => {
 					</CardActionArea>
 				</Card>
 			</Link>
-			<Link href="https://damalytics.web.app/" target="_blank" rel="noopener noreferrer">
-				<Card elevation={0}>
-					<CardActionArea>
-						{getPoint({
-							icon: <TimelineIcon style={{ fontSize: theme.muiTheme.typography.h3.fontSize, color: theme.classes.palette.highlight }} />,
-							title: 'Analytics Tool: DAM Community Calculator',
-							content: `An amazing APY calculator for DAM & FLUX. Created and hosted by the community.`
-						})}
-					</CardActionArea>
-				</Card>
-			</Link>
 			<Link href="https://medium.com/@dataminenetwork" target="_blank" rel="noopener noreferrer">
 				<Card elevation={0}>
 					<CardActionArea>
@@ -211,46 +178,13 @@ const Render: React.FC<RenderProps> = React.memo(({ }) => {
 					</CardActionArea>
 				</Card>
 			</Link>
-			<Link href="https://www.reddit.com/r/dataminecrypto" target="_blank" rel="noopener noreferrer">
+			<Link href="https://damalytics.web.app/" target="_blank" rel="noopener noreferrer">
 				<Card elevation={0}>
 					<CardActionArea>
 						{getPoint({
-							icon: <RedditIcon style={{ fontSize: theme.muiTheme.typography.h3.fontSize, color: theme.classes.palette.highlight }} />,
-							title: 'Reddit: /r/dataminecrypto',
-							content: `Currently the only Datamine Reddit community. Here you can find various discussions between Datamine community members. Currently looking for more participation!`
-						})}
-					</CardActionArea>
-				</Card>
-			</Link>
-			<Link href="https://twitter.com/DatamineM" target="_blank" rel="noopener noreferrer">
-				<Card elevation={0}>
-					<CardActionArea>
-						{getPoint({
-							icon: <TwitterIcon style={{ fontSize: theme.muiTheme.typography.h3.fontSize, color: theme.classes.palette.highlight }} />,
-							title: 'Twitter: @DatamineM',
-							content: `This Twitter account is ran by our community members. Currently this is the most active Twitter account and you can find regular updates to Datamine Ecosystem.`
-						})}
-					</CardActionArea>
-				</Card>
-			</Link>
-			<Link href="https://www.instagram.com/datamine_defi/" target="_blank" rel="noopener noreferrer">
-				<Card elevation={0}>
-					<CardActionArea>
-						{getPoint({
-							icon: <InstagramIcon style={{ fontSize: theme.muiTheme.typography.h3.fontSize, color: theme.classes.palette.highlight }} />,
-							title: 'Instagram: datamine_defi',
-							content: `An Instagram channel ran by community members. Development updates in an image form!`
-						})}
-					</CardActionArea>
-				</Card>
-			</Link>
-			<Link href="https://bitcointalk.org/index.php?topic=5246889" target="_blank" rel="noopener noreferrer">
-				<Card elevation={0}>
-					<CardActionArea>
-						{getPoint({
-							icon: <img src={btcLogo} alt="Medium" width="48" height="48" />,
-							title: 'Bitcointalk.org',
-							content: `The most popular cryptocurrency forum. This is the original Datamine launch forum thread and can be used for community discussions. This thread is moderated by Bitcointalk.org moderators.`
+							icon: <TimelineIcon style={{ fontSize: theme.muiTheme.typography.h3.fontSize, color: theme.classes.palette.highlight }} />,
+							title: 'Analytics Tool: DAM Community Calculator',
+							content: `An amazing APY calculator for DAM & FLUX. Created and hosted by the community.`
 						})}
 					</CardActionArea>
 				</Card>
