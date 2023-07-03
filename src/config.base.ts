@@ -70,9 +70,9 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 			{
 				name: 'FLUX',
 				links: {
-					info: 'https://www.defined.fi/arb/0xd2b09b01da93d964f0a906321d61e9fe777da6be',
-					buy: 'https://solidlizard.finance/swap?from=ETH&to=0xf80d589b3dbe130c270a69f1a69d050f268786df',
-					addLiquidity: 'https://solidlizard.finance/liquidity/0xd2b09b01da93d964f0a906321d61e9fe777da6be'
+					info: 'https://www.defined.fi/arb/0x088f6dcde862781db7b01feb67afd265abbc6d90',
+					buy: 'https://www.sushi.com/swap?fromCurrency=NATIVE&fromChainId=42161&toCurrency=0xF80D589b3Dbe130c270a69F1a69D050f268786Df&toChainId=42161',
+					addLiquidity: 'https://www.sushi.com/pools/42161:0x088F6dCDe862781db7b01fEB67afd265aBbC6d90'
 				},
 				image: fluxLogo,
 				layer: 2,

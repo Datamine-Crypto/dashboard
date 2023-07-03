@@ -1049,6 +1049,11 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 		}
 
 		const startIcon = !isArbitrumMainnet ? ArbitrumLogo : EthereumPurpleLogo
+
+
+		// The link to Arbitrum bridge must be based on "L1" mintable token address
+		const { mintableTokenContractAddress } = getConfig(false)
+
 		return <Box mr={1}>
 			<LightTooltip title="Click to open Arbitrum L2 Bridge">
 				<Button size="small" variant="outlined" color="secondary" href={`https://bridge.arbitrum.io?l2ChainId=42161&token=${mintableTokenContractAddress}`} rel="noopener noreferrer" target="_blank" startIcon={<img src={startIcon} width="24" height="24" />}>Bridge To {isArbitrumMainnet ? 'L1' : 'L2'}</Button>
