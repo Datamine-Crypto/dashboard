@@ -71,7 +71,7 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				name: 'FLUX',
 				links: {
 					info: 'https://www.defined.fi/arb/0x088f6dcde862781db7b01feb67afd265abbc6d90',
-					buy: 'https://www.sushi.com/swap?fromCurrency=NATIVE&fromChainId=42161&toCurrency=0xF80D589b3Dbe130c270a69F1a69D050f268786Df&toChainId=42161',
+					buy: 'https://www.sushi.com/swap?fromCurrency=NATIVE&fromChainId=42161&toCurrency=0xF80D589b3Dbe130c270a69F1a69D050f268786Df&toChainId=42161&chainId=42161&token0=NATIVE&token1=0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
 					addLiquidity: 'https://www.sushi.com/pools/42161:0x088F6dCDe862781db7b01fEB67afd265aBbC6d90'
 				},
 				image: fluxLogo,
