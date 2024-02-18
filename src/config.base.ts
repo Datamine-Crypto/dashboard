@@ -71,8 +71,8 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				name: 'FLUX',
 				links: {
 					info: 'https://www.defined.fi/arb/0x088f6dcde862781db7b01feb67afd265abbc6d90',
-					buy: 'https://www.sushi.com/swap/cross-chain?chainId0=1&chainId1=42161&token0=NATIVE&token1=0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
-					addLiquidity: 'https://www.sushi.com/pools/42161:0x088F6dCDe862781db7b01fEB67afd265aBbC6d90'
+					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
+					addLiquidity: 'https://www.sushi.com/pool/42161:0x088F6dCDe862781db7b01fEB67afd265aBbC6d90'
 				},
 				image: fluxLogo,
 				layer: 2,
@@ -82,8 +82,8 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				name: 'ArbiFLUX',
 				links: {
 					info: 'https://www.defined.fi/arb/0xbf719d56c5f19ae0833adc4080befc48a9b415b5',
-					buy: 'https://www.sushi.com/swap/cross-chain?chainId0=1&chainId1=42161&token0=NATIVE&token1=0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
-					addLiquidity: 'https://solidlizard.finance/liquidity/0x31830cb3924e0160b4c6e477650ade5aa018cb48'
+					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
+					addLiquidity: 'https://www.sushi.com/pool/42161:0xbf719d56c5f19ae0833adc4080befc48a9b415b5'
 				},
 				image: arbiFluxLogo,
 				layer: 2,
