@@ -17,7 +17,7 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, total, isArbitrumMainnet }) => {
-	const { lockableTokenShortName, mintableTokenShortName } = getConfig()
+	const { lockableTokenShortName, mintableTokenShortName } = getConfig(isArbitrumMainnet)
 
 	const [amount, setAmount] = React.useState(total);
 	const [minterAddress, setMinterAddress] = React.useState(selectedAddress);

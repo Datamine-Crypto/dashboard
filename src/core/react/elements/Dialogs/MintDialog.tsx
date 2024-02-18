@@ -22,7 +22,7 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, addressDetails, error, dispatch, address, displayedAddress, setAddress, isArbitrumMainnet }) => {
-	const { mintableTokenShortName } = getConfig()
+	const { mintableTokenShortName } = getConfig(isArbitrumMainnet)
 
 	const onSubmit = async (e: any) => {
 		e.preventDefault();

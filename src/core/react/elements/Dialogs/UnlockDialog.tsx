@@ -30,7 +30,7 @@ const localConfig = {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ addressDetails, dispatch, error, amount, isArbitrumMainnet, balances, clientSettings }) => {
-	const { mintableTokenShortName, lockableTokenShortName } = getConfig()
+	const { mintableTokenShortName, lockableTokenShortName } = getConfig(isArbitrumMainnet)
 
 	const onSubmit = async (e: any) => {
 		e.preventDefault();

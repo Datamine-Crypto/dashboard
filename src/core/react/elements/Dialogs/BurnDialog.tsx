@@ -20,9 +20,7 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, amount, setAmount, isArbitrumMainnet }) => {
-	const { mintableTokenShortName } = getConfig()
-
-	const { navigation, ecosystemName } = getConfig()
+	const { mintableTokenShortName, navigation, ecosystemName } = getConfig(isArbitrumMainnet)
 	const { isHelpPageEnabled } = navigation
 
 	const [targetAddress, setTargetAddress] = React.useState(selectedAddress);
