@@ -48,8 +48,8 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				name: 'FLUX',
 				links: {
 					info: 'https://www.defined.fi/eth/0x07aa6584385cca15c2c6e13a5599ffc2d177e33b',
-					buy: 'https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0x469eda64aed3a3ad6f868c44564291aa415cb1d9',
-					addLiquidity: 'https://app.uniswap.org/#/add/0x469eda64aed3a3ad6f868c44564291aa415cb1d9/eth/10000'
+					buy: 'https://app.uniswap.org/explore/tokens/ethereum/0x469eda64aed3a3ad6f868c44564291aa415cb1d9',
+					addLiquidity: 'https://app.uniswap.org/explore/pools/ethereum/0x07AA6584385cCA15C2c6e13A5599fFc2D177E33b'
 				},
 				image: fluxLogo,
 				layer: 1
@@ -58,8 +58,8 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				name: 'DAM',
 				links: {
 					info: 'https://www.defined.fi/eth/0xbd233d685ede81e00faaefebd55150c76778a34e',
-					buy: 'https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0xf80d589b3dbe130c270a69f1a69d050f268786df',
-					addLiquidity: 'https://app.uniswap.org/#/add/0xf80d589b3dbe130c270a69f1a69d050f268786df/eth/10000'
+					buy: 'https://app.uniswap.org/explore/tokens/ethereum/0xf80d589b3dbe130c270a69f1a69d050f268786df',
+					addLiquidity: 'https://app.uniswap.org/explore/pools/ethereum/0xBd233D685eDE81E00faaEFEbD55150C76778a34e'
 				},
 				image: logo,
 				layer: 1,

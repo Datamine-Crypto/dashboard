@@ -3,7 +3,7 @@ You can now exchange DAM into ETH or any other ERC-20 token! Uniswap is a simple
 To follow this guide, you need to have MetaMask installed. See our guide on installing MetaMask.
 
 # Step 1
-To purchase Datamine (DAM) tokens with Uniswap, start by visiting: [app.uniswap.org](https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0xF80D589b3Dbe130c270a69F1a69D050f268786Df)
+To purchase Datamine (DAM) tokens with Uniswap, start by visiting: [app.uniswap.org](https://app.uniswap.org/explore/tokens/ethereum/0xf80d589b3dbe130c270a69f1a69d050f268786df)
 
 ![Uniswap](../../helpArticles/assets/images/pngs/uniswap/uniswap1.png)
 
