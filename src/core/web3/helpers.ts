@@ -153,9 +153,12 @@ export const addToMetamask = (isArbitrumMainnet: boolean) => {
 
 	const { ethereum } = window as any;
 
+	// You will notice " (L2)" replacement here to be an empty string. Currently token symbol MUST MATCH CONTRACT token name
+	// (L2) was added for extra readability so this is just a workaround
+
 	const addDam = () => {
 		const tokenAddress = config.lockableTokenContractAddress;
-		const tokenSymbol = lockableTokenShortName;
+		const tokenSymbol = lockableTokenShortName.replace(' (L2)', '');
 		const tokenDecimals = 18;
 		const tokenImage = `${dashboardAbsoluteUrl}/logos/${isArbitrumMainnet ? 'flux' : 'dam'}.png`;
 
@@ -174,7 +177,6 @@ export const addToMetamask = (isArbitrumMainnet: boolean) => {
 				id: Math.round(Math.random() * 100000),
 			},
 			(err: any, added: any) => {
-
 			}
 		);
 	}
@@ -182,7 +184,7 @@ export const addToMetamask = (isArbitrumMainnet: boolean) => {
 	///////////////////////////////////////////////////
 	const addFlux = () => {
 		const tokenAddress = config.mintableTokenContractAddress;
-		const tokenSymbol = `${mintableTokenShortName}`;
+		const tokenSymbol = `${mintableTokenShortName.replace(' (L2)', '')}`;
 		const tokenDecimals = 18;
 		const tokenImage = `${dashboardAbsoluteUrl}/logos/${isArbitrumMainnet ? 'arbiFlux' : 'flux'}.png`;
 

@@ -439,7 +439,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, isArbitrumMainnet 
 					<Container>
 						<Box mb={9}>
 							<Typography variant="h4" color="textPrimary" align="center">
-								Major Milestones
+								Release Milestones
 							</Typography>
 						</Box>
 						<Roadmap />

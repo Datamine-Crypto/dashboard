@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Roadmap() {
 	const classes = useStyles();
-	const [activeStep] = React.useState(3);
+	const [activeStep] = React.useState(5);
 
 	const getSteps = () => {
 		const steps = [
