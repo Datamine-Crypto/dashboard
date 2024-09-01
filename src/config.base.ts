@@ -72,7 +72,7 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				links: {
 					info: 'https://www.defined.fi/arb/0x088f6dcde862781db7b01feb67afd265abbc6d90',
 					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
-					addLiquidity: 'https://www.sushi.com/pool/42161:0x088F6dCDe862781db7b01fEB67afd265aBbC6d90'
+					addLiquidity: 'https://www.sushi.com/arbitrum/pool/v2/0x088F6dCDe862781db7b01fEB67afd265aBbC6d90/add'
 				},
 				image: fluxLogo,
 				layer: 2,
@@ -83,7 +83,7 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 				links: {
 					info: 'https://www.defined.fi/arb/0xbf719d56c5f19ae0833adc4080befc48a9b415b5',
 					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
-					addLiquidity: 'https://www.sushi.com/pool/42161:0xbf719d56c5f19ae0833adc4080befc48a9b415b5'
+					addLiquidity: 'https://www.sushi.com/arbitrum/pool/v2/0xbf719d56c5f19ae0833adc4080befc48a9b415b5/add'
 				},
 				image: arbiFluxLogo,
 				layer: 2,
