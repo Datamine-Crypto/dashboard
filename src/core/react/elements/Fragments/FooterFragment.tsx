@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Container, Grid, makeStyles, Paper, Link } from '@material-ui/core';
 
 import { theme } from '../../../styles'
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
 
 const useStyles = makeStyles(() => ({

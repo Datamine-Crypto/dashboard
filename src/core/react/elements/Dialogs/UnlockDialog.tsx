@@ -10,7 +10,7 @@ import { FluxAddressDetails, Token } from '../../../interfaces';
 import { theme } from '../../../styles';
 import { Alert } from '@material-ui/lab';
 import { formatMoney } from '../../../utils/formatMoney';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 interface RenderParams {
 	addressDetails: FluxAddressDetails;

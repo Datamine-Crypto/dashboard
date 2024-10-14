@@ -5,7 +5,8 @@ import { theme } from '../../styles'
 
 import FooterFragment from '../elements/Fragments/FooterFragment';
 import Header from '../elements/Fragments/Header';
-import { getConfig } from '../../../config';
+import { getEcosystemConfig as getConfig } from '../../../configs/config';
+import { Ecosystem } from '../../../configs/config.common';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {
@@ -58,9 +59,12 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const Terms: React.FC = React.memo(() => {
+interface Props {
+	ecosystem: Ecosystem;
+}
+const Terms: React.FC<Props> = React.memo(({ ecosystem }) => {
 	const classes = useStyles();
-	const { ecosystemName, dashboardAbsoluteUrl, mitCopyrightYear } = getConfig()
+	const { ecosystemName, dashboardAbsoluteUrl, mitCopyrightYear } = getConfig(ecosystem)
 
 	return <>
 		<Box mt={8}>

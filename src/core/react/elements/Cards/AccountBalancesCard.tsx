@@ -15,8 +15,9 @@ import LightTooltip from '../LightTooltip';
 import uniswap from '../../../../svgs/uniswap.svg';
 import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 import DetailedListItem from '../Fragments/DetailedListItem';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import { getTradeButton } from '../Fragments/TradeButton';
+import { Ecosystem } from '../../../../configs/config.base';
 
 const useStyles = makeStyles(() => {
 	return {
@@ -38,12 +39,12 @@ interface RenderParams {
 	addressTokenDetails: FluxAddressTokenDetails;
 	balances: Balances;
 	dispatch: React.Dispatch<any>;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
 
-const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddress, addressTokenDetails, displayedAddress, addressDetails, balances, dispatch, isArbitrumMainnet }) => {
+const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddress, addressTokenDetails, displayedAddress, addressDetails, balances, dispatch, ecosystem }) => {
 
-	const config = getConfig(isArbitrumMainnet);
+	const config = getConfig(ecosystem);
 	const { lockableTokenFullName, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolsEnabled, mintableTokenPriceDecimals, isLiquidityPoolAdditionalButtonsEnabled } = config
 
 
@@ -151,7 +152,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			buttons={
 				[
 					getBurnButton(),
-					getTradeButton({ token: Token.Mintable, isArbitrumMainnet }),
+					getTradeButton({ token: Token.Mintable, ecosystem }),
 					getPoolButton()
 				]
 			}
@@ -303,7 +304,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 const AccountBalancesCard: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
-	const { addressLock, selectedAddress, address, addressDetails, balances, addressTokenDetails, isArbitrumMainnet } = web3State;
+	const { addressLock, selectedAddress, address, addressDetails, balances, addressTokenDetails, ecosystem } = web3State;
 	if (!addressLock || !selectedAddress || !addressDetails || !balances || !addressTokenDetails) {
 		return null;
 	}
@@ -316,7 +317,7 @@ const AccountBalancesCard: React.FC = () => {
 		addressTokenDetails={addressTokenDetails}
 		balances={balances}
 		dispatch={web3Dispatch}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

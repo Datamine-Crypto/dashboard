@@ -1,42 +1,24 @@
 
 import fluxLogo from './svgs/fluxLogo.svg';
 import arbiFluxLogo from './svgs/arbiFluxLogo.svg';
+import lockquidityLogo from './svgs/lockquidity.svg';
+
 import logo from './svgs/logo.svg';
+import { getDamFluxEcosystemConfig } from './ecosystems/config.ecosystem.dam_flux_l1';
+import { getFluxArbiFluxEcosystemConfig } from './ecosystems/config.ecosystem.flux_arbiflux_l2';
+import { getArbiFluxLockquidityEcosystemConfig } from './ecosystems/config.ecosystem.arbiflux_lockquidity_l2';
+import { Ecosystem } from './config.common';
 
-export const getBaseConfig = (isArbitrumMainnet: boolean) => {
+const ecosystemConfigs = {
+	[Ecosystem.Flux]: getDamFluxEcosystemConfig(),
+	[Ecosystem.ArbiFlux]: getFluxArbiFluxEcosystemConfig(),
+	[Ecosystem.Lockquidity]: getArbiFluxLockquidityEcosystemConfig()
+}
 
-	const getNetworkConfig = (): NetworkConfig => {
-		const networkType = isArbitrumMainnet ? NetworkType.Arbitrum : NetworkType.Mainnet;
-		switch (networkType) {
+export const getBaseConfig = (ecosystem: Ecosystem) => {
+	const ecosystemConfig = ecosystemConfigs[ecosystem];
 
-			case NetworkType.Arbitrum: // L2 Configuration
-				return {
-					lockableTokenFullName: 'FLUX (L2)',
-					lockableTokenShortName: 'FLUX (L2)',
-					lockableTokenContractAddress: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
-					lockableSushiSwapL2EthPair: '0x088f6dcde862781db7b01feb67afd265abbc6d90',
-
-					mintableTokenShortName: 'ArbiFLUX',
-					mintableTokenContractAddress: '0x64081252c497fcfec247a664e9d10ca8ed71b276',
-					mintableSushiSwapL2EthPair: '0xbF719D56c5f19ae0833ADC4080BEfC48A9B415b5',
-
-					failsafeStartBlockNumber: 13463591,
-				}
-			case NetworkType.Mainnet: // L1 Configuration
-				return {
-					lockableTokenFullName: 'Datamine (DAM)',
-					lockableTokenShortName: 'DAM',
-					lockableTokenContractAddress: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
-					lockableUniswapV3L1EthTokenContractAddress: '0xBd233D685eDE81E00faaEFEbD55150C76778a34e',
-
-					mintableTokenShortName: 'FLUX',
-					mintableTokenContractAddress: '0x469eda64aed3a3ad6f868c44564291aa415cb1d9',
-					mintableUniswapV3L1EthTokenContractAddress: '0x07aa6584385cca15c2c6e13a5599ffc2d177e33b',
-
-					failsafeStartBlockNumber: 10224578,
-				}
-		}
-	}
+	const { layer } = ecosystemConfig
 
 	/**
 	 * "Explore Liquidity Pools" dropdown
@@ -81,20 +63,33 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 			{
 				name: 'ArbiFLUX',
 				links: {
-					info: 'https://www.defined.fi/arb/0xbf719d56c5f19ae0833adc4080befc48a9b415b5',
-					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
-					addLiquidity: 'https://www.sushi.com/arbitrum/pool/v2/0xbf719d56c5f19ae0833adc4080befc48a9b415b5/add'
+					info: 'https://www.defined.fi/arb/0x0c93a1d3f68a0554d37f3e7af3a1442a94405e7a',
+					buy: 'https://app.uniswap.org/swap?outputCurrency=0x454F676D44DF315EEf9B5425178d5a8B524CEa03&inputCurrency=ETH&chain=arbitrum',
+					addLiquidity: 'https://app.uniswap.org/add/v2/0x454F676D44DF315EEf9B5425178d5a8B524CEa03/ETH?chain=arbitrum'
 				},
 				image: arbiFluxLogo,
 				layer: 2,
 				isHot: true
+			},
+			{
+				name: 'LOCK',
+				links: {
+					info: 'https://www.defined.fi/arb/0x0c93a1d3f68a0554d37f3e7af3a1442a94405e7a',
+					buy: 'https://app.uniswap.org/swap?outputCurrency=0x454F676D44DF315EEf9B5425178d5a8B524CEa03&inputCurrency=ETH&chain=arbitrum',
+					addLiquidity: 'https://app.uniswap.org/add/v2/0x454F676D44DF315EEf9B5425178d5a8B524CEa03/ETH?chain=arbitrum'
+				},
+				image: lockquidityLogo,
+				layer: 2
 			},
 		],
 	]
 
 
 	const baseConfig = {
-		...getNetworkConfig(),
+		...ecosystemConfig,
+
+		ecosystem,
+		layer,
 
 		failsafeDuration: 161280,
 		network: {
@@ -178,7 +173,7 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 		/**
 		 * When displaying price how many decimials do you want to see when displaying prices?
 		 */
-		mintableTokenPriceDecimals: 4,
+		mintableTokenPriceDecimals: 8,
 
 		/**
 		 * Left side navigation (buttons on left side or top right on mobile)
@@ -224,71 +219,4 @@ export const getBaseConfig = (isArbitrumMainnet: boolean) => {
 	}
 
 	return baseConfig
-}
-
-export enum NetworkType {
-	Localhost = 'LOCALHOST',
-	Testnet = 'TESTNET',
-	Mainnet = 'MAINNET',
-	Arbitrum = 'ARBITRUM',
-}
-
-interface NetworkConfig {
-
-	/**
-	 * What is the address of token that you have to "lock-in" (ex: DAM)
-	 */
-	lockableTokenContractAddress: string;
-
-	/**
-	 * A longer name ex: "Datamine (DAM)" for lockable token that can be displayed on text
-	 */
-	lockableTokenFullName: string;
-
-	/**
-	 * Shortest name to display ex: "DAM" for lockable token 
-	 */
-	lockableTokenShortName: string;
-
-	/**
-	 * A longer name ex: "FLUX" for lockable token that can be displayed on text
-	 */
-	mintableTokenShortName: string;
-
-	/**
-	 * What is the address of token that you have to "mint" (ex: FLUX)
-	 */
-	mintableTokenContractAddress: string;
-
-	/**
-	 * On L1 this is the Uniswap V3 pool address for Lockable / ETH token
-	 */
-	lockableUniswapV3L1EthTokenContractAddress?: string;
-
-	/**
-	 * On L1 this is the Uniswap V3 pool address for Mintable / ETH token
-	 */
-	mintableUniswapV3L1EthTokenContractAddress?: string;
-
-	/**
-	 * On L2 this is the Sushiswap pool address for Lockable / ETH token
-	 */
-	lockableSushiSwapL2EthPair?: string;
-
-	/**
-	 * You can set this to true if your price is a very large/small number (because you've created Lockable/ETH pair instead of ETH/Lockable)
-	 */
-	lockableSushiSwapL2EthPairSwapPairs?: boolean;
-
-	/**
-	 * On L2 this is the Sushiswap pool address for Mintable / ETH token
-	 */
-	mintableSushiSwapL2EthPair?: string;
-
-	/**
-	 * If your token has a failsafe limit enabled, at what block does it start?
-	 * Failsafe allows only a certain amount of tokens to be locked-up in beginning. 
-	 * (These are the settings you've set when initializing smart contract)
-	 */
-	failsafeStartBlockNumber: number;
 }

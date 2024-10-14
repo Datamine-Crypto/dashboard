@@ -8,7 +8,7 @@ import logo from '../../../../svgs/logo.svg';
 import { theme } from '../../../styles'
 import LightTooltip from '../../elements/LightTooltip';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {

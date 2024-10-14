@@ -12,7 +12,7 @@ import { commonLanguage, Balances } from '../../../web3/web3Reducer';
 import LockOpenIcon from '@material-ui/icons/Stop';
 import { getRequiredFluxToBurn } from '../../../web3/helperElements';
 import DetailedListItem from '../Fragments/DetailedListItem';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 interface RenderParams {
 	addressLock: FluxAddressLock;

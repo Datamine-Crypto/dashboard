@@ -17,7 +17,7 @@ import { ReducerQuery } from '../../sideEffectReducer';
 import AddToFirefoxFragment from '../elements/Fragments/AddToFirefoxFragment';
 import WalletConnectRpcDialog from '../elements/Dialogs/WalletConnectRpcDialog';
 import SettingsIcon from '@material-ui/icons/Settings';
-import { getConfig } from '../../../config';
+import { getEcosystemConfig as getConfig } from '../../../configs/config';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
 import WalletConnectButton from '../elements/Fragments/WalletConnectButton';
 import VConsole from 'vconsole';

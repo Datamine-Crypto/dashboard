@@ -6,7 +6,8 @@ import { Token } from "../interfaces";
 import Big from 'big.js'
 import { Balances } from "./web3Reducer";
 import moment from 'moment';
-import { getConfig } from "../../config";
+import { getEcosystemConfig as getConfig } from '../../configs/config';
+import { Ecosystem } from "../../configs/config.common";
 
 interface PriceToggle {
 	value: BN;
@@ -147,9 +148,9 @@ export const switchNetwork = async (chainId: string) => {
 
 }
 
-export const addToMetamask = (isArbitrumMainnet: boolean) => {
-	const config = getConfig(isArbitrumMainnet);
-	const { mintableTokenShortName, lockableTokenShortName, dashboardAbsoluteUrl } = config
+export const addToMetamask = (ecosystem: Ecosystem) => {
+	const config = getConfig(ecosystem);
+	const { mintableTokenShortName, lockableTokenShortName, dashboardAbsoluteUrl, lockableTokenLogoFileName, mintableTokenLogoFileName } = config
 
 	const { ethereum } = window as any;
 
@@ -160,7 +161,7 @@ export const addToMetamask = (isArbitrumMainnet: boolean) => {
 		const tokenAddress = config.lockableTokenContractAddress;
 		const tokenSymbol = lockableTokenShortName.replace(' (L2)', '');
 		const tokenDecimals = 18;
-		const tokenImage = `${dashboardAbsoluteUrl}/logos/${isArbitrumMainnet ? 'flux' : 'dam'}.png`;
+		const tokenImage = `${dashboardAbsoluteUrl}/logos/${lockableTokenLogoFileName}.png`;
 
 		ethereum.sendAsync(
 			{
@@ -186,7 +187,7 @@ export const addToMetamask = (isArbitrumMainnet: boolean) => {
 		const tokenAddress = config.mintableTokenContractAddress;
 		const tokenSymbol = `${mintableTokenShortName.replace(' (L2)', '')}`;
 		const tokenDecimals = 18;
-		const tokenImage = `${dashboardAbsoluteUrl}/logos/${isArbitrumMainnet ? 'arbiFlux' : 'flux'}.png`;
+		const tokenImage = `${dashboardAbsoluteUrl}/logos/${mintableTokenLogoFileName}.png`;
 
 		ethereum.sendAsync(
 			{
@@ -352,7 +353,7 @@ const withWeb3 = (web3: Web3, contract: Contract) => {
 				throw extractedError[1].replace('execution reverted: ', '')
 			}
 
-			const splitError = err.message.split(/\n(.+)/s);
+			const splitError = err.message.split(/\n(.+)/);
 			if (splitError.length === 3) {
 				let jsonData = null;
 				try {

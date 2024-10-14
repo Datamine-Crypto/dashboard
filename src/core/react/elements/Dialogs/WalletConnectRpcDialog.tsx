@@ -5,7 +5,7 @@ import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage } from '../../../web3/web3Reducer';
 
 import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;

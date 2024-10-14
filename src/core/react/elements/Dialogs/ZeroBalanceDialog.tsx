@@ -7,7 +7,7 @@ import { DialogType } from '../../../interfaces';
 import Web3 from 'web3';
 import { BNToDecimal } from '../../../web3/helpers';
 import { ReducerQuery } from '../../../sideEffectReducer';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
 
 interface Params {

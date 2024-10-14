@@ -8,7 +8,7 @@ import { getPriceToggle, getBNPercent } from '../../../web3/helpers';
 import { Token, FluxAddressDetails } from '../../../interfaces';
 import { Balances } from '../../../web3/web3Reducer';
 import BN from 'bn.js'
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 enum SankeyNodeType {
 	KnownMoney,

@@ -29,7 +29,7 @@ import moment from 'moment';
 import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
 import { getApy, TokenPair } from '../../../utils/getApy';
 import { formatMoney } from '../../../utils/formatMoney';
-import { NetworkType } from '../../../../config.base';
+import { Ecosystem, NetworkType } from '../../../../configs/config.base';
 import ArbitrumLogo from '../../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../../svgs/ethereumPurple.svg';
 import fluxLogo from '../../../../svgs/fluxLogo.svg';
@@ -37,7 +37,7 @@ import damLogo from '../../../../svgs/logo.svg';
 import arbiFluxLogo from '../../../../svgs/arbiFluxLogo.svg';
 
 import { theme } from '../../../styles'
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
 
 const useStyles = makeStyles(() => ({
 	progressBarLeft: {
@@ -119,13 +119,16 @@ interface RenderParams {
 	forecastSettings: ForecastSettings;
 	clientSettings: ClientSettings;
 	dispatch: React.Dispatch<any>;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
-const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, isArbitrumMainnet }) => {
+const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, ecosystem }) => {
 	const classes = useStyles();
 
-	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals, mintableTokenContractAddress } = getConfig(isArbitrumMainnet)
+	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals, mintableTokenContractAddress } = getConfig(ecosystem)
 	const { isHelpPageEnabled } = navigation
+
+	const ecosystemConfig = getEcosystemConfig(ecosystem)
+	const isArbitrumMainnet = ecosystemConfig.layer === Layer.Layer2;
 
 	// Only show CTA once account is loaded
 	if (addressDetails === null || selectedAddress === null) {
@@ -278,7 +281,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						</>
 					}
 
-					const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, targetMultiplier: new BN(maxBurnMultiplier - 1) });
+					const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, ecosystem, targetMultiplier: new BN(maxBurnMultiplier - 1) });
 
 
 					const getFluxBurnTooltip = () => {
@@ -1052,7 +1055,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 
 		// The link to Arbitrum bridge must be based on "L1" mintable token address
-		const { mintableTokenContractAddress } = getConfig(false)
+		const { mintableTokenContractAddress } = ecosystemConfig
 
 		return <Box mr={1}>
 			<LightTooltip title="Click to open Arbitrum L2 Bridge">

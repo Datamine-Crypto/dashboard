@@ -3,13 +3,13 @@ import Web3 from "web3";
 import BN from 'bn.js'
 import { getPriceToggle, parseBN } from "./helpers";
 import { v4 as uuidv4 } from 'uuid';
-import { NetworkType } from '../../config.base';
+import { Ecosystem, NetworkType } from '../../configs/config.common';
 import copyToClipBoard from "../utils/copyToClipboard";
 import Big from 'big.js'
 import { ReducerQuery, ReducerQueryHandler, ReducerCommand } from "../sideEffectReducer";
 import { HelpArticle } from "../helpArticles";
 import { devLog } from "../utils/devLog";
-import { getConfig } from "../../config";
+import { getEcosystemConfig } from "../../configs/config";
 
 export enum ConnectionMethod {
 	MetaMask = 'MetaMask',
@@ -124,6 +124,8 @@ export interface Web3State {
 	 * Keeps track of last time we called account refresh (we'll rate limit this to ensure we don't call refreshing multiple times in a row)
 	 */
 	lastAccountRefreshTimestampMs: number;
+
+	ecosystem: Ecosystem;
 }
 
 const createWithWithQueries = (state: any) => {
@@ -143,7 +145,7 @@ const createWithWithQueries = (state: any) => {
 	return withQueries
 }
 
-const config = getConfig()
+//const config = getConfig()
 
 const localConfig = {
 	/**
@@ -155,6 +157,7 @@ const localConfig = {
 const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>) => {
 	const { query, err, response } = payload;
 
+	const config = getEcosystemConfig(state.ecosystem);
 
 	const withQueries = createWithWithQueries(state)
 
@@ -341,6 +344,7 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 const handleCommand = (state: Web3State, command: ReducerCommand) => {
 	const withQueries = createWithWithQueries(state)
 
+	const config = getEcosystemConfig(state.ecosystem);
 
 	const getForecastAmount = (payload: string, defaultAmount: string, removePeriod: boolean = false) => {
 
@@ -981,12 +985,30 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 	return state;
 }
 
+
+// Notice things are taken from localStorage here
+
+const getDefaultEcosystem = () => {
+
+	return Ecosystem.Flux;
+}
+
+const defaultEcosystem = getDefaultEcosystem()
+
+const config = getEcosystemConfig(defaultEcosystem);
+
 const priceMultiplierAmount = localStorage.getItem('clientSettingsPriceMultiplierAmount') ? localStorage.getItem('clientSettingsPriceMultiplierAmount') as string : '1.00';
 const currency = localStorage.getItem('clientSettingsCurrency') ? localStorage.getItem('clientSettingsCurrency') as string : 'USD';
 const useEip1559 = !localStorage.getItem('clientSettingsUseEip1559') || localStorage.getItem('clientSettingsUseEip1559') === 'true'
 
-const defaultHelpArticlesNetworkType = config.isArbitrumOnlyToken ? NetworkType.Arbitrum : NetworkType.Mainnet
-const helpArticlesNetworkType = localStorage.getItem('helpArticlesNetworkType') && !config.isArbitrumOnlyToken ? localStorage.getItem('helpArticlesNetworkType') as NetworkType : defaultHelpArticlesNetworkType;
+const getHelpArticlesNetworkType = () => {
+	const defaultHelpArticlesNetworkType = config.isArbitrumOnlyToken ? NetworkType.Arbitrum : NetworkType.Mainnet
+	const helpArticlesNetworkType = localStorage.getItem('helpArticlesNetworkType') && !config.isArbitrumOnlyToken ? localStorage.getItem('helpArticlesNetworkType') as NetworkType : defaultHelpArticlesNetworkType;
+
+	return helpArticlesNetworkType
+}
+
+const helpArticlesNetworkType = getHelpArticlesNetworkType()
 
 const initialState: Web3State = {
 	pendingQueries: [],
@@ -1038,6 +1060,7 @@ const initialState: Web3State = {
 	isMobileDrawerOpen: false,
 	connectionMethod: ConnectionMethod.MetaMask,
 	isArbitrumMainnet: false,
+	ecosystem: defaultEcosystem,
 
 	walletConnectRpc: null,
 	clientSettings: {

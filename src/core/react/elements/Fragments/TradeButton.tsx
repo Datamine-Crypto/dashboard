@@ -4,21 +4,22 @@ import { Token } from '../../../interfaces';
 import { Button, Box, Link, MenuItem, Menu, Typography, Divider } from '@material-ui/core';
 import LightTooltip from '../../../react/elements/LightTooltip';
 
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 import uniswapLogo from '../../../../svgs/uniswap.svg';
 import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 import oneInchLogo from '../../../../svgs/oneInch.svg';
+import { Ecosystem, Layer } from '../../../../configs/config.base';
 
 interface TradeRenderParams {
 	token: Token;
 	showBuyTokens?: boolean;
-	isArbitrumMainnet?: boolean;
+	ecosystem: Ecosystem;
 	isBuy?: boolean;
 }
-const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, isBuy = true, showBuyTokens = false, isArbitrumMainnet = false }) => {
-	const config = getConfig(isArbitrumMainnet);
-	const { isLiquidityPoolsEnabled, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolAdditionalButtonsEnabled } = config
+const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, ecosystem, isBuy = true, showBuyTokens = false }) => {
+	const ecosystemConfig = getConfig(ecosystem);
+	const { isLiquidityPoolsEnabled, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolAdditionalButtonsEnabled } = ecosystemConfig
 
 	if (!isLiquidityPoolsEnabled || !isLiquidityPoolAdditionalButtonsEnabled) {
 		return <></>
@@ -30,7 +31,7 @@ const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, isBuy = tr
 	};
 
 
-	const contractAddress = token === Token.Lockable ? config.lockableTokenContractAddress : config.mintableTokenContractAddress;
+	const contractAddress = token === Token.Lockable ? ecosystemConfig.lockableTokenContractAddress : ecosystemConfig.mintableTokenContractAddress;
 	const inputCurrency = isBuy ? 'eth' : contractAddress
 	const outputCurrency = isBuy ? contractAddress : 'eth'
 
@@ -58,7 +59,7 @@ const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, isBuy = tr
 	const getTadeMenu = () => {
 
 		const getLayerLabel = () => {
-			if (!isArbitrumMainnet) {
+			if (ecosystemConfig.layer !== Layer.Layer2) {
 				return null;
 			}
 			return `(L2)`
@@ -125,11 +126,11 @@ const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, isBuy = tr
 	</Box>
 })
 
-export const getTradeButton = ({ token, isBuy = true, showBuyTokens = false, isArbitrumMainnet = false }: TradeRenderParams) => {
+export const getTradeButton = ({ token, isBuy = true, showBuyTokens = false, ecosystem }: TradeRenderParams) => {
 	return <TradeRender
 		token={token}
 		showBuyTokens={showBuyTokens}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 		isBuy={isBuy}
 	/>
 }

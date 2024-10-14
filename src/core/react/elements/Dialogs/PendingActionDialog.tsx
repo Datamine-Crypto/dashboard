@@ -7,7 +7,7 @@ import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 
 import { theme } from '../../../styles'
 import { ReducerQuery } from '../../../sideEffectReducer';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 interface Params {
 	open: boolean;

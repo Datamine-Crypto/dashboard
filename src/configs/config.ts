@@ -1,12 +1,17 @@
 
 import { getConfigOverrides } from './config.overrides';
-import { getBaseConfig, NetworkType } from './config.base';
+import { Ecosystem, getBaseConfig, getEcosytemLayer, Layer, NetworkType } from './config.base';
 
 /**
  * This joins a bunch of configurations together to form the final configuration settings variable.
  * If you want to update anything check out config.overrides.ts file!
  */
-export const getConfig = (isArbitrumMainnet: boolean = false) => {
+export const getEcosystemConfig = (ecosystem: Ecosystem) => {
+
+	const baseConfig = getBaseConfig(ecosystem)
+
+	const isArbitrumMainnet = baseConfig.layer === Layer.Layer2;
+
 	/**
 	 * These are values you shouldn't update as they're hardcoded to some well-known settings
 	 */
@@ -29,7 +34,6 @@ export const getConfig = (isArbitrumMainnet: boolean = false) => {
 		}
 	}
 
-	const baseConfig = getBaseConfig(isArbitrumMainnet)
 	return {
 		...baseConfig,
 		...getNetworkStaticConfig(),

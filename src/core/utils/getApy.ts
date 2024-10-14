@@ -1,14 +1,15 @@
 
 import Big from 'big.js';
-import { getConfig } from '../../config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../configs/config';
+import { Ecosystem } from '../../configs/config.common';
 
 export enum TokenPair {
 	USDC_ETH = 'USDC_ETH',
 	FLUX_ETH = 'FLUX_ETH',
 	DAM_ETH = 'DAM_ETH'
 }
-export const getApy = (pools: Map<TokenPair, any>) => {
-	const { mintableTokenMintPerBlockDivisor } = getConfig()
+export const getApy = (ecosystem: Ecosystem, pools: Map<TokenPair, any>) => {
+	const { mintableTokenMintPerBlockDivisor } = getEcosystemConfig(ecosystem)
 	const damPool = pools.get(TokenPair.DAM_ETH);
 	const fluxPool = pools.get(TokenPair.FLUX_ETH);
 	const ethPool = pools.get(TokenPair.USDC_ETH);

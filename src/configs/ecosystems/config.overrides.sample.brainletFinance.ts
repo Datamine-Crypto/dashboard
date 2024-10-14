@@ -1,4 +1,4 @@
-import { getBaseConfig } from "./config.base"
+import { getBaseConfig } from "../config.base"
 
 /**
  * Your token can override these configs instead of overriding base values

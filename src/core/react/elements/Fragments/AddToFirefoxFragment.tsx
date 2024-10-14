@@ -1,6 +1,6 @@
 import { Box, CardMedia, Grid, Link } from '@material-ui/core';
 import React, { useContext } from 'react';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 import metamaskIcon from '../../../../svgs/metamask.svg';
 import { DialogType } from '../../../interfaces';

@@ -7,7 +7,7 @@ import { ClientSettings, commonLanguage } from '../../../web3/web3Reducer';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { formatMoney } from '../../../utils/formatMoney';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 interface RenderParams {
 	clientSettings: ClientSettings;

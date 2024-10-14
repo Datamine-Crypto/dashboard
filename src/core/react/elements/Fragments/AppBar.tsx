@@ -12,7 +12,7 @@ import TimelineIcon from '@material-ui/icons/Timeline';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import HelpComboboxFragment from './HelpComboboxFragment';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 const useStyles = makeStyles(theme => ({
 	toolbar: {

@@ -5,10 +5,14 @@ import { theme } from '../../styles'
 
 import FooterFragment from '../elements/Fragments/FooterFragment';
 import Header from '../elements/Fragments/Header';
-import { getConfig } from '../../../config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
+import { Ecosystem } from '../../../configs/config.common';
 
-const HomePage: React.FC = React.memo(() => {
-	const { isHomepageVideoVisible } = getConfig()
+interface Props {
+	ecosystem: Ecosystem;
+}
+const HomePage: React.FC<Props> = React.memo(({ ecosystem }) => {
+	const { isHomepageVideoVisible } = getEcosystemConfig(ecosystem)
 	return <>
 		<Box mt={8}>
 			<Header isSubPage={false} isVideoVisible={isHomepageVideoVisible} />

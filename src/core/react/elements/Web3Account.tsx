@@ -21,7 +21,7 @@ import MessageDialog from './Dialogs/MessageDialog';
 import { commonLanguage } from '../../web3/web3Reducer';
 import RealtimeLiqudityCard from './Cards/RealtimeLiqudityCard';
 import SettingsDialog from './Dialogs/SettingsDialog';
-import { getConfig } from '../../../config';
+import { getEcosystemConfig as getConfig } from '../../../configs/config';
 
 interface RenderParams {
 	dialog: DialogType | null;

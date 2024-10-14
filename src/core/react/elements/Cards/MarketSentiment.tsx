@@ -12,7 +12,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import SankeyFlowFragment from '../Fragments/SankeyFlowFragment';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 const useStyles = makeStyles(() => ({
 	progressBarLeft: {

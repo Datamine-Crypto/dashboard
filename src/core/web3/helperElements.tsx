@@ -5,7 +5,8 @@ import { getPriceToggle, BNToDecimal } from './helpers';
 import Big from 'big.js'
 import BN from 'bn.js'
 import { Balances } from './web3Reducer';
-import { getConfig } from '../../config';
+import { getEcosystemConfig as getConfig } from '../../configs/config';
+import { Ecosystem } from '../../configs/config.common';
 
 export const getRequiredFluxToBurnDecimal = ({ globalFluxBurned, targetMultiplier, globalDamLockedIn, myFluxBurned, myDamLockedIn }: { globalFluxBurned: Big, targetMultiplier: number, globalDamLockedIn: Big, myFluxBurned: Big, myDamLockedIn: Big }) => {
 	const top = new Big(-1).mul(targetMultiplier - 1).mul(globalFluxBurned).mul(myDamLockedIn).add(new Big(globalDamLockedIn).mul(myFluxBurned));
@@ -61,8 +62,8 @@ export const numberWithCommas = (numberToFormat: string) => {
 }
 
 
-export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, targetMultiplier = new BN("9") }: { addressDetails: FluxAddressDetails, addressLock: FluxAddressLock, balances: Balances, targetMultiplier?: BN }) => {
-	const { maxBurnMultiplier, mintableTokenPriceDecimals } = getConfig()
+export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, ecosystem, targetMultiplier = new BN("9") }: { addressDetails: FluxAddressDetails, addressLock: FluxAddressLock, balances: Balances, ecosystem: Ecosystem, targetMultiplier?: BN }) => {
+	const { maxBurnMultiplier, mintableTokenPriceDecimals } = getConfig(ecosystem)
 
 	const globalFluxBurned = addressDetails.globalBurnedAmount;
 	const globalDamLockedIn = addressDetails.globalLockedAmount

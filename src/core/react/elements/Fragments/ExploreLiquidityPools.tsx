@@ -7,7 +7,7 @@ import uniswapLogo from '../../../../svgs/uniswap.svg';
 import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 
 import oneInchLogo from '../../../../svgs/oneInch.svg';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 
 

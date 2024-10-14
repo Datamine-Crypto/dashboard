@@ -7,7 +7,7 @@ import { BNToDecimal, getBurnRatio, getBlocksRemaining, getBNPercent, getPriceTo
 import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '../../../interfaces';
 import { Balances } from '../../../web3/web3Reducer';
 import DetailedListItem from '../Fragments/DetailedListItem';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 interface RenderParams {
 	addressDetails: FluxAddressDetails;

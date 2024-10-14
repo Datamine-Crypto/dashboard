@@ -7,7 +7,7 @@ import { commonLanguage } from '../../../web3/web3Reducer';
 import RedeemIcon from '@material-ui/icons/Redeem';
 import { BNToDecimal } from '../../../web3/helpers';
 import { FluxAddressDetails } from '../../../interfaces';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 interface RenderParams {
 	selectedAddress: string;

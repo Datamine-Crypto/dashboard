@@ -20,10 +20,11 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import axios from 'axios'
-import { NetworkType } from '../../config.base';
+import { NetworkType } from '../../configs/config.common';
+import { Ecosystem } from '../../configs/config.common';
 import { devLog } from '../utils/devLog';
 import { decodeMulticall, encodeMulticall } from '../utils/web3multicall';
-import { getConfig } from '../../config';
+import { getEcosystemConfig } from '../../configs/config';
 
 let web3provider: any = null;
 
@@ -111,8 +112,9 @@ const preselectAddress = async () => {
 
 const axiosInstance = axios.create({});
 
-const getContracts = (web3: Web3, isArbitrumMainnet: boolean) => {
-	const config = getConfig(isArbitrumMainnet);
+const getContracts = (web3: Web3, ecosystem: Ecosystem) => {
+
+	const config = getEcosystemConfig(ecosystem);
 	return {
 		damToken: new web3.eth.Contract(damTokenAbi as any, config.lockableTokenContractAddress),
 		fluxToken: new web3.eth.Contract(fluxTokenAbi as any, config.mintableTokenContractAddress),
@@ -511,8 +513,8 @@ const queryHandlers = {
 			const addressToFetch = address ?? selectedAddress;
 			devLog('FindAccountState addressToFetch:', { addressToFetch, isArbitrumMainnet })
 
-			const contracts = getContracts(web3, isArbitrumMainnet)
-			const config = getConfig(isArbitrumMainnet);
+			const contracts = getContracts(web3, state.ecosystem)
+			const config = getEcosystemConfig(state.ecosystem);
 
 			devLog('FindAccountState Making batch request:')
 
@@ -1109,8 +1111,8 @@ const queryHandlers = {
 		}
 		const selectedAddress = getSelectedAddress();
 
-		const contracts = getContracts(web3, isArbitrumMainnet)
-		const config = getConfig(isArbitrumMainnet)
+		const contracts = getContracts(web3, state.ecosystem)
+		const config = getEcosystemConfig(state.ecosystem)
 
 		const damToken = withWeb3(web3, contracts.damToken);
 
@@ -1132,7 +1134,7 @@ const queryHandlers = {
 
 		const { amount, minterAddress } = query.payload;
 
-		const contracts = getContracts(web3, isArbitrumMainnet)
+		const contracts = getContracts(web3, state.ecosystem)
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 
@@ -1155,7 +1157,7 @@ const queryHandlers = {
 
 		const { sourceAddress, targetAddress, blockNumber } = query.payload;
 
-		const contracts = getContracts(web3, isArbitrumMainnet)
+		const contracts = getContracts(web3, state.ecosystem)
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 		const response = await fluxToken.mintToAddress({
@@ -1178,7 +1180,7 @@ const queryHandlers = {
 
 		const { address, amount } = query.payload;
 
-		const contracts = getContracts(web3, isArbitrumMainnet)
+		const contracts = getContracts(web3, state.ecosystem)
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 		const response = await fluxToken.burnToAddress({
@@ -1196,7 +1198,7 @@ const queryHandlers = {
 		}
 		const selectedAddress = getSelectedAddress();
 
-		const contracts = getContracts(web3, isArbitrumMainnet)
+		const contracts = getContracts(web3, state.ecosystem)
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 		const response = await fluxToken.unlockDamTokens({

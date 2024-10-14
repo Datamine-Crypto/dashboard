@@ -8,11 +8,11 @@ import HelpComboboxFragment from '../elements/Fragments/HelpComboboxFragment';
 import { helpArticles, SearchCategory, SearchCategoryText, SearchCategoryTextL2 } from '../../helpArticles';
 import { commonLanguage } from '../../web3/web3Reducer';
 import { Web3Context } from '../../web3/Web3Context';
-import { NetworkType } from '../../../config.base';
+import { Ecosystem, NetworkType } from '../../../configs/config.common';
 
 import ArbitrumLogo from '../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../svgs/ethereumPurple.svg';
-import { getConfig } from '../../../config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {
@@ -98,12 +98,13 @@ const useStyles = makeStyles(() => ({
 interface RenderProps {
 	dispatch: React.Dispatch<any>;
 	helpArticlesNetworkType: NetworkType;
+	ecosystem: Ecosystem;
 }
 
-const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetworkType }) => {
+const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetworkType, ecosystem }) => {
 	const classes = useStyles();
 
-	const { navigation, isArbitrumOnlyToken } = getConfig()
+	const { navigation, isArbitrumOnlyToken } = getEcosystemConfig(ecosystem)
 	const { discordInviteLink } = navigation
 
 	const isArbitrumMainnet = helpArticlesNetworkType === NetworkType.Arbitrum;
@@ -264,11 +265,12 @@ interface Props { }
 const HelpPage: React.FC<Props> = ({ }) => {
 	const { state: web3State, dispatch } = useContext(Web3Context)
 
-	const { helpArticlesNetworkType } = web3State;
+	const { helpArticlesNetworkType, ecosystem } = web3State;
 
 	return <Render
 		helpArticlesNetworkType={helpArticlesNetworkType}
 		dispatch={dispatch}
+		ecosystem={ecosystem}
 	/>
 }
 

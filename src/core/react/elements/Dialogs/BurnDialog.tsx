@@ -5,7 +5,7 @@ import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage, Balances } from '../../../web3/web3Reducer';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import { BNToDecimal } from '../../../web3/helpers';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
 interface RenderParams {
 	selectedAddress: string;

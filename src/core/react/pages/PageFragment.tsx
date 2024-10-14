@@ -12,13 +12,14 @@ import { HelpArticle, helpArticles } from '../../helpArticles';
 import HelpPage from './HelpPage';
 import { MainDrawer } from '../elements/Fragments/Drawer';
 import CommunityPage from './CommunityPage';
-import { NetworkType } from '../../../config.base';
-import { getConfig } from '../../../config';
+import { Ecosystem, NetworkType } from '../../../configs/config.common';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
 	helpArticle: HelpArticle | null;
 	helpArticlesNetworkType: NetworkType;
+	ecosystem: Ecosystem;
 }
 
 enum Page {
@@ -114,10 +115,10 @@ const getPageDetails = () => {
 	}
 }
 
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType }) => {
+const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType, ecosystem }) => {
 	const classes = useStyles();
 
-	const { ecosystemName, mintableTokenShortName, ecosystemSlogan } = getConfig()
+	const { ecosystemName, mintableTokenShortName, ecosystemSlogan } = getEcosystemConfig(ecosystem)
 
 	const [count, setCount] = useState(0);
 	useEffect(() => {
@@ -169,14 +170,14 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				return <CommunityPage />
 			case Page.Terms:
 				document.title = `MIT License - ${ecosystemSlogan} - ${ecosystemName}`;
-				return <Terms />
+				return <Terms ecosystem={ecosystem} />
 			case Page.TokenPage:
 				document.title = `${mintableTokenShortName} Ecosystem - ${ecosystemName}`;
 				return <TokenPage isArbitrumMainnet={!!pageDetails.isArbitrumMainnet} />
 		}
 
 		document.title = `${ecosystemSlogan} - ${ecosystemName}`;
-		return <HomePage />
+		return <HomePage ecosystem={ecosystem} />
 	}
 
 	const getAppBar = () => {
@@ -229,12 +230,13 @@ const PageFragment: React.FC = () => {
 
 	}, [web3Dispatch]);
 
-	const { helpArticle, helpArticlesNetworkType } = web3State;
+	const { helpArticle, helpArticlesNetworkType, ecosystem } = web3State;
 
 	return <Render
 		helpArticle={helpArticle}
 		helpArticlesNetworkType={helpArticlesNetworkType}
 		dispatch={web3Dispatch}
+		ecosystem={ecosystem}
 	/>
 }
 

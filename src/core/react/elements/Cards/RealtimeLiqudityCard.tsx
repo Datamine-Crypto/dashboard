@@ -11,7 +11,7 @@ import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 import LightTooltip from '../LightTooltip';
 import BN from 'bn.js'
 import DetailedListItem from '../Fragments/DetailedListItem';
-import { getConfig } from '../../../../config';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
 import { getTradeButton } from '../Fragments/TradeButton';
 
