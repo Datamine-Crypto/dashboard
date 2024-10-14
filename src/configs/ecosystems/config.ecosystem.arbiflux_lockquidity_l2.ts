@@ -18,6 +18,9 @@ export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
 		lockableTokenLogoFileName: 'artbiFlux',
 		mintableTokenLogoFileName: 'lock',
 		timestampGenesis: 1728946539,
-		liquidityPoolType: LiquidityPoolType.Uniswap
+		liquidityPoolType: LiquidityPoolType.Uniswap,
+
+		mintableTokenMintPerBlockDivisor: 8,
+		mintableTokenPriceDecimals: 8,
 	}
 }

@@ -92,6 +92,7 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 		layer,
 
 		failsafeDuration: 161280,
+
 		network: {
 			type: 'main',
 			typeDisplay: 'Ethereum Mainnet'
@@ -165,15 +166,6 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 		 */
 		maxBurnMultiplier: 10,
 
-		/**
-		 * Smart contract value from _mintPerBlockDivisor (this is the second number in 10 ** 8)
-		 */
-		mintableTokenMintPerBlockDivisor: 8,
-
-		/**
-		 * When displaying price how many decimials do you want to see when displaying prices?
-		 */
-		mintableTokenPriceDecimals: 8,
 
 		/**
 		 * Left side navigation (buttons on left side or top right on mobile)

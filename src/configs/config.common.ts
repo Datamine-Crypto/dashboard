@@ -100,4 +100,14 @@ export interface EcosystemConfig {
 	 * For example FLUX (L2) liquidity is currently mostly in SushiSwap while Lockquidity (LOCK) are automatically added to Uniswap
 	 */
 	liquidityPoolType: LiquidityPoolType;
+
+	/**
+	 * Smart contract value from _mintPerBlockDivisor (this is the second number in 10 ** 8)
+	 */
+	mintableTokenMintPerBlockDivisor: number,
+
+	/**
+	 * When displaying price how many decimials do you want to see when displaying prices?
+	 */
+	mintableTokenPriceDecimals: number,
 }

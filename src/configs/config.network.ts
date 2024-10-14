@@ -1,7 +1,8 @@
 import { Layer, NetworkType } from "./config.common";
 
 /**
- * These are values you shouldn't update as they're hardcoded to some well-known settings
+ * Get "Layer-specific" network configuration.
+ * The uniswap and wrapped ETH have different addresses on Ethereum and Arbitrum
  */
 export const getNetworkConfig = (layer: Layer): StaticConfig => {
 	switch (layer) {

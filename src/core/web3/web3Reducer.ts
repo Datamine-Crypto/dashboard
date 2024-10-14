@@ -989,7 +989,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 
 const getDefaultEcosystem = () => {
 
-	return Ecosystem.Flux;
+	return Ecosystem.ArbiFlux;
 }
 
 const defaultEcosystem = getDefaultEcosystem()

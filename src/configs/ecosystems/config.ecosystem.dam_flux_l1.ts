@@ -17,6 +17,9 @@ export const getDamFluxEcosystemConfig = (): EcosystemConfig => {
 		lockableTokenLogoFileName: 'dam',
 		mintableTokenLogoFileName: 'flux',
 		timestampGenesis: 1591626738000,
-		liquidityPoolType: LiquidityPoolType.Uniswap
+		liquidityPoolType: LiquidityPoolType.Uniswap,
+
+		mintableTokenMintPerBlockDivisor: 8,
+		mintableTokenPriceDecimals: 4,
 	}
 }
