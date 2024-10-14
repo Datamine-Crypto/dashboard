@@ -9,6 +9,7 @@ import { BNToDecimal } from '../../../web3/helpers';
 import { ReducerQuery } from '../../../sideEffectReducer';
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
+import { Ecosystem, Layer } from '../../../../configs/config.common';
 
 interface Params {
 	pendingQueries: ReducerQuery[];
@@ -16,12 +17,12 @@ interface Params {
 	balances: Balances;
 	dispatch: React.Dispatch<any>;
 	dialogType: DialogType;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
 
-const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balances, dialogType, isArbitrumMainnet }) => {
-	const config = getConfig(isArbitrumMainnet);
-	const { mintableTokenShortName, lockableTokenShortName, ecosystemName } = config
+const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balances, dialogType, ecosystem }) => {
+	const config = getConfig(ecosystem);
+	const { mintableTokenShortName, lockableTokenShortName, ecosystemName, layer } = config
 
 	const onClose = () => {
 		dispatch({ type: commonLanguage.commands.CloseDialog });
@@ -40,7 +41,7 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 	const getTitle = () => {
 		switch (dialogType) {
 			case DialogType.ZeroDam:
-				if (isArbitrumMainnet) {
+				if (layer === Layer.Layer2) {
 					return `You'll need a bit of ${lockableTokenShortName} Tokens on Arbitrum!`;
 				}
 				return `You'll need a bit of ${lockableTokenShortName} Tokens!`;
@@ -86,7 +87,7 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 				return `Before you can mint ${mintableTokenShortName} tokens you will need a bit of ${lockableTokenShortName} and ETH in your`;
 		}
 
-		return `To interact with ${ecosystemName} Smart Contracts you will need a bit of Ethereum (ETH) ${isArbitrumMainnet ? 'on Abtirum L2' : ''} in your`;
+		return `To interact with ${ecosystemName} Smart Contracts you will need a bit of Ethereum (ETH) ${layer === Layer.Layer2 ? 'on Abtirum L2' : ''} in your`;
 	}
 
 	const getButtons = () => {
@@ -100,7 +101,7 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 				</Box>
 
 				<Box mb={3} mr={2}>
-					<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.LargeButton} />
+					<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.LargeButton} ecosystem={ecosystem} />
 				</Box>
 			</>
 		}
@@ -143,7 +144,7 @@ interface DialogParams {
 const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
-	const { pendingQueries, selectedAddress, balances, isArbitrumMainnet } = web3State;
+	const { pendingQueries, selectedAddress, balances, ecosystem } = web3State;
 	if (!pendingQueries || !selectedAddress || !balances) {
 		return null;
 	}
@@ -154,7 +155,7 @@ const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
 		balances={balances}
 		dispatch={web3Dispatch}
 		dialogType={dialogType}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

@@ -21,12 +21,14 @@ import MessageDialog from './Dialogs/MessageDialog';
 import { commonLanguage } from '../../web3/web3Reducer';
 import RealtimeLiqudityCard from './Cards/RealtimeLiqudityCard';
 import SettingsDialog from './Dialogs/SettingsDialog';
-import { getEcosystemConfig as getConfig } from '../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
+import { Ecosystem } from '../../../configs/config.common';
 
 interface RenderParams {
 	dialog: DialogType | null;
 	dialogParams: any;
 	dispatch: React.Dispatch<any>;
+	ecosystem: Ecosystem;
 }
 
 const useStyles = makeStyles((theme) => {
@@ -46,9 +48,9 @@ const useStyles = makeStyles((theme) => {
 	}
 });
 
-const Render: React.FC<RenderParams> = React.memo(({ dialog, dialogParams, dispatch }) => {
+const Render: React.FC<RenderParams> = React.memo(({ dialog, dialogParams, dispatch, ecosystem }) => {
 	const classes = useStyles();
-	const { isLiquidityPoolsEnabled, isRealtimeOnChainMarketSentimentEnabled } = getConfig()
+	const { isLiquidityPoolsEnabled, isRealtimeOnChainMarketSentimentEnabled } = getEcosystemConfig(ecosystem)
 
 	const onClose = () => {
 		dispatch({ type: commonLanguage.commands.CloseDialog });
@@ -128,12 +130,13 @@ const Render: React.FC<RenderParams> = React.memo(({ dialog, dialogParams, dispa
 const Web3Account: React.FC = () => {
 	const { state: web3State, dispatch } = useContext(Web3Context)
 
-	const { dialog, dialogParams } = web3State;
+	const { dialog, dialogParams, ecosystem } = web3State;
 
 	return <Render
 		dialog={dialog}
 		dialogParams={dialogParams}
 		dispatch={dispatch}
+		ecosystem={ecosystem}
 	/>
 }
 

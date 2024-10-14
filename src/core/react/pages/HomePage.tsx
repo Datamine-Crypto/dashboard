@@ -15,10 +15,10 @@ const HomePage: React.FC<Props> = React.memo(({ ecosystem }) => {
 	const { isHomepageVideoVisible } = getEcosystemConfig(ecosystem)
 	return <>
 		<Box mt={8}>
-			<Header isSubPage={false} isVideoVisible={isHomepageVideoVisible} />
+			<Header isSubPage={false} isVideoVisible={isHomepageVideoVisible} ecosystem={ecosystem} />
 		</Box>
 
-		<FooterFragment />
+		<FooterFragment ecosystem={ecosystem} />
 	</>
 })
 

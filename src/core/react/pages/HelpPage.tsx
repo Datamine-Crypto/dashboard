@@ -256,7 +256,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 		</Box>
 
 
-		<FooterFragment />
+		<FooterFragment ecosystem={ecosystem} />
 	</>
 })
 

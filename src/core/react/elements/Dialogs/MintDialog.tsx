@@ -7,7 +7,8 @@ import { commonLanguage } from '../../../web3/web3Reducer';
 import RedeemIcon from '@material-ui/icons/Redeem';
 import { BNToDecimal } from '../../../web3/helpers';
 import { FluxAddressDetails } from '../../../interfaces';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 interface RenderParams {
 	selectedAddress: string;
@@ -18,11 +19,11 @@ interface RenderParams {
 	address: string | null;
 	displayedAddress: string;
 	setAddress: React.Dispatch<any>;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
 
-const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, addressDetails, error, dispatch, address, displayedAddress, setAddress, isArbitrumMainnet }) => {
-	const { mintableTokenShortName } = getConfig(isArbitrumMainnet)
+const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, addressDetails, error, dispatch, address, displayedAddress, setAddress, ecosystem }) => {
+	const { mintableTokenShortName } = getEcosystemConfig(ecosystem)
 
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
@@ -97,7 +98,7 @@ const MintDialog: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 	const [address, setAddress] = React.useState(web3State.selectedAddress);
 
-	const { selectedAddress, addressDetails, error, isArbitrumMainnet } = web3State;
+	const { selectedAddress, addressDetails, error, ecosystem } = web3State;
 	if (!selectedAddress || !addressDetails) {
 		return null;
 	}
@@ -112,7 +113,7 @@ const MintDialog: React.FC = () => {
 		displayedAddress={displayedAddress}
 		setAddress={setAddress}
 		dispatch={web3Dispatch}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

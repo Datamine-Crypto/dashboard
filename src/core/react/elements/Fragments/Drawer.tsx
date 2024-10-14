@@ -18,7 +18,8 @@ import Arbitrum from '../../../../svgs/arbitrum.svg';
 import discordWhiteLogo from '../../../../svgs/discordWhite.svg';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 const drawerWidth = 280;
 
@@ -110,10 +111,11 @@ const useStyles = makeStyles((theme: Theme) =>
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
 	isMobileDrawerOpen: boolean;
+	ecosystem: Ecosystem;
 }
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpen }) => {
+const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpen, ecosystem }) => {
 
-	const { navigation, ecosystemName } = getConfig()
+	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem)
 	const { isL1PageEnabled, isL2PageEnabled, isCommunityPageEnabled, isAnalyticsPagesEnabled, ecosystemButtonlabel, discordInviteLink, isHelpPageEnabled } = navigation
 
 	const classes = useStyles();
@@ -390,9 +392,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 
 export const MainDrawer: React.FC = () => {
 	const { state: web3State, dispatch } = useContext(Web3Context)
+	const { ecosystem } = web3State;
 
 	return <Render
 		isMobileDrawerOpen={web3State.isMobileDrawerOpen}
 		dispatch={dispatch}
+		ecosystem={ecosystem}
 	/>
 }

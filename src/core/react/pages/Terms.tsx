@@ -68,7 +68,7 @@ const Terms: React.FC<Props> = React.memo(({ ecosystem }) => {
 
 	return <>
 		<Box mt={8}>
-			<Header isSubPage={true} />
+			<Header isSubPage={true} ecosystem={ecosystem} />
 
 			<Paper className={classes.paperBorders}>
 				<Box py={6}>
@@ -100,7 +100,7 @@ const Terms: React.FC<Props> = React.memo(({ ecosystem }) => {
 			</Paper>
 		</Box>
 
-		<FooterFragment />
+		<FooterFragment ecosystem={ecosystem} />
 	</>
 })
 

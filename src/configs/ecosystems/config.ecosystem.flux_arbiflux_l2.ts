@@ -1,4 +1,4 @@
-import { EcosystemConfig, Layer } from "../config.common"
+import { EcosystemConfig, Layer, LiquidityPoolType } from "../config.common"
 
 export const getFluxArbiFluxEcosystemConfig = (): EcosystemConfig => {
 	return {
@@ -17,6 +17,8 @@ export const getFluxArbiFluxEcosystemConfig = (): EcosystemConfig => {
 
 
 		lockableTokenLogoFileName: 'flux',
-		mintableTokenLogoFileName: 'arbiFlux'
+		mintableTokenLogoFileName: 'arbiFlux',
+		timestampGenesis: 1634936388000,
+		liquidityPoolType: LiquidityPoolType.SushiSwap
 	}
 }

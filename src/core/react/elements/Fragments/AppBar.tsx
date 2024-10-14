@@ -12,7 +12,8 @@ import TimelineIcon from '@material-ui/icons/Timeline';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import HelpComboboxFragment from './HelpComboboxFragment';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 const useStyles = makeStyles(theme => ({
 	toolbar: {
@@ -63,14 +64,14 @@ interface INavProps {
 	sidebar: boolean;
 
 	dispatch: React.Dispatch<any>;
-	isArbitrumMainnet: boolean;
 	selectedAddress: string | null;
+	ecosystem: Ecosystem;
 }
 
 
-const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch }) => {
+const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }) => {
 	//const { state: socketState, dispatch: socketDispatch } = useContext(SocketContext)
-	const { navigation } = getConfig()
+	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem)
 	const { isHelpPageEnabled } = navigation
 
 	const classes = useStyles();
@@ -92,7 +93,6 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch }) => {
 		return <HelpComboboxFragment id={'nav-search'} />
 	}
 
-	const { ecosystemName } = getConfig()
 
 	return <AppBar className={clsx(classes.appBar)}>
 		<Toolbar className={classes.toolbar}>
@@ -156,13 +156,13 @@ interface AppBarProps {
 const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
 	const { state: web3State, dispatch } = useContext(Web3Context)
 
-	const { isArbitrumMainnet, selectedAddress } = web3State;
+	const { ecosystem, selectedAddress } = web3State;
 
 	return <Render
 		sidebar={sidebar}
 		dispatch={dispatch}
-		isArbitrumMainnet={isArbitrumMainnet}
 		selectedAddress={selectedAddress}
+		ecosystem={ecosystem}
 	/>
 }
 

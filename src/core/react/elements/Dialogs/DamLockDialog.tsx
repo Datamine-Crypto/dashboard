@@ -4,20 +4,21 @@ import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, T
 import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage, Balances } from '../../../web3/web3Reducer';
 import { BNToDecimal } from '../../../web3/helpers';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 interface RenderParams {
 	selectedAddress: string;
 	balances: Balances;
 	dispatch: React.Dispatch<any>;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 
 	error: string | null;
 	total: string | null;
 }
 
-const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, total, isArbitrumMainnet }) => {
-	const { lockableTokenShortName, mintableTokenShortName } = getConfig(isArbitrumMainnet)
+const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, total, ecosystem }) => {
+	const { lockableTokenShortName, mintableTokenShortName } = getEcosystemConfig(ecosystem)
 
 	const [amount, setAmount] = React.useState(total);
 	const [minterAddress, setMinterAddress] = React.useState(selectedAddress);
@@ -119,7 +120,7 @@ const DamLockDialog: React.FC = () => {
 
 	const total = BNToDecimal(web3State.balances?.damToken ?? null);
 
-	const { balances, selectedAddress, error, isArbitrumMainnet } = web3State;
+	const { balances, selectedAddress, error, ecosystem } = web3State;
 	if (!balances || !selectedAddress) {
 		return null;
 	}
@@ -130,7 +131,7 @@ const DamLockDialog: React.FC = () => {
 		error={error}
 		total={total}
 		dispatch={web3Dispatch}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

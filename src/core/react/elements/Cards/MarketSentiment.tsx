@@ -12,7 +12,8 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import SankeyFlowFragment from '../Fragments/SankeyFlowFragment';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 const useStyles = makeStyles(() => ({
 	progressBarLeft: {
@@ -81,10 +82,10 @@ interface RenderParams {
 	addressTokenDetails: FluxAddressTokenDetails;
 	addressDetails: FluxAddressDetails;
 	addressLock: FluxAddressLock;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
-const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, addressLock, isArbitrumMainnet }) => {
-	const { lockableTokenShortName, mintableTokenShortName, ecosystemName } = getConfig()
+const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, addressLock, ecosystem }) => {
+	const { lockableTokenShortName, mintableTokenShortName, ecosystemName } = getEcosystemConfig(ecosystem)
 
 	const classes = useStyles();
 
@@ -185,7 +186,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, a
 		</Box>
 	}
 
-	const sankeyDiagram = <SankeyFlowFragment balances={balances} addressDetails={addressDetails} isArbitrumMainnet={isArbitrumMainnet} />
+	const sankeyDiagram = <SankeyFlowFragment balances={balances} addressDetails={addressDetails} ecosystem={ecosystem} />
 
 	const getSankeyDescription = () => {
 
@@ -268,7 +269,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, a
 const MarketSentiment: React.FC = () => {
 	const { state: web3State } = useContext(Web3Context)
 
-	const { balances, addressTokenDetails, addressDetails, addressLock, isArbitrumMainnet } = web3State;
+	const { balances, addressTokenDetails, addressDetails, addressLock, ecosystem } = web3State;
 	if (!balances || !addressTokenDetails || !addressDetails || !addressLock) {
 		return null;
 	}
@@ -279,7 +280,7 @@ const MarketSentiment: React.FC = () => {
 		addressTokenDetails={addressTokenDetails}
 		addressDetails={addressDetails}
 		addressLock={addressLock}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

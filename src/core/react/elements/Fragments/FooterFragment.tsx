@@ -2,8 +2,9 @@ import React from 'react';
 import { Box, Container, Grid, makeStyles, Paper, Link } from '@material-ui/core';
 
 import { theme } from '../../../styles'
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
+import { Ecosystem } from '../../../../configs/config.common';
 
 const useStyles = makeStyles(() => ({
 	paperBottom: {
@@ -11,9 +12,12 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const FooterFragment: React.FC = React.memo(() => {
+interface Props {
+	ecosystem: Ecosystem;
+}
+const FooterFragment: React.FC<Props> = React.memo(({ ecosystem }) => {
 	const classes = useStyles();
-	const { navigation, isLiquidityPoolsEnabled } = getConfig()
+	const { navigation, isLiquidityPoolsEnabled } = getEcosystemConfig(ecosystem)
 	const { isHelpPageEnabled } = navigation
 
 	const getGridItem = () => {
@@ -35,7 +39,7 @@ const FooterFragment: React.FC = React.memo(() => {
 		}
 		return (
 			<Grid item>
-				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallText} />
+				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallText} ecosystem={ecosystem} />
 			</Grid>
 		)
 	}

@@ -11,20 +11,21 @@ import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 import LightTooltip from '../LightTooltip';
 import BN from 'bn.js'
 import DetailedListItem from '../Fragments/DetailedListItem';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
 import { getTradeButton } from '../Fragments/TradeButton';
+import { Ecosystem, Layer, LiquidityPoolType } from '../../../../configs/config.common';
 
 
 interface RenderParams {
 	balances: Balances;
 	addressTokenDetails: FluxAddressTokenDetails;
 	addressDetails: FluxAddressDetails;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
-const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, isArbitrumMainnet }) => {
-	const config = getConfig(isArbitrumMainnet);
-	const { mintableTokenShortName, lockableTokenShortName, isLiquidityPoolAdditionalButtonsEnabled } = config
+const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, ecosystem }) => {
+	const config = getEcosystemConfig(ecosystem);
+	const { layer, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolAdditionalButtonsEnabled, liquidityPoolType } = config
 
 	const commaRegex = /(\d)(?=(\d{3})+(?!\d))/g;
 
@@ -34,7 +35,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 		switch (token) {
 			case Token.Lockable:
 				const damSupply = getBNPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false)
-				return <> <Typography variant="body2" color="textSecondary" display="inline">({damSupply}% of {isArbitrumMainnet ? 'L2' : 'lifetime'} supply)</Typography></>
+				return <> <Typography variant="body2" color="textSecondary" display="inline">({damSupply}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)</Typography></>
 			case Token.Mintable:
 				const fluxSupply = getBNPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false)
 				return <> <Typography variant="body2" color="textSecondary" display="inline">({fluxSupply}% of current supply)</Typography></>
@@ -58,7 +59,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 	const getDamMarketCap = () => {
 
 		return <DetailedListItem
-			title={<><Box display="inline">{lockableTokenShortName} Realtime Market Cap{isArbitrumMainnet ? ' (on L2)' : ''}:</Box></>}
+			title={<><Box display="inline">{lockableTokenShortName} Realtime Market Cap{layer === Layer.Layer2 ? ' (on L2)' : ''}:</Box></>}
 			main={<><Box display="inline">{circulatingDamMarketCap} <Typography variant="body2" color="textSecondary" display="inline">(Circulating)</Typography></Box></>}
 			sub={<><Box display="inline">{actualDamMarketCap} <Typography variant="body2" color="textSecondary" display="inline">(Total)</Typography></Box></>}
 		/>
@@ -72,7 +73,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 		const damEthUsdcLiquidity = `$ ${totalLiquidity} USD`;
 
 		return <DetailedListItem
-			title={`${lockableTokenShortName} / ETH Total Liquidity${isArbitrumMainnet ? '' : ''}:`}
+			title={`${lockableTokenShortName} / ETH Total Liquidity:`}
 			main={<>{damEthUsdcLiquidity}</>}
 		/>
 	}
@@ -80,20 +81,20 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 	const getDamAvailableLiquidity = () => {
 		const damEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapDamTokenReserves.dam, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <DetailedListItem
-			title={`${lockableTokenShortName} Available ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Liquidity :`}
+			title={`${lockableTokenShortName} Available ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Liquidity :`}
 			main={<>{BNToDecimal(uniswapDamTokenReserves.dam, true, 18, 2)} {lockableTokenShortName}</>}
 			sub={<>{damEthUsdcLiquidity}</>}
 			description={<>{getAvailableLiquidity(Token.Lockable)}</>}
 			buttons={[
-				getTradeButton({ token: Token.Lockable, isBuy: true, isArbitrumMainnet }),
-				getTradeButton({ token: Token.Lockable, isBuy: false, isArbitrumMainnet })
+				getTradeButton({ token: Token.Lockable, isBuy: true, ecosystem }),
+				getTradeButton({ token: Token.Lockable, isBuy: false, ecosystem })
 			]}
 		/>
 	}
 	const getDamAvailableLiquidityEth = () => {
 		const damEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapDamTokenReserves.eth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <DetailedListItem
-			title={`${lockableTokenShortName} ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
+			title={`${lockableTokenShortName} ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
 			main={<>{BNToDecimal(uniswapDamTokenReserves.eth, true, 18, 2)} ETH</>}
 			sub={<>{damEthUsdcLiquidity}</>}
 		/>
@@ -123,13 +124,13 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 	const getFluxAvailableLiquidity = () => {
 		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapFluxTokenReserves.flux, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <DetailedListItem
-			title={`${mintableTokenShortName} Available ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Liquidity:`}
+			title={`${mintableTokenShortName} Available ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Liquidity:`}
 			main={<>{BNToDecimal(uniswapFluxTokenReserves.flux, true, 18, 2)} {mintableTokenShortName}</>}
 			sub={<>{fluxEthUsdcLiquidity}</>}
 			description={<>{getAvailableLiquidity(Token.Mintable)}</>}
 			buttons={[
-				getTradeButton({ token: Token.Mintable, isBuy: true, isArbitrumMainnet }),
-				getTradeButton({ token: Token.Mintable, isBuy: false, isArbitrumMainnet }),
+				getTradeButton({ token: Token.Mintable, isBuy: true, ecosystem }),
+				getTradeButton({ token: Token.Mintable, isBuy: false, ecosystem }),
 			]}
 		/>
 	}
@@ -143,20 +144,20 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 			const getButton = () => {
 
 				const getAddToPoolLink = () => {
-					if (isArbitrumMainnet) {
+					if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
 						return `https://app.sushi.com/add/${config.mintableTokenContractAddress}/ETH`
 					}
 					return `https://uniswap.exchange/add/${config.mintableTokenContractAddress}/ETH/10000`
 				}
 				const button = <Link href={getAddToPoolLink()} target="_blank" rel="noopener noreferrer">
 					<Button size="small" variant="outlined" color="secondary">
-						<img src={isArbitrumMainnet ? sushiSwapLogo : uniswap} width={24} height={24} style={{ verticalAlign: 'middle', marginRight: 8 }} /> Add To Pool
+						<img src={liquidityPoolType === LiquidityPoolType.SushiSwap ? sushiSwapLogo : uniswap} width={24} height={24} style={{ verticalAlign: 'middle', marginRight: 8 }} /> Add To Pool
 					</Button>
 				</Link>
 
 
 				const getAddToPoolTooltip = () => {
-					if (isArbitrumMainnet) {
+					if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
 						return `Add to ${mintableTokenShortName} / ETH SushiSwap Pool. Liquidity pool participants share 0.25% from each ${mintableTokenShortName} <-> ETH SushiSwap transaction! `
 					}
 
@@ -172,7 +173,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapFluxTokenReserves.eth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD`;
 
 		return <DetailedListItem
-			title={`${mintableTokenShortName} / ETH ${isArbitrumMainnet ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
+			title={`${mintableTokenShortName} / ETH ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
 			main={<>{BNToDecimal(uniswapFluxTokenReserves.eth, true, 18, 2)} ETH</>}
 			sub={<>{fluxEthUsdcLiquidity}</>}
 			buttons={[
@@ -182,7 +183,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 	}
 
 	const getCardTitle = () => {
-		if (isArbitrumMainnet) {
+		if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
 			return 'Realtime Available SushiSwap (L2) Liquidity'
 		}
 		return 'Realtime Available Uniswap v3 Liquidity'
@@ -199,7 +200,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 					</LightTooltip>
 				</Grid>
 				<Grid item>
-					<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallButton} />
+					<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallButton} ecosystem={ecosystem} />
 				</Grid>
 			</Grid>
 			<Box mt={1} mb={1}>
@@ -226,7 +227,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, i
 const RealtimeLiqudityCard: React.FC = () => {
 	const { state: web3State } = useContext(Web3Context)
 
-	const { balances, addressTokenDetails, addressDetails, isArbitrumMainnet } = web3State;
+	const { balances, addressTokenDetails, addressDetails, ecosystem } = web3State;
 	if (!balances || !addressTokenDetails || !addressDetails) {
 		return null;
 	}
@@ -236,7 +237,7 @@ const RealtimeLiqudityCard: React.FC = () => {
 		balances={balances}
 		addressTokenDetails={addressTokenDetails}
 		addressDetails={addressDetails}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

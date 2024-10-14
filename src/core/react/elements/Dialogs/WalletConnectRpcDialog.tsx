@@ -5,7 +5,8 @@ import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage } from '../../../web3/web3Reducer';
 
 import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
@@ -14,10 +15,11 @@ interface RenderParams {
 
 	rpcAddress: string | null;
 	setRpcAddress: React.Dispatch<any>;
+	ecosystem: Ecosystem;
 }
 
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress, setRpcAddress }) => {
-	const { ecosystemName } = getConfig()
+const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress, setRpcAddress, ecosystem }) => {
+	const { ecosystemName } = getEcosystemConfig(ecosystem)
 
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
@@ -109,13 +111,14 @@ const WalletConnectRpcDialog: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 	const [rpcAddress, setRpcAddress] = React.useState(getWalletConnectRpc());
 
-	const { error } = web3State;
+	const { error, ecosystem } = web3State;
 
 	return <Render
 		rpcAddress={rpcAddress}
 		error={error}
 		setRpcAddress={setRpcAddress}
 		dispatch={web3Dispatch}
+		ecosystem={ecosystem}
 	/>
 }
 

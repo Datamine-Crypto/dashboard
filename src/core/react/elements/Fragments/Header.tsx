@@ -8,7 +8,8 @@ import logo from '../../../../svgs/logo.svg';
 import { theme } from '../../../styles'
 import LightTooltip from '../../elements/LightTooltip';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {
@@ -72,11 +73,12 @@ const useStyles = makeStyles(() => ({
 interface Props {
 	isSubPage: boolean;
 	isVideoVisible?: boolean;
+	ecosystem: Ecosystem;
 }
-const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible }) => {
+const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosystem }) => {
 	const classes = useStyles();
 
-	const { isLiquidityPoolsEnabled, navigation, ecosystemName } = getConfig()
+	const { isLiquidityPoolsEnabled, navigation, ecosystemName } = getEcosystemConfig(ecosystem)
 	const { isHelpPageEnabled } = navigation
 
 	const navigateDashboard = () => {
@@ -129,7 +131,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible }) => {
 			}
 			return <Grid item>
 
-				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} />
+				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} ecosystem={ecosystem} />
 			</Grid>
 		}
 		const getHelpButton = () => {

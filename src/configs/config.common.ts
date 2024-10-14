@@ -14,6 +14,11 @@ export enum NetworkType {
 	Arbitrum = 'ARBITRUM',
 }
 
+export enum LiquidityPoolType {
+	SushiSwap = 'SushiSwap',
+	Uniswap = 'Uniswap'
+}
+
 export interface EcosystemConfig {
 
 	/**
@@ -84,4 +89,15 @@ export interface EcosystemConfig {
 	 * What is the path to the logo in the public/logos folder?
 	 */
 	mintableTokenLogoFileName: string;
+
+	/**
+	 * When did the minting start? (Timestamp in seconds)
+	 */
+	timestampGenesis: number;
+
+	/**
+	 * Where is the majority of the liquidity concentrated in this ecosystem?
+	 * For example FLUX (L2) liquidity is currently mostly in SushiSwap while Lockquidity (LOCK) are automatically added to Uniswap
+	 */
+	liquidityPoolType: LiquidityPoolType;
 }

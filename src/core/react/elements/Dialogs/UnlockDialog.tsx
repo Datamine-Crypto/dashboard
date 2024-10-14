@@ -11,6 +11,7 @@ import { theme } from '../../../styles';
 import { Alert } from '@material-ui/lab';
 import { formatMoney } from '../../../utils/formatMoney';
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 interface RenderParams {
 	addressDetails: FluxAddressDetails;
@@ -18,9 +19,9 @@ interface RenderParams {
 
 	error: string | null;
 	amount: string | null;
-	isArbitrumMainnet: boolean;
 	balances: Balances | null;
 	clientSettings: ClientSettings;
+	ecosystem: Ecosystem;
 }
 const localConfig = {
 	/**
@@ -29,8 +30,8 @@ const localConfig = {
 	amountToLoseWarningThreshold: 5
 }
 
-const Render: React.FC<RenderParams> = React.memo(({ addressDetails, dispatch, error, amount, isArbitrumMainnet, balances, clientSettings }) => {
-	const { mintableTokenShortName, lockableTokenShortName } = getConfig(isArbitrumMainnet)
+const Render: React.FC<RenderParams> = React.memo(({ addressDetails, dispatch, error, amount, ecosystem, balances, clientSettings }) => {
+	const { mintableTokenShortName, lockableTokenShortName } = getConfig(ecosystem)
 
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
@@ -121,7 +122,7 @@ const UnlockDialog: React.FC = () => {
 
 	const amount = BNToDecimal(web3State.addressLock?.amount ?? null);
 
-	const { addressDetails, error, isArbitrumMainnet, balances, clientSettings } = web3State;
+	const { addressDetails, error, ecosystem, balances, clientSettings } = web3State;
 	if (!addressDetails) {
 		return null;
 	}
@@ -131,7 +132,7 @@ const UnlockDialog: React.FC = () => {
 		error={error}
 		amount={amount}
 		dispatch={web3Dispatch}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 		balances={balances}
 		clientSettings={clientSettings}
 	/>

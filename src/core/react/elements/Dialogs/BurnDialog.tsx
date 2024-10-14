@@ -5,7 +5,8 @@ import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage, Balances } from '../../../web3/web3Reducer';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import { BNToDecimal } from '../../../web3/helpers';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 interface RenderParams {
 	selectedAddress: string;
@@ -16,11 +17,11 @@ interface RenderParams {
 	amount: string | null;
 	setAmount: React.Dispatch<any>;
 
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
 
-const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, amount, setAmount, isArbitrumMainnet }) => {
-	const { mintableTokenShortName, navigation, ecosystemName } = getConfig(isArbitrumMainnet)
+const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, amount, setAmount, ecosystem }) => {
+	const { mintableTokenShortName, navigation, ecosystemName } = getEcosystemConfig(ecosystem)
 	const { isHelpPageEnabled } = navigation
 
 	const [targetAddress, setTargetAddress] = React.useState(selectedAddress);
@@ -120,7 +121,7 @@ const BurnDialog: React.FC = () => {
 
 	const [amount, setAmount] = React.useState(total);
 
-	const { balances, selectedAddress, error, isArbitrumMainnet } = web3State;
+	const { balances, selectedAddress, error, ecosystem } = web3State;
 	if (!balances || !selectedAddress) {
 		return null;
 	}
@@ -132,7 +133,7 @@ const BurnDialog: React.FC = () => {
 		amount={amount}
 		setAmount={setAmount}
 		dispatch={web3Dispatch}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

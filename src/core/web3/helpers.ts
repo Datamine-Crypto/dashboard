@@ -6,7 +6,7 @@ import { Token } from "../interfaces";
 import Big from 'big.js'
 import { Balances } from "./web3Reducer";
 import moment from 'moment';
-import { getEcosystemConfig as getConfig } from '../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../configs/config';
 import { Ecosystem } from "../../configs/config.common";
 
 interface PriceToggle {
@@ -279,8 +279,8 @@ export const BNToDecimal = (number: BN | null, addCommas: boolean = false, decim
 	return finalAmount;
 }
 
-export const getBurnRatio = (ratio: BN, isArbitrumMainnet: boolean) => {
-	const { mintableTokenShortName, lockableTokenShortName } = getConfig(isArbitrumMainnet)
+export const getBurnRatio = (ratio: BN, ecosystem: Ecosystem) => {
+	const { mintableTokenShortName, lockableTokenShortName } = getEcosystemConfig(ecosystem)
 
 	return `${BNToDecimal(ratio, true, 10, 5)} ${mintableTokenShortName} / 1 ${lockableTokenShortName}`
 }

@@ -1,4 +1,4 @@
-import { EcosystemConfig, Layer } from "../config.common"
+import { EcosystemConfig, Layer, LiquidityPoolType } from "../config.common"
 
 export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
 	return {
@@ -16,6 +16,8 @@ export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
 		layer: Layer.Layer2,
 
 		lockableTokenLogoFileName: 'artbiFlux',
-		mintableTokenLogoFileName: 'lock'
+		mintableTokenLogoFileName: 'lock',
+		timestampGenesis: 1728946539,
+		liquidityPoolType: LiquidityPoolType.Uniswap
 	}
 }

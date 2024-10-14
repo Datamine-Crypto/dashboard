@@ -12,7 +12,8 @@ import { commonLanguage, Balances } from '../../../web3/web3Reducer';
 import LockOpenIcon from '@material-ui/icons/Stop';
 import { getRequiredFluxToBurn } from '../../../web3/helperElements';
 import DetailedListItem from '../Fragments/DetailedListItem';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 interface RenderParams {
 	addressLock: FluxAddressLock;
@@ -22,10 +23,10 @@ interface RenderParams {
 	selectedAddress: string;
 	balances: Balances;
 	dispatch: React.Dispatch<any>;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
-const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails, addressTokenDetails, selectedAddress, balances, displayedAddress, dispatch, isArbitrumMainnet }) => {
-	const { mintableTokenShortName, maxBurnMultiplier } = getConfig(isArbitrumMainnet)
+const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails, addressTokenDetails, selectedAddress, balances, displayedAddress, dispatch, ecosystem }) => {
+	const { mintableTokenShortName, maxBurnMultiplier } = getEcosystemConfig(ecosystem)
 
 	const getBlockDuration = (startBlockNumber: number) => {
 		const blocksDuration = addressDetails.blockNumber - startBlockNumber;
@@ -86,7 +87,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 	}
 	const { myRatio } = addressTokenDetails;
 
-	const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, targetMultiplier: new BN(maxBurnMultiplier - 1) });
+	const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, ecosystem, targetMultiplier: new BN(maxBurnMultiplier - 1) });
 
 	const getDamLockinDuration = () => {
 		const duration = getBlockDuration(addressLock.blockNumber)
@@ -102,7 +103,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 		if (isTargetReached || addressDetails.addressBurnMultiplier >= 20000) {
 			return null;
 		}
-		const { fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, targetMultiplier: new BN("1") });
+		const { fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, ecosystem, targetMultiplier: new BN("1") });
 
 		return <Box my={2}>
 			<DetailedListItem
@@ -164,7 +165,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 const MintStatsCard: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
-	const { address, selectedAddress, addressLock, addressDetails, addressTokenDetails, balances, isArbitrumMainnet } = web3State;
+	const { address, selectedAddress, addressLock, addressDetails, addressTokenDetails, balances, ecosystem } = web3State;
 	if (!addressLock || !addressDetails || !addressTokenDetails || !selectedAddress || !balances) {
 		return null;
 	}
@@ -177,7 +178,7 @@ const MintStatsCard: React.FC = () => {
 		displayedAddress={address ?? selectedAddress}
 		balances={balances}
 		dispatch={web3Dispatch}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

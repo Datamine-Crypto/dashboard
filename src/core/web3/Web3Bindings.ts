@@ -20,7 +20,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import axios from 'axios'
-import { NetworkType } from '../../configs/config.common';
+import { Layer, NetworkType } from '../../configs/config.common';
 import { Ecosystem } from '../../configs/config.common';
 import { devLog } from '../utils/devLog';
 import { decodeMulticall, encodeMulticall } from '../utils/web3multicall';
@@ -478,9 +478,9 @@ const queryHandlers = {
 		}
 	},
 	[commonLanguage.queries.FindAccountState]: async ({ state, query }: QueryHandler<Web3State>) => {
-		const { web3, address, isArbitrumMainnet } = state;
+		const { web3, address, ecosystem } = state;
 
-		devLog('FindAccountState:', { address, isArbitrumMainnet })
+		devLog('FindAccountState:', { address, ecosystem })
 
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
@@ -511,10 +511,11 @@ const queryHandlers = {
 			devLog('FindAccountState ethBalance:', ethBalance.toString())
 
 			const addressToFetch = address ?? selectedAddress;
-			devLog('FindAccountState addressToFetch:', { addressToFetch, isArbitrumMainnet })
+			devLog('FindAccountState addressToFetch:', { addressToFetch, ecosystem })
 
 			const contracts = getContracts(web3, state.ecosystem)
 			const config = getEcosystemConfig(state.ecosystem);
+			const isArbitrumMainnet = config.layer === Layer.Layer2;
 
 			devLog('FindAccountState Making batch request:')
 
@@ -1105,7 +1106,7 @@ const queryHandlers = {
 		}
 	},
 	[commonLanguage.queries.GetAuthorizeFluxOperatorResponse]: async ({ state }: QueryHandler<Web3State>) => {
-		const { web3, isArbitrumMainnet } = state;
+		const { web3 } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
 		}
@@ -1126,7 +1127,7 @@ const queryHandlers = {
 		return response && response.status
 	},
 	[commonLanguage.queries.GetLockInDamTokensResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
-		const { web3, isArbitrumMainnet } = state;
+		const { web3 } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
 		}
@@ -1149,7 +1150,7 @@ const queryHandlers = {
 		return response && response.status
 	},
 	[commonLanguage.queries.GetMintFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
-		const { web3, isArbitrumMainnet } = state;
+		const { web3 } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
 		}
@@ -1172,7 +1173,7 @@ const queryHandlers = {
 		return response && response.status
 	},
 	[commonLanguage.queries.GetBurnFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
-		const { web3, isArbitrumMainnet } = state;
+		const { web3 } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
 		}
@@ -1192,7 +1193,7 @@ const queryHandlers = {
 		return response && response.status
 	},
 	[commonLanguage.queries.GetUnlockDamTokensResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
-		const { web3, isArbitrumMainnet } = state;
+		const { web3 } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
 		}

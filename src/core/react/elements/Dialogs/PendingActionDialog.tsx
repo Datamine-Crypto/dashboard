@@ -7,13 +7,15 @@ import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 
 import { theme } from '../../../styles'
 import { ReducerQuery } from '../../../sideEffectReducer';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 interface Params {
 	open: boolean;
 	connectionMethod: ConnectionMethod;
 	queries: ReducerQuery[];
 	onClose: () => void;
+	ecosystem: Ecosystem;
 }
 
 const useStyles = makeStyles(() => ({
@@ -22,8 +24,8 @@ const useStyles = makeStyles(() => ({
 	}
 }));
 
-const PendingActionDialog: React.FC<Params> = React.memo(({ open, queries, connectionMethod, onClose }) => {
-	const { mintableTokenShortName } = getConfig()
+const PendingActionDialog: React.FC<Params> = React.memo(({ open, queries, connectionMethod, onClose, ecosystem }) => {
+	const { mintableTokenShortName } = getEcosystemConfig(ecosystem)
 	const classes = useStyles();
 
 	const getConnectionMethodName = () => {

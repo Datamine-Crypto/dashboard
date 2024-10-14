@@ -7,17 +7,18 @@ import { BNToDecimal, getBurnRatio, getBlocksRemaining, getBNPercent, getPriceTo
 import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '../../../interfaces';
 import { Balances } from '../../../web3/web3Reducer';
 import DetailedListItem from '../Fragments/DetailedListItem';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem, Layer } from '../../../../configs/config.common';
 
 interface RenderParams {
 	addressDetails: FluxAddressDetails;
 	addressTokenDetails: FluxAddressTokenDetails;
 	balances: Balances;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
 
-const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressTokenDetails, balances, isArbitrumMainnet }) => {
-	const { lockableTokenShortName, mintableTokenShortName, mintableTokenPriceDecimals } = getConfig(isArbitrumMainnet)
+const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressTokenDetails, balances, ecosystem }) => {
+	const { lockableTokenShortName, mintableTokenShortName, mintableTokenPriceDecimals, layer } = getEcosystemConfig(ecosystem)
 
 	const { globalRatio, blockNumber } = addressTokenDetails;
 
@@ -58,14 +59,14 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			title={`${lockableTokenShortName} Powering Validators:`}
 			main={<>{BNToDecimal(addressDetails.globalLockedAmount, true, 18, 2)} {lockableTokenShortName}</>}
 			sub={<>{getLockedPercent()}</>}
-			description={<Typography variant="body2" color="textSecondary" display="inline"> ({lockedPercent}% of {isArbitrumMainnet ? 'L2' : 'lifetime'} supply)</Typography>}
+			description={<Typography variant="body2" color="textSecondary" display="inline"> ({lockedPercent}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)</Typography>}
 		/>
 	}
 
 	const getFluxBurnRatio = () => {
 		return <DetailedListItem
 			title={`${mintableTokenShortName} Burn Ratio:`}
-			main={getBurnRatio(globalRatio, isArbitrumMainnet)}
+			main={getBurnRatio(globalRatio, ecosystem)}
 		/>
 	}
 
@@ -99,7 +100,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 const GlobalCard: React.FC = () => {
 	const { state: web3State } = useContext(Web3Context)
 
-	const { addressDetails, addressTokenDetails, balances, isArbitrumMainnet } = web3State;
+	const { addressDetails, addressTokenDetails, balances, ecosystem } = web3State;
 	if (!addressDetails || !addressTokenDetails || !balances) {
 		return null;
 	}
@@ -108,7 +109,7 @@ const GlobalCard: React.FC = () => {
 		addressDetails={addressDetails}
 		addressTokenDetails={addressTokenDetails}
 		balances={balances}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

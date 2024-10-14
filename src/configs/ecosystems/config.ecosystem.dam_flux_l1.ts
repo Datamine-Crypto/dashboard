@@ -1,4 +1,4 @@
-import { EcosystemConfig, Layer } from "../config.common"
+import { EcosystemConfig, Layer, LiquidityPoolType } from "../config.common"
 
 export const getDamFluxEcosystemConfig = (): EcosystemConfig => {
 	return {
@@ -15,6 +15,8 @@ export const getDamFluxEcosystemConfig = (): EcosystemConfig => {
 		layer: Layer.Layer1,
 
 		lockableTokenLogoFileName: 'dam',
-		mintableTokenLogoFileName: 'flux'
+		mintableTokenLogoFileName: 'flux',
+		timestampGenesis: 1591626738000,
+		liquidityPoolType: LiquidityPoolType.Uniswap
 	}
 }

@@ -7,7 +7,8 @@ import uniswapLogo from '../../../../svgs/uniswap.svg';
 import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 
 import oneInchLogo from '../../../../svgs/oneInch.svg';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 
 
@@ -71,6 +72,7 @@ interface Props {
 	hideIcon?: boolean;
 
 	contents?: React.ReactElement;
+	ecosystem: Ecosystem;
 }
 export enum LiquidityPoolButtonType {
 	SmallText = 'SmallText',
@@ -91,9 +93,9 @@ interface TradePool {
 	}
 	layer: number;
 }
-const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, contents }) => {
+const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, contents, ecosystem }) => {
 
-	const { liquidityPoolGroups } = getConfig(false)
+	const { liquidityPoolGroups } = getEcosystemConfig(ecosystem)
 
 	const classes = useStyles();
 

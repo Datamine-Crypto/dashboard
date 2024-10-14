@@ -17,11 +17,12 @@ import { ReducerQuery } from '../../sideEffectReducer';
 import AddToFirefoxFragment from '../elements/Fragments/AddToFirefoxFragment';
 import WalletConnectRpcDialog from '../elements/Dialogs/WalletConnectRpcDialog';
 import SettingsIcon from '@material-ui/icons/Settings';
-import { getEcosystemConfig as getConfig } from '../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
 import WalletConnectButton from '../elements/Fragments/WalletConnectButton';
 import VConsole from 'vconsole';
 import { isDevLogEnabled } from '../../utils/devLog';
+import { Ecosystem } from '../../../configs/config.common';
 
 interface RenderParams {
 	isLate: boolean;
@@ -37,6 +38,7 @@ interface RenderParams {
 	dialog: DialogType | null;
 
 	dispatch: React.Dispatch<any>;
+	ecosystem: Ecosystem;
 }
 
 interface CenterContent {
@@ -54,10 +56,10 @@ const useStyles = makeStyles(() => ({
 	}
 }))
 
-const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitialized, addressDetails, hasWeb3, selectedAddress, pendingQueries, queriesCount, lastDismissedPendingActionCount, isIncorrectNetwork, connectionMethod, dispatch }) => {
+const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitialized, addressDetails, hasWeb3, selectedAddress, pendingQueries, queriesCount, lastDismissedPendingActionCount, isIncorrectNetwork, connectionMethod, dispatch, ecosystem }) => {
 	const classes = useStyles();
 
-	const config = getConfig(false); // Mainnet
+	const config = getEcosystemConfig(ecosystem);
 	const { ecosystemName, isSettingsValidatorDashboardButtonEnabled, lockableTokenShortName, mintableTokenShortName, isLiquidityPoolsEnabled } = config
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -102,7 +104,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 			dispatch({ type: commonLanguage.commands.DismissPendingAction })
 		]
 
-		return <PendingActionDialog open={true} queries={pendingQueries} connectionMethod={connectionMethod} onClose={onClose} />
+		return <PendingActionDialog open={true} queries={pendingQueries} connectionMethod={connectionMethod} onClose={onClose} ecosystem={ecosystem} />
 	}
 
 	const getLogo = () => {
@@ -129,7 +131,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 				return null
 			}
 			return (
-				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.LargeButton} />
+				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.LargeButton} ecosystem={ecosystem} />
 			)
 		}
 		return <Box className={classes.fullScreenSplash}>
@@ -313,7 +315,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 			return (
 				<Grid item>
 					<Box mr={3}>
-						<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallText} />
+						<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallText} ecosystem={ecosystem} />
 					</Box>
 				</Grid>
 			)
@@ -379,7 +381,7 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 
 	const { addressDetails } = web3State;
 
-	const { isLate, dialog, isInitialized, hasWeb3, selectedAddress, pendingQueries, queriesCount, lastDismissedPendingActionCount, isIncorrectNetwork, connectionMethod } = web3State;
+	const { isLate, dialog, isInitialized, hasWeb3, selectedAddress, pendingQueries, queriesCount, lastDismissedPendingActionCount, isIncorrectNetwork, connectionMethod, ecosystem } = web3State;
 
 	return <Render
 		isLate={isLate}
@@ -394,6 +396,7 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 		dispatch={web3Dispatch}
 		addressDetails={addressDetails}
 		connectionMethod={connectionMethod}
+		ecosystem={ecosystem}
 	/>
 
 }

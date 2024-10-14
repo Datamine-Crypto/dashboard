@@ -29,7 +29,7 @@ import moment from 'moment';
 import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
 import { getApy, TokenPair } from '../../../utils/getApy';
 import { formatMoney } from '../../../utils/formatMoney';
-import { Ecosystem, NetworkType } from '../../../../configs/config.base';
+import { Ecosystem, Layer, NetworkType } from '../../../../configs/config.common';
 import ArbitrumLogo from '../../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../../svgs/ethereumPurple.svg';
 import fluxLogo from '../../../../svgs/fluxLogo.svg';
@@ -770,7 +770,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						}
 						const burnMultiplier = getBurnMultiplier();
 
-						const apy = getApy(apyPools)
+						const apy = getApy(ecosystem, apyPools)
 						if (!apy) {
 							return null;
 						}
@@ -1192,7 +1192,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 const CallToActionCard: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
-	const { addressLock, address, selectedAddress, addressDetails, addressTokenDetails, balances, forecastSettings, clientSettings, isArbitrumMainnet } = web3State;
+	const { addressLock, address, selectedAddress, addressDetails, addressTokenDetails, balances, forecastSettings, clientSettings, ecosystem } = web3State;
 	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances) {
 		return null;
 	}
@@ -1209,7 +1209,7 @@ const CallToActionCard: React.FC = () => {
 		dispatch={web3Dispatch}
 		forecastSettings={forecastSettings}
 		clientSettings={clientSettings}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

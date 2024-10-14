@@ -1,6 +1,6 @@
 import { Box, CardMedia, Grid, Link } from '@material-ui/core';
 import React, { useContext } from 'react';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
 
 import metamaskIcon from '../../../../svgs/metamask.svg';
 import { DialogType } from '../../../interfaces';
@@ -8,16 +8,16 @@ import { addToMetamask } from '../../../web3/helpers';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage, ConnectionMethod } from '../../../web3/web3Reducer';
 import LightTooltip from '../LightTooltip';
+import { Ecosystem } from '../../../../configs/config.common';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
 	connectionMethod: ConnectionMethod;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod, isArbitrumMainnet }) => {
-	const { mintableTokenShortName, lockableTokenShortName } = getConfig()
+const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod, ecosystem }) => {
+	const { mintableTokenShortName, lockableTokenShortName, navigation } = getEcosystemConfig(ecosystem)
 
-	const { navigation } = getConfig()
 	const { isHelpPageEnabled } = navigation
 
 	// Hide "Add To Metamask" button if we're not connected to MetaMask
@@ -29,7 +29,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 		e.preventDefault();
 
 		try {
-			addToMetamask(isArbitrumMainnet);
+			addToMetamask(ecosystem);
 			dispatch({
 				type: commonLanguage.commands.ShowDialog, payload: {
 					dialog: DialogType.TitleMessage, dialogParams: {
@@ -65,12 +65,12 @@ interface Props { }
 const AddToFirefoxFragment: React.FC<Props> = ({ }) => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
-	const { connectionMethod, isArbitrumMainnet } = web3State;
+	const { connectionMethod, ecosystem } = web3State;
 
 	return <Render
 		dispatch={web3Dispatch}
 		connectionMethod={connectionMethod}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

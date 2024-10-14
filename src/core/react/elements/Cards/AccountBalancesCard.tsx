@@ -17,7 +17,7 @@ import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 import DetailedListItem from '../Fragments/DetailedListItem';
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import { getTradeButton } from '../Fragments/TradeButton';
-import { Ecosystem } from '../../../../configs/config.base';
+import { Ecosystem, LiquidityPoolType } from '../../../../configs/config.common';
 
 const useStyles = makeStyles(() => {
 	return {
@@ -45,7 +45,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddress, addressTokenDetails, displayedAddress, addressDetails, balances, dispatch, ecosystem }) => {
 
 	const config = getConfig(ecosystem);
-	const { lockableTokenFullName, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolsEnabled, mintableTokenPriceDecimals, isLiquidityPoolAdditionalButtonsEnabled } = config
+	const { lockableTokenFullName, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolsEnabled, mintableTokenPriceDecimals, isLiquidityPoolAdditionalButtonsEnabled, liquidityPoolType } = config
 
 
 	const classes = useStyles();
@@ -110,20 +110,20 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			const getButton = () => {
 
 				const getAddToPoolLink = () => {
-					if (isArbitrumMainnet) {
+					if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
 						return `https://app.sushi.com/add/${config.mintableTokenContractAddress}/ETH`
 					}
 					return `https://uniswap.exchange/add/${config.mintableTokenContractAddress}/ETH/10000`
 				}
 				const button = <Link href={getAddToPoolLink()} target="_blank" rel="noopener noreferrer">
 					<Button size="small" variant="outlined" color="secondary">
-						<img src={isArbitrumMainnet ? sushiSwapLogo : uniswap} width={24} height={24} style={{ verticalAlign: 'middle', marginRight: 8 }} /> Add To Pool
+						<img src={liquidityPoolType === LiquidityPoolType.SushiSwap ? sushiSwapLogo : uniswap} width={24} height={24} style={{ verticalAlign: 'middle', marginRight: 8 }} /> Add To Pool
 					</Button>
 				</Link>
 
 
 				const getAddToPoolTooltip = () => {
-					if (isArbitrumMainnet) {
+					if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
 						return `Add to ${mintableTokenShortName} / ETH SushiSwap Pool. Liquidity pool participants share 0.25% from each ${mintableTokenShortName} <-> ETH SushiSwap transaction! `
 					}
 
@@ -172,7 +172,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			main={getDamBalance()}
 			sub={getDamBalanceUSD()}
 			buttons={
-				[<>{getTradeButton({ token: Token.Lockable, isArbitrumMainnet })}</>]
+				[<>{getTradeButton({ token: Token.Lockable, ecosystem })}</>]
 			}
 		/>
 	}
@@ -226,7 +226,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 	const getFluxBurnRatio = () => {
 		return <DetailedListItem
 			title={`${mintableTokenShortName} Burn Ratio:`}
-			main={getBurnRatio(myRatio, isArbitrumMainnet)}
+			main={getBurnRatio(myRatio, ecosystem)}
 		/>
 	}
 

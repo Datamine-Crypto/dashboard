@@ -114,7 +114,6 @@ export interface Web3State {
 
 	isMobileDrawerOpen: boolean;
 	connectionMethod: ConnectionMethod;
-	isArbitrumMainnet: boolean;
 
 	walletConnectRpc: string | null;
 
@@ -1059,7 +1058,6 @@ const initialState: Web3State = {
 
 	isMobileDrawerOpen: false,
 	connectionMethod: ConnectionMethod.MetaMask,
-	isArbitrumMainnet: false,
 	ecosystem: defaultEcosystem,
 
 	walletConnectRpc: null,

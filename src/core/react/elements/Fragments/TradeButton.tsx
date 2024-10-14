@@ -9,7 +9,7 @@ import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import uniswapLogo from '../../../../svgs/uniswap.svg';
 import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 import oneInchLogo from '../../../../svgs/oneInch.svg';
-import { Ecosystem, Layer } from '../../../../configs/config.base';
+import { Ecosystem, Layer } from '../../../../configs/config.common';
 
 interface TradeRenderParams {
 	token: Token;
@@ -19,7 +19,7 @@ interface TradeRenderParams {
 }
 const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, ecosystem, isBuy = true, showBuyTokens = false }) => {
 	const ecosystemConfig = getConfig(ecosystem);
-	const { isLiquidityPoolsEnabled, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolAdditionalButtonsEnabled } = ecosystemConfig
+	const { isLiquidityPoolsEnabled, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolAdditionalButtonsEnabled, layer } = ecosystemConfig
 
 	if (!isLiquidityPoolsEnabled || !isLiquidityPoolAdditionalButtonsEnabled) {
 		return <></>
@@ -66,7 +66,7 @@ const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, ecosystem,
 		}
 
 		const getSushiSwapMenuItem = () => {
-			if (!isArbitrumMainnet) {
+			if (layer === Layer.Layer1) {
 				return null;
 			}
 			const getLink = () => {
@@ -77,24 +77,6 @@ const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, ecosystem,
 			</MenuItem>
 		}
 
-		const getOneInchMenuItem = () => {
-			if (!isArbitrumMainnet) {
-				return null;
-			}
-			const getLink = () => {
-				//@todo ETH mainnet will not be 42161
-				return `https://app.1inch.io/#/42161/swap/${inputCurrency}/${outputCurrency}`;
-			}
-			return <>
-				<Box my={1}>
-					<Divider />
-				</Box>
-				<MenuItem component={Link} href={getLink()} target="_blank" rel="noopener noreferrer" color="textPrimary">
-					<img src={oneInchLogo} width={32} height={32} />&nbsp;&nbsp;{isBuy ? 'Buy' : 'Sell'} {getTokenLabel()} on 1inch {getLayerLabel()}&nbsp;&nbsp;
-					<Typography variant="body2" color="textSecondary" display="inline">(DEX Aggregator)</Typography>
-				</MenuItem>
-			</>
-		}
 		const getUniswapMenuItem = () => {
 			const getLink = () => {
 				//@todo ETH mainnet will not be 42161
@@ -116,7 +98,6 @@ const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, ecosystem,
 		>
 			{getSushiSwapMenuItem()}
 			{getUniswapMenuItem()}
-			{getOneInchMenuItem()}
 		</Menu>
 	}
 

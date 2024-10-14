@@ -8,7 +8,8 @@ import { getPriceToggle, getBNPercent } from '../../../web3/helpers';
 import { Token, FluxAddressDetails } from '../../../interfaces';
 import { Balances } from '../../../web3/web3Reducer';
 import BN from 'bn.js'
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem, Layer } from '../../../../configs/config.common';
 
 enum SankeyNodeType {
 	KnownMoney,
@@ -27,10 +28,10 @@ enum SankeyNodeType {
 interface SankeyProps {
 	balances: Balances;
 	addressDetails: FluxAddressDetails;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
-const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addressDetails, isArbitrumMainnet }) => {
-	const { mintableTokenShortName, lockableTokenShortName } = getConfig()
+const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addressDetails, ecosystem }) => {
+	const { mintableTokenShortName, lockableTokenShortName, layer, timestampGenesis } = getEcosystemConfig(ecosystem)
 
 	const mainHeadingStyle = { fill: 'rgba(255, 255, 255, 0.7)' }
 
@@ -59,11 +60,11 @@ const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addres
 	const lockedDamSupply = addressDetails.globalLockedAmount
 	const remainingDamSupply = originalDamSupply.sub(lockedDamSupply).sub(balances.uniswapDamTokenReserves.dam)
 
-	const daysMinting = Math.floor((Date.now() - ((isArbitrumMainnet ? 1634936388000 : 1591626738000) - 60 * 60 * 4 * 1000)) / (60 * 60 * 24 * 1000))
+	const daysMinting = Math.floor((Date.now() - ((timestampGenesis) - 60 * 60 * 4 * 1000)) / (60 * 60 * 24 * 1000))
 	const burnedFluxDays = Math.floor(daysMinting / (100 / (fluxBurnedPercent.toNumber() / 100)))
 
 	const getRemainingSupply = () => {
-		if (!isArbitrumMainnet) {
+		if (layer === Layer.Layer1) {
 			return [
 
 				{ title: `${mintableTokenShortName}Arbitrum Bridge (L2)`, subtitle: <>{getFormattedAmount(balances.arbitrumBridgeBalance, Token.Mintable)}</> },
@@ -95,7 +96,7 @@ const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addres
 	}
 
 	const getRemainingSupplyNodes = () => {
-		if (!isArbitrumMainnet) {
+		if (layer === Layer.Layer1) {
 			return [
 				{ name: getLine(SankeyNodeType.RemainingSupplyBridge, '-0px') },
 			]
@@ -125,7 +126,7 @@ const SankeyFlowFragment: React.FC<SankeyProps> = React.memo(({ balances, addres
 	}
 
 	const getRemainingSupplyLinks = () => {
-		if (!isArbitrumMainnet) {
+		if (layer === Layer.Layer1) {
 			return [
 				{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.RemainingSupply, value: getNodeValue(remainingSupply.div(new BN(2)), Token.Mintable), color: '#ffffff1a' },
 				{ source: SankeyNodeType.CirculatingSupply, target: SankeyNodeType.RemainingSupplyBridge, value: getNodeValue(remainingSupply.div(new BN(2)), Token.Mintable), color: '#2698e41a' },

@@ -7,13 +7,15 @@ import Arbitrum from '../../../../svgs/arbitrum.svg';
 
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage as web3CommonLanguage } from '../../../web3/web3Reducer';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
+	ecosystem: Ecosystem;
 }
-const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
-	const { isArbitrumOnlyToken } = getConfig()
+const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
+	const { isArbitrumOnlyToken } = getEcosystemConfig(ecosystem)
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -97,10 +99,12 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 interface Props { }
 
 const WalletConnectButton: React.FC<Props> = ({ }) => {
-	const { dispatch: web3Dispatch } = useContext(Web3Context)
+	const { state: web3State, dispatch: web3Dispatch, } = useContext(Web3Context)
+	const { ecosystem } = web3State
 
 	return <Render
 		dispatch={web3Dispatch}
+		ecosystem={ecosystem}
 	/>
 }
 
