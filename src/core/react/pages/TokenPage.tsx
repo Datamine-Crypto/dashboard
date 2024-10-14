@@ -28,6 +28,8 @@ import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Frag
 import { helpArticles } from '../../helpArticles';
 import { Web3Context } from '../../web3/Web3Context';
 import { commonLanguage } from '../../web3/web3Reducer';
+import { Ecosystem, Layer } from '../../../configs/config.common';
+import { getEcosystemConfig } from '../../../configs/config';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {
@@ -141,12 +143,16 @@ interface PointParams {
 
 interface RenderProps {
 	dispatch: React.Dispatch<any>;
-	isArbitrumMainnet: boolean;
+	ecosystem: Ecosystem;
 }
 
-const Render: React.FC<RenderProps> = React.memo(({ dispatch, isArbitrumMainnet }) => {
+const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 
 	const classes = useStyles();
+	const { layer } = getEcosystemConfig(ecosystem);
+	const isArbitrumMainnet = layer === Layer.Layer2;
+
+	//@todo this page needs reworking, currently it only talks about DAM, FLUX and ArbiFLUX.
 
 	const fluxTokenName = isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'
 	const damTokenName = isArbitrumMainnet ? 'FLUX' : 'DAM'
@@ -210,13 +216,13 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, isArbitrumMainnet 
 								<Link href="#dashboard" color="textSecondary">Start your {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} validator by locking {isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} in a smart contract</Link>
 							</li>
 							<li>
-								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} contents={<Box style={{ cursor: 'pointer' }}>Your validator generates {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} every 15 seconds <Typography variant="body2" color="textPrimary" display="inline">(Trade On Uniswap)</Typography></Box>} />
+								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} ecosystem={ecosystem} contents={<Box style={{ cursor: 'pointer' }}>Your validator generates {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} every 15 seconds <Typography variant="body2" color="textPrimary" display="inline">(Trade On Uniswap)</Typography></Box>} />
 							</li>
 							<li>
 								<Link onClick={(e: any) => dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle: burningFluxTokensHelpArticle } })} color="textSecondary" style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} from circulation increases your minting speed <Typography variant="body2" color="textPrimary" display="inline">(Get rewards 30x faster)</Typography></Link>
 							</li>
 							<li>
-								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} contents={<Box style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} creates <strong style={{ color: '#0FF' }}>monetary velocity</strong> which flows through 1% Uniswap Pool</Box>} />
+								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} ecosystem={ecosystem} contents={<Box style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} creates <strong style={{ color: '#0FF' }}>monetary velocity</strong> which flows through 1% Uniswap Pool</Box>} />
 							</li>
 						</ul>
 					</>
@@ -335,7 +341,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, isArbitrumMainnet 
 
 		return <Container maxWidth="md" component="main">
 			<Grid container spacing={5} alignItems="flex-end">
-				<TableContainer component={props => <Paper {...props} elevation={0} />}>
+				<TableContainer component={(props: any) => <Paper {...props} elevation={0} />}>
 					<Table aria-label="simple table" className={classes.comparisonTable}>
 						<TableHead>
 							<TableRow>
@@ -366,10 +372,10 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, isArbitrumMainnet 
 								<TableCell component="th" scope="row">
 								</TableCell>
 								<TableCell align="right">
-									<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallButton} />
+									<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallButton} ecosystem={ecosystem} />
 								</TableCell>
 								<TableCell align="right">
-									<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallButton} />
+									<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallButton} ecosystem={ecosystem} />
 								</TableCell>
 							</TableRow>
 						</TableFooter>
@@ -386,7 +392,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, isArbitrumMainnet 
 
 		return <Grid container spacing={4} justify="center" alignItems="center">
 			<Grid item>
-				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} />
+				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} ecosystem={ecosystem} />
 			</Grid>
 			<Grid item>
 				<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard}>
@@ -447,20 +453,20 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, isArbitrumMainnet 
 				</Box>
 			</Box>
 		</Box>
-		<FooterFragment />
+		<FooterFragment ecosystem={ecosystem} />
 	</>
 
 })
 
 interface Props {
-	isArbitrumMainnet: boolean;
 }
-const TokenPage: React.FC<Props> = ({ isArbitrumMainnet }) => {
+const TokenPage: React.FC<Props> = ({ }) => {
 	const { state: web3State, dispatch } = useContext(Web3Context)
+	const { ecosystem } = web3State
 
 	return <Render
 		dispatch={dispatch}
-		isArbitrumMainnet={isArbitrumMainnet}
+		ecosystem={ecosystem}
 	/>
 }
 

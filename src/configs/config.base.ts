@@ -1,9 +1,9 @@
 
-import fluxLogo from './svgs/fluxLogo.svg';
-import arbiFluxLogo from './svgs/arbiFluxLogo.svg';
-import lockquidityLogo from './svgs/lockquidity.svg';
+import fluxLogo from '../svgs/fluxLogo.svg';
+import arbiFluxLogo from '../svgs/arbiFluxLogo.svg';
+import lockquidityLogo from '../svgs/lockquidity.svg';
 
-import logo from './svgs/logo.svg';
+import logo from '../svgs/logo.svg';
 import { getDamFluxEcosystemConfig } from './ecosystems/config.ecosystem.dam_flux_l1';
 import { getFluxArbiFluxEcosystemConfig } from './ecosystems/config.ecosystem.flux_arbiflux_l2';
 import { getArbiFluxLockquidityEcosystemConfig } from './ecosystems/config.ecosystem.arbiflux_lockquidity_l2';

@@ -18,6 +18,7 @@ import FooterFragment from '../elements/Fragments/FooterFragment';
 import { helpArticles, SearchCategory, SearchCategoryText } from '../../helpArticles';
 import { commonLanguage } from '../../web3/web3Reducer';
 import { Web3Context } from '../../web3/Web3Context';
+import { Ecosystem } from '../../../configs/config.common';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {
@@ -113,9 +114,10 @@ interface PointParams {
 
 interface RenderProps {
 	dispatch: React.Dispatch<any>;
+	ecosystem: Ecosystem;
 }
 
-const Render: React.FC<RenderProps> = React.memo(({ }) => {
+const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 	const classes = useStyles();
 
 	const getPoint = ({ title, content, icon, mt, mb }: PointParams) => {
@@ -235,7 +237,7 @@ const Render: React.FC<RenderProps> = React.memo(({ }) => {
 			</Box>
 		</Box>
 
-		<FooterFragment />
+		<FooterFragment ecosystem={ecosystem} />
 	</>
 })
 
@@ -243,9 +245,11 @@ interface Props { }
 
 const CommunityPage: React.FC<Props> = ({ }) => {
 	const { state: web3State, dispatch } = useContext(Web3Context)
+	const { ecosystem } = web3State
 
 	return <Render
 		dispatch={dispatch}
+		ecosystem={ecosystem}
 	/>
 }
 

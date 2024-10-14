@@ -2,7 +2,7 @@ import { makeStyles, TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import React from "react";
 import { useContext } from "react";
-import { NetworkType } from "../../../../config.base";
+import { NetworkType } from "../../../../configs/config.common";
 import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from "../../../helpArticles";
 import { Web3Context } from "../../../web3/Web3Context";
 import { commonLanguage } from "../../../web3/web3Reducer";

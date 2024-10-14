@@ -173,7 +173,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				return <Terms ecosystem={ecosystem} />
 			case Page.TokenPage:
 				document.title = `${mintableTokenShortName} Ecosystem - ${ecosystemName}`;
-				return <TokenPage isArbitrumMainnet={!!pageDetails.isArbitrumMainnet} />
+				return <TokenPage />
 		}
 
 		document.title = `${ecosystemSlogan} - ${ecosystemName}`;

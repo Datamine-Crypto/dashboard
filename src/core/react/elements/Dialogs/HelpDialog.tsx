@@ -11,7 +11,7 @@ import LaunchIcon from '@material-ui/icons/Launch';
 import AddToFirefoxFragment from '../Fragments/AddToFirefoxFragment';
 import CloseIcon from '@material-ui/icons/Close';
 import LightTooltip from '../LightTooltip';
-import { NetworkType } from '../../../../config.base';
+import { NetworkType } from '../../../../configs/config.common';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
