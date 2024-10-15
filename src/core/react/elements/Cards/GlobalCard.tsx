@@ -27,7 +27,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 		return <>{balanceInUsdc}</>
 	}
 	const getBurnPercent = () => {
-		const burnPercent = getBNPercent(addressDetails.globalBurnedAmount, balances.fluxTotalSupply)
+		const burnPercent = getBNPercent(addressDetails.globalBurnedAmount, balances.fluxTotalSupply, false)
 		return <>({burnPercent}% of minted {mintableTokenShortName})</>
 	}
 
