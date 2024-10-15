@@ -1,4 +1,5 @@
 import { EcosystemConfig, Layer, LiquidityPoolType } from "../config.common"
+import ecosystemLogoSvg from '../../svgs/arbiFluxLogo.svg';
 
 export const getFluxArbiFluxEcosystemConfig = (): EcosystemConfig => {
 	return {
@@ -21,5 +22,7 @@ export const getFluxArbiFluxEcosystemConfig = (): EcosystemConfig => {
 
 		mintableTokenMintPerBlockDivisor: 8,
 		mintableTokenPriceDecimals: 8,
+
+		ecosystemLogoSvg
 	}
 }

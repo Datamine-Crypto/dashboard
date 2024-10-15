@@ -3,7 +3,7 @@ import Web3 from "web3";
 import BN from 'bn.js'
 import { getPriceToggle, parseBN } from "./helpers";
 import { v4 as uuidv4 } from 'uuid';
-import { Ecosystem, NetworkType } from '../../configs/config.common';
+import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
 import copyToClipBoard from "../utils/copyToClipboard";
 import Big from 'big.js'
 import { ReducerQuery, ReducerQueryHandler, ReducerCommand } from "../sideEffectReducer";
@@ -160,6 +160,9 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 
 	const withQueries = createWithWithQueries(state)
 
+	const { ecosystem } = state
+	const ecosystemConfig = getEcosystemConfig(ecosystem)
+
 	switch (query.type) {
 		case commonLanguage.queries.FindWeb3Instance:
 			{
@@ -174,7 +177,27 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 				const { web3, selectedAddress, networkType, chainId, useWalletConnect } = response;
 
 				const isArbitrumMainnet = chainId === 42161
-				devLog('FindWeb3Instance reducer isArbitrumMainnet:', { networkType, chainId, isArbitrumMainnet })
+				devLog('FindWeb3Instance reducer isArbitrumMainnet:', { networkType, chainId, isArbitrumMainnet, ecosystem })
+
+				/**
+				 * Possibly override the current ecosystem once we figure out what network we're on
+				 * For example if we're on L1 and last known ecosystem selected was L2 then change it to L1 and user doesn't have to refresh anything
+				 * @todo the ecosystems are hard-coded here just change it to have some setting for which ecosystem is "default" for that layer (or pick first one from the layers)
+				 */
+				const getUpdatedEcosystem = () => {
+					// Default to Flux (L1) if not on Arbitrum
+					if (ecosystemConfig.layer == Layer.Layer2 && !isArbitrumMainnet) {
+						return Ecosystem.Flux;
+					}
+					// Default to Lockquidity (L2) if  on Arbitrum
+					if (ecosystemConfig.layer == Layer.Layer1 && isArbitrumMainnet) {
+						return Ecosystem.Lockquidity;
+					}
+
+					// Return whatever user selected last
+					return ecosystem;
+				}
+				const updatedEcosystem = getUpdatedEcosystem()
 
 				const isUnsupportedNetwork = config.isArbitrumOnlyToken && !isArbitrumMainnet
 
@@ -195,6 +218,7 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					selectedAddress,
 					connectionMethod: useWalletConnect ? ConnectionMethod.WalletConnect : ConnectionMethod.MetaMask,
 					isArbitrumMainnet,
+					ecosystem: updatedEcosystem,
 					...withQueries(selectedAddress ? [{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance: true } }] : [])
 				}
 			}
@@ -383,6 +407,24 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 	}
 
 	switch (command.type) {
+		case commonLanguage.commands.UpdateEcosystem:
+			{
+				const { ecosystem: newEcosystem } = command.payload;
+
+				const stateEcosystemConfig = getEcosystemConfig(state.ecosystem)
+				const newEcosystemConfig = getEcosystemConfig(newEcosystem)
+				console.log('stateEcosystemConfig:', stateEcosystemConfig, 'newEcosystemConfig:', newEcosystemConfig)
+
+				// We don't want to change the ecosystem right away (this will be handled on page reload after user selects to swap network)
+				if (stateEcosystemConfig.layer != newEcosystemConfig.layer) {
+					return state;
+				}
+
+				return {
+					...state,
+					ecosystem: newEcosystem
+				}
+			}
 		case commonLanguage.commands.QueueQueries:
 			{
 				const { queries } = command.payload;
@@ -417,12 +459,13 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			}
 
 		case commonLanguage.commands.RefreshAccountState:
-			const { updateEthBalance, closeDialog } = command.payload ?? {} as any;
+			const { updateEthBalance, closeDialog, forceRefresh = false } = command.payload ?? {} as any;
 
 			// Apply throttling (only if we're not refreshing ETH balance. ETH balance updates usually happen at important times so think of it like "forced refresh")
 			const currentTimestampMs = Date.now()
-			if (!updateEthBalance &&
-				currentTimestampMs < state.lastAccountRefreshTimestampMs + localConfig.throttleAccountRefreshMs) {
+			if (!updateEthBalance
+				&& currentTimestampMs < state.lastAccountRefreshTimestampMs + localConfig.throttleAccountRefreshMs
+				&& !forceRefresh) {
 				return state;
 			}
 
@@ -988,8 +1031,14 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 // Notice things are taken from localStorage here
 
 const getDefaultEcosystem = () => {
+	const targetEcosystem = localStorage.getItem('targetEcosystem')
+	if (targetEcosystem) {
+		return targetEcosystem as Ecosystem;
+	}
 
-	return Ecosystem.ArbiFlux;
+	// Default to Lockquidity on the first visit.
+	// If You are on L1 then it'll auto-fix to Flux (see handling of commonLanguage.queries.FindWeb3Instance)
+	return Ecosystem.Lockquidity;
 }
 
 const defaultEcosystem = getDefaultEcosystem()
@@ -1117,7 +1166,9 @@ const commonLanguage = {
 			SetPriceMultiplier: 'CLIENT_SETTINGS_SET_PRICE_MULTIPLIER',
 			SetUseEip1559: 'SET_USE_EIP1559',
 			SetCurrency: 'SET_CURRENCY'
-		}
+		},
+
+		UpdateEcosystem: 'UPDATE_ECOSYSTEM'
 	},
 	queries: {
 		FindWeb3Instance: 'FIND_WEB3_INSTANCE',

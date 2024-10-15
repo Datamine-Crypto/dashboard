@@ -1,4 +1,3 @@
-
 import fluxLogo from '../svgs/fluxLogo.svg';
 import arbiFluxLogo from '../svgs/arbiFluxLogo.svg';
 import lockquidityLogo from '../svgs/lockquidity.svg';
@@ -9,7 +8,7 @@ import { getFluxArbiFluxEcosystemConfig } from './ecosystems/config.ecosystem.fl
 import { getArbiFluxLockquidityEcosystemConfig } from './ecosystems/config.ecosystem.arbiflux_lockquidity_l2';
 import { Ecosystem } from './config.common';
 
-const ecosystemConfigs = {
+export const ecosystemConfigs = {
 	[Ecosystem.Flux]: getDamFluxEcosystemConfig(),
 	[Ecosystem.ArbiFlux]: getFluxArbiFluxEcosystemConfig(),
 	[Ecosystem.Lockquidity]: getArbiFluxLockquidityEcosystemConfig()

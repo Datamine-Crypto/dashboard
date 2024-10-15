@@ -110,4 +110,6 @@ export interface EcosystemConfig {
 	 * When displaying price how many decimials do you want to see when displaying prices?
 	 */
 	mintableTokenPriceDecimals: number,
+
+	ecosystemLogoSvg: string;
 }

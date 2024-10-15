@@ -21,7 +21,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 
 import { DialogType, FluxAddressLock, FluxAddressDetails, FluxAddressTokenDetails, Token } from '../../../interfaces';
-import { BNToDecimal, getFormattedMultiplier, getBlocksRemaining, getPriceToggle, getBlocksDateFromNow, switchNetwork } from '../../../web3/helpers';
+import { BNToDecimal, getFormattedMultiplier, getBlocksRemaining, getPriceToggle, getBlocksDateFromNow } from '../../../web3/helpers';
 import LightTooltip from '../LightTooltip';
 import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '../../../web3/helperElements';
 import { Moment } from 'moment';
@@ -38,6 +38,7 @@ import arbiFluxLogo from '../../../../svgs/arbiFluxLogo.svg';
 
 import { theme } from '../../../styles'
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { getNetworkDropdown } from '../Fragments/EcosystemDropdown';
 
 const useStyles = makeStyles(() => ({
 	progressBarLeft: {
@@ -994,57 +995,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 		return button
 	}
-	const getNetworkDropdown = () => {
-		if (!selectedAddress || isArbitrumOnlyToken) {
-			return null;
-		}
-
-		return <Box mr={1}>
-			<FormControl size="small" variant="outlined" fullWidth style={{ width: 190 }} >
-				<InputLabel id="network-type">Network</InputLabel>
-				<Select
-					labelId="network-type"
-					value={!isArbitrumMainnet ? NetworkType.Mainnet : NetworkType.Arbitrum}
-					onChange={(e) => {
-						switchNetwork(e.target.value === NetworkType.Arbitrum ? '0xa4b1' : '0x1')
-					}}
-					label="Network"
-				>
-					<MenuItem value={NetworkType.Mainnet}>
-						<Grid
-							container
-							direction="row"
-							justify="flex-start"
-							alignItems="center"
-						>
-							<Grid item style={{ lineHeight: 0 }}>
-								<Box mr={1}><img src={EthereumPurpleLogo} width="24" height="24" /></Box>
-							</Grid>
-							<Grid item>
-								Ethereum
-							</Grid>
-						</Grid>
-					</MenuItem>
-					<MenuItem value={NetworkType.Arbitrum}>
-
-						<Grid
-							container
-							direction="row"
-							justify="flex-start"
-							alignItems="center"
-						>
-							<Grid item style={{ lineHeight: 0 }}>
-								<Box mr={1}><img src={ArbitrumLogo} width="24" height="24" /></Box>
-							</Grid>
-							<Grid item>
-								Arbitrum (L2)
-							</Grid>
-						</Grid>
-					</MenuItem>
-				</Select>
-			</FormControl>
-		</Box >
-	}
 
 	const getBridgeButton = () => {
 		if (isArbitrumOnlyToken) {
@@ -1151,7 +1101,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							{getBridgeButton()}
 						</Grid>
 						<Grid item>
-							{getNetworkDropdown()}
+							{getNetworkDropdown(ecosystem, dispatch)}
 						</Grid>
 					</Grid>
 				</Grid>

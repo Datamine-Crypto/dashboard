@@ -1,4 +1,5 @@
 import { EcosystemConfig, Layer, LiquidityPoolType } from "../config.common"
+import ecosystemLogoSvg from '../../svgs/logo.svg';
 
 export const getDamFluxEcosystemConfig = (): EcosystemConfig => {
 	return {
@@ -21,5 +22,7 @@ export const getDamFluxEcosystemConfig = (): EcosystemConfig => {
 
 		mintableTokenMintPerBlockDivisor: 8,
 		mintableTokenPriceDecimals: 4,
+
+		ecosystemLogoSvg
 	}
 }
