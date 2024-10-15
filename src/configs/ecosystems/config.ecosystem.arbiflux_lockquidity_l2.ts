@@ -24,6 +24,8 @@ export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
 		mintableTokenMintPerBlockDivisor: 8,
 		mintableTokenPriceDecimals: 8,
 
-		ecosystemLogoSvg
+		ecosystemLogoSvg,
+
+		lockedLiquidityUniswapAddress: '0xE05E43eE517A6D2862f91Be27315318A8E991FCc'
 	}
 }

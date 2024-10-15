@@ -69,6 +69,9 @@ export interface Balances {
 	 * We'll add this to balances so we can override global FLUX price
 	 */
 	forecastFluxPrice: string;
+
+	lockedLiquidtyUniTotalSupply: BN;
+	lockedLiquidityUniAmount: BN;
 }
 export interface ClientSettings {
 	priceMultiplier: number;

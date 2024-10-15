@@ -643,6 +643,55 @@ const queryHandlers = {
 				}]
 			}
 
+			const getLockedLiquidityBalanceCall = () => {
+				if (!config.lockedLiquidityUniswapAddress || !config.mintableSushiSwapL2EthPair) {
+					return []
+				}
+
+				return [
+					{
+						address: config.mintableSushiSwapL2EthPair, //This points to UNI-V2 Token
+						function: {
+							signature: {
+								name: 'totalSupply',
+								type: 'function',
+								inputs: []
+							},
+							parameters: []
+						},
+
+						returns: {
+							params: ['uint256'],
+							callback: (totalSupply: string) => {
+								return new BN(totalSupply)
+							}
+						}
+					},
+					{
+						address: config.mintableSushiSwapL2EthPair, //This points to UNI-V2 Token
+						function: {
+							signature: {
+								name: 'balanceOf',
+								type: 'function',
+								inputs: [
+									{
+										type: 'address',
+										name: 'targetAddress'
+									}]
+							},
+							parameters: [config.lockedLiquidityUniswapAddress]
+						},
+
+						returns: {
+							params: ['uint256'],
+							callback: (addressBalance: string) => {
+								return new BN(addressBalance)
+							}
+						}
+					}
+				]
+			}
+
 			const multicallData = [
 
 				// Uniswap: ETH Price
@@ -953,6 +1002,7 @@ const queryHandlers = {
 					}
 				},
 
+				...getLockedLiquidityBalanceCall()
 			]
 
 			const multicallEncodedResults = await contracts.multicall.methods.aggregate(encodeMulticall(web3, multicallData)).call();
@@ -971,10 +1021,12 @@ const queryHandlers = {
 				uniswapDamTokenReservesV3, liquidityDamV3,
 				uniswapFluxTokenReservesV3, uniswapFluxTokensTicksV3,
 
-				arbitrumBridgeBalance, wrappedEthFluxUniswapAddressBalance, wrappedEthDamUniswapAddressBalance
+				arbitrumBridgeBalance, wrappedEthFluxUniswapAddressBalance, wrappedEthDamUniswapAddressBalance,
+
+				lockedLiquidtyUniTotalSupply, lockedLiquidityUniAmount
 			] = multicallDecodedResults
 
-			devLog('FindAccountState batch request success')
+			devLog('FindAccountState batch request success', multicallDecodedResults)
 
 			const getV3ReservesDAM = () => {
 				const { slot0, reserve0, reserve1 } = uniswapDamTokenReservesV3 as any
@@ -1060,7 +1112,9 @@ const queryHandlers = {
 					uniswapDamTokenReserves: fixedUniswapDamTokenReservesV3,
 					uniswapFluxTokenReserves: fixedUniswapFluxTokenReservesV3,
 					uniswapUsdcEthTokenReserves,
-					arbitrumBridgeBalance: new BN(arbitrumBridgeBalance)
+					arbitrumBridgeBalance: new BN(arbitrumBridgeBalance),
+					lockedLiquidtyUniTotalSupply,
+					lockedLiquidityUniAmount
 				},
 				selectedAddress,
 				addressLock,

@@ -112,4 +112,9 @@ export interface EcosystemConfig {
 	mintableTokenPriceDecimals: number,
 
 	ecosystemLogoSvg: string;
+
+	/**
+	 * If set, what is the address that holds the liquidity?
+	 */
+	lockedLiquidityUniswapAddress?: string;
 }

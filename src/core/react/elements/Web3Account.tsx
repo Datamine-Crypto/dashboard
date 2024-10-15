@@ -23,6 +23,7 @@ import RealtimeLiqudityCard from './Cards/RealtimeLiqudityCard';
 import SettingsDialog from './Dialogs/SettingsDialog';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
+import LockedLiquidityCard from './Cards/LockedLiquidityCard';
 
 interface RenderParams {
 	dialog: DialogType | null;
@@ -119,6 +120,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dialog, dialogParams, dispa
 			</Box>
 			<Box my={3}>
 				<AccountBalancesCard />
+			</Box>
+			<Box my={3}>
+				<LockedLiquidityCard />
 			</Box>
 			<Box my={3}>
 				<GlobalCard />
