@@ -422,7 +422,11 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 
 				return {
 					...state,
-					ecosystem: newEcosystem
+					ecosystem: newEcosystem,
+					forecastSettings: {
+						...state.forecastSettings,
+						enabled: false,
+					}
 				}
 			}
 		case commonLanguage.commands.QueueQueries:

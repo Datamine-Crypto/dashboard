@@ -62,9 +62,9 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 			{
 				name: 'ArbiFLUX',
 				links: {
-					info: 'https://www.defined.fi/arb/0x0c93a1d3f68a0554d37f3e7af3a1442a94405e7a',
-					buy: 'https://app.uniswap.org/swap?outputCurrency=0x454F676D44DF315EEf9B5425178d5a8B524CEa03&inputCurrency=ETH&chain=arbitrum',
-					addLiquidity: 'https://app.uniswap.org/add/v2/0x454F676D44DF315EEf9B5425178d5a8B524CEa03/ETH?chain=arbitrum'
+					info: 'https://www.defined.fi/arb/0xbf719d56c5f19ae0833adc4080befc48a9b415b5',
+					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
+					addLiquidity: 'https://www.sushi.com/arbitrum/pool/v2/0xbf719d56c5f19ae0833adc4080befc48a9b415b5/add'
 				},
 				image: arbiFluxLogo,
 				layer: 2,

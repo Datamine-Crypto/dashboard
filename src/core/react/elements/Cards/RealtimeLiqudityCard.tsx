@@ -186,7 +186,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 		if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
 			return 'Realtime Available SushiSwap (L2) Liquidity'
 		}
-		return 'Realtime Available Uniswap v3 Liquidity'
+		return 'Realtime Available Uniswap Liquidity'
 	}
 
 	return <Card >
