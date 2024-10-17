@@ -111,7 +111,8 @@ export default function Roadmap() {
 			//{ title: 'Open Beta v3', date: 'December 31st, 2020' },
 			//{ title: 'Open Beta v4', date: 'April 30th, 2021', href: 'https://dataminenetwork.medium.com/datamine-network-open-beta-v4-release-whats-new-what-s-next-23e1fe124206' },
 			{ title: 'ArbiFLUX L2 Launch', date: 'October 21st, 2021', href: 'https://dataminenetwork.medium.com/introducing-datamine-arbiflux-ca04f8912f5f' },
-			{ title: 'Open Beta v6', date: 'December 31st, 2021', href: 'https://dataminenetwork.medium.com/datamine-network-open-beta-v5-release-whats-new-what-s-next-e1d05119c671' },
+			//{ title: 'Open Beta v6', date: 'December 31st, 2021', href: 'https://dataminenetwork.medium.com/datamine-network-open-beta-v5-release-whats-new-what-s-next-e1d05119c671' },
+			{ title: 'Lockquidity L2 Launch', date: 'October 14th, 2024', href: 'https://dataminenetwork.medium.com/introducing-lockquidity-token-lock-datamine-network-arbitrum-l2-scaling-for-permanent-liquidity-66fe83e95325' },
 		];
 
 		return steps.map(({ title, date, href }) => {

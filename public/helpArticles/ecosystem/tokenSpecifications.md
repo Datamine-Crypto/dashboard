@@ -12,7 +12,7 @@
 
 - **Partial Minting**: You can specify a percentage of Minting (0-100%). This allows you to Mint smaller amounts of FLUX, including partial Minting to other addresses
 
-- **Mint Age Multiplier**: Once your validator is active for at least 24 hours, this multiplier will begin to increase every 15 seconds for 28 days, after which you receive a permanent 3x multiplier. You will lose this Multiplier each time you stop your validator 
+- **Mint Age Multiplier**: Once your validator is active for at least 24 hours, this multiplier will begin to increase every 12 seconds for 28 days, after which you receive a permanent 3x multiplier. You will lose this Multiplier each time you stop your validator 
 
 - **Burn Multiplier**: This is a variable multiplier, capped at 10x. If you burn 9x the global average of burned FLUX, you receive the maximal 10x multiplier. The ratio is described as follows 
 

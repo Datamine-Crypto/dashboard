@@ -727,12 +727,12 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						if (forecastSettings.enabled) {
 
 							return <>
-								Forecasted {forecastSettings.blocks.toFixed(0)} Unminted Blocks <LightTooltip title="This estimated time is based on assumption that 1 Ethereum Block is genereated every 15 seconds"><Box display="inline">({getUnmintedBlocksDuration()})</Box></LightTooltip>
+								Forecasted {forecastSettings.blocks.toFixed(0)} Unminted Blocks <LightTooltip title="This estimated time is based on assumption that 1 Ethereum Block is genereated every 12 seconds"><Box display="inline">({getUnmintedBlocksDuration()})</Box></LightTooltip>
 							</>
 						}
 
 						return <>
-							Unminted Blocks <LightTooltip title="This estimated time is based on assumption that 1 Ethereum Block is genereated every 15 seconds"><Box display="inline">({getUnmintedBlocksDuration()})</Box></LightTooltip>
+							Unminted Blocks <LightTooltip title="This estimated time is based on assumption that 1 Ethereum Block is genereated every 12 seconds"><Box display="inline">({getUnmintedBlocksDuration()})</Box></LightTooltip>
 						</>
 					}
 

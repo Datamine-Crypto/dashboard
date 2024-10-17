@@ -216,7 +216,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 								<Link href="#dashboard" color="textSecondary">Start your {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} validator by locking {isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} in a smart contract</Link>
 							</li>
 							<li>
-								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} ecosystem={ecosystem} contents={<Box style={{ cursor: 'pointer' }}>Your validator generates {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} every 15 seconds <Typography variant="body2" color="textPrimary" display="inline">(Trade On Uniswap)</Typography></Box>} />
+								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} ecosystem={ecosystem} contents={<Box style={{ cursor: 'pointer' }}>Your validator generates {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} every 12 seconds <Typography variant="body2" color="textPrimary" display="inline">(Trade On Uniswap)</Typography></Box>} />
 							</li>
 							<li>
 								<Link onClick={(e: any) => dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle: burningFluxTokensHelpArticle } })} color="textSecondary" style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} from circulation increases your minting speed <Typography variant="body2" color="textPrimary" display="inline">(Get rewards 30x faster)</Typography></Link>

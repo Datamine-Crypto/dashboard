@@ -4,7 +4,7 @@ To mint FLUX tokens you must first start a validator with your Datamine (DAM) to
 
 # Step 1
 
-Now that your validator is started you will instantly start generating FLUX tokens of **0.00000001 FLUX per 1 DAM in validator** ~ every 15 seconds with each block. This means that your FLUX token balance automatically increases with each block in realtime in your dashboard.
+Now that your validator is started you will instantly start generating FLUX tokens of **0.00000001 FLUX per 1 DAM in validator** ~ every 12 seconds with each block. This means that your FLUX token balance automatically increases with each block in realtime in your dashboard.
 
 You will see a realtime Unminted FLUX USD Balance: an estimate of how much your $FLUX tokens are worth based on real, on-chain USD multi-route Uniswap data. While these FLUX tokens are unminted they exist in the smart contract, not your MetaMask account.
 

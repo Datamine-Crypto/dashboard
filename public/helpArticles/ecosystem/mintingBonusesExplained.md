@@ -12,7 +12,7 @@ _Mint Time Bonus:_
 
 The maximum Mint bonus you can achieve for starting a validator is 3x.  Once you have reached 3x Time Bonus, every time you Mint FLUX, you generate 3x the amount.
 
-**3x Time Bonus**: After you leave a validator started for at least 24 hours, you will start receiving a small mint multiplier every 15 seconds. This lasts for 28 days after which you gain a **permanent** (until you stop your validator) 3x bonus to your FLUX validator.
+**3x Time Bonus**: After you leave a validator started for at least 24 hours, you will start receiving a small mint multiplier every 12 seconds. This lasts for 28 days after which you gain a **permanent** (until you stop your validator) 3x bonus to your FLUX validator.
 
 _FLUX Burn Multiplier:_
 
