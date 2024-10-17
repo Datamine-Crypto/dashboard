@@ -125,7 +125,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, ecosystem }) => {
 	const classes = useStyles();
 
-	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals, mintableTokenContractAddress } = getConfig(ecosystem)
+	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, minBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals, mintableTokenContractAddress } = getConfig(ecosystem)
 	const { isHelpPageEnabled } = navigation
 
 	const ecosystemConfig = getEcosystemConfig(ecosystem)
@@ -537,7 +537,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								valueLabelDisplay="off"
 								value={forecastSettings.forecastBurn}
 								className={classes.largeSlider}
-								min={10000}
+								min={10000 * minBurnMultiplier}
 								max={10000 * maxBurnMultiplier}
 								onChange={(event: any, newValue: number | number[]) => {
 									dispatch({ type: commonLanguage.commands.ForecastSetBurn, payload: newValue as number });
@@ -651,6 +651,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 						if (forecastSettings.enabled) {
 							const fluxRequiredToBurn = getRequiredFluxToBurnDecimal({
+								ecosystem,
 								globalFluxBurned: new Big(addressDetails.globalBurnedAmount.toString()),
 								targetMultiplier: getTargetBurnMultiplierDecimal(),
 								globalDamLockedIn: new Big(addressDetails.globalLockedAmount.toString()),

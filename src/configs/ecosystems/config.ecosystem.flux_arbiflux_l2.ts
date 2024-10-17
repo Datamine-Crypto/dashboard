@@ -23,6 +23,9 @@ export const getFluxArbiFluxEcosystemConfig = (): EcosystemConfig => {
 		mintableTokenMintPerBlockDivisor: 8,
 		mintableTokenPriceDecimals: 8,
 
-		ecosystemLogoSvg
+		ecosystemLogoSvg,
+
+		minBurnMultiplier: 10
+
 	}
 }

@@ -23,6 +23,8 @@ export const getDamFluxEcosystemConfig = (): EcosystemConfig => {
 		mintableTokenMintPerBlockDivisor: 8,
 		mintableTokenPriceDecimals: 4,
 
-		ecosystemLogoSvg
+		ecosystemLogoSvg,
+
+		minBurnMultiplier: 10
 	}
 }

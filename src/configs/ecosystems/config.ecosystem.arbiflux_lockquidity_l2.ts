@@ -26,6 +26,8 @@ export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
 
 		ecosystemLogoSvg,
 
-		lockedLiquidityUniswapAddress: '0xE05E43eE517A6D2862f91Be27315318A8E991FCc'
+		lockedLiquidityUniswapAddress: '0xE05E43eE517A6D2862f91Be27315318A8E991FCc',
+
+		minBurnMultiplier: 0.0001
 	}
 }

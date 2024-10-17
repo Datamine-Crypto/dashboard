@@ -117,4 +117,6 @@ export interface EcosystemConfig {
 	 * If set, what is the address that holds the liquidity?
 	 */
 	lockedLiquidityUniswapAddress?: string;
+
+	minBurnMultiplier: number;
 }

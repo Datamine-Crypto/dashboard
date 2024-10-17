@@ -5,13 +5,15 @@ import { getPriceToggle, BNToDecimal } from './helpers';
 import Big from 'big.js'
 import BN from 'bn.js'
 import { Balances } from './web3Reducer';
-import { getEcosystemConfig as getConfig } from '../../configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../configs/config';
 import { Ecosystem } from '../../configs/config.common';
 
-export const getRequiredFluxToBurnDecimal = ({ globalFluxBurned, targetMultiplier, globalDamLockedIn, myFluxBurned, myDamLockedIn }: { globalFluxBurned: Big, targetMultiplier: number, globalDamLockedIn: Big, myFluxBurned: Big, myDamLockedIn: Big }) => {
-	const top = new Big(-1).mul(targetMultiplier - 1).mul(globalFluxBurned).mul(myDamLockedIn).add(new Big(globalDamLockedIn).mul(myFluxBurned));
+export const getRequiredFluxToBurnDecimal = ({ ecosystem, globalFluxBurned, targetMultiplier, globalDamLockedIn, myFluxBurned, myDamLockedIn }: { ecosystem: Ecosystem, globalFluxBurned: Big, targetMultiplier: number, globalDamLockedIn: Big, myFluxBurned: Big, myDamLockedIn: Big }) => {
+	const { minBurnMultiplier } = getEcosystemConfig(ecosystem);
 
-	const bottom = new Big(-1).mul(globalDamLockedIn).add(new Big(targetMultiplier - 1).mul(myDamLockedIn))
+	const top = new Big(-1).mul(targetMultiplier - minBurnMultiplier).mul(globalFluxBurned).mul(myDamLockedIn).add(new Big(globalDamLockedIn).mul(myFluxBurned));
+
+	const bottom = new Big(-1).mul(globalDamLockedIn).add(new Big(targetMultiplier - minBurnMultiplier).mul(myDamLockedIn))
 	if (bottom.eq(new Big(0))) {
 		return new Big(0)
 	}
