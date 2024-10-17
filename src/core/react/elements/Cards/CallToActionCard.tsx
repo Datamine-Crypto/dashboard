@@ -35,6 +35,7 @@ import EthereumPurpleLogo from '../../../../svgs/ethereumPurple.svg';
 import fluxLogo from '../../../../svgs/fluxLogo.svg';
 import damLogo from '../../../../svgs/logo.svg';
 import arbiFluxLogo from '../../../../svgs/arbiFluxLogo.svg';
+import lockquidityLogo from '../../../../svgs/lockquidity.svg';
 
 import { theme } from '../../../styles'
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
@@ -1017,22 +1018,22 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 	const getRealtimePrices = () => {
 		const getIcon = (type: Token) => {
+			const getIconPath = () => {
+				switch (ecosystem) {
+					case Ecosystem.ArbiFlux:
+						return type === Token.Lockable ? fluxLogo : arbiFluxLogo;
+					case Ecosystem.Flux:
+						return type === Token.Lockable ? damLogo : fluxLogo;
+					case Ecosystem.Lockquidity:
+						return type === Token.Lockable ? arbiFluxLogo : lockquidityLogo;
+				}
+			}
+
 			switch (type) {
 				case Token.ETH:
 					return <img src={EthereumPurpleLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
-				case Token.Mintable:
-					if (!isTokenLogoEnabled) {
-						return null
-					}
-					if (isArbitrumMainnet) {
-						return <img src={arbiFluxLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
-					}
-					return <img src={fluxLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
-				case Token.Lockable:
-					if (isArbitrumMainnet) {
-						return <img src={fluxLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
-					}
-					return <img src={damLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
+				default:
+					return <img src={getIconPath()} width={24} height={24} style={{ verticalAlign: 'middle' }} />
 			}
 		}
 
