@@ -25,7 +25,7 @@ export const getFluxArbiFluxEcosystemConfig = (): EcosystemConfig => {
 
 		ecosystemLogoSvg,
 
-		minBurnMultiplier: 10
+		minBurnMultiplier: 1
 
 	}
 }
