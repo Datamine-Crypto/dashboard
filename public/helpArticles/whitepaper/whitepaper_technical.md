@@ -184,7 +184,7 @@ modifier preventSameBlock(address targetAddress) {
 ```
 To keep things simple and to avoid potential attacks in the future we've limited our all smart contract state changes to one block per address. This means you can't lock/unlock or lock/mint within the same block. Please note the goal of this is to prevent user error so it's still possible to do partial mints within the same block if you send different targetBlock numbers.
 
-Since Ethereum blocks are only ~15 seconds in duration we thought this slight time delay is not a factor for any normal user and is an added security benefit.
+Since Ethereum blocks are only ~12 seconds in duration we thought this slight time delay is not a factor for any normal user and is an added security benefit.
 
 We also have the following modifier that is used throughout all state changes:
 ```Solidity
@@ -271,7 +271,7 @@ Another impossible case is also covered by this check. If FLUX token can only op
 
 ## Security: Immutable State Variables
 
-New to Solidity 0.6.5, let's take a look at our immutable state variables. We'll be assuming our usual 1 block = 15 seconds for all calculations. This makes our math easy and avoids [Timestamp Dependence attacks](https://consensys.github.io/smart-contract-best-practices/known_attacks/#timestamp-dependence).
+New to Solidity 0.6.5, let's take a look at our immutable state variables. We'll be assuming our usual 1 block = 12 seconds for all calculations. This makes our math easy and avoids [Timestamp Dependence attacks](https://consensys.github.io/smart-contract-best-practices/known_attacks/#timestamp-dependence).
 
 If Ethereum block times change significantly in the future then the entire FLUX smart contract follows suite and the rewards might be accelerated or slowed down accordingly. During our Ropsten testnet beta phase we've experienced 1 minute+ block times.
 
@@ -793,7 +793,7 @@ Let's take a look at how Datamine (DAM) lock-in time bonus works:
 
 ```Solidity
 /**
- * @dev PUBLIC FACING: Find out the current address DAM lock-in time bonus (Using 1 block = 15 sec formula)
+ * @dev PUBLIC FACING: Find out the current address DAM lock-in time bonus (Using 1 block = 12 sec formula)
  */
 function getAddressTimeMultiplier(address targetAddress) public view returns(uint256) {
 
@@ -1127,7 +1127,7 @@ We're always using `_msgSender()` (GSN version of msg.sender) to follow OpenZepp
 
 ### Timestamp Dependence
 
-To keep the time math formulas basic we've based all of our math around the fact that 1 block = 15 seconds. This assumes that this number is variable and can change in the future. The goal of this is to stay away from timestamp drifting and to avoid time-based inaccuracy.
+To keep the time math formulas basic we've based all of our math around the fact that 1 block = 12 seconds. This assumes that this number is variable and can change in the future. The goal of this is to stay away from timestamp drifting and to avoid time-based inaccuracy.
 
 ### Note on EIP20 API Approve / TransferFrom multiple withdrawal attack
 

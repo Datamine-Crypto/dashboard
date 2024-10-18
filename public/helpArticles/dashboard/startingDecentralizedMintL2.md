@@ -18,7 +18,7 @@ By pressing Enable, Datamine checks your FLUX (L2) and ETH balances before allow
 
 ## Step 1
 
-You can now begin by clicking the "Start Validator" button. After paying a small gas fee for starting your validator, you will instantly start generating ArbiFLUX tokens in your dashboard (**with every single block ~ 15 seconds, you generate of 0.00000001 ArbiFLUX per 1 FLUX (L2) in mint**)
+You can now begin by clicking the "Start Validator" button. After paying a small gas fee for starting your validator, you will instantly start generating ArbiFLUX tokens in your dashboard (**with every single block ~ 12 seconds, you generate of 0.00000001 ArbiFLUX per 1 FLUX (L2) in mint**)
 
 ![Start Validator](../../helpArticles/assets/images/pngs/lockingInDam/lockin3L2.png)
 

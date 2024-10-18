@@ -16,7 +16,7 @@ By pressing Enable, Datamine checks your DAM and ETH balances before allowing yo
 
 ## Step 1
 
-You can now begin by clicking the "Start Validator" button. After paying a small gas fee for starting your validator, you will instantly start generating FLUX tokens in your dashboard (**with every single block ~ 15 seconds, you generate of 0.00000001 FLUX per 1 DAM in validator**)
+You can now begin by clicking the "Start Validator" button. After paying a small gas fee for starting your validator, you will instantly start generating FLUX tokens in your dashboard (**with every single block ~ 12 seconds, you generate of 0.00000001 FLUX per 1 DAM in validator**)
 
 ![Start Validator](../../helpArticles/assets/images/pngs/lockingInDam/lockin3.png)
 

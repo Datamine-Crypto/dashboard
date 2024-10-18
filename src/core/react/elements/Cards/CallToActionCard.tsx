@@ -766,10 +766,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						});
 
 						const getBurnMultiplier = () => {
-							if (forecastSettings.enabled) {
-								return forecastSettings.forecastBurn / 10000
-							}
-							return addressDetails.addressBurnMultiplier / 10000
+
+							return minBurnMultiplier;
 						}
 						const burnMultiplier = getBurnMultiplier();
 
@@ -783,7 +781,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						}
 
 						return <>
-							<Typography color="textSecondary" display="inline">&nbsp;({actualApy.toFixed(2)}% APY)</Typography>
+							<Typography color="textSecondary" display="inline">&nbsp;({actualApy.toFixed(2)}% Base APY)</Typography>
 						</>
 					}
 
