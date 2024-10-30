@@ -283,7 +283,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						</>
 					}
 
-					const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, ecosystem, targetMultiplier: new BN(maxBurnMultiplier - 1) });
+					const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, ecosystem, targetMultiplier: new BN(maxBurnMultiplier - minBurnMultiplier) });
 
 
 					const getFluxBurnTooltip = () => {

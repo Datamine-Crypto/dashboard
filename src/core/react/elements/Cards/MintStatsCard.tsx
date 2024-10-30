@@ -26,7 +26,7 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails, addressTokenDetails, selectedAddress, balances, displayedAddress, dispatch, ecosystem }) => {
-	const { mintableTokenShortName, maxBurnMultiplier } = getEcosystemConfig(ecosystem)
+	const { mintableTokenShortName, maxBurnMultiplier, minBurnMultiplier } = getEcosystemConfig(ecosystem)
 
 	const getBlockDuration = (startBlockNumber: number) => {
 		const blocksDuration = addressDetails.blockNumber - startBlockNumber;
@@ -87,7 +87,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 	}
 	const { myRatio } = addressTokenDetails;
 
-	const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, ecosystem, targetMultiplier: new BN(maxBurnMultiplier - 1) });
+	const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, ecosystem, targetMultiplier: new BN(maxBurnMultiplier - minBurnMultiplier) });
 
 	const getDamLockinDuration = () => {
 		const duration = getBlockDuration(addressLock.blockNumber)
