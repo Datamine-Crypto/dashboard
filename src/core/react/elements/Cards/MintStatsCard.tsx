@@ -14,6 +14,7 @@ import { getRequiredFluxToBurn } from '../../../web3/helperElements';
 import DetailedListItem from '../Fragments/DetailedListItem';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
+import Big from 'big.js';
 
 interface RenderParams {
 	addressLock: FluxAddressLock;
@@ -87,7 +88,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 	}
 	const { myRatio } = addressTokenDetails;
 
-	const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, ecosystem, targetMultiplier: new BN(maxBurnMultiplier - minBurnMultiplier) });
+	const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, ecosystem, targetMultiplier: new Big(maxBurnMultiplier - minBurnMultiplier) });
 
 	const getDamLockinDuration = () => {
 		const duration = getBlockDuration(addressLock.blockNumber)
@@ -103,7 +104,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 		if (isTargetReached || addressDetails.addressBurnMultiplier >= 20000) {
 			return null;
 		}
-		const { fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, ecosystem, targetMultiplier: new BN("1") });
+		const { fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({ addressDetails, addressLock, balances, ecosystem, targetMultiplier: new Big("1") });
 
 		return <Box my={2}>
 			<DetailedListItem

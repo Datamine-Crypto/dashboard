@@ -64,16 +64,16 @@ export const numberWithCommas = (numberToFormat: string) => {
 }
 
 
-export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, ecosystem, targetMultiplier = new BN("9") }: { addressDetails: FluxAddressDetails, addressLock: FluxAddressLock, balances: Balances, ecosystem: Ecosystem, targetMultiplier?: BN }) => {
+export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, ecosystem, targetMultiplier = new Big("9") }: { addressDetails: FluxAddressDetails, addressLock: FluxAddressLock, balances: Balances, ecosystem: Ecosystem, targetMultiplier?: Big }) => {
 	const { maxBurnMultiplier, mintableTokenPriceDecimals } = getConfig(ecosystem)
 
-	const globalFluxBurned = addressDetails.globalBurnedAmount;
-	const globalDamLockedIn = addressDetails.globalLockedAmount
+	const globalFluxBurned = new Big(addressDetails.globalBurnedAmount.toString());
+	const globalDamLockedIn = new Big(addressDetails.globalLockedAmount.toString());
 
-	const myFluxBurned = addressLock.burnedAmount;
-	const myDamLockedIn = addressLock.amount;
+	const myFluxBurned = new Big(addressLock.burnedAmount.toString());
+	const myDamLockedIn = new Big(addressLock.amount.toString());
 
-	const negative = new BN("-1");
+	const negative = new Big("-1");
 
 	/*
 	a = globalFluxBurned
@@ -90,19 +90,21 @@ export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, e
 	const bottom = negative.mul(globalDamLockedIn).add(targetMultiplier.mul(myDamLockedIn))
 
 	const getFluxRequired = () => {
-		if (bottom.isZero()) {
-			return new BN(0);
+		if (bottom == new Big(0)) {
+			return new Big(0);
 		}
 
 		return top.div(bottom);
 	}
 	const fluxRequired = getFluxRequired();
 
-	const isTargetReached = fluxRequired.isZero() || addressDetails.addressBurnMultiplier === 10000 * maxBurnMultiplier;
+	const isTargetReached = fluxRequired == new Big(0) || addressDetails.addressBurnMultiplier === 10000 * maxBurnMultiplier;
 
-	const fluxRequiredToBurn = BNToDecimal(fluxRequired.abs(), true, 18, mintableTokenPriceDecimals)
+	const fluxRequiredBn=new BN(fluxRequired.abs().round(0).toFixed())
 
-	const fluxRequiredToBurnInUsdc = `$ ${getPriceToggle({ value: fluxRequired.abs(), inputToken: Token.Mintable, outputToken: Token.USDC, balances })} USD`;
+	const fluxRequiredToBurn = BNToDecimal(fluxRequiredBn, true, 18, mintableTokenPriceDecimals)
+
+	const fluxRequiredToBurnInUsdc = `$ ${getPriceToggle({ value: fluxRequiredBn, inputToken: Token.Mintable, outputToken: Token.USDC, balances })} USD`;
 
 	return {
 		fluxRequiredToBurn,
