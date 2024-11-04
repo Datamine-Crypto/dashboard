@@ -179,6 +179,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			{
 				isBasicDivider: true
 			},
+			/*
 			{
 				title: <>Trend Analytics <Typography display="inline" color="textSecondary">(Beta)</Typography></>,
 				icon: <TrendingUpIcon />,
@@ -187,7 +188,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			},
 			{
 				isBasicDivider: true
-			},
+			},*/
 		]
 	}
 	const getHelpPage = () => {
