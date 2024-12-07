@@ -143,12 +143,6 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 		mitCopyrightYear: 2020,
 
 		/**
-		 * Market sentiment card in validator dashboard. Set this to false if you don't have any meaninful numbers yet
-		 * We've disabled this for Datamine Network on 2023-05-09 to reduce "extra information bloat"
-		 */
-		isRealtimeOnChainMarketSentimentEnabled: false,
-
-		/**
 		 * Is the settings button visible on validator dashoard?
 		 * This settings button will let you customize currency and select type of transaction to issue (EIP 1559)
 		 * Set this to false if you don't want this advanced customization

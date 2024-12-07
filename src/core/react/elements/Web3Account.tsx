@@ -6,7 +6,6 @@ import CallToActionCard from './Cards/CallToActionCard'
 import MintDialog from './Dialogs/MintDialog';
 
 import GlobalCard from './Cards/GlobalCard';
-import MarketSentiment from './Cards/MarketSentiment';
 
 import { DialogType } from '../../interfaces';
 import DamLockDialog from './Dialogs/DamLockDialog';
@@ -51,7 +50,7 @@ const useStyles = makeStyles((theme) => {
 
 const Render: React.FC<RenderParams> = React.memo(({ dialog, dialogParams, dispatch, ecosystem }) => {
 	const classes = useStyles();
-	const { isLiquidityPoolsEnabled, isRealtimeOnChainMarketSentimentEnabled } = getEcosystemConfig(ecosystem)
+	const { isLiquidityPoolsEnabled } = getEcosystemConfig(ecosystem)
 
 	const onClose = () => {
 		dispatch({ type: commonLanguage.commands.CloseDialog });
@@ -96,16 +95,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dialog, dialogParams, dispa
 				<RealtimeLiqudityCard />
 			</Box>)
 	}
-	const getMarketSentimentCard = () => {
-		if (!isRealtimeOnChainMarketSentimentEnabled) {
-			return null;
-		}
-		return (
-			<Box my={3}>
-				<MarketSentiment />
-			</Box>
-		)
-	}
 	return <>
 		{getDialog()}
 
@@ -114,7 +103,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dialog, dialogParams, dispa
 		</Box>
 		<Box className={classes.cardsContainer}>
 			{getRealtimeLiqudityCard()}
-			{getMarketSentimentCard()}
 			<Box my={3}>
 				<MintStatsCard />
 			</Box>
