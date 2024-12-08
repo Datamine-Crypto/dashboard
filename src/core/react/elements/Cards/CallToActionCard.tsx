@@ -379,7 +379,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								return <LocalizationProvider dateAdapter={AdapterMoment}>
 									<MobileDatePicker
 										closeOnSelect={true}
-										value={value.toDate()}
+										value={value}
 										//autoOk={true}
 										/*PopoverProps={{
 											anchorOrigin: {
@@ -488,7 +488,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 										label="To"
 										//value={new Date()}
 										inputFormat="YYYY/MM/DD"
-										value={value.toDate()}
+										value={value}
 
 										onChange={(date: Moment | null) => {
 											if (date) {
