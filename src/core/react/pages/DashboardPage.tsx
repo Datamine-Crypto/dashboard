@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { JSX, useContext, useEffect } from 'react';
 import { CircularProgress, Box, Container, Button, Typography, Link, MenuItem, Menu, Snackbar } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
@@ -45,9 +45,9 @@ interface RenderParams {
 }
 
 interface CenterContent {
-	title: React.ReactFragment;
-	message: React.ReactFragment;
-	content?: React.ReactFragment;
+	title: JSX.Element | string;
+	message: JSX.Element;
+	content?: JSX.Element;
 }
 
 const useStyles = makeStyles(() => ({

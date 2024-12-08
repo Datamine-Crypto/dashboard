@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import Typography from '@mui/material/Typography';
 import { Box, Hidden, Card, Divider, useMediaQuery, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid2';
@@ -14,11 +14,11 @@ const useStyles = makeStyles(() => {
 });
 
 interface RenderProps {
-	title?: React.ReactFragment;
-	main: React.ReactFragment;
-	sub?: React.ReactFragment;
-	description?: React.ReactFragment;
-	buttons?: React.ReactFragment[];
+	title?: JSX.Element;
+	main: JSX.Element;
+	sub?: JSX.Element;
+	description?: JSX.Element;
+	buttons?: JSX.Element[];
 }
 const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, description, buttons }) => {
 	const theme = useTheme();

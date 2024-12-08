@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { JSX, useContext } from 'react';
 import { Box, Container, Typography, Paper, Card, CardActionArea, Link, List, ListSubheader, ListItem, Chip } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
@@ -108,9 +108,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface PointParams {
-	title: React.ReactFragment;
-	content: React.ReactFragment;
-	icon: React.ReactFragment;
+	title: JSX.Element | string;
+	content: JSX.Element | string;
+	icon: JSX.Element;
 	mt?: number;
 	mb?: number;
 }
