@@ -2,7 +2,7 @@ import { Box, Card, Divider, Hidden, useMediaQuery, useTheme } from '@mui/materi
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
-import React, { JSX } from 'react';
+import React, { ReactNode } from 'react';
 
 const useStyles = makeStyles(() => {
 	return {
@@ -14,11 +14,11 @@ const useStyles = makeStyles(() => {
 });
 
 interface RenderProps {
-	title?: JSX.Element | string;
-	main: JSX.Element | string;
-	sub?: JSX.Element;
-	description?: JSX.Element;
-	buttons?: JSX.Element[];
+	title?: ReactNode;
+	main: ReactNode;
+	sub?: ReactNode;
+	description?: ReactNode;
+	buttons?: ReactNode[];
 }
 const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, description, buttons }) => {
 	const theme = useTheme();

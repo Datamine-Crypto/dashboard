@@ -304,7 +304,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 
 			<DialogContentText>
 				<Box py={1}>
-					<ReactMarkdown renderers={{ heading, paragraph, thematicBreak, link, listItem, code, image }} className={`${classes.markdownContainer} ${helpArticle.className}`}>
+					<ReactMarkdown components={{ heading, paragraph, thematicBreak, link, listItem, code, image }} className={`${classes.markdownContainer} ${helpArticle.className}`}>
 						{helpArticle.body as string}
 					</ReactMarkdown>
 				</Box>

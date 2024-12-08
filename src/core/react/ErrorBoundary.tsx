@@ -89,7 +89,7 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 				{getErrorMessage()}
 			</Container>
 		}
-		return this.props.children;
+		return (this.props as any).children;
 	}
 }
 

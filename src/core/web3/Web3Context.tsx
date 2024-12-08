@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { ReactNode, useEffect, useReducer } from 'react';
 
 import { queryHandlers } from './Web3Bindings';
 import { handleCommand, handleQueryResponse, initialState, Web3State } from './web3Reducer';
@@ -20,8 +20,10 @@ const reducer = sideEffectReducer({
 	handleCommand
 });
 
-
-const Web3ContextProvider: React.FC = ({ children }) => {
+interface Props {
+	children?: ReactNode;
+}
+const Web3ContextProvider: React.FC<Props> = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
 	// Handle new query & event effects
@@ -44,3 +46,4 @@ export {
 	Web3Context,
 	Web3ContextProvider
 };
+

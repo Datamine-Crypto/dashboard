@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardActionArea, Container, Link, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow, Typography } from '@mui/material';
-import React, { JSX, useContext } from 'react';
+import React, { ReactNode, useContext } from 'react';
 
 import PeopleIcon from '@mui/icons-material/People';
 import ArrowRightIcon from '@mui/icons-material/PlayArrow';
@@ -134,9 +134,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface PointParams {
-	title: JSX.Element | string;
-	content: JSX.Element | string;
-	icon: JSX.Element;
+	title: ReactNode;
+	content: ReactNode;
+	icon: ReactNode;
 	mt?: number;
 	mb?: number;
 }

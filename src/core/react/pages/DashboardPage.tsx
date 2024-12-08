@@ -1,6 +1,6 @@
 import { Box, Button, CircularProgress, Container, Link, Menu, MenuItem, Snackbar, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import React, { JSX, useContext, useEffect } from 'react';
+import React, { ReactNode, useContext, useEffect } from 'react';
 
 import { makeStyles } from '@mui/styles';
 
@@ -45,9 +45,9 @@ interface RenderParams {
 }
 
 interface CenterContent {
-	title: JSX.Element | string;
-	message: JSX.Element;
-	content?: JSX.Element;
+	title: ReactNode;
+	message: ReactNode;
+	content?: ReactNode;
 }
 
 const useStyles = makeStyles(() => ({

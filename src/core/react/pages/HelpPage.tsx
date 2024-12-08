@@ -1,4 +1,4 @@
-import { Box, Container, FormControl, InputLabel, Link, List, ListItem, ListSubheader, MenuItem, Paper, Select, Typography } from '@mui/material';
+import { Box, Container, FormControl, InputLabel, Link, List, ListItemButton, ListSubheader, MenuItem, Paper, Select, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import React, { useContext } from 'react';
 
@@ -128,9 +128,9 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 					}
 					const title = getTitle()
 
-					return <ListItem button key={index} onClick={() => dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle } })}>
+					return <ListItemButton component="a" key={index} onClick={() => dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle } })}>
 						<Box pl={1}>• {title}</Box>
-					</ListItem>
+					</ListItemButton>
 				})
 			}
 

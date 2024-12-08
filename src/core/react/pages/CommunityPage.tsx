@@ -1,6 +1,6 @@
 import { Box, Card, CardActionArea, Chip, Container, Link, Paper, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import React, { JSX, useContext } from 'react';
+import React, { ReactNode, useContext } from 'react';
 
 import { makeStyles } from '@mui/styles';
 
@@ -101,9 +101,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface PointParams {
-	title: JSX.Element | string;
-	content: JSX.Element | string;
-	icon: JSX.Element;
+	title: ReactNode;
+	content: ReactNode;
+	icon: ReactNode;
 	mt?: number;
 	mb?: number;
 }

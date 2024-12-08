@@ -33,7 +33,7 @@ export const decodeMulticall = (web3: Web3, encodedMulticallResults: EncodedMult
 	const decodedResults = multicallParams.reduce((results, multicallParam, index) => {
 		const encodedReturnData = encodedMulticallResults.returnData[index]
 
-		const decodedParams = web3.eth.abi.decodeParameters(multicallParam.returns.params, encodedReturnData) as any[] // Will be Results object (non-array)
+		const decodedParams = (web3.eth.abi as any).decodeParameters(multicallParam.returns.params, encodedReturnData) as any[] // Will be Results object (non-array)
 		const decodedParamsArray = multicallParam.returns.params.map((_, index) => decodedParams[index])
 
 		const result = multicallParam.returns.callback(...decodedParamsArray)
