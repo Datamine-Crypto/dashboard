@@ -1,6 +1,6 @@
 import BuildIcon from '@mui/icons-material/Build';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Box, Button, Card, CardActionArea, Hidden, IconButton, Link, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, Box, Card, CardActionArea, Hidden, IconButton, Link, Toolbar, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
@@ -9,54 +9,58 @@ import DamLogo from '../../../../svgs/logo.svg';
 
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
+import { DatamineTheme } from '../../../styles';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import HelpComboboxFragment from './HelpComboboxFragment';
 
-const useStyles = makeStyles(theme => ({
-	toolbar: {
-		paddingRight: 24, // keep right padding when drawer closed
-		padding: '0 8px 0 0',
-		justifyContent: 'space-between',
-	},
-	logo: {
-		fontSize: 35,
-		verticalAlign: "middle",
-	},
-	appBar: {
-		backgroundColor: theme.palette.type == 'dark' ? '#272936' : theme.palette.primary.main,
-		color: '#fff',
-		zIndex: theme.zIndex.drawer + 1,
-		transition: theme.transitions.create(['width', 'margin'], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.leavingScreen,
-		}),
+const useStyles = makeStyles<DatamineTheme>(theme => {
+	return ({
+		toolbar: {
+			paddingRight: 24, // keep right padding when drawer closed
+			padding: '0 8px 0 0',
+			justifyContent: 'space-between',
+		},
+		logo: {
+			fontSize: 35,
+			verticalAlign: "middle",
+		},
+		appBar: {
+			backgroundColor: theme.palette.mode == 'dark' ? '#272936' : theme.palette.primary.main,
+			color: '#fff',
+			zIndex: theme.zIndex.drawer + 1,
+			transition: theme.transitions.create(['width', 'margin'], {
+				easing: theme.transitions.easing.sharp,
+				duration: theme.transitions.duration.leavingScreen,
+			}),
 
-	},
-	menuButton: {
-		marginRight: 16,
-	},
-	menuButtonHidden: {
-		display: 'none',
-	},
-	title: {
-		flexGrow: 1,
-	},
+		},
+		menuButton: {
+			marginRight: 16,
+		},
+		menuButtonHidden: {
+			display: 'none',
+		},
+		title: {
+			flexGrow: 1,
+		},
 
-	link: {
-		marginLeft: theme.spacing(2)
-	},
-	logoArea: {
-		display: 'flex',
-		padding: theme.spacing(0, 2, 0, 2),
-	},
-	nav: {
-		display: 'flex',
-		flex: 1,
-		maxWidth: 500,
-		alignItems: 'center'
-	}
-}));
+		link: {
+			marginLeft: theme.spacing(2)
+		},
+		logoArea: {
+			display: 'flex',
+			padding: theme.spacing(0, 2, 0, 2),
+		},
+		nav: {
+			display: 'flex',
+			flex: 1,
+			maxWidth: 500,
+			alignItems: 'center'
+		}
+	})
+
+});
 
 interface INavProps {
 	sidebar: boolean;
@@ -92,7 +96,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 	}
 
 
-	return <AppBar className={clsx(classes.appBar)}>
+	return <AppBar position="absolute" className={clsx(classes.appBar)}>
 		<Toolbar className={classes.toolbar}>
 			{isToggleEnabled && sidebar && (
 				<IconButton
@@ -141,9 +145,6 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 					</Box>
 				</Hidden>
 			</nav>
-
-			{false && userSessionState.isLoggedIn && <Button color='inherit'/* onClick={() => userSessionActions.userExit()}*/>Log Out</Button>}
-			{false && !userSessionState.isLoggedIn && <Button color='inherit'>Log In</Button>}
 		</Toolbar>
 	</AppBar>
 })
