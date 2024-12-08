@@ -331,7 +331,7 @@ export const getFormattedMultiplier = (multiplier: number) => {
 	return `x ${(multiplier / 10000).toFixed(4)}`
 }
 
-const withWeb3 = (web3: Web3, contract: Contract) => {
+const withWeb3 = (web3: Web3, contract: any) => {
 	if (!contract) {
 		throw commonLanguage.errors.UnknownContract;
 	}

@@ -14,8 +14,8 @@ const useStyles = makeStyles(() => {
 });
 
 interface RenderProps {
-	title?: JSX.Element;
-	main: JSX.Element;
+	title?: JSX.Element | string;
+	main: JSX.Element | string;
 	sub?: JSX.Element;
 	description?: JSX.Element;
 	buttons?: JSX.Element[];

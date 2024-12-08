@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Box, Typography, Grid, List, ListItem, Card, CardContent, Divider, Hidden, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Typography, List, ListItem, Card, CardContent, Divider, Hidden, useMediaQuery, useTheme } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 import { Web3Context } from '../../../web3/Web3Context'
 
@@ -83,12 +84,12 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 				<Divider />
 			</Box>
 			<Grid container>
-				<Grid xs={12} md={6}>
+				<Grid size={{ xs: 12, md: 6 }}>
 					{getFluxCurrentSupply()}
 					{getFluxBurned()}
 					{getFluxBurnRatio()}
 				</Grid>
-				<Grid xs={12} md={6}>
+				<Grid size={{ xs: 12, md: 6 }}>
 					{getDamLockedIn()}
 					{/*getFailsafeDetails()*/}
 				</Grid>

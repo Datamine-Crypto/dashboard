@@ -4,12 +4,12 @@ import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions, Typogra
 import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage, Balances } from '../../../web3/web3Reducer';
 import { DialogType } from '../../../interfaces';
-import Web3 from 'web3';
 import { BNToDecimal } from '../../../web3/helpers';
 import { ReducerQuery } from '../../../sideEffectReducer';
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
 import { Ecosystem, Layer } from '../../../../configs/config.common';
+import { Web3 } from 'web3';
 
 interface Params {
 	pendingQueries: ReducerQuery[];
