@@ -1121,7 +1121,7 @@ const queryHandlers = {
 				devLog('netId:', netId)
 
 				//const networkType = await web3.eth.net.networkType();
-				const networkType = 'main'; //@todo MUI5
+				const networkType = 'main';
 				//devLog('networkType:', networkType)
 
 				// This will pretty print on frontend in a table
