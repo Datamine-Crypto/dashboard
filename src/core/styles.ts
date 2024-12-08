@@ -33,31 +33,39 @@ const muiTheme = createTheme({
 		// E.g., shift from Red 500 to Red 300 or Red 700.
 		tonalOffset: 0.2,
 	},
-	overrides: {
+	components: {
 		MuiBackdrop: {
-			root: {
-				backgroundColor: 'rgba(0, 0, 0, 0.50)'
+			styleOverrides: {
+				root: {
+					backgroundColor: 'rgba(0, 0, 0, 0.50)'
+				}
 			}
 		},
 		MuiPaper: {
-			root: {
-				backgroundColor: classes.palette.background
+			styleOverrides: {
+				root: {
+					backgroundColor: classes.palette.background
+				}
 			}
 		},
 
 		MuiFormLabel: {
-			root: {
-				'&.Mui-focused': {
-					color: '#0FF'
+			styleOverrides: {
+				root: {
+					'&.Mui-focused': {
+						color: '#0FF'
+					}
 				}
 			}
 		},
 		MuiOutlinedInput: {
-			root: {
-				'&$focused $notchedOutline': {
-					borderColor: '#0FF',
-					borderWidth: 1,
-				},
+			styleOverrides: {
+				root: {
+					'&$focused $notchedOutline': {
+						borderColor: '#0FF',
+						borderWidth: 1,
+					},
+				}
 			}
 		},
 	}
@@ -72,3 +80,4 @@ const theme = {
 export {
 	theme
 };
+
