@@ -2,8 +2,11 @@ import React, { useContext } from 'react';
 import { Box, Button, Typography, Card, CardContent, CardActions, Divider, Link, LinearProgress, Grid, Table, TableContainer, TableRow, TableCell, TableBody, FormControlLabel, Switch, Slider, TextField, IconButton, Menu, MenuItem, FormControl, Select, InputLabel } from '@mui/material';
 
 import { makeStyles } from '@mui/styles';
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from '@date-io/moment';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { MobileDatePicker } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 
 import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage, Balances, ForecastSettings, ForecastMultiplierType, ClientSettings } from '../../../web3/web3Reducer';
@@ -132,6 +135,11 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 	const ecosystemConfig = getEcosystemConfig(ecosystem)
 	const isArbitrumMainnet = ecosystemConfig.layer === Layer.Layer2;
+
+	// Prevent inputs from autofills
+	const removeAutocompleteProps = {
+		'data-lpignore': 'true', 'data-form-type': 'other', autocomplete: "off"
+	}
 
 	// Only show CTA once account is loaded
 	if (addressDetails === null || selectedAddress === null) {
@@ -368,17 +376,12 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							const value = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).add(parseFloat(forecastSettings.forecastStartBlocks) / (60 / 12), 'minutes')
 
 							const getBlocksDropdown = () => {
-								return <MuiPickersUtilsProvider utils={MomentUtils}>
-									<DatePicker
-										variant="inline"
-										label="From"
-										inputVariant="outlined"
-										//value={new Date()}
-										format="YYYY/MM/DD"
+								return <LocalizationProvider dateAdapter={AdapterMoment}>
+									<MobileDatePicker
+										closeOnSelect={true}
 										value={value.toDate()}
-										size="small"
-										autoOk={true}
-										PopoverProps={{
+										//autoOk={true}
+										/*PopoverProps={{
 											anchorOrigin: {
 												vertical: 'top',
 												horizontal: 'left',
@@ -388,8 +391,25 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 												horizontal: 'right',
 											},
 											className: classes.datePicker
-										}}
-										onChange={(date: Moment | null) => {
+										}}*/
+										inputFormat="YYYY/MM/DD"
+										renderInput={(props) => <TextField
+											type="text"
+
+											name="startBlocks"
+											//variant="inline"
+											label="From"
+											//inputVariant="outlined"
+											//value={new Date()}
+											size="small"
+											{...props}
+											inputProps={{
+												...props.inputProps,
+												...removeAutocompleteProps
+											} as any}
+										/>}
+
+										onChange={(date: any) => {
 											if (date) {
 												date = date.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
 
@@ -402,7 +422,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 											}
 										}}
 									/>
-								</MuiPickersUtilsProvider>
+								</LocalizationProvider>
 							}
 							return <>
 								<Box display="flex" alignItems="center">
@@ -447,27 +467,29 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							const value = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).add(parseFloat(forecastSettings.forecastBlocks) / (60 / 12), 'minutes')
 
 							const getBlocksDropdown = () => {
-								return <MuiPickersUtilsProvider utils={MomentUtils}>
-									<DatePicker
-										variant="inline"
+								return <LocalizationProvider dateAdapter={AdapterMoment}>
+									<MobileDatePicker
+										closeOnSelect={true}
+										renderInput={(props) => <TextField
+											type="text"
+											name="endBlocks"
+											//variant="inline"
+											label="From"
+											//inputVariant="outlined"
+											//value={new Date()}
+											size="small"
+
+											{...props}
+											inputProps={{
+												...props.inputProps,
+												...removeAutocompleteProps
+											} as any}
+										/>}
 										label="To"
-										inputVariant="outlined"
 										//value={new Date()}
-										format="YYYY/MM/DD"
+										inputFormat="YYYY/MM/DD"
 										value={value.toDate()}
-										size="small"
-										autoOk={true}
-										PopoverProps={{
-											anchorOrigin: {
-												vertical: 'top',
-												horizontal: 'left',
-											},
-											transformOrigin: {
-												vertical: 'bottom',
-												horizontal: 'right',
-											},
-											className: classes.datePicker
-										}}
+
 										onChange={(date: Moment | null) => {
 											if (date) {
 												date = date.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
@@ -481,7 +503,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 											}
 										}}
 									/>
-								</MuiPickersUtilsProvider>
+								</LocalizationProvider>
 							}
 							return <>
 								<Box display="flex" alignItems="center">

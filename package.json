@@ -16,6 +16,7 @@
 		"@mui/lab": "5.0.0-alpha.174",
 		"@mui/material": "5.16.9",
 		"@mui/styles": "5.16.9",
+		"@mui/x-date-pickers": "5.0.20",
 		"@types/big.js": "^6.1.6",
 		"@types/jest": "^24.0.0",
 		"@types/material-ui": "^0.21.8",

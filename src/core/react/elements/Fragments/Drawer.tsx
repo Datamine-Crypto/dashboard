@@ -5,15 +5,15 @@ import { makeStyles } from '@mui/styles';
 
 import clsx from 'clsx';
 
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import HomeIcon from '@material-ui/icons/Home';
-import HelpIcon from '@material-ui/icons/HelpOutline';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
-import PeopleIcon from '@material-ui/icons/People';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import HomeIcon from '@mui/icons-material/Home';
+import HelpIcon from '@mui/icons-material/HelpOutline';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import PeopleIcon from '@mui/icons-material/People';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 
-import { ExpandMore } from '@material-ui/icons';
+import { ExpandMore } from '@mui/icons-material';
 import Logo from '../../../../svgs/logo.svg';
 import EthereumPurple from '../../../../svgs/ethereumPurple.svg';
 import Arbitrum from '../../../../svgs/arbitrum.svg';
