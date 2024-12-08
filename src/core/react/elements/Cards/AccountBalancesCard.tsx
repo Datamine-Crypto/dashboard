@@ -120,7 +120,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 				}
 				const button = <Link href={getAddToPoolLink()} target="_blank" rel="noopener noreferrer">
 					<Button size="small" variant="outlined" color="secondary">
-						<img src={liquidityPoolType === LiquidityPoolType.SushiSwap ? sushiSwapLogo : uniswap} width={24} height={24} style={{ verticalAlign: 'middle', marginRight: 8 }} /> Add To Pool
+						<img src={liquidityPoolType === LiquidityPoolType.SushiSwap ? sushiSwapLogo : uniswap} width={24} height={24} style={{ verticalAlign: 'middle', marginRight: 8 }} alt="Add To Pool" /> Add To Pool
 					</Button>
 				</Link>
 

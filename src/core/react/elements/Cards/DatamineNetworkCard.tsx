@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Chip, Divider, Typography } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, Chip, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import React, { useContext } from 'react';
 
@@ -6,7 +6,6 @@ import { Web3Context } from '../../../web3/Web3Context';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
-import { Alert } from '@mui/lab';
 import { FluxAddressLock } from '../../../interfaces';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import LightTooltip from '../LightTooltip';

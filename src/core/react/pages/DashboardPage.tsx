@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Container, Link, Menu, MenuItem, Snackbar, Typography } from '@mui/material';
+import { Alert, Box, Button, CircularProgress, Container, Link, Menu, MenuItem, Snackbar, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import React, { ReactNode, useContext, useEffect } from 'react';
 
@@ -10,7 +10,6 @@ import { commonLanguage, ConnectionMethod, commonLanguage as web3CommonLanguage 
 import PendingActionDialog from '../elements/Dialogs/PendingActionDialog';
 import Web3Account from '../elements/Web3Account';
 
-import Alert from '@mui/lab/Alert';
 import logo from '../../../svgs/logo.svg'; // Tell webpack this JS file uses this image
 import LightTooltip from '../elements/LightTooltip';
 

@@ -26,7 +26,7 @@ const useStyles = makeStyles<DatamineTheme>(theme => {
 			verticalAlign: "middle",
 		},
 		appBar: {
-			backgroundColor: theme.palette.mode == 'dark' ? '#272936' : theme.palette.primary.main,
+			backgroundColor: theme.palette.mode === 'dark' ? '#272936' : theme.palette.primary.main,
 			color: '#fff',
 			zIndex: theme.zIndex.drawer + 1,
 			transition: theme.transitions.create(['width', 'margin'], {
@@ -114,7 +114,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 				<Card elevation={0}>
 					<CardActionArea className={classes.logoArea}>
 						<Box mr={2} mt={0.5}>
-							<img src={DamLogo} width="54" height="54" />
+							<img src={DamLogo} width="54" height="54" alt="Datemine Network" />
 						</Box>
 						<Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
 							<Hidden smDown>

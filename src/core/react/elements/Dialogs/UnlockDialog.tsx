@@ -1,10 +1,9 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Typography } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
 import { Web3Context } from '../../../web3/Web3Context';
 import { Balances, ClientSettings, commonLanguage } from '../../../web3/web3Reducer';
 
-import { Alert } from '@mui/lab';
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { FluxAddressDetails, Token } from '../../../interfaces';

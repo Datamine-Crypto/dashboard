@@ -33,7 +33,7 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 		const { hasError, error, errorInfo } = this.state
 
 		const getLogo = () => {
-			return <img src={logo} alt="Logo" style={{ width: '128px' }} />;
+			return <img src={logo} alt="Datamine Network" style={{ width: '128px' }} />;
 		}
 
 		const getErrorMessage = () => {

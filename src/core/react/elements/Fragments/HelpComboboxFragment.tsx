@@ -1,5 +1,4 @@
-import { Autocomplete } from "@mui/lab";
-import { TextField } from "@mui/material";
+import { Autocomplete, TextField } from '@mui/material';
 import React, { useContext } from "react";
 import { NetworkType } from "../../../../configs/config.common";
 import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from "../../../helpArticles";
@@ -41,6 +40,7 @@ const Render: React.FC<RenderProps> = React.memo(({ id, isBigSearch, searchQuery
 		size={isBigSearch ? 'medium' : 'small'}
 		className={isBigSearch ? classes.big : classes.small}
 		options={helpArticles}
+
 		getOptionLabel={(option) => {
 			switch (helpArticlesNetworkType) {
 				case NetworkType.Arbitrum:
@@ -53,7 +53,6 @@ const Render: React.FC<RenderProps> = React.memo(({ id, isBigSearch, searchQuery
 
 		}}
 		filterOptions={filterOptions}
-		freeSolo={true}
 		groupBy={option => {
 			switch (helpArticlesNetworkType) {
 				case NetworkType.Arbitrum:
