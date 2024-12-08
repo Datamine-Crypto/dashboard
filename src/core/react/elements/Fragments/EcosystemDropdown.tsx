@@ -1,4 +1,5 @@
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { ecosystemConfigs } from "../../../../configs/config.base";
 import { Ecosystem, Layer, NetworkType } from "../../../../configs/config.common";
 import React from "react";
@@ -23,13 +24,13 @@ export const getNetworkDropdown = (ecosystem: Ecosystem, dispatch: React.Dispatc
 				<Grid
 					container
 					direction="row"
-					justify="flex-start"
+					justifyContent="flex-start"
 					alignItems="center"
 				>
-					<Grid item style={{ lineHeight: 0 }}>
+					<Grid style={{ lineHeight: 0 }}>
 						<Box mr={1}><img src={ecosystemLogoSvg} width="24" height="24" /></Box>
 					</Grid>
-					<Grid item>
+					<Grid>
 						{lockableTokenShortName} → {mintableTokenShortName}
 					</Grid>
 				</Grid>

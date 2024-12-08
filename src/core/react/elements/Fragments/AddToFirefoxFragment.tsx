@@ -1,4 +1,5 @@
-import { Box, CardMedia, Grid, Link } from '@mui/material';
+import { Box, CardMedia, Link } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import React, { useContext } from 'react';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
 
@@ -36,8 +37,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 						title: 'Continue In Metamask...', message: <>
 							To display {lockableTokenShortName} &amp; {mintableTokenShortName} balances in Metamask, click Add Tokens in Metamask window/popup to add our tokens to your Metamask as in the example below:
 							<Box mt={3}>
-								<Grid container alignItems="center" justify="center" alignContent="center">
-									<Grid item>
+								<Grid container alignItems="center" justifyContent="center" alignContent="center">
+									<Grid>
 										<CardMedia component="img" image="./images/addTokens.png" style={{ maxWidth: 343 }} />
 									</Grid>
 								</Grid>

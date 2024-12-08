@@ -1,7 +1,8 @@
 
 import React from 'react';
 
-import { Typography, Box, Button, Link, Grid, Menu, MenuItem, Divider, Chip } from "@mui/material";
+import { Typography, Box, Button, Link, Menu, MenuItem, Divider, Chip } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 
 import { makeStyles } from '@mui/styles';
 
@@ -134,14 +135,14 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 		switch (buttonType) {
 			case LiquidityPoolButtonType.SmallText:
 				return <Link color="secondary" href="#" onClick={handleClick}>
-					<Grid container alignItems="center" justify="center">
-						<Grid item>
+					<Grid container alignItems="center" justifyContent="center">
+						<Grid>
 							<Box mr={0.5} className={classes.logoContainer}>
 								<img src={uniswapLogo} style={{ left: 14 }} />
 								<img src={sushiSwapLogo} style={{ left: -9 }} />
 							</Box>
 						</Grid>
-						<Grid item>
+						<Grid>
 							Explore Liquidity Pools
 						</Grid>
 					</Grid>
@@ -151,14 +152,14 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 			case LiquidityPoolButtonType.LargeButton:
 			case LiquidityPoolButtonType.ExtraLargeButton:
 				return <Button variant="outlined" color="secondary" size={size} style={{ fontSize: buttonType === LiquidityPoolButtonType.ExtraLargeButton ? '1.1rem' : undefined }} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-					<Grid container alignItems="center" justify="center">
-						<Grid item>
+					<Grid container alignItems="center" justifyContent="center">
+						<Grid>
 							<Box mr={1} className={classes.logoContainer}>
 								<img src={uniswapLogo} style={{ left: buttonType == LiquidityPoolButtonType.SmallButton ? 18 : 14 }} />
 								<img src={sushiSwapLogo} style={{ left: buttonType == LiquidityPoolButtonType.SmallButton ? -3 : -9 }} />
 							</Box>
 						</Grid>
-						<Grid item>
+						<Grid>
 							Explore Liquidity Pools
 						</Grid>
 
@@ -192,34 +193,34 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 
 
 					return <MenuItem key={index} style={{ cursor: 'default' }}>
-						<Grid container alignItems="center" justify="space-between" spacing={2} className={classes.buttonsGroup}>
-							<Grid item>
+						<Grid container alignItems="center" justifyContent="space-between" spacing={2} className={classes.buttonsGroup}>
+							<Grid>
 								<Grid container>
-									<Grid item>
+									<Grid>
 										<Box pl={1} pr={2} display="inline">
 											<img src={pool.image} width={32} height={32} style={{ verticalAlign: 'middle' }} />
 										</Box>
 									</Grid>
-									<Grid item>
+									<Grid>
 										{pool.name}
 										{getHotLabel()}
 									</Grid>
 								</Grid>
 							</Grid>
-							<Grid item>
+							<Grid>
 								<Grid container spacing={2} className={classes.buttonsContainer}>
-									<Grid item className={classes.buttonGridItem}>
+									<Grid className={classes.buttonGridItem}>
 										<Box ml={3}>
 											<Button size="large" variant="outlined" href={pool.links.buy} color="secondary" target="_blank" rel="noopener noreferrer">Trade</Button>
 										</Box>
 
 									</Grid>
-									<Grid item className={classes.buttonGridItem}>
+									<Grid className={classes.buttonGridItem}>
 										<Box ml={1}>
 											<Button size="large" variant="outlined" href={pool.links.info} target="_blank" rel="noopener noreferrer">Analytics</Button>
 										</Box>
 									</Grid>
-									<Grid item className={classes.buttonGridItem}>
+									<Grid className={classes.buttonGridItem}>
 										<Box mx={1}>
 											<Button size="large" variant="outlined" color="secondary" href={pool.links.addLiquidity} target="_blank" rel="noopener noreferrer">+ Add Liquidity</Button>
 										</Box>

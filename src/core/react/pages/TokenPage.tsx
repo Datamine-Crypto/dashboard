@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { Box, Container, Typography, Grid, Button, Paper, Card, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, CardActionArea, Link, TableFooter } from '@mui/material';
+import { Box, Container, Typography, Button, Paper, Card, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, CardActionArea, Link, TableFooter } from '@mui/material';
 
+import Grid from '@mui/material/Grid2';
 import { makeStyles } from '@mui/styles';
 import ArrowRightIcon from '@mui/icons-material/PlayArrow';
 import PeopleIcon from '@mui/icons-material/People';
@@ -172,13 +173,13 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 			<Grid
 				container
 				spacing={3}
-				justify="center"
+				justifyContent="center"
 				className={classes.point}
 			>
-				<Grid item>
+				<Grid>
 					{icon}
 				</Grid>
-				<Grid item md={8} lg={10}>
+				<Grid size={{ md: 8, lg: 10 }}>
 					<Box mb={1} mt={1}>
 						<Typography variant="h4" color="textPrimary">
 							{title}
@@ -391,15 +392,15 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 			window.location.href = '#dashboard' // @todo
 		}
 
-		return <Grid container spacing={4} justify="center" alignItems="center">
-			<Grid item>
+		return <Grid container spacing={4} justifyContent="center" alignItems="center">
+			<Grid>
 				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} ecosystem={ecosystem} />
 			</Grid>
-			<Grid item>
+			<Grid>
 				<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard}>
 
 					<Grid container alignItems="center">
-						<Grid item>
+						<Grid>
 							Validator Dashboard
 						</Grid>
 					</Grid>

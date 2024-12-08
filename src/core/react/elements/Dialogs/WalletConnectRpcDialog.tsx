@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Grid, CardMedia, Link } from '@mui/material';
+import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, CardMedia, Link } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage } from '../../../web3/web3Reducer';
@@ -53,8 +54,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress
 				<Typography gutterBottom={true}>You can register for a <strong>FREE</strong> <Link href="https://infura.io/" color="secondary" target="_blank" rel="noopener noreferrer">infura.io</Link> account to generate a personal RPC endpoint. To ensure fair use we do not provide a public RPC endpoint.</Typography>
 
 				<Box my={3}>
-					<Grid container alignItems="center" justify="center" alignContent="center">
-						<Grid item>
+					<Grid container alignItems="center" justifyContent="center" alignContent="center">
+						<Grid>
 							<CardMedia component="img" image="./images/infura.png" style={{ maxWidth: 343 }} />
 						</Grid>
 					</Grid>

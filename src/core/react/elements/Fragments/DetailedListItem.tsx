@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import { Box, Hidden, Card, Divider, Grid, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Hidden, Card, Divider, useMediaQuery, useTheme } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(() => {
@@ -34,10 +35,10 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 		}
 		return <>
 			<Hidden smDown>
-				<Grid item><Typography display="inline">{main}{getSub()}</Typography> {description}</Grid>
+				<Grid><Typography display="inline">{main}{getSub()}</Typography> {description}</Grid>
 			</Hidden>
 			<Hidden mdUp>
-				<Grid item xs={12}>
+				<Grid size={{ xs: 12 }}>
 					<Typography display="inline">{main}</Typography>
 				</Grid>
 			</Hidden>
@@ -49,7 +50,7 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 		}
 
 		return <>
-			<Grid item><Typography display="inline">{sub}</Typography></Grid>
+			<Grid><Typography display="inline">{sub}</Typography></Grid>
 		</>
 	}
 	const getSmDescriptionElement = () => {
@@ -57,7 +58,7 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 			return null;
 		}
 
-		return <Grid item>{description}</Grid>
+		return <Grid>{description}</Grid>
 	}
 	const getTitle = () => {
 		if (!title) {
@@ -70,16 +71,16 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 			}
 			return buttons.map(button => {
 				return <>
-					<Grid item>
+					<Grid>
 						{button}
 					</Grid>
 				</>
 			})
 		}
 
-		return <Grid item>
+		return <Grid>
 			<Grid container alignItems="center">
-				<Grid item>
+				<Grid>
 					<Box height={36} display="flex" alignItems="center">
 						<Typography color="textSecondary" variant="body2">{title}</Typography>
 					</Box>
@@ -99,7 +100,7 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 		const getButtonElements = () => {
 			return buttons.map(button => {
 				return <>
-					<Grid item>
+					<Grid>
 						<Box my={1}>
 							{button}
 						</Box>
@@ -116,7 +117,7 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 				<Grid
 					container
 					direction="column"
-					justify="center"
+					justifyContent="center"
 					alignItems="center">
 					{getButtonElements()}
 				</Grid>

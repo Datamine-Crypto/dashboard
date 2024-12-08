@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Box, Typography, Grid, Card, CardContent, Divider, Button, Chip } from '@mui/material';
+import { Box, Typography, Card, CardContent, Divider, Button, Chip } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 import { Web3Context } from '../../../web3/Web3Context'
 
@@ -34,8 +35,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 
 	return <Card >
 		<CardContent>
-			<Grid container justify="space-between" alignItems="center">
-				<Grid item>
+			<Grid container justifyContent="space-between" alignItems="center">
+				<Grid>
 					<Typography variant="h5" component="h2">
 						Datamine Network Pro
 					</Typography>

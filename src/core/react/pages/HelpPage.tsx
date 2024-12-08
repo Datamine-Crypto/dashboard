@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Box, Container, Typography, Grid, Paper, Link, List, ListSubheader, ListItem, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box, Container, Typography, Paper, Link, List, ListSubheader, ListItem, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 import { makeStyles } from '@mui/styles';
 import { theme } from '../../styles'
@@ -141,7 +142,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 			}
 			const categoryHeader = getCategoryHeader()
 
-			return <Grid item xs={12} md={6} lg={4} key={index}>
+			return <Grid size={{ xs: 12, md: 6, lg: 4 }} key={index}>
 				<List subheader={<ListSubheader className={classes.helpCategoryHeader}>{categoryHeader}</ListSubheader>} >
 					{getHelpListItems()}
 				</List>
@@ -170,13 +171,13 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 						<Grid
 							container
 							direction="row"
-							justify="flex-start"
+							justifyContent="flex-start"
 							alignItems="center"
 						>
-							<Grid item style={{ lineHeight: 0 }}>
+							<Grid style={{ lineHeight: 0 }}>
 								<Box mr={1}><img src={EthereumPurpleLogo} width="24" height="24" /></Box>
 							</Grid>
-							<Grid item>
+							<Grid>
 								FLUX - Ethereum (L1)
 							</Grid>
 						</Grid>
@@ -186,13 +187,13 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 						<Grid
 							container
 							direction="row"
-							justify="flex-start"
+							justifyContent="flex-start"
 							alignItems="center"
 						>
-							<Grid item style={{ lineHeight: 0 }}>
+							<Grid style={{ lineHeight: 0 }}>
 								<Box mr={1}><img src={ArbitrumLogo} width="24" height="24" /></Box>
 							</Grid>
-							<Grid item>
+							<Grid>
 								ArbiFLUX - Arbitrum (L2)
 							</Grid>
 						</Grid>

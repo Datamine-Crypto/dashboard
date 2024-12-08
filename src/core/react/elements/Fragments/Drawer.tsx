@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { Drawer, createStyles, Theme, Hidden, Divider, List, ListItem, ListItemIcon, ListItemText, Link, Card, CardActionArea, Typography, Box, Grid, Button } from '@mui/material';
+import { Drawer, createStyles, Theme, Hidden, Divider, List, ListItem, ListItemIcon, ListItemText, Link, Card, CardActionArea, Typography, Box, Button } from '@mui/material';
 
+import Grid from '@mui/material/Grid2';
 import { makeStyles } from '@mui/styles';
 
 import clsx from 'clsx';
@@ -295,8 +296,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			return <Box my={3}>
 				<Grid
 					container
-					justify="center">
-					<Grid item>
+					justifyContent="center">
+					<Grid>
 						<Button
 							variant="contained"
 							color="secondary"
@@ -334,13 +335,13 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				</Hidden>
 			</div>
 			<Box height="100%">
-				<Grid container direction="column" justify="space-between" className={classes.drawerGridContainer}>
-					<Grid item>
+				<Grid container direction="column" justifyContent="space-between" className={classes.drawerGridContainer}>
+					<Grid>
 						<List>
 							{drawerButtons}
 						</List>
 					</Grid>
-					<Grid item>
+					<Grid>
 						{getDiscordButton()}
 					</Grid>
 				</Grid>

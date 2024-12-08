@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Card, CardContent, CardActions, Divider, Link, LinearProgress, Grid, Table, TableContainer, TableRow, TableCell, TableBody, FormControlLabel, Switch, Slider, TextField, IconButton, Menu, MenuItem, FormControl, Select, InputLabel } from '@mui/material';
+import { Box, Button, Typography, Card, CardContent, CardActions, Divider, Link, LinearProgress, Table, TableContainer, TableRow, TableCell, TableBody, FormControlLabel, Switch, Slider, TextField } from '@mui/material';
 
 import { makeStyles } from '@mui/styles';
-import MomentUtils from '@date-io/moment';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { MobileDatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import Grid from '@mui/material/Grid2';
 
 import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage, Balances, ForecastSettings, ForecastMultiplierType, ClientSettings } from '../../../web3/web3Reducer';
@@ -33,7 +32,7 @@ import moment from 'moment';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import { getApy, TokenPair } from '../../../utils/getApy';
 import { formatMoney } from '../../../utils/formatMoney';
-import { Ecosystem, Layer, NetworkType } from '../../../../configs/config.common';
+import { Ecosystem, Layer } from '../../../../configs/config.common';
 import ArbitrumLogo from '../../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../../svgs/ethereumPurple.svg';
 import fluxLogo from '../../../../svgs/fluxLogo.svg';
@@ -572,12 +571,12 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 						return <Box mt={0.5}>
 							<Grid container>
-								<Grid item style={{ width: `${Math.floor((addressDetails.addressBurnMultiplier / maxBurnBarWidth) * 100)}%` }}>
+								<Grid style={{ width: `${Math.floor((addressDetails.addressBurnMultiplier / maxBurnBarWidth) * 100)}%` }}>
 									<LightTooltip title={getFluxBurnTooltip()}>
 										<LinearProgress variant="determinate" value={100} color="secondary" className={classes.progressBarLeft} />
 									</LightTooltip>
 								</Grid>
-								<Grid item style={{ width: `${Math.ceil(((maxBurnBarWidth - addressDetails.addressBurnMultiplier) / maxBurnBarWidth) * 100)}%` }}>
+								<Grid style={{ width: `${Math.ceil(((maxBurnBarWidth - addressDetails.addressBurnMultiplier) / maxBurnBarWidth) * 100)}%` }}>
 									<LightTooltip title={getFluxBurnTooltip()}>
 										<LinearProgress variant="determinate" value={0} color="secondary" className={classes.progressBarRight} />
 									</LightTooltip>
@@ -603,12 +602,12 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 						return <Box mt={0.5}>
 							<Grid container>
-								<Grid item style={{ width: `${Math.floor((addressDetails.addressTimeMultiplier / 30000) * 100)}%` }}>
+								<Grid style={{ width: `${Math.floor((addressDetails.addressTimeMultiplier / 30000) * 100)}%` }}>
 									<LightTooltip title="Your current bonus is permanent for duration of your started mint. If you stop your validator this bonus is reset.">
 										<LinearProgress variant="determinate" value={100} color="secondary" className={classes.progressBarLeft} />
 									</LightTooltip>
 								</Grid>
-								<Grid item style={{ width: `${Math.ceil(((30000 - addressDetails.addressTimeMultiplier) / 30000) * 100)}%` }}>
+								<Grid style={{ width: `${Math.ceil(((30000 - addressDetails.addressTimeMultiplier) / 30000) * 100)}%` }}>
 									<LightTooltip title={`You will receive the full x3 Time Bonus multiplier after leaving your ${lockableTokenShortName} locked-in for another ${getBlocksRemaining(addressLock.blockNumber, 161280 + 5760, addressDetails.blockNumber, 'Awaiting Mint Start')}`}>
 										<LinearProgress variant="determinate" value={0} color="secondary" className={classes.progressBarRight} />
 									</LightTooltip>
@@ -811,20 +810,20 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 					return {
 						disabledText: getDisabledText(),
 						title: <>
-							<Grid container justify="space-between">
-								<Grid item>
+							<Grid container justifyContent="space-between">
+								<Grid>
 									Validator Dashboard{getMintHeaderLabel()}{getApyHeader()}
 								</Grid>
-								<Grid item>
+								<Grid>
 									<FormControlLabel
 										value="start"
 										control={<Switch checked={forecastSettings.enabled} color="secondary" onChange={() => dispatch({ type: commonLanguage.commands.ToggleForecastMode })} />}
 										label={<>
 											<Grid container alignItems="center">
-												<Grid item>
+												<Grid>
 													<Box mr={0.5}><DateRangeIcon color={forecastSettings.enabled ? 'secondary' : undefined} /></Box>
 												</Grid>
-												<Grid item>
+												<Grid>
 													{forecastSettings.enabled ? <Typography color="secondary">Forecasting Calculator Enabled</Typography> : <Typography>Forecasting Calculator</Typography>}
 												</Grid>
 											</Grid>
@@ -834,7 +833,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								</Grid>
 							</Grid>
 						</>,
-						bottomRightItem: <Grid item>
+						bottomRightItem: <Grid>
 							<Box textAlign="right">
 								<Box display="inline-block" mb={1}>
 									<Box mb={1}>
@@ -965,20 +964,20 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 		return {
 			title: <>
-				<Grid container justify="space-between">
-					<Grid item>
+				<Grid container justifyContent="space-between">
+					<Grid>
 						Validator Dashboard {getMintHeaderLabel()}
 					</Grid>
-					<Grid item>
+					<Grid>
 						<FormControlLabel
 							value="start"
 							control={<Switch checked={forecastSettings.enabled} color="secondary" onChange={() => dispatch({ type: commonLanguage.commands.ToggleForecastMode })} />}
 							label={<>
 								<Grid container alignItems="center">
-									<Grid item>
+									<Grid>
 										<Box mr={0.5}><DateRangeIcon /></Box>
 									</Grid>
-									<Grid item>
+									<Grid>
 										{forecastSettings.enabled ? <Typography color="secondary">Forecasting Calculator Enabled</Typography> : <Typography>Forecasting Calculator</Typography>}
 									</Grid>
 								</Grid>
@@ -1083,14 +1082,14 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			</>
 		}
 		return <>
-			<Grid container justify="space-between" alignItems="center" spacing={3} className={classes.topLeftPricesContainer}>
-				<Grid item>
+			<Grid container justifyContent="space-between" alignItems="center" spacing={3} className={classes.topLeftPricesContainer}>
+				<Grid>
 					{getFluxPrice()}
 				</Grid>
-				<Grid item>
+				<Grid>
 					{getDamPrice()}
 				</Grid>
-				<Grid item>
+				<Grid>
 					{getEthPrice()}
 				</Grid>
 			</Grid>
@@ -1114,16 +1113,16 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 	return <>
 		<Box mb={1.5}>
-			<Grid container justify="space-between" alignItems="center" className={classes.topContainer} spacing={3}>
-				<Grid item>
+			<Grid container justifyContent="space-between" alignItems="center" className={classes.topContainer} spacing={3}>
+				<Grid>
 					{getRealtimePrices()}
 				</Grid>
-				<Grid item>
-					<Grid container justify="flex-end" alignItems="center" className={classes.topRightContainer} spacing={2}>
-						<Grid item>
+				<Grid>
+					<Grid container justifyContent="flex-end" alignItems="center" className={classes.topRightContainer} spacing={2}>
+						<Grid>
 							{getBridgeButton()}
 						</Grid>
-						<Grid item>
+						<Grid>
 							{getNetworkDropdown(ecosystem, dispatch)}
 						</Grid>
 					</Grid>
@@ -1146,9 +1145,9 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 				<Box mx={2} width="100%">
 					<Grid
 						container
-						justify="space-between"
+						justifyContent="space-between"
 						alignItems="flex-end">
-						<Grid item>
+						<Grid>
 							<Box mb={2}>
 								{getButton()}
 								{getLearnMoreButton()}

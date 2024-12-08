@@ -1,5 +1,6 @@
 import React, { ErrorInfo } from "react";
-import { Typography, Box, Grid, Button, Container, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { Typography, Box, Button, Container, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import logo from '../../svgs/logo.svg'; // Tell webpack this JS file uses this image
 
 type ErrorState = {
@@ -59,7 +60,7 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 
 			return <Box alignItems="center" justifyContent="center" display="flex" flexDirection="column" style={{ height: '100vh' }}>
 				<Box my={6}>
-					<Grid container justify="center"><Grid item>{getLogo()}</Grid></Grid>
+					<Grid container justifyContent="center"><Grid>{getLogo()}</Grid></Grid>
 					<Box mt={6}>
 						<TableContainer component={Paper}>
 							<Table aria-label="simple table">

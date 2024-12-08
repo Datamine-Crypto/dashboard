@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Container, Typography, Grid, Button, CardActionArea, CardMedia, Card } from '@mui/material';
+import { Box, Container, Typography, Button, CardActionArea, CardMedia, Card } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 import { makeStyles } from '@mui/styles';
 import ArrowRightIcon from '@mui/icons-material/PlayArrow';
@@ -111,13 +112,13 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 		if (isSubPage) {
 			return <Box mt={4}>
 				<Box mt={3}>
-					<Grid container spacing={3} justify="center">
-						<Grid item>
+					<Grid container spacing={3} justifyContent="center">
+						<Grid>
 							<Button variant="text" href="#">
 								Homepage
 							</Button>
 						</Grid>
-						<Grid item>
+						<Grid>
 							<Button variant="text" href="#dashboard">
 								Dashboard
 							</Button>
@@ -130,7 +131,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 			if (!isLiquidityPoolsEnabled) {
 				return null;
 			}
-			return <Grid item>
+			return <Grid>
 
 				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} ecosystem={ecosystem} />
 			</Grid>
@@ -139,20 +140,20 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 			if (!isHelpPageEnabled) {
 				return null
 			}
-			return (<Grid item>
+			return (<Grid>
 				<Button variant="text" href="#help">
 					Help &amp; Knowledgebase
 				</Button>
 			</Grid>)
 		}
 		return <Box mt={4}>
-			<Grid container spacing={4} justify="center" alignItems="center">
+			<Grid container spacing={4} justifyContent="center" alignItems="center">
 				{getLiqudityPoolsButton()}
-				<Grid item>
+				<Grid>
 					<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard}>
 
 						<Grid container alignItems="center">
-							<Grid item>
+							<Grid>
 								Validator Dashboard
 							</Grid>
 						</Grid>
@@ -161,19 +162,19 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 			</Grid>
 			{getVideo()}
 			<Box mt={3}>
-				<Grid container spacing={3} justify="center">
-					<Grid item>
+				<Grid container spacing={3} justifyContent="center">
+					<Grid>
 						<Button variant="text" href="https://github.com/DatamineGlobal/whitepaper/blob/d8b1e007f229878cba0a617398f3e1d40a3ea79a/Datamine.pdf" rel="noopener noreferrer" target="_blank">
 							Economic Whitepaper
 						</Button>
 					</Grid>
-					<Grid item>
+					<Grid>
 						<Button variant="text" href="https://github.com/Datamine-Crypto/white-paper/blob/master/docs/datamine-smart-contracts.md" rel="noopener noreferrer" target="_blank">
 							Technical Whitepaper
 						</Button>
 					</Grid>
 					{getHelpButton()}
-					<Grid item>
+					<Grid>
 						<Button variant="text" href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf" rel="noopener noreferrer" target="_blank">
 							View Security Audit
 						</Button>
@@ -188,8 +189,8 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 			return null;
 		}
 
-		return <Box mt={5} mb={3}><Grid container justify="center">
-			<Grid item>
+		return <Box mt={5} mb={3}><Grid container justifyContent="center">
+			<Grid>
 				<Box display="inline-block">
 					<Card elevation={3} >
 						<LightTooltip title={`Watch How ${ecosystemName} Ecosystem Works`} placement="top">
@@ -210,12 +211,12 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 			<Grid
 				container
 				spacing={4}
-				justify="center"
+				justifyContent="center"
 				alignItems="center">
-				<Grid item className={classes.logoContainer}>
+				<Grid className={classes.logoContainer}>
 					{getLogo()}
 				</Grid>
-				<Grid item md={8} lg={7}>
+				<Grid size={{ md: 8, lg: 7 }}>
 					<Box>
 						{getTitle()}
 						<Typography variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>

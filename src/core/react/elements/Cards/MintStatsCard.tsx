@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Box, Typography, Grid, Card, CardContent, Divider, Button } from '@mui/material';
+import { Box, Typography, Card, CardContent, Divider, Button } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 import { Web3Context } from '../../../web3/Web3Context'
 
@@ -133,8 +134,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 
 	return <Card >
 		<CardContent>
-			<Grid container justify="space-between" alignItems="center">
-				<Grid item>
+			<Grid container justifyContent="space-between" alignItems="center">
+				<Grid>
 					<Typography variant="h5" component="h2">
 						{mintableTokenShortName} Minting Statistics
 					</Typography>
@@ -144,12 +145,12 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 				<Divider />
 			</Box>
 			<Grid container>
-				<Grid item xs={12} md={6}>
+				<Grid size={{ xs: 12, md: 6 }}>
 					{getTimeUntil3xBonus()}
 					{getFluxToBurnFor2x()}
 					{getFluxToBurnForMaxBurn()}
 				</Grid>
-				<Grid item xs={12} md={6}>
+				<Grid size={{ xs: 12, md: 6 }}>
 					{getDamLockinDuration()}
 					{getLastMint()}
 				</Grid>

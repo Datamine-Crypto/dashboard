@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Grid, Card, CardContent, Divider, Link } from '@mui/material';
+import { Box, Button, Typography, Card, CardContent, Divider, Link } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 import { makeStyles } from '@mui/styles';
 import { Web3Context } from '../../../web3/Web3Context'
@@ -251,26 +252,26 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 
 	return <Card >
 		<CardContent>
-			<Grid container justify="space-between" alignItems="center">
-				<Grid item>
+			<Grid container justifyContent="space-between" alignItems="center">
+				<Grid>
 					<Typography variant="h5" component="h2">
 						Address Balances
 					</Typography>
 				</Grid>
-				<Grid item>
+				<Grid>
 					<Typography variant="body2" color="textSecondary">
 						<LightTooltip title="Click to open address-specific dashboard link">
 							<Link href={`#dashboard/${displayedAddress}`} color="textSecondary" target="_blank" className={classes.address} >
 								<Grid
 									container
 									direction="row"
-									justify="center"
+									justifyContent="center"
 									alignItems="center"
 								>
-									<Grid item>
+									<Grid>
 										{displayedAddress}
 									</Grid>
-									<Grid item>
+									<Grid>
 										<Box ml={0.5}>
 											<OpenInNewIcon fontSize="small" />
 										</Box>
@@ -285,14 +286,14 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 				<Divider />
 			</Box>
 			<Grid container>
-				<Grid item md={6} className={classes.detailedListItemsContainer}>
+				<Grid size={{ md: 6 }} className={classes.detailedListItemsContainer}>
 					<Box>
 						{getFluxBalance()}
 						{getFluxBurned()}
 						{getFluxBurnRatio()}
 					</Box>
 				</Grid>
-				<Grid item md={6} className={classes.detailedListItemsContainer}>
+				<Grid size={{ md: 6 }} className={classes.detailedListItemsContainer}>
 					{getDamBalance()}
 					{getDamLockedIn()}
 					{getDelegatedMinterAddress()}

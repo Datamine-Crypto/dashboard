@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import { CircularProgress, Box, Container, Button, Typography, Grid, Link, MenuItem, Menu, Snackbar } from '@mui/material';
+import { CircularProgress, Box, Container, Button, Typography, Link, MenuItem, Menu, Snackbar } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 import { makeStyles } from '@mui/styles';
 
@@ -116,7 +117,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 	const getCenterContent = ({ title, message, content }: CenterContent) => {
 		return <Box className={classes.fullScreenSplash}>
 			<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-				<Grid container justify="center"><Grid item>{getLogo()}</Grid></Grid>
+				<Grid container justifyContent="center"><Grid>{getLogo()}</Grid></Grid>
 				<Box mt={3} mb={6} textAlign="center">
 					<Typography variant="h5" color="textPrimary" gutterBottom>{title}</Typography>
 					<Typography color="textSecondary">{message}</Typography>
@@ -138,7 +139,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 		}
 		return <Box className={classes.fullScreenSplash}>
 			<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-				<Grid container justify="center"><Grid item>{getLogo()}</Grid></Grid>
+				<Grid container justifyContent="center"><Grid>{getLogo()}</Grid></Grid>
 				<Box mt={3} mb={6} textAlign="center">
 					<Typography variant="h5" color="textPrimary" gutterBottom>You must have an Ethereum based wallet to continue...</Typography>
 					<Typography color="textSecondary">We recommend MetaMask extension, Brave browser or WalletConnect.</Typography>
@@ -173,7 +174,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 		}
 		return <Box className={classes.fullScreenSplash}>
 			<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-				<Grid container justify="center"><Grid item>{getLogo()}</Grid></Grid>
+				<Grid container justifyContent="center"><Grid>{getLogo()}</Grid></Grid>
 				<Box mt={3} mb={6} textAlign="center">
 					<Typography variant="h5" color="textPrimary" gutterBottom>Connect to Ethereum Network</Typography>
 					<Typography color="textSecondary">To interact with {lockableTokenShortName} and {mintableTokenShortName} tokens you must connect to your wallet and select an address.</Typography>
@@ -293,10 +294,10 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 			}
 
 			return (
-				<Grid item>
+				<Grid>
 					<Box mr={3}>
 						<Grid container alignItems="center">
-							<Grid item>
+							<Grid>
 								<Button size="small" variant="outlined" color="secondary" onClick={() => { dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.ClientSettings } }) }}>
 									<Box mr={0.5}>
 										<SettingsIcon style={{ verticalAlign: 'middle', marginRight: 8 }} />
@@ -315,7 +316,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 				return null
 			}
 			return (
-				<Grid item>
+				<Grid>
 					<Box mr={3}>
 						<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallText} ecosystem={ecosystem} />
 					</Box>
@@ -329,12 +330,12 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 					<Grid container alignItems="center">
 						{getSettingsButton()}
 						{getLiquidityPoolsButton()}
-						<Grid item>
+						<Grid>
 							<Box mr={3}>
 								<Link href="#terms" color="textSecondary">MIT License</Link>
 							</Box>
 						</Grid>
-						<Grid item>
+						<Grid>
 							{getBuild()}
 						</Grid>
 					</Grid>

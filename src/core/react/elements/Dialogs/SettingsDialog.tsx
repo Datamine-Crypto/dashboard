@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, FormControl, Select, MenuItem, InputLabel, Grid, FormControlLabel, Switch } from '@mui/material';
+import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, FormControl, Select, MenuItem, InputLabel, FormControlLabel, Switch } from '@mui/material';
+
+import Grid from '@mui/material/Grid2';
 
 import { Web3Context } from '../../../web3/Web3Context'
 import { ClientSettings, commonLanguage } from '../../../web3/web3Reducer';
@@ -64,10 +66,10 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 			control={<Switch checked={clientSettings.useEip1559} color="secondary" onChange={e => dispatch({ type: commonLanguage.commands.ClientSettings.SetUseEip1559, payload: e.target.checked })} />}
 			label={<>
 				<Grid container alignItems="center">
-					<Grid item>
+					<Grid>
 						{clientSettings.useEip1559 ? <Typography color="secondary">L1: Use EIP1559 Transactions (Recommended)</Typography> : <Typography>Use Legacy Transactions (NOT RECOMMENDED)</Typography>}
 					</Grid>
-					<Grid item>
+					<Grid>
 						<Box ml={0.5} display="flex"><AccessTimeIcon color={clientSettings.useEip1559 ? 'secondary' : undefined} /></Box>
 					</Grid>
 				</Grid>
@@ -94,10 +96,10 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 			<Box my={2}><Divider /></Box>
 			<Box mt={3} mb={3}>
 				<Grid container spacing={2}>
-					<Grid item xs={12} md={6}>
+					<Grid size={{ xs: 12, md: 6 }}>
 						{getCurrencyDropdown()}
 					</Grid>
-					<Grid item xs={12} md={6}>
+					<Grid size={{ xs: 12, md: 6 }}>
 						<TextField
 							autoFocus
 							id="name"

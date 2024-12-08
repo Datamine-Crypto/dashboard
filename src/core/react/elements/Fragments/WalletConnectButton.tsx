@@ -1,4 +1,5 @@
-import { Box, Button, Divider, Grid, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Divider, Menu, MenuItem } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import React, { useContext } from 'react';
 
 import walletconnectIcon from '../../../../svgs/walletconnect.svg';
@@ -44,12 +45,12 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 			return (
 				<MenuItem onClick={() => dispatch({ type: web3CommonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: false } })}>
 					<Grid container>
-						<Grid item>
+						<Grid>
 							<Box pl={1} pr={2} display="inline">
 								<img src={EthereumPurple} width="24" height="24" />
 							</Box>
 						</Grid>
-						<Grid item>
+						<Grid>
 							Ethereum (L1)
 						</Grid>
 					</Grid>
@@ -60,12 +61,12 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 			{getL1MenuItem()}
 			<MenuItem onClick={() => dispatch({ type: web3CommonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: true } })}>
 				<Grid container>
-					<Grid item>
+					<Grid>
 						<Box pl={1} pr={2} display="inline">
 							<img src={Arbitrum} width="24" height="24" />
 						</Box>
 					</Grid>
-					<Grid item>
+					<Grid>
 						Arbitrum (L2)
 					</Grid>
 				</Grid>

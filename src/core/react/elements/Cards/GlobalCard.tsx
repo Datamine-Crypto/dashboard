@@ -72,8 +72,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 
 	return <Card >
 		<CardContent>
-			<Grid container justify="space-between" alignItems="center">
-				<Grid item>
+			<Grid container justifyContent="space-between" alignItems="center">
+				<Grid>
 					<Typography variant="h5" component="h2">
 						Global Statistics
 					</Typography>
@@ -83,12 +83,12 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 				<Divider />
 			</Box>
 			<Grid container>
-				<Grid item xs={12} md={6}>
+				<Grid xs={12} md={6}>
 					{getFluxCurrentSupply()}
 					{getFluxBurned()}
 					{getFluxBurnRatio()}
 				</Grid>
-				<Grid item xs={12} md={6}>
+				<Grid xs={12} md={6}>
 					{getDamLockedIn()}
 					{/*getFailsafeDetails()*/}
 				</Grid>

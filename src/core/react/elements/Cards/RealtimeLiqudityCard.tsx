@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Box, Typography, Grid, List, ListItem, CardContent, Divider, Button, Link, Card } from '@mui/material';
+import { Box, Typography, List, ListItem, CardContent, Divider, Button, Link, Card } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 import { Web3Context } from '../../../web3/Web3Context'
 
@@ -191,15 +192,15 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 
 	return <Card >
 		<CardContent>
-			<Grid container justify="space-between" alignItems="center">
-				<Grid item>
+			<Grid container justifyContent="space-between" alignItems="center">
+				<Grid>
 					<LightTooltip title="Our realtime global liquidity is fetched from Uniswap on-chain data through a smart contract">
 						<Typography variant="h5" component="h2">
 							{getCardTitle()}
 						</Typography>
 					</LightTooltip>
 				</Grid>
-				<Grid item>
+				<Grid>
 					<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallButton} ecosystem={ecosystem} />
 				</Grid>
 			</Grid>
@@ -207,13 +208,13 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 				<Divider />
 			</Box>
 			<Grid container>
-				<Grid item xs={12} md={6}>
+				<Grid size={{ xs: 12, md: 6 }}>
 					{getFluxAvailableLiquidity()}
 					{getFluxAvailableLiquidityEth()}
 					{getFluxEthAvailableLiquidity()}
 					{getFluxMarketCap()}
 				</Grid>
-				<Grid item xs={12} md={6}>
+				<Grid size={{ xs: 12, md: 6 }}>
 					{getDamAvailableLiquidity()}
 					{getDamAvailableLiquidityEth()}
 					{getDamEthAvailableLiquidity()}

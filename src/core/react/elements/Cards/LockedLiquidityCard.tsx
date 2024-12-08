@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Box, Typography, Grid, Card, CardContent, Divider, Link } from '@mui/material';
+import { Box, Typography, Card, CardContent, Divider, Link } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 import { makeStyles } from '@mui/styles';
 import { Web3Context } from '../../../web3/Web3Context'
@@ -90,8 +91,8 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 
 	return <Card >
 		<CardContent>
-			<Grid container justify="space-between" alignItems="center">
-				<Grid item>
+			<Grid container justifyContent="space-between" alignItems="center">
+				<Grid>
 					<Typography variant="h5" component="h2">
 
 						<LightTooltip title="This liquidity is permanently locked in the Uniswap v2 pool. This form of liquidity is locked-in to the ecosystem and can not be removed.">
@@ -99,20 +100,20 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 						</LightTooltip>
 					</Typography>
 				</Grid>
-				<Grid item>
+				<Grid>
 					<Typography variant="body2" color="textSecondary">
 						<LightTooltip title="Click to view this information on Arbiscan">
 							<Link href={`https://arbiscan.io/token/${mintableSushiSwapL2EthPair}#balances`} color="textSecondary" target="_blank" className={classes.address} >
 								<Grid
 									container
 									direction="row"
-									justify="center"
+									justifyContent="center"
 									alignItems="center"
 								>
-									<Grid item>
+									<Grid>
 										View On Arbiscan
 									</Grid>
-									<Grid item>
+									<Grid>
 										<Box ml={0.5}>
 											<OpenInNewIcon fontSize="small" />
 										</Box>
@@ -127,11 +128,11 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 				<Divider />
 			</Box>
 			<Grid container>
-				<Grid item xs={12} md={6}>
+				<Grid size={{ xs: 12, md: 6 }}>
 					{getFluxAvailableLiquidity()}
 					{getFluxAvailableLiquidityEth()}
 				</Grid>
-				<Grid item xs={12} md={6}>
+				<Grid size={{ xs: 12, md: 6 }}>
 					{getLockedPercentage()}
 				</Grid>
 			</Grid>

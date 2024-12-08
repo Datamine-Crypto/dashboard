@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Box, Container, Typography, Grid, Paper, Card, CardActionArea, Link, List, ListSubheader, ListItem, Chip } from '@mui/material';
+import { Box, Container, Typography, Paper, Card, CardActionArea, Link, List, ListSubheader, ListItem, Chip } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 import { makeStyles } from '@mui/styles';
 
@@ -127,13 +128,13 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 			<Grid
 				container
 				spacing={3}
-				justify="center"
+				justifyContent="center"
 				className={classes.point}
 			>
-				<Grid item>
+				<Grid>
 					{icon}
 				</Grid>
-				<Grid item md={8} lg={10}>
+				<Grid size={{ md: 8, lg: 10 }}>
 					<Box mb={1} mt={1}>
 						<Typography variant="h4" color="textPrimary">
 							{title}
