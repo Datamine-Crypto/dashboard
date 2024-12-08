@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid2';
 import React, { useContext } from 'react';
 
 import { makeStyles } from '@mui/styles';
-import { theme } from '../../styles';
+import { DatamineTheme, theme } from '../../styles';
 
 import { Ecosystem, NetworkType } from '../../../configs/config.common';
 import { helpArticles, SearchCategory, SearchCategoryText, SearchCategoryTextL2 } from '../../helpArticles';
@@ -16,7 +16,7 @@ import { getEcosystemConfig } from '../../../configs/config';
 import ArbitrumLogo from '../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../svgs/ethereumPurple.svg';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<DatamineTheme>(() => ({
 	logoContainer: {
 		[theme.muiTheme.breakpoints.down('sm')]: {
 			flexGrow: '1',

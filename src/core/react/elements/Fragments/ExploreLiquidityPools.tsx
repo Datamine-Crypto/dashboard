@@ -11,11 +11,9 @@ import uniswapLogo from '../../../../svgs/uniswap.svg';
 
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
+import { DatamineTheme } from '../../../styles';
 
-
-
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<DatamineTheme>((theme) => ({
 	chip: {
 		cursor: 'pointer'
 	},

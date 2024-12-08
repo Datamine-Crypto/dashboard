@@ -6,10 +6,10 @@ import { makeStyles } from '@mui/styles';
 
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
-import { theme } from '../../../styles';
+import { DatamineTheme, theme } from '../../../styles';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<DatamineTheme>(() => ({
 	paperBottom: {
 		borderTop: `1px solid ${theme.classes.palette.highlight}`,
 	},

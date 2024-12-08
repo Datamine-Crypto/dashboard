@@ -7,6 +7,7 @@ import { makeStyles } from '@mui/styles';
 import ReactMarkdown from 'react-markdown';
 import { NetworkType } from '../../../../configs/config.common';
 import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from '../../../helpArticles';
+import { DatamineTheme } from '../../../styles';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import AddToFirefoxFragment from '../Fragments/AddToFirefoxFragment';
@@ -22,8 +23,7 @@ enum ImageOption {
 	MaxWidth = '_maxWidth',
 	ClassName = '_className'
 }
-
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles<DatamineTheme>((theme) => {
 	return {
 		markdownContainer: {
 			'& a': {

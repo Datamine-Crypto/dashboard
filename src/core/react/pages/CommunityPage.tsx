@@ -10,13 +10,13 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import discordLogo from '../../../svgs/discord.svg';
 import mediumLogo from '../../../svgs/medium.svg';
 
-import { theme } from '../../styles';
+import { DatamineTheme, theme } from '../../styles';
 
 import { Ecosystem } from '../../../configs/config.common';
 import { Web3Context } from '../../web3/Web3Context';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<DatamineTheme>(() => ({
 	logoContainer: {
 		[theme.muiTheme.breakpoints.down('sm')]: {
 			flexGrow: '1',

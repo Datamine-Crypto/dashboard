@@ -10,6 +10,7 @@ import BN from 'bn.js';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem, Layer } from '../../../../configs/config.common';
 import { Token } from '../../../interfaces';
+import { DatamineTheme } from '../../../styles';
 import { BNToDecimal, getBNPercent, getPriceToggle } from '../../../web3/helpers';
 import { Balances } from '../../../web3/web3Reducer';
 import DetailedListItem from '../Fragments/DetailedListItem';
@@ -21,7 +22,7 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles<DatamineTheme>(() => {
 	return {
 		address: {
 			fontSize: '0.7rem',

@@ -21,6 +21,7 @@ import { Ecosystem } from '../../../configs/config.common';
 import metamaskIcon from '../../../svgs/metamask.svg';
 import walletconnectIcon from '../../../svgs/walletconnect.svg';
 import { ReducerQuery } from '../../sideEffectReducer';
+import { DatamineTheme } from '../../styles';
 import { isDevLogEnabled } from '../../utils/devLog';
 import WalletConnectRpcDialog from '../elements/Dialogs/WalletConnectRpcDialog';
 import AddToFirefoxFragment from '../elements/Fragments/AddToFirefoxFragment';
@@ -50,7 +51,7 @@ interface CenterContent {
 	content?: ReactNode;
 }
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<DatamineTheme>(() => ({
 	fullScreenSplash: {
 		minHeight: '100vh',
 		display: 'flex',

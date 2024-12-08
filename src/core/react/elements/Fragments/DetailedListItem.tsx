@@ -3,8 +3,9 @@ import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import React, { ReactNode } from 'react';
+import { DatamineTheme } from '../../../styles';
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles<DatamineTheme>(() => {
 	return {
 		cardMobile: {
 			background: '#202336',

@@ -20,12 +20,13 @@ import Arbitrum from '../../../../svgs/arbitrum.svg';
 import discordWhiteLogo from '../../../../svgs/discordWhite.svg';
 import EthereumPurple from '../../../../svgs/ethereumPurple.svg';
 import Logo from '../../../../svgs/logo.svg';
+import { DatamineTheme } from '../../../styles';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
 const drawerWidth = 280;
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<DatamineTheme>((theme: Theme) =>
 	createStyles({
 		root: {
 			display: 'flex',

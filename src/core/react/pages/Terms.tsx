@@ -2,14 +2,14 @@ import { Box, Container, Link, Paper } from '@mui/material';
 import React from 'react';
 
 import { makeStyles } from '@mui/styles';
-import { theme } from '../../styles';
+import { DatamineTheme, theme } from '../../styles';
 
 import { getEcosystemConfig as getConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 import Header from '../elements/Fragments/Header';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<DatamineTheme>(() => ({
 	logoContainer: {
 		[theme.muiTheme.breakpoints.down('sm')]: {
 			flexGrow: '1',

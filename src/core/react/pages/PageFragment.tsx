@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem, NetworkType } from '../../../configs/config.common';
 import { HelpArticle, helpArticles } from '../../helpArticles';
+import { DatamineTheme } from '../../styles';
 import { Web3Context } from '../../web3/Web3Context';
 import { commonLanguage } from '../../web3/web3Reducer';
 import HelpDialog from '../elements/Dialogs/HelpDialog';
@@ -31,7 +32,7 @@ enum Page {
 	Community,
 	TokenPage
 }
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<DatamineTheme>(() => ({
 	pageContainer: {
 		display: 'flex',
 		//height: '100vh',

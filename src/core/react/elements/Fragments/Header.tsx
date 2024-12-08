@@ -9,11 +9,11 @@ import logo from '../../../../svgs/logo.svg';
 
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
-import { theme } from '../../../styles';
+import { DatamineTheme, theme } from '../../../styles';
 import LightTooltip from '../../elements/LightTooltip';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<DatamineTheme>(() => ({
 	logoContainer: {
 		[theme.muiTheme.breakpoints.down('sm')]: {
 			flexGrow: '1',

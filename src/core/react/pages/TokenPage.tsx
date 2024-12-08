@@ -20,7 +20,7 @@ import poolIconL2 from '../../../svgs/poolL2.svg';
 import smartContractIcon from '../../../svgs/smartContract.svg';
 import synergyIcon from '../../../svgs/synergy.svg';
 
-import { theme } from '../../styles';
+import { DatamineTheme, theme } from '../../styles';
 import Roadmap from '../elements/Fragments/Roadmap';
 
 import { getEcosystemConfig } from '../../../configs/config';
@@ -31,7 +31,7 @@ import { commonLanguage } from '../../web3/web3Reducer';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<DatamineTheme>(() => ({
 	logoContainer: {
 		[theme.muiTheme.breakpoints.down('sm')]: {
 			flexGrow: '1',

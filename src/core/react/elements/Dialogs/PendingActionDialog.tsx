@@ -9,7 +9,7 @@ import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { ReducerQuery } from '../../../sideEffectReducer';
-import { theme } from '../../../styles';
+import { DatamineTheme, theme } from '../../../styles';
 
 interface Params {
 	open: boolean;
@@ -19,7 +19,7 @@ interface Params {
 	ecosystem: Ecosystem;
 }
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<DatamineTheme>(() => ({
 	highlightedText: {
 		color: theme.classes.palette.highlight
 	}

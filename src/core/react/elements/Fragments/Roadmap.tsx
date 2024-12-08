@@ -9,6 +9,7 @@ import { Theme } from '@mui/material/styles';
 import { createStyles, makeStyles, withStyles } from '@mui/styles';
 import clsx from 'clsx';
 import React from 'react';
+import { DatamineTheme } from '../../../styles';
 
 const QontoConnector = withStyles({
 	alternativeLabel: {
@@ -32,7 +33,7 @@ const QontoConnector = withStyles({
 	},
 })(StepConnector);
 
-const useQontoStepIconStyles = makeStyles({
+const useQontoStepIconStyles = makeStyles<DatamineTheme>({
 	root: {
 		color: '#eaeaf0',
 		display: 'flex',
@@ -70,7 +71,7 @@ function QontoStepIcon(props: StepIconProps) {
 	);
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<DatamineTheme>((theme: Theme) =>
 	createStyles({
 		root: {
 			width: '100%',

@@ -35,14 +35,14 @@ import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetail
 import { formatMoney } from '../../../utils/formatMoney';
 import { getApy, TokenPair } from '../../../utils/getApy';
 import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '../../../web3/helperElements';
-import { BNToDecimal, getBlocksDateFromNow, getBlocksRemaining, getFormattedMultiplier, getPriceToggle } from '../../../web3/helpers';
+import { BNToDecimal, getBlocksRemaining, getFormattedMultiplier, getPriceToggle } from '../../../web3/helpers';
 import LightTooltip from '../LightTooltip';
 
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
-import { theme } from '../../../styles';
+import { DatamineTheme, theme } from '../../../styles';
 import { getNetworkDropdown } from '../Fragments/EcosystemDropdown';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<DatamineTheme>(() => ({
 	progressBarLeft: {
 		height: '15px',
 		borderTopLeftRadius: '5px',
@@ -390,7 +390,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 											className: classes.datePicker
 										}}*/
 										inputFormat="YYYY/MM/DD"
-										renderInput={(props) => <TextField
+										renderInput={(props: any) => <TextField
 											type="text"
 
 											name="startBlocks"
@@ -467,7 +467,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								return <LocalizationProvider dateAdapter={AdapterMoment}>
 									<MobileDatePicker
 										closeOnSelect={true}
-										renderInput={(props) => <TextField
+										renderInput={(props: any) => <TextField
 											type="text"
 											name="endBlocks"
 											//variant="inline"
@@ -534,16 +534,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 									return null;
 								}
 
-								const getDateFormat = () => {
-									const date = getBlocksDateFromNow(blocksDuration)
-									if (blocksDuration * 12 < 60 * 60 * 24) {
-										return `. Mint ${date.fromNow()}`
-									}
-
-									const blocksDate = date.format('MMMM Do YYYY')
-									return `. Mint on ${blocksDate}`
-								}
-								return getDateFormat()
 							}
 
 							return <>{blocksRemaining}{getForecastedDate()}</>

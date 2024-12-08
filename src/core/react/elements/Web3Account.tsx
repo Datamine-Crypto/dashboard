@@ -18,6 +18,7 @@ import ZeroBalanceDialog from './Dialogs/ZeroBalanceDialog';
 
 import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
+import { DatamineTheme } from '../../styles';
 import { commonLanguage } from '../../web3/web3Reducer';
 import AccountBalancesCard from './Cards/AccountBalancesCard';
 import LockedLiquidityCard from './Cards/LockedLiquidityCard';
@@ -33,7 +34,7 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles<DatamineTheme>((theme) => {
 	return {
 		cardsContainer: {
 			'& .MuiListItemText-primary': {

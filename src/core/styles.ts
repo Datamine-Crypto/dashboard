@@ -72,6 +72,8 @@ const muiTheme = createTheme({
 
 });
 
+export type DatamineTheme = typeof muiTheme
+
 const theme = {
 	muiTheme,
 	classes

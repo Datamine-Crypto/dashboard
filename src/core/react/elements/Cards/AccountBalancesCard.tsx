@@ -17,11 +17,12 @@ import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import { Ecosystem, LiquidityPoolType } from '../../../../configs/config.common';
 import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 import uniswap from '../../../../svgs/uniswap.svg';
+import { DatamineTheme } from '../../../styles';
 import DetailedListItem from '../Fragments/DetailedListItem';
 import { getTradeButton } from '../Fragments/TradeButton';
 import LightTooltip from '../LightTooltip';
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles<DatamineTheme>(() => {
 	return {
 		address: {
 			fontSize: '0.7rem',

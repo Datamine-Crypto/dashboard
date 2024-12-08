@@ -7,8 +7,9 @@ import { Web3Context } from "../../../web3/Web3Context";
 import { commonLanguage } from "../../../web3/web3Reducer";
 
 import { makeStyles } from '@mui/styles';
+import { DatamineTheme } from "../../../styles";
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = makeStyles<DatamineTheme>((theme: any) => ({
 	big: {
 		width: '100%'
 	},
