@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@material-ui/core';
+import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@mui/material';
 
 import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage, Balances } from '../../../web3/web3Reducer';

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { Box, Container, Typography, Grid, makeStyles, Paper, Link, List, ListSubheader, ListItem, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Box, Container, Typography, Grid, Paper, Link, List, ListSubheader, ListItem, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
+import { makeStyles } from '@mui/styles';
 import { theme } from '../../styles'
 
 import FooterFragment from '../elements/Fragments/FooterFragment';

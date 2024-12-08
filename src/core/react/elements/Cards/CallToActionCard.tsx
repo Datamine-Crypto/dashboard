@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Card, CardContent, CardActions, Divider, Link, LinearProgress, makeStyles, Grid, Table, TableContainer, TableRow, TableCell, TableBody, FormControlLabel, Switch, Slider, TextField, IconButton, Menu, MenuItem, FormControl, Select, InputLabel } from '@material-ui/core';
+import { Box, Button, Typography, Card, CardContent, CardActions, Divider, Link, LinearProgress, Grid, Table, TableContainer, TableRow, TableCell, TableBody, FormControlLabel, Switch, Slider, TextField, IconButton, Menu, MenuItem, FormControl, Select, InputLabel } from '@mui/material';
 
+import { makeStyles } from '@mui/styles';
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from '@date-io/moment';
 
@@ -9,16 +10,16 @@ import { commonLanguage, Balances, ForecastSettings, ForecastMultiplierType, Cli
 import BN from 'bn.js'
 import Big from 'big.js'
 
-import LockIcon from '@material-ui/icons/PlayArrow';
-import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import RedeemIcon from '@material-ui/icons/Redeem';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import AlarmIcon from '@material-ui/icons/Alarm';
-import AppsIcon from '@material-ui/icons/Apps';
-import AddIcon from '@material-ui/icons/AvTimer';
-import LockOpenIcon from '@material-ui/icons/Stop';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import DateRangeIcon from '@material-ui/icons/DateRange';
+import LockIcon from '@mui/icons-material/PlayArrow';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import RedeemIcon from '@mui/icons-material/Redeem';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
+import AlarmIcon from '@mui/icons-material/Alarm';
+import AppsIcon from '@mui/icons-material/Apps';
+import AddIcon from '@mui/icons-material/AvTimer';
+import LockOpenIcon from '@mui/icons-material/Stop';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 
 import { DialogType, FluxAddressLock, FluxAddressDetails, FluxAddressTokenDetails, Token } from '../../../interfaces';
 import { BNToDecimal, getFormattedMultiplier, getBlocksRemaining, getPriceToggle, getBlocksDateFromNow } from '../../../web3/helpers';
@@ -26,7 +27,7 @@ import LightTooltip from '../LightTooltip';
 import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '../../../web3/helperElements';
 import { Moment } from 'moment';
 import moment from 'moment';
-import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
+import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import { getApy, TokenPair } from '../../../utils/getApy';
 import { formatMoney } from '../../../utils/formatMoney';
 import { Ecosystem, Layer, NetworkType } from '../../../../configs/config.common';

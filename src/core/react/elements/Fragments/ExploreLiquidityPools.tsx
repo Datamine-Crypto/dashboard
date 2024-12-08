@@ -1,7 +1,9 @@
 
 import React from 'react';
 
-import { Typography, Box, Button, Link, Grid, Menu, MenuItem, Divider, Chip, makeStyles } from "@material-ui/core";
+import { Typography, Box, Button, Link, Grid, Menu, MenuItem, Divider, Chip } from "@mui/material";
+
+import { makeStyles } from '@mui/styles';
 
 import uniswapLogo from '../../../../svgs/uniswap.svg';
 import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';

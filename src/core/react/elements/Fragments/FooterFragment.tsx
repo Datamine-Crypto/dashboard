@@ -1,5 +1,7 @@
 import React from 'react';
-import { Box, Container, Grid, makeStyles, Paper, Link } from '@material-ui/core';
+import { Box, Container, Grid, Paper, Link } from '@mui/material';
+
+import { makeStyles } from '@mui/styles';
 
 import { theme } from '../../../styles'
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';

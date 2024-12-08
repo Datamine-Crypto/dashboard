@@ -1,5 +1,5 @@
 import React, { ErrorInfo } from "react";
-import { Typography, Box, Grid, Button, Container, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
+import { Typography, Box, Grid, Button, Container, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
 import logo from '../../svgs/logo.svg'; // Tell webpack this JS file uses this image
 
 type ErrorState = {

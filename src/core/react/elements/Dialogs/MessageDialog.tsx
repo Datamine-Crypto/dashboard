@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 
 interface Params {
 	open: boolean;

@@ -1,9 +1,10 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, LinearProgress, Box, Typography, DialogActions, Button, makeStyles } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, LinearProgress, Box, Typography, DialogActions, Button } from '@mui/material';
 
+import { makeStyles } from '@mui/styles';
 import { commonLanguage, ConnectionMethod } from '../../../web3/web3Reducer';
 
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 
 import { theme } from '../../../styles'
 import { ReducerQuery } from '../../../sideEffectReducer';

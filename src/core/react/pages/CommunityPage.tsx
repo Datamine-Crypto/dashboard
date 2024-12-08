@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
-import { Box, Container, Typography, Grid, makeStyles, Paper, Card, CardActionArea, Link, List, ListSubheader, ListItem, Chip } from '@material-ui/core';
+import { Box, Container, Typography, Grid, Paper, Card, CardActionArea, Link, List, ListSubheader, ListItem, Chip } from '@mui/material';
 
-import RedditIcon from '@material-ui/icons/Reddit';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import TelegramIcon from '@material-ui/icons/Telegram';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import LanguageIcon from '@material-ui/icons/Language';
-import TimelineIcon from '@material-ui/icons/Timeline';
+import { makeStyles } from '@mui/styles';
+
+import RedditIcon from '@mui/icons-material/Reddit';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LanguageIcon from '@mui/icons-material/Language';
+import TimelineIcon from '@mui/icons-material/Timeline';
 
 import discordLogo from '../../../svgs/discord.svg';
 import mediumLogo from '../../../svgs/medium.svg';

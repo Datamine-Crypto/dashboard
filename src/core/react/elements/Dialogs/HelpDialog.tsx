@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Link, DialogContentText, makeStyles, useTheme, useMediaQuery, CardActions, Card, IconButton } from '@material-ui/core';
+import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Link, DialogContentText, useTheme, useMediaQuery, CardActions, Card, IconButton } from '@mui/material';
 
+import { makeStyles } from '@mui/styles';
 import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage, Balances } from '../../../web3/web3Reducer';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { BNToDecimal } from '../../../web3/helpers';
 import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from '../../../helpArticles';
 import ReactMarkdown from 'react-markdown'
-import LaunchIcon from '@material-ui/icons/Launch';
+import LaunchIcon from '@mui/icons-material/Launch';
 import AddToFirefoxFragment from '../Fragments/AddToFirefoxFragment';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import LightTooltip from '../LightTooltip';
 import { NetworkType } from '../../../../configs/config.common';
 

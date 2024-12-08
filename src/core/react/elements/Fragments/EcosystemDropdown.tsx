@@ -1,4 +1,4 @@
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
 import { ecosystemConfigs } from "../../../../configs/config.base";
 import { Ecosystem, Layer, NetworkType } from "../../../../configs/config.common";
 import React from "react";

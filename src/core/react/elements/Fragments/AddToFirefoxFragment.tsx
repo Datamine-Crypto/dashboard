@@ -1,4 +1,4 @@
-import { Box, CardMedia, Grid, Link } from '@material-ui/core';
+import { Box, CardMedia, Grid, Link } from '@mui/material';
 import React, { useContext } from 'react';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
 

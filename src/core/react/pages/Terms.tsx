@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box, Container, makeStyles, Paper, Link } from '@material-ui/core';
+import { Box, Container, Paper, Link } from '@mui/material';
 
+import { makeStyles } from '@mui/styles';
 import { theme } from '../../styles'
 
 import FooterFragment from '../elements/Fragments/FooterFragment';

@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Menu, MenuItem } from '@material-ui/core';
+import { Box, Button, Divider, Grid, Menu, MenuItem } from '@mui/material';
 import React, { useContext } from 'react';
 
 import walletconnectIcon from '../../../../svgs/walletconnect.svg';

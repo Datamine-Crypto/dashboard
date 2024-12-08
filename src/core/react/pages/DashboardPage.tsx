@@ -1,5 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { CircularProgress, Box, Container, Button, Typography, Grid, Link, MenuItem, Menu, Snackbar, makeStyles } from '@material-ui/core';
+import { CircularProgress, Box, Container, Button, Typography, Grid, Link, MenuItem, Menu, Snackbar } from '@mui/material';
+
+import { makeStyles } from '@mui/styles';
 
 import { Web3Context } from '../../web3/Web3Context'
 import { commonLanguage as web3CommonLanguage, commonLanguage, ConnectionMethod } from '../../web3/web3Reducer'
@@ -9,14 +11,14 @@ import { FluxAddressDetails, DialogType } from '../../interfaces';
 
 import logo from '../../../svgs/logo.svg'; // Tell webpack this JS file uses this image
 import LightTooltip from '../elements/LightTooltip';
-import Alert from '@material-ui/lab/Alert';
+import Alert from '@mui/lab/Alert';
 
 import metamaskIcon from '../../../svgs/metamask.svg';
 import walletconnectIcon from '../../../svgs/walletconnect.svg';
 import { ReducerQuery } from '../../sideEffectReducer';
 import AddToFirefoxFragment from '../elements/Fragments/AddToFirefoxFragment';
 import WalletConnectRpcDialog from '../elements/Dialogs/WalletConnectRpcDialog';
-import SettingsIcon from '@material-ui/icons/Settings';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
 import WalletConnectButton from '../elements/Fragments/WalletConnectButton';

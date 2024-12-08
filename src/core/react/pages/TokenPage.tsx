@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { Box, Container, Typography, Grid, Button, makeStyles, Paper, Card, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, CardActionArea, Link, TableFooter } from '@material-ui/core';
+import { Box, Container, Typography, Grid, Button, Paper, Card, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, CardActionArea, Link, TableFooter } from '@mui/material';
 
-import ArrowRightIcon from '@material-ui/icons/PlayArrow';
-import PeopleIcon from '@material-ui/icons/People';
+import { makeStyles } from '@mui/styles';
+import ArrowRightIcon from '@mui/icons-material/PlayArrow';
+import PeopleIcon from '@mui/icons-material/People';
 
 import logo from '../../../svgs/logo.svg';
 import fluxLogo from '../../../svgs/fluxLogo.svg';

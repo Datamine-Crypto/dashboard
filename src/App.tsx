@@ -1,7 +1,7 @@
 import React, { } from 'react';
 
 import { Web3ContextProvider } from './core/web3/Web3Context';
-import { ThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@mui/material';
 
 import { theme } from './core/styles'
 import ErrorBoundary from './core/react/ErrorBoundary';

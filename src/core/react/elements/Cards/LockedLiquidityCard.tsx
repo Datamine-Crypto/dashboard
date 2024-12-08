@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { Box, Typography, Grid, Card, CardContent, Divider, Link, makeStyles } from '@material-ui/core';
+import { Box, Typography, Grid, Card, CardContent, Divider, Link } from '@mui/material';
 
+import { makeStyles } from '@mui/styles';
 import { Web3Context } from '../../../web3/Web3Context'
 
 import { BNToDecimal, getBNPercent, getPriceToggle } from '../../../web3/helpers';
@@ -11,7 +12,7 @@ import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem, Layer, LiquidityPoolType } from '../../../../configs/config.common';
 import BN from 'bn.js';
 import LightTooltip from '../LightTooltip';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 
 interface RenderParams {

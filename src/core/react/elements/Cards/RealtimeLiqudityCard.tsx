@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Box, Typography, Grid, List, ListItem, ListItemText, CardContent, Divider, Button, Link, Card } from '@material-ui/core';
+import { Box, Typography, Grid, List, ListItem, CardContent, Divider, Button, Link, Card } from '@mui/material';
 
 import { Web3Context } from '../../../web3/Web3Context'
 

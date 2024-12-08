@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, FormControl, Select, MenuItem, InputLabel, Grid, FormControlLabel, Switch } from '@material-ui/core';
+import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, FormControl, Select, MenuItem, InputLabel, Grid, FormControlLabel, Switch } from '@mui/material';
 
 import { Web3Context } from '../../../web3/Web3Context'
 import { ClientSettings, commonLanguage } from '../../../web3/web3Reducer';
 
-import SettingsIcon from '@material-ui/icons/Settings';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { formatMoney } from '../../../utils/formatMoney';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 

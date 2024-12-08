@@ -1,7 +1,7 @@
 import React from 'react';
 import { Token } from '../../../interfaces';
 
-import { Button, Box, Link, MenuItem, Menu, Typography, Divider } from '@material-ui/core';
+import { Button, Box, Link, MenuItem, Menu, Typography, Divider } from '@mui/material';
 import LightTooltip from '../../../react/elements/LightTooltip';
 
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
@@ -25,10 +25,11 @@ const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, ecosystem,
 		return <></>
 	}
 
-	const [tradeAnchorEl, setTradeAnchorEl] = React.useState<null | HTMLElement>(null);
+	//@todo MUI5
+	/*const [tradeAnchorEl, setTradeAnchorEl] = React.useState<null | HTMLElement>(null);
 	const handleCloseTrade = () => {
 		setTradeAnchorEl(null);
-	};
+	};*/
 
 
 	const contractAddress = token === Token.Lockable ? ecosystemConfig.lockableTokenContractAddress : ecosystemConfig.mintableTokenContractAddress;
@@ -44,7 +45,8 @@ const TradeRender: React.FC<TradeRenderParams> = React.memo(({ token, ecosystem,
 		const handleTradeClick = (event: React.MouseEvent<any>) => {
 			event.preventDefault();
 
-			setTradeAnchorEl(event.currentTarget);
+			//@todo MUI5
+			//setTradeAnchorEl(event.currentTarget);
 		};
 
 		const button = <Link onClick={handleTradeClick}>

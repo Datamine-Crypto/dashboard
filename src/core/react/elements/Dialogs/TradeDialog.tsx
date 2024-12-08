@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Link } from '@material-ui/core';
+import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Link } from '@mui/material';
 
 import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage } from '../../../web3/web3Reducer';
 
-import RedeemIcon from '@material-ui/icons/Redeem';
+import RedeemIcon from '@mui/icons-material/Redeem';
 import { FluxAddressDetails, Token } from '../../../interfaces';
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';

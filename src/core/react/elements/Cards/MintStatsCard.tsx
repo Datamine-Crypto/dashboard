@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Box, Typography, Grid, Card, CardContent, Divider, Button } from '@material-ui/core';
+import { Box, Typography, Grid, Card, CardContent, Divider, Button } from '@mui/material';
 
 import { Web3Context } from '../../../web3/Web3Context'
 
@@ -9,7 +9,7 @@ import BN from 'bn.js'
 import { FluxAddressLock, FluxAddressDetails, FluxAddressTokenDetails, DialogType } from '../../../interfaces';
 import { commonLanguage, Balances } from '../../../web3/web3Reducer';
 
-import LockOpenIcon from '@material-ui/icons/Stop';
+import LockOpenIcon from '@mui/icons-material/Stop';
 import { getRequiredFluxToBurn } from '../../../web3/helperElements';
 import DetailedListItem from '../Fragments/DetailedListItem';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
@@ -123,11 +123,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 		/>
 	}
 	const getTimeUntil3xBonus = () => {
-		/*<List>
-			<ListItem>
-				<ListItemText primary={'Time Until 3x Time Bonus'} secondary={} />
-			</ListItem>
-		</List>*/
 		return <DetailedListItem
 			title={'Time Until 3x Time Bonus:'}
 			main={getBlocksRemaining(addressLock.blockNumber, 161280 + 5760, addressDetails.blockNumber, 'Awaiting Mint Start', false, true)}

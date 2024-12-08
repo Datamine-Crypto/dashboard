@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
-import Typography from '@material-ui/core/Typography';
-import { Button, AppBar, Toolbar, IconButton, makeStyles, Box, Tooltip, Link, Hidden, Card, CardActionArea } from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import { Button, AppBar, Toolbar, IconButton, Box, Tooltip, Link, Hidden, Card, CardActionArea } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
-import MenuIcon from '@material-ui/icons/Menu';
-import BuildIcon from '@material-ui/icons/Build';
+import MenuIcon from '@mui/icons-material/Menu';
+import BuildIcon from '@mui/icons-material/Build';
 import DamLogo from '../../../../svgs/logo.svg';
 
-import HomeIcon from '@material-ui/icons/Home';
-import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
-import TimelineIcon from '@material-ui/icons/Timeline';
+import HomeIcon from '@mui/icons-material/Home';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import TimelineIcon from '@mui/icons-material/Timeline';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import HelpComboboxFragment from './HelpComboboxFragment';

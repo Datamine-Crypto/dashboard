@@ -1,16 +1,17 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { withStyles, createStyles, makeStyles } from '@mui/styles';
 import clsx from 'clsx';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Check from '@material-ui/icons/Check';
-import StepConnector from '@material-ui/core/StepConnector';
-import { StepIconProps } from '@material-ui/core/StepIcon';
-import { Box, Typography } from '@material-ui/core';
-import { CardActionArea } from '@material-ui/core';
-import { Link } from '@material-ui/core';
-import { Card } from '@material-ui/core';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Check from '@mui/icons-material/Check';
+import StepConnector from '@mui/material/StepConnector';
+import { StepIconProps } from '@mui/material/StepIcon';
+import { Box, Typography } from '@mui/material';
+import { CardActionArea } from '@mui/material';
+import { Link } from '@mui/material';
+import { Card } from '@mui/material';
 
 const QontoConnector = withStyles({
 	alternativeLabel: {

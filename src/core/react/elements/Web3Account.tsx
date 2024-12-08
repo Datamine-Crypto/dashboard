@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
-import { Box, makeStyles } from '@material-ui/core';
+import { Box } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+
 
 import { Web3Context } from '../../web3/Web3Context'
 import CallToActionCard from './Cards/CallToActionCard'

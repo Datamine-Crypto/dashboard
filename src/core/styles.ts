@@ -1,4 +1,4 @@
-import { makeStyles, createMuiTheme } from "@material-ui/core";
+import { createTheme } from '@mui/material/styles';
 
 const palette = {
 	highlight: '#0FF',
@@ -9,9 +9,9 @@ const classes = {
 	palette
 }
 
-const muiTheme = createMuiTheme({
+const muiTheme = createTheme({
 	palette: {
-		type: 'dark',
+		mode: 'dark',
 		primary: {
 			// light: will be calculated from palette.primary.main,
 			main: '#262b4a',

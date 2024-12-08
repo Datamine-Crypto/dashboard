@@ -1,5 +1,5 @@
-import { makeStyles, TextField } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
+import { TextField } from "@mui/material";
+import { Autocomplete } from "@mui/lab";
 import React from "react";
 import { useContext } from "react";
 import { NetworkType } from "../../../../configs/config.common";
@@ -7,7 +7,9 @@ import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from "../../../
 import { Web3Context } from "../../../web3/Web3Context";
 import { commonLanguage } from "../../../web3/web3Reducer";
 
-const useStyles = makeStyles(theme => ({
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme: any) => ({
 	big: {
 		width: '100%'
 	},

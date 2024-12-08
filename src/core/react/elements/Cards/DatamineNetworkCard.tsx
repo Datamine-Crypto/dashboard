@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
-import { Box, Typography, Grid, Card, CardContent, Divider, Button, Chip } from '@material-ui/core';
+import { Box, Typography, Grid, Card, CardContent, Divider, Button, Chip } from '@mui/material';
 
 import { Web3Context } from '../../../web3/Web3Context'
 
 import { FluxAddressLock } from '../../../interfaces';
 import { commonLanguage } from '../../../web3/web3Reducer';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import LightTooltip from '../LightTooltip';
-import { Alert } from '@material-ui/lab';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
+import { Alert } from '@mui/lab';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 
 interface RenderParams {
 	addressLock: FluxAddressLock;

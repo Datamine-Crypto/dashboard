@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Container, Typography, Grid, Button, makeStyles, CardActionArea, CardMedia, Card } from '@material-ui/core';
+import { Box, Container, Typography, Grid, Button, CardActionArea, CardMedia, Card } from '@mui/material';
 
-import ArrowRightIcon from '@material-ui/icons/PlayArrow';
+import { makeStyles } from '@mui/styles';
+import ArrowRightIcon from '@mui/icons-material/PlayArrow';
 
 import logo from '../../../../svgs/logo.svg';
 

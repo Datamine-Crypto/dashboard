@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Grid, Card, CardContent, Divider, Link, makeStyles } from '@material-ui/core';
+import { Box, Button, Typography, Grid, Card, CardContent, Divider, Link } from '@mui/material';
 
+import { makeStyles } from '@mui/styles';
 import { Web3Context } from '../../../web3/Web3Context'
 import { commonLanguage, Balances } from '../../../web3/web3Reducer'
 
-import LockOpenIcon from '@material-ui/icons/Stop';
+import LockOpenIcon from '@mui/icons-material/Stop';
 import { BNToDecimal, getBurnRatio, getPriceToggle } from '../../../web3/helpers';
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from '../../../interfaces';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 import BN from 'bn.js'
 import LightTooltip from '../LightTooltip';

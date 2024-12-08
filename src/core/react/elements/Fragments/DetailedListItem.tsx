@@ -1,6 +1,7 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, Box, Hidden, Card, Divider, Grid, useMediaQuery, useTheme } from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import { Box, Hidden, Card, Divider, Grid, useMediaQuery, useTheme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(() => {
 	return {
