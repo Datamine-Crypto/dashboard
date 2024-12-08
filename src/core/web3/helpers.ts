@@ -444,11 +444,11 @@ const withWeb3 = (web3: Web3, contract: Contract) => {
 	const lock = async ({ minterAddress, amount, from }: LockParams) => {
 		try {
 			// Attempt to call the method first to check if there are any errors
-			await contract.methods.lock(minterAddress, amount).call({ from });
+			await contract.methods.lock(minterAddress, amount.toString()).call({ from });
 
 			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getFees()
 
-			const lockTx = await contract.methods.lock(minterAddress, amount).send({
+			const lockTx = await contract.methods.lock(minterAddress, amount.toString()).send({
 				from,
 				maxFeePerGas,
 				maxPriorityFeePerGas,
@@ -502,11 +502,11 @@ const withWeb3 = (web3: Web3, contract: Contract) => {
 	const burnToAddress = async ({ targetAddress, amount, from }: BurnToAddressParams) => {
 		try {
 			// Attempt to call the method first to check if there are any errors
-			await contract.methods.burnToAddress(targetAddress, amount).call({ from });
+			await contract.methods.burnToAddress(targetAddress, amount.toString()).call({ from });
 
 			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getFees()
 
-			const mintTx = await contract.methods.burnToAddress(targetAddress, amount).send({
+			const mintTx = await contract.methods.burnToAddress(targetAddress, amount.toString()).send({
 				from,
 				maxFeePerGas,
 				maxPriorityFeePerGas,
