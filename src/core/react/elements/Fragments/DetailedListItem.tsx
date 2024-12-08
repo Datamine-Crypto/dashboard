@@ -1,8 +1,8 @@
-import React, { JSX } from 'react';
-import Typography from '@mui/material/Typography';
-import { Box, Hidden, Card, Divider, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Card, Divider, Hidden, useMediaQuery, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
+import React, { JSX } from 'react';
 
 const useStyles = makeStyles(() => {
 	return {

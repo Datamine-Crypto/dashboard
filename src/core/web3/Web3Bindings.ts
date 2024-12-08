@@ -1,30 +1,28 @@
-import { commonLanguage, Web3State } from './web3Reducer'
+import Big from 'big.js';
 import { Web3 } from 'web3';
 import { FluxAddressDetails, FluxAddressTokenDetails } from '../interfaces';
-import Big from 'big.js'
+import { commonLanguage, Web3State } from './web3Reducer';
 
-import damTokenAbi from './abis/dam.json'
-import fluxTokenAbi from './abis/flux.json'
-import uniswapPairAbi from './abis/uniswapPair.json'
-import uniswapPairV3Abi from './abis/uniswapPairV3.json'
-import multicallAbi from './abis/multicall.json'
+import damTokenAbi from './abis/dam.json';
+import fluxTokenAbi from './abis/flux.json';
+import multicallAbi from './abis/multicall.json';
+import uniswapPairV3Abi from './abis/uniswapPairV3.json';
 
 import { withWeb3 } from './helpers';
 
-import BN from 'bn.js'
-import Fuse from 'fuse.js'
+import BN from 'bn.js';
+import Fuse from 'fuse.js';
 
-import { QueryHandler } from '../sideEffectReducer';
 import { HelpArticle, helpArticles } from '../helpArticles';
+import { QueryHandler } from '../sideEffectReducer';
 //import WalletConnectProvider from "@walletconnect/web3-provider"; //@todo MUI5
 import detectEthereumProvider from '@metamask/detect-provider';
 
-import axios from 'axios'
-import { Layer, NetworkType } from '../../configs/config.common';
-import { Ecosystem } from '../../configs/config.common';
+import axios from 'axios';
+import { getEcosystemConfig } from '../../configs/config';
+import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
 import { devLog } from '../utils/devLog';
 import { decodeMulticall, encodeMulticall } from '../utils/web3multicall';
-import { getEcosystemConfig } from '../../configs/config';
 
 let web3provider: any = null;
 
@@ -1309,4 +1307,4 @@ const queryHandlers = {
 
 export {
 	queryHandlers
-}
+};

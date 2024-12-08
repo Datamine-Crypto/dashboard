@@ -1,7 +1,6 @@
-import { TextField } from "@mui/material";
 import { Autocomplete } from "@mui/lab";
-import React from "react";
-import { useContext } from "react";
+import { TextField } from "@mui/material";
+import React, { useContext } from "react";
 import { NetworkType } from "../../../../configs/config.common";
 import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from "../../../helpArticles";
 import { Web3Context } from "../../../web3/Web3Context";

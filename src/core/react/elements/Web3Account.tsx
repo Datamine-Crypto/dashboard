@@ -1,30 +1,30 @@
-import React, { useContext } from 'react';
 import { Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import React, { useContext } from 'react';
 
 
-import { Web3Context } from '../../web3/Web3Context'
-import CallToActionCard from './Cards/CallToActionCard'
+import { Web3Context } from '../../web3/Web3Context';
+import CallToActionCard from './Cards/CallToActionCard';
 import MintDialog from './Dialogs/MintDialog';
 
 import GlobalCard from './Cards/GlobalCard';
 
 import { DialogType } from '../../interfaces';
-import DamLockDialog from './Dialogs/DamLockDialog';
 import BurnDialog from './Dialogs/BurnDialog';
+import DamLockDialog from './Dialogs/DamLockDialog';
+import TradeDialog from './Dialogs/TradeDialog';
 import UnlockDialog from './Dialogs/UnlockDialog';
 import ZeroBalanceDialog from './Dialogs/ZeroBalanceDialog';
-import TradeDialog from './Dialogs/TradeDialog';
 
-import AccountBalancesCard from './Cards/AccountBalancesCard';
-import MintStatsCard from './Cards/MintStatsCard';
-import MessageDialog from './Dialogs/MessageDialog';
-import { commonLanguage } from '../../web3/web3Reducer';
-import RealtimeLiqudityCard from './Cards/RealtimeLiqudityCard';
-import SettingsDialog from './Dialogs/SettingsDialog';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
+import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
+import { commonLanguage } from '../../web3/web3Reducer';
+import AccountBalancesCard from './Cards/AccountBalancesCard';
 import LockedLiquidityCard from './Cards/LockedLiquidityCard';
+import MintStatsCard from './Cards/MintStatsCard';
+import RealtimeLiqudityCard from './Cards/RealtimeLiqudityCard';
+import MessageDialog from './Dialogs/MessageDialog';
+import SettingsDialog from './Dialogs/SettingsDialog';
 
 interface RenderParams {
 	dialog: DialogType | null;

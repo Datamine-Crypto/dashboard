@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
-import { Box, Typography, List, ListItem, Card, CardContent, Divider, Hidden, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import React, { useContext } from 'react';
 
-import { Web3Context } from '../../../web3/Web3Context'
+import { Web3Context } from '../../../web3/Web3Context';
 
-import { BNToDecimal, getBurnRatio, getBlocksRemaining, getBNPercent, getPriceToggle } from '../../../web3/helpers';
+import { getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem, Layer } from '../../../../configs/config.common';
 import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '../../../interfaces';
+import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '../../../web3/helpers';
 import { Balances } from '../../../web3/web3Reducer';
 import DetailedListItem from '../Fragments/DetailedListItem';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem, Layer } from '../../../../configs/config.common';
 
 interface RenderParams {
 	addressDetails: FluxAddressDetails;

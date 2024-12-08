@@ -1,31 +1,31 @@
-import React, { JSX, useContext, useEffect } from 'react';
-import { CircularProgress, Box, Container, Button, Typography, Link, MenuItem, Menu, Snackbar } from '@mui/material';
+import { Box, Button, CircularProgress, Container, Link, Menu, MenuItem, Snackbar, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import React, { JSX, useContext, useEffect } from 'react';
 
 import { makeStyles } from '@mui/styles';
 
-import { Web3Context } from '../../web3/Web3Context'
-import { commonLanguage as web3CommonLanguage, commonLanguage, ConnectionMethod } from '../../web3/web3Reducer'
-import Web3Account from '../elements/Web3Account';
+import { DialogType, FluxAddressDetails } from '../../interfaces';
+import { Web3Context } from '../../web3/Web3Context';
+import { commonLanguage, ConnectionMethod, commonLanguage as web3CommonLanguage } from '../../web3/web3Reducer';
 import PendingActionDialog from '../elements/Dialogs/PendingActionDialog';
-import { FluxAddressDetails, DialogType } from '../../interfaces';
+import Web3Account from '../elements/Web3Account';
 
+import Alert from '@mui/lab/Alert';
 import logo from '../../../svgs/logo.svg'; // Tell webpack this JS file uses this image
 import LightTooltip from '../elements/LightTooltip';
-import Alert from '@mui/lab/Alert';
 
+import SettingsIcon from '@mui/icons-material/Settings';
+import VConsole from 'vconsole';
+import { getEcosystemConfig } from '../../../configs/config';
+import { Ecosystem } from '../../../configs/config.common';
 import metamaskIcon from '../../../svgs/metamask.svg';
 import walletconnectIcon from '../../../svgs/walletconnect.svg';
 import { ReducerQuery } from '../../sideEffectReducer';
-import AddToFirefoxFragment from '../elements/Fragments/AddToFirefoxFragment';
+import { isDevLogEnabled } from '../../utils/devLog';
 import WalletConnectRpcDialog from '../elements/Dialogs/WalletConnectRpcDialog';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
+import AddToFirefoxFragment from '../elements/Fragments/AddToFirefoxFragment';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
 import WalletConnectButton from '../elements/Fragments/WalletConnectButton';
-import VConsole from 'vconsole';
-import { isDevLogEnabled } from '../../utils/devLog';
-import { Ecosystem } from '../../../configs/config.common';
 
 interface RenderParams {
 	isLate: boolean;

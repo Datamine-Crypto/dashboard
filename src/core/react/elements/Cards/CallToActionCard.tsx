@@ -1,47 +1,45 @@
+import { Box, Button, Card, CardActions, CardContent, Divider, FormControlLabel, LinearProgress, Link, Slider, Switch, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from '@mui/material';
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Card, CardContent, CardActions, Divider, Link, LinearProgress, Table, TableContainer, TableRow, TableCell, TableBody, FormControlLabel, Switch, Slider, TextField } from '@mui/material';
 
-import { makeStyles } from '@mui/styles';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
-import { MobileDatePicker } from '@mui/x-date-pickers';
-import { LocalizationProvider } from '@mui/x-date-pickers';
 import Grid from '@mui/material/Grid2';
+import { makeStyles } from '@mui/styles';
+import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
-import { Web3Context } from '../../../web3/Web3Context'
-import { commonLanguage, Balances, ForecastSettings, ForecastMultiplierType, ClientSettings } from '../../../web3/web3Reducer';
-import BN from 'bn.js'
-import Big from 'big.js'
+import Big from 'big.js';
+import BN from 'bn.js';
+import { Web3Context } from '../../../web3/Web3Context';
+import { Balances, ClientSettings, commonLanguage, ForecastMultiplierType, ForecastSettings } from '../../../web3/web3Reducer';
 
+import AlarmIcon from '@mui/icons-material/Alarm';
+import AppsIcon from '@mui/icons-material/Apps';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AddIcon from '@mui/icons-material/AvTimer';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import LockIcon from '@mui/icons-material/PlayArrow';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import RedeemIcon from '@mui/icons-material/Redeem';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
-import AlarmIcon from '@mui/icons-material/Alarm';
-import AppsIcon from '@mui/icons-material/Apps';
-import AddIcon from '@mui/icons-material/AvTimer';
 import LockOpenIcon from '@mui/icons-material/Stop';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import DateRangeIcon from '@mui/icons-material/DateRange';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 
-import { DialogType, FluxAddressLock, FluxAddressDetails, FluxAddressTokenDetails, Token } from '../../../interfaces';
-import { BNToDecimal, getFormattedMultiplier, getBlocksRemaining, getPriceToggle, getBlocksDateFromNow } from '../../../web3/helpers';
-import LightTooltip from '../LightTooltip';
-import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '../../../web3/helperElements';
-import { Moment } from 'moment';
-import moment from 'moment';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
-import { getApy, TokenPair } from '../../../utils/getApy';
-import { formatMoney } from '../../../utils/formatMoney';
+import moment, { Moment } from 'moment';
 import { Ecosystem, Layer } from '../../../../configs/config.common';
+import arbiFluxLogo from '../../../../svgs/arbiFluxLogo.svg';
 import ArbitrumLogo from '../../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../../svgs/ethereumPurple.svg';
 import fluxLogo from '../../../../svgs/fluxLogo.svg';
-import damLogo from '../../../../svgs/logo.svg';
-import arbiFluxLogo from '../../../../svgs/arbiFluxLogo.svg';
 import lockquidityLogo from '../../../../svgs/lockquidity.svg';
+import damLogo from '../../../../svgs/logo.svg';
+import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from '../../../interfaces';
+import { formatMoney } from '../../../utils/formatMoney';
+import { getApy, TokenPair } from '../../../utils/getApy';
+import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '../../../web3/helperElements';
+import { BNToDecimal, getBlocksDateFromNow, getBlocksRemaining, getFormattedMultiplier, getPriceToggle } from '../../../web3/helpers';
+import LightTooltip from '../LightTooltip';
 
-import { theme } from '../../../styles'
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { theme } from '../../../styles';
 import { getNetworkDropdown } from '../Fragments/EcosystemDropdown';
 
 const useStyles = makeStyles(() => ({

@@ -1,28 +1,27 @@
+import { Box, Button, Card, CardActionArea, createStyles, Divider, Drawer, Hidden, Link, List, ListItem, ListItemIcon, ListItemText, Theme, Typography } from '@mui/material';
 import React, { useContext } from 'react';
-import { Drawer, createStyles, Theme, Hidden, Divider, List, ListItem, ListItemIcon, ListItemText, Link, Card, CardActionArea, Typography, Box, Button } from '@mui/material';
 
 import Grid from '@mui/material/Grid2';
 import { makeStyles } from '@mui/styles';
 
 import clsx from 'clsx';
 
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import HomeIcon from '@mui/icons-material/Home';
-import HelpIcon from '@mui/icons-material/HelpOutline';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
-import PeopleIcon from '@mui/icons-material/People';
+import HelpIcon from '@mui/icons-material/HelpOutline';
+import HomeIcon from '@mui/icons-material/Home';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import PeopleIcon from '@mui/icons-material/People';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 
 import { ExpandMore } from '@mui/icons-material';
-import Logo from '../../../../svgs/logo.svg';
-import EthereumPurple from '../../../../svgs/ethereumPurple.svg';
+import { getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 import Arbitrum from '../../../../svgs/arbitrum.svg';
 import discordWhiteLogo from '../../../../svgs/discordWhite.svg';
+import EthereumPurple from '../../../../svgs/ethereumPurple.svg';
+import Logo from '../../../../svgs/logo.svg';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
 
 const drawerWidth = 280;
 

@@ -1,17 +1,17 @@
-import React from 'react';
-import { Box, Container, Typography, Button, CardActionArea, CardMedia, Card } from '@mui/material';
+import { Box, Button, Card, CardActionArea, CardMedia, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import React from 'react';
 
-import { makeStyles } from '@mui/styles';
 import ArrowRightIcon from '@mui/icons-material/PlayArrow';
+import { makeStyles } from '@mui/styles';
 
 import logo from '../../../../svgs/logo.svg';
 
-import { theme } from '../../../styles'
+import { getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
+import { theme } from '../../../styles';
 import LightTooltip from '../../elements/LightTooltip';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {

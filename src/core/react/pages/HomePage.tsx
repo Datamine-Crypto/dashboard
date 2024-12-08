@@ -1,12 +1,11 @@
-import React from 'react';
 import { Box } from '@mui/material';
+import React from 'react';
 
-import { theme } from '../../styles'
 
+import { getEcosystemConfig } from '../../../configs/config';
+import { Ecosystem } from '../../../configs/config.common';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 import Header from '../elements/Fragments/Header';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
-import { Ecosystem } from '../../../configs/config.common';
 
 interface Props {
 	ecosystem: Ecosystem;

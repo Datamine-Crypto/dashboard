@@ -1,13 +1,13 @@
+import { Box, Container, Link, Paper } from '@mui/material';
 import React from 'react';
-import { Box, Container, Paper, Link } from '@mui/material';
 
 import { makeStyles } from '@mui/styles';
-import { theme } from '../../styles'
+import { theme } from '../../styles';
 
-import FooterFragment from '../elements/Fragments/FooterFragment';
-import Header from '../elements/Fragments/Header';
 import { getEcosystemConfig as getConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
+import FooterFragment from '../elements/Fragments/FooterFragment';
+import Header from '../elements/Fragments/Header';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {

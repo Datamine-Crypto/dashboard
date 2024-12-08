@@ -1,21 +1,21 @@
-import React, { useContext } from 'react';
-import { Box, Typography, List, ListItem, CardContent, Divider, Button, Link, Card } from '@mui/material';
+import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import React, { useContext } from 'react';
 
-import { Web3Context } from '../../../web3/Web3Context'
+import { Web3Context } from '../../../web3/Web3Context';
 
-import { BNToDecimal, getBNPercent, getPriceToggle } from '../../../web3/helpers';
-import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '../../../interfaces';
-import { Balances } from '../../../web3/web3Reducer';
-import uniswap from '../../../../svgs/uniswap.svg';
+import BN from 'bn.js';
+import { getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem, Layer, LiquidityPoolType } from '../../../../configs/config.common';
 import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
-import LightTooltip from '../LightTooltip';
-import BN from 'bn.js'
+import uniswap from '../../../../svgs/uniswap.svg';
+import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '../../../interfaces';
+import { BNToDecimal, getBNPercent, getPriceToggle } from '../../../web3/helpers';
+import { Balances } from '../../../web3/web3Reducer';
 import DetailedListItem from '../Fragments/DetailedListItem';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
 import { getTradeButton } from '../Fragments/TradeButton';
-import { Ecosystem, Layer, LiquidityPoolType } from '../../../../configs/config.common';
+import LightTooltip from '../LightTooltip';
 
 
 interface RenderParams {

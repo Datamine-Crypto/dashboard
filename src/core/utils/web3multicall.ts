@@ -1,4 +1,4 @@
-import Web3 from "web3"
+import Web3 from "web3";
 
 /**
  * This file contains a very useful function to utilize multicall smart contract.

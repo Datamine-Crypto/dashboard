@@ -1,6 +1,6 @@
-import React, { ErrorInfo } from "react";
-import { Typography, Box, Button, Container, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { Box, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
+import React, { ErrorInfo } from "react";
 import logo from '../../svgs/logo.svg'; // Tell webpack this JS file uses this image
 
 type ErrorState = {

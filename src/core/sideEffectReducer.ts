@@ -111,7 +111,6 @@ const commonLanguage = {
 }
 
 export {
-	handleQueries,
-	sideEffectReducer,
-	commonLanguage
-}
+	commonLanguage, handleQueries,
+	sideEffectReducer
+};

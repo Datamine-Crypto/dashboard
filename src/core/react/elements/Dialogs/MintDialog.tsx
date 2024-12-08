@@ -1,14 +1,14 @@
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, TextField, Typography } from '@mui/material';
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
 
-import { Web3Context } from '../../../web3/Web3Context'
+import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
 import RedeemIcon from '@mui/icons-material/Redeem';
-import { BNToDecimal } from '../../../web3/helpers';
-import { FluxAddressDetails } from '../../../interfaces';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
+import { FluxAddressDetails } from '../../../interfaces';
+import { BNToDecimal } from '../../../web3/helpers';
 
 interface RenderParams {
 	selectedAddress: string;

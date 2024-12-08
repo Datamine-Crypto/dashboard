@@ -1,20 +1,20 @@
-import React, { useContext } from 'react';
-import { Box, Container, Typography, Paper, Link, List, ListSubheader, ListItem, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box, Container, FormControl, InputLabel, Link, List, ListItem, ListSubheader, MenuItem, Paper, Select, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import React, { useContext } from 'react';
 
 import { makeStyles } from '@mui/styles';
-import { theme } from '../../styles'
+import { theme } from '../../styles';
 
+import { Ecosystem, NetworkType } from '../../../configs/config.common';
+import { helpArticles, SearchCategory, SearchCategoryText, SearchCategoryTextL2 } from '../../helpArticles';
+import { Web3Context } from '../../web3/Web3Context';
+import { commonLanguage } from '../../web3/web3Reducer';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 import HelpComboboxFragment from '../elements/Fragments/HelpComboboxFragment';
-import { helpArticles, SearchCategory, SearchCategoryText, SearchCategoryTextL2 } from '../../helpArticles';
-import { commonLanguage } from '../../web3/web3Reducer';
-import { Web3Context } from '../../web3/Web3Context';
-import { Ecosystem, NetworkType } from '../../../configs/config.common';
 
+import { getEcosystemConfig } from '../../../configs/config';
 import ArbitrumLogo from '../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../svgs/ethereumPurple.svg';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {

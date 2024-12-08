@@ -1,27 +1,20 @@
-import React, { JSX, useContext } from 'react';
-import { Box, Container, Typography, Paper, Card, CardActionArea, Link, List, ListSubheader, ListItem, Chip } from '@mui/material';
+import { Box, Card, CardActionArea, Chip, Container, Link, Paper, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import React, { JSX, useContext } from 'react';
 
 import { makeStyles } from '@mui/styles';
 
-import RedditIcon from '@mui/icons-material/Reddit';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LanguageIcon from '@mui/icons-material/Language';
 import TimelineIcon from '@mui/icons-material/Timeline';
+import TwitterIcon from '@mui/icons-material/Twitter';
 
 import discordLogo from '../../../svgs/discord.svg';
 import mediumLogo from '../../../svgs/medium.svg';
-import btcLogo from '../../../svgs/bitcoin.svg';
 
-import { theme } from '../../styles'
+import { theme } from '../../styles';
 
-import FooterFragment from '../elements/Fragments/FooterFragment';
-import { helpArticles, SearchCategory, SearchCategoryText } from '../../helpArticles';
-import { commonLanguage } from '../../web3/web3Reducer';
-import { Web3Context } from '../../web3/Web3Context';
 import { Ecosystem } from '../../../configs/config.common';
+import { Web3Context } from '../../web3/Web3Context';
+import FooterFragment from '../elements/Fragments/FooterFragment';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {

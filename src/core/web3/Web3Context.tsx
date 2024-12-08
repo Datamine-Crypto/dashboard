@@ -1,10 +1,10 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 
-import { initialState, handleQueryResponse, handleCommand, Web3State } from './web3Reducer'
-import { queryHandlers } from './Web3Bindings'
+import { queryHandlers } from './Web3Bindings';
+import { handleCommand, handleQueryResponse, initialState, Web3State } from './web3Reducer';
 
 import { EventEmitter } from 'events';
-import { sideEffectReducer, handleQueries, commonLanguage } from '../sideEffectReducer';
+import { commonLanguage, handleQueries, sideEffectReducer } from '../sideEffectReducer';
 
 export interface Web3ContextValue {
 	state: Web3State;
@@ -43,4 +43,4 @@ const Web3ContextProvider: React.FC = ({ children }) => {
 export {
 	Web3Context,
 	Web3ContextProvider
-}
+};

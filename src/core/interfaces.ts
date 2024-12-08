@@ -1,5 +1,5 @@
 
-import BN from 'bn.js'
+import BN from 'bn.js';
 
 export interface FluxAddressLock {
 	amount: BN;

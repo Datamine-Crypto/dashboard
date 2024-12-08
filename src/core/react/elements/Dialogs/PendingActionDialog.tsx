@@ -1,15 +1,15 @@
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, LinearProgress, Typography } from '@mui/material';
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, LinearProgress, Box, Typography, DialogActions, Button } from '@mui/material';
 
 import { makeStyles } from '@mui/styles';
 import { commonLanguage, ConnectionMethod } from '../../../web3/web3Reducer';
 
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 
-import { theme } from '../../../styles'
-import { ReducerQuery } from '../../../sideEffectReducer';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
+import { ReducerQuery } from '../../../sideEffectReducer';
+import { theme } from '../../../styles';
 
 interface Params {
 	open: boolean;

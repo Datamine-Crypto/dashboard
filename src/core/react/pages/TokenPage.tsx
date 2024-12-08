@@ -1,37 +1,35 @@
+import { Box, Button, Card, CardActionArea, Container, Link, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow, Typography } from '@mui/material';
 import React, { JSX, useContext } from 'react';
-import { Box, Container, Typography, Button, Paper, Card, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, CardActionArea, Link, TableFooter } from '@mui/material';
 
+import PeopleIcon from '@mui/icons-material/People';
+import ArrowRightIcon from '@mui/icons-material/PlayArrow';
 import Grid from '@mui/material/Grid2';
 import { makeStyles } from '@mui/styles';
-import ArrowRightIcon from '@mui/icons-material/PlayArrow';
-import PeopleIcon from '@mui/icons-material/People';
 
-import logo from '../../../svgs/logo.svg';
-import fluxLogo from '../../../svgs/fluxLogo.svg';
 import arbiFluxLogo from '../../../svgs/arbiFluxLogo.svg';
+import fluxLogo from '../../../svgs/fluxLogo.svg';
+import logo from '../../../svgs/logo.svg';
 
 import analyticsIcon from '../../../svgs/analytics.svg';
-import smartContractIcon from '../../../svgs/smartContract.svg';
-import lockIcon from '../../../svgs/lock.svg';
 import communityIcon from '../../../svgs/community.svg';
-import synergyIcon from '../../../svgs/synergy.svg';
-import poolIcon from '../../../svgs/pool.svg';
-import poolIconL2 from '../../../svgs/poolL2.svg';
 import ecosystemIcon from '../../../svgs/ecosystem.svg';
 import ecosystemL2Icon from '../../../svgs/ecosystemL2.svg';
+import lockIcon from '../../../svgs/lock.svg';
+import poolIcon from '../../../svgs/pool.svg';
+import poolIconL2 from '../../../svgs/poolL2.svg';
+import smartContractIcon from '../../../svgs/smartContract.svg';
+import synergyIcon from '../../../svgs/synergy.svg';
 
-import { theme } from '../../styles'
+import { theme } from '../../styles';
 import Roadmap from '../elements/Fragments/Roadmap';
 
-import FooterFragment from '../elements/Fragments/FooterFragment';
-import { Token } from '../../interfaces';
-import uniswapLogo from '../../../svgs/uniswap.svg';
-import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
+import { getEcosystemConfig } from '../../../configs/config';
+import { Ecosystem, Layer } from '../../../configs/config.common';
 import { helpArticles } from '../../helpArticles';
 import { Web3Context } from '../../web3/Web3Context';
 import { commonLanguage } from '../../web3/web3Reducer';
-import { Ecosystem, Layer } from '../../../configs/config.common';
-import { getEcosystemConfig } from '../../../configs/config';
+import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
+import FooterFragment from '../elements/Fragments/FooterFragment';
 
 const useStyles = makeStyles(() => ({
 	logoContainer: {

@@ -1,15 +1,14 @@
 import React from 'react';
 import { Token } from '../../../interfaces';
 
-import { Button, Box, Link, MenuItem, Menu, Typography, Divider } from '@mui/material';
+import { Box, Button, Link, Menu, MenuItem } from '@mui/material';
 import LightTooltip from '../../../react/elements/LightTooltip';
 
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 
-import uniswapLogo from '../../../../svgs/uniswap.svg';
-import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
-import oneInchLogo from '../../../../svgs/oneInch.svg';
 import { Ecosystem, Layer } from '../../../../configs/config.common';
+import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
+import uniswapLogo from '../../../../svgs/uniswap.svg';
 
 interface TradeRenderParams {
 	token: Token;

@@ -71,4 +71,4 @@ const theme = {
 
 export {
 	theme
-}
+};

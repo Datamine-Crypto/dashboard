@@ -1,6 +1,6 @@
 
 import Big from 'big.js';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../configs/config';
+import { getEcosystemConfig } from '../../configs/config';
 import { Ecosystem } from '../../configs/config.common';
 
 export enum TokenPair {

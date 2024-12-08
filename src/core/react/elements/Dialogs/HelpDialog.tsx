@@ -1,18 +1,16 @@
+import { Box, Button, Card, CardActions, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Link, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Link, DialogContentText, useTheme, useMediaQuery, CardActions, Card, IconButton } from '@mui/material';
 
-import { makeStyles } from '@mui/styles';
-import { Web3Context } from '../../../web3/Web3Context'
-import { commonLanguage, Balances } from '../../../web3/web3Reducer';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
-import { BNToDecimal } from '../../../web3/helpers';
-import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from '../../../helpArticles';
-import ReactMarkdown from 'react-markdown'
-import LaunchIcon from '@mui/icons-material/Launch';
-import AddToFirefoxFragment from '../Fragments/AddToFirefoxFragment';
 import CloseIcon from '@mui/icons-material/Close';
-import LightTooltip from '../LightTooltip';
+import LaunchIcon from '@mui/icons-material/Launch';
+import { makeStyles } from '@mui/styles';
+import ReactMarkdown from 'react-markdown';
 import { NetworkType } from '../../../../configs/config.common';
+import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from '../../../helpArticles';
+import { Web3Context } from '../../../web3/Web3Context';
+import { commonLanguage } from '../../../web3/web3Reducer';
+import AddToFirefoxFragment from '../Fragments/AddToFirefoxFragment';
+import LightTooltip from '../LightTooltip';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;

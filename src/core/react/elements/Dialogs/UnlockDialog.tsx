@@ -1,17 +1,17 @@
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Typography } from '@mui/material';
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 
-import { Web3Context } from '../../../web3/Web3Context'
+import { Web3Context } from '../../../web3/Web3Context';
 import { Balances, ClientSettings, commonLanguage } from '../../../web3/web3Reducer';
 
-import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '../../../web3/helpers';
-import MessageDialog from './MessageDialog';
-import { FluxAddressDetails, Token } from '../../../interfaces';
-import { theme } from '../../../styles';
 import { Alert } from '@mui/lab';
-import { formatMoney } from '../../../utils/formatMoney';
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
+import { FluxAddressDetails, Token } from '../../../interfaces';
+import { theme } from '../../../styles';
+import { formatMoney } from '../../../utils/formatMoney';
+import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '../../../web3/helpers';
+import MessageDialog from './MessageDialog';
 
 interface RenderParams {
 	addressDetails: FluxAddressDetails;

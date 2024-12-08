@@ -1,13 +1,13 @@
-import React from 'react';
-import { Box, Container, Paper, Link } from '@mui/material';
+import { Box, Container, Link, Paper } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import React from 'react';
 
 import { makeStyles } from '@mui/styles';
 
-import { theme } from '../../../styles'
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
-import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
+import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
+import { theme } from '../../../styles';
+import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
 
 const useStyles = makeStyles(() => ({
 	paperBottom: {

@@ -1,25 +1,25 @@
-import React, { useContext } from 'react';
-import { Box, Button, Typography, Card, CardContent, Divider, Link } from '@mui/material';
+import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import React, { useContext } from 'react';
 
 import { makeStyles } from '@mui/styles';
-import { Web3Context } from '../../../web3/Web3Context'
-import { commonLanguage, Balances } from '../../../web3/web3Reducer'
+import { Web3Context } from '../../../web3/Web3Context';
+import { Balances, commonLanguage } from '../../../web3/web3Reducer';
 
-import LockOpenIcon from '@mui/icons-material/Stop';
-import { BNToDecimal, getBurnRatio, getPriceToggle } from '../../../web3/helpers';
-import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from '../../../interfaces';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import LockOpenIcon from '@mui/icons-material/Stop';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
+import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from '../../../interfaces';
+import { BNToDecimal, getBurnRatio, getPriceToggle } from '../../../web3/helpers';
 
-import BN from 'bn.js'
-import LightTooltip from '../LightTooltip';
-import uniswap from '../../../../svgs/uniswap.svg';
-import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
-import DetailedListItem from '../Fragments/DetailedListItem';
+import BN from 'bn.js';
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
-import { getTradeButton } from '../Fragments/TradeButton';
 import { Ecosystem, LiquidityPoolType } from '../../../../configs/config.common';
+import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
+import uniswap from '../../../../svgs/uniswap.svg';
+import DetailedListItem from '../Fragments/DetailedListItem';
+import { getTradeButton } from '../Fragments/TradeButton';
+import LightTooltip from '../LightTooltip';
 
 const useStyles = makeStyles(() => {
 	return {

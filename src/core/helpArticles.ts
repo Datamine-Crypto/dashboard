@@ -168,4 +168,4 @@ const helpArticles: HelpArticle[] = [
 
 export {
 	helpArticles
-}
+};

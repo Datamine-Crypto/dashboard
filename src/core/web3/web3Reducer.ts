@@ -1,15 +1,15 @@
-import { FluxAddressLock, FluxAddressDetails, DialogType, FluxAddressTokenDetails, Token } from "../interfaces";
-import Web3 from "web3";
-import BN from 'bn.js'
-import { getPriceToggle, parseBN } from "./helpers";
+import Big from 'big.js';
+import BN from 'bn.js';
 import { v4 as uuidv4 } from 'uuid';
-import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
-import copyToClipBoard from "../utils/copyToClipboard";
-import Big from 'big.js'
-import { ReducerQuery, ReducerQueryHandler, ReducerCommand } from "../sideEffectReducer";
-import { HelpArticle } from "../helpArticles";
-import { devLog } from "../utils/devLog";
+import Web3 from "web3";
 import { getEcosystemConfig } from "../../configs/config";
+import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
+import { HelpArticle } from "../helpArticles";
+import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from "../interfaces";
+import { ReducerCommand, ReducerQuery, ReducerQueryHandler } from "../sideEffectReducer";
+import copyToClipBoard from "../utils/copyToClipboard";
+import { devLog } from "../utils/devLog";
+import { getPriceToggle, parseBN } from "./helpers";
 
 export enum ConnectionMethod {
 	MetaMask = 'MetaMask',
@@ -1206,8 +1206,5 @@ const commonLanguage = {
 }
 
 export {
-	handleQueryResponse,
-	handleCommand,
-	initialState,
-	commonLanguage
-}
+	commonLanguage, handleCommand, handleQueryResponse, initialState
+};

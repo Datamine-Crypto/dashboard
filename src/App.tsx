@@ -1,11 +1,11 @@
-import React, { } from 'react';
+import { } from 'react';
 
-import { Web3ContextProvider } from './core/web3/Web3Context';
 import { ThemeProvider } from '@mui/material';
+import { Web3ContextProvider } from './core/web3/Web3Context';
 
-import { theme } from './core/styles'
 import ErrorBoundary from './core/react/ErrorBoundary';
 import PageFragment from './core/react/pages/PageFragment';
+import { theme } from './core/styles';
 
 function App() {
 

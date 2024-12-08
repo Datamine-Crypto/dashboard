@@ -1,20 +1,17 @@
-import React, { useContext } from 'react';
+import BuildIcon from '@mui/icons-material/Build';
+import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Box, Button, Card, CardActionArea, Hidden, IconButton, Link, Toolbar, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { Button, AppBar, Toolbar, IconButton, Box, Tooltip, Link, Hidden, Card, CardActionArea } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
-import MenuIcon from '@mui/icons-material/Menu';
-import BuildIcon from '@mui/icons-material/Build';
+import React, { useContext } from 'react';
 import DamLogo from '../../../../svgs/logo.svg';
 
-import HomeIcon from '@mui/icons-material/Home';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import TimelineIcon from '@mui/icons-material/Timeline';
+import { getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem } from '../../../../configs/config.common';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import HelpComboboxFragment from './HelpComboboxFragment';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
 
 const useStyles = makeStyles(theme => ({
 	toolbar: {

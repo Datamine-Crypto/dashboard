@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import { Box, Button, Typography, Divider, Dialog, DialogTitle, DialogContent, TextField, DialogActions, CardMedia, Link } from '@mui/material';
+import { Box, Button, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Link, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import React, { useContext } from 'react';
 
-import { Web3Context } from '../../../web3/Web3Context'
+import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
 import SettingsInputAntennaIcon from '@mui/icons-material/SettingsInputAntenna';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 
 interface RenderParams {

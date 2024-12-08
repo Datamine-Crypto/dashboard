@@ -1,10 +1,10 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import { ecosystemConfigs } from "../../../../configs/config.base";
-import { Ecosystem, Layer, NetworkType } from "../../../../configs/config.common";
 import React from "react";
-import { switchNetwork } from "../../../web3/helpers";
 import { getEcosystemConfig } from "../../../../configs/config";
+import { ecosystemConfigs } from "../../../../configs/config.base";
+import { Ecosystem, Layer } from "../../../../configs/config.common";
+import { switchNetwork } from "../../../web3/helpers";
 import { commonLanguage } from "../../../web3/web3Reducer";
 
 export const getNetworkDropdown = (ecosystem: Ecosystem, dispatch: React.Dispatch<any>) => {

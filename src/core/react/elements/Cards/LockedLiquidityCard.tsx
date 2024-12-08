@@ -1,19 +1,19 @@
-import React, { useContext } from 'react';
-import { Box, Typography, Card, CardContent, Divider, Link } from '@mui/material';
+import { Box, Card, CardContent, Divider, Link, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import React, { useContext } from 'react';
 
 import { makeStyles } from '@mui/styles';
-import { Web3Context } from '../../../web3/Web3Context'
+import { Web3Context } from '../../../web3/Web3Context';
 
-import { BNToDecimal, getBNPercent, getPriceToggle } from '../../../web3/helpers';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import BN from 'bn.js';
+import { getEcosystemConfig } from '../../../../configs/config';
+import { Ecosystem, Layer } from '../../../../configs/config.common';
 import { Token } from '../../../interfaces';
+import { BNToDecimal, getBNPercent, getPriceToggle } from '../../../web3/helpers';
 import { Balances } from '../../../web3/web3Reducer';
 import DetailedListItem from '../Fragments/DetailedListItem';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem, Layer, LiquidityPoolType } from '../../../../configs/config.common';
-import BN from 'bn.js';
 import LightTooltip from '../LightTooltip';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 
 interface RenderParams {

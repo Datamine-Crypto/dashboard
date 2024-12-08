@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import DashboardPage from './DashboardPage';
-import Terms from './Terms';
-import HomePage from './HomePage';
-import TokenPage from './TokenPage';
-import MainAppBar from '../elements/Fragments/AppBar';
-import { Web3Context } from '../../web3/Web3Context';
-import { commonLanguage } from '../../web3/web3Reducer';
 import { Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import HelpDialog from '../elements/Dialogs/HelpDialog';
+import React, { useContext, useEffect, useState } from 'react';
+import { getEcosystemConfig } from '../../../configs/config';
+import { Ecosystem, NetworkType } from '../../../configs/config.common';
 import { HelpArticle, helpArticles } from '../../helpArticles';
-import HelpPage from './HelpPage';
+import { Web3Context } from '../../web3/Web3Context';
+import { commonLanguage } from '../../web3/web3Reducer';
+import HelpDialog from '../elements/Dialogs/HelpDialog';
+import MainAppBar from '../elements/Fragments/AppBar';
 import { MainDrawer } from '../elements/Fragments/Drawer';
 import CommunityPage from './CommunityPage';
-import { Ecosystem, NetworkType } from '../../../configs/config.common';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../configs/config';
+import DashboardPage from './DashboardPage';
+import HelpPage from './HelpPage';
+import HomePage from './HomePage';
+import Terms from './Terms';
+import TokenPage from './TokenPage';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;

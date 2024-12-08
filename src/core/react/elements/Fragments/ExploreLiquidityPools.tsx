@@ -1,16 +1,15 @@
 
 import React from 'react';
 
-import { Typography, Box, Button, Link, Menu, MenuItem, Divider, Chip } from "@mui/material";
+import { Box, Button, Chip, Divider, Link, Menu, MenuItem, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 
 import { makeStyles } from '@mui/styles';
 
-import uniswapLogo from '../../../../svgs/uniswap.svg';
 import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
+import uniswapLogo from '../../../../svgs/uniswap.svg';
 
-import oneInchLogo from '../../../../svgs/oneInch.svg';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 
 

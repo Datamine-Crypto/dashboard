@@ -1,13 +1,12 @@
+import BN from 'bn.js';
 import Web3 from "web3";
-import { Contract } from 'web3-eth-contract';
-import BN from 'bn.js'
 import { Token } from "../interfaces";
 
-import Big from 'big.js'
-import { Balances } from "./web3Reducer";
+import Big from 'big.js';
 import moment from 'moment';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../configs/config';
 import { Ecosystem } from "../../configs/config.common";
+import { Balances } from "./web3Reducer";
 
 interface PriceToggle {
 	value: BN;
@@ -549,4 +548,5 @@ const commonLanguage = {
 
 export {
 	withWeb3
-}
+};
+

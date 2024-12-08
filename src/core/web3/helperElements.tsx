@@ -1,12 +1,12 @@
-import { Token, FluxAddressDetails, FluxAddressLock } from '../interfaces';
+import { FluxAddressDetails, FluxAddressLock, Token } from '../interfaces';
 
-import { getPriceToggle, BNToDecimal } from './helpers';
+import { BNToDecimal, getPriceToggle } from './helpers';
 
-import Big from 'big.js'
-import BN from 'bn.js'
-import { Balances } from './web3Reducer';
+import Big from 'big.js';
+import BN from 'bn.js';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../configs/config';
 import { Ecosystem } from '../../configs/config.common';
+import { Balances } from './web3Reducer';
 
 export const getRequiredFluxToBurnDecimal = ({ ecosystem, globalFluxBurned, targetMultiplier, globalDamLockedIn, myFluxBurned, myDamLockedIn }: { ecosystem: Ecosystem, globalFluxBurned: Big, targetMultiplier: number, globalDamLockedIn: Big, myFluxBurned: Big, myDamLockedIn: Big }) => {
 	const { minBurnMultiplier } = getEcosystemConfig(ecosystem);
@@ -100,7 +100,7 @@ export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, e
 
 	const isTargetReached = fluxRequired == new Big(0) || addressDetails.addressBurnMultiplier === 10000 * maxBurnMultiplier;
 
-	const fluxRequiredBn=new BN(fluxRequired.abs().round(0).toFixed())
+	const fluxRequiredBn = new BN(fluxRequired.abs().round(0).toFixed())
 
 	const fluxRequiredToBurn = BNToDecimal(fluxRequiredBn, true, 18, mintableTokenPriceDecimals)
 
