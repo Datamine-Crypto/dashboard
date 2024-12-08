@@ -1,5 +1,5 @@
 import { commonLanguage, Web3State } from './web3Reducer'
-import Web3 from 'web3'
+import { Web3 } from 'web3';
 import { FluxAddressDetails, FluxAddressTokenDetails } from '../interfaces';
 import Big from 'big.js'
 
@@ -16,7 +16,7 @@ import Fuse from 'fuse.js'
 
 import { QueryHandler } from '../sideEffectReducer';
 import { HelpArticle, helpArticles } from '../helpArticles';
-import WalletConnectProvider from "@walletconnect/web3-provider";
+//import WalletConnectProvider from "@walletconnect/web3-provider"; //@todo MUI5
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import axios from 'axios'
@@ -27,6 +27,15 @@ import { decodeMulticall, encodeMulticall } from '../utils/web3multicall';
 import { getEcosystemConfig } from '../../configs/config';
 
 let web3provider: any = null;
+
+class WalletConnectProvider {
+	/**
+	 *
+	 */
+	constructor(test: any) {
+
+	}
+}
 
 /**
  * Remove meta tags that cause WalletConnect issues for coinomi  
@@ -45,7 +54,7 @@ const removeMetaTags = () => {
 	removeMetaTag('og:description');
 }
 
-let walletConnectProvider: WalletConnectProvider | null = null;
+let walletConnectProvider: any = null; //WalletConnectProvider | null = null;  //@todo MUI5
 let preselectedAddress: string | null = null;
 
 const getSelectedAddress = () => {
@@ -138,48 +147,13 @@ const localConfig = {
 	skipInitialConnection: false
 }
 
-let subscribedToBlockUpdates = false;
-
-let intervalStarted = false //@todo can be a command/query
-
 /**
- * Every block refresh account state 
+ * Every 12 seconds (when a new block comes in) refresh the state
  */
 const subscribeToBlockUpdates = (web3: Web3, dispatch: React.Dispatch<any>) => {
-	if (subscribedToBlockUpdates) {
-		return;
-	}
-	const startInterval = () => {
-		if (!intervalStarted) {
-
-			intervalStarted = true;
-			setInterval(() => {
-				dispatch({ type: commonLanguage.commands.RefreshAccountState });
-			}, 15000);
-		}
-	}
-
-	if (web3) {
-		web3.eth
-			.subscribe('newBlockHeaders', (error: any) => {
-				if (!error) {
-					return;
-				}
-				console.error('newBlockHeaders error:', error);
-			})
-			.on("data", (e: any) => {
-				// Refresh account every new block (this can be optimized later)
-				dispatch({ type: commonLanguage.commands.RefreshAccountState });
-			})
-			.on("error", (e) => {
-				devLog('newBlockHeaders error. Starting setInterval:', e)
-
-				startInterval()//@todo can be a command/query
-			});
-
-		subscribedToBlockUpdates = true;
-
-	}
+	setInterval(() => {
+		dispatch({ type: commonLanguage.commands.RefreshAccountState });
+	}, 12000);
 }
 
 const getSignature = async (web3: any, selectedAddress: any) => {
@@ -340,9 +314,8 @@ const queryHandlers = {
 
 			const networkType = 'main';
 
-			const chainId = await web3.eth.getChainId();
+			const chainId = Number(await web3.eth.getChainId());
 			devLog('FindWeb3Instance chainId:', chainId)
-
 
 			const isArbitrumMainnet = chainId === 42161
 			devLog('FindWeb3Instance isArbitrumMainnet:', isArbitrumMainnet)
@@ -1005,7 +978,7 @@ const queryHandlers = {
 				...getLockedLiquidityBalanceCall()
 			]
 
-			const multicallEncodedResults = await contracts.multicall.methods.aggregate(encodeMulticall(web3, multicallData)).call();
+			const multicallEncodedResults = (await contracts.multicall.methods.aggregate(encodeMulticall(web3, multicallData)).call()) as any;
 
 			const multicallDecodedResults = decodeMulticall(web3, multicallEncodedResults, multicallData)
 
@@ -1147,8 +1120,9 @@ const queryHandlers = {
 				const netId = await web3.eth.net.getId();
 				devLog('netId:', netId)
 
-				const networkType = await web3.eth.net.getNetworkType();
-				devLog('networkType:', networkType)
+				//const networkType = await web3.eth.net.networkType();
+				const networkType = 'main'; //@todo MUI5
+				//devLog('networkType:', networkType)
 
 				// This will pretty print on frontend in a table
 				throw {
