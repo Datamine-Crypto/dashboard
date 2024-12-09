@@ -67,7 +67,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 				<Box my={1}>Current Balance: <Box display="inline" fontWeight="fontWeightBold">{BNToDecimal(balances.damToken, true)} {lockableTokenShortName}</Box></Box>
 				<Box my={2}><Divider /></Box>
 				<Box mb={4}>
-					<Typography>To continue select how many {lockableTokenShortName} tokens you wish to start your validator with. You can stop your validator to get 100% of {lockableTokenShortName} tokens back at any time.</Typography>
+					<Typography component="div">To continue select how many {lockableTokenShortName} tokens you wish to start your validator with. You can stop your validator to get 100% of {lockableTokenShortName} tokens back at any time.</Typography>
 				</Box>
 
 				<Box my={1}>
@@ -90,7 +90,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 						<FormLabel component="legend">Minting Address</FormLabel>
 						<RadioGroup aria-label="gender" name="gender1" value={minterType} onChange={event => setMinterType((event.target as HTMLInputElement).value)}>
 							<FormControlLabel value="self" control={<Radio />} label={`I want to mint my own ${mintableTokenShortName} tokens`} />
-							<FormControlLabel value="delegated" control={<Radio />} label={<>Another address mints {mintableTokenShortName} on my behalf <Typography color="textSecondary" display="inline" variant="body2">(Delegated Minter)</Typography></>} />
+							<FormControlLabel value="delegated" control={<Radio />} label={<>Another address mints {mintableTokenShortName} on my behalf <Typography component="div" color="textSecondary" display="inline" variant="body2">(Delegated Minter)</Typography></>} />
 						</RadioGroup>
 					</FormControl>
 				</Box>

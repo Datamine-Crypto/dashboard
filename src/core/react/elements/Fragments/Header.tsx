@@ -99,11 +99,11 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 	}
 	const getTitle = () => {
 		if (isSubPage) {
-			return <Typography component="h3" variant="h3" color="textPrimary" gutterBottom display="block" className={classes.title}>
+			return <Typography component="div" variant="h3" color="textPrimary" gutterBottom display="block" className={classes.title}>
 				The MIT License {getArrow()}
 			</Typography>
 		}
-		return <Typography component="h3" variant="h3" color="textPrimary" gutterBottom display="block" className={classes.title}>
+		return <Typography component="div" variant="h3" color="textPrimary" gutterBottom display="block" className={classes.title}>
 			Cryptocurrency backed by <span className={classes.proofOfBurn}>Proof of Burn</span> {/*getArrow()*/}
 		</Typography>
 	}
@@ -219,8 +219,8 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 				<Grid size={{ md: 8, lg: 7 }}>
 					<Box>
 						{getTitle()}
-						<Typography variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
-							<Typography display="inline" variant="h6" color="textPrimary">Datamine FLUX</Typography>  is <LightTooltip title={defiTitle}><Box display="inline-block">DeFi's</Box></LightTooltip> first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.<br />
+						<Typography component="div" variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
+							<Typography component="div" display="inline" variant="h6" color="textPrimary">Datamine FLUX</Typography>  is <LightTooltip title={defiTitle}><Box display="inline-block">DeFi's</Box></LightTooltip> first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.<br />
 						</Typography>
 					</Box>
 				</Grid>

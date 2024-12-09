@@ -56,10 +56,10 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, addressDet
 				<Box my={1}>Total Mintable: ~<Box display="inline" fontWeight="fontWeightBold">{BNToDecimal(addressDetails.mintAmount, true)} {mintableTokenShortName}</Box></Box>
 				<Box my={3}><Divider /></Box>
 
-				<Typography gutterBottom={true}>To continue specify where you want to mint these {mintableTokenShortName} tokens. You can specify any Ethereum-based address.</Typography>
+				<Typography component="div" gutterBottom={true}>To continue specify where you want to mint these {mintableTokenShortName} tokens. You can specify any Ethereum-based address.</Typography>
 
 				<Box my={3}>
-					<Typography>Your unminted {mintableTokenShortName} balance will be sent to the following address:</Typography>
+					<Typography component="div">Your unminted {mintableTokenShortName} balance will be sent to the following address:</Typography>
 				</Box>
 
 				<Box mt={3} mb={6}>

@@ -215,11 +215,11 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 		<Box mt={8}>
 			<Box mt={6} mb={6}>
 				<Container>
-					<Typography variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
+					<Typography component="div" variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
 						<Typography component="h3" variant="h3" color="textPrimary" gutterBottom display="block">
 							Datamine Instant &amp; Decentralized Helpdesk
 						</Typography>
-						<Typography display="inline" variant="h6" color="textPrimary">
+						<Typography component="div" display="inline" variant="h6" color="textPrimary">
 							Gain access to entire Datamine Ecosystem knowledgebase in an instant. All help articles are self-contained in our decentralized builds and do not require any external server requests.
 							Quickly Search through the entire knowledgebase or browse all articles below:
 						</Typography>
@@ -246,8 +246,8 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 			</Paper>
 			<Box my={6}>
 				<Container>
-					<Typography variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
-						<Typography display="inline" variant="h6" color="textPrimary">
+					<Typography component="div" variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
+						<Typography component="div" display="inline" variant="h6" color="textPrimary">
 							Still can't find what you are looking for?
 							{' '}
 							{getAdditionalHelpText()}

@@ -32,15 +32,15 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 				return null
 			}
 
-			return <>&nbsp;<Typography color="textSecondary" variant="body2" display="inline">/</Typography> {sub}</>
+			return <>&nbsp;<Typography component="div" color="textSecondary" variant="body2" display="inline">/</Typography> {sub}</>
 		}
 		return <>
 			<Hidden smDown>
-				<Grid><Typography display="inline">{main}{getSub()}</Typography> {description}</Grid>
+				<Grid><Typography component="div" display="inline">{main}{getSub()}</Typography> {description}</Grid>
 			</Hidden>
 			<Hidden mdUp>
 				<Grid size={{ xs: 12 }}>
-					<Typography display="inline">{main}</Typography>
+					<Typography component="div" display="inline">{main}</Typography>
 				</Grid>
 			</Hidden>
 		</>
@@ -51,7 +51,7 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 		}
 
 		return <>
-			<Grid><Typography display="inline">{sub}</Typography></Grid>
+			<Grid><Typography component="div" display="inline">{sub}</Typography></Grid>
 		</>
 	}
 	const getSmDescriptionElement = () => {
@@ -83,7 +83,7 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 			<Grid container alignItems="center">
 				<Grid>
 					<Box height={36} display="flex" alignItems="center">
-						<Typography color="textSecondary" variant="body2">{title}</Typography>
+						<Typography component="div" color="textSecondary" variant="body2">{title}</Typography>
 					</Box>
 
 				</Grid>

@@ -35,10 +35,10 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 		switch (token) {
 			case Token.Lockable:
 				const damSupply = getBNPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false)
-				return <> <Typography variant="body2" color="textSecondary" display="inline">({damSupply}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)</Typography></>
+				return <> <Typography component="div" variant="body2" color="textSecondary" display="inline">({damSupply}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)</Typography></>
 			case Token.Mintable:
 				const fluxSupply = getBNPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false)
-				return <> <Typography variant="body2" color="textSecondary" display="inline">({fluxSupply}% of current supply)</Typography></>
+				return <> <Typography component="div" variant="body2" color="textSecondary" display="inline">({fluxSupply}% of current supply)</Typography></>
 		}
 	}
 
@@ -60,8 +60,8 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 
 		return <DetailedListItem
 			title={<><Box display="inline">{lockableTokenShortName} Realtime Market Cap{layer === Layer.Layer2 ? ' (on L2)' : ''}:</Box></>}
-			main={<><Box display="inline">{circulatingDamMarketCap} <Typography variant="body2" color="textSecondary" display="inline">(Circulating)</Typography></Box></>}
-			sub={<><Box display="inline">{actualDamMarketCap} <Typography variant="body2" color="textSecondary" display="inline">(Total)</Typography></Box></>}
+			main={<><Box display="inline">{circulatingDamMarketCap} <Typography component="div" variant="body2" color="textSecondary" display="inline">(Circulating)</Typography></Box></>}
+			sub={<><Box display="inline">{actualDamMarketCap} <Typography component="div" variant="body2" color="textSecondary" display="inline">(Total)</Typography></Box></>}
 		/>
 	}
 

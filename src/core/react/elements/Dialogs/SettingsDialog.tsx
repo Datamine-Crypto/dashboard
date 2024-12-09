@@ -53,7 +53,7 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 		const exchangedAmount = formatMoney({ amount: clientSettings.priceMultiplier, currency: clientSettings.currency, includeCurrencySuffix: true })
 
 		return <Box textAlign="center">
-			<Typography variant="h6">
+			<Typography component="div" variant="h6">
 				1 USD = {exchangedAmount}
 			</Typography>
 		</Box>
@@ -67,7 +67,7 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 			label={<>
 				<Grid container alignItems="center">
 					<Grid>
-						{clientSettings.useEip1559 ? <Typography color="secondary">L1: Use EIP1559 Transactions (Recommended)</Typography> : <Typography>Use Legacy Transactions (NOT RECOMMENDED)</Typography>}
+						{clientSettings.useEip1559 ? <Typography component="div" color="secondary">L1: Use EIP1559 Transactions (Recommended)</Typography> : <Typography component="div">Use Legacy Transactions (NOT RECOMMENDED)</Typography>}
 					</Grid>
 					<Grid>
 						<Box ml={0.5} display="flex"><AccessTimeIcon color={clientSettings.useEip1559 ? 'secondary' : undefined} /></Box>

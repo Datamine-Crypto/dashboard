@@ -119,8 +119,8 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 			<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
 				<Grid container justifyContent="center"><Grid>{getLogo()}</Grid></Grid>
 				<Box mt={3} mb={6} textAlign="center">
-					<Typography variant="h5" color="textPrimary" gutterBottom>{title}</Typography>
-					<Typography color="textSecondary">{message}</Typography>
+					<Typography component="div" variant="h5" color="textPrimary" gutterBottom>{title}</Typography>
+					<Typography component="div" color="textSecondary">{message}</Typography>
 				</Box>
 				{content}
 			</Box>
@@ -141,8 +141,8 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 			<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
 				<Grid container justifyContent="center"><Grid>{getLogo()}</Grid></Grid>
 				<Box mt={3} mb={6} textAlign="center">
-					<Typography variant="h5" color="textPrimary" gutterBottom>You must have an Ethereum based wallet to continue...</Typography>
-					<Typography color="textSecondary">We recommend MetaMask extension, Brave browser or WalletConnect.</Typography>
+					<Typography component="div" variant="h5" color="textPrimary" gutterBottom>You must have an Ethereum based wallet to continue...</Typography>
+					<Typography component="div" color="textSecondary">We recommend MetaMask extension, Brave browser or WalletConnect.</Typography>
 				</Box>
 				<Box mb={3}>
 					<Box display="inline-block" mr={3}>
@@ -176,8 +176,8 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 			<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
 				<Grid container justifyContent="center"><Grid>{getLogo()}</Grid></Grid>
 				<Box mt={3} mb={6} textAlign="center">
-					<Typography variant="h5" color="textPrimary" gutterBottom>Connect to Ethereum Network</Typography>
-					<Typography color="textSecondary">To interact with {lockableTokenShortName} and {mintableTokenShortName} tokens you must connect to your wallet and select an address.</Typography>
+					<Typography component="div" variant="h5" color="textPrimary" gutterBottom>Connect to Ethereum Network</Typography>
+					<Typography component="div" color="textSecondary">To interact with {lockableTokenShortName} and {mintableTokenShortName} tokens you must connect to your wallet and select an address.</Typography>
 				</Box>
 
 				<Box>
@@ -235,7 +235,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 				return;
 			}
 			return <Box mr={3} display="inline">
-				<Typography color="error" variant="body2" display="inline">
+				<Typography component="div" color="error" variant="body2" display="inline">
 					{config.network.typeDisplay}
 				</Typography>
 			</Box>
@@ -326,7 +326,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 
 		const getFooter = () => {
 			return <Box mt={6} pb={6} mx={4} display="flex" justifyContent="space-between">
-				<Typography color="textSecondary" variant="body2">
+				<Typography component="div" color="textSecondary" variant="body2">
 					<Grid container alignItems="center">
 						{getSettingsButton()}
 						{getLiquidityPoolsButton()}
@@ -341,7 +341,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 					</Grid>
 
 				</Typography>
-				<Typography color="textSecondary" variant="body2">
+				<Typography component="div" color="textSecondary" variant="body2">
 					{getNetwork()}
 					{getDisconnectButton()}
 					<AddToFirefoxFragment />

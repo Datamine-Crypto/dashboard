@@ -255,7 +255,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 					</Typography>
 				</Grid>
 				<Grid>
-					<Typography variant="body2" color="textSecondary">
+					<Typography component="div" variant="body2" color="textSecondary">
 						<LightTooltip title="Click to open address-specific dashboard link">
 							<Link href={`#dashboard/${displayedAddress}`} color="textSecondary" target="_blank" className={classes.address} >
 								<Grid

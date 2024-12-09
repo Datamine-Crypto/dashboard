@@ -241,7 +241,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 
 			return <Box key={index}>
 				<Box ml={2} mt={2} mb={1}>
-					<Typography variant="body2" color="textSecondary">{index === 0 ? `Ethereum L1:` : `Arbitrum L2:`}</Typography>
+					<Typography component="div" variant="body2" color="textSecondary">{index === 0 ? `Ethereum L1:` : `Arbitrum L2:`}</Typography>
 				</Box>
 				{getGroupMenuItems()}
 				{getDivider()}
@@ -283,7 +283,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 				</Box>
 				<MenuItem component={Link} href={tradePool.links.buy.oneInch} target="_blank" rel="noopener noreferrer" color="textPrimary">
 					<img src={oneInchLogo} width={32} height={32} />&nbsp;&nbsp;Trade {tradePool.name} on 1inch {getLayerLabel()}&nbsp;&nbsp;
-					<Typography variant="body2" color="textSecondary" display="inline">(DEX Aggregator)</Typography>
+					<Typography component="div" variant="body2" color="textSecondary" display="inline">(DEX Aggregator)</Typography>
 				</MenuItem>
 			</>
 		}
@@ -298,7 +298,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 				</Box>
 				<MenuItem component={Link} href={tradePool.links.buy.solidLizard} target="_blank" rel="noopener noreferrer" color="textPrimary">
 					<img src="./images/solidLizard.png" width={32} height={32} />&nbsp;&nbsp;Trade {tradePool.name} on SolidLizard {getLayerLabel()}&nbsp;&nbsp;
-					<Typography variant="body2" color="textSecondary" display="inline">(ve(3,3) DEX)</Typography>
+					<Typography component="div" variant="body2" color="textSecondary" display="inline">(ve(3,3) DEX)</Typography>
 				</MenuItem>
 			</>
 		}
@@ -342,7 +342,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 			transformOrigin={{ vertical: -50, horizontal: "left" }}
 		>
 			<Box mx={2} my={2}>
-				Our Liquidity Pools <Typography variant="body2" color="textSecondary" display="inline">(Liquidity Providers earn on every trade)</Typography>
+				Our Liquidity Pools <Typography component="div" variant="body2" color="textSecondary" display="inline">(Liquidity Providers earn on every trade)</Typography>
 			</Box>
 			<Box my={1}>
 				<Divider />

@@ -116,8 +116,8 @@ export default function Roadmap() {
 
 		return steps.map(({ title, date, href }) => {
 			const cardContents = <Box my={1}>
-				<Box fontWeight={600}><Typography>{title}</Typography></Box>
-				<Box mt={2}><Typography color="textSecondary" variant="body2">{date}</Typography></Box>
+				<Box fontWeight={600}><Typography component="div">{title}</Typography></Box>
+				<Box mt={2}><Typography component="div" color="textSecondary" variant="body2">{date}</Typography></Box>
 			</Box>
 
 			if (!href) {

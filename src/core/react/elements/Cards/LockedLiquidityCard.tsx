@@ -56,10 +56,10 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 		switch (token) {
 			case Token.Lockable:
 				const damSupply = getBNPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false)
-				return <> <Typography variant="body2" color="textSecondary" display="inline">({damSupply}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)</Typography></>
+				return <> <Typography component="div" variant="body2" color="textSecondary" display="inline">({damSupply}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)</Typography></>
 			case Token.Mintable:
 				const fluxSupply = getBNPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false)
-				return <> <Typography variant="body2" color="textSecondary" display="inline">({fluxSupply}% of current supply)</Typography></>
+				return <> <Typography component="div" variant="body2" color="textSecondary" display="inline">({fluxSupply}% of current supply)</Typography></>
 		}
 	}
 	const getFluxAvailableLiquidity = () => {
@@ -94,7 +94,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 		<CardContent>
 			<Grid container justifyContent="space-between" alignItems="center">
 				<Grid>
-					<Typography variant="h5" component="h2">
+					<Typography component="div" variant="h5">
 
 						<LightTooltip title="This liquidity is permanently locked in the Uniswap v2 pool. This form of liquidity is locked-in to the ecosystem and can not be removed.">
 							<Box>Perma-Locked Uniswap Liquidity</Box>
@@ -102,7 +102,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 					</Typography>
 				</Grid>
 				<Grid>
-					<Typography variant="body2" color="textSecondary">
+					<Typography component="div" variant="body2" color="textSecondary">
 						<LightTooltip title="Click to view this information on Arbiscan">
 							<Link href={`https://arbiscan.io/token/${mintableSushiSwapL2EthPair}#balances`} color="textSecondary" target="_blank" className={classes.address} >
 								<Grid

@@ -149,7 +149,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 		}
 
 		return <>
-			<Typography color="textSecondary" display="inline">&nbsp;(Arbitrum L2)</Typography>
+			<Typography component="div" color="textSecondary" display="inline">&nbsp;(Arbitrum L2)</Typography>
 		</>
 	}
 	const getCtaDetails = () => {
@@ -283,7 +283,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						return <>
 							<LightTooltip title={getMintTooltip()}>
 								<Box>
-									{moneyAmount} <Typography color="textSecondary" display="inline">{clientSettings.currency}</Typography>
+									{moneyAmount} <Typography component="div" color="textSecondary" display="inline">{clientSettings.currency}</Typography>
 								</Box>
 							</LightTooltip>
 						</>
@@ -301,7 +301,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						}
 						const getDescription = () => {
 							if (isTargetReached) {
-								return <>You've burned enough {mintableTokenShortName} for x10 burn bonus. <Typography color="secondary" display="inline">OVERBURNED</Typography> {mintableTokenShortName} remaining: </>
+								return <>You've burned enough {mintableTokenShortName} for x10 burn bonus. <Typography component="div" color="secondary" display="inline">OVERBURNED</Typography> {mintableTokenShortName} remaining: </>
 							}
 							return <>The amount of {mintableTokenShortName} you burn is permanent and will be used in the burn ratio equation. To get the full {maxBurnMultiplier}x burn bonus you will need to burn</>
 						}
@@ -442,7 +442,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 						return <TableRow>
 							<TableCell align="left">
-								<Typography color="textSecondary" variant="body1">
+								<Typography component="div" color="textSecondary" variant="body1">
 									Mint Start Date / Last Mint Date
 								</Typography>
 							</TableCell>
@@ -722,7 +722,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						}
 						return <TableRow>
 							<TableCell align="left">
-								<Typography color="textSecondary" variant="body1">
+								<Typography component="div" color="textSecondary" variant="body1">
 									Forecasted {mintableTokenShortName} Price (in USD)
 								</Typography>
 							</TableCell>
@@ -793,7 +793,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						}
 
 						return <>
-							<Typography color="textSecondary" display="inline">&nbsp;({actualApy.toFixed(2)}% Base APY)</Typography>
+							<Typography component="div" color="textSecondary" display="inline">&nbsp;({actualApy.toFixed(2)}% Base APY)</Typography>
 						</>
 					}
 
@@ -814,7 +814,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 													<Box mr={0.5}><DateRangeIcon color={forecastSettings.enabled ? 'secondary' : undefined} /></Box>
 												</Grid>
 												<Grid>
-													{forecastSettings.enabled ? <Typography color="secondary">Forecasting Calculator Enabled</Typography> : <Typography>Forecasting Calculator</Typography>}
+													{forecastSettings.enabled ? <Typography component="div" color="secondary">Forecasting Calculator Enabled</Typography> : <Typography component="div">Forecasting Calculator</Typography>}
 												</Grid>
 											</Grid>
 										</>}
@@ -827,11 +827,11 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							<Box textAlign="right">
 								<Box display="inline-block" mb={1}>
 									<Box mb={1}>
-										<Typography color="textSecondary">
+										<Typography component="div" color="textSecondary">
 											= {`${BNToDecimal(getMintAmount(), true)} ${mintableTokenShortName}`}
 										</Typography>
 									</Box>
-									<Typography variant="h4">{getUsdcMint()}</Typography>
+									<Typography component="div" variant="h4">{getUsdcMint()}</Typography>
 								</Box>
 							</Box>
 						</Grid>,
@@ -842,7 +842,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 										<TableBody>
 											<TableRow>
 												<TableCell align="left">
-													<Typography color="textSecondary" variant="body1">
+													<Typography component="div" color="textSecondary" variant="body1">
 														{lockableTokenShortName} Tokens Powering Validator {getDamLockedUsdc()}
 													</Typography>
 												</TableCell>
@@ -855,7 +855,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 											</TableRow>
 											<TableRow>
 												<TableCell align="left">
-													<Typography color="textSecondary" variant="body1">
+													<Typography component="div" color="textSecondary" variant="body1">
 														{mintableTokenShortName} mintable every new block
 													</Typography>
 												</TableCell>
@@ -869,7 +869,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 											{getStartDateArea()}
 											<TableRow>
 												<TableCell align="left">
-													<Typography color="textSecondary" variant="body1">
+													<Typography component="div" color="textSecondary" variant="body1">
 														{getUnmintedBlocksText()}
 
 													</Typography>
@@ -883,8 +883,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 											</TableRow>
 											<TableRow>
 												<TableCell align="left">
-													<Typography color="textSecondary" variant="body1">
-														{mintableTokenShortName} Burn Multiplier <Typography variant="body2" display="inline">{getBurnBonusDescription()}</Typography>
+													<Typography component="div" color="textSecondary" variant="body1">
+														{mintableTokenShortName} Burn Multiplier <Typography component="div" variant="body2" display="inline">{getBurnBonusDescription()}</Typography>
 														{getBurnButton()}
 													</Typography>
 
@@ -899,8 +899,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 											</TableRow>
 											<TableRow>
 												<TableCell align="left">
-													<Typography color="textSecondary" variant="body1">
-														Mint Age Multiplier <Typography variant="body2" display="inline">(Applied at time of mint, x3 max)</Typography>
+													<Typography component="div" color="textSecondary" variant="body1">
+														Mint Age Multiplier <Typography component="div" variant="body2" display="inline">(Applied at time of mint, x3 max)</Typography>
 													</Typography>
 
 													{getTimeSlider()}
@@ -968,7 +968,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 										<Box mr={0.5}><DateRangeIcon /></Box>
 									</Grid>
 									<Grid>
-										{forecastSettings.enabled ? <Typography color="secondary">Forecasting Calculator Enabled</Typography> : <Typography>Forecasting Calculator</Typography>}
+										{forecastSettings.enabled ? <Typography component="div" color="secondary">Forecasting Calculator Enabled</Typography> : <Typography component="div">Forecasting Calculator</Typography>}
 									</Grid>
 								</Grid>
 							</>}
@@ -1052,7 +1052,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			const actualFluxPrice = `$ ${shortFluxPrice}`;
 
 			return <>
-				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.Mintable)} <Typography variant="body2" color="textSecondary" display="inline">{mintableTokenShortName}:</Typography> {actualFluxPrice}</Box>
+				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.Mintable)} <Typography component="div" variant="body2" color="textSecondary" display="inline">{mintableTokenShortName}:</Typography> {actualFluxPrice}</Box>
 			</>
 		}
 		const getDamPrice = () => {
@@ -1060,7 +1060,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			const actualDamPrice = `$ ${shortDamPrice}`;
 
 			return <>
-				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.Lockable)} <Typography variant="body2" color="textSecondary" display="inline">{lockableTokenShortName}:</Typography> {actualDamPrice}</Box>
+				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.Lockable)} <Typography component="div" variant="body2" color="textSecondary" display="inline">{lockableTokenShortName}:</Typography> {actualDamPrice}</Box>
 			</>
 		}
 		const getEthPrice = () => {
@@ -1068,7 +1068,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			const actualFluxPrice = `$ ${shortFluxPrice}`;
 
 			return <>
-				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.ETH)} <Typography variant="body2" color="textSecondary" display="inline">ETH:</Typography> {actualFluxPrice}</Box>
+				<Box display="inline" className={classes.topLeftPrices}>{getIcon(Token.ETH)} <Typography component="div" variant="body2" color="textSecondary" display="inline">ETH:</Typography> {actualFluxPrice}</Box>
 			</>
 		}
 		return <>

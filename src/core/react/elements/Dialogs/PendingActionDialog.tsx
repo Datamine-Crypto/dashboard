@@ -41,11 +41,11 @@ const PendingActionDialog: React.FC<Params> = React.memo(({ open, queries, conne
 	const getDetails = () => {
 		const getConfirmationMessage = (transactionType: string) => {
 			return <>
-				<Typography gutterBottom={true}>Your <Box fontWeight="bold" display="inline">{transactionType}</Box> transaction is pending. Please wait while it's broadcasted to Ethereum network.</Typography>
+				<Typography component="div" gutterBottom={true}>Your <Box fontWeight="bold" display="inline">{transactionType}</Box> transaction is pending. Please wait while it's broadcasted to Ethereum network.</Typography>
 				<Box mt={3} mb={4}>
-					<Typography gutterBottom={true}>This blockchain confirmation may take around 12 seconds or longer depending on your gas configuration.</Typography>
+					<Typography component="div" gutterBottom={true}>This blockchain confirmation may take around 12 seconds or longer depending on your gas configuration.</Typography>
 				</Box>
-				<Typography className={classes.highlightedText}>Please follow directions in {getConnectionMethodName()} to continue.</Typography>
+				<Typography component="div" className={classes.highlightedText}>Please follow directions in {getConnectionMethodName()} to continue.</Typography>
 			</>
 		}
 

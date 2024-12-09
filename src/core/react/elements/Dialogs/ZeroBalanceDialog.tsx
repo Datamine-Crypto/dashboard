@@ -1,15 +1,15 @@
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import React, { useContext } from 'react';
-import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@mui/material';
 
-import { Web3Context } from '../../../web3/Web3Context'
-import { commonLanguage, Balances } from '../../../web3/web3Reducer';
-import { DialogType } from '../../../interfaces';
-import { BNToDecimal } from '../../../web3/helpers';
-import { ReducerQuery } from '../../../sideEffectReducer';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
-import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
-import { Ecosystem, Layer } from '../../../../configs/config.common';
 import { Web3 } from 'web3';
+import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { Ecosystem, Layer } from '../../../../configs/config.common';
+import { DialogType } from '../../../interfaces';
+import { ReducerQuery } from '../../../sideEffectReducer';
+import { BNToDecimal } from '../../../web3/helpers';
+import { Web3Context } from '../../../web3/Web3Context';
+import { Balances, commonLanguage } from '../../../web3/web3Reducer';
+import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
 
 interface Params {
 	pendingQueries: ReducerQuery[];
@@ -121,9 +121,9 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 		<DialogTitle id="alert-dialog-title">{getTitle()}</DialogTitle>
 		<DialogContent>
 			<Box mb={4}>
-				<Typography gutterBottom>{getBody()} <Box display="inline" fontWeight="bold">{selectedAddress}</Box> account. </Typography>
+				<Typography component="div" gutterBottom>{getBody()} <Box display="inline" fontWeight="bold">{selectedAddress}</Box> account. </Typography>
 				<Box mt={3}>
-					<Typography gutterBottom>
+					<Typography component="div" gutterBottom>
 						{getBalance()}
 					</Typography>
 				</Box>

@@ -132,7 +132,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		}
 		return [
 			{
-				title: <>FLUX <Typography display="inline" variant="body2" color="textSecondary">(L1 Ecosystem)</Typography></>,
+				title: <>FLUX <Typography component="div" display="inline" variant="body2" color="textSecondary">(L1 Ecosystem)</Typography></>,
 				icon: <img src={EthereumPurple} width="24" height="24" />,
 				href: '#token/flux',
 				className: classes.nested
@@ -145,7 +145,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		}
 		return [
 			{
-				title: <>ArbiFLUX <Typography display="inline" variant="body2" color="textSecondary">(L2 Ecosystem)</Typography></>,
+				title: <>ArbiFLUX <Typography component="div" display="inline" variant="body2" color="textSecondary">(L2 Ecosystem)</Typography></>,
 				icon: <img src={Arbitrum} width="24" height="24" />,
 				href: '#token/arbiflux',
 				className: classes.nested
@@ -184,7 +184,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			},
 			/*
 			{
-				title: <>Trend Analytics <Typography display="inline" color="textSecondary">(Beta)</Typography></>,
+				title: <>Trend Analytics <Typography component="div" display="inline" color="textSecondary">(Beta)</Typography></>,
 				icon: <TrendingUpIcon />,
 				expandIcon: false,
 				href: 'https://datamine-crypto.github.io/datamine-pro-portal/#/trends/datamine'
@@ -325,7 +325,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 								<Box mr={2}>
 									<img src={Logo} width="54" height="54" />
 								</Box>
-								<Typography color="inherit" noWrap className={classes.title}>
+								<Typography component="div" color="inherit" noWrap className={classes.title}>
 									{ecosystemName}
 								</Typography>
 

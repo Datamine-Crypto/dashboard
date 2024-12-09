@@ -179,11 +179,11 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 				</Grid>
 				<Grid size={{ md: 8, lg: 10 }}>
 					<Box mb={1} mt={1}>
-						<Typography variant="h4" color="textPrimary">
+						<Typography component="div" variant="h4" color="textPrimary">
 							{title}
 						</Typography>
 					</Box>
-					<Typography variant="h6" color="textSecondary" paragraph className={classes.featurePoint}>
+					<Typography component="div" variant="h6" color="textSecondary" paragraph className={classes.featurePoint}>
 						{content}
 					</Typography>
 				</Grid>
@@ -216,10 +216,10 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 								<Link href="#dashboard" color="textSecondary">Start your {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} validator by locking {isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} in a smart contract</Link>
 							</li>
 							<li>
-								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} ecosystem={ecosystem} contents={<Box style={{ cursor: 'pointer' }}>Your validator generates {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} every 12 seconds <Typography variant="body2" color="textPrimary" display="inline">(Trade On Uniswap)</Typography></Box>} />
+								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} ecosystem={ecosystem} contents={<Box style={{ cursor: 'pointer' }}>Your validator generates {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} every 12 seconds <Typography component="div" variant="body2" color="textPrimary" display="inline">(Trade On Uniswap)</Typography></Box>} />
 							</li>
 							<li>
-								<Link onClick={(e: any) => dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle: burningFluxTokensHelpArticle } })} color="textSecondary" style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} from circulation increases your minting speed <Typography variant="body2" color="textPrimary" display="inline">(Get rewards 30x faster)</Typography></Link>
+								<Link onClick={(e: any) => dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle: burningFluxTokensHelpArticle } })} color="textSecondary" style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} from circulation increases your minting speed <Typography component="div" variant="body2" color="textPrimary" display="inline">(Get rewards 30x faster)</Typography></Link>
 							</li>
 							<li>
 								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} ecosystem={ecosystem} contents={<Box style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} creates <strong style={{ color: '#0FF' }}>monetary velocity</strong> which flows through 1% Uniswap Pool</Box>} />
@@ -271,7 +271,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 							icon: <PeopleIcon style={{ fontSize: theme.muiTheme.typography.h3.fontSize, color: theme.classes.palette.highlight }} />,
 							title: 'Check Out Our Decentralized Communities!',
 							content: <>
-								<Typography variant="h6" color="textPrimary" gutterBottom>
+								<Typography component="div" variant="h6" color="textPrimary" gutterBottom>
 									Datamine is a truly decentralized cryptocurrency. <strong>There are no "Official Social Channels"</strong> and all marketing is done by different communities around the world.
 
 									There are currently over 10 different active communities in the Datamine Ecosystem ran completely by the community.
@@ -309,7 +309,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 			},
 			{
 				text: 'Starting Supply',
-				dam: isArbitrumMainnet ? '0 FLUX' : <>16,876,778 DAM {<Typography color="textSecondary" display="inline" variant="body2">(From BWK & ENCO Swaps)</Typography>}</>,
+				dam: isArbitrumMainnet ? '0 FLUX' : <>16,876,778 DAM {<Typography component="div" color="textSecondary" display="inline" variant="body2">(From BWK & ENCO Swaps)</Typography>}</>,
 				flux: isArbitrumMainnet ? '0 ArbiFLUX' : '0 FLUX'
 			},
 			{
@@ -418,7 +418,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 
 			<Box mb={12}>
 				<Box my={9}>
-					<Typography variant="h4" color="textPrimary" align="center">
+					<Typography component="div" variant="h4" color="textPrimary" align="center">
 						Our On-Chain Utility Tokens {isArbitrumMainnet ? 'on L2' : ''}
 					</Typography>
 				</Box>
@@ -444,7 +444,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 				<Box py={3}>
 					<Container>
 						<Box mb={9}>
-							<Typography variant="h4" color="textPrimary" align="center">
+							<Typography component="div" variant="h4" color="textPrimary" align="center">
 								Release Milestones
 							</Typography>
 						</Box>

@@ -129,11 +129,11 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 				</Grid>
 				<Grid size={{ md: 8, lg: 10 }}>
 					<Box mb={1} mt={1}>
-						<Typography variant="h4" color="textPrimary">
+						<Typography component="div" variant="h4" color="textPrimary">
 							{title}
 						</Typography>
 					</Box>
-					<Typography variant="h6" color="textSecondary" paragraph className={classes.featurePoint}>
+					<Typography component="div" variant="h6" color="textSecondary" paragraph className={classes.featurePoint}>
 						{content}
 					</Typography>
 				</Grid>
@@ -149,7 +149,7 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 						{getPoint({
 							icon: <img src={discordLogo} alt="Discord: Datamine Network" width="48" height="48" />,
 							title: <>Discord: Datamine Network <Chip size="small" label="Most Popular🔥" variant="outlined" /></>,
-							content: <>This Discord community is moderated by Datamine Ecosystem Smart Contact &amp; Analytics Architects. Here you can find regular development &amp; social updates for Datamine Network. <Typography variant="h6" color="textPrimary" display="inline">Currently this is the most active community.</Typography></>
+							content: <>This Discord community is moderated by Datamine Ecosystem Smart Contact &amp; Analytics Architects. Here you can find regular development &amp; social updates for Datamine Network. <Typography component="div" variant="h6" color="textPrimary" display="inline">Currently this is the most active community.</Typography></>
 						})}
 					</CardActionArea>
 				</Card>
@@ -194,7 +194,7 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 		<Box mt={8}>
 			<Box mt={6} mb={6}>
 				<Container>
-					<Typography variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
+					<Typography component="div" variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
 						<Typography component="h3" variant="h3" color="textPrimary" gutterBottom display="block">
 							Datamine Decentralized Community
 						</Typography>
@@ -224,8 +224,8 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 			</Box>
 			<Box my={6}>
 				<Container>
-					<Typography variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
-						<Typography display="inline" variant="h6" color="textPrimary">
+					<Typography component="div" variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
+						<Typography component="div" display="inline" variant="h6" color="textPrimary">
 							Want your community listed here? Reach out to one of the existing communities in the list and you can join our decentralization efforts.
 						</Typography>
 					</Typography>

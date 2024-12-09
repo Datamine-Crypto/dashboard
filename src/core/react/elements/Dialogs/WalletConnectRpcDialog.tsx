@@ -50,8 +50,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress
 				<Box>* This step is not required for MetaMask / Brave Browser</Box>
 				<Box my={3}><Divider /></Box>
 
-				<Typography gutterBottom={true}>{ecosystemName} uses an advanced real-time dashboard. To connect to our decentralized dashboard you will need to provide a valid Ethereum Mainnet RPC Endpoint.</Typography>
-				<Typography gutterBottom={true}>You can register for a <strong>FREE</strong> <Link href="https://infura.io/" color="secondary" target="_blank" rel="noopener noreferrer">infura.io</Link> account to generate a personal RPC endpoint. To ensure fair use we do not provide a public RPC endpoint.</Typography>
+				<Typography component="div" gutterBottom={true}>{ecosystemName} uses an advanced real-time dashboard. To connect to our decentralized dashboard you will need to provide a valid Ethereum Mainnet RPC Endpoint.</Typography>
+				<Typography component="div" gutterBottom={true}>You can register for a <strong>FREE</strong> <Link href="https://infura.io/" color="secondary" target="_blank" rel="noopener noreferrer">infura.io</Link> account to generate a personal RPC endpoint. To ensure fair use we do not provide a public RPC endpoint.</Typography>
 
 				<Box my={3}>
 					<Grid container alignItems="center" justifyContent="center" alignContent="center">

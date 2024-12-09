@@ -46,7 +46,7 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 					return <></>
 				}
 
-				return <pre><Typography color="textSecondary">{errorInfo.componentStack}</Typography></pre>
+				return <pre><Typography component="div" color="textSecondary">{errorInfo.componentStack}</Typography></pre>
 			}
 
 			const errorLines = typeof error === 'object' ? Object.entries(error) : ['Message', error as any]

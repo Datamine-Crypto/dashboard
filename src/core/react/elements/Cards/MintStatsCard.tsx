@@ -80,7 +80,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 		return <DetailedListItem
 			title="Last Mint:"
 			main={<>{duration.hours}</>}
-			description={<Typography color="textSecondary" display="inline" variant="body2">{duration.blocks}</Typography>}
+			description={<Typography component="div" color="textSecondary" display="inline" variant="body2">{duration.blocks}</Typography>}
 		/>
 	}
 
@@ -97,7 +97,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 		return <DetailedListItem
 			title="Started Mint Age:"
 			main={<>{duration.hours}</>}
-			description={<Typography color="textSecondary" display="inline" variant="body2">{duration.blocks}</Typography>}
+			description={<Typography component="div" color="textSecondary" display="inline" variant="body2">{duration.blocks}</Typography>}
 		/>
 	}
 
@@ -109,7 +109,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 
 		return <Box my={2}>
 			<DetailedListItem
-				title={isTargetReached ? <>{mintableTokenShortName} {maxBurnMultiplier}x Bonus Reserves (<Typography color="secondary" display="inline">OVERBURNED</Typography>)</> : `${mintableTokenShortName} to Burn For 2x Bonus:`}
+				title={isTargetReached ? <>{mintableTokenShortName} {maxBurnMultiplier}x Bonus Reserves (<Typography component="div" color="secondary" display="inline">OVERBURNED</Typography>)</> : `${mintableTokenShortName} to Burn For 2x Bonus:`}
 				main={<>{fluxRequiredToBurn} {mintableTokenShortName}</>}
 				sub={<>{fluxRequiredToBurnInUsdc}</>}
 			/>
@@ -118,7 +118,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 
 	const getFluxToBurnForMaxBurn = () => {
 		return <DetailedListItem
-			title={isTargetReached ? <>{mintableTokenShortName} {maxBurnMultiplier}x Bonus Reserves (<Typography color="secondary" display="inline">OVERBURNED</Typography>)</> : `${mintableTokenShortName} to Burn For ${maxBurnMultiplier}x Bonus:`}
+			title={isTargetReached ? <>{mintableTokenShortName} {maxBurnMultiplier}x Bonus Reserves (<Typography component="div" color="secondary" display="inline">OVERBURNED</Typography>)</> : `${mintableTokenShortName} to Burn For ${maxBurnMultiplier}x Bonus:`}
 			main={<>{fluxRequiredToBurn} {mintableTokenShortName}</>}
 			sub={<>{fluxRequiredToBurnInUsdc}</>}
 		/>
@@ -127,7 +127,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 		return <DetailedListItem
 			title={'Time Until 3x Time Bonus:'}
 			main={getBlocksRemaining(addressLock.blockNumber, 161280 + 5760, addressDetails.blockNumber, 'Awaiting Mint Start', false, true)}
-			description={<><Typography color="textSecondary" display="inline" variant="body2">{getBlocksRemaining(addressLock.blockNumber, 161280 + 5760, addressDetails.blockNumber, 'Awaiting Mint Start', true, false)}</Typography></>}
+			description={<><Typography component="div" color="textSecondary" display="inline" variant="body2">{getBlocksRemaining(addressLock.blockNumber, 161280 + 5760, addressDetails.blockNumber, 'Awaiting Mint Start', true, false)}</Typography></>}
 		/>
 
 	}

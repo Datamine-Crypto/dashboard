@@ -91,11 +91,11 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, dispatch, e
 				<Box my={2}><Divider /></Box>
 				<Box mb={6}>
 
-					<Typography gutterBottom={true}>You can stop your validator at any time to get 100% of your {lockableTokenShortName} tokens back.</Typography>
+					<Typography component="div" gutterBottom={true}>You can stop your validator at any time to get 100% of your {lockableTokenShortName} tokens back.</Typography>
 					<Box my={3}>
-						<Typography gutterBottom={true}>Please note that stopping a validator will cause you to lose your current <Box fontWeight="fontWeightBold" display="inline" style={{ whiteSpace: 'nowrap' }}>{getFormattedMultiplier(addressDetails.addressTimeMultiplier)}</Box> time bonus. Restarting a validator will reset the time bonus.</Typography>
+						<Typography component="div" gutterBottom={true}>Please note that stopping a validator will cause you to lose your current <Box fontWeight="fontWeightBold" display="inline" style={{ whiteSpace: 'nowrap' }}>{getFormattedMultiplier(addressDetails.addressTimeMultiplier)}</Box> time bonus. Restarting a validator will reset the time bonus.</Typography>
 					</Box>
-					<Typography style={{ color: theme.classes.palette.highlight }}>Important Note: <Box fontWeight="bold" display="inline">Any unminted {mintableTokenShortName} tokens will be lost.</Box></Typography>
+					<Typography component="div" style={{ color: theme.classes.palette.highlight }}>Important Note: <Box fontWeight="bold" display="inline">Any unminted {mintableTokenShortName} tokens will be lost.</Box></Typography>
 
 					{getAmountLostAlert()}
 				</Box>

@@ -52,17 +52,17 @@ const Render: React.FC<RenderParams> = React.memo(({ token, selectedAddress, add
 				</Box>
 			</DialogTitle>
 			<DialogContent>
-				<Typography gutterBottom={true}>Welcome to Our Built-In Automated Liquidity Pool <Link href={`https://uniswap.exchange/swap?inputCurrency=eth&outputCurrency=${inputCurrency}`} target="_blank" rel="noopener noreferrer" color="secondary">(Powered By Uniswap)</Link></Typography>
+				<Typography component="div" gutterBottom={true}>Welcome to Our Built-In Automated Liquidity Pool <Link href={`https://uniswap.exchange/swap?inputCurrency=eth&outputCurrency=${inputCurrency}`} target="_blank" rel="noopener noreferrer" color="secondary">(Powered By Uniswap)</Link></Typography>
 				<Box my={3}><Divider /></Box>
 
-				<Typography gutterBottom={true}>You can instantly Buy/Sell both {lockableTokenShortName} and {mintableTokenShortName} tokens for Ethereum (ETH).</Typography>
+				<Typography component="div" gutterBottom={true}>You can instantly Buy/Sell both {lockableTokenShortName} and {mintableTokenShortName} tokens for Ethereum (ETH).</Typography>
 
 				<Box my={3}>
-					<Typography gutterBottom={true}>For additional trading pairs please visit the Uniswap link above.</Typography>
+					<Typography component="div" gutterBottom={true}>For additional trading pairs please visit the Uniswap link above.</Typography>
 				</Box>
 
 				<Box my={3}>
-					<Typography>Your unminted FLUX balance will be sent to the following address:</Typography>
+					<Typography component="div">Your unminted FLUX balance will be sent to the following address:</Typography>
 				</Box>
 
 				<Box mt={3} mb={6}>

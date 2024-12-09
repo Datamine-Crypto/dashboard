@@ -46,7 +46,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			title={`${mintableTokenShortName} Burned:`}
 			main={<>{BNToDecimal(addressDetails.globalBurnedAmount, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}</>}
 			sub={<>{getBurnedUsdc()}</>}
-			description={<Typography variant="body2" color="textSecondary" display="inline">{getBurnPercent()}</Typography>}
+			description={<Typography component="div" variant="body2" color="textSecondary" display="inline">{getBurnPercent()}</Typography>}
 		/>
 	}
 	const getDamLockedIn = () => {
@@ -60,7 +60,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			title={`${lockableTokenShortName} Powering Validators:`}
 			main={<>{BNToDecimal(addressDetails.globalLockedAmount, true, 18, 2)} {lockableTokenShortName}</>}
 			sub={<>{getLockedPercent()}</>}
-			description={<Typography variant="body2" color="textSecondary" display="inline"> ({lockedPercent}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)</Typography>}
+			description={<Typography component="div" variant="body2" color="textSecondary" display="inline"> ({lockedPercent}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)</Typography>}
 		/>
 	}
 

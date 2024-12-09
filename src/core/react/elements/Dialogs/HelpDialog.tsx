@@ -148,13 +148,13 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 		}
 		const id = getId();
 
-		return <Typography variant={variant} gutterBottom color="textSecondary" id={id}>{props.children}</Typography>
+		return <Typography component="div" variant={variant} gutterBottom color="textSecondary" id={id}>{props.children}</Typography>
 	}
 	const paragraph = (props: any) => {
-		return <Typography variant="body1" gutterBottom>{props.children}</Typography>
+		return <Typography component="div" variant="body1" gutterBottom>{props.children}</Typography>
 	}
 	const listItem = (props: any) => {
-		return <li><Typography variant="body1">{props.children}</Typography></li>
+		return <li><Typography component="div" variant="body1">{props.children}</Typography></li>
 	}
 
 
@@ -294,7 +294,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				{title}
 			</Box>
 			<Box pt={1}>
-				<Typography variant="body2" color="textSecondary">
+				<Typography component="div" variant="body2" color="textSecondary">
 					Category: <Box display="inline" fontWeight="fontWeightBold">{categoryHeader}</Box>
 				</Typography>
 			</Box>
