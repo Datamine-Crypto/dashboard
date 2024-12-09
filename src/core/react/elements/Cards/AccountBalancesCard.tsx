@@ -19,7 +19,6 @@ import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 import uniswap from '../../../../svgs/uniswap.svg';
 import { DatamineTheme } from '../../../styles';
 import DetailedListItem from '../Fragments/DetailedListItem';
-import { getTradeButton } from '../Fragments/TradeButton';
 import LightTooltip from '../LightTooltip';
 
 const useStyles = makeStyles<DatamineTheme>(() => {
@@ -155,7 +154,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			buttons={
 				[
 					getBurnButton(),
-					getTradeButton({ token: Token.Mintable, ecosystem }),
 					getPoolButton()
 				]
 			}
@@ -174,9 +172,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			title={`${lockableTokenShortName} Balance:`}
 			main={getDamBalance()}
 			sub={getDamBalanceUSD()}
-			buttons={
-				[<>{getTradeButton({ token: Token.Lockable, ecosystem })}</>]
-			}
 		/>
 	}
 

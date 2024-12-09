@@ -1,5 +1,3 @@
-import { } from 'react';
-
 import { ThemeProvider } from '@mui/material';
 import { Web3ContextProvider } from './core/web3/Web3Context';
 

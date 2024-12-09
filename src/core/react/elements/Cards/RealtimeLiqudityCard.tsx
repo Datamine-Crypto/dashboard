@@ -14,7 +14,6 @@ import { BNToDecimal, getBNPercent, getPriceToggle } from '../../../web3/helpers
 import { Balances } from '../../../web3/web3Reducer';
 import DetailedListItem from '../Fragments/DetailedListItem';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
-import { getTradeButton } from '../Fragments/TradeButton';
 import LightTooltip from '../LightTooltip';
 
 
@@ -87,8 +86,6 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 			sub={<>{damEthUsdcLiquidity}</>}
 			description={<>{getAvailableLiquidity(Token.Lockable)}</>}
 			buttons={[
-				getTradeButton({ token: Token.Lockable, isBuy: true, ecosystem }),
-				getTradeButton({ token: Token.Lockable, isBuy: false, ecosystem })
 			]}
 		/>
 	}
@@ -130,8 +127,6 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 			sub={<>{fluxEthUsdcLiquidity}</>}
 			description={<>{getAvailableLiquidity(Token.Mintable)}</>}
 			buttons={[
-				getTradeButton({ token: Token.Mintable, isBuy: true, ecosystem }),
-				getTradeButton({ token: Token.Mintable, isBuy: false, ecosystem }),
 			]}
 		/>
 	}

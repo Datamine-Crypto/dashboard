@@ -388,7 +388,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 												horizontal: 'right',
 											},
 											className: classes.datePicker
-										}}*/
+										}}
 										inputFormat="YYYY/MM/DD"
 										renderInput={(props: any) => <TextField
 											type="text"
@@ -404,7 +404,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 												...props.inputProps,
 												...removeAutocompleteProps
 											} as any}
-										/>}
+										/>}*/
 
 										onChange={(date: any) => {
 											if (date) {
@@ -467,6 +467,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								return <LocalizationProvider dateAdapter={AdapterMoment}>
 									<MobileDatePicker
 										closeOnSelect={true}
+										/*
 										renderInput={(props: any) => <TextField
 											type="text"
 											name="endBlocks"
@@ -482,9 +483,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 												...removeAutocompleteProps
 											} as any}
 										/>}
+										inputFormat="YYYY/MM/DD"
+										*/
 										label="To"
 										//value={new Date()}
-										inputFormat="YYYY/MM/DD"
 										value={value}
 
 										onChange={(date: Moment | null) => {
