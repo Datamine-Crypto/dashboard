@@ -34,6 +34,13 @@ const muiTheme = createTheme({
 		tonalOffset: 0.2,
 	},
 	components: {
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					fontWeight: 400
+				}
+			}
+		},
 		MuiBackdrop: {
 			styleOverrides: {
 				root: {

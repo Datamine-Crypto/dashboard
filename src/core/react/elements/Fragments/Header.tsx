@@ -21,7 +21,7 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 		},
 	},
 	title: {
-		fontSize: '2.4rem',
+		fontSize: '2.4rem !important',
 		'& .MuiGrid-item': {
 			display: 'flex',
 			alignItems: 'center'
@@ -40,6 +40,7 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 		},
 	},
 	titleSlogan: {
+		fontSize: '1.25rem !important',
 		[theme.muiTheme.breakpoints.down('sm')]: {
 			textAlign: 'center',
 		}
@@ -216,11 +217,11 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 				<Grid className={classes.logoContainer}>
 					{getLogo()}
 				</Grid>
-				<Grid size={{ md: 8, lg: 7 }}>
+				<Grid size={{ md: 8, lg: 8 }}>
 					<Box>
 						{getTitle()}
-						<Typography component="div" variant="h6" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
-							<Typography component="div" display="inline" variant="h6" color="textPrimary">Datamine FLUX</Typography>  is <LightTooltip title={defiTitle}><Box display="inline-block">DeFi's</Box></LightTooltip> first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.<br />
+						<Typography component="div" variant="h5" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
+							<Typography component="div" display="inline" variant="h5" color="textPrimary">Datamine FLUX</Typography>  is <LightTooltip title={defiTitle}><Box display="inline-block">DeFi's</Box></LightTooltip> first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.<br />
 						</Typography>
 					</Box>
 				</Grid>
