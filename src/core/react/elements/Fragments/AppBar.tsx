@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import React, { useContext } from 'react';
 import DamLogo from '../../../../svgs/logo.svg';
 
+import Grid from '@mui/system/Grid';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { DatamineTheme } from '../../../styles';
@@ -18,7 +19,7 @@ const useStyles = makeStyles<DatamineTheme>(theme => {
 	return ({
 		toolbar: {
 			paddingRight: 24, // keep right padding when drawer closed
-			padding: '0 8px 0 0',
+			padding: '0 8px 0 0 !important',
 			justifyContent: 'space-between',
 		},
 		logo: {
@@ -33,6 +34,7 @@ const useStyles = makeStyles<DatamineTheme>(theme => {
 				easing: theme.transitions.easing.sharp,
 				duration: theme.transitions.duration.leavingScreen,
 			}),
+			'--Paper-overlay': 'none !important'
 
 		},
 		menuButton: {
@@ -50,7 +52,7 @@ const useStyles = makeStyles<DatamineTheme>(theme => {
 		},
 		logoArea: {
 			display: 'flex',
-			padding: theme.spacing(0, 2, 0, 2),
+			padding: `${theme.spacing(0, 2, 0, 2)} !important`,
 		},
 		nav: {
 			display: 'flex',
@@ -96,7 +98,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 	}
 
 
-	return <AppBar position="absolute" className={clsx(classes.appBar)}>
+	return <AppBar position="absolute" className={clsx(classes.appBar)} >
 		<Toolbar className={classes.toolbar}>
 			{isToggleEnabled && sidebar && (
 				<IconButton
@@ -113,14 +115,21 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 			<Link href="#">
 				<Card elevation={0}>
 					<CardActionArea className={classes.logoArea}>
-						<Box mr={2} mt={0.5}>
-							<img src={DamLogo} width="54" height="54" alt="Datemine Network" />
-						</Box>
-						<Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-							<Hidden smDown>
-								{ecosystemName}
-							</Hidden>
-						</Typography>
+						<Grid container alignItems="center">
+							<Grid>
+								<Box mr={2} mt={0.5}>
+									<img src={DamLogo} width="54" height="54" alt="Datemine Network" />
+								</Box>
+							</Grid>
+							<Grid>
+
+								<Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+									<Hidden smDown>
+										{ecosystemName}
+									</Hidden>
+								</Typography>
+							</Grid>
+						</Grid>
 
 					</CardActionArea>
 				</Card>

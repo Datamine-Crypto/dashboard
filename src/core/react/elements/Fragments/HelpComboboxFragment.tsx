@@ -65,7 +65,7 @@ const Render: React.FC<RenderProps> = React.memo(({ id, isBigSearch, searchQuery
 		inputValue={searchQuery}
 		renderInput={(params) => <TextField {...params}
 			//label="Search Help Articles (ex: How To Mint FLUX) ..."
-			placeholder={isBigSearch ? 'Search Help Articles ...' : 'Search ...'}
+			placeholder={isBigSearch ? 'Search Help Articles ...' : 'Search Help Articles ...'}
 			//value={searchQuery}
 			onChange={e => dispatch({ type: commonLanguage.commands.SetSearch, payload: (e.target as any).value })}
 			autoComplete="off"

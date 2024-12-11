@@ -12,6 +12,7 @@ import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidi
 const useStyles = makeStyles<DatamineTheme>(() => ({
 	paperBottom: {
 		borderTop: `1px solid ${theme.classes.palette.highlight}`,
+		'--Paper-overlay': 'none !important'
 	},
 }));
 

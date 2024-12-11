@@ -66,6 +66,8 @@ const useStyles = makeStyles<DatamineTheme>((theme: Theme) =>
 				easing: theme.transitions.easing.sharp,
 				duration: theme.transitions.duration.enteringScreen,
 			}),
+			zIndex: 'inherit !important',
+			'--Paper-overlay': 'none !important'
 		},
 		drawerPaperClose: {
 			overflowX: 'hidden',
@@ -79,7 +81,7 @@ const useStyles = makeStyles<DatamineTheme>((theme: Theme) =>
 			},
 		},
 		drawerRoot: {
-			height: '100%'
+			height: '100%',
 		},
 		nested: {
 			paddingLeft: theme.spacing(4),

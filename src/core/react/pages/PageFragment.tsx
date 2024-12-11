@@ -198,8 +198,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 	return <>
 		<Box className={classes.pageContainer}>
 
-			<MainDrawer />
 			{getAppBar()}
+			<MainDrawer />
 			<Box className={classes.contentContainer}>
 				{getHelpDialog()}
 

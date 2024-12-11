@@ -27,13 +27,13 @@ This project was originally developed using Node v16 but it's compatible with No
 
 1. Navigate to your project directory.
 2. Type in `set NODE_OPTIONS=--openssl-legacy-provider`. If you are using Linux or macOS type in `export NODE_OPTIONS=--openssl-legacy-provider` instead. (This is only needed if you are using Node v18)
-3. Run `npm install` (this is a one time requirement). If you get `ENOENT: no such file or directory, open 'package.json'` then you did not complete previous step
+3. Run `yarn install` (this is a one time requirement). If you get `ENOENT: no such file or directory, open 'package.json'` then you did not complete previous step
 
 ## Running dApp Locally
 
 After completing previous getting started steps you can now run the project:
 
-### `npm start` or `yarn start`
+### `yarn start`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -44,7 +44,7 @@ You will also see any lint errors in the console.
 # Configuration
 
 - check out [src/config.ts](src/config.ts) for customization
-- You can add in `?devLog=1` to url to get a console output for debugging 3rd party wallet connection. See `vconsole` npm package in [package.json](package.json) for more info.
+- You can add in `?devLog=1` to url to get a console output for debugging 3rd party wallet connection. See `vconsole` yarn package in [package.json](package.json) for more info.
 - [src/core/helpArticles.ts](src/core/helpArticles.ts) contains our unique "instant help desk" solution. You can modify help articles here and they'll be added to "Help" tab
 - [src/core/web3/web3Reducer.ts](src/core/web3/web3Reducer.ts) contains the main state & reducer of the project and contains all the actions user can perform
 - [src/core/web3/Web3Bindings.ts](src/core/web3/Web3Bindings.ts) contains all the handling of recuder queries (async logic)
@@ -53,7 +53,7 @@ This project does not contain any unit tests but this can be improved in the fut
 
 ## To Deploy
 
-### `npm run build` or `yarn run build`
+### `yarn run build`
 
 This will create a new build in build/ folder that you can host. We currently host this on github(https://datamine-crypto.github.io/realtime-decentralized-dashboard/) for decentralization reasons & proof of builds.
 
