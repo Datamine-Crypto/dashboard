@@ -17,6 +17,7 @@ const muiTheme = createTheme({
 			main: '#262b4a',
 			contrastText: '#fff',
 
+
 			// dark: will be calculated from palette.primary.main,
 			// contrastText: will be calculated to contrast with palette.primary.main
 		},
@@ -78,7 +79,6 @@ const muiTheme = createTheme({
 	}
 
 });
-
 export type DatamineTheme = typeof muiTheme
 
 const theme = {

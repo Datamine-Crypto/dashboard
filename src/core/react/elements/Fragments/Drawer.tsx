@@ -1,8 +1,7 @@
-import { Box, Button, Card, CardActionArea, createStyles, Divider, Drawer, Hidden, Link, List, ListItem, ListItemIcon, ListItemText, Theme, Typography } from '@mui/material';
+import { Box, Button, Card, CardActionArea, Divider, Drawer, Hidden, Link, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
 import Grid from '@mui/material/Grid2';
-import { makeStyles } from '@mui/styles';
 
 import clsx from 'clsx';
 
@@ -14,104 +13,103 @@ import PeopleIcon from '@mui/icons-material/People';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 
 import { ExpandMore } from '@mui/icons-material';
+import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import Arbitrum from '../../../../svgs/arbitrum.svg';
 import discordWhiteLogo from '../../../../svgs/discordWhite.svg';
 import EthereumPurple from '../../../../svgs/ethereumPurple.svg';
 import Logo from '../../../../svgs/logo.svg';
-import { DatamineTheme } from '../../../styles';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
 const drawerWidth = 280;
 
-const useStyles = makeStyles<DatamineTheme>((theme: Theme) =>
-	createStyles({
-		root: {
-			display: 'flex',
-		},
-		drawer: {
-			[theme.breakpoints.up('lg')]: {
-				width: drawerWidth,
-				flexShrink: 0,
-			},
-		},
-		appBar: {
-			[theme.breakpoints.up('lg')]: {
-				width: `calc(100% - ${drawerWidth}px)`,
-				marginLeft: drawerWidth,
-			},
-		},
-		menuButton: {
-			marginRight: theme.spacing(2),
-			[theme.breakpoints.up('lg')]: {
-				display: 'none',
-			},
-		},
-		// necessary for content to be below app bar
-		toolbar: {
-			...theme.mixins.toolbar,
-			marginTop: theme.spacing(2)
-		},
-		content: {
-			flexGrow: 1,
-			padding: theme.spacing(3),
-		},
-		drawerPaper: {
-			position: 'fixed',
-			whiteSpace: 'nowrap',
+
+const useStyles = tss.create(({ theme }) => ({
+	root: {
+		display: 'flex',
+	},
+	drawer: {
+		[theme.breakpoints.up('lg')]: {
 			width: drawerWidth,
-			transition: theme.transitions.create('width', {
-				easing: theme.transitions.easing.sharp,
-				duration: theme.transitions.duration.enteringScreen,
-			}),
-			zIndex: 'inherit !important',
-			'--Paper-overlay': 'none !important'
+			flexShrink: 0,
 		},
-		drawerPaperClose: {
-			overflowX: 'hidden',
-			transition: theme.transitions.create('width', {
-				easing: theme.transitions.easing.sharp,
-				duration: theme.transitions.duration.leavingScreen,
-			}),
-			width: theme.spacing(7),
-			[theme.breakpoints.up('lg')]: {
-				width: theme.spacing(9),
-			},
+	},
+	appBar: {
+		[theme.breakpoints.up('lg')]: {
+			width: `calc(100% - ${drawerWidth}px)`,
+			marginLeft: drawerWidth,
 		},
-		drawerRoot: {
-			height: '100%',
+	},
+	menuButton: {
+		marginRight: theme.spacing(2),
+		[theme.breakpoints.up('lg')]: {
+			display: 'none',
 		},
-		nested: {
-			paddingLeft: theme.spacing(4),
-			background: '#22242e'
+	},
+	// necessary for content to be below app bar
+	toolbar: {
+		...theme.mixins.toolbar as any,
+		marginTop: theme.spacing(2)
+	},
+	content: {
+		flexGrow: 1,
+		padding: theme.spacing(3),
+	},
+	drawerPaper: {
+		position: 'fixed',
+		whiteSpace: 'nowrap',
+		width: drawerWidth,
+		transition: theme.transitions.create('width', {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.enteringScreen,
+		}),
+		zIndex: 'inherit !important',
+		'--Paper-overlay': 'none !important'
+	},
+	drawerPaperClose: {
+		overflowX: 'hidden',
+		transition: theme.transitions.create('width', {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
+		}),
+		width: theme.spacing(7),
+		[theme.breakpoints.up('lg')]: {
+			width: theme.spacing(9),
 		},
-		logoArea: {
-			display: 'flex',
-			padding: theme.spacing(0, 2, 0, 2),
-		},
-		title: {
-			flexGrow: 1,
-		},
-		parent: {
-			background: '#22242e'
-		},
-		drawerGridContainer: {
-			height: '100%',
-		},
-		discordButton: {
-			background: '#40486c',
-			fontSize: '0.7rem',
-			'&:hover': {
-				background: '#333851',
-			}
-		},
-		lastExpandedItem: {
-			paddingBottom: theme.spacing(2)
+	},
+	drawerRoot: {
+		height: '100%',
+	},
+	nested: {
+		paddingLeft: theme.spacing(4),
+		background: '#22242e'
+	},
+	logoArea: {
+		display: 'flex',
+		padding: theme.spacing(0, 2, 0, 2),
+	},
+	title: {
+		flexGrow: 1,
+	},
+	parent: {
+		background: '#22242e'
+	},
+	drawerGridContainer: {
+		height: '100%',
+	},
+	discordButton: {
+		background: '#40486c',
+		fontSize: '0.7rem',
+		'&:hover': {
+			background: '#333851',
 		}
-	}),
-);
+	},
+	lastExpandedItem: {
+		paddingBottom: theme.spacing(2)
+	}
+}));
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
@@ -123,7 +121,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem)
 	const { isL1PageEnabled, isL2PageEnabled, isCommunityPageEnabled, isAnalyticsPagesEnabled, ecosystemButtonlabel, discordInviteLink, isHelpPageEnabled } = navigation
 
-	const classes = useStyles();
+	//const { classes } = useStyles() ;
+
+	const { cx, classes } = useStyles();
 
 	const isDrawerOpen = true;
 	const isBigDrawerOpen = true;
@@ -284,11 +284,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 					}
 				}
 			}
-			return <ListItem key={button.title} className={button.className} {...getListItemProps() as any}>
+			return <ListItemButton key={button.title} className={button.className} {...getListItemProps() as any}>
 				<ListItemIcon>{button.icon}</ListItemIcon>
 				<ListItemText primary={button.title} />
 				{getExpandIcon(!!button.expandIcon)}
-			</ListItem>
+			</ListItemButton>
 		})
 
 		const getDiscordButton = () => {
@@ -395,6 +395,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		</Hidden>
 	</nav>
 })
+
+
 
 export const MainDrawer: React.FC = () => {
 	const { state: web3State, dispatch } = useContext(Web3Context)
