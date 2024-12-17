@@ -36,6 +36,13 @@ const useStyles = tss.create(({ theme }) => ({
 			flexShrink: 0,
 		},
 	},
+	bigDrawerRoot: {
+
+	},
+	mobileDrawerRoot: {
+
+		zIndex: `${theme.zIndex.drawer + 12} !important`,
+	},
 	appBar: {
 		[theme.breakpoints.up('lg')]: {
 			width: `calc(100% - ${drawerWidth}px)`,
@@ -65,7 +72,6 @@ const useStyles = tss.create(({ theme }) => ({
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,
 		}),
-		zIndex: 'inherit !important',
 		'--Paper-overlay': 'none !important'
 	},
 	drawerPaperClose: {
@@ -125,7 +131,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 
 	const { cx, classes } = useStyles();
 
-	const isDrawerOpen = true;
 	const isBigDrawerOpen = true;
 
 	const getL1Page = () => {
@@ -364,8 +369,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				//open={mobileOpen}
 				//onClose={handleDrawerToggle}
 				classes={{
-					root: classes.drawerRoot,
-					paper: clsx(classes.drawerPaper, !isDrawerOpen && classes.drawerPaperClose),
+					root: clsx(classes.drawerRoot, classes.mobileDrawerRoot),
+					paper: clsx(classes.drawerPaper, !isMobileDrawerOpen && classes.drawerPaperClose),
 				}}
 				ModalProps={{
 					keepMounted: true, // Better open performance on mobile.
@@ -381,7 +386,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		<Hidden mdDown>
 			<Drawer
 				classes={{
-					root: classes.drawerRoot,
+					root: clsx(classes.drawerRoot, classes.bigDrawerRoot),
 					paper: clsx(classes.drawerPaper, !isBigDrawerOpen && classes.drawerPaperClose),
 				}}
 				variant="permanent"

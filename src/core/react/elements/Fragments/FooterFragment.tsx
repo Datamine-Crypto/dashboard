@@ -2,16 +2,16 @@ import { Box, Container, Link, Paper } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import React from 'react';
 
-import { makeStyles } from '@mui/styles';
 
+import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
-import { DatamineTheme, theme } from '../../../styles';
+import { theme as datamineTheme } from '../../../styles';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
 
-const useStyles = makeStyles<DatamineTheme>(() => ({
+const useStyles = tss.create(({ theme }) => ({
 	paperBottom: {
-		borderTop: `1px solid ${theme.classes.palette.highlight}`,
+		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
 		'--Paper-overlay': 'none !important'
 	},
 }));
@@ -20,7 +20,7 @@ interface Props {
 	ecosystem: Ecosystem;
 }
 const FooterFragment: React.FC<Props> = React.memo(({ ecosystem }) => {
-	const classes = useStyles();
+	const { classes } = useStyles();
 	const { navigation, isLiquidityPoolsEnabled } = getEcosystemConfig(ecosystem)
 	const { isHelpPageEnabled } = navigation
 

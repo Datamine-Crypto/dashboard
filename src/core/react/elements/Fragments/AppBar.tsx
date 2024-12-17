@@ -2,67 +2,63 @@ import BuildIcon from '@mui/icons-material/Build';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Box, Card, CardActionArea, Hidden, IconButton, Link, Toolbar, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import React, { useContext } from 'react';
 import DamLogo from '../../../../svgs/logo.svg';
 
 import Grid from '@mui/system/Grid';
+import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
-import { DatamineTheme } from '../../../styles';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import HelpComboboxFragment from './HelpComboboxFragment';
 
-const useStyles = makeStyles<DatamineTheme>(theme => {
-	return ({
-		toolbar: {
-			paddingRight: 24, // keep right padding when drawer closed
-			padding: '0 8px 0 0 !important',
-			justifyContent: 'space-between',
-		},
-		logo: {
-			fontSize: 35,
-			verticalAlign: "middle",
-		},
-		appBar: {
-			backgroundColor: theme.palette.mode === 'dark' ? '#272936' : theme.palette.primary.main,
-			color: '#fff',
-			zIndex: theme.zIndex.drawer + 1,
-			transition: theme.transitions.create(['width', 'margin'], {
-				easing: theme.transitions.easing.sharp,
-				duration: theme.transitions.duration.leavingScreen,
-			}),
-			'--Paper-overlay': 'none !important'
+const useStyles = tss.create(({ theme }) => ({
+	toolbar: {
+		paddingRight: 24, // keep right padding when drawer closed
+		padding: '0 8px 0 0 !important',
+		justifyContent: 'space-between',
+	},
+	logo: {
+		fontSize: 35,
+		verticalAlign: "middle",
+	},
+	appBar: {
+		backgroundColor: theme.palette.mode === 'dark' ? '#272936' : theme.palette.primary.main,
+		color: '#fff',
+		zIndex: theme.zIndex.drawer + 1,
+		transition: theme.transitions.create(['width', 'margin'], {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
+		}),
+		'--Paper-overlay': 'none !important'
 
-		},
-		menuButton: {
-			marginRight: 16,
-		},
-		menuButtonHidden: {
-			display: 'none',
-		},
-		title: {
-			flexGrow: 1,
-		},
+	},
+	menuButton: {
+		marginRight: 16,
+	},
+	menuButtonHidden: {
+		display: 'none',
+	},
+	title: {
+		flexGrow: 1,
+	},
 
-		link: {
-			marginLeft: theme.spacing(2)
-		},
-		logoArea: {
-			display: 'flex',
-			padding: `${theme.spacing(0, 2, 0, 2)} !important`,
-		},
-		nav: {
-			display: 'flex',
-			flex: 1,
-			maxWidth: 500,
-			alignItems: 'center'
-		}
-	})
-
-});
+	link: {
+		marginLeft: theme.spacing(2)
+	},
+	logoArea: {
+		display: 'flex',
+		padding: theme.spacing(0, 2, 0, 2),
+	},
+	nav: {
+		display: 'flex',
+		flex: 1,
+		maxWidth: 500,
+		alignItems: 'center'
+	}
+}));
 
 interface INavProps {
 	sidebar: boolean;
@@ -78,7 +74,8 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem)
 	const { isHelpPageEnabled } = navigation
 
-	const classes = useStyles();
+	const { cx, classes } = useStyles();
+
 
 	const userSessionState = {
 		isDrawerOpen: false,
