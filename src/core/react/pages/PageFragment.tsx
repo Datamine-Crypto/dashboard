@@ -1,10 +1,9 @@
 import { Box } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import React, { useContext, useEffect, useState } from 'react';
+import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem, NetworkType } from '../../../configs/config.common';
 import { HelpArticle, helpArticles } from '../../helpArticles';
-import { DatamineTheme } from '../../styles';
 import { Web3Context } from '../../web3/Web3Context';
 import { commonLanguage } from '../../web3/web3Reducer';
 import HelpDialog from '../elements/Dialogs/HelpDialog';
@@ -32,7 +31,7 @@ enum Page {
 	Community,
 	TokenPage
 }
-const useStyles = makeStyles<DatamineTheme>(() => ({
+const useStyles = tss.create(({ theme }) => ({
 	pageContainer: {
 		display: 'flex',
 		//height: '100vh',
@@ -118,7 +117,7 @@ const getPageDetails = () => {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType, ecosystem }) => {
-	const classes = useStyles();
+	const { classes } = useStyles();
 
 	const { ecosystemName, mintableTokenShortName, ecosystemSlogan } = getEcosystemConfig(ecosystem)
 

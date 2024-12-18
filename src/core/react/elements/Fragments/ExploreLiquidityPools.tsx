@@ -4,16 +4,15 @@ import React from 'react';
 import { Box, Button, Chip, Divider, Link, Menu, MenuItem, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 
-import { makeStyles } from '@mui/styles';
 
 import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 import uniswapLogo from '../../../../svgs/uniswap.svg';
 
+import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
-import { DatamineTheme } from '../../../styles';
 
-const useStyles = makeStyles<DatamineTheme>((theme) => ({
+const useStyles = tss.create(({ theme }) => ({
 	chip: {
 		cursor: 'pointer'
 	},
@@ -97,7 +96,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 
 	const { liquidityPoolGroups } = getEcosystemConfig(ecosystem)
 
-	const classes = useStyles();
+	const { classes } = useStyles();
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 

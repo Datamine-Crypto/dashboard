@@ -2,7 +2,6 @@ import { Box, Card, CardContent, Divider, Link, Typography } from '@mui/material
 import Grid from '@mui/material/Grid2';
 import React, { useContext } from 'react';
 
-import { makeStyles } from '@mui/styles';
 import { Web3Context } from '../../../web3/Web3Context';
 
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
@@ -10,11 +9,12 @@ import BN from 'bn.js';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem, Layer } from '../../../../configs/config.common';
 import { Token } from '../../../interfaces';
-import { DatamineTheme } from '../../../styles';
 import { BNToDecimal, getBNPercent, getPriceToggle } from '../../../web3/helpers';
 import { Balances } from '../../../web3/web3Reducer';
 import DetailedListItem from '../Fragments/DetailedListItem';
 import LightTooltip from '../LightTooltip';
+
+import { tss } from 'tss-react/mui';
 
 
 interface RenderParams {
@@ -22,16 +22,15 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 
-const useStyles = makeStyles<DatamineTheme>(() => {
-	return {
-		address: {
-			fontSize: '0.7rem',
-			letterSpacing: 0
-		},
-	}
-});
+const useStyles = tss.create(({ theme }) => ({
+	address: {
+		fontSize: '0.7rem',
+		letterSpacing: 0
+	},
+}));
+
 const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
-	const classes = useStyles();
+	const { classes } = useStyles();
 
 	const {
 		mintableTokenShortName,

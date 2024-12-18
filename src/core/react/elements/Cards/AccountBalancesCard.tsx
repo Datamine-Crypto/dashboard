@@ -2,7 +2,6 @@ import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/
 import Grid from '@mui/material/Grid2';
 import React, { useContext } from 'react';
 
-import { makeStyles } from '@mui/styles';
 import { Web3Context } from '../../../web3/Web3Context';
 import { Balances, commonLanguage } from '../../../web3/web3Reducer';
 
@@ -13,25 +12,24 @@ import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetail
 import { BNToDecimal, getBurnRatio, getPriceToggle } from '../../../web3/helpers';
 
 import BN from 'bn.js';
+import { tss } from 'tss-react/mui';
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
 import { Ecosystem, LiquidityPoolType } from '../../../../configs/config.common';
 import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
 import uniswap from '../../../../svgs/uniswap.svg';
-import { DatamineTheme } from '../../../styles';
 import DetailedListItem from '../Fragments/DetailedListItem';
 import LightTooltip from '../LightTooltip';
 
-const useStyles = makeStyles<DatamineTheme>(() => {
-	return {
-		address: {
-			fontSize: '0.7rem',
-			letterSpacing: 0
-		},
-		detailedListItemsContainer: {
-			width: '100%'
-		}
+const useStyles = tss.create(({ theme }) => ({
+	address: {
+		fontSize: '0.7rem',
+		letterSpacing: 0
+	},
+	detailedListItemsContainer: {
+		width: '100%'
 	}
-});
+}
+));
 
 interface RenderParams {
 	addressLock: FluxAddressLock;
@@ -50,7 +48,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 	const { lockableTokenFullName, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolsEnabled, mintableTokenPriceDecimals, isLiquidityPoolAdditionalButtonsEnabled, liquidityPoolType } = config
 
 
-	const classes = useStyles();
+	const { classes } = useStyles();
 
 	const { myRatio } = addressTokenDetails;
 	const { minterAddress } = addressLock;

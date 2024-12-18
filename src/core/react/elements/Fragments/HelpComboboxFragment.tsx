@@ -5,10 +5,9 @@ import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from "../../../
 import { Web3Context } from "../../../web3/Web3Context";
 import { commonLanguage } from "../../../web3/web3Reducer";
 
-import { makeStyles } from '@mui/styles';
-import { DatamineTheme } from "../../../styles";
+import { tss } from 'tss-react/mui';
 
-const useStyles = makeStyles<DatamineTheme>((theme: any) => ({
+const useStyles = tss.create(({ theme }) => ({
 	big: {
 		width: '100%'
 	},
@@ -28,7 +27,7 @@ interface RenderProps {
 
 const Render: React.FC<RenderProps> = React.memo(({ id, isBigSearch, searchQuery, dispatch, helpArticles, helpArticlesNetworkType }) => {
 
-	const classes = useStyles();
+	const { classes } = useStyles();
 
 	const filterOptions = (options: any, { inputValue }: any) => options
 	const onChange = (event: any, helpArticle: HelpArticle) => {

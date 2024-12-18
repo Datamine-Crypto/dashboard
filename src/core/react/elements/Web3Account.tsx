@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import React, { useContext } from 'react';
 
 
@@ -16,9 +15,9 @@ import TradeDialog from './Dialogs/TradeDialog';
 import UnlockDialog from './Dialogs/UnlockDialog';
 import ZeroBalanceDialog from './Dialogs/ZeroBalanceDialog';
 
+import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
-import { DatamineTheme } from '../../styles';
 import { commonLanguage } from '../../web3/web3Reducer';
 import AccountBalancesCard from './Cards/AccountBalancesCard';
 import LockedLiquidityCard from './Cards/LockedLiquidityCard';
@@ -34,25 +33,24 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 
-const useStyles = makeStyles<DatamineTheme>((theme) => {
-	return {
-		cardsContainer: {
-			'& .MuiListItemText-primary': {
-				color: theme.palette.text.secondary,
-				fontSize: theme.typography.body2.fontSize,
-				marginBottom: theme.spacing(0.5)
+const useStyles = tss.create(({ theme }) => ({
+	cardsContainer: {
+		'& .MuiListItemText-primary': {
+			color: theme.palette.text.secondary,
+			fontSize: theme.typography.body2.fontSize,
+			marginBottom: theme.spacing(0.5)
 
-			},
-			'& .MuiListItemText-secondary': {
-				color: theme.palette.text.primary,
-				fontSize: theme.typography.body1.fontSize
-			}
+		},
+		'& .MuiListItemText-secondary': {
+			color: theme.palette.text.primary,
+			fontSize: theme.typography.body1.fontSize
 		}
 	}
-});
+}
+));
 
 const Render: React.FC<RenderParams> = React.memo(({ dialog, dialogParams, dispatch, ecosystem }) => {
-	const classes = useStyles();
+	const { classes } = useStyles();
 	const { isLiquidityPoolsEnabled } = getEcosystemConfig(ecosystem)
 
 	const onClose = () => {

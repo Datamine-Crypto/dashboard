@@ -4,7 +4,6 @@ import React, { ReactNode, useContext } from 'react';
 import PeopleIcon from '@mui/icons-material/People';
 import ArrowRightIcon from '@mui/icons-material/PlayArrow';
 import Grid from '@mui/material/Grid2';
-import { makeStyles } from '@mui/styles';
 
 import arbiFluxLogo from '../../../svgs/arbiFluxLogo.svg';
 import fluxLogo from '../../../svgs/fluxLogo.svg';
@@ -20,8 +19,7 @@ import poolIconL2 from '../../../svgs/poolL2.svg';
 import smartContractIcon from '../../../svgs/smartContract.svg';
 import synergyIcon from '../../../svgs/synergy.svg';
 
-import { DatamineTheme, theme } from '../../styles';
-import Roadmap from '../elements/Fragments/Roadmap';
+import { theme as datamineTheme } from '../../styles';
 
 import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem, Layer } from '../../../configs/config.common';
@@ -31,9 +29,10 @@ import { commonLanguage } from '../../web3/web3Reducer';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 
-const useStyles = makeStyles<DatamineTheme>(() => ({
+import { tss } from 'tss-react/mui';
+const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			flexGrow: '1',
 			textAlign: 'center'
 		},
@@ -45,20 +44,20 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 			alignItems: 'center'
 		},
 
-		[theme.muiTheme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('md')]: {
 			fontSize: '2rem',
 		},
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			fontSize: '1.5rem',
 			textAlign: 'center',
 			'& .MuiGrid-container': {
 				justifyContent: 'center'
 			},
-			marginBottom: theme.muiTheme.spacing(3)
+			marginBottom: theme.spacing(3)
 		},
 	},
 	titleSlogan: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			textAlign: 'center',
 		}
 	},
@@ -66,44 +65,44 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 		color: '#0ff',
 		fontSize: '2rem',
 		verticalAlign: 'middle',
-		[theme.muiTheme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('md')]: {
 			fontSize: '1.5rem',
 		},
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			fontSize: '1rem',
 		},
 	},
 	heroContent: {
 	},
 	cardHeader: {
-		border: `1px solid ${theme.classes.palette.highlight}`,
-		color: theme.muiTheme.palette.secondary.contrastText
+		border: `1px solid ${datamineTheme.classes.palette.highlight}`,
+		color: theme.palette.secondary.contrastText
 	},
 	cardPricing: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'baseline',
-		marginBottom: theme.muiTheme.spacing(2),
+		marginBottom: theme.spacing(2),
 	},
 	paperBorders: {
-		borderTop: `1px solid ${theme.classes.palette.highlight}`,
-		borderBottom: `1px solid ${theme.classes.palette.highlight}`,
+		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
+		borderBottom: `1px solid ${datamineTheme.classes.palette.highlight}`,
 	},
 	paperBottom: {
-		borderTop: `1px solid ${theme.classes.palette.highlight}`,
+		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
 	},
 	comparisonTable: {
 		'& .MuiTableCell-head': {
-			background: theme.classes.palette.secondaryBackground,
-			color: theme.classes.palette.highlight,
+			background: datamineTheme.classes.palette.secondaryBackground,
+			color: datamineTheme.classes.palette.highlight,
 			fontSize: '1.3rem'
 		},
 		'& [role=cell]': {
-			color: theme.classes.palette.highlight,
+			color: datamineTheme.classes.palette.highlight,
 		}
 	},
 	point: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			textAlign: "center"
 		}
 	},
@@ -127,7 +126,7 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 		'& a': {
 			display: 'block'
 		},
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			listStyle: 'none'
 		}
 	}
@@ -148,7 +147,7 @@ interface RenderProps {
 
 const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 
-	const classes = useStyles();
+	const { classes } = useStyles();
 	const { layer } = getEcosystemConfig(ecosystem);
 	const isArbitrumMainnet = layer === Layer.Layer2;
 
@@ -268,7 +267,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 				<Card elevation={0}>
 					<CardActionArea>
 						{getPoint({
-							icon: <PeopleIcon style={{ fontSize: theme.muiTheme.typography.h3.fontSize, color: theme.classes.palette.highlight }} />,
+							icon: <PeopleIcon style={{ fontSize: datamineTheme.muiTheme.typography.h3.fontSize, color: datamineTheme.classes.palette.highlight }} />,
 							title: 'Check Out Our Decentralized Communities!',
 							content: <>
 								<Typography component="div" variant="h6" color="textPrimary" gutterBottom>
@@ -440,18 +439,6 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 				</Paper>
 			</Box>
 
-			<Box mb={12}>
-				<Box py={3}>
-					<Container>
-						<Box mb={9}>
-							<Typography component="div" variant="h4" color="textPrimary" align="center">
-								Release Milestones
-							</Typography>
-						</Box>
-						<Roadmap />
-					</Container>
-				</Box>
-			</Box>
 		</Box>
 		<FooterFragment ecosystem={ecosystem} />
 	</>

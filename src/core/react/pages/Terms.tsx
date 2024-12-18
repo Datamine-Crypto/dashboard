@@ -1,17 +1,17 @@
 import { Box, Container, Link, Paper } from '@mui/material';
 import React from 'react';
 
-import { makeStyles } from '@mui/styles';
-import { DatamineTheme, theme } from '../../styles';
+import { theme as datamineTheme } from '../../styles';
 
 import { getEcosystemConfig as getConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 import Header from '../elements/Fragments/Header';
 
-const useStyles = makeStyles<DatamineTheme>(() => ({
+import { tss } from 'tss-react/mui';
+const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			flexGrow: '1',
 			textAlign: 'center'
 		},
@@ -23,20 +23,20 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 			alignItems: 'center'
 		},
 
-		[theme.muiTheme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('md')]: {
 			fontSize: '2rem',
 		},
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			fontSize: '1.5rem',
 			textAlign: 'center',
 			'& .MuiGrid-container': {
 				justifyContent: 'center'
 			},
-			marginBottom: theme.muiTheme.spacing(3)
+			marginBottom: theme.spacing(3)
 		},
 	},
 	titleSlogan: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			textAlign: 'center',
 		}
 	},
@@ -44,19 +44,19 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 		color: '#0ff',
 		fontSize: '2rem',
 		verticalAlign: 'middle',
-		[theme.muiTheme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('md')]: {
 			fontSize: '1.5rem',
 		},
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			fontSize: '1rem',
 		},
 	},
 	paperBorders: {
-		borderTop: `1px solid ${theme.classes.palette.highlight}`,
-		borderBottom: `1px solid ${theme.classes.palette.highlight}`,
+		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
+		borderBottom: `1px solid ${datamineTheme.classes.palette.highlight}`,
 	},
 	paperBottom: {
-		borderTop: `1px solid ${theme.classes.palette.highlight}`,
+		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
 	},
 }));
 
@@ -64,7 +64,7 @@ interface Props {
 	ecosystem: Ecosystem;
 }
 const Terms: React.FC<Props> = React.memo(({ ecosystem }) => {
-	const classes = useStyles();
+	const { classes } = useStyles();
 	const { ecosystemName, dashboardAbsoluteUrl, mitCopyrightYear } = getConfig(ecosystem)
 
 	return <>

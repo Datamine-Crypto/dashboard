@@ -2,7 +2,6 @@ import { Alert, Box, Button, CircularProgress, Container, Link, Menu, MenuItem, 
 import Grid from '@mui/material/Grid2';
 import React, { ReactNode, useContext, useEffect } from 'react';
 
-import { makeStyles } from '@mui/styles';
 
 import { DialogType, FluxAddressDetails } from '../../interfaces';
 import { Web3Context } from '../../web3/Web3Context';
@@ -14,13 +13,13 @@ import logo from '../../../svgs/logo.svg'; // Tell webpack this JS file uses thi
 import LightTooltip from '../elements/LightTooltip';
 
 import SettingsIcon from '@mui/icons-material/Settings';
+import { tss } from 'tss-react/mui';
 import VConsole from 'vconsole';
 import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
 import metamaskIcon from '../../../svgs/metamask.svg';
 import walletconnectIcon from '../../../svgs/walletconnect.svg';
 import { ReducerQuery } from '../../sideEffectReducer';
-import { DatamineTheme } from '../../styles';
 import { isDevLogEnabled } from '../../utils/devLog';
 import WalletConnectRpcDialog from '../elements/Dialogs/WalletConnectRpcDialog';
 import AddToFirefoxFragment from '../elements/Fragments/AddToFirefoxFragment';
@@ -50,7 +49,7 @@ interface CenterContent {
 	content?: ReactNode;
 }
 
-const useStyles = makeStyles<DatamineTheme>(() => ({
+const useStyles = tss.create(({ theme }) => ({
 	fullScreenSplash: {
 		minHeight: '100vh',
 		display: 'flex',
@@ -60,7 +59,7 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 }))
 
 const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitialized, addressDetails, hasWeb3, selectedAddress, pendingQueries, queriesCount, lastDismissedPendingActionCount, isIncorrectNetwork, connectionMethod, dispatch, ecosystem }) => {
-	const classes = useStyles();
+	const { classes } = useStyles();
 
 	const config = getEcosystemConfig(ecosystem);
 	const { ecosystemName, isSettingsValidatorDashboardButtonEnabled, lockableTokenShortName, mintableTokenShortName, isLiquidityPoolsEnabled } = config

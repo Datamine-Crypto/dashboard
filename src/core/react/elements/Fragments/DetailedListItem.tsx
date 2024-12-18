@@ -1,18 +1,15 @@
 import { Box, Card, Divider, Hidden, useMediaQuery, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
 import React, { ReactNode } from 'react';
-import { DatamineTheme } from '../../../styles';
+import { tss } from 'tss-react/mui';
 
-const useStyles = makeStyles<DatamineTheme>(() => {
-	return {
-		cardMobile: {
-			background: '#202336',
-			overflowX: 'auto'
-		}
+const useStyles = tss.create(({ theme }) => ({
+	cardMobile: {
+		background: '#202336',
+		overflowX: 'auto'
 	}
-});
+}));
 
 interface RenderProps {
 	title?: ReactNode;
@@ -25,7 +22,7 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 	const theme = useTheme();
 	const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
 
-	const classes = useStyles();
+	const { classes } = useStyles();
 	const getMainElement = () => {
 		const getSub = () => {
 			if (!sub) {

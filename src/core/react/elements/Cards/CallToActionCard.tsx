@@ -2,7 +2,6 @@ import { Box, Button, Card, CardActions, CardContent, Divider, FormControlLabel,
 import React, { useContext } from 'react';
 
 import Grid from '@mui/material/Grid2';
-import { makeStyles } from '@mui/styles';
 import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
@@ -38,11 +37,11 @@ import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas }
 import { BNToDecimal, getBlocksRemaining, getFormattedMultiplier, getPriceToggle } from '../../../web3/helpers';
 import LightTooltip from '../LightTooltip';
 
+import { tss } from 'tss-react/mui';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
-import { DatamineTheme, theme } from '../../../styles';
 import { getNetworkDropdown } from '../Fragments/EcosystemDropdown';
 
-const useStyles = makeStyles<DatamineTheme>(() => ({
+const useStyles = tss.create(({ theme }) => ({
 	progressBarLeft: {
 		height: '15px',
 		borderTopLeftRadius: '5px',
@@ -95,22 +94,23 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 		color: '#FFF'
 	},
 	topLeftPricesContainer: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			flexDirection: 'column'
 		}
 	},
 	topRightContainer: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			flexDirection: 'column'
 		}
 	},
 	topContainer: {
-		[theme.muiTheme.breakpoints.down('xs')]: {
+		[theme.breakpoints.down('xs')]: {
 			flexDirection: 'column'
 		}
 
 	}
-}))
+}));
+
 
 interface RenderParams {
 	addressLock: FluxAddressLock;
@@ -125,7 +125,7 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, ecosystem }) => {
-	const classes = useStyles();
+	const { classes } = useStyles();
 
 	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, minBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals, mintableTokenContractAddress } = getConfig(ecosystem)
 	const { isHelpPageEnabled } = navigation

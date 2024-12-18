@@ -1,7 +1,6 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, LinearProgress, Typography } from '@mui/material';
 import React from 'react';
 
-import { makeStyles } from '@mui/styles';
 import { commonLanguage, ConnectionMethod } from '../../../web3/web3Reducer';
 
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
@@ -9,8 +8,9 @@ import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { ReducerQuery } from '../../../sideEffectReducer';
-import { DatamineTheme, theme } from '../../../styles';
+import { theme as datamineTheme } from '../../../styles';
 
+import { tss } from 'tss-react/mui';
 interface Params {
 	open: boolean;
 	connectionMethod: ConnectionMethod;
@@ -19,15 +19,15 @@ interface Params {
 	ecosystem: Ecosystem;
 }
 
-const useStyles = makeStyles<DatamineTheme>(() => ({
+const useStyles = tss.create(({ theme }) => ({
 	highlightedText: {
-		color: theme.classes.palette.highlight
+		color: datamineTheme.classes.palette.highlight
 	}
 }));
 
 const PendingActionDialog: React.FC<Params> = React.memo(({ open, queries, connectionMethod, onClose, ecosystem }) => {
 	const { mintableTokenShortName } = getEcosystemConfig(ecosystem)
-	const classes = useStyles();
+	const { classes } = useStyles();
 
 	const getConnectionMethodName = () => {
 		switch (connectionMethod) {

@@ -2,7 +2,6 @@ import { Box, Card, CardActionArea, Chip, Container, Link, Paper, Typography } f
 import Grid from '@mui/material/Grid2';
 import React, { ReactNode, useContext } from 'react';
 
-import { makeStyles } from '@mui/styles';
 
 import TimelineIcon from '@mui/icons-material/Timeline';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -10,15 +9,16 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import discordLogo from '../../../svgs/discord.svg';
 import mediumLogo from '../../../svgs/medium.svg';
 
-import { DatamineTheme, theme } from '../../styles';
+import { theme as datamineTheme } from '../../styles';
 
 import { Ecosystem } from '../../../configs/config.common';
 import { Web3Context } from '../../web3/Web3Context';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 
-const useStyles = makeStyles<DatamineTheme>(() => ({
+import { tss } from 'tss-react/mui';
+const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			flexGrow: '1',
 			textAlign: 'center'
 		},
@@ -30,20 +30,20 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 			alignItems: 'center'
 		},
 
-		[theme.muiTheme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('md')]: {
 			fontSize: '2rem',
 		},
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			fontSize: '1.5rem',
 			textAlign: 'center',
 			'& .MuiGrid-container': {
 				justifyContent: 'center'
 			},
-			marginBottom: theme.muiTheme.spacing(3)
+			marginBottom: theme.spacing(3)
 		},
 	},
 	titleSlogan: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			textAlign: 'center',
 		}
 	},
@@ -51,49 +51,49 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 		color: '#0ff',
 		fontSize: '2rem',
 		verticalAlign: 'middle',
-		[theme.muiTheme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('md')]: {
 			fontSize: '1.5rem',
 		},
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			fontSize: '1rem',
 		},
 	},
 	heroContent: {
 	},
 	cardHeader: {
-		border: `1px solid ${theme.classes.palette.highlight}`,
-		color: theme.muiTheme.palette.secondary.contrastText
+		border: `1px solid ${datamineTheme.classes.palette.highlight}`,
+		color: datamineTheme.muiTheme.palette.secondary.contrastText
 	},
 	cardPricing: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'baseline',
-		marginBottom: theme.muiTheme.spacing(2),
+		marginBottom: theme.spacing(2),
 	},
 	paperBorders: {
-		borderTop: `1px solid ${theme.classes.palette.highlight}`,
-		borderBottom: `1px solid ${theme.classes.palette.highlight}`,
+		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
+		borderBottom: `1px solid ${datamineTheme.classes.palette.highlight}`,
 	},
 	paperBottom: {
-		borderTop: `1px solid ${theme.classes.palette.highlight}`,
+		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
 	},
 	comparisonTable: {
 		'& .MuiTableCell-head': {
-			background: theme.classes.palette.secondaryBackground,
-			color: theme.classes.palette.highlight,
+			background: datamineTheme.classes.palette.secondaryBackground,
+			color: datamineTheme.classes.palette.highlight,
 			fontSize: '1.3rem'
 		},
 		'& [role=cell]': {
-			color: theme.classes.palette.highlight,
+			color: datamineTheme.classes.palette.highlight,
 		}
 	},
 	point: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			textAlign: "center"
 		}
 	},
 	helpCategoryHeader: {
-		color: theme.classes.palette.highlight,
+		color: datamineTheme.classes.palette.highlight,
 	},
 	featurePoint: {
 		marginBottom: 0
@@ -114,7 +114,7 @@ interface RenderProps {
 }
 
 const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
-	const classes = useStyles();
+	const { classes } = useStyles();
 
 	const getPoint = ({ title, content, icon, mt, mb }: PointParams) => {
 		return <Box mt={mt !== undefined ? mt : 4} mb={mb !== undefined ? mb : 4}>
@@ -158,7 +158,7 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 				<Card elevation={0}>
 					<CardActionArea>
 						{getPoint({
-							icon: <TwitterIcon style={{ fontSize: theme.muiTheme.typography.h3.fontSize, color: theme.classes.palette.highlight }} />,
+							icon: <TwitterIcon style={{ fontSize: datamineTheme.muiTheme.typography.h3.fontSize, color: datamineTheme.classes.palette.highlight }} />,
 							title: 'Twitter: @dataminenetwork',
 							content: `This Twitter community is moderated by Datamine Ecosystem Smart Contact &amp; Analytics Architects. Here you can find regular updates to Datamine Network & Analytics platform. Be sure to follow!`
 						})}
@@ -180,7 +180,7 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 				<Card elevation={0}>
 					<CardActionArea>
 						{getPoint({
-							icon: <TimelineIcon style={{ fontSize: theme.muiTheme.typography.h3.fontSize, color: theme.classes.palette.highlight }} />,
+							icon: <TimelineIcon style={{ fontSize: datamineTheme.muiTheme.typography.h3.fontSize, color: datamineTheme.classes.palette.highlight }} />,
 							title: 'Analytics Tool: DAM Community Calculator',
 							content: `An amazing APY calculator for DAM & FLUX. Created and hosted by the community.`
 						})}

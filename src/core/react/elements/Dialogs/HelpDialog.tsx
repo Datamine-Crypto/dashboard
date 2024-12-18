@@ -3,15 +3,15 @@ import React, { useContext } from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
 import LaunchIcon from '@mui/icons-material/Launch';
-import { makeStyles } from '@mui/styles';
 import ReactMarkdown from 'react-markdown';
+import { tss } from 'tss-react/mui';
 import { NetworkType } from '../../../../configs/config.common';
 import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from '../../../helpArticles';
-import { DatamineTheme } from '../../../styles';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import AddToFirefoxFragment from '../Fragments/AddToFirefoxFragment';
 import LightTooltip from '../LightTooltip';
+
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
@@ -23,84 +23,82 @@ enum ImageOption {
 	MaxWidth = '_maxWidth',
 	ClassName = '_className'
 }
-const useStyles = makeStyles<DatamineTheme>((theme) => {
-	return {
-		markdownContainer: {
-			'& a': {
-				color: '#00FFFF'
-			},
-			'& .MuiTypography-gutterBottom': {
-				marginBottom: '0.75em'
-			},
-			'& strong': {
-				color: theme.palette.text.primary
-			},
-			/*'&.rightImages img': {
-				float: 'right'
-			},*/
-			'& .MuiTypography-h1': {
-				fontSize: '1.5rem',
-				lineHeight: '1.334',
-				color: theme.palette.secondary.main
-			},
-			'& .MuiTypography-h2': {
-				fontSize: '1.25rem',
-				lineHeight: '1.6',
-				color: theme.palette.secondary.main
-			},
-			'& .MuiTypography-h3': {
-				fontSize: '1.2rem',
-				lineHeight: '1.5',
-				color: theme.palette.secondary.main
-			},
-			'& .MuiTypography-h4': {
-				fontSize: '1.1rem',
-				lineHeight: '1.5',
-				color: theme.palette.secondary.main
-			},
-			'& code': {
-				background: '#212438',
-				fontSize: '0.8rem',
-				padding: theme.spacing(1),
-			},
-			'& pre': {
-				background: '#212438',
-				padding: theme.spacing(2),
-				overflow: 'auto',
-			},
-			'& pre code': {
-				background: 'none',
-				padding: theme.spacing(0),
-			},
-
-			// Right aligned icons on core values
-			'& .rightIcon': {
-				float: 'right',
-				maxWidth: 64,
-				border: 0,
-				margin: '0 0 0 8px'
-			}
-
-			/*'& h1': {
-				...theme.mixins.toolbar
-
-			},
-			'& .MuiListItemText-secondary': {
-				color: theme.palette.text.primary,
-				fontSize: theme.typography.body1.fontSize
-			}*/
+const useStyles = tss.create(({ theme }) => ({
+	markdownContainer: {
+		'& a': {
+			color: '#00FFFF'
 		},
-		image: {
-			verticalAlign: 'middle',
-			width: '100%',
-			maxWidth: 912,
-			display: 'block',
-			margin: '16px auto',
-			border: '1px solid #00FFFF',
-			borderRadius: 5
+		'& .MuiTypography-gutterBottom': {
+			marginBottom: '0.75em'
+		},
+		'& strong': {
+			color: theme.palette.text.primary
+		},
+		/*'&.rightImages img': {
+			float: 'right'
+		},*/
+		'& .MuiTypography-h1': {
+			fontSize: '1.5rem',
+			lineHeight: '1.334',
+			color: theme.palette.secondary.main
+		},
+		'& .MuiTypography-h2': {
+			fontSize: '1.25rem',
+			lineHeight: '1.6',
+			color: theme.palette.secondary.main
+		},
+		'& .MuiTypography-h3': {
+			fontSize: '1.2rem',
+			lineHeight: '1.5',
+			color: theme.palette.secondary.main
+		},
+		'& .MuiTypography-h4': {
+			fontSize: '1.1rem',
+			lineHeight: '1.5',
+			color: theme.palette.secondary.main
+		},
+		'& code': {
+			background: '#212438',
+			fontSize: '0.8rem',
+			padding: theme.spacing(1),
+		},
+		'& pre': {
+			background: '#212438',
+			padding: theme.spacing(2),
+			overflow: 'auto',
+		},
+		'& pre code': {
+			background: 'none',
+			padding: theme.spacing(0),
+		},
+
+		// Right aligned icons on core values
+		'& .rightIcon': {
+			float: 'right',
+			maxWidth: 64,
+			border: 0,
+			margin: '0 0 0 8px'
 		}
+
+		/*'& h1': {
+			...theme.mixins.toolbar
+
+		},
+		'& .MuiListItemText-secondary': {
+			color: theme.palette.text.primary,
+			fontSize: theme.typography.body1.fontSize
+		}*/
+	},
+	image: {
+		verticalAlign: 'middle',
+		width: '100%',
+		maxWidth: 912,
+		display: 'block',
+		margin: '16px auto',
+		border: '1px solid #00FFFF',
+		borderRadius: 5
 	}
-});
+}));
 
 interface CodeParams {
 	language: string;
@@ -116,7 +114,7 @@ enum ComponentType {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType }) => {
-	const classes = useStyles();
+	const { classes } = useStyles();
 
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));

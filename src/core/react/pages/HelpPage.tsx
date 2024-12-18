@@ -2,8 +2,7 @@ import { Box, Container, FormControl, InputLabel, Link, List, ListItemButton, Li
 import Grid from '@mui/material/Grid2';
 import React, { useContext } from 'react';
 
-import { makeStyles } from '@mui/styles';
-import { DatamineTheme, theme } from '../../styles';
+import { theme as datamineTheme } from '../../styles';
 
 import { Ecosystem, NetworkType } from '../../../configs/config.common';
 import { helpArticles, SearchCategory, SearchCategoryText, SearchCategoryTextL2 } from '../../helpArticles';
@@ -16,9 +15,10 @@ import { getEcosystemConfig } from '../../../configs/config';
 import ArbitrumLogo from '../../../svgs/arbitrum.svg';
 import EthereumPurpleLogo from '../../../svgs/ethereumPurple.svg';
 
-const useStyles = makeStyles<DatamineTheme>(() => ({
+import { tss } from 'tss-react/mui';
+const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			flexGrow: '1',
 			textAlign: 'center'
 		},
@@ -30,20 +30,20 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 			alignItems: 'center'
 		},
 
-		[theme.muiTheme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('md')]: {
 			fontSize: '2rem',
 		},
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			fontSize: '1.5rem',
 			textAlign: 'center',
 			'& .MuiGrid-container': {
 				justifyContent: 'center'
 			},
-			marginBottom: theme.muiTheme.spacing(3)
+			marginBottom: theme.spacing(3)
 		},
 	},
 	titleSlogan: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			textAlign: 'center',
 		}
 	},
@@ -51,49 +51,49 @@ const useStyles = makeStyles<DatamineTheme>(() => ({
 		color: '#0ff',
 		fontSize: '2rem',
 		verticalAlign: 'middle',
-		[theme.muiTheme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('md')]: {
 			fontSize: '1.5rem',
 		},
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('sm')]: {
 			fontSize: '1rem',
 		},
 	},
 	heroContent: {
 	},
 	cardHeader: {
-		border: `1px solid ${theme.classes.palette.highlight}`,
-		color: theme.muiTheme.palette.secondary.contrastText
+		border: `1px solid ${datamineTheme.classes.palette.highlight}`,
+		color: datamineTheme.muiTheme.palette.secondary.contrastText
 	},
 	cardPricing: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'baseline',
-		marginBottom: theme.muiTheme.spacing(2),
+		marginBottom: theme.spacing(2),
 	},
 	paperBorders: {
-		borderTop: `1px solid ${theme.classes.palette.highlight}`,
-		borderBottom: `1px solid ${theme.classes.palette.highlight}`,
+		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
+		borderBottom: `1px solid ${datamineTheme.classes.palette.highlight}`,
 	},
 	paperBottom: {
-		borderTop: `1px solid ${theme.classes.palette.highlight}`,
+		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
 	},
 	comparisonTable: {
 		'& .MuiTableCell-head': {
-			background: theme.classes.palette.secondaryBackground,
-			color: theme.classes.palette.highlight,
+			background: datamineTheme.classes.palette.secondaryBackground,
+			color: datamineTheme.classes.palette.highlight,
 			fontSize: '1.3rem'
 		},
 		'& [role=cell]': {
-			color: theme.classes.palette.highlight,
+			color: datamineTheme.classes.palette.highlight,
 		}
 	},
 	point: {
-		[theme.muiTheme.breakpoints.down('sm')]: {
+		[datamineTheme.muiTheme.breakpoints.down('sm')]: {
 			textAlign: "center"
 		}
 	},
 	helpCategoryHeader: {
-		color: theme.classes.palette.highlight,
+		color: datamineTheme.classes.palette.highlight,
 	}
 }));
 
@@ -104,7 +104,7 @@ interface RenderProps {
 }
 
 const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetworkType, ecosystem }) => {
-	const classes = useStyles();
+	const { classes } = useStyles();
 
 	const { navigation, isArbitrumOnlyToken } = getEcosystemConfig(ecosystem)
 	const { discordInviteLink } = navigation
