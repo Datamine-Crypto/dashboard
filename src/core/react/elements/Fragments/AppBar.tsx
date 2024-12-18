@@ -95,7 +95,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 	}
 
 
-	return <AppBar position="absolute" className={clsx(classes.appBar)} >
+	return <AppBar className={clsx(classes.appBar)} >
 		<Toolbar className={classes.toolbar}>
 			{isToggleEnabled && sidebar && (
 				<IconButton

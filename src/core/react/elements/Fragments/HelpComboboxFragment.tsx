@@ -39,6 +39,7 @@ const Render: React.FC<RenderProps> = React.memo(({ id, isBigSearch, searchQuery
 		size={isBigSearch ? 'medium' : 'small'}
 		className={isBigSearch ? classes.big : classes.small}
 		options={helpArticles}
+		noOptionsText="Type to search help articles..."
 
 		getOptionLabel={(option) => {
 			switch (helpArticlesNetworkType) {
