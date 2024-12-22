@@ -32,7 +32,6 @@ const useStyles = tss.create(({ theme }) => ({
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
 		}),
-		'--Paper-overlay': 'none !important'
 
 	},
 	menuButton: {

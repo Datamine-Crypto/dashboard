@@ -52,7 +52,8 @@ const muiTheme = createTheme({
 		MuiPaper: {
 			styleOverrides: {
 				root: {
-					backgroundColor: classes.palette.background
+					backgroundColor: classes.palette.background,
+					'--Paper-overlay': 'none !important' // Overrides the extra overlay on top of all the papers (which adds extra bright color)
 				}
 			}
 		},

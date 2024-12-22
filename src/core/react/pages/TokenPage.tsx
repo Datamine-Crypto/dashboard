@@ -87,7 +87,6 @@ const useStyles = tss.create(({ theme }) => ({
 	paperBorders: {
 		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
 		borderBottom: `1px solid ${datamineTheme.classes.palette.highlight}`,
-		'--Paper-overlay': 'none !important'
 	},
 	paperBottom: {
 		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,

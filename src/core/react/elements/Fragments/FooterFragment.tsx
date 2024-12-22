@@ -12,7 +12,6 @@ import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidi
 const useStyles = tss.create(({ theme }) => ({
 	paperBottom: {
 		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
-		'--Paper-overlay': 'none !important'
 	},
 }));
 

@@ -177,7 +177,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 				</ThemeProvider>
 			</Box>
 		}
-		return <Box mt={4}>
+		return <Box mt={5}>
 			<Grid container spacing={4} justifyContent="center" alignItems="center">
 				{getLiqudityPoolsButton()}
 				<Grid>

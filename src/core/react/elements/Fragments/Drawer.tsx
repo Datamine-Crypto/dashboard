@@ -72,7 +72,6 @@ const useStyles = tss.create(({ theme }) => ({
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,
 		}),
-		'--Paper-overlay': 'none !important'
 	},
 	drawerPaperClose: {
 		overflowX: 'hidden',

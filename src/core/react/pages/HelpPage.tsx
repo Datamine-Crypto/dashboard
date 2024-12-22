@@ -94,6 +94,7 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 	helpCategoryHeader: {
 		color: datamineTheme.classes.palette.highlight,
+		background: 'none'
 	}
 }));
 
