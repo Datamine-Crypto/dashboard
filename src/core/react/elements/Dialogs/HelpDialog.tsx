@@ -134,8 +134,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 			.replace(/-+$/, '');            // Trim - from end of text
 	}
 
-	const heading = (props: any) => {
-		const variant = `h${props.level}` as any
+	const heading = (props: any, level: number) => {
+		const variant = `h${level}` as any
 
 		const getId = () => {
 
@@ -302,7 +302,17 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 
 			<DialogContentText>
 				<Box py={1}>
-					<ReactMarkdown components={{ heading, paragraph, thematicBreak, link, listItem, code, image }} className={`${classes.markdownContainer} ${helpArticle.className}`}>
+					<ReactMarkdown components={{
+						// From https://github.com/remarkjs/react-markdown?tab=readme-ov-file#appendix-b-components
+						h1: (props) => heading(props, 1),
+						h2: (props) => heading(props, 2),
+						p: paragraph,
+						hr: thematicBreak,
+						a: link,
+						li: listItem,
+						pre: code,
+						img: image
+					}} className={`${classes.markdownContainer} ${helpArticle.className}`}>
 						{helpArticle.body as string}
 					</ReactMarkdown>
 				</Box>
