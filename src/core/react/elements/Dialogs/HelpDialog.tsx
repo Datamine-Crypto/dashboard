@@ -101,7 +101,7 @@ const useStyles = tss.create(({ theme }) => ({
 }));
 
 interface CodeParams {
-	language: string;
+	className: string;
 	value: string;
 	children: any;
 }
@@ -229,7 +229,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 
 		return <img src={clearSrc} alt={alt} title={alt} className={className} style={style} />
 	}
-	const code = ({ language, value, children }: CodeParams) => {
+	const code = (props: CodeParams) => {
+		const { className, value, children } = props
+		console.log(props)
 
 		const getComponent = ({ type, props }: LanguageComponentParams) => {
 			switch (type) {
@@ -248,15 +250,15 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 			return <code>Unexpected component: {type}</code>
 		}
 
-		if (language) {
-			switch (language) {
-				case 'component':
-					const componentParams = JSON.parse(value);
+		if (className) {
+			switch (className) {
+				case 'language-component':
+					const componentParams = JSON.parse(children);
 					return getComponent(componentParams)
 			}
 		}
 
-		return <pre><code>{value}</code></pre>
+		return <code>{children}</code>
 	}
 
 	const getTitle = () => {
@@ -310,7 +312,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 						hr: thematicBreak,
 						a: link,
 						li: listItem,
-						pre: code,
+						code,
 						img: image
 					}} className={`${classes.markdownContainer} ${helpArticle.className}`}>
 						{helpArticle.body as string}
