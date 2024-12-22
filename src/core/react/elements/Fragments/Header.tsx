@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActionArea, CardMedia, Container, createTheme, ThemeProvider, Typography } from '@mui/material';
+import { Box, Button, Card, CardActionArea, CardMedia, Container, ThemeProvider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import React from 'react';
 
@@ -9,6 +9,7 @@ import logo from '../../../../svgs/logo.svg';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
+import { muiWhiteButtonsTheme } from '../../../styles';
 import LightTooltip from '../../elements/LightTooltip';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
 
@@ -74,21 +75,6 @@ const useStyles = tss.create(({ theme }) => ({
 ));
 
 
-/**
- * This is a theme only for making buttons white
- * @todo remove this theme completely and fix the buttons properly so we don't have two themes
- * This is only used for <Button variant="text"
- */
-const muiWhiteButtonsTheme = createTheme({
-	palette: {
-		mode: 'dark',
-		primary: {
-			main: '#fff',
-			contrastText: '#fff',
-		},
-	},
-});
-
 
 interface Props {
 	isSubPage: boolean;
@@ -129,20 +115,23 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 	const getSubHeader = () => {
 		if (isSubPage) {
 			return <Box mt={4}>
-				<Box mt={3}>
-					<Grid container spacing={3} justifyContent="center">
-						<Grid>
-							<Button variant="text" href="#" >
-								Homepage
-							</Button>
+
+				<ThemeProvider theme={muiWhiteButtonsTheme}>
+					<Box mt={3}>
+						<Grid container spacing={3} justifyContent="center">
+							<Grid>
+								<Button variant="text" href="#" >
+									Homepage
+								</Button>
+							</Grid>
+							<Grid>
+								<Button variant="text" href="#dashboard">
+									Dashboard
+								</Button>
+							</Grid>
 						</Grid>
-						<Grid>
-							<Button variant="text" href="#dashboard">
-								Dashboard
-							</Button>
-						</Grid>
-					</Grid>
-				</Box>
+					</Box>
+				</ThemeProvider>
 			</Box>
 		}
 		const getLiqudityPoolsButton = () => {
@@ -154,33 +143,19 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} ecosystem={ecosystem} />
 			</Grid>
 		}
-		const getHelpButton = () => {
-			if (!isHelpPageEnabled) {
-				return null
-			}
-			return (<Grid>
-				<Button variant="text" href="#help">
-					Help &amp; Knowledgebase
-				</Button>
-			</Grid>)
-		}
-		return <Box mt={4}>
-			<Grid container spacing={4} justifyContent="center" alignItems="center">
-				{getLiqudityPoolsButton()}
-				<Grid>
-					<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard}>
-
-						<Grid container alignItems="center">
-							<Grid>
-								Validator Dashboard
-							</Grid>
-						</Grid>
+		const getBottomButtons = () => {
+			const getHelpButton = () => {
+				if (!isHelpPageEnabled) {
+					return null
+				}
+				return (<Grid>
+					<Button variant="text" href="#help">
+						Help &amp; Knowledgebase
 					</Button>
-				</Grid>
-			</Grid>
-			{getVideo()}
-			<ThemeProvider theme={muiWhiteButtonsTheme}>
-				<Box mt={3}>
+				</Grid>)
+			}
+			return <Box mt={3}>
+				<ThemeProvider theme={muiWhiteButtonsTheme}>
 					<Grid container spacing={3} justifyContent="center">
 						<Grid>
 							<Button variant="text" href="https://github.com/DatamineGlobal/whitepaper/blob/d8b1e007f229878cba0a617398f3e1d40a3ea79a/Datamine.pdf" rel="noopener noreferrer" target="_blank">
@@ -199,8 +174,25 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 							</Button>
 						</Grid>
 					</Grid>
-				</Box>
-			</ThemeProvider>
+				</ThemeProvider>
+			</Box>
+		}
+		return <Box mt={4}>
+			<Grid container spacing={4} justifyContent="center" alignItems="center">
+				{getLiqudityPoolsButton()}
+				<Grid>
+					<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard}>
+
+						<Grid container alignItems="center">
+							<Grid>
+								Validator Dashboard
+							</Grid>
+						</Grid>
+					</Button>
+				</Grid>
+			</Grid>
+			{getVideo()}
+			{getBottomButtons()}
 		</Box>
 	}
 

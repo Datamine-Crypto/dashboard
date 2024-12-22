@@ -30,7 +30,7 @@ const FooterFragment: React.FC<Props> = React.memo(({ ecosystem }) => {
 		}
 		return (
 			<Grid>
-				<Link href="#help" color="textSecondary">
+				<Link underline="hover" href="#help" color="textSecondary">
 					Help &amp; Knowledgebase
 				</Link>
 			</Grid>
@@ -58,12 +58,12 @@ const FooterFragment: React.FC<Props> = React.memo(({ ecosystem }) => {
 								<Grid container spacing={3} justifyContent="center" direction="column">
 									{getGridItem()}
 									<Grid>
-										<Link href="https://github.com/DatamineGlobal/whitepaper/blob/d8b1e007f229878cba0a617398f3e1d40a3ea79a/Datamine.pdf" rel="noopener noreferrer" target="_blank" color="textSecondary">
+										<Link underline="hover" href="https://github.com/DatamineGlobal/whitepaper/blob/d8b1e007f229878cba0a617398f3e1d40a3ea79a/Datamine.pdf" rel="noopener noreferrer" target="_blank" color="textSecondary">
 											Economic Whitepaper
 										</Link>
 									</Grid>
 									<Grid>
-										<Link href="https://github.com/Datamine-Crypto/white-paper/blob/master/docs/datamine-smart-contracts.md" rel="noopener noreferrer" target="_blank" color="textSecondary">
+										<Link underline="hover" href="https://github.com/Datamine-Crypto/white-paper/blob/master/docs/datamine-smart-contracts.md" rel="noopener noreferrer" target="_blank" color="textSecondary">
 											Technical Whitepaper
 										</Link>
 									</Grid>
@@ -72,7 +72,7 @@ const FooterFragment: React.FC<Props> = React.memo(({ ecosystem }) => {
 							<Grid>
 								<Grid container spacing={3} justifyContent="center" direction="column">
 									<Grid>
-										<Link href="#dashboard" color="textSecondary">
+										<Link underline="hover" href="#dashboard" color="textSecondary">
 											Validator Dashboard
 										</Link>
 									</Grid>
@@ -82,12 +82,12 @@ const FooterFragment: React.FC<Props> = React.memo(({ ecosystem }) => {
 								<Grid container spacing={3} justifyContent="center" direction="column">
 									{getLiquidityPoolsGrimItem()}
 									<Grid>
-										<Link href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf" rel="noopener noreferrer" target="_blank" color="textSecondary">
+										<Link underline="hover" href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf" rel="noopener noreferrer" target="_blank" color="textSecondary">
 											View Security Audit
 										</Link>
 									</Grid>
 									<Grid>
-										<Link href={`#terms`} color="textSecondary">
+										<Link underline="hover" href={`#terms`} color="textSecondary">
 											MIT License
 										</Link>
 									</Grid>

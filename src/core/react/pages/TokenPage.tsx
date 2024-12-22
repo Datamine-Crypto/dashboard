@@ -87,6 +87,7 @@ const useStyles = tss.create(({ theme }) => ({
 	paperBorders: {
 		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
 		borderBottom: `1px solid ${datamineTheme.classes.palette.highlight}`,
+		'--Paper-overlay': 'none !important'
 	},
 	paperBottom: {
 		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
@@ -212,13 +213,13 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 					<>
 						<ul className={classes.points}>
 							<li>
-								<Link href="#dashboard" color="textSecondary">Start your {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} validator by locking {isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} in a smart contract</Link>
+								<Link underline="hover" href="#dashboard" color="textSecondary">Start your {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} validator by locking {isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} in a smart contract</Link>
 							</li>
 							<li>
 								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} ecosystem={ecosystem} contents={<Box style={{ cursor: 'pointer' }}>Your validator generates {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} every 12 seconds <Typography component="div" variant="body2" color="textPrimary" display="inline">(Trade On Uniswap)</Typography></Box>} />
 							</li>
 							<li>
-								<Link onClick={(e: any) => dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle: burningFluxTokensHelpArticle } })} color="textSecondary" style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} from circulation increases your minting speed <Typography component="div" variant="body2" color="textPrimary" display="inline">(Get rewards 30x faster)</Typography></Link>
+								<Link underline="hover" onClick={(e: any) => dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle: burningFluxTokensHelpArticle } })} color="textSecondary" style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} from circulation increases your minting speed <Typography component="div" variant="body2" color="textPrimary" display="inline">(Get rewards 30x faster)</Typography></Link>
 							</li>
 							<li>
 								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} ecosystem={ecosystem} contents={<Box style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} creates <strong style={{ color: '#0FF' }}>monetary velocity</strong> which flows through 1% Uniswap Pool</Box>} />
@@ -263,7 +264,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 	}
 	const getSocialPoints = () => {
 		return <>
-			<Link href="#community">
+			<Link underline="hover" href="#community">
 				<Card elevation={0}>
 					<CardActionArea>
 						{getPoint({
@@ -284,10 +285,10 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 	}
 
 	const getTokens = () => {
-		const fluxAuditLink = <><Link href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf" target="blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem' }} color="textSecondary">SlowMist Security (Click to View)</Link></>
+		const fluxAuditLink = <><Link underline="hover" href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf" target="blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem' }} color="textSecondary">SlowMist Security (Click to View)</Link></>
 
 		const getAddressLink = (link: string) => {
-			return <><Link href={`https://${isArbitrumMainnet ? 'arbi' : 'ether'}scan.io/token/${link}`} target="blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem' }} color="textSecondary">{link}</Link></>
+			return <><Link underline="hover" href={`https://${isArbitrumMainnet ? 'arbi' : 'ether'}scan.io/token/${link}`} target="blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem' }} color="textSecondary">{link}</Link></>
 		}
 
 		const tokens = [
@@ -328,7 +329,7 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 			},
 			{
 				text: 'Professional Audits',
-				dam: isArbitrumMainnet ? '-' : <><Link href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20DamToken.pdf" target="blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem' }} color="textSecondary">SlowMist Security (Click to View)</Link></>,
+				dam: isArbitrumMainnet ? '-' : <><Link underline="hover" href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20DamToken.pdf" target="blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem' }} color="textSecondary">SlowMist Security (Click to View)</Link></>,
 				flux: fluxAuditLink
 			},
 			{

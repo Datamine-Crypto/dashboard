@@ -81,12 +81,27 @@ const muiTheme = createTheme({
 });
 export type DatamineTheme = typeof muiTheme
 
+
+/**
+ * This is a theme only for making buttons white
+ * @todo remove this theme completely and fix the buttons properly so we don't have two themes
+ * This is only used for <Button variant="text"
+ */
+const muiWhiteButtonsTheme = createTheme({
+	palette: {
+		mode: 'dark',
+		primary: {
+			main: '#fff',
+			contrastText: '#fff',
+		},
+	},
+});
+
+
 const theme = {
 	muiTheme,
 	classes
 }
 
-export {
-	theme
-};
+export { muiWhiteButtonsTheme, theme };
 

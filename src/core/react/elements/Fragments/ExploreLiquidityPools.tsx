@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import { Box, Button, Chip, Divider, Link, Menu, MenuItem, Typography } from "@mui/material";
+import { Box, Button, Chip, Divider, Link, Menu, MenuItem, ThemeProvider, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 
 
@@ -11,6 +11,7 @@ import uniswapLogo from '../../../../svgs/uniswap.svg';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
+import { muiWhiteButtonsTheme } from '../../../styles';
 
 const useStyles = tss.create(({ theme }) => ({
 	chip: {
@@ -59,6 +60,9 @@ const useStyles = tss.create(({ theme }) => ({
 			width: 32,
 			height: 32
 		}
+	},
+	menuItem: {
+		display: 'block'
 	}
 }));
 
@@ -130,7 +134,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 		const size = getSize();
 		switch (buttonType) {
 			case LiquidityPoolButtonType.SmallText:
-				return <Link color="secondary" href="#" onClick={handleClick}>
+				return <Link underline="hover" color="secondary" href="#" onClick={handleClick}>
 					<Grid container alignItems="center" justifyContent="center">
 						<Grid>
 							<Box mr={0.5} className={classes.logoContainer}>
@@ -162,7 +166,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 					</Grid>
 				</Button>
 			case LiquidityPoolButtonType.TextLink:
-				return <Link onClick={handleClick} color="textSecondary">{contents}</Link>
+				return <Link underline="hover" onClick={handleClick} color="textSecondary">{contents}</Link>
 		}
 	}
 	const getMenuItems = () => {
@@ -188,7 +192,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 					};
 
 
-					return <MenuItem key={index} style={{ cursor: 'default' }}>
+					return <MenuItem key={index} style={{ cursor: 'default' }} className={classes.menuItem}>
 						<Grid container alignItems="center" justifyContent="space-between" spacing={2} className={classes.buttonsGroup}>
 							<Grid>
 								<Grid container>
@@ -204,23 +208,27 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 								</Grid>
 							</Grid>
 							<Grid>
-								<Grid container spacing={2} className={classes.buttonsContainer}>
+								<Grid container spacing={2} className={classes.buttonsContainer} >
 									<Grid className={classes.buttonGridItem}>
 										<Box ml={3}>
 											<Button size="large" variant="outlined" href={pool.links.buy} color="secondary" target="_blank" rel="noopener noreferrer">Trade</Button>
 										</Box>
 
 									</Grid>
-									<Grid className={classes.buttonGridItem}>
-										<Box ml={1}>
-											<Button size="large" variant="outlined" href={pool.links.info} target="_blank" rel="noopener noreferrer">Analytics</Button>
-										</Box>
-									</Grid>
+									<ThemeProvider theme={muiWhiteButtonsTheme}>
+										<Grid className={classes.buttonGridItem}>
+											<Box ml={1}>
+												<Button size="large" variant="outlined" href={pool.links.info} target="_blank" rel="noopener noreferrer">Analytics</Button>
+											</Box>
+										</Grid>
+									</ThemeProvider>
+
 									<Grid className={classes.buttonGridItem}>
 										<Box mx={1}>
 											<Button size="large" variant="outlined" color="secondary" href={pool.links.addLiquidity} target="_blank" rel="noopener noreferrer">+ Add Liquidity</Button>
 										</Box>
 									</Grid>
+
 								</Grid>
 							</Grid>
 						</Grid>
