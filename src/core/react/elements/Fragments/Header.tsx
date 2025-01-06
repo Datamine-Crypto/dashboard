@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActionArea, CardMedia, Container, ThemeProvider, Typography } from '@mui/material';
+import { Box, Button, Card, CardActionArea, CardMedia, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import React from 'react';
 
@@ -9,7 +9,6 @@ import logo from '../../../../svgs/logo.svg';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
-import { muiWhiteButtonsTheme } from '../../../styles';
 import LightTooltip from '../../elements/LightTooltip';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
 
@@ -116,22 +115,20 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 		if (isSubPage) {
 			return <Box mt={4}>
 
-				<ThemeProvider theme={muiWhiteButtonsTheme}>
-					<Box mt={3}>
-						<Grid container spacing={3} justifyContent="center">
-							<Grid>
-								<Button variant="text" href="#" >
-									Homepage
-								</Button>
-							</Grid>
-							<Grid>
-								<Button variant="text" href="#dashboard">
-									Dashboard
-								</Button>
-							</Grid>
+				<Box mt={3}>
+					<Grid container spacing={3} justifyContent="center">
+						<Grid>
+							<Button variant="text" href="#" >
+								Homepage
+							</Button>
 						</Grid>
-					</Box>
-				</ThemeProvider>
+						<Grid>
+							<Button variant="text" href="#dashboard">
+								Dashboard
+							</Button>
+						</Grid>
+					</Grid>
+				</Box>
 			</Box>
 		}
 		const getLiqudityPoolsButton = () => {
@@ -155,26 +152,24 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 				</Grid>)
 			}
 			return <Box mt={3}>
-				<ThemeProvider theme={muiWhiteButtonsTheme}>
-					<Grid container spacing={3} justifyContent="center">
-						<Grid>
-							<Button variant="text" href="https://github.com/DatamineGlobal/whitepaper/blob/d8b1e007f229878cba0a617398f3e1d40a3ea79a/Datamine.pdf" rel="noopener noreferrer" target="_blank">
-								Economic Whitepaper
-							</Button>
-						</Grid>
-						<Grid>
-							<Button variant="text" href="https://github.com/Datamine-Crypto/white-paper/blob/master/docs/datamine-smart-contracts.md" rel="noopener noreferrer" target="_blank">
-								Technical Whitepaper
-							</Button>
-						</Grid>
-						{getHelpButton()}
-						<Grid>
-							<Button variant="text" href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf" rel="noopener noreferrer" target="_blank">
-								View Security Audit
-							</Button>
-						</Grid>
+				<Grid container spacing={3} justifyContent="center">
+					<Grid>
+						<Button variant="text" href="https://github.com/DatamineGlobal/whitepaper/blob/d8b1e007f229878cba0a617398f3e1d40a3ea79a/Datamine.pdf" rel="noopener noreferrer" target="_blank">
+							Economic Whitepaper
+						</Button>
 					</Grid>
-				</ThemeProvider>
+					<Grid>
+						<Button variant="text" href="https://github.com/Datamine-Crypto/white-paper/blob/master/docs/datamine-smart-contracts.md" rel="noopener noreferrer" target="_blank">
+							Technical Whitepaper
+						</Button>
+					</Grid>
+					{getHelpButton()}
+					<Grid>
+						<Button variant="text" href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf" rel="noopener noreferrer" target="_blank">
+							View Security Audit
+						</Button>
+					</Grid>
+				</Grid>
 			</Box>
 		}
 		return <Box mt={5}>

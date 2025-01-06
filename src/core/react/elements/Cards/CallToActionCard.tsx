@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, Divider, FormControlLabel, LinearProgress, Link, Slider, Switch, Table, TableBody, TableCell, TableContainer, TableRow, TextField, ThemeProvider, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, Divider, FormControlLabel, LinearProgress, Link, Slider, Switch, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
 import Grid from '@mui/material/Grid2';
@@ -8,7 +8,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import Big from 'big.js';
 import BN from 'bn.js';
 import { Web3Context } from '../../../web3/Web3Context';
-import { Balances, ClientSettings, commonLanguage, ForecastMultiplierType, ForecastSettings } from '../../../web3/web3Reducer';
+import { Balances, ClientSettings, commonLanguage, ForecastSettings } from '../../../web3/web3Reducer';
 
 import AlarmIcon from '@mui/icons-material/Alarm';
 import AppsIcon from '@mui/icons-material/Apps';
@@ -16,9 +16,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AddIcon from '@mui/icons-material/AvTimer';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import LockIcon from '@mui/icons-material/PlayArrow';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import RedeemIcon from '@mui/icons-material/Redeem';
-import LockOpenIcon from '@mui/icons-material/Stop';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
@@ -39,7 +37,6 @@ import LightTooltip from '../LightTooltip';
 
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
-import { muiWhiteButtonsTheme } from '../../../styles';
 import { getNetworkDropdown } from '../Fragments/EcosystemDropdown';
 
 const useStyles = tss.create(({ theme }) => ({
@@ -155,7 +152,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 	}
 	const getCtaDetails = () => {
 		const isForecastingModeEnabled = forecastSettings.enabled
-		if (addressTokenDetails.isFluxOperator || isForecastingModeEnabled) {
+		if (addressTokenDetails.isFluxOperator || isForecastingModeEnabled || true) {
 
 			if (addressLock && addressDetails) {
 				const lockedInDamAmount = new BN(addressLock.amount);
@@ -315,56 +312,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						</>
 					}
 
-					/*const getForecastAmount = ()=>{
-						if (!forecastSettings.enabled) {
-							return null;
-						}
-
-						const totalDamSupply = balances.damTotalSupply.div(new BN(10).pow(new BN(18))).toNumber()
-						const damTokenBalance = balances.damToken.div(new BN(10).pow(new BN(18))).toNumber()
-
-						return <Slider
-							color="secondary"
-							valueLabelDisplay="off"
-							defaultValue={damTokenBalance}
-							value={forecastSettings.forecastAmount}
-							min={0}
-							max={totalDamSupply}
-							onChangeCommitted={(event: any, newValue: number | number[])=> {
-								dispatch({ type: commonLanguage.commands.ForecastSetAmount, payload: newValue as number });
-								return true;
-							}}
-							/>
-					}*/
-
-					const getForecastingSlider = (type: ForecastMultiplierType) => {
-						if (!forecastSettings.enabled) {
-							return null;
-						}
-
-						return <>Test</>
-					}
-					const getUnlockButton = () => {
-						const showUnlockDialog = () => {
-							dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Unlock } })
-						}
-
-						if (new BN(addressLock.amount).isZero()) {
-							return;
-						}
-
-						const getButton = () => {
-							const button = <Button disabled={!isCurrentAddress} size="small" variant="outlined" color="secondary" onClick={() => showUnlockDialog()} startIcon={<LockOpenIcon style={{ color: '#0FF' }} />}>Stop Mint</Button>
-
-							if (!isCurrentAddress) {
-								return <LightTooltip title="You must select this account in your wallet to stop a validator for this address."><Box display="inline-block">{button}</Box></LightTooltip>
-							}
-
-							return button;
-						}
-
-						return <Box mx={1} display="inline-block">{getButton()}</Box>
-					}
 
 					const getStartDateArea = () => {
 						if (!forecastSettings.enabled) {
@@ -945,49 +892,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			}
 		}
 
-		const getMintingText = () => {
-			if (isArbitrumMainnet) {
-				return `To run your own ${mintableTokenShortName} validator you must first enable minting on Arbitrum L2. Click the "Enable" button below to continue.`
-
-			}
-			return `To run your own validator you must first enable ${mintableTokenShortName} minting. Click the "Enable" button below to continue.`
-		}
-
-		return {
-			title: <>
-				<Grid container justifyContent="space-between">
-					<Grid>
-						Validator Dashboard {getMintHeaderLabel()}
-					</Grid>
-					<Grid>
-						<FormControlLabel
-							value="start"
-							control={<Switch checked={forecastSettings.enabled} color="secondary" onChange={() => dispatch({ type: commonLanguage.commands.ToggleForecastMode })} />}
-							label={<>
-								<Grid container alignItems="center">
-									<Grid>
-										<Box mr={0.5}><DateRangeIcon /></Box>
-									</Grid>
-									<Grid>
-										{forecastSettings.enabled ? <Typography component="div" color="secondary">Forecasting Calculator Enabled</Typography> : <Typography component="div">Forecasting Calculator</Typography>}
-									</Grid>
-								</Grid>
-							</>}
-							labelPlacement="start"
-						/>
-					</Grid>
-				</Grid>
-			</>,
-			body: <><Box mx={2} mt={3}>
-				{getMintingText()}
-			</Box></>,
-			action: <>Enable</>,
-			actionIcon: <PowerSettingsNewIcon />,
-			onClick: () => {
-				dispatch({ type: commonLanguage.commands.AuthorizeFluxOperator });
-			},
-			learnMoreHref: isHelpPageEnabled ? '#help/onboarding/connectingMetamask' : undefined
-		}
 	}
 
 	const ctaDetails = getCtaDetails();
@@ -1093,13 +997,11 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 		}
 		return (
 			<Box ml={2} display={"inline-block"}>
-				<ThemeProvider theme={muiWhiteButtonsTheme}>
-					<Link href={ctaDetails.learnMoreHref} rel="noopener noreferrer" target="_blank">
-						<Button size="large">
-							Learn More
-						</Button>
-					</Link>
-				</ThemeProvider>
+				<Link href={ctaDetails.learnMoreHref} rel="noopener noreferrer" target="_blank">
+					<Button size="large">
+						Learn More
+					</Button>
+				</Link>
 			</Box>
 		)
 	}

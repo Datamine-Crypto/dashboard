@@ -14,8 +14,8 @@ const muiTheme = createTheme({
 		mode: 'dark',
 		primary: {
 			// light: will be calculated from palette.primary.main,
-			main: '#262b4a',
-			contrastText: '#fff',
+			main: '#fff',
+			contrastText: '#0ff',
 
 
 			// dark: will be calculated from palette.primary.main,
@@ -25,6 +25,8 @@ const muiTheme = createTheme({
 			main: '#00FFFF',
 			// dark: will be calculated from palette.secondary.main,
 			contrastText: '#fff',
+		},
+		text: {
 		},
 		// Used by `getContrastText()` to maximize the contrast between
 		// the background and the text.
@@ -82,41 +84,10 @@ const muiTheme = createTheme({
 });
 export type DatamineTheme = typeof muiTheme
 
-
-/**
- * This is a theme only for making buttons white
- * @todo remove this theme completely and fix the buttons properly so we don't have two themes
- * This is only used for <Button variant="text"
- */
-const muiWhiteButtonsTheme = createTheme({
-	palette: {
-		mode: 'dark',
-		primary: {
-			main: '#fff',
-			contrastText: '#fff',
-		},
-	},
-});
-
-const muiTealButtonsTheme = createTheme({
-	palette: {
-		mode: 'dark',
-		primary: {
-			main: '#fff',
-			contrastText: '#0ff',
-		},
-		secondary: {
-			main: '#00FFFF',
-			// dark: will be calculated from palette.secondary.main,
-			contrastText: '#fff',
-		},
-	},
-});
-
 const theme = {
 	muiTheme,
 	classes
 }
 
-export { muiTealButtonsTheme, muiWhiteButtonsTheme, theme };
+export { theme };
 

@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import { Box, Button, Chip, Divider, Link, Menu, MenuItem, ThemeProvider, Typography } from "@mui/material";
+import { Box, Button, Chip, Divider, Link, Menu, MenuItem, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 
 
@@ -11,7 +11,6 @@ import uniswapLogo from '../../../../svgs/uniswap.svg';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
-import { muiWhiteButtonsTheme } from '../../../styles';
 
 const useStyles = tss.create(({ theme }) => ({
 	chip: {
@@ -215,13 +214,11 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 										</Box>
 
 									</Grid>
-									<ThemeProvider theme={muiWhiteButtonsTheme}>
-										<Grid className={classes.buttonGridItem}>
-											<Box ml={1}>
-												<Button size="large" variant="outlined" href={pool.links.info} target="_blank" rel="noopener noreferrer">Analytics</Button>
-											</Box>
-										</Grid>
-									</ThemeProvider>
+									<Grid className={classes.buttonGridItem}>
+										<Box ml={1}>
+											<Button size="large" variant="outlined" href={pool.links.info} target="_blank" rel="noopener noreferrer">Analytics</Button>
+										</Box>
+									</Grid>
 
 									<Grid className={classes.buttonGridItem}>
 										<Box mx={1}>

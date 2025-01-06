@@ -194,7 +194,9 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 				return button;
 			}
 
-			return <Box mx={1} display="inline-block">{getButton()}</Box>
+			return <Box mx={1} display="inline-block">
+				{getButton()}
+			</Box>
 		}
 
 		const getLockedInAmount = () => {
