@@ -16,6 +16,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AddIcon from '@mui/icons-material/AvTimer';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import LockIcon from '@mui/icons-material/PlayArrow';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 
@@ -152,7 +153,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 	}
 	const getCtaDetails = () => {
 		const isForecastingModeEnabled = forecastSettings.enabled
-		if (addressTokenDetails.isFluxOperator || isForecastingModeEnabled || true) {
+		if (addressTokenDetails.isFluxOperator || isForecastingModeEnabled) {
 
 			if (addressLock && addressDetails) {
 				const lockedInDamAmount = new BN(addressLock.amount);
@@ -892,6 +893,49 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			}
 		}
 
+		const getMintingText = () => {
+			if (isArbitrumMainnet) {
+				return `To run your own ${mintableTokenShortName} validator you must first enable minting on Arbitrum L2. Click the "Enable" button below to continue.`
+
+			}
+			return `To run your own validator you must first enable ${mintableTokenShortName} minting. Click the "Enable" button below to continue.`
+		}
+
+		return {
+			title: <>
+				<Grid container justifyContent="space-between">
+					<Grid>
+						Validator Dashboard {getMintHeaderLabel()}
+					</Grid>
+					<Grid>
+						<FormControlLabel
+							value="start"
+							control={<Switch checked={forecastSettings.enabled} color="secondary" onChange={() => dispatch({ type: commonLanguage.commands.ToggleForecastMode })} />}
+							label={<>
+								<Grid container alignItems="center">
+									<Grid>
+										<Box mr={0.5}><DateRangeIcon /></Box>
+									</Grid>
+									<Grid>
+										{forecastSettings.enabled ? <Typography component="div" color="secondary">Forecasting Calculator Enabled</Typography> : <Typography component="div">Forecasting Calculator</Typography>}
+									</Grid>
+								</Grid>
+							</>}
+							labelPlacement="start"
+						/>
+					</Grid>
+				</Grid>
+			</>,
+			body: <><Box mx={2} mt={3}>
+				{getMintingText()}
+			</Box></>,
+			action: <>Enable</>,
+			actionIcon: <PowerSettingsNewIcon />,
+			onClick: () => {
+				dispatch({ type: commonLanguage.commands.AuthorizeFluxOperator });
+			},
+			learnMoreHref: isHelpPageEnabled ? '#help/onboarding/connectingMetamask' : undefined
+		}
 	}
 
 	const ctaDetails = getCtaDetails();
