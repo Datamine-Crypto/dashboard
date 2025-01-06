@@ -352,22 +352,35 @@ const withWeb3 = (web3: Web3, contract: any) => {
 				throw extractedError[1].replace('execution reverted: ', '')
 			}
 
-			const splitError = err.message.split(/\n(.+)/);
-			if (splitError.length === 3) {
-				let jsonData = null;
-				try {
-					jsonData = JSON.parse(splitError[1])
-				} catch (err) {
-				}
-
+			// Convert web3 error into human-readable exception (ex: not enough to lock-in)
+			const tryThrowError = (jsonData: any) => {
 				if (jsonData && jsonData.data) {
 					for (const [, errorDetails] of (Object.entries(jsonData.data) as any)) {
-						if (errorDetails.reason) {
+						if (errorDetails?.reason) {
 							throw errorDetails.reason;
 						}
 					}
+					if (jsonData.data.message) {
+						throw jsonData.data.message;
+					}
+				}
+			}
+
+			const splitError = err.message.split(/\n(.+)/);
+			try {
+				if (splitError.length === 3) {
+					let jsonData = null;
+					try {
+						jsonData = JSON.parse(splitError[1])
+					} catch (err) {
+					}
+					tryThrowError(jsonData)
 				}
 
+				if (err && err.data) {
+					tryThrowError(err)
+				}
+			} catch (err) {
 			}
 
 			console.log('Unhandled exception:', err);

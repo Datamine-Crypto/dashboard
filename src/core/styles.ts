@@ -98,11 +98,25 @@ const muiWhiteButtonsTheme = createTheme({
 	},
 });
 
+const muiTealButtonsTheme = createTheme({
+	palette: {
+		mode: 'dark',
+		primary: {
+			main: '#fff',
+			contrastText: '#0ff',
+		},
+		secondary: {
+			main: '#00FFFF',
+			// dark: will be calculated from palette.secondary.main,
+			contrastText: '#fff',
+		},
+	},
+});
 
 const theme = {
 	muiTheme,
 	classes
 }
 
-export { muiWhiteButtonsTheme, theme };
+export { muiTealButtonsTheme, muiWhiteButtonsTheme, theme };
 

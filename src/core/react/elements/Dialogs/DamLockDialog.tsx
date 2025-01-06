@@ -1,8 +1,9 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, ThemeProvider, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
+import { muiTealButtonsTheme } from '../../../styles';
 import { BNToDecimal } from '../../../web3/helpers';
 import { Web3Context } from '../../../web3/Web3Context';
 import { Balances, commonLanguage } from '../../../web3/web3Reducer';
@@ -63,39 +64,42 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 		<form onSubmit={onSubmit}>
 			<DialogTitle id="form-dialog-title">Start {mintableTokenShortName} Validator</DialogTitle>
 			<DialogContent>
-				<Box>From Address: <Box display="inline" fontWeight="fontWeightBold">{selectedAddress}</Box></Box>
-				<Box my={1}>Current Balance: <Box display="inline" fontWeight="fontWeightBold">{BNToDecimal(balances.damToken, true)} {lockableTokenShortName}</Box></Box>
-				<Box my={2}><Divider /></Box>
-				<Box mb={4}>
-					<Typography component="div">To continue select how many {lockableTokenShortName} tokens you wish to start your validator with. You can stop your validator to get 100% of {lockableTokenShortName} tokens back at any time.</Typography>
-				</Box>
 
-				<Box my={1}>
-					<TextField
-						autoFocus
-						id="name"
-						label={`Validator Size (${lockableTokenShortName}) Tokens)`}
-						type="text"
-						variant="outlined"
-						value={amount}
-						onChange={(e) => setAmount(e.target.value)}
-						error={!!error}
-						helperText={error}
-						fullWidth
-					/>
-				</Box>
+				<ThemeProvider theme={muiTealButtonsTheme}>
+					<Box>From Address: <Box display="inline" fontWeight="fontWeightBold">{selectedAddress}</Box></Box>
+					<Box my={1}>Current Balance: <Box display="inline" fontWeight="fontWeightBold">{BNToDecimal(balances.damToken, true)} {lockableTokenShortName}</Box></Box>
+					<Box my={2}><Divider /></Box>
+					<Box mb={4}>
+						<Typography component="div">To continue select how many {lockableTokenShortName} tokens you wish to start your validator with. You can stop your validator to get 100% of {lockableTokenShortName} tokens back at any time.</Typography>
+					</Box>
 
-				<Box my={3}>
-					<FormControl component="fieldset">
-						<FormLabel component="legend">Minting Address</FormLabel>
-						<RadioGroup aria-label="gender" name="gender1" value={minterType} onChange={event => setMinterType((event.target as HTMLInputElement).value)}>
-							<FormControlLabel value="self" control={<Radio />} label={`I want to mint my own ${mintableTokenShortName} tokens`} />
-							<FormControlLabel value="delegated" control={<Radio />} label={<>Another address mints {mintableTokenShortName} on my behalf <Typography component="div" color="textSecondary" display="inline" variant="body2">(Delegated Minter)</Typography></>} />
-						</RadioGroup>
-					</FormControl>
-				</Box>
+					<Box my={1}>
+						<TextField
+							autoFocus
+							id="name"
+							label={`Validator Size (${lockableTokenShortName}) Tokens)`}
+							type="text"
+							variant="outlined"
+							value={amount}
+							onChange={(e) => setAmount(e.target.value)}
+							error={!!error}
+							helperText={error}
+							fullWidth
+						/>
+					</Box>
 
-				{getDelegatedMinterBox()}
+					<Box my={3}>
+						<FormControl component="fieldset">
+							<FormLabel component="legend">Minting Address</FormLabel>
+							<RadioGroup aria-label="gender" name="gender1" value={minterType} onChange={event => setMinterType((event.target as HTMLInputElement).value)}>
+								<FormControlLabel value="self" control={<Radio color="secondary" />} label={`I want to mint my own ${mintableTokenShortName} tokens`} />
+								<FormControlLabel value="delegated" control={<Radio color="secondary" />} label={<>Another address mints {mintableTokenShortName} on my behalf <Typography component="div" color="textSecondary" display="inline" variant="body2">(Delegated Minter)</Typography></>} />
+							</RadioGroup>
+						</FormControl>
+					</Box>
+
+					{getDelegatedMinterBox()}
+				</ThemeProvider>
 
 				<Box mt={2}><Divider /></Box>
 			</DialogContent>

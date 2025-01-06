@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, Divider, FormControlLabel, LinearProgress, Link, Slider, Switch, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, Divider, FormControlLabel, LinearProgress, Link, Slider, Switch, Table, TableBody, TableCell, TableContainer, TableRow, TextField, ThemeProvider, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
 import Grid from '@mui/material/Grid2';
@@ -39,6 +39,7 @@ import LightTooltip from '../LightTooltip';
 
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
+import { muiWhiteButtonsTheme } from '../../../styles';
 import { getNetworkDropdown } from '../Fragments/EcosystemDropdown';
 
 const useStyles = tss.create(({ theme }) => ({
@@ -1092,11 +1093,13 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 		}
 		return (
 			<Box ml={2} display={"inline-block"}>
-				<Link href={ctaDetails.learnMoreHref} rel="noopener noreferrer" target="_blank">
-					<Button size="large">
-						Learn More
-					</Button>
-				</Link>
+				<ThemeProvider theme={muiWhiteButtonsTheme}>
+					<Link href={ctaDetails.learnMoreHref} rel="noopener noreferrer" target="_blank">
+						<Button size="large">
+							Learn More
+						</Button>
+					</Link>
+				</ThemeProvider>
 			</Box>
 		)
 	}
