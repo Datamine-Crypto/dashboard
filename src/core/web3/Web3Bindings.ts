@@ -13,9 +13,10 @@ import { withWeb3 } from './helpers';
 import BN from 'bn.js';
 import Fuse from 'fuse.js';
 
+import { EthereumProvider } from "@walletconnect/ethereum-provider";
 import { HelpArticle, helpArticles } from '../helpArticles';
 import { QueryHandler } from '../sideEffectReducer';
-//import WalletConnectProvider from "@walletconnect/web3-provider"; //@todo MUI5
+
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import axios from 'axios';
@@ -52,7 +53,7 @@ const removeMetaTags = () => {
 	removeMetaTag('og:description');
 }
 
-let walletConnectProvider: any = null; //WalletConnectProvider | null = null;  //@todo MUI5
+let walletConnectProvider: any = null;
 let preselectedAddress: string | null = null;
 
 const getSelectedAddress = () => {
@@ -192,21 +193,25 @@ const getSignature = async (web3: any, selectedAddress: any) => {
 	return result;
 }
 
-const getProvider = async ({ isArbitrumMainnet, useWalletConnect }: { isArbitrumMainnet: boolean, useWalletConnect: boolean }) => {
+const getProvider = async ({ isArbitrumMainnet, useWalletConnect, ecosystem }: { isArbitrumMainnet: boolean, useWalletConnect: boolean, ecosystem: Ecosystem }) => {
 	if (!!useWalletConnect) {
 		removeMetaTags();
 
-		walletConnectProvider = new WalletConnectProvider({
-			//infuraId: localConfig.infuraId,
-			rpc: {
-				1: 'https://rpc.ankr.com/eth',
-				42161: 'https://arb1.arbitrum.io/rpc'
-			},
-			chainId: isArbitrumMainnet ? 42161 : 1
+		const config = getEcosystemConfig(ecosystem);
+
+		walletConnectProvider = await EthereumProvider.init({
+			projectId: config.walletConnect.projectId, // REQUIRED your projectId
+			optionalChains: config.walletConnect.optionalChains as any, // REQUIRED chain ids
+			rpcMap: config.walletConnect.rpcMap, // REQUIRED chain ids
+			showQrModal: true,
+			metadata: config.walletConnect.metadata
+
+			/*
+			qrModalOptions, // OPTIONAL - `undefined` by default
+			*/
 		});
 
 		//  Enable session (triggers QR Code modal)
-
 		await walletConnectProvider.enable();
 
 		return walletConnectProvider;
@@ -246,12 +251,12 @@ const getProvider = async ({ isArbitrumMainnet, useWalletConnect }: { isArbitrum
 
 
 const queryHandlers = {
-	[commonLanguage.queries.FindWeb3Instance]: async ({ query, dispatch }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.FindWeb3Instance]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
 		const isArbitrumMainnet = query.payload?.isArbitrumMainnet;
 
 		const useWalletConnect = query.payload?.useWalletConnect
 
-		const provider = await getProvider({ useWalletConnect, isArbitrumMainnet })
+		const provider = await getProvider({ useWalletConnect, isArbitrumMainnet, ecosystem: state.ecosystem })
 		devLog('Found provider:', { provider, isArbitrumMainnet, useWalletConnect })
 		web3provider = provider;
 
@@ -341,7 +346,7 @@ const queryHandlers = {
 
 		if (!web3provider) {
 			devLog('EnableWeb3 web3provider is missing?')
-			web3provider = await getProvider({ useWalletConnect: false, isArbitrumMainnet: false })
+			web3provider = await getProvider({ useWalletConnect: false, isArbitrumMainnet: false, ecosystem: state.ecosystem })
 		}
 
 		// Checks to see if user has selectedAddress. If not we'll call eth_requestAccounts and select first one
@@ -1308,3 +1313,4 @@ const queryHandlers = {
 export {
 	queryHandlers
 };
+

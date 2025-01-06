@@ -1,12 +1,12 @@
-import fluxLogo from '../svgs/fluxLogo.svg';
 import arbiFluxLogo from '../svgs/arbiFluxLogo.svg';
+import fluxLogo from '../svgs/fluxLogo.svg';
 import lockquidityLogo from '../svgs/lockquidity.svg';
 
 import logo from '../svgs/logo.svg';
+import { Ecosystem } from './config.common';
+import { getArbiFluxLockquidityEcosystemConfig } from './ecosystems/config.ecosystem.arbiflux_lockquidity_l2';
 import { getDamFluxEcosystemConfig } from './ecosystems/config.ecosystem.dam_flux_l1';
 import { getFluxArbiFluxEcosystemConfig } from './ecosystems/config.ecosystem.flux_arbiflux_l2';
-import { getArbiFluxLockquidityEcosystemConfig } from './ecosystems/config.ecosystem.arbiflux_lockquidity_l2';
-import { Ecosystem } from './config.common';
 
 export const ecosystemConfigs = {
 	[Ecosystem.Flux]: getDamFluxEcosystemConfig(),
@@ -200,6 +200,24 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 			 * If you set this to null it won't show the button on link
 			 */
 			discordInviteLink: 'https://discord.gg/2dQ7XAB22u' as string | null
+		},
+
+		walletConnect: {
+			projectId: 'e6d6b80cec26fb35f4ae37173c3b4620',
+			optionalChains: [
+				1, // ETH
+				42161 // Arbitrum
+			],
+			rpcMap: {
+				'1': 'https://rpc.ankr.com/eth',
+				'42161': 'https://arb1.arbitrum.io/rpc'
+			},
+			metadata: {
+				name: 'Datamine Network',
+				description: 'Datamine FLUX is DeFi\'s first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.',
+				url: 'https://datamine-crypto.github.io/realtime-decentralized-dashboard/', // origin must match your domain & subdomain
+				icons: ['https://raw.githubusercontent.com/Datamine-Crypto/realtime-decentralized-dashboard/refs/heads/master/logos/dam256.png']
+			}
 		}
 	}
 
