@@ -128,6 +128,11 @@ export interface Web3State {
 	lastAccountRefreshTimestampMs: number;
 
 	ecosystem: Ecosystem;
+
+	/**
+	 * What is the ecosystem the user is trying to target? (Usually with ecosystem dropdown)
+	 */
+	targetEcosystem: Ecosystem | null;
 }
 
 const createWithWithQueries = (state: any) => {
@@ -163,9 +168,6 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 
 	const withQueries = createWithWithQueries(state)
 
-	const { ecosystem } = state
-	const ecosystemConfig = getEcosystemConfig(ecosystem)
-
 	switch (query.type) {
 		case commonLanguage.queries.FindWeb3Instance:
 			{
@@ -180,14 +182,16 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 				const { web3, selectedAddress, networkType, chainId, useWalletConnect } = response;
 
 				const isArbitrumMainnet = chainId === 42161
-				devLog('FindWeb3Instance reducer isArbitrumMainnet:', { networkType, chainId, isArbitrumMainnet, ecosystem })
+				devLog('FindWeb3Instance reducer isArbitrumMainnet:', { networkType, chainId, isArbitrumMainnet, ecosystem: state.ecosystem, targetEcosystem: state.targetEcosystem })
+
 
 				/**
 				 * Possibly override the current ecosystem once we figure out what network we're on
 				 * For example if we're on L1 and last known ecosystem selected was L2 then change it to L1 and user doesn't have to refresh anything
 				 * @todo the ecosystems are hard-coded here just change it to have some setting for which ecosystem is "default" for that layer (or pick first one from the layers)
 				 */
-				const getUpdatedEcosystem = () => {
+				const getUpdatedEcosystem = (ecosystem: Ecosystem) => {
+					const ecosystemConfig = getEcosystemConfig(ecosystem)
 					// Default to Flux (L1) if not on Arbitrum
 					if (ecosystemConfig.layer == Layer.Layer2 && !isArbitrumMainnet) {
 						return Ecosystem.Flux;
@@ -200,7 +204,7 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					// Return whatever user selected last
 					return ecosystem;
 				}
-				const updatedEcosystem = getUpdatedEcosystem()
+				const updatedEcosystem = !state.targetEcosystem ? getUpdatedEcosystem(state.ecosystem) : getUpdatedEcosystem(state.targetEcosystem)
 
 				const isUnsupportedNetwork = config.isArbitrumOnlyToken && !isArbitrumMainnet
 
@@ -787,6 +791,9 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				localStorage.setItem('walletConnectRpc', rpcAddress)
 			}*/
 
+			//@todo figure out if we still need this hasWeb3 logic
+
+			/*
 			if (state.hasWeb3) {
 
 				return {
@@ -796,14 +803,25 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					error: null,
 					...withQueries([{ type: commonLanguage.queries.EnableWalletConnect, payload: { isArbitrumMainnet } }])
 				}
-			}
+			}*/
 
+			//web3provider = await getProvider({ useWalletConnect: false, isArbitrumMainnet: false, ecosystem: state.ecosystem })
 			return {
 				...state,
 				isArbitrumMainnet,
 				dialog: null,
 				error: null,
-				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance, payload: { useWalletConnect: true, isArbitrumMainnet } }])
+				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance, payload: { useWalletConnect: true } }])
+			}
+		}
+		case commonLanguage.commands.ReinitializeWeb3: {
+
+			const { targetEcosystem } = command.payload;
+
+			return {
+				...state,
+				targetEcosystem,
+				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance, payload: { targetEcosystem, useWalletConnect: state.connectionMethod === ConnectionMethod.WalletConnect } }])
 			}
 		}
 		case commonLanguage.commands.DisconnectFromWalletConnect:
@@ -1115,6 +1133,7 @@ const initialState: Web3State = {
 	isMobileDrawerOpen: false,
 	connectionMethod: ConnectionMethod.MetaMask,
 	ecosystem: defaultEcosystem,
+	targetEcosystem: null,
 
 	walletConnectRpc: null,
 	clientSettings: {
@@ -1175,7 +1194,12 @@ const commonLanguage = {
 			SetCurrency: 'SET_CURRENCY'
 		},
 
-		UpdateEcosystem: 'UPDATE_ECOSYSTEM'
+		UpdateEcosystem: 'UPDATE_ECOSYSTEM',
+		/**
+		 * Sometimes we want to re-initialzie web3 specifically when changing networks (Ex: ETH->Arbitrum)
+		 * When initializing web3 on different network, we properly update current ecosystem (Ex: Changing DAM L1->LOCK L2)
+		 */
+		ReinitializeWeb3: 'REINITILIZE_WEB3'
 	},
 	queries: {
 		FindWeb3Instance: 'FIND_WEB3_INSTANCE',
@@ -1208,3 +1232,4 @@ const commonLanguage = {
 export {
 	commonLanguage, handleCommand, handleQueryResponse, initialState
 };
+

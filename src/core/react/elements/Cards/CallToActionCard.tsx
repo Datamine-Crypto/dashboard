@@ -8,7 +8,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import Big from 'big.js';
 import BN from 'bn.js';
 import { Web3Context } from '../../../web3/Web3Context';
-import { Balances, ClientSettings, commonLanguage, ForecastSettings } from '../../../web3/web3Reducer';
+import { Balances, ClientSettings, commonLanguage, ConnectionMethod, ForecastSettings } from '../../../web3/web3Reducer';
 
 import AlarmIcon from '@mui/icons-material/Alarm';
 import AppsIcon from '@mui/icons-material/Apps';
@@ -122,8 +122,9 @@ interface RenderParams {
 	clientSettings: ClientSettings;
 	dispatch: React.Dispatch<any>;
 	ecosystem: Ecosystem;
+	connectionMethod: ConnectionMethod;
 }
-const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, ecosystem }) => {
+const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, ecosystem, connectionMethod }) => {
 	const { classes } = useStyles();
 
 	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, minBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals, mintableTokenContractAddress } = getConfig(ecosystem)
@@ -1062,7 +1063,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							{getBridgeButton()}
 						</Grid>
 						<Grid>
-							{getNetworkDropdown(ecosystem, dispatch)}
+							{getNetworkDropdown(ecosystem, connectionMethod, dispatch)}
 						</Grid>
 					</Grid>
 				</Grid>
@@ -1103,8 +1104,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 const CallToActionCard: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
-	const { addressLock, address, selectedAddress, addressDetails, addressTokenDetails, balances, forecastSettings, clientSettings, ecosystem } = web3State;
-	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances) {
+	const { addressLock, address, selectedAddress, addressDetails, addressTokenDetails, balances, forecastSettings, clientSettings, ecosystem, connectionMethod } = web3State;
+	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances || !connectionMethod) {
 		return null;
 	}
 
@@ -1121,6 +1122,7 @@ const CallToActionCard: React.FC = () => {
 		forecastSettings={forecastSettings}
 		clientSettings={clientSettings}
 		ecosystem={ecosystem}
+		connectionMethod={connectionMethod}
 	/>
 }
 

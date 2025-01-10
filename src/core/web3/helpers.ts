@@ -2,11 +2,14 @@ import BN from 'bn.js';
 import Web3 from "web3";
 import { Token } from "../interfaces";
 
+import detectEthereumProvider from '@metamask/detect-provider';
+import { EthereumProvider } from "@walletconnect/ethereum-provider";
 import Big from 'big.js';
 import moment from 'moment';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../configs/config';
 import { Ecosystem } from "../../configs/config.common";
-import { Balances } from "./web3Reducer";
+import { devLog } from '../utils/devLog';
+import { Balances, ConnectionMethod } from "./web3Reducer";
 
 interface PriceToggle {
 	value: BN;
@@ -110,10 +113,96 @@ interface BurnToAddressParams {
 interface UnlockParams {
 	from: string;
 }
-export const switchNetwork = async (chainId: string) => {
 
-	const { ethereum } = window as any;
 
+
+export const getWeb3Provider = async ({ useWalletConnect, ecosystem }: { useWalletConnect: boolean, ecosystem: Ecosystem }) => {
+
+	/**
+	 * Remove meta tags that cause WalletConnect issues for coinomi  
+	 */
+	const removeMetaTags = () => {
+		const removeMetaTag = (metaName: string) => {
+			const metas = document.getElementsByTagName('meta');
+
+			for (let i = 0; i < metas.length; i++) {
+				if (metas[i].getAttribute('property') === metaName || metas[i].getAttribute('name') === metaName) {
+					return metas[i].remove();
+				}
+			}
+		}
+		removeMetaTag('description');
+		removeMetaTag('og:description');
+	}
+
+	if (!!useWalletConnect) {
+		removeMetaTags();
+
+		const config = getEcosystemConfig(ecosystem);
+
+		const walletConnectProvider = await EthereumProvider.init({
+			projectId: config.walletConnect.projectId, // REQUIRED your projectId
+			optionalChains: config.walletConnect.optionalChains as any, // REQUIRED chain ids
+			rpcMap: config.walletConnect.rpcMap, // REQUIRED chain ids
+			showQrModal: true,
+			metadata: config.walletConnect.metadata
+
+			/*
+			qrModalOptions, // OPTIONAL - `undefined` by default
+			*/
+		});
+
+		//  Enable session (triggers QR Code modal)
+		await walletConnectProvider.enable();
+
+		return walletConnectProvider;
+	}
+
+	const { ethereum } = (window as any)
+	if (ethereum) {
+		devLog('found window.ethereum provider:')
+		return ethereum
+	}
+
+	try {
+		const provider = await detectEthereumProvider();
+		return provider;
+	} catch (err) {
+
+	}
+
+	// Trustwallet provider
+	{
+		const { trustwallet } = window as any
+		if (trustwallet && trustwallet.Provider) {
+			return trustwallet.Provider
+		}
+	}
+
+	// For generic web3 
+	{
+		const web3 = (window as any).web3
+		if (web3 && web3.currentProvider) {
+			return web3.currentProvider
+		}
+	}
+
+	return ethereum as any;
+}
+
+
+export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: ConnectionMethod, chainId: string) => {
+
+	//const { ethereum } = window as any;
+	const ethereum = await getWeb3Provider({
+		ecosystem,
+		useWalletConnect: connectionMethod === ConnectionMethod.WalletConnect
+	})
+
+	if (!ethereum) {
+		alert('Failed switching network, no Web3 provider found');
+		return;
+	}
 
 	try {
 		await ethereum.request({
@@ -147,11 +236,18 @@ export const switchNetwork = async (chainId: string) => {
 
 }
 
-export const addToMetamask = (ecosystem: Ecosystem) => {
+export const addToMetamask = async (ecosystem: Ecosystem) => {
 	const config = getConfig(ecosystem);
 	const { mintableTokenShortName, lockableTokenShortName, dashboardAbsoluteUrl, lockableTokenLogoFileName, mintableTokenLogoFileName } = config
 
-	const { ethereum } = window as any;
+	const ethereum = await getWeb3Provider({
+		ecosystem,
+		useWalletConnect: true //@todo
+	})
+	if (!ethereum) {
+		alert('Failed adding to Metamask, no Web3 provider found');
+		return;
+	}
 
 	// You will notice " (L2)" replacement here to be an empty string. Currently token symbol MUST MATCH CONTRACT token name
 	// (L2) was added for extra readability so this is just a workaround

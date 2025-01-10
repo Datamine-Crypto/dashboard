@@ -30,7 +30,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 	};
 
 	const getButton = () => {
-		return <Button variant="outlined" color="secondary" size="large" onClick={handleClick}>
+		// We can show L1/L2 dropdowns with onClick={handleClick}
+		// This used to be necessary for WalletConnect v1
+		return <Button variant="outlined" color="secondary" size="large" onClick={() => dispatch({ type: web3CommonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: true } })}>
 			<Box mr={1} display="inline"><img src={walletconnectIcon} alt="WalletConnect" width="24" height="24" style={{ verticalAlign: 'middle' }} /></Box>
 			Use WalletConnect
 		</Button>

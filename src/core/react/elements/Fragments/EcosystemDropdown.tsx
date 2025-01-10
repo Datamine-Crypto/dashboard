@@ -5,9 +5,9 @@ import { getEcosystemConfig } from "../../../../configs/config";
 import { ecosystemConfigs } from "../../../../configs/config.base";
 import { Ecosystem, Layer } from "../../../../configs/config.common";
 import { switchNetwork } from "../../../web3/helpers";
-import { commonLanguage } from "../../../web3/web3Reducer";
+import { commonLanguage, ConnectionMethod } from "../../../web3/web3Reducer";
 
-export const getNetworkDropdown = (ecosystem: Ecosystem, dispatch: React.Dispatch<any>) => {
+export const getNetworkDropdown = (ecosystem: Ecosystem, connectionMethod: ConnectionMethod, dispatch: React.Dispatch<any>) => {
 
 
 	// All the known ecosystems will be iterated over
@@ -44,18 +44,20 @@ export const getNetworkDropdown = (ecosystem: Ecosystem, dispatch: React.Dispatc
 			<Select
 				labelId="network-type"
 				value={ecosystem}
-				onChange={e => {
+				onChange={async (e) => {
 					const targetEcosystem = e.target.value as Ecosystem
 					const targetEcosystemConfig = getEcosystemConfig(targetEcosystem)
 
-					switchNetwork(targetEcosystemConfig.layer === Layer.Layer2 ? '0xa4b1' : '0x1')
+					await switchNetwork(targetEcosystem, connectionMethod, targetEcosystemConfig.layer === Layer.Layer2 ? '0xa4b1' : '0x1')
+					localStorage.setItem('targetEcosystem', targetEcosystem)
 
-					dispatch({ type: commonLanguage.commands.UpdateEcosystem, payload: { ecosystem: targetEcosystem } })
-					dispatch({ type: commonLanguage.commands.RefreshAccountState, payload: { forceRefresh: true } })
+					dispatch({ type: commonLanguage.commands.ReinitializeWeb3, payload: { targetEcosystem } })
+
+					//dispatch({ type: commonLanguage.commands.RefreshAccountState, payload: { forceRefresh: true } })
 
 					//@todo this is a temporary hard-coded way to remember last item from the dropdown
 					//@todo the downside to doing this is that if you go L2->L1 from ArbiFLux but don't finish if you refresh targetEcosystem would be defaulted to Lockquidity
-					localStorage.setItem('targetEcosystem', targetEcosystem)
+
 
 				}}
 				label="Ecosystem"

@@ -8,16 +8,14 @@ import fluxTokenAbi from './abis/flux.json';
 import multicallAbi from './abis/multicall.json';
 import uniswapPairV3Abi from './abis/uniswapPairV3.json';
 
-import { withWeb3 } from './helpers';
+import { getWeb3Provider, withWeb3 } from './helpers';
 
 import BN from 'bn.js';
 import Fuse from 'fuse.js';
 
-import { EthereumProvider } from "@walletconnect/ethereum-provider";
 import { HelpArticle, helpArticles } from '../helpArticles';
 import { QueryHandler } from '../sideEffectReducer';
 
-import detectEthereumProvider from '@metamask/detect-provider';
 
 import axios from 'axios';
 import { getEcosystemConfig } from '../../configs/config';
@@ -27,39 +25,16 @@ import { decodeMulticall, encodeMulticall } from '../utils/web3multicall';
 
 let web3provider: any = null;
 
-class WalletConnectProvider {
-	/**
-	 *
-	 */
-	constructor(test: any) {
-
-	}
-}
-
-/**
- * Remove meta tags that cause WalletConnect issues for coinomi  
- */
-const removeMetaTags = () => {
-	const removeMetaTag = (metaName: string) => {
-		const metas = document.getElementsByTagName('meta');
-
-		for (let i = 0; i < metas.length; i++) {
-			if (metas[i].getAttribute('property') === metaName || metas[i].getAttribute('name') === metaName) {
-				return metas[i].remove();
-			}
-		}
-	}
-	removeMetaTag('description');
-	removeMetaTag('og:description');
-}
-
-let walletConnectProvider: any = null;
 let preselectedAddress: string | null = null;
 
 const getSelectedAddress = () => {
-	if (walletConnectProvider != null) {
+	if (!web3provider) {
+		return null;
+	}
 
-		const selectedAddress = walletConnectProvider.accounts.length > 0 ? walletConnectProvider.accounts[0] : null;
+	if (web3provider.accounts != null && web3provider.accounts.length > 0) {
+
+		const selectedAddress = web3provider.accounts.length > 0 ? web3provider.accounts[0] : null;
 		return selectedAddress
 	}
 
@@ -193,112 +168,45 @@ const getSignature = async (web3: any, selectedAddress: any) => {
 	return result;
 }
 
-const getProvider = async ({ isArbitrumMainnet, useWalletConnect, ecosystem }: { isArbitrumMainnet: boolean, useWalletConnect: boolean, ecosystem: Ecosystem }) => {
-	if (!!useWalletConnect) {
-		removeMetaTags();
-
-		const config = getEcosystemConfig(ecosystem);
-
-		walletConnectProvider = await EthereumProvider.init({
-			projectId: config.walletConnect.projectId, // REQUIRED your projectId
-			optionalChains: config.walletConnect.optionalChains as any, // REQUIRED chain ids
-			rpcMap: config.walletConnect.rpcMap, // REQUIRED chain ids
-			showQrModal: true,
-			metadata: config.walletConnect.metadata
-
-			/*
-			qrModalOptions, // OPTIONAL - `undefined` by default
-			*/
-		});
-
-		//  Enable session (triggers QR Code modal)
-		await walletConnectProvider.enable();
-
-		return walletConnectProvider;
-	}
-
-	const { ethereum } = (window as any)
-	if (ethereum) {
-		devLog('found window.ethereum provider:')
-		return ethereum
-	}
-
-	try {
-		const provider = await detectEthereumProvider();
-		return provider;
-	} catch (err) {
-
-	}
-
-	// Trustwallet provider
-	{
-		const { trustwallet } = window as any
-		if (trustwallet && trustwallet.Provider) {
-			return trustwallet.Provider
-		}
-	}
-
-	// For generic web3 
-	{
-		const web3 = (window as any).web3
-		if (web3 && web3.currentProvider) {
-			return web3.currentProvider
-		}
-	}
-
-	return ethereum as any;
-}
-
 
 const queryHandlers = {
 	[commonLanguage.queries.FindWeb3Instance]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
-		const isArbitrumMainnet = query.payload?.isArbitrumMainnet;
 
 		const useWalletConnect = query.payload?.useWalletConnect
 
-		const provider = await getProvider({ useWalletConnect, isArbitrumMainnet, ecosystem: state.ecosystem })
-		devLog('Found provider:', { provider, isArbitrumMainnet, useWalletConnect })
+		const provider = await getWeb3Provider({ useWalletConnect, ecosystem: state.ecosystem })
+		devLog('Found provider:', { provider, useWalletConnect, ecosystem: state.ecosystem })
 		web3provider = provider;
 
 		if (provider) {
 			const web3 = new Web3(provider);
 
-			if (!useWalletConnect) {
-				/**
-				 * Listen for any account changes to refresh data
-				 */
-				const subscribeToAccountUpdates = (dispatch: React.Dispatch<any>) => {
-					provider.on('accountsChanged', () => {
-						dispatch({
-							type: commonLanguage.commands.RefreshAccountState,
-							payload: { updateEthBalance: true }
-						});
+			/**
+			 * Listen for any account changes to refresh data
+			 */
+			const subscribeToAccountUpdates = (dispatch: React.Dispatch<any>) => {
+				provider.on('accountsChanged', () => {
+					dispatch({
+						type: commonLanguage.commands.RefreshAccountState,
+						payload: { updateEthBalance: true }
 					});
-				}
-				subscribeToAccountUpdates(dispatch);
-
-				const subscribeToNetworkChanges = (dispatch: React.Dispatch<any>) => {
-					provider.on('networkChanged', () => {
-						window.location.reload();
-					});
-				}
-				subscribeToNetworkChanges(dispatch);
-			} else {
-				// WalletConnect address
-				if (walletConnectProvider) {
-					provider.on('accountsChanged', () => {
-						dispatch({
-							type: commonLanguage.commands.RefreshAccountState,
-							payload: { updateEthBalance: true }
-						});
-					});
-					provider.on('disconnect', () => {
-						window.location.reload();
-					});
-				}
+				});
 			}
+			subscribeToAccountUpdates(dispatch);
 
+			const subscribeToNetworkChanges = (dispatch: React.Dispatch<any>) => {
+				provider.on('networkChanged', () => {
+					dispatch({
+						type: commonLanguage.commands.ReinitializeWeb3, payload: { targetEcosystem: state.targetEcosystem }
+					});
+				});
 
+				// For WalletConnect
+				provider.on('disconnect', () => {
+					window.location.reload();
+				});
+			}
+			subscribeToNetworkChanges(dispatch);
 
 			const getInitialSelectedAddress = () => {
 				if (localConfig.skipInitialConnection) {
@@ -326,6 +234,7 @@ const queryHandlers = {
 			// We'll be handling errors from reverts so pass them in. (Arbitrum can't use this)
 			if (!isArbitrumMainnet) {
 				//	web3.eth.handleRevert = false;
+				// This was commented out but we handle exceptions by catching them (see handleError() in helpers.ts)
 			}
 
 			return {
@@ -342,11 +251,11 @@ const queryHandlers = {
 	},
 	[commonLanguage.queries.EnableWeb3]: async ({ state, dispatch }: QueryHandler<Web3State>) => {
 		// Reemove wlaletConnectionProvider to ensure getSelectedAddress() returns proper address
-		walletConnectProvider = null;
+		//walletConnectProvider = null;
 
 		if (!web3provider) {
 			devLog('EnableWeb3 web3provider is missing?')
-			web3provider = await getProvider({ useWalletConnect: false, isArbitrumMainnet: false, ecosystem: state.ecosystem })
+			web3provider = await getWeb3Provider({ useWalletConnect: false, ecosystem: state.ecosystem })
 		}
 
 		// Checks to see if user has selectedAddress. If not we'll call eth_requestAccounts and select first one
@@ -365,6 +274,7 @@ const queryHandlers = {
 			selectedAddress
 		}
 	},
+	/*
 	[commonLanguage.queries.EnableWalletConnect]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
 		const { isArbitrumMainnet } = query.payload
 
@@ -412,9 +322,10 @@ const queryHandlers = {
 			selectedAddress
 		}
 	},
+	*/
 	[commonLanguage.queries.DisconnectWalletConnect]: async ({ state, dispatch }: QueryHandler<Web3State>) => {
-		if (walletConnectProvider) {
-			walletConnectProvider.disconnect();
+		if (web3provider) {
+			web3provider.disconnect();
 		}
 	},
 
