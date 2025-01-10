@@ -231,7 +231,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 	}
 	const code = (props: CodeParams) => {
 		const { className, value, children } = props
-		console.log(props)
 
 		const getComponent = ({ type, props }: LanguageComponentParams) => {
 			switch (type) {
@@ -312,7 +311,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 						hr: thematicBreak,
 						a: link,
 						li: listItem,
-						code,
+						code: code as any,
 						img: image
 					}} className={`${classes.markdownContainer} ${helpArticle.className}`}>
 						{helpArticle.body as string}
