@@ -463,20 +463,18 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			}
 
 			const splitError = err.message.split(/\n(.+)/);
-			try {
-				if (splitError.length === 3) {
-					let jsonData = null;
-					try {
-						jsonData = JSON.parse(splitError[1])
-					} catch (err) {
-					}
-					tryThrowError(jsonData)
-				}
 
-				if (err && err.data) {
-					tryThrowError(err)
+			if (splitError.length === 3) {
+				let jsonData = null;
+				try {
+					jsonData = JSON.parse(splitError[1])
+				} catch (err) {
 				}
-			} catch (err) {
+				tryThrowError(jsonData)
+			}
+
+			if (err && err.data) {
+				tryThrowError(err)
 			}
 
 			console.log('Unhandled exception:', err);
