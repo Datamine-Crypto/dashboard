@@ -195,11 +195,13 @@ const queryHandlers = {
 			subscribeToAccountUpdates(dispatch);
 
 			const subscribeToNetworkChanges = (dispatch: React.Dispatch<any>) => {
-				provider.on('networkChanged', () => {
+				const reinitializeWeb3 = () => {
 					dispatch({
 						type: commonLanguage.commands.ReinitializeWeb3, payload: { targetEcosystem: state.targetEcosystem }
 					});
-				});
+				}
+				provider.on('networkChanged', reinitializeWeb3); // [DEPRECATED] networkChanged is deprecated for chainChanged
+				provider.on('chainChanged', reinitializeWeb3);
 
 				// For WalletConnect
 				provider.on('disconnect', () => {
