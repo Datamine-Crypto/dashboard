@@ -1,3 +1,4 @@
+import { SwapToken } from '../core/utils/swap/swapOptions';
 import arbiFluxLogo from '../svgs/arbiFluxLogo.svg';
 import fluxLogo from '../svgs/fluxLogo.svg';
 import lockquidityLogo from '../svgs/lockquidity.svg';
@@ -27,6 +28,8 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 		[
 			{
 				name: 'FLUX',
+				swapToken: SwapToken.FLUX,
+				isBuiltinSwapEnabled: false,
 				links: {
 					info: 'https://www.defined.fi/eth/0x07aa6584385cca15c2c6e13a5599ffc2d177e33b',
 					buy: 'https://app.uniswap.org/explore/tokens/ethereum/0x469eda64aed3a3ad6f868c44564291aa415cb1d9',
@@ -37,6 +40,8 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 			},
 			{
 				name: 'DAM',
+				swapToken: SwapToken.DAM,
+				isBuiltinSwapEnabled: false,
 				links: {
 					info: 'https://www.defined.fi/eth/0xbd233d685ede81e00faaefebd55150c76778a34e',
 					buy: 'https://app.uniswap.org/explore/tokens/ethereum/0xf80d589b3dbe130c270a69f1a69d050f268786df',
@@ -50,6 +55,8 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 		[
 			{
 				name: 'FLUX',
+				swapToken: SwapToken.FLUX,
+				isBuiltinSwapEnabled: false,
 				links: {
 					info: 'https://www.defined.fi/arb/0x088f6dcde862781db7b01feb67afd265abbc6d90',
 					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
@@ -61,6 +68,8 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 			},
 			{
 				name: 'ArbiFLUX',
+				swapToken: SwapToken.ArbiFLUX,
+				isBuiltinSwapEnabled: false,
 				links: {
 					info: 'https://www.defined.fi/arb/0xbf719d56c5f19ae0833adc4080befc48a9b415b5',
 					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
@@ -68,17 +77,20 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 				},
 				image: arbiFluxLogo,
 				layer: 2,
-				isHot: true
+				isHot: false
 			},
 			{
-				name: 'LOCK',
+				name: SwapToken.LOCK,
+				swapToken: SwapToken.LOCK,
+				isBuiltinSwapEnabled: true,
 				links: {
 					info: 'https://www.defined.fi/arb/0x0c93a1d3f68a0554d37f3e7af3a1442a94405e7a',
 					buy: 'https://app.uniswap.org/swap?outputCurrency=0x454F676D44DF315EEf9B5425178d5a8B524CEa03&inputCurrency=ETH&chain=arbitrum',
 					addLiquidity: 'https://app.uniswap.org/add/v2/0x454F676D44DF315EEf9B5425178d5a8B524CEa03/ETH?chain=arbitrum'
 				},
 				image: lockquidityLogo,
-				layer: 2
+				layer: 2,
+				isHot: true
 			},
 		],
 	]

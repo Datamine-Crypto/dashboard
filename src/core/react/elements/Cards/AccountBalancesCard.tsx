@@ -14,9 +14,7 @@ import { BNToDecimal, getBurnRatio, getPriceToggle } from '../../../web3/helpers
 import BN from 'bn.js';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
-import { Ecosystem, LiquidityPoolType } from '../../../../configs/config.common';
-import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
-import uniswap from '../../../../svgs/uniswap.svg';
+import { Ecosystem } from '../../../../configs/config.common';
 import DetailedListItem from '../Fragments/DetailedListItem';
 import LightTooltip from '../LightTooltip';
 
@@ -102,40 +100,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 
 			return <Box mx={1} display="inline-block">{getButton()}</Box>
 		}
-		const getPoolButton = () => {
-			if (!isLiquidityPoolsEnabled || !isLiquidityPoolAdditionalButtonsEnabled) {
-				return <></>
-			}
-
-			const getButton = () => {
-
-				const getAddToPoolLink = () => {
-					if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
-						return `https://app.sushi.com/add/${config.mintableTokenContractAddress}/ETH`
-					}
-					return `https://uniswap.exchange/add/${config.mintableTokenContractAddress}/ETH/10000`
-				}
-				const button = <Link href={getAddToPoolLink()} target="_blank" rel="noopener noreferrer">
-					<Button size="small" variant="outlined" color="secondary">
-						<img src={liquidityPoolType === LiquidityPoolType.SushiSwap ? sushiSwapLogo : uniswap} width={24} height={24} style={{ verticalAlign: 'middle', marginRight: 8 }} alt="Add To Pool" /> Add To Pool
-					</Button>
-				</Link>
-
-
-				const getAddToPoolTooltip = () => {
-					if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
-						return `Add to ${mintableTokenShortName} / ETH SushiSwap Pool. Liquidity pool participants share 0.25% from each ${mintableTokenShortName} <-> ETH SushiSwap transaction! `
-					}
-
-					return `Add to ${mintableTokenShortName} / ETH Uniswap Pool. Liquidity pool participants share 1.00% from each ${mintableTokenShortName} <-> ETH Uniswap transaction! `
-				}
-				return <LightTooltip title={getAddToPoolTooltip()}>
-					{button}
-				</LightTooltip>;
-			}
-
-			return <Box mx={1} display="inline-block">{getButton()}</Box>
-		}
 
 		const getFluxAmount = () => {
 			return <>{BNToDecimal(balances.fluxToken, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}</>
@@ -152,7 +116,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			buttons={
 				[
 					getBurnButton(),
-					getPoolButton()
 				]
 			}
 		/>

@@ -6,7 +6,6 @@ import React, { ReactNode, useContext, useEffect } from 'react';
 import { DialogType, FluxAddressDetails } from '../../interfaces';
 import { Web3Context } from '../../web3/Web3Context';
 import { commonLanguage, ConnectionMethod, commonLanguage as web3CommonLanguage } from '../../web3/web3Reducer';
-import PendingActionDialog from '../elements/Dialogs/PendingActionDialog';
 import Web3Account from '../elements/Web3Account';
 
 import logo from '../../../svgs/logo.svg'; // Tell webpack this JS file uses this image
@@ -19,9 +18,7 @@ import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
 import metamaskIcon from '../../../svgs/metamask.svg';
 import walletconnectIcon from '../../../svgs/walletconnect.svg';
-import { ReducerQuery } from '../../sideEffectReducer';
 import { isDevLogEnabled } from '../../utils/devLog';
-import WalletConnectRpcDialog from '../elements/Dialogs/WalletConnectRpcDialog';
 import AddToFirefoxFragment from '../elements/Fragments/AddToFirefoxFragment';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
 import WalletConnectButton from '../elements/Fragments/WalletConnectButton';
@@ -31,13 +28,9 @@ interface RenderParams {
 	isInitialized: boolean;
 	hasWeb3: boolean | null;
 	selectedAddress: string | null;
-	pendingQueries: ReducerQuery[];
-	queriesCount: number;
-	lastDismissedPendingActionCount: number;
 	isIncorrectNetwork: boolean;
 	addressDetails: FluxAddressDetails | null;
 	connectionMethod: ConnectionMethod;
-	dialog: DialogType | null;
 
 	dispatch: React.Dispatch<any>;
 	ecosystem: Ecosystem;
@@ -58,7 +51,7 @@ const useStyles = tss.create(({ theme }) => ({
 	}
 }))
 
-const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitialized, addressDetails, hasWeb3, selectedAddress, pendingQueries, queriesCount, lastDismissedPendingActionCount, isIncorrectNetwork, connectionMethod, dispatch, ecosystem }) => {
+const Render: React.FC<RenderParams> = React.memo(({ isLate, isInitialized, addressDetails, hasWeb3, selectedAddress, isIncorrectNetwork, connectionMethod, dispatch, ecosystem }) => {
 	const { classes } = useStyles();
 
 	const config = getEcosystemConfig(ecosystem);
@@ -93,20 +86,6 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 		return <Box alignItems="center" justifyContent="center" display="flex" style={{ height: '100vh' }}>
 			<CircularProgress color="secondary" />
 		</Box>
-	}
-
-	//@todo move into it's own memo
-	const getPendingQueryIndicator = () => {
-
-		if (pendingQueries.length === 0 || lastDismissedPendingActionCount == queriesCount) {
-			return null;
-		}
-
-		const onClose = () => [
-			dispatch({ type: commonLanguage.commands.DismissPendingAction })
-		]
-
-		return <PendingActionDialog open={true} queries={pendingQueries} connectionMethod={connectionMethod} onClose={onClose} ecosystem={ecosystem} />
 	}
 
 	const getLogo = () => {
@@ -197,23 +176,15 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 			return null;
 		}
 
-		const getDialog = () => {
-			switch (dialog) {
-				case DialogType.WalletConnectRpc:
-					return <WalletConnectRpcDialog />
-			}
-		}
 
 		if (hasWeb3 === false) {
 			return <>
-				{getDialog()}
 				{getConnectWalletSplash()}
 			</>
 		}
 
 		if (!selectedAddress) {
 			return <>
-				{getDialog()}
 				{getConnectWalletButton()}
 			</>
 		}
@@ -357,7 +328,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, dialog, isInitializ
 	}
 
 	return (<Container style={{ height: '100vh' }}>
-		{getPendingQueryIndicator()}
+
 		{getLoadingIndicator()}
 		{getApp()}
 	</Container>
@@ -383,17 +354,13 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 
 	const { addressDetails } = web3State;
 
-	const { isLate, dialog, isInitialized, hasWeb3, selectedAddress, pendingQueries, queriesCount, lastDismissedPendingActionCount, isIncorrectNetwork, connectionMethod, ecosystem } = web3State;
+	const { isLate, isInitialized, hasWeb3, selectedAddress, isIncorrectNetwork, connectionMethod, ecosystem } = web3State;
 
 	return <Render
 		isLate={isLate}
-		dialog={dialog}
 		isInitialized={isInitialized}
 		hasWeb3={hasWeb3}
 		selectedAddress={selectedAddress}
-		pendingQueries={pendingQueries}
-		queriesCount={queriesCount}
-		lastDismissedPendingActionCount={lastDismissedPendingActionCount}
 		isIncorrectNetwork={isIncorrectNetwork}
 		dispatch={web3Dispatch}
 		addressDetails={addressDetails}

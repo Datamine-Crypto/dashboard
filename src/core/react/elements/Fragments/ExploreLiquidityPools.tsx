@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Box, Button, Chip, Divider, Link, Menu, MenuItem, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
@@ -11,6 +11,8 @@ import uniswapLogo from '../../../../svgs/uniswap.svg';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
+import { Web3Context } from '../../../web3/Web3Context';
+import { commonLanguage } from '../../../web3/web3Reducer';
 
 const useStyles = tss.create(({ theme }) => ({
 	chip: {
@@ -65,17 +67,6 @@ const useStyles = tss.create(({ theme }) => ({
 	}
 }));
 
-interface Props {
-	//isArbitrumMainnet: boolean;
-	//isSmall?: boolean;
-	//isMedium?: boolean;
-	//isStandaloneButton?: boolean;
-	buttonType: LiquidityPoolButtonType;
-	hideIcon?: boolean;
-
-	contents?: React.ReactElement;
-	ecosystem: Ecosystem;
-}
 export enum LiquidityPoolButtonType {
 	SmallText = 'SmallText',
 
@@ -95,7 +86,15 @@ interface TradePool {
 	}
 	layer: number;
 }
-const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, contents, ecosystem }) => {
+interface RenderProps {
+	buttonType: LiquidityPoolButtonType;
+	hideIcon?: boolean;
+
+	contents?: React.ReactElement;
+	ecosystem: Ecosystem;
+	dispatch: React.Dispatch<any>;
+}
+const Render: React.FC<RenderProps> = React.memo(({ buttonType, contents, ecosystem, dispatch }) => {
 
 	const { liquidityPoolGroups } = getEcosystemConfig(ecosystem)
 
@@ -191,6 +190,29 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 					};
 
 
+					const getTradeButton = () => {
+						// Tokens below are all tokens that support built-in swaps
+						if (pool.isBuiltinSwapEnabled) {
+							const showTradeDialog = () => {
+								dispatch({
+									type: commonLanguage.commands.Swap.ShowTradeDialog, payload: {
+										input: {
+											swapToken: pool.swapToken
+										}
+									}
+								})
+								handleClose()
+							}
+
+							return <Button size="large" variant="outlined" color="secondary" onClick={showTradeDialog}>Trade</Button>
+						}
+
+						return (
+							<Button size="large" variant="outlined" href={pool.links.buy} color="secondary" target="_blank" rel="noopener noreferrer">Trade</Button>
+						)
+
+					}
+
 					return <MenuItem key={index} style={{ cursor: 'default' }} className={classes.menuItem}>
 						<Grid container alignItems="center" justifyContent="space-between" spacing={2} className={classes.buttonsGroup}>
 							<Grid>
@@ -210,7 +232,7 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 								<Grid container spacing={2} className={classes.buttonsContainer} >
 									<Grid className={classes.buttonGridItem}>
 										<Box ml={3}>
-											<Button size="large" variant="outlined" href={pool.links.buy} color="secondary" target="_blank" rel="noopener noreferrer">Trade</Button>
+											{getTradeButton()}
 										</Box>
 
 									</Grid>
@@ -220,12 +242,13 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 										</Box>
 									</Grid>
 
+									{/*
 									<Grid className={classes.buttonGridItem}>
 										<Box mx={1}>
 											<Button size="large" variant="outlined" color="secondary" href={pool.links.addLiquidity} target="_blank" rel="noopener noreferrer">+ Add Liquidity</Button>
 										</Box>
 									</Grid>
-
+									*/}
 								</Grid>
 							</Grid>
 						</Grid>
@@ -253,87 +276,6 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 		})
 	}
 
-	// This was the old dropdown alternative (if we end up going with multiple liquidity providers again)
-	/*
-	const getTadeMenu = () => {
-		if (!tradePool) {
-			return null;
-		}
-
-		const getLayerLabel = () => {
-			if (tradePool.layer === 1) {
-				return null;
-			}
-
-			return `(L${tradePool.layer})`
-		}
-
-		const getSushiSwapMenuItem = () => {
-			if (tradePool.layer === 1) {
-				return null;
-			}
-			return <MenuItem component={Link} href={tradePool.links.buy.sushiSwap} target="_blank" rel="noopener noreferrer" color="textPrimary">
-				<img src={sushiSwapLogo} width={32} height={32} />&nbsp;&nbsp;Trade {tradePool.name} on SushiSwap {getLayerLabel()}
-			</MenuItem>
-		}
-
-		const getOneInchMenuItem = () => {
-			if (!tradePool.links.buy.oneInch || tradePool.layer === 1) {
-				return null;
-			}
-			return <>
-				<Box my={1}>
-					<Divider />
-				</Box>
-				<MenuItem component={Link} href={tradePool.links.buy.oneInch} target="_blank" rel="noopener noreferrer" color="textPrimary">
-					<img src={oneInchLogo} width={32} height={32} />&nbsp;&nbsp;Trade {tradePool.name} on 1inch {getLayerLabel()}&nbsp;&nbsp;
-					<Typography component="div" variant="body2" color="textSecondary" display="inline">(DEX Aggregator)</Typography>
-				</MenuItem>
-			</>
-		}
-
-		const getSolidLizardMenuItem = () => {
-			if (tradePool.layer === 1) {
-				return null;
-			}
-			return <>
-				<Box my={1}>
-					<Divider />
-				</Box>
-				<MenuItem component={Link} href={tradePool.links.buy.solidLizard} target="_blank" rel="noopener noreferrer" color="textPrimary">
-					<img src="./images/solidLizard.png" width={32} height={32} />&nbsp;&nbsp;Trade {tradePool.name} on SolidLizard {getLayerLabel()}&nbsp;&nbsp;
-					<Typography component="div" variant="body2" color="textSecondary" display="inline">(ve(3,3) DEX)</Typography>
-				</MenuItem>
-			</>
-		}
-		const getUniswapMenuItem = () => {
-			if (tradePool.layer === 2) {
-				return null;
-			}
-			return (
-				<MenuItem component={Link} href={tradePool.links.buy.uniswap} target="_blank" rel="noopener noreferrer" color="textPrimary">
-					<img src={uniswapLogo} width={32} height={32} />&nbsp;&nbsp;Trade {tradePool.name} on Uniswap {getLayerLabel()}
-				</MenuItem>
-			)
-		}
-
-		return <Menu
-			id="trade-menu"
-			anchorEl={tradeAnchorEl}
-			keepMounted
-			open={Boolean(tradeAnchorEl)}
-			onClose={handleCloseTrade}
-			anchorOrigin={{ vertical: 0, horizontal: "left" }}
-			transformOrigin={{ vertical: -50, horizontal: "left" }}
-		>
-			{getSushiSwapMenuItem()}
-			{getUniswapMenuItem()}
-			{getSolidLizardMenuItem()}
-			{getOneInchMenuItem()}
-		</Menu>
-	}
-	*/
-
 	return <>
 		{getButton()}
 		<Menu
@@ -353,9 +295,28 @@ const ExploreLiquidityPools: React.FC<Props> = React.memo(({ buttonType, content
 			</Box>
 			{getMenuItems()}
 		</Menu>
-
-		{/*getTadeMenu()*/}
 	</>
 })
+
+
+
+interface Params {
+	buttonType: LiquidityPoolButtonType;
+	hideIcon?: boolean;
+
+	contents?: React.ReactElement;
+	ecosystem: Ecosystem;
+}
+const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, hideIcon, contents, ecosystem }) => {
+	const { dispatch: web3Dispatch } = useContext(Web3Context)
+
+	return <Render
+		buttonType={buttonType}
+		hideIcon={hideIcon}
+		contents={contents}
+		ecosystem={ecosystem}
+		dispatch={web3Dispatch}
+	/>
+}
 
 export default ExploreLiquidityPools;

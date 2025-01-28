@@ -35,7 +35,11 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 			}
 		});
 	}
-	const onClose = () => {
+	const onClose = (event: any = undefined, reason: any = undefined) => {
+		// Prevent closing by clicking outside dialog
+		if (reason === 'backdropClick') {
+			return;
+		}
 		dispatch({ type: commonLanguage.commands.CloseDialog });
 	}
 

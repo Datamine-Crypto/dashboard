@@ -8,7 +8,9 @@ import { Web3Context } from '../../web3/Web3Context';
 import { commonLanguage } from '../../web3/web3Reducer';
 import HelpDialog from '../elements/Dialogs/HelpDialog';
 import MainAppBar from '../elements/Fragments/AppBar';
+import DialogsFragment from '../elements/Fragments/DialogsFragment';
 import { MainDrawer } from '../elements/Fragments/Drawer';
+import PendingQueryFragment from '../elements/Fragments/PendingQueryFragment';
 import CommunityPage from './CommunityPage';
 import DashboardPage from './DashboardPage';
 import HelpPage from './HelpPage';
@@ -192,7 +194,15 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 			return null;
 		}
 
+		//@todo helpArticle/helpArticlesNetworkType should be contained inside HelpDialog and get it's own state (instead of doing it here)
+		//Check out TradeDialog for an example
 		return <HelpDialog helpArticle={helpArticle} helpArticlesNetworkType={helpArticlesNetworkType} />
+	}
+	const getDialog = () => {
+		return <DialogsFragment />
+	}
+	const getPendingQueries = () => {
+		return <PendingQueryFragment />
 	}
 	return <>
 		<Box className={classes.pageContainer}>
@@ -201,6 +211,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 			<MainDrawer />
 			<Box className={classes.contentContainer}>
 				{getHelpDialog()}
+				{getDialog()}
+				{getPendingQueries()}
 
 				{getPage()}
 			</Box>
@@ -208,6 +220,16 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 
 	</>
 })
+
+
+/**
+ * This fragment contains all the pages (such as dashboard, help, homepage)
+ * It is always rendered at <App /> level
+ * Please note that this also contains 
+ * - Help dialog
+ * - Dialogs
+ * - Pending queries fragment
+ */
 const PageFragment: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 

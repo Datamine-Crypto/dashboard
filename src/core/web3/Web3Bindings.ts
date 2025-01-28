@@ -8,7 +8,7 @@ import fluxTokenAbi from './abis/flux.json';
 import multicallAbi from './abis/multicall.json';
 import uniswapPairV3Abi from './abis/uniswapPairV3.json';
 
-import { getWeb3Provider, withWeb3 } from './helpers';
+import { getWeb3Provider, rethrowWeb3Error, withWeb3 } from './helpers';
 
 import BN from 'bn.js';
 import Fuse from 'fuse.js';
@@ -21,6 +21,8 @@ import axios from 'axios';
 import { getEcosystemConfig } from '../../configs/config';
 import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
 import { devLog } from '../utils/devLog';
+import { performSwap } from '../utils/swap/performSwap';
+import { SwapOptions, SwapPlatform } from '../utils/swap/swapOptions';
 import { decodeMulticall, encodeMulticall } from '../utils/web3multicall';
 
 let web3provider: any = null;
@@ -180,6 +182,7 @@ const queryHandlers = {
 
 		if (provider) {
 			const web3 = new Web3(provider);
+			web3.transactionBlockTimeout = 4 * 60 * 60; // (So users don't get timed out while selecting their transaction settings) 1 hour on L2
 
 			/**
 			 * Listen for any account changes to refresh data
@@ -389,15 +392,6 @@ const queryHandlers = {
 		}
 
 		const getAccountState = async () => {
-			const getEthBalance = async () => {
-
-				// Always update balance if it's forced refresh or zero
-				return new BN('1')
-			}
-
-			devLog('Starting FindAccountState ethBalance...')
-			const ethBalance = await getEthBalance();
-			devLog('FindAccountState ethBalance:', ethBalance.toString())
 
 			const addressToFetch = address ?? selectedAddress;
 			devLog('FindAccountState addressToFetch:', { addressToFetch, ecosystem })
@@ -582,6 +576,29 @@ const queryHandlers = {
 			}
 
 			const multicallData = [
+				// ETH Balance
+				{
+					address: config.uniswapMulticallAdress,
+					function: {
+						signature: {
+							name: 'getEthBalance',
+							type: 'function',
+							inputs: [
+								{
+									type: 'address',
+									name: 'addr'
+								}]
+						},
+						parameters: [addressToFetch]
+					},
+
+					returns: {
+						params: ['uint256'],
+						callback: (ethBalance: string) => {
+							return ethBalance
+						}
+					}
+				},
 
 				// Uniswap: ETH Price
 				{
@@ -894,11 +911,14 @@ const queryHandlers = {
 				...getLockedLiquidityBalanceCall()
 			]
 
-			const multicallEncodedResults = (await contracts.multicall.methods.aggregate(encodeMulticall(web3, multicallData)).call()) as any;
+
+			const calls = encodeMulticall(web3, multicallData)
+			const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call()) as any;
 
 			const multicallDecodedResults = decodeMulticall(web3, multicallEncodedResults, multicallData)
 
 			const [
+				ethBalance,
 				uniswapUsdcEthTokenReserves,
 				fluxTotalSupply,
 				damTotalSupply,
@@ -1155,8 +1175,37 @@ const queryHandlers = {
 		return response && response.status
 	},
 	[commonLanguage.queries.GetTradeResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+		if (!state.web3) {
+			return
+		}
+
+		const { swapState } = state;
+
+		const inputToken = swapState.input;
+		const outputToken = swapState.output;
+
+		if (!inputToken || !outputToken) {
+			console.log('invalid token:', { inputToken, outputToken })
+			return;
+		}
 
 
+		const swapOptions: SwapOptions = {
+			inputToken,
+			outputToken,
+			swapPlatform: SwapPlatform.UniswapV2,
+
+			web3: state.web3,
+			web3provider
+		}
+		try {
+			await performSwap(swapOptions)
+
+		} catch (err) {
+			rethrowWeb3Error(err);
+		}
+
+		return true;
 	},
 	[commonLanguage.queries.ResetHelpArticleBodies]: async ({ }: QueryHandler<Web3State>) => {
 		// After switching network betwen L1/L2 clear the body (so proper body loads)

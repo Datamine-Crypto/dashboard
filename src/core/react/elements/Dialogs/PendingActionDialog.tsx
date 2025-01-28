@@ -51,6 +51,11 @@ const PendingActionDialog: React.FC<Params> = React.memo(({ open, queries, conne
 
 		for (const query of queries) {
 			switch (query.type) {
+				case commonLanguage.queries.FindWeb3Instance:
+					return {
+						title: 'Looking for Web3 Connection',
+						message: `Trying to find a Web3 compatible wallet to connect to (ex: Metamask). This process should take a couple 1-5 seconds.`
+					}
 				case commonLanguage.queries.EnableWeb3:
 					return {
 						title: 'Awaiting Wallet Connection',
@@ -81,6 +86,11 @@ const PendingActionDialog: React.FC<Params> = React.memo(({ open, queries, conne
 					return {
 						title: 'Awaiting Validator Stop Confirmation',
 						message: getConfirmationMessage('Validator Stopping')
+					}
+				case commonLanguage.queries.GetTradeResponse:
+					return {
+						title: 'Awaiting Trade Confirmation',
+						message: getConfirmationMessage(`Trade`)
 					}
 			}
 		}

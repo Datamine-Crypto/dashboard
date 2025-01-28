@@ -425,7 +425,50 @@ export const getBlocksDateFromNow = (blocksDuration: number) => {
 export const getFormattedMultiplier = (multiplier: number) => {
 	return `x ${(multiplier / 10000).toFixed(4)}`
 }
+export const rethrowWeb3Error = (err: any) => {
+	if (err.message) {
+		// This works on mainnet and arbitrum
+		const extractedError = err.message.match(/"message"\:[ ]{0,1}\"(.+)\"/);
+		if (!!extractedError && !!extractedError[1]) {
+			throw extractedError[1].replace('execution reverted: ', '')
+		}
 
+		// Convert web3 error into human-readable exception (ex: not enough to lock-in)
+		const tryThrowError = (jsonData: any) => {
+			if (jsonData && jsonData.data) {
+				for (const [, errorDetails] of (Object.entries(jsonData.data) as any)) {
+					if (errorDetails?.reason) {
+						throw errorDetails.reason;
+					}
+				}
+				if (jsonData.data.message) {
+					throw jsonData.data.message;
+				}
+			}
+		}
+
+		const splitError = err.message.split(/\n(.+)/);
+
+		if (splitError.length === 3) {
+			let jsonData = null;
+			try {
+				jsonData = JSON.parse(splitError[1])
+			} catch (err) {
+			}
+			tryThrowError(jsonData)
+		}
+
+		if (err && err.data) {
+			tryThrowError(err)
+		}
+
+		console.log('Unhandled exception:', err);
+		throw err.message;
+	}
+
+	console.log('Unhandled exception:', err);
+	throw commonLanguage.errors.UnknownError
+}
 const withWeb3 = (web3: Web3, contract: any) => {
 	if (!contract) {
 		throw commonLanguage.errors.UnknownContract;
@@ -440,50 +483,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 	 * 
 	 * The error comes in form of "MESSAGE + \n + JSON"
 	 */
-	const handleError = (err: any) => {
-		if (err.message) {
-			// This works on mainnet and arbitrum
-			const extractedError = err.message.match(/"message"\:[ ]{0,1}\"(.+)\"/);
-			if (!!extractedError && !!extractedError[1]) {
-				throw extractedError[1].replace('execution reverted: ', '')
-			}
 
-			// Convert web3 error into human-readable exception (ex: not enough to lock-in)
-			const tryThrowError = (jsonData: any) => {
-				if (jsonData && jsonData.data) {
-					for (const [, errorDetails] of (Object.entries(jsonData.data) as any)) {
-						if (errorDetails?.reason) {
-							throw errorDetails.reason;
-						}
-					}
-					if (jsonData.data.message) {
-						throw jsonData.data.message;
-					}
-				}
-			}
-
-			const splitError = err.message.split(/\n(.+)/);
-
-			if (splitError.length === 3) {
-				let jsonData = null;
-				try {
-					jsonData = JSON.parse(splitError[1])
-				} catch (err) {
-				}
-				tryThrowError(jsonData)
-			}
-
-			if (err && err.data) {
-				tryThrowError(err)
-			}
-
-			console.log('Unhandled exception:', err);
-			throw err.message;
-		}
-
-		console.log('Unhandled exception:', err);
-		throw commonLanguage.errors.UnknownError
-	}
 
 	const getBalanceOf = (tokenHolderAddress: string) => {
 		return contract.methods.balanceOf(tokenHolderAddress).call;
@@ -563,7 +563,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 
 			return lockTx;
 		} catch (err) {
-			handleError(err);
+			rethrowWeb3Error(err);
 		}
 	}
 	const unlockDamTokens = async ({ from }: UnlockParams) => {
@@ -582,7 +582,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 
 			return unlockTx;
 		} catch (err) {
-			handleError(err);
+			rethrowWeb3Error(err);
 		}
 	}
 
@@ -602,7 +602,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 
 			return mintTx;
 		} catch (err) {
-			handleError(err);
+			rethrowWeb3Error(err);
 		}
 	}
 	const burnToAddress = async ({ targetAddress, amount, from }: BurnToAddressParams) => {
@@ -621,7 +621,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 
 			return mintTx;
 		} catch (err) {
-			handleError(err);
+			rethrowWeb3Error(err);
 		}
 	}
 

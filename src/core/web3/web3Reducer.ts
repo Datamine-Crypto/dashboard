@@ -9,7 +9,8 @@ import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetail
 import { ReducerCommand, ReducerQuery, ReducerQueryHandler } from "../sideEffectReducer";
 import copyToClipBoard from "../utils/copyToClipboard";
 import { devLog } from "../utils/devLog";
-import { getPriceToggle, parseBN } from "./helpers";
+import { SwapOperation, SwapToken, SwapTokenWithAmount } from '../utils/swap/swapOptions';
+import { BNToDecimal, getPriceToggle, parseBN } from "./helpers";
 
 export enum ConnectionMethod {
 	MetaMask = 'MetaMask',
@@ -79,6 +80,11 @@ export interface ClientSettings {
 	useEip1559: boolean;
 	currency: string;
 }
+
+export interface SwapState {
+	input: SwapTokenWithAmount;
+	output: SwapTokenWithAmount
+}
 export interface Web3State {
 	forecastSettings: ForecastSettings;
 	isInitialized: boolean;
@@ -133,6 +139,8 @@ export interface Web3State {
 	 * What is the ecosystem the user is trying to target? (Usually with ecosystem dropdown)
 	 */
 	targetEcosystem: Ecosystem | null;
+
+	swapState: SwapState;
 }
 
 const createWithWithQueries = (state: any) => {
@@ -325,6 +333,21 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					...withQueries([{ type: commonLanguage.queries.FindAccountState }])
 				}
 			}
+		case commonLanguage.queries.GetTradeResponse:
+			{
+				if (err) {
+					return {
+						...state,
+						error: err
+					}
+				}
+
+				return {
+					...state,
+					dialog: null,
+					...withQueries([{ type: commonLanguage.queries.FindAccountState }])
+				}
+			}
 		case commonLanguage.queries.GetUnlockDamTokensResponse:
 			{
 				if (err) {
@@ -411,6 +434,31 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 		}
 
 		return amount;
+	}
+
+	const getSwapTokenBalance = (swapToken: SwapToken | null) => {
+		switch (swapToken) {
+			case SwapToken.LOCK:
+				return BNToDecimal(state.balances?.fluxToken ?? null)
+			case SwapToken.ETH:
+				return BNToDecimal(state.balances?.eth ?? null)
+		}
+	}
+	const getFlipSwapState = () => {
+		return {
+			...state,
+			swapState: {
+				input: {
+					...state.swapState.input,
+					swapToken: state.swapState.output.swapToken
+				},
+				output: {
+					...state.swapState.output,
+					amount: 'Quotes coming soon...',
+					swapToken: state.swapState.input.swapToken
+				}
+			}
+		}
 	}
 
 	switch (command.type) {
@@ -821,6 +869,10 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			return {
 				...state,
 				targetEcosystem,
+				forecastSettings: {
+					...state.forecastSettings,
+					enabled: false,
+				},
 				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance, payload: { targetEcosystem, useWalletConnect: state.connectionMethod === ConnectionMethod.WalletConnect } }])
 			}
 		}
@@ -989,15 +1041,137 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					}
 				}
 			}
-		case commonLanguage.commands.Trade:
+		case commonLanguage.commands.Swap.Trade:
 			{
 				const { } = command.payload;
+
+				try {
+					return {
+						...state,
+						error: null,
+						...withQueries([{ type: commonLanguage.queries.GetTradeResponse, payload: {} }])
+					}
+				} catch (err) {
+					return {
+						...state,
+						error: commonLanguage.errors.InvalidNumber
+					}
+				}
+			}
+		case commonLanguage.commands.Swap.ShowTradeDialog:
+			{
+				const { input } = command.payload;
+
+				const getInput = () => {
+					if (!input || !input.swapToken) {
+						return {
+							swapToken: null,
+							amount: ''
+						}
+					}
+
+					const inputTokenBalance = getSwapTokenBalance(input.swapToken)
+
+					// If we don't have any of this token, most likely the person wants to buy it so inverse the swap and prefill ETH amount
+					if (inputTokenBalance === '0') {
+						return {
+							swapToken: SwapToken.ETH,
+							amount: getSwapTokenBalance(SwapToken.ETH)
+						}
+					}
+
+					return {
+						swapToken: input.swapToken,
+						amount: inputTokenBalance
+					}
+
+				}
+				const inputState = getInput()
+
+				const getOutput = () => {
+					if (inputState.swapToken === SwapToken.ETH && input && input.swapToken) {
+						return {
+							swapToken: input.swapToken,
+							amount: 'Quotes coming soon...'
+						}
+					}
+
+					return {
+						swapToken: SwapToken.ETH,
+						amount: 'Quotes coming soon...'
+					}
+				}
 
 				return {
 					...state,
 					error: null,
-					...withQueries([{ type: commonLanguage.queries.GetTradeResponse, payload: {} }])
+					dialog: DialogType.Trade,
+					dialogParams: {},
+					swapState: {
+						input: inputState,
+						output: getOutput()
+					}
 				}
+			}
+		case commonLanguage.commands.Swap.SetAmount: {
+			const { amount } = command.payload;
+			return {
+				...state,
+				swapState: {
+					...state.swapState,
+					input: {
+						...state.swapState.input,
+						amount: getForecastAmount(amount, state.swapState.input.amount)
+					}
+				}
+			}
+		}
+		case commonLanguage.commands.Swap.SetToken: {
+			const { swapOperation, swapToken } = command.payload;
+
+
+			switch (swapOperation) {
+				case SwapOperation.Input: {
+					if (swapToken === state.swapState.output.swapToken) {
+						return getFlipSwapState()
+					}
+
+					return {
+						...state,
+						swapState: {
+							...state.swapState,
+							input: {
+								...state.swapState.input,
+								swapToken
+							}
+						}
+					}
+				}
+
+				case SwapOperation.Output: {
+					if (swapToken === state.swapState.input.swapToken) {
+						return getFlipSwapState()
+					}
+
+					return {
+						...state,
+						swapState: {
+							...state.swapState,
+							output: {
+								...state.swapState.output,
+								swapToken
+							}
+						}
+					}
+				}
+			}
+
+			return state;
+
+		}
+		case commonLanguage.commands.Swap.FlipSwap:
+			{
+				return getFlipSwapState()
 			}
 		case commonLanguage.commands.SetSearch:
 			{
@@ -1143,7 +1317,18 @@ const initialState: Web3State = {
 		useEip1559
 	},
 
-	lastAccountRefreshTimestampMs: 0
+	lastAccountRefreshTimestampMs: 0,
+
+	swapState: {
+		input: {
+			swapToken: null,
+			amount: ''
+		},
+		output: {
+			swapToken: null,
+			amount: ''
+		},
+	}
 }
 
 const commonLanguage = {
@@ -1163,7 +1348,6 @@ const commonLanguage = {
 		BurnFluxTokens: 'BURN_FLUX_TOKENS',
 		UnlockDamTokens: 'UNLOCK_DAM_TOKENS',
 		DismissPendingAction: 'DISMISS_PENDING_ACTION',
-		Trade: 'TRADE',
 		CopyAnalytics: 'COPY_ANALYTICS',
 		DisplayAccessLinks: 'DISPLAY_ACCESS_LINKS',
 
@@ -1199,7 +1383,15 @@ const commonLanguage = {
 		 * Sometimes we want to re-initialzie web3 specifically when changing networks (Ex: ETH->Arbitrum)
 		 * When initializing web3 on different network, we properly update current ecosystem (Ex: Changing DAM L1->LOCK L2)
 		 */
-		ReinitializeWeb3: 'REINITILIZE_WEB3'
+		ReinitializeWeb3: 'REINITILIZE_WEB3',
+
+		Swap: {
+			Trade: 'SWAP:TRADE',
+			SetAmount: 'SWAP:SET_AMOUNT',
+			SetToken: 'SWAP:SET_TOKEN',
+			ShowTradeDialog: 'SWAP:SHOW_TRADE_DIALOG',
+			FlipSwap: 'SWAP:FLIP'
+		}
 	},
 	queries: {
 		FindWeb3Instance: 'FIND_WEB3_INSTANCE',
