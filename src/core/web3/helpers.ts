@@ -469,6 +469,31 @@ export const rethrowWeb3Error = (err: any) => {
 	console.log('Unhandled exception:', err);
 	throw commonLanguage.errors.UnknownError
 }
+export const getGasFees = async (web3: Web3) => {
+
+	// Read Eth.send_transaction on https://web3py.readthedocs.io/en/stable/web3.eth.html
+	// https://hackmd.io/@q8X_WM2nTfu6nuvAzqXiTQ/1559-wallets
+	// Useful to see what number should be: https://www.blocknative.com/gas-estimator
+
+	const latestBlock = await web3.eth.getBlock('latest')
+
+	const { baseFeePerGas } = latestBlock as any
+
+
+	const maxPriorityFeePerGas = Math.round(Number(baseFeePerGas) * 0.15)
+
+	const maxFeePerGas = Number(baseFeePerGas) + maxPriorityFeePerGas
+
+	//maxFeePerGas = baseFeePerGas + maxPriorityFeePerGas
+
+	const useEip1559 = !localStorage.getItem('clientSettingsUseEip1559') || localStorage.getItem('clientSettingsUseEip1559') === 'true'
+	if (!useEip1559 || !maxFeePerGas) {
+		return { gasPrice: maxFeePerGas?.toString() }
+	}
+
+
+	return { maxFeePerGas: maxFeePerGas?.toString(), maxPriorityFeePerGas: maxPriorityFeePerGas?.toString() }
+}
 const withWeb3 = (web3: Web3, contract: any) => {
 	if (!contract) {
 		throw commonLanguage.errors.UnknownContract;
@@ -490,7 +515,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 	}
 
 	const authorizeOperator = async ({ operator, from }: AuthorizeOperatorParams) => {
-		const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getFees()
+		const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
 
 		return await contract.methods.authorizeOperator(operator).send({
 			from,
@@ -521,38 +546,13 @@ const withWeb3 = (web3: Web3, contract: any) => {
 		return contract.methods.liquidity().call;
 	}
 
-	const getFees = async () => {
-
-		// Read Eth.send_transaction on https://web3py.readthedocs.io/en/stable/web3.eth.html
-		// https://hackmd.io/@q8X_WM2nTfu6nuvAzqXiTQ/1559-wallets
-		// Useful to see what number should be: https://www.blocknative.com/gas-estimator
-
-		const latestBlock = await web3.eth.getBlock('latest')
-
-		const { baseFeePerGas } = latestBlock as any
-
-
-		const maxPriorityFeePerGas = Math.round(Number(baseFeePerGas) * 0.15)
-
-		const maxFeePerGas = Number(baseFeePerGas) + maxPriorityFeePerGas
-
-		//maxFeePerGas = baseFeePerGas + maxPriorityFeePerGas
-
-		const useEip1559 = !localStorage.getItem('clientSettingsUseEip1559') || localStorage.getItem('clientSettingsUseEip1559') === 'true'
-		if (!useEip1559 || !maxFeePerGas) {
-			return { gasPrice: maxFeePerGas }
-		}
-
-
-		return { maxFeePerGas, maxPriorityFeePerGas }
-	}
 
 	const lock = async ({ minterAddress, amount, from }: LockParams) => {
 		try {
 			// Attempt to call the method first to check if there are any errors
 			await contract.methods.lock(minterAddress, amount.toString()).call({ from });
 
-			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getFees()
+			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
 
 			const lockTx = await contract.methods.lock(minterAddress, amount.toString()).send({
 				from,
@@ -571,7 +571,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			// Attempt to call the method first to check if there are any errors
 			await contract.methods.unlock().call({ from });
 
-			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getFees()
+			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
 
 			const unlockTx = await contract.methods.unlock().send({
 				from,
@@ -591,7 +591,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			// Attempt to call the method first to check if there are any errors
 			await contract.methods.mintToAddress(sourceAddress, targetAddress, blockNumber).call({ from });
 
-			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getFees()
+			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
 
 			const mintTx = await contract.methods.mintToAddress(sourceAddress, targetAddress, blockNumber).send({
 				from,
@@ -610,7 +610,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			// Attempt to call the method first to check if there are any errors
 			await contract.methods.burnToAddress(targetAddress, amount.toString()).call({ from });
 
-			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getFees()
+			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
 
 			const mintTx = await contract.methods.burnToAddress(targetAddress, amount.toString()).send({
 				from,

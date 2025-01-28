@@ -47,9 +47,9 @@ export interface SwapOptions {
 	web3provider: any;
 
 	/**
-	 * If set to true swap will only calculate and return gas fee (useful for estimates)
+	 * If set to true swap will only ensure it won't fail
 	 **/
-	onlyCalculateGas?: boolean;
+	onlyCheckTradeValidity?: boolean;
 
 	inputToken: SwapTokenWithAmount;
 	outputToken: SwapTokenWithAmount;

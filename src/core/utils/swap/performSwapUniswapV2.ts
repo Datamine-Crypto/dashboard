@@ -1,5 +1,5 @@
 import Big from "big.js";
-import { parseBN } from "../../web3/helpers";
+import { getGasFees, parseBN } from "../../web3/helpers";
 import { availableSwapTokens } from "./performSwap";
 import { SwapOptions, SwapPlatformOptions, SwapToken, SwapTokenDetails } from "./swapOptions";
 
@@ -26,7 +26,7 @@ export const performSwapUniswapV2 = async (swapOptions: SwapOptions, swapPlatfor
 		web3provider,
 		inputToken,
 		outputToken,
-		onlyCalculateGas = false
+		onlyCheckTradeValidity = false
 	} = swapOptions
 
 	const {
@@ -76,6 +76,9 @@ export const performSwapUniswapV2 = async (swapOptions: SwapOptions, swapPlatfor
 	const accounts = await web3provider.request({ method: 'eth_requestAccounts' });
 	const account = accounts[0];
 
+
+	const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
+
 	// ETH would not have a contract and no allowance is necessary
 	if (inputTokenContract) {
 		// Check existing allowance
@@ -88,14 +91,30 @@ export const performSwapUniswapV2 = async (swapOptions: SwapOptions, swapPlatfor
 
 		// Approve only if necessary
 		if (new Big(allowance).lt(new Big(amountIn))) {
+
+			// Attempt to call the method first to check if there are any errors
+			await inputTokenContract.methods.approve(
+				uniswapv2routerAddress, // Address of the spender (Uniswap V2 Router)
+				amountIn // Amount of DAI to allow the router to spend
+			).call({ from: account });
+
 			const approveTx = await inputTokenContract.methods.approve(
 				uniswapv2routerAddress, // Address of the spender (Uniswap V2 Router)
 				amountIn // Amount of DAI to allow the router to spend
-			).send({ from: account });
+			).send({
+				from: account,
+
+				maxFeePerGas,
+				maxPriorityFeePerGas,
+				gasPrice
+			});
 		}
 	}
 
-	const getGas = async () => {
+	/**
+	 * Attempt to call the method first to check if there are any errors
+	 */
+	const checkVailidty = async () => {
 		switch (inputToken.swapToken) {
 			case SwapToken.ETH:
 				return await uniswapV2RouterContract.methods.swapExactETHForTokens(
@@ -103,30 +122,28 @@ export const performSwapUniswapV2 = async (swapOptions: SwapOptions, swapPlatfor
 					path,
 					account,
 					deadlineTimestamp
-				).estimateGas({
+				).call({
 					from: account,
 					value: amountIn // Only for ETH -> X swap
 				});
 			default:
-
 				return await uniswapV2RouterContract.methods.swapExactTokensForETH(
 					amountIn, // Only for X -> ETH swap
 					amountOutMin.toString(), // Pass amountOutMin as a string
 					path,
 					account,
 					deadlineTimestamp
-				).estimateGas({
+				).call({
 					from: account,
 				});
 		}
 	}
 
 
-	const gas = await getGas()
-	console.log('Swap gas:', gas)
+	await checkVailidty()
 
-	if (onlyCalculateGas) {
-		return gas;
+	if (onlyCheckTradeValidity) {
+		return true;
 	}
 
 	const sendSwapTx = async () => {
@@ -139,8 +156,11 @@ export const performSwapUniswapV2 = async (swapOptions: SwapOptions, swapPlatfor
 					deadlineTimestamp
 				).send({
 					from: account,
-					value: amountIn  // Only for ETH -> X swap
-					/*, gas: gas.toString()*/
+					value: amountIn,  // Only for ETH -> X swap
+
+					maxFeePerGas,
+					maxPriorityFeePerGas,
+					gasPrice
 				});
 
 			default:
@@ -153,7 +173,10 @@ export const performSwapUniswapV2 = async (swapOptions: SwapOptions, swapPlatfor
 					deadlineTimestamp
 				).send({
 					from: account,
-					/*, gas: gas.toString()*/
+
+					maxFeePerGas,
+					maxPriorityFeePerGas,
+					gasPrice
 				});
 
 		}
