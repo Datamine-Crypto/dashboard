@@ -1,7 +1,7 @@
 import Big from "big.js";
 import { getGasFees, parseBN } from "../../web3/helpers";
 import { availableSwapTokens } from "./performSwap";
-import { SwapOptions, SwapPlatformOptions, SwapToken, SwapTokenDetails } from "./swapOptions";
+import { SwapOptions, SwapPlatformOptions, SwapQuote, SwapToken, SwapTokenDetails } from "./swapOptions";
 
 
 
@@ -26,6 +26,7 @@ export const performSwapUniswapV2 = async (swapOptions: SwapOptions, swapPlatfor
 		web3provider,
 		inputToken,
 		outputToken,
+		onlyGetQuote = false,
 		onlyCheckTradeValidity = false
 	} = swapOptions
 
@@ -63,10 +64,19 @@ export const performSwapUniswapV2 = async (swapOptions: SwapOptions, swapPlatfor
 	// Calculate the minimum amount of ETH to receive considering slippage
 	const amountOutMin = ethQuote.mul(1 - slippageTolerance).round(0);
 
-	console.log('ETH Quote:', web3.utils.fromWei(ethQuote.toString(), 'ether'), amountOutMin.toString());
-	console.log('Minimum ETH to receive:', web3.utils.fromWei(amountOutMin.toString(), 'ether'));
-	console.log('Test:', amountOutMin.toString(), amountsOut[1]);
-	console.log('Test2:', amountOutMin.toString(), amountsOut[1]);
+	if (onlyGetQuote) {
+
+		return {
+			out: {
+				minAmount: amountOutMin.toString(),
+				maxAmount: amountsOut[1].toString()
+			}
+		} as SwapQuote
+	}
+
+	//console.log('ETH Quote:', web3.utils.fromWei(ethQuote.toString(), 'ether'), amountOutMin.toString());
+	//console.log('Minimum ETH to receive:', web3.utils.fromWei(amountOutMin.toString(), 'ether'));
+	//console.log('Test:', amountOutMin.toString(), amountsOut[1]);
 
 	// Execute the trade
 

@@ -340,6 +340,9 @@ export const getBNPercent = (bnA: BN, bnB: BN, shouldAdd: boolean = true) => {
 
 	return big.toFixed(2);
 }
+/**
+ * Converts decimal string to a BN (ex: 1.3 to 1.3^18)
+ */
 export const parseBN = (unformattedInput: string) => {
 
 	const big = new Big(unformattedInput);

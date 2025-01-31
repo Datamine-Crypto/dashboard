@@ -9,7 +9,7 @@ import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetail
 import { ReducerCommand, ReducerQuery, ReducerQueryHandler } from "../sideEffectReducer";
 import copyToClipBoard from "../utils/copyToClipboard";
 import { devLog } from "../utils/devLog";
-import { SwapOperation, SwapToken, SwapTokenWithAmount } from '../utils/swap/swapOptions';
+import { SwapOperation, SwapQuote, SwapToken, SwapTokenWithAmount } from '../utils/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN } from "./helpers";
 
 export enum ConnectionMethod {
@@ -390,6 +390,30 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					helpArticle: response
 				}
 			}
+		case commonLanguage.queries.Swap.GetOutputQuote: {
+
+			if (err) {
+				return {
+					...state,
+					error: err
+				}
+			}
+
+			const swapQuote = response as SwapQuote
+
+			console.log('swapQuote:', swapQuote)
+			return {
+				...state,
+				//BNToDecimal(
+				swapState: {
+					...state.swapState,
+					output: {
+						...state.swapState.output,
+						amount: `${BNToDecimal(new BN(swapQuote.out.minAmount))}`
+					}
+				},
+			}
+		}
 
 	}
 	return state;
@@ -454,10 +478,12 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				},
 				output: {
 					...state.swapState.output,
-					amount: 'Quotes coming soon...',
+					amount: '...',
 					swapToken: state.swapState.input.swapToken
 				}
-			}
+			},
+
+			...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
 		}
 	}
 
@@ -1092,13 +1118,13 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					if (inputState.swapToken === SwapToken.ETH && input && input.swapToken) {
 						return {
 							swapToken: input.swapToken,
-							amount: 'Quotes coming soon...'
+							amount: '...'
 						}
 					}
 
 					return {
 						swapToken: SwapToken.ETH,
-						amount: 'Quotes coming soon...'
+						amount: '...'
 					}
 				}
 
@@ -1110,7 +1136,9 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					swapState: {
 						input: inputState,
 						output: getOutput()
-					}
+					},
+
+					...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
 				}
 			}
 		case commonLanguage.commands.Swap.SetAmount: {
@@ -1144,7 +1172,9 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 								...state.swapState.input,
 								swapToken
 							}
-						}
+						},
+
+						...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
 					}
 				}
 
@@ -1161,7 +1191,9 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 								...state.swapState.output,
 								swapToken
 							}
-						}
+						},
+
+						...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
 					}
 				}
 			}
@@ -1410,7 +1442,11 @@ const commonLanguage = {
 		PerformSearch: 'PERFORM_SEARCH',
 		GetFullHelpArticle: 'GET_FULL_HELP_ARTICLE',
 		DisconnectWalletConnect: 'DISCONNECT_WALLETCONNECT',
-		ResetHelpArticleBodies: 'RESET_HELP_ARTICLE_BODIES'
+		ResetHelpArticleBodies: 'RESET_HELP_ARTICLE_BODIES',
+
+		Swap: {
+			GetOutputQuote: 'SWAP:GET_OUTPUT_QUOTE'
+		}
 	},
 	errors: {
 		AlreadyInitialized: 'State is already initialized.',

@@ -15,8 +15,8 @@ import damLogo from '../../../../svgs/logo.svg';
 import uniswap from '../../../../svgs/uniswap.svg';
 import { Token } from '../../../interfaces';
 import { availableSwapTokens } from '../../../utils/swap/performSwap';
-import { SwapOperation, SwapToken, SwapTokenDetails } from '../../../utils/swap/swapOptions';
-import { BNToDecimal, getPriceToggle, switchNetwork } from '../../../web3/helpers';
+import { SwapOperation, SwapToken, SwapTokenDetails, SwapTokenWithAmount } from '../../../utils/swap/swapOptions';
+import { BNToDecimal, getPriceToggle, parseBN, switchNetwork } from '../../../web3/helpers';
 import { Web3Context } from '../../../web3/Web3Context';
 import { Balances, commonLanguage, ConnectionMethod, SwapState } from '../../../web3/web3Reducer';
 
@@ -37,7 +37,7 @@ interface RenderParams {
 
 interface ComboBoxProps {
 	value: any;
-	label: string;
+	label: React.ReactNode;
 	swapToken: SwapToken | null;
 	swapTokenDetails: SwapTokenDetails[];
 	swapOperation: SwapOperation;
@@ -244,6 +244,8 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, dispatch, error, 
 			}
 		}
 
+
+
 		const getFluxPrice = () => {
 			if (balances.fluxToken.isZero()) {
 				return;
@@ -297,6 +299,31 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, dispatch, error, 
 
 		return hasWeb3 === null ? 'Connect' : 'Continue'
 	}
+	const getComboboxLabel = (swapTokenWithAmount: SwapTokenWithAmount, baseLabel: string) => {
+
+		const getToken = (swapToken: SwapToken | null) => {
+			switch (swapToken) {
+				case SwapToken.LOCK:
+					return Token.Mintable;
+			}
+
+			return Token.ETH;
+		}
+
+		if (!balances) {
+			return baseLabel;
+		}
+
+		// We'll be trying to parse BN so try/catch to default back to a non-USD number on error
+		try {
+			const parsedAmount = parseBN(swapTokenWithAmount.amount)
+
+			const usdPrice = getPriceToggle({ value: parsedAmount, inputToken: getToken(swapTokenWithAmount.swapToken), outputToken: Token.USDC, balances, round: 2 })
+			return <>{baseLabel} <Typography component="span" color="warning">($ {usdPrice} USD)</Typography></>
+		} catch (err) {
+			return baseLabel
+		}
+	}
 	return <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 		<form onSubmit={onSubmit}>
 			<DialogTitle id="form-dialog-title">
@@ -317,14 +344,14 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, dispatch, error, 
 
 				<Box mt={3} mb={3}>
 					<Box>
-						{getCombobox({ value: swapState.input.amount, label: 'You trade', swapToken: swapState.input.swapToken, swapTokenDetails: inputTokens, swapOperation: SwapOperation.Input })}
+						{getCombobox({ value: swapState.input.amount, label: getComboboxLabel(swapState.input, 'You trade'), swapToken: swapState.input.swapToken, swapTokenDetails: inputTokens, swapOperation: SwapOperation.Input })}
 					</Box>
 					<Box display="flex" justifyContent="center">
 						<IconButton onClick={onFlipSwap}>
 							<KeyboardArrowDownIcon />
 						</IconButton>
 					</Box>
-					{getCombobox({ value: swapState.output.amount, label: 'You receive', swapToken: swapState.output.swapToken, swapTokenDetails: outputTokens, swapOperation: SwapOperation.Output })}
+					{getCombobox({ value: `~${swapState.output.amount}`, label: getComboboxLabel(swapState.output, 'You receive'), swapToken: swapState.output.swapToken, swapTokenDetails: outputTokens, swapOperation: SwapOperation.Output })}
 					{getErrorMesage()}
 					<Box mt={1} mb={4}>
 						<Typography component="div" variant="caption">* Trading is powered by a decentralized Uniswap protocol. {getLearnMoreBurningLink()}</Typography>

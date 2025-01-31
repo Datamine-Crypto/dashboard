@@ -2,7 +2,7 @@ import BN from 'bn.js';
 import Web3 from 'web3';
 
 /**
- * In this sample code we can get a quote for swapping between ETH->DAM. 
+ * In this sample code we can get a quote for swapping between ETH->DAM for Uniswap v3. 
  * This is not used but a good sample to have
  * Example output: "Expected 1 ETH output amount: 321882.440178210659442729 DAM"
  */

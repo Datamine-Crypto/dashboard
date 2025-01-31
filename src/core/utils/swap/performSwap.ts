@@ -51,11 +51,10 @@ export const performSwap = async (
 				uniswapv2routerAddress: localConfig.uniswapv2routerAddres
 			}
 
-			await performSwapUniswapV2(
+			return await performSwapUniswapV2(
 				swapOptions,
 				uniswapV2SwapPlatformOptions
 			)
-			break;
 	}
 
 }

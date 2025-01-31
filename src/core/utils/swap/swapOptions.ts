@@ -51,6 +51,12 @@ export interface SwapOptions {
 	 **/
 	onlyCheckTradeValidity?: boolean;
 
+	/**
+	 * If set to true then we will only get a quote back
+	 * This is useful to get an estimate on a trade
+	 */
+	onlyGetQuote?: boolean;
+
 	inputToken: SwapTokenWithAmount;
 	outputToken: SwapTokenWithAmount;
 }
@@ -58,4 +64,11 @@ export interface SwapOptions {
 export interface SwapTokenWithAmount {
 	amount: string;
 	swapToken: SwapToken | null;
+}
+
+export interface SwapQuote {
+	out: {
+		minAmount: string;
+		maxAmount: string;
+	}
 }

@@ -1174,6 +1174,40 @@ const queryHandlers = {
 
 		return response && response.status
 	},
+	[commonLanguage.queries.Swap.GetOutputQuote]: async ({ state, query }: QueryHandler<Web3State>) => {
+		if (!state.web3) {
+			return
+		}
+
+		const { swapState } = state;
+
+		const inputToken = swapState.input;
+		const outputToken = swapState.output;
+
+		if (!inputToken || !outputToken) {
+			console.log('invalid token:', { inputToken, outputToken })
+			return;
+		}
+
+
+		const swapOptions: SwapOptions = {
+			inputToken,
+			outputToken,
+			swapPlatform: SwapPlatform.UniswapV2,
+
+			web3: state.web3,
+			web3provider,
+			onlyGetQuote: true
+		}
+		try {
+			const quote = await performSwap(swapOptions)
+
+
+			return quote;
+		} catch (err) {
+			rethrowWeb3Error(err);
+		}
+	},
 	[commonLanguage.queries.GetTradeResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		if (!state.web3) {
 			return
