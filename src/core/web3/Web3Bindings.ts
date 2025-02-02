@@ -120,7 +120,19 @@ const localConfig = {
 	/**
 	 * Always show connection buttons
 	 */
-	skipInitialConnection: false
+	skipInitialConnection: false,
+
+	/**
+	 * How often to fetch new blocks? Ethereum block time is average of 12 seconds.
+	 * We'll add 200ms latency to capture the majority of blocks (they're ~12.06-12.09 on average so 200ms should be plenty)
+	 */
+	blockUpdatesIntervalMs: 12000 + 200,
+
+	/**
+	 * How often to reset the throttle for quote ouputs
+	 * This way when you're typing the amount you aren't fetching every keystroke (wait up to X miliseconds between each amount adjustmnet)
+	 */
+	thottleGetOutputQuoteMs: 1000
 }
 
 /**
@@ -129,7 +141,7 @@ const localConfig = {
 const subscribeToBlockUpdates = (web3: Web3, dispatch: React.Dispatch<any>) => {
 	setInterval(() => {
 		dispatch({ type: commonLanguage.commands.RefreshAccountState });
-	}, 12000);
+	}, localConfig.blockUpdatesIntervalMs);
 }
 
 const getSignature = async (web3: any, selectedAddress: any) => {
@@ -170,6 +182,11 @@ const getSignature = async (web3: any, selectedAddress: any) => {
 	return result;
 }
 
+
+/**
+ * We'll use this to clear setTimeout for commonLanguage.queries.Swap.ThrottleGetOutputQuote
+ */
+let thottleGetOutputQuoteTimeout: any;
 
 const queryHandlers = {
 	[commonLanguage.queries.FindWeb3Instance]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
@@ -1174,6 +1191,19 @@ const queryHandlers = {
 
 		return response && response.status
 	},
+
+
+	[commonLanguage.queries.Swap.ThrottleGetOutputQuote]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
+		if (!state.web3) {
+			return
+		}
+
+		clearTimeout(thottleGetOutputQuoteTimeout);
+
+		thottleGetOutputQuoteTimeout = setTimeout(() => {
+			dispatch({ type: commonLanguage.commands.Swap.ResetThottleGetOutputQuote });
+		}, localConfig.thottleGetOutputQuoteMs);
+	},
 	[commonLanguage.queries.Swap.GetOutputQuote]: async ({ state, query }: QueryHandler<Web3State>) => {
 		if (!state.web3) {
 			return
@@ -1188,7 +1218,6 @@ const queryHandlers = {
 			console.log('invalid token:', { inputToken, outputToken })
 			return;
 		}
-
 
 		const swapOptions: SwapOptions = {
 			inputToken,

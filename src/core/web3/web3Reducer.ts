@@ -141,6 +141,8 @@ export interface Web3State {
 	targetEcosystem: Ecosystem | null;
 
 	swapState: SwapState;
+
+	lastSwapThrottle: number | null;
 }
 
 const createWithWithQueries = (state: any) => {
@@ -166,7 +168,7 @@ const localConfig = {
 	/**
 	 * Make sure we don't refresh accounts more than X miliseconds between each call (for thottling)
 	 */
-	throttleAccountRefreshMs: 2000
+	throttleAccountRefreshMs: 2000,
 }
 
 const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>) => {
@@ -397,6 +399,11 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					...state,
 					error: err
 				}
+			}
+
+			// If we get an empty response, don't update the output. This is useful for throttling
+			if (!response) {
+				return state;
 			}
 
 			const swapQuote = response as SwapQuote
@@ -1141,17 +1148,49 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
 				}
 			}
+		case commonLanguage.commands.Swap.ResetThottleGetOutputQuote: {
+			return {
+				...state,
+				lastSwapThrottle: null,
+
+				...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
+			}
+		}
 		case commonLanguage.commands.Swap.SetAmount: {
 			const { amount } = command.payload;
+
+			/**
+			 * Every time the amount is updated we'll queue an update but it'll be throttled
+			 * This means every new amount update (ex: key stroke) will reset the update timer
+			 * After a while ResetThrottleGetOutputQuote() above will be called and the actual quote executed
+			 */
+			const withGetOutputQuote = () => {
+
+				return {
+					lastSwapThrottle: Date.now(),
+
+					...withQueries([{ type: commonLanguage.queries.Swap.ThrottleGetOutputQuote }])
+				}
+			}
+			const newAmount = getForecastAmount(amount, state.swapState.input.amount);
+
+			// No update necessary (Ex: invalid chartacters were stripped)
+			if (newAmount === state.swapState.input.amount) {
+				return state;
+			}
+
 			return {
 				...state,
 				swapState: {
 					...state.swapState,
 					input: {
 						...state.swapState.input,
-						amount: getForecastAmount(amount, state.swapState.input.amount)
+						amount: newAmount
 					}
-				}
+				},
+
+				...withGetOutputQuote(),
+
 			}
 		}
 		case commonLanguage.commands.Swap.SetToken: {
@@ -1360,7 +1399,8 @@ const initialState: Web3State = {
 			swapToken: null,
 			amount: ''
 		},
-	}
+	},
+	lastSwapThrottle: null
 }
 
 const commonLanguage = {
@@ -1422,7 +1462,8 @@ const commonLanguage = {
 			SetAmount: 'SWAP:SET_AMOUNT',
 			SetToken: 'SWAP:SET_TOKEN',
 			ShowTradeDialog: 'SWAP:SHOW_TRADE_DIALOG',
-			FlipSwap: 'SWAP:FLIP'
+			FlipSwap: 'SWAP:FLIP',
+			ResetThottleGetOutputQuote: 'SWAP:RESET_THROTTLE_GET_OUTPUT_QUOTE'
 		}
 	},
 	queries: {
@@ -1445,7 +1486,8 @@ const commonLanguage = {
 		ResetHelpArticleBodies: 'RESET_HELP_ARTICLE_BODIES',
 
 		Swap: {
-			GetOutputQuote: 'SWAP:GET_OUTPUT_QUOTE'
+			GetOutputQuote: 'SWAP:GET_OUTPUT_QUOTE',
+			ThrottleGetOutputQuote: 'SWAP:THROTTLE_GET_OUTPUT_QUOTE',
 		}
 	},
 	errors: {

@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Link, MenuItem, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Link, MenuItem, TextField, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -33,6 +33,8 @@ interface RenderParams {
 
 	swapState: SwapState;
 	connectionMethod: ConnectionMethod;
+
+	lastSwapThrottle: number | null;
 }
 
 interface ComboBoxProps {
@@ -51,7 +53,7 @@ const useStyles = tss.create(({ theme }) => ({
 		flexDirection: 'column'
 	},
 }));
-const Render: React.FC<RenderParams> = React.memo(({ balances, dispatch, error, hasWeb3, ecosystem, selectedAddress, swapState, connectionMethod }) => {
+const Render: React.FC<RenderParams> = React.memo(({ balances, dispatch, error, hasWeb3, ecosystem, selectedAddress, swapState, connectionMethod, lastSwapThrottle }) => {
 	const { classes } = useStyles();
 
 	const { mintableTokenShortName, navigation, mintableTokenPriceDecimals, lockableTokenShortName, layer } = getEcosystemConfig(ecosystem)
@@ -299,30 +301,51 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, dispatch, error, 
 
 		return hasWeb3 === null ? 'Connect' : 'Continue'
 	}
-	const getComboboxLabel = (swapTokenWithAmount: SwapTokenWithAmount, baseLabel: string) => {
+	const getComboboxLabel = (swapTokenWithAmount: SwapTokenWithAmount, baseLabel: string, isDisabled: boolean) => {
 
-		const getToken = (swapToken: SwapToken | null) => {
-			switch (swapToken) {
-				case SwapToken.LOCK:
-					return Token.Mintable;
+		const getLoadingIndicator = () => {
+			if (!lastSwapThrottle || !isDisabled) {
+				return
+			}
+			return (
+				<Box display={"inline-block"} ml={1}><CircularProgress size={14} /></Box>
+			)
+		}
+
+		const getLabelWithPrice = () => {
+
+			const getToken = (swapToken: SwapToken | null) => {
+				switch (swapToken) {
+					case SwapToken.LOCK:
+						return Token.Mintable;
+				}
+
+				return Token.ETH;
 			}
 
-			return Token.ETH;
+			if (!balances) {
+				return baseLabel;
+			}
+
+			// We'll be trying to parse BN so try/catch to default back to a non-USD number on error
+			try {
+				const parsedAmount = parseBN(swapTokenWithAmount.amount)
+
+				const usdPrice = getPriceToggle({ value: parsedAmount, inputToken: getToken(swapTokenWithAmount.swapToken), outputToken: Token.USDC, balances, round: 2 })
+				return <>
+					{baseLabel} <Typography component="span" color="warning">($ {usdPrice} USD)</Typography>
+
+				</>
+			} catch (err) {
+				return baseLabel
+			}
 		}
 
-		if (!balances) {
-			return baseLabel;
-		}
+		return <>
+			{getLabelWithPrice()}
+			{getLoadingIndicator()}
+		</>
 
-		// We'll be trying to parse BN so try/catch to default back to a non-USD number on error
-		try {
-			const parsedAmount = parseBN(swapTokenWithAmount.amount)
-
-			const usdPrice = getPriceToggle({ value: parsedAmount, inputToken: getToken(swapTokenWithAmount.swapToken), outputToken: Token.USDC, balances, round: 2 })
-			return <>{baseLabel} <Typography component="span" color="warning">($ {usdPrice} USD)</Typography></>
-		} catch (err) {
-			return baseLabel
-		}
 	}
 	return <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 		<form onSubmit={onSubmit}>
@@ -344,14 +367,14 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, dispatch, error, 
 
 				<Box mt={3} mb={3}>
 					<Box>
-						{getCombobox({ value: swapState.input.amount, label: getComboboxLabel(swapState.input, 'You trade'), swapToken: swapState.input.swapToken, swapTokenDetails: inputTokens, swapOperation: SwapOperation.Input })}
+						{getCombobox({ value: swapState.input.amount, label: getComboboxLabel(swapState.input, 'You trade', false), swapToken: swapState.input.swapToken, swapTokenDetails: inputTokens, swapOperation: SwapOperation.Input })}
 					</Box>
 					<Box display="flex" justifyContent="center">
 						<IconButton onClick={onFlipSwap}>
 							<KeyboardArrowDownIcon />
 						</IconButton>
 					</Box>
-					{getCombobox({ value: `~${swapState.output.amount}`, label: getComboboxLabel(swapState.output, 'You receive'), swapToken: swapState.output.swapToken, swapTokenDetails: outputTokens, swapOperation: SwapOperation.Output })}
+					{getCombobox({ value: `~${swapState.output.amount}`, label: getComboboxLabel(swapState.output, 'You receive', true), swapToken: swapState.output.swapToken, swapTokenDetails: outputTokens, swapOperation: SwapOperation.Output })}
 					{getErrorMesage()}
 					<Box mt={1} mb={4}>
 						<Typography component="div" variant="caption">* Trading is powered by a decentralized Uniswap protocol. {getLearnMoreBurningLink()}</Typography>
@@ -380,7 +403,7 @@ interface Params {
 const TradeDialog: React.FC<Params> = ({ }) => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
-	const { balances, error, ecosystem, selectedAddress, hasWeb3, swapState, connectionMethod } = web3State;
+	const { balances, error, ecosystem, selectedAddress, hasWeb3, swapState, connectionMethod, lastSwapThrottle } = web3State;
 
 	return <Render
 		balances={balances}
@@ -391,6 +414,7 @@ const TradeDialog: React.FC<Params> = ({ }) => {
 		hasWeb3={hasWeb3}
 		swapState={swapState}
 		connectionMethod={connectionMethod}
+		lastSwapThrottle={lastSwapThrottle}
 	/>
 }
 

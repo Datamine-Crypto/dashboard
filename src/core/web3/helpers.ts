@@ -145,7 +145,13 @@ export const getWeb3Provider = async ({ useWalletConnect, ecosystem }: { useWall
 			optionalChains: config.walletConnect.optionalChains as any, // REQUIRED chain ids
 			rpcMap: config.walletConnect.rpcMap, // REQUIRED chain ids
 			showQrModal: true,
-			metadata: config.walletConnect.metadata
+			metadata: config.walletConnect.metadata,
+
+			qrModalOptions: {
+				themeVariables: {
+					"--wcm-z-index": "10000" // Position the WalletConnect above the loading dialog
+				}
+			}
 
 			/*
 			qrModalOptions, // OPTIONAL - `undefined` by default
