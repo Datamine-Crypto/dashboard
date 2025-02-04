@@ -23,7 +23,7 @@ import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
 import { devLog } from '../utils/devLog';
 import { performSwap } from '../utils/swap/performSwap';
 import { SwapOptions, SwapPlatform } from '../utils/swap/swapOptions';
-import { decodeMulticall, encodeMulticall } from '../utils/web3multicall';
+import { decodeMulticall, encodeMulticall, MultiCallParams } from '../utils/web3multicall';
 
 let web3provider: any = null;
 
@@ -434,13 +434,45 @@ const queryHandlers = {
 				return config.lockableUniswapV3L1EthTokenContractAddress as string
 			}
 
-			const getUniswapFluxPriceCall = () => {
+			const getUniswapFluxPriceCall = (): Record<string, MultiCallParams> => {
+
+				// On L2 we'll get the balance of pool from SushiSwap
 				if (isArbitrumMainnet) {
-					return [{
-						address: config.mintableSushiSwapL2EthPair as string, //@todo change this
+					return {
+						uniswapFluxTokenReservesV3: {
+							address: config.mintableSushiSwapL2EthPair as string, //@todo change this
+							function: {
+								signature: {
+									name: 'getReserves',
+									type: 'function',
+									inputs: []
+								},
+								parameters: []
+							},
+
+							returns: {
+								params: ['uint112', 'uint112'],
+								callback: (reserve0: string, reserve1: string) => {
+									return {
+										slot0: {
+											sqrtPriceX96: reserve0
+										},
+										reserve0,
+										reserve1
+									}
+								}
+							}
+						}
+					}
+				}
+
+				// On L1 we'll get the balance of pool from Uniswap v3
+				return {
+					uniswapFluxTokenReservesV3: {
+						address: config.mintableUniswapV3L1EthTokenContractAddress as string, //@todo change this
 						function: {
 							signature: {
-								name: 'getReserves',
+								name: 'slot0',
 								type: 'function',
 								inputs: []
 							},
@@ -448,51 +480,63 @@ const queryHandlers = {
 						},
 
 						returns: {
-							params: ['uint112', 'uint112'],
-							callback: (reserve0: string, reserve1: string) => {
+							params: ['uint160'],
+							callback: (sqrtPriceX96: string) => {
 								return {
 									slot0: {
-										sqrtPriceX96: reserve0
-									},
-									reserve0,
-									reserve1
-								}
-							}
-						}
-					}]
-				}
-
-				return [{
-					address: config.mintableUniswapV3L1EthTokenContractAddress as string, //@todo change this
-					function: {
-						signature: {
-							name: 'slot0',
-							type: 'function',
-							inputs: []
-						},
-						parameters: []
-					},
-
-					returns: {
-						params: ['uint160'],
-						callback: (sqrtPriceX96: string) => {
-							return {
-								slot0: {
-									sqrtPriceX96
+										sqrtPriceX96
+									}
 								}
 							}
 						}
 					}
-				}]
+				}
 			}
 
-			const getUniswapDamPriceCall = () => {
+			const getUniswapDamPriceCall = (): Record<string, MultiCallParams> => {
+				// On L2 we'll get the balance of pool from SushiSwap
 				if (isArbitrumMainnet) {
-					return [{
-						address: config.lockableSushiSwapL2EthPair as string, //@todo change this
+					return {
+						uniswapDamTokenReservesV3: {
+							address: config.lockableSushiSwapL2EthPair as string, //@todo change this
+							function: {
+								signature: {
+									name: 'getReserves',
+									type: 'function',
+									inputs: []
+								},
+								parameters: []
+							},
+
+							returns: {
+								params: ['uint112', 'uint112'],
+								callback: (reserve0: string, reserve1: string) => {
+
+									// Swap pairs if you have created ETH / Lockable token instead
+									if (config.lockableSushiSwapL2EthPairSwapPairs) {
+										[reserve0, reserve1] = [reserve1, reserve0];
+									}
+
+									return {
+										slot0: {
+											sqrtPriceX96: reserve0
+										},
+										reserve0,
+										reserve1
+									}
+								}
+							}
+						}
+					}
+				}
+
+				// On L1 we'll get the balance of pool from Uniswap v3
+				return {
+					uniswapDamTokenReservesV3: {
+						address: config.lockableUniswapV3L1EthTokenContractAddress as string,
 						function: {
 							signature: {
-								name: 'getReserves',
+								name: 'slot0',
 								type: 'function',
 								inputs: []
 							},
@@ -500,56 +544,26 @@ const queryHandlers = {
 						},
 
 						returns: {
-							params: ['uint112', 'uint112'],
-							callback: (reserve0: string, reserve1: string) => {
-
-								// Swap pairs if you have created ETH / Lockable token instead
-								if (config.lockableSushiSwapL2EthPairSwapPairs) {
-									[reserve0, reserve1] = [reserve1, reserve0];
-								}
-
+							params: ['uint160'],
+							callback: (sqrtPriceX96: string) => {
 								return {
 									slot0: {
-										sqrtPriceX96: reserve0
-									},
-									reserve0,
-									reserve1
-								}
-							}
-						}
-					}]
-				}
-				return [{
-					address: config.lockableUniswapV3L1EthTokenContractAddress as string,
-					function: {
-						signature: {
-							name: 'slot0',
-							type: 'function',
-							inputs: []
-						},
-						parameters: []
-					},
-
-					returns: {
-						params: ['uint160'],
-						callback: (sqrtPriceX96: string) => {
-							return {
-								slot0: {
-									sqrtPriceX96
+										sqrtPriceX96
+									}
 								}
 							}
 						}
 					}
-				}]
+				}
 			}
 
-			const getLockedLiquidityBalanceCall = () => {
+			const getLockedLiquidityBalanceCall = (): Record<string, MultiCallParams> => {
 				if (!config.lockedLiquidityUniswapAddress || !config.mintableSushiSwapL2EthPair) {
-					return []
+					return {}
 				}
 
-				return [
-					{
+				return {
+					lockedLiquidtyUniTotalSupply: {
 						address: config.mintableSushiSwapL2EthPair, //This points to UNI-V2 Token
 						function: {
 							signature: {
@@ -567,7 +581,7 @@ const queryHandlers = {
 							}
 						}
 					},
-					{
+					lockedLiquidityUniAmount: {
 						address: config.mintableSushiSwapL2EthPair, //This points to UNI-V2 Token
 						function: {
 							signature: {
@@ -589,12 +603,12 @@ const queryHandlers = {
 							}
 						}
 					}
-				]
+				}
 			}
 
-			const multicallData = [
+			const multicallData = {
 				// ETH Balance
-				{
+				ethBalance: {
 					address: config.uniswapMulticallAdress,
 					function: {
 						signature: {
@@ -618,7 +632,7 @@ const queryHandlers = {
 				},
 
 				// Uniswap: ETH Price
-				{
+				uniswapUsdcEthTokenReserves: {
 					address: config.uniswapV3UsdcEthTokenContractAddress as string,
 					function: {
 						signature: {
@@ -659,7 +673,7 @@ const queryHandlers = {
 					}
 				},
 				// FLUX: Total Supply
-				{
+				fluxTotalSupply: {
 					address: config.mintableTokenContractAddress,
 					function: {
 						signature: {
@@ -679,7 +693,7 @@ const queryHandlers = {
 				},
 
 				// DAM: Total Supply
-				{
+				damTotalSupply: {
 					address: config.lockableTokenContractAddress,
 					function: {
 						signature: {
@@ -700,7 +714,7 @@ const queryHandlers = {
 
 
 				// FLUX: Address token details
-				{
+				addressTokenDetails: {
 					address: config.mintableTokenContractAddress,
 					function: {
 						signature: {
@@ -732,7 +746,7 @@ const queryHandlers = {
 
 
 				// FLUX: Address locks
-				{
+				addressLock: {
 					address: config.mintableTokenContractAddress,
 					function: {
 						signature: {
@@ -763,7 +777,7 @@ const queryHandlers = {
 				},
 
 				// FLUX: Address details
-				{
+				addressDetails: {
 					address: config.mintableTokenContractAddress,
 					function: {
 						signature: {
@@ -802,7 +816,7 @@ const queryHandlers = {
 
 
 				// DAM: Total Supply of Uniswap
-				{
+				liquidityDamV3: {
 					address: config.lockableTokenContractAddress,
 					function: {
 						signature: {
@@ -830,7 +844,7 @@ const queryHandlers = {
 				...getUniswapFluxPriceCall(),
 
 				// FLUX: Total Supply of Uniswap
-				{
+				uniswapFluxBalance: {
 					address: config.mintableTokenContractAddress, //@change this
 					function: {
 						signature: {
@@ -854,7 +868,7 @@ const queryHandlers = {
 				},
 
 				// FLUX: Total Supply of Arbitrum Bridge
-				{
+				arbitrumBridgeBalance: {
 					address: config.mintableTokenContractAddress,
 					function: {
 						signature: {
@@ -878,7 +892,7 @@ const queryHandlers = {
 				},
 
 				// ETH: Total Supply of FLUX / ETH Uniswap Pool
-				{
+				wrappedEthFluxUniswapAddressBalance: {
 					address: config.wrappedEthAddress, //@change this
 					function: {
 						signature: {
@@ -902,7 +916,7 @@ const queryHandlers = {
 				},
 
 				// ETH: Total Supply of DAM / ETH Uniswap Pool
-				{
+				wrappedEthDamUniswapAddressBalance: {
 					address: config.wrappedEthAddress, //@change this
 					function: {
 						signature: {
@@ -926,7 +940,7 @@ const queryHandlers = {
 				},
 
 				...getLockedLiquidityBalanceCall()
-			]
+			}
 
 
 			const calls = encodeMulticall(web3, multicallData)
@@ -934,7 +948,7 @@ const queryHandlers = {
 
 			const multicallDecodedResults = decodeMulticall(web3, multicallEncodedResults, multicallData)
 
-			const [
+			const {
 				ethBalance,
 				uniswapUsdcEthTokenReserves,
 				fluxTotalSupply,
@@ -945,12 +959,12 @@ const queryHandlers = {
 				addressDetails,
 
 				uniswapDamTokenReservesV3, liquidityDamV3,
-				uniswapFluxTokenReservesV3, uniswapFluxTokensTicksV3,
+				uniswapFluxTokenReservesV3, uniswapFluxBalance,
 
 				arbitrumBridgeBalance, wrappedEthFluxUniswapAddressBalance, wrappedEthDamUniswapAddressBalance,
 
 				lockedLiquidtyUniTotalSupply, lockedLiquidityUniAmount
-			] = multicallDecodedResults
+			} = multicallDecodedResults
 
 			devLog('FindAccountState batch request success', multicallDecodedResults)
 
@@ -1016,7 +1030,7 @@ const queryHandlers = {
 				const price1 = num.div(denom)
 				const price0 = new Big(1).div(price1)
 
-				const fluxAvailable = new Big(uniswapFluxTokensTicksV3 as string).div(new Big(10).pow(18))
+				const fluxAvailable = new Big(uniswapFluxBalance as string).div(new Big(10).pow(18))
 				const ethAvailable = new Big(wrappedEthFluxUniswapAddressBalance).div(new Big(10).pow(18))
 
 				return {
