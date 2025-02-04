@@ -626,7 +626,7 @@ const queryHandlers = {
 					returns: {
 						params: ['uint256'],
 						callback: (ethBalance: string) => {
-							return ethBalance
+							return new BN(ethBalance)
 						}
 					}
 				},
