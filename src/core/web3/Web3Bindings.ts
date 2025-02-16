@@ -22,7 +22,7 @@ import { getEcosystemConfig } from '../../configs/config';
 import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
 import { devLog } from '../utils/devLog';
 import { performSwap } from '../utils/swap/performSwap';
-import { SwapOptions, SwapPlatform } from '../utils/swap/swapOptions';
+import { SwapOptions, SwapPlatform, SwapToken } from '../utils/swap/swapOptions';
 import { decodeMulticall, encodeMulticall, MultiCallParams } from '../utils/web3multicall';
 
 let web3provider: any = null;
@@ -606,6 +606,66 @@ const queryHandlers = {
 				}
 			}
 
+			/**
+			 * On ArbiFLUX ecostem this would return Lockquidity balance
+			 * Since we only know DAM + FLUX (or ArbiFLUX + LOCK) we need to get the "other" token balance too.
+			 * This is only needed in ArbiFLUX ecosystem (since in Lockquidity we can get ArbiFLUX balance from "lockable" balance)
+			 */
+			const getOtherEcosystemTokenBalance = (): Record<string, MultiCallParams> => {
+				const getOtherEcosystem = () => {
+					switch (state.ecosystem) {
+						case Ecosystem.ArbiFlux:
+							return Ecosystem.Lockquidity;
+						default:
+							return null
+					}
+				}
+				const otherEcosystem = getOtherEcosystem();
+				if (!otherEcosystem) {
+					return {}
+				}
+
+				const otherEcosystemConfig = getEcosystemConfig(otherEcosystem);
+
+				const getAddress = () => {
+					switch (state.ecosystem) {
+						case Ecosystem.ArbiFlux:
+							return otherEcosystemConfig.mintableTokenContractAddress; // Get Lockquidity balance
+						default:
+							return null
+					}
+				}
+				const address = getAddress()
+				if (!address) {
+					return {}
+				}
+
+				return {
+					otherEcosystemTokenBalance: {
+						address,
+						function: {
+							signature: {
+								name: 'balanceOf',
+								type: 'function',
+								inputs: [
+									{
+										type: 'address',
+										name: 'targetAddress'
+									}]
+							},
+							parameters: [addressToFetch]
+						},
+
+						returns: {
+							params: ['uint256'],
+							callback: (addressBalance: string) => {
+								return new BN(addressBalance)
+							}
+						}
+					}
+				}
+			}
+
 			const multicallData = {
 				// ETH Balance
 				ethBalance: {
@@ -939,7 +999,8 @@ const queryHandlers = {
 					}
 				},
 
-				...getLockedLiquidityBalanceCall()
+				...getLockedLiquidityBalanceCall(),
+				...getOtherEcosystemTokenBalance()
 			}
 
 
@@ -963,7 +1024,9 @@ const queryHandlers = {
 
 				arbitrumBridgeBalance, wrappedEthFluxUniswapAddressBalance, wrappedEthDamUniswapAddressBalance,
 
-				lockedLiquidtyUniTotalSupply, lockedLiquidityUniAmount
+				lockedLiquidtyUniTotalSupply, lockedLiquidityUniAmount,
+
+				otherEcosystemTokenBalance
 			} = multicallDecodedResults
 
 			devLog('FindAccountState batch request success', multicallDecodedResults)
@@ -1042,20 +1105,100 @@ const queryHandlers = {
 			}
 			const fixedUniswapFluxTokenReservesV3 = getV3ReservesFLUX();
 
+
+			const getSwapTokenBalances = () => {
+
+				const getCurrentSwapTokenBalances = () => {
+					if (!state.swapTokenBalances) {
+						return {
+							[Layer.Layer1]: {
+								[SwapToken.DAM]: new BN(0),
+								[SwapToken.FLUX]: new BN(0),
+								[SwapToken.ETH]: new BN(0),
+							},
+							[Layer.Layer2]: {
+								[SwapToken.ArbiFLUX]: new BN(0),
+								[SwapToken.FLUX]: new BN(0),
+								[SwapToken.LOCK]: new BN(0),
+								[SwapToken.ETH]: new BN(0),
+							},
+						}
+					}
+					return state.swapTokenBalances
+				}
+				const swapTokenBalances = getCurrentSwapTokenBalances()
+
+
+				const getL2ArbiFluxSwapBalance = () => {
+
+					switch (state.ecosystem) {
+						case Ecosystem.ArbiFlux:
+							return (addressDetails as FluxAddressDetails).fluxBalance
+						case Ecosystem.Lockquidity:
+							return (addressTokenDetails as FluxAddressTokenDetails).damBalance;
+					}
+
+					return swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX]
+				}
+				const getL2LockSwapBalance = () => {
+					switch (state.ecosystem) {
+						case Ecosystem.ArbiFlux:
+							return otherEcosystemTokenBalance
+						case Ecosystem.Lockquidity:
+							return (addressDetails as FluxAddressDetails).fluxBalance
+					}
+
+					return swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX]
+				}
+
+				const getFluxL2SwapBlance = () => {
+					switch (state.ecosystem) {
+						case Ecosystem.ArbiFlux:
+							return (addressTokenDetails as FluxAddressTokenDetails).damBalance;
+						//case Ecosystem.Lockquidity: //@todo get from extra prop
+
+
+					}
+					return swapTokenBalances[Layer.Layer2][SwapToken.FLUX]
+				}
+
+				return {
+					[Layer.Layer1]: {
+						[SwapToken.DAM]: !isArbitrumMainnet ? (addressTokenDetails as FluxAddressTokenDetails).damBalance : swapTokenBalances[Layer.Layer1][SwapToken.DAM],
+						[SwapToken.FLUX]: !isArbitrumMainnet ? (addressDetails as FluxAddressDetails).fluxBalance : swapTokenBalances[Layer.Layer1][SwapToken.FLUX],
+						[SwapToken.ETH]: !isArbitrumMainnet ? ethBalance : swapTokenBalances[Layer.Layer1][SwapToken.ETH],
+					},
+					[Layer.Layer2]: {
+						[SwapToken.FLUX]: getFluxL2SwapBlance(),
+						[SwapToken.ArbiFLUX]: getL2ArbiFluxSwapBalance(),
+						[SwapToken.LOCK]: getL2LockSwapBalance(),
+						[SwapToken.ETH]: isArbitrumMainnet ? ethBalance : swapTokenBalances[Layer.Layer2][SwapToken.ETH],
+					},
+
+				}
+			}
+			const swapTokenBalances = getSwapTokenBalances();
+
+
 			return {
 				balances: {
 					damToken: (addressTokenDetails as FluxAddressTokenDetails).damBalance,
 					fluxToken: (addressDetails as FluxAddressDetails).fluxBalance,
 					eth: ethBalance,
+
 					fluxTotalSupply,
 					damTotalSupply,
+
 					uniswapDamTokenReserves: fixedUniswapDamTokenReservesV3,
 					uniswapFluxTokenReserves: fixedUniswapFluxTokenReservesV3,
 					uniswapUsdcEthTokenReserves,
+
 					arbitrumBridgeBalance: new BN(arbitrumBridgeBalance),
+
 					lockedLiquidtyUniTotalSupply,
 					lockedLiquidityUniAmount
 				},
+				swapTokenBalances,
 				selectedAddress,
 				addressLock,
 				addressDetails,

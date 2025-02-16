@@ -85,6 +85,19 @@ export interface SwapState {
 	input: SwapTokenWithAmount;
 	output: SwapTokenWithAmount
 }
+export interface SwapTokenBalances {
+	[Layer.Layer1]: {
+		[SwapToken.DAM]: BN;
+		[SwapToken.FLUX]: BN;
+		[SwapToken.ETH]: BN;
+	},
+	[Layer.Layer2]: {
+		[SwapToken.ArbiFLUX]: BN;
+		[SwapToken.FLUX]: BN;
+		[SwapToken.LOCK]: BN;
+		[SwapToken.ETH]: BN;
+	},
+}
 export interface Web3State {
 	forecastSettings: ForecastSettings;
 	isInitialized: boolean;
@@ -141,6 +154,12 @@ export interface Web3State {
 	targetEcosystem: Ecosystem | null;
 
 	swapState: SwapState;
+
+	/**
+	 * All swap token balances are kept separate from balances
+	 * This allows us to keep track of them separately. For example you might switch layers but remember the balances from the old layer
+	 */
+	swapTokenBalances: SwapTokenBalances | null;
 
 	lastSwapThrottle: number | null;
 }
@@ -268,7 +287,7 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					}
 				}
 
-				const { balances, selectedAddress, addressLock, addressDetails, addressTokenDetails } = response
+				const { balances, swapTokenBalances, selectedAddress, addressLock, addressDetails, addressTokenDetails } = response
 
 				const getBlancesWithForecasting = () => {
 					if (!balances) {
@@ -287,7 +306,8 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					selectedAddress,
 					addressLock,
 					addressDetails,
-					addressTokenDetails
+					addressTokenDetails,
+					swapTokenBalances
 				}
 			}
 		case commonLanguage.queries.GetLockInDamTokensResponse:
@@ -468,9 +488,13 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 	}
 
 	const getSwapTokenBalance = (swapToken: SwapToken | null) => {
+		if (!state.swapTokenBalances) {
+			return null;
+		}
+
 		switch (swapToken) {
 			case SwapToken.LOCK:
-				return BNToDecimal(state.balances?.fluxToken ?? null)
+				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.LOCK] ?? null)
 			case SwapToken.ETH:
 				return BNToDecimal(state.balances?.eth ?? null)
 		}
@@ -1400,6 +1424,7 @@ const initialState: Web3State = {
 			amount: ''
 		},
 	},
+	swapTokenBalances: null,
 	lastSwapThrottle: null
 }
 

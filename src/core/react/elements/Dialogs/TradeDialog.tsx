@@ -18,11 +18,12 @@ import { availableSwapTokens } from '../../../utils/swap/performSwap';
 import { SwapOperation, SwapToken, SwapTokenDetails, SwapTokenWithAmount } from '../../../utils/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN, switchNetwork } from '../../../web3/helpers';
 import { Web3Context } from '../../../web3/Web3Context';
-import { Balances, commonLanguage, ConnectionMethod, SwapState } from '../../../web3/web3Reducer';
+import { Balances, commonLanguage, ConnectionMethod, SwapState, SwapTokenBalances } from '../../../web3/web3Reducer';
 
 
 interface RenderParams {
 	balances: Balances | null;
+	swapTokenBalances: SwapTokenBalances | null;
 	dispatch: React.Dispatch<any>;
 
 	error: string | null;
@@ -53,7 +54,7 @@ const useStyles = tss.create(({ theme }) => ({
 		flexDirection: 'column'
 	},
 }));
-const Render: React.FC<RenderParams> = React.memo(({ balances, dispatch, error, hasWeb3, ecosystem, selectedAddress, swapState, connectionMethod, lastSwapThrottle }) => {
+const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances, dispatch, error, hasWeb3, ecosystem, selectedAddress, swapState, connectionMethod, lastSwapThrottle }) => {
 	const { classes } = useStyles();
 
 	const { mintableTokenShortName, navigation, mintableTokenPriceDecimals, lockableTokenShortName, layer } = getEcosystemConfig(ecosystem)
@@ -222,73 +223,126 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, dispatch, error, 
 	}
 
 	const getBalances = () => {
-		if (!balances) {
+		if (!swapTokenBalances) {
 			return;
 		}
 
-		const getIcon = (type: Token) => {
+		const getIcon = (swapToken: SwapToken) => {
 			const getIconPath = () => {
-				switch (ecosystem) {
-					case Ecosystem.ArbiFlux:
-						return type === Token.Lockable ? fluxLogo : arbiFluxLogo;
-					case Ecosystem.Flux:
-						return type === Token.Lockable ? damLogo : fluxLogo;
-					case Ecosystem.Lockquidity:
-						return type === Token.Lockable ? arbiFluxLogo : lockquidityLogo;
+				switch (swapToken) {
+					case SwapToken.ArbiFLUX:
+						return arbiFluxLogo;
+					case SwapToken.DAM:
+						return damLogo;
+					case SwapToken.FLUX:
+						return fluxLogo;
+					case SwapToken.LOCK:
+						return lockquidityLogo;
+					case SwapToken.ETH:
+						return EthereumPurpleLogo;
 				}
 			}
 
-			switch (type) {
-				case Token.ETH:
-					return <img src={EthereumPurpleLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />
-				default:
-					return <img src={getIconPath()} width={24} height={24} style={{ verticalAlign: 'middle' }} />
-			}
+			return <img src={getIconPath()} width={24} height={24} style={{ verticalAlign: 'middle' }} />
 		}
 
+		const layerBalances = swapTokenBalances[layer]
 
 
-		const getFluxPrice = () => {
-			if (balances.fluxToken.isZero()) {
-				return;
+		const getPrices = () => {
+			const getFluxPrice = () => {
+				const balance = layerBalances[SwapToken.FLUX]
+				if (balance.isZero() || !balances) {
+					return;
+				}
+				return <Grid>
+					{getIcon(SwapToken.FLUX)}
+					{' '}
+					<>{BNToDecimal(balance, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}</>
+					{' / '}
+					$ {getPriceToggle({ value: balance, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD
+				</Grid>
 			}
-			return <Grid>
-				{getIcon(Token.Mintable)}
-				{' '}
-				<>{BNToDecimal(balances.fluxToken, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}</>
-				{' / '}
-				$ {getPriceToggle({ value: balances.fluxToken, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD
-			</Grid>
-		}
-		const getDamPrice = () => {
-			if (balances.damToken.isZero()) {
-				return;
+			const getArbiFluxPrice = () => {
+				if (layer !== Layer.Layer2) {
+					return;
+				}
+
+				const balance = swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX]
+				if (balance.isZero() || !balances) {
+					return;
+				}
+				return <Grid>
+					{getIcon(SwapToken.ArbiFLUX)}
+					{' '}
+					<>{BNToDecimal(balance, true, 18, mintableTokenPriceDecimals)} {SwapToken.ArbiFLUX}</>
+					{' / '}
+					$ {getPriceToggle({ value: balance, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD
+				</Grid>
 			}
-			return <Grid>
-				{getIcon(Token.Lockable)}
-				{' '}
-				<>{BNToDecimal(balances.damToken, true, 18, mintableTokenPriceDecimals)} {lockableTokenShortName}</>
-				{' / '}
-				$ {getPriceToggle({ value: balances.damToken, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD
-			</Grid>
-		}
-		const getEthPrice = () => {
-			return <Grid>
-				{getIcon(Token.ETH)}
-				{' '}
-				<>{BNToDecimal(balances.eth, true, 18, mintableTokenPriceDecimals)} ETH</>
-				{' / '}
-				$ {getPriceToggle({ value: (balances.eth ?? new BN(0)), inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD
-			</Grid>
+			const getLockPrice = () => {
+				if (layer !== Layer.Layer2) {
+					return;
+				}
+
+				const balance = swapTokenBalances[Layer.Layer2][SwapToken.LOCK]
+				if (balance.isZero() || !balances) {
+					return;
+				}
+				return <Grid>
+					{getIcon(SwapToken.LOCK)}
+					{' '}
+					<>{BNToDecimal(balance, true, 18, mintableTokenPriceDecimals)} {SwapToken.LOCK}</>
+					{' / '}
+					$ {getPriceToggle({ value: balance, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD
+				</Grid>
+			}
+			const getDamPrice = () => {
+				if (layer !== Layer.Layer1) {
+					return;
+				}
+
+				const balance = swapTokenBalances[Layer.Layer1][SwapToken.DAM]
+				if (balance.isZero() || !balances) {
+					return;
+				}
+				return <Grid>
+					{getIcon(SwapToken.DAM)}
+					{' '}
+					<>{BNToDecimal(balance, true, 18, mintableTokenPriceDecimals)} {lockableTokenShortName}</>
+					{' / '}
+					$ {getPriceToggle({ value: balance, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD
+				</Grid>
+			}
+			const getEthPrice = () => {
+				const balance = layerBalances[SwapToken.ETH]
+				if (!balances) {
+					return;
+				}
+
+				return <Grid>
+					{getIcon(SwapToken.ETH)}
+					{' '}
+					<>{BNToDecimal(balance, true, 18, mintableTokenPriceDecimals)} ETH</>
+					{' / '}
+					$ {getPriceToggle({ value: (balance ?? new BN(0)), inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD
+				</Grid>
+			}
+
+			return <>
+				{getEthPrice()}
+				{getFluxPrice()}
+				{getDamPrice()}
+				{getArbiFluxPrice()}
+				{getLockPrice()}
+			</>
 		}
 		return <>
 			<Box mb={3}>
 				<Typography component="div" gutterBottom={true}>Your tradable account balances:</Typography>
 			</Box>
 			<Grid container justifyContent="space-between" alignItems="left" spacing={3} className={classes.topLeftPricesContainer}>
-				{getFluxPrice()}
-				{getDamPrice()}
-				{getEthPrice()}
+				{getPrices()}
 			</Grid>
 
 		</>
@@ -403,10 +457,11 @@ interface Params {
 const TradeDialog: React.FC<Params> = ({ }) => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
-	const { balances, error, ecosystem, selectedAddress, hasWeb3, swapState, connectionMethod, lastSwapThrottle } = web3State;
+	const { balances, swapTokenBalances, error, ecosystem, selectedAddress, hasWeb3, swapState, connectionMethod, lastSwapThrottle } = web3State;
 
 	return <Render
 		balances={balances}
+		swapTokenBalances={swapTokenBalances}
 		error={error}
 		dispatch={web3Dispatch}
 		ecosystem={ecosystem}

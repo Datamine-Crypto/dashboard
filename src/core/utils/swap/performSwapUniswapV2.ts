@@ -56,20 +56,19 @@ export const performSwapUniswapV2 = async (swapOptions: SwapOptions, swapPlatfor
 	var path = [inputAddress, outputAddress];
 
 	const amountsOut = (await uniswapV2RouterContract.methods.getAmountsOut(amountIn, path).call()) as any[];
-	console.log('amountsOut:', amountsOut)
 
 	// The quote is the second element in the amountsOut array
 	const ethQuote = new Big(amountsOut[1]);
 
 	// Calculate the minimum amount of ETH to receive considering slippage
-	const amountOutMin = ethQuote.mul(1 - slippageTolerance).round(0);
+	const amountOutMin = ethQuote.mul(1 - slippageTolerance).round(0).toFixed(0);
 
 	if (onlyGetQuote) {
 
 		return {
 			out: {
-				minAmount: amountOutMin.toString(),
-				maxAmount: amountsOut[1].toString()
+				minAmount: amountOutMin,
+				maxAmount: amountsOut[1]
 			}
 		} as SwapQuote
 	}
