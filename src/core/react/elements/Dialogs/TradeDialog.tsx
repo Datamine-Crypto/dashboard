@@ -372,6 +372,8 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 				switch (swapToken) {
 					case SwapToken.LOCK:
 						return Token.Mintable;
+					case SwapToken.ArbiFLUX:
+						return ecosystem === Ecosystem.ArbiFlux ? Token.Mintable : Token.Lockable;
 				}
 
 				return Token.ETH;

@@ -495,6 +495,8 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 		switch (swapToken) {
 			case SwapToken.LOCK:
 				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.LOCK] ?? null)
+			case SwapToken.ArbiFLUX:
+				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX] ?? null)
 			case SwapToken.ETH:
 				return BNToDecimal(state.balances?.eth ?? null)
 		}
@@ -1227,13 +1229,20 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 						return getFlipSwapState()
 					}
 
+					const inputToken = swapToken
+					const outputToken = swapToken === SwapToken.ETH ? state.swapState.input.swapToken : SwapToken.ETH
+
 					return {
 						...state,
 						swapState: {
 							...state.swapState,
 							input: {
 								...state.swapState.input,
-								swapToken
+								swapToken: inputToken
+							},
+							output: {
+								...state.swapState.output,
+								swapToken: outputToken
 							}
 						},
 
@@ -1246,13 +1255,20 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 						return getFlipSwapState()
 					}
 
+					const inputToken = swapToken === SwapToken.ETH ? state.swapState.output.swapToken : SwapToken.ETH
+					const outputToken = swapToken
+
 					return {
 						...state,
 						swapState: {
 							...state.swapState,
+							input: {
+								...state.swapState.input,
+								swapToken: inputToken
+							},
 							output: {
 								...state.swapState.output,
-								swapToken
+								swapToken: outputToken
 							}
 						},
 

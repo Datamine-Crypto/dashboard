@@ -69,7 +69,7 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 			{
 				name: 'ArbiFLUX',
 				swapToken: SwapToken.ArbiFLUX,
-				isBuiltinSwapEnabled: false,
+				isBuiltinSwapEnabled: true,
 				links: {
 					info: 'https://www.defined.fi/arb/0xbf719d56c5f19ae0833adc4080befc48a9b415b5',
 					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
