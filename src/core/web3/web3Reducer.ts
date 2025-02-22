@@ -9,6 +9,7 @@ import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetail
 import { ReducerCommand, ReducerQuery, ReducerQueryHandler } from "../sideEffectReducer";
 import copyToClipBoard from "../utils/copyToClipboard";
 import { devLog } from "../utils/devLog";
+import { availableSwapTokens } from '../utils/swap/performSwap';
 import { SwapOperation, SwapQuote, SwapToken, SwapTokenWithAmount } from '../utils/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN } from "./helpers";
 
@@ -518,6 +519,29 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 
 			...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
 		}
+	}
+
+	/**
+	 * When showing the trade window (or chaning a token in the trade window) we want to change the ecosysetem
+	 * The change is required because we pull in balances & liquidity for that specific ecosystem
+	 */
+	const getSwapTokenEcosystem = (swapToken: SwapToken) => {
+		const availableSwapToken = availableSwapTokens.find(availableSwapToken => availableSwapToken.swapToken === swapToken);
+
+		// If we are switching to ETH then we don't need to change ecosystem
+		if (!availableSwapToken || !availableSwapToken.ecosystem) {
+			return state.ecosystem;
+		}
+
+		const stateEcosystemConfig = getEcosystemConfig(state.ecosystem)
+		const newEcosystemConfig = getEcosystemConfig(availableSwapToken.ecosystem)
+
+		// We don't want to change the ecosystem right away (this will be handled on page reload after user selects to swap network)
+		if (stateEcosystemConfig.layer != newEcosystemConfig.layer) {
+			return state.ecosystem;
+		}
+
+		return newEcosystemConfig.ecosystem;
 	}
 
 	switch (command.type) {
@@ -1161,14 +1185,20 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					}
 				}
 
+				const outputState = getOutput()
+
+				const ecosystem = getSwapTokenEcosystem(inputState.swapToken === SwapToken.ETH ? outputState.swapToken : inputState.swapToken)
+
+
 				return {
 					...state,
+					ecosystem,
 					error: null,
 					dialog: DialogType.Trade,
 					dialogParams: {},
 					swapState: {
 						input: inputState,
-						output: getOutput()
+						output: outputState
 					},
 
 					...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
@@ -1232,8 +1262,11 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					const inputToken = swapToken
 					const outputToken = swapToken === SwapToken.ETH ? state.swapState.input.swapToken : SwapToken.ETH
 
+					const ecosystem = getSwapTokenEcosystem(swapToken)
+
 					return {
 						...state,
+						ecosystem,
 						swapState: {
 							...state.swapState,
 							input: {
@@ -1258,8 +1291,11 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					const inputToken = swapToken === SwapToken.ETH ? state.swapState.output.swapToken : SwapToken.ETH
 					const outputToken = swapToken
 
+					const ecosystem = getSwapTokenEcosystem(swapToken)
+
 					return {
 						...state,
+						ecosystem,
 						swapState: {
 							...state.swapState,
 							input: {
