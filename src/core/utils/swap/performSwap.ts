@@ -6,6 +6,7 @@ import { SwapOptions, SwapPlatform, SwapToken, SwapTokenDetails } from "./swapOp
 import { Ecosystem, Layer } from '../../../configs/config.common';
 import arbiFluxLogo from '../../../svgs/arbiFluxLogo.svg';
 import EthereumPurpleLogo from '../../../svgs/ethereumPurple.svg';
+import fluxLogo from '../../../svgs/fluxLogo.svg';
 import lockquidityLogo from '../../../svgs/lockquidity.svg';
 
 interface SwapTokenDetailsUniswapV2 extends SwapTokenDetails {
@@ -22,6 +23,17 @@ export const availableSwapTokens: SwapTokenDetails[] = [
 		ecosystem: Ecosystem.Lockquidity,
 		layer: Layer.Layer2,
 		uniswapv2routerAddress: '0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24' // Uniswap V2 Router address on L2
+	} as SwapTokenDetailsUniswapV2,
+	{
+		swapToken: SwapToken.FLUX,
+		shortName: SwapToken.FLUX,
+		longName: 'FLUX',
+		abi: fluxAbi,
+		address: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df', // FLUX address on L2
+		logo: fluxLogo,
+		ecosystem: Ecosystem.ArbiFlux, // We want to switch to ArbiFLUX on L2 to trade this token
+		layer: Layer.Layer2,
+		uniswapv2routerAddress: '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506' // SushiSwap V2 Router address on L2
 	} as SwapTokenDetailsUniswapV2,
 	{
 		swapToken: SwapToken.ETH,

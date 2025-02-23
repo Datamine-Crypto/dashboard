@@ -26,6 +26,8 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 	 */
 	const liquidityPoolGroups = [
 		[
+			// FLUX on L1 pool is hidden so we can focus more liquidity to L2
+			/*
 			{
 				name: 'FLUX',
 				swapToken: SwapToken.FLUX,
@@ -38,6 +40,7 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 				image: fluxLogo,
 				layer: 1
 			},
+			*/
 			{
 				name: 'DAM',
 				swapToken: SwapToken.DAM,
@@ -56,7 +59,7 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 			{
 				name: 'FLUX',
 				swapToken: SwapToken.FLUX,
-				isBuiltinSwapEnabled: false,
+				isBuiltinSwapEnabled: true,
 				links: {
 					info: 'https://www.defined.fi/arb/0x088f6dcde862781db7b01feb67afd265abbc6d90',
 					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0xF80D589b3Dbe130c270a69F1a69D050f268786Df',

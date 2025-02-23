@@ -258,7 +258,7 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 				return <Grid>
 					{getIcon(SwapToken.FLUX)}
 					{' '}
-					<>{BNToDecimal(balance, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}</>
+					<>{BNToDecimal(balance, true, 18, 18)} {mintableTokenShortName}</>
 					{' / '}
 					$ {getPriceToggle({ value: balance, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD
 				</Grid>
@@ -275,7 +275,7 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 				return <Grid>
 					{getIcon(SwapToken.ArbiFLUX)}
 					{' '}
-					<>{BNToDecimal(balance, true, 18, mintableTokenPriceDecimals)} {SwapToken.ArbiFLUX}</>
+					<>{BNToDecimal(balance, true, 18, 18)} {SwapToken.ArbiFLUX}</>
 					{' / '}
 					$ {getPriceToggle({ value: balance, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD
 				</Grid>
@@ -292,7 +292,7 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 				return <Grid>
 					{getIcon(SwapToken.LOCK)}
 					{' '}
-					<>{BNToDecimal(balance, true, 18, mintableTokenPriceDecimals)} {SwapToken.LOCK}</>
+					<>{BNToDecimal(balance, true, 18, 18)} {SwapToken.LOCK}</>
 					{' / '}
 					$ {getPriceToggle({ value: balance, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD
 				</Grid>
@@ -309,7 +309,7 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 				return <Grid>
 					{getIcon(SwapToken.DAM)}
 					{' '}
-					<>{BNToDecimal(balance, true, 18, mintableTokenPriceDecimals)} {lockableTokenShortName}</>
+					<>{BNToDecimal(balance, true, 18, 18)} {lockableTokenShortName}</>
 					{' / '}
 					$ {getPriceToggle({ value: balance, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD
 				</Grid>
@@ -323,7 +323,7 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 				return <Grid>
 					{getIcon(SwapToken.ETH)}
 					{' '}
-					<>{BNToDecimal(balance, true, 18, mintableTokenPriceDecimals)} ETH</>
+					<>{BNToDecimal(balance, true, 18, 18)} ETH</>
 					{' / '}
 					$ {getPriceToggle({ value: (balance ?? new BN(0)), inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD
 				</Grid>
@@ -372,6 +372,8 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 				switch (swapToken) {
 					case SwapToken.LOCK:
 						return Token.Mintable;
+					case SwapToken.FLUX:
+						return Token.Lockable; // Lockable because we're on L2 (Lockable: FLUX, Mintable: ArbiFLUX)
 					case SwapToken.ArbiFLUX:
 						return ecosystem === Ecosystem.ArbiFlux ? Token.Mintable : Token.Lockable;
 				}

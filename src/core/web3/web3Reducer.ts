@@ -496,6 +496,8 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 		switch (swapToken) {
 			case SwapToken.LOCK:
 				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.LOCK] ?? null)
+			case SwapToken.FLUX:
+				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.FLUX] ?? null)
 			case SwapToken.ArbiFLUX:
 				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX] ?? null)
 			case SwapToken.ETH:
