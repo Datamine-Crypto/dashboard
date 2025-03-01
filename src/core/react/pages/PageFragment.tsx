@@ -15,6 +15,7 @@ import CommunityPage from './CommunityPage';
 import DashboardPage from './DashboardPage';
 import HelpPage from './HelpPage';
 import HomePage from './HomePage';
+import OnboardingPage from './OnboardingPage';
 import Terms from './Terms';
 import TokenPage from './TokenPage';
 
@@ -31,7 +32,8 @@ enum Page {
 	HomePage,
 	Help,
 	Community,
-	TokenPage
+	TokenPage,
+	Onboarding
 }
 const useStyles = tss.create(({ theme }) => ({
 	pageContainer: {
@@ -84,6 +86,12 @@ const getPageDetails = () => {
 		return {
 			page: Page.TokenPage,
 			isArbitrumMainnet: true
+		}
+	}
+	if (path === 'onboarding') {
+
+		return {
+			page: Page.Onboarding,
 		}
 	}
 
@@ -177,6 +185,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 			case Page.TokenPage:
 				document.title = `${mintableTokenShortName} Ecosystem - ${ecosystemName}`;
 				return <TokenPage />
+			case Page.Onboarding:
+				document.title = `Get Started - ${ecosystemName}`;
+				return <OnboardingPage />
 		}
 
 		document.title = `${ecosystemSlogan} - ${ecosystemName}`;
