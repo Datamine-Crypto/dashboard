@@ -76,7 +76,7 @@ const getPageDetails = () => {
 			page: Page.Terms
 		}
 	}
-	if (path === 'token/flux') {
+	if (path === 'token/flux' || path === 'about') {
 		return {
 			page: Page.TokenPage,
 			isArbitrumMainnet: false

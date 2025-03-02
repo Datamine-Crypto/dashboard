@@ -72,7 +72,7 @@ const FooterFragment: React.FC<Props> = React.memo(({ ecosystem }) => {
 								<Grid container spacing={3} justifyContent="center" direction="column">
 									<Grid>
 										<Link underline="hover" href="#dashboard" color="textSecondary">
-											Validator Dashboard
+											Liquidity Dashboard
 										</Link>
 									</Grid>
 								</Grid>

@@ -3,7 +3,7 @@ Our smart contracts are fully open source. Datamine website is a decentralized g
 Please ensure that you have installed and are logged into MetaMask before following the steps below.
 
 # Step 1
-Visit [https://datamine-crypto.github.io/realtime-decentralized-dashboard/](https://datamine-crypto.github.io/realtime-decentralized-dashboard/) (Decentralized build of Datamine dApp). Click on ["Validator Dashboard"](https://datamine-crypto.github.io/realtime-decentralized-dashboard/#dashboard)
+Visit [https://datamine-crypto.github.io/realtime-decentralized-dashboard/](https://datamine-crypto.github.io/realtime-decentralized-dashboard/) (Decentralized build of Datamine dApp). Click on ["Liquidity Dashboard"](https://datamine-crypto.github.io/realtime-decentralized-dashboard/#dashboard)
 
 ![Connecting](../../helpArticles/assets/images/pngs/connectingMetamask/connecting1.png)
 

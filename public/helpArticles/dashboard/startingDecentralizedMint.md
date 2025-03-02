@@ -6,7 +6,7 @@ To continue, your MetaMask wallets needs to have DAM and ETH.
 
 In order to start your validator, you need to authorize the Datamine smart contract to interact with your Ethereum wallet (which costs a small gas fee). This option will only be available after you have connected your MetaMask wallet to Datamine ecosystem
 
-![Validator Dashboard](../../helpArticles/assets/images/pngs/lockingInDam/lockin1.png)
+![Liquidity Dashboard](../../helpArticles/assets/images/pngs/lockingInDam/lockin1.png)
 
 By pressing Enable, Datamine checks your DAM and ETH balances before allowing you to start your validator. Every transaction or smart contract in Ethereum requires gas. Starting a validator is done via a smart contract. If you do not have Ethereum to pay a small gas fee, you will be unable to start your validator. Therefore, we recommend that you have a starting balance of ~$200 in Ethereum on L1. 
 

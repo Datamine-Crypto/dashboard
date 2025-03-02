@@ -145,7 +145,7 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 		/**
 		 * What is your token trying to achieve? This will be added in a few places like titles.
 		 */
-		ecosystemSlogan: 'Cryptocurrency backed by Proof of Burn',
+		ecosystemSlogan: 'Cryptocurrency with Permanent Liquidity',
 
 		/**
 		 * In a few places we'll have this absolute url to the dashboard (ex: Terms page and add to metamask button)

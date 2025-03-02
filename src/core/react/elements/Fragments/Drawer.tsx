@@ -5,20 +5,18 @@ import Grid from '@mui/material/Grid2';
 
 import clsx from 'clsx';
 
+import { ExpandMore } from '@mui/icons-material';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import HelpIcon from '@mui/icons-material/HelpOutline';
 import HomeIcon from '@mui/icons-material/Home';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import PeopleIcon from '@mui/icons-material/People';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
-
-import { ExpandMore } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
-import Arbitrum from '../../../../svgs/arbitrum.svg';
 import discordWhiteLogo from '../../../../svgs/discordWhite.svg';
-import EthereumPurple from '../../../../svgs/ethereumPurple.svg';
 import Logo from '../../../../svgs/logo.svg';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
@@ -132,28 +130,12 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 
 	const isBigDrawerOpen = true;
 
-	const getL1Page = () => {
-		if (!isL1PageEnabled) {
-			return []
-		}
-		return [
-			{
-				title: <>FLUX <Typography component="div" display="inline" variant="body2" color="textSecondary">(L1 Ecosystem)</Typography></>,
-				icon: <img src={EthereumPurple} width="24" height="24" />,
-				href: '#token/flux',
-				className: classes.nested
-			},
-		]
-	}
 	const getL2Page = () => {
-		if (!isL2PageEnabled) {
-			return []
-		}
 		return [
 			{
-				title: <>ArbiFLUX <Typography component="div" display="inline" variant="body2" color="textSecondary">(L2 Ecosystem)</Typography></>,
-				icon: <img src={Arbitrum} width="24" height="24" />,
-				href: '#token/arbiflux',
+				title: <>Learn More</>,
+				icon: <LocalLibraryIcon />,
+				href: '#about',
 				className: classes.nested
 			},
 		]
@@ -232,12 +214,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			className: classes.nested
 		},
 		{
-			title: 'Validator Dashboard',
-			icon: <MonetizationOnIcon />,
+			title: 'Liquidity Dashboard',
+			icon: <PlayArrowIcon />,
 			href: '#dashboard',
 			className: classes.nested
 		},
-		...getL1Page(),
 		...getL2Page(),
 		...getCommunityPage(),
 		...getHelpPage(),

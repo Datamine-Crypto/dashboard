@@ -6,12 +6,12 @@ import ArrowRightIcon from '@mui/icons-material/PlayArrow';
 
 import logo from '../../../../svgs/logo.svg';
 
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import LightTooltip from '../../elements/LightTooltip';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
-
 
 const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
@@ -107,7 +107,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 			</Typography>
 		}
 		return <Typography component="div" variant="h3" color="textPrimary" gutterBottom display="block" className={classes.title}>
-			Cryptocurrency backed by <span className={classes.proofOfBurn}>Proof of Burn</span> {/*getArrow()*/}
+			Cryptocurrency with <span className={classes.proofOfBurn}>Permanent Liquidity</span> {/*getArrow()*/}
 		</Typography>
 	}
 
@@ -132,11 +132,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 			</Box>
 		}
 		const getLiqudityPoolsButton = () => {
-			if (!isLiquidityPoolsEnabled) {
-				return null;
-			}
 			return <Grid>
-
 				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} ecosystem={ecosystem} />
 			</Grid>
 		}
@@ -176,13 +172,8 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 			<Grid container spacing={4} justifyContent="center" alignItems="center">
 				{getLiqudityPoolsButton()}
 				<Grid>
-					<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard}>
-
-						<Grid container alignItems="center">
-							<Grid>
-								Validator Dashboard
-							</Grid>
-						</Grid>
+					<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard} startIcon={<PlayArrowIcon />}>
+						Go to Liquidity Dashboard
 					</Button>
 				</Grid>
 			</Grid>
@@ -227,7 +218,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 					<Box>
 						{getTitle()}
 						<Typography component="div" variant="h5" align="left" color="textSecondary" paragraph className={classes.titleSlogan}>
-							<Typography component="div" display="inline" variant="h5" color="textPrimary">Datamine FLUX</Typography>  is <LightTooltip title={defiTitle}><Box display="inline-block">DeFi's</Box></LightTooltip> first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.<br />
+							<Typography component="div" display="inline" variant="h5" color="textPrimary">Datamine Ecosystem</Typography>  is <LightTooltip title={defiTitle}><Box display="inline-block">DeFi's</Box></LightTooltip> first inflation-resistant cryptocurrency designed to lock-in liquidity through innovative Proof-of-Burn mechanism.<br />
 						</Typography>
 					</Box>
 				</Grid>

@@ -8,7 +8,7 @@ If you only have assets on Mainnet (L1) you must bridget them to L2 using the of
 
 In order to start your L2 mint, you need to authorize the ArbiFLUX minting smart contract to interact with your Ethereum wallet (which costs a small gas fee on Arbitrum). This option will only be available after you have connected your MetaMask wallet to Datamine ecosystem. 
 
-![Validator Dashboard](../../helpArticles/assets/images/pngs/lockingInDam/lockin1L2.png)
+![Liquidity Dashboard](../../helpArticles/assets/images/pngs/lockingInDam/lockin1L2.png)
 
 By pressing Enable, Datamine checks your FLUX (L2) and ETH balances before allowing you to start your validator. Every transaction or smart contract in Ethereum requires gas. Starting a validator is done via a smart contract. If you do not have Ethereum on L2 to pay a small gas fee, you will be unable to start your validator. Therefore, we recommend that you have a starting balance of ~$20 in Ethereum on Arbitrum L2. 
 

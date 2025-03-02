@@ -1,447 +1,972 @@
-import { Box, Button, Card, CardActionArea, Container, Link, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow, Typography } from '@mui/material';
-import React, { ReactNode, useContext } from 'react';
-
-import PeopleIcon from '@mui/icons-material/People';
-import ArrowRightIcon from '@mui/icons-material/PlayArrow';
-import Grid from '@mui/material/Grid2';
-
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import LockIcon from '@mui/icons-material/Lock';
+import ShieldIcon from '@mui/icons-material/Shield';
+import SyncIcon from '@mui/icons-material/Sync';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import {
+	Box,
+	Button,
+	Card,
+	CardContent,
+	Divider,
+	Paper,
+	Typography
+} from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { Ecosystem } from '../../../configs/config.common';
 import arbiFluxLogo from '../../../svgs/arbiFluxLogo.svg';
 import fluxLogo from '../../../svgs/fluxLogo.svg';
-import logo from '../../../svgs/logo.svg';
+import lockquidityLogo from '../../../svgs/lockquidity.svg';
+import damLogo from '../../../svgs/logo.svg';
 
-import analyticsIcon from '../../../svgs/analytics.svg';
-import communityIcon from '../../../svgs/community.svg';
-import ecosystemIcon from '../../../svgs/ecosystem.svg';
-import ecosystemL2Icon from '../../../svgs/ecosystemL2.svg';
-import lockIcon from '../../../svgs/lock.svg';
-import poolIcon from '../../../svgs/pool.svg';
-import poolIconL2 from '../../../svgs/poolL2.svg';
-import smartContractIcon from '../../../svgs/smartContract.svg';
-import synergyIcon from '../../../svgs/synergy.svg';
-
-import { theme as datamineTheme } from '../../styles';
-
-import { getEcosystemConfig } from '../../../configs/config';
-import { Ecosystem, Layer } from '../../../configs/config.common';
-import { helpArticles } from '../../helpArticles';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import Grid from '@mui/system/Grid';
 import { Web3Context } from '../../web3/Web3Context';
-import { commonLanguage } from '../../web3/web3Reducer';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 
-import { tss } from 'tss-react/mui';
-const useStyles = tss.create(({ theme }) => ({
-	logoContainer: {
-		[theme.breakpoints.down('sm')]: {
-			flexGrow: '1',
-			textAlign: 'center'
-		},
-	},
-	title: {
-		fontSize: '2.8rem',
-		'& .MuiGrid-item': {
-			display: 'flex',
-			alignItems: 'center'
-		},
+// Color palette
+const palette = {
+	highlight: '#0FF',
+	background: '#272936',
+	secondaryBackground: '#202336'
+};
 
-		[theme.breakpoints.down('md')]: {
-			fontSize: '2rem',
-		},
-		[theme.breakpoints.down('sm')]: {
-			fontSize: '1.5rem',
-			textAlign: 'center',
-			'& .MuiGrid-container': {
-				justifyContent: 'center'
-			},
-			marginBottom: theme.spacing(3)
-		},
-	},
-	titleSlogan: {
-		[theme.breakpoints.down('sm')]: {
-			textAlign: 'center',
-		}
-	},
-	arrow: {
-		color: '#0ff',
-		fontSize: '2rem',
-		verticalAlign: 'middle',
-		[theme.breakpoints.down('md')]: {
-			fontSize: '1.5rem',
-		},
-		[theme.breakpoints.down('sm')]: {
-			fontSize: '1rem',
-		},
-	},
-	heroContent: {
-	},
-	cardHeader: {
-		border: `1px solid ${datamineTheme.classes.palette.highlight}`,
-		color: theme.palette.secondary.contrastText
-	},
-	cardPricing: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'baseline',
-		marginBottom: theme.spacing(2),
-	},
-	paperBorders: {
-		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
-		borderBottom: `1px solid ${datamineTheme.classes.palette.highlight}`,
-	},
-	paperBottom: {
-		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
-	},
-	comparisonTable: {
-		'& .MuiTableCell-head': {
-			background: datamineTheme.classes.palette.secondaryBackground,
-			color: datamineTheme.classes.palette.highlight,
-			fontSize: '1.3rem'
-		},
-		'& [role=cell]': {
-			color: datamineTheme.classes.palette.highlight,
-		}
-	},
-	point: {
-		[theme.breakpoints.down('sm')]: {
-			textAlign: "center"
-		}
-	},
-	poolDiagram: {
-		maxWidth: 800,
-		margin: '0 auto',
-		display: 'block'
-	},
-	ecosystemDiagram: {
-		maxWidth: 1000,
-		margin: '0 auto',
-		display: 'block'
-	},
-	featurePoint: {
-		marginBottom: 0
-	},
-	points: {
-		'& li': {
-			marginBottom: 8
-		},
-		'& a': {
-			display: 'block'
-		},
-		[theme.breakpoints.down('sm')]: {
-			listStyle: 'none'
-		}
-	}
-}));
+// Main component
+interface RenderParams {
 
-interface PointParams {
-	title: ReactNode;
-	content: ReactNode;
-	icon: ReactNode;
-	mt?: number;
-	mb?: number;
-}
-
-interface RenderProps {
 	dispatch: React.Dispatch<any>;
 	ecosystem: Ecosystem;
 }
+// Main component
+const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
+	// Animation states
+	const [animateDAM, setAnimateDAM] = useState(false);
+	const [animateFLUX, setAnimateFLUX] = useState(false);
+	const [animateArbiFLUX, setAnimateArbiFLUX] = useState(false);
+	const [animateLOCK, setAnimateLOCK] = useState(false);
 
-const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 
-	const { classes } = useStyles();
-	const { layer } = getEcosystemConfig(ecosystem);
-	const isArbitrumMainnet = layer === Layer.Layer2;
-
-	//@todo this page needs reworking, currently it only talks about DAM, FLUX and ArbiFLUX.
-
-	const fluxTokenName = isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'
-	const damTokenName = isArbitrumMainnet ? 'FLUX' : 'DAM'
-	const damTokenNameLong = isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'
-
-	const getLogo = () => {
-		return <img src={logo} alt="Logo" style={{ width: '128px' }} />
+	const navigateDashboard = () => {
+		window.location.href = '#dashboard' // @todo
 	}
-
-	const getArrow = () => {
-		return <Box display="inline"><ArrowRightIcon fontSize="large" className={classes.arrow} /></Box>
-	}
-
-	const getPoint = ({ title, content, icon, mt, mb }: PointParams) => {
-		return <Box mt={mt !== undefined ? mt : 4} mb={mb !== undefined ? mb : 4}>
-			<Grid
-				container
-				spacing={3}
-				justifyContent="center"
-				className={classes.point}
-			>
-				<Grid>
-					{icon}
-				</Grid>
-				<Grid size={{ md: 8, lg: 10 }}>
-					<Box mb={1} mt={1}>
-						<Typography component="div" variant="h4" color="textPrimary">
-							{title}
-						</Typography>
-					</Box>
-					<Typography component="div" variant="h6" color="textSecondary" paragraph className={classes.featurePoint}>
-						{content}
-					</Typography>
-				</Grid>
-			</Grid>
-		</Box>
-	}
-
-	const getFeaturePoints = () => {
-
-		const getPoolDiagram = () => {
-			return <img src={isArbitrumMainnet ? poolIconL2 : poolIcon} className={classes.poolDiagram} alt={`How ${fluxTokenName} Uniswap Works`} width="100%" />
-		}
-
-		const getEcosystemIcon = () => {
-			return <img src={isArbitrumMainnet ? ecosystemL2Icon : ecosystemIcon} className={classes.ecosystemDiagram} alt={`How Datamine ${isArbitrumMainnet ? 'L2' : 'L1'} Ecosystem Works`} width="100%" />
-		}
-
-
-		const burningFluxTokensHelpArticle = helpArticles.find(helpArticle => helpArticle.id === 'dashboard/burningFluxTokens');
-
-
-		return <>
-			{getPoint({
-				icon: <img src={smartContractIcon} alt={`Our Tokenomics: How Proof of Burn Works on ${!isArbitrumMainnet ? 'L1' : 'Arbitrum'}`} width="48" height="48" />,
-				title: `Our Tokenomics: How Proof of Burn Works on ${!isArbitrumMainnet ? 'L1' : 'L2'}`,
-				content: <>
-					<>
-						<ul className={classes.points}>
-							<li>
-								<Link underline="hover" href="#dashboard" color="textSecondary">Start your {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} validator by locking {isArbitrumMainnet ? 'FLUX (L2)' : 'Datamine (DAM)'} in a smart contract</Link>
-							</li>
-							<li>
-								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} ecosystem={ecosystem} contents={<Box style={{ cursor: 'pointer' }}>Your validator generates {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} every 12 seconds <Typography component="div" variant="body2" color="textPrimary" display="inline">(Trade On Uniswap)</Typography></Box>} />
-							</li>
-							<li>
-								<Link underline="hover" onClick={(e: any) => dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle: burningFluxTokensHelpArticle } })} color="textSecondary" style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} from circulation increases your minting speed <Typography component="div" variant="body2" color="textPrimary" display="inline">(Get rewards 30x faster)</Typography></Link>
-							</li>
-							<li>
-								<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.TextLink} ecosystem={ecosystem} contents={<Box style={{ cursor: 'pointer' }}>Burning {isArbitrumMainnet ? 'ArbiFLUX' : 'FLUX'} creates <strong style={{ color: '#0FF' }}>monetary velocity</strong> which flows through 1% Uniswap Pool</Box>} />
-							</li>
-						</ul>
-					</>
-
-					{getPoolDiagram()}
-				</>
-			})}
-			{getPoint({
-				icon: <img src={synergyIcon} alt="Next-Gen Smart Contracts" width="72" height="72" />,
-				title: `Our Use Case: Transaction-incentivized Liquidity Pools ${isArbitrumMainnet ? 'on L2' : ''}`,
-				mb: 0,
-				content: <>
-					<Box mb={1}>{damTokenName} and {fluxTokenName} are dual interconnected tokens that offer unique incentives for providing liquidity on Uniswap &amp; Balancer pools. Our core on-chain use case ensures constant movement of tokens through any liquidity pool.</Box>
-					<Box mb={1}>{damTokenNameLong} tokens have {isArbitrumMainnet ? 'linear and preditacble' : 'fixed'} supply to form high volatility pool. <strong>{!isArbitrumMainnet ? `Over 70% of lifetime ${damTokenName} supply is located` : 'FLUX (L2) can be locked-in'}</strong> in the {isArbitrumMainnet ? 'L2 ' : ''}{fluxTokenName} minting smart contract. Constant demand to start more validators creates on-chain velocity.</Box>
-					<Box mb={1}>{fluxTokenName} tokens have infinite supply and deflation is automatically adjusted by "controlled on-chain burn" to create low volatility pool. <strong>{isArbitrumMainnet ? `${fluxTokenName} is constantly destroyed from circulation` : `Over 60% of all ${fluxTokenName} tokens have been destroyed from circulation`}</strong> creating on-chain velocity where {fluxTokenName} is used as a form of "fuel" for the controlled burn.</Box>
-					{getEcosystemIcon()}
-				</>
-			})}
-			{getPoint({
-				icon: <img src={analyticsIcon} alt="Realtime Smart Contract Analytics" width="48" height="48" />,
-				title: 'Realtime Multi-Smart Contract Analytics',
-				content: <>
-					<Box mb={1}>Datamine Network is an emerging DeFi dApp leader thanks to our robust, feature-rich decentralized user dashboard that allows anyone to interact with our audited smart contracts. </Box>
-					<Box mb={1}>Get realtime on-chain market sentiment and see your balances in USD with our deep Uniswap integration. </Box>
-					Realtime market cap, balances and instant worldwide {damTokenNameLong} / {fluxTokenName} token analytics at your fingertips.
-				</>
-			})}
-			{getPoint({
-				icon: <img src={lockIcon} alt="Secure By Design" width="48" height="48" />,
-				title: 'Secure By Design & Professionally Audited',
-				content: 'All business logic is executed via Audited Smart Contracts so your funds are safe and secure. No 3rd parties are involved in fund movement and transactions are performed on-chain.'
-			})}
-			{getPoint({
-				icon: <img src={communityIcon} alt="Built For The Community" width="48" height="48" />,
-				title: 'Built For The Community',
-				content: `Utilizing the latest serverless, web3 and mobile technologies our Smart Contracts feel like the apps you use and love. Seamlessly switch your experience from desktop to mobile on the same secure and easy-to-use dashboard.`
-			})}
-		</>
-	}
-	const getSocialPoints = () => {
-		return <>
-			<Link underline="hover" href="#community">
-				<Card elevation={0}>
-					<CardActionArea>
-						{getPoint({
-							icon: <PeopleIcon style={{ fontSize: datamineTheme.muiTheme.typography.h3.fontSize, color: datamineTheme.classes.palette.highlight }} />,
-							title: 'Check Out Our Decentralized Communities!',
-							content: <>
-								<Typography component="div" variant="h6" color="textPrimary" gutterBottom>
-									Datamine is a truly decentralized cryptocurrency. <strong>There are no "Official Social Channels"</strong> and all marketing is done by different communities around the world.
-
-									There are currently over 10 different active communities in the Datamine Ecosystem ran completely by the community.
-								</Typography>
-							</>
-						})}
-					</CardActionArea>
-				</Card>
-			</Link>
-		</>
-	}
-
-	const getTokens = () => {
-		const fluxAuditLink = <><Link underline="hover" href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf" target="blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem' }} color="textSecondary">SlowMist Security (Click to View)</Link></>
-
-		const getAddressLink = (link: string) => {
-			return <><Link underline="hover" href={`https://${isArbitrumMainnet ? 'arbi' : 'ether'}scan.io/token/${link}`} target="blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem' }} color="textSecondary">{link}</Link></>
-		}
-
-		const tokens = [
-			{
-				text: 'Total Supply',
-				dam: isArbitrumMainnet ? 'Unlimited' : 'Fixed',
-				flux: 'Unlimited'
-			},
-			{
-				text: 'Token Source',
-				dam: isArbitrumMainnet ? 'Datamine (DAM) L1 Validators' : 'Bulwark & ENCO Coin Swap',
-				flux: isArbitrumMainnet ? 'FLUX (L2) L2 Validators' : 'Datamine (DAM) Validators'
-			},
-			{
-				text: 'Key Feature',
-				dam: isArbitrumMainnet ? 'Using Custom Arbitrum Gateway' : 'Proof of Burn Smart Contract',
-				flux: isArbitrumMainnet ? 'Global Burn Supply / Demand (L2)' : 'Global Burn Supply / Demand'
-			},
-			{
-				text: 'Starting Supply',
-				dam: isArbitrumMainnet ? '0 FLUX' : <>16,876,778 DAM {<Typography component="div" color="textSecondary" display="inline" variant="body2">(From BWK & ENCO Swaps)</Typography>}</>,
-				flux: isArbitrumMainnet ? '0 ArbiFLUX' : '0 FLUX'
-			},
-			{
-				text: 'Primary Utility',
-				dam: isArbitrumMainnet ? 'Bridged From FLUX (L1)' : 'Incentivized Cold Storage',
-				flux: isArbitrumMainnet ? 'On-Chain Mint & Burn Mechanism (L2)' : 'On-Chain Mint & Burn Mechanism'
-			},
-			{
-				text: 'Technology',
-				dam: isArbitrumMainnet ? 'Basic ERC-777' : 'Standard ERC-777',
-				flux: 'Advanced ERC-777'
-			},
-			{
-				text: 'Suggested Wallet Type',
-				dam: 'Secure Hardware',
-				flux: 'MetaMask / Brave Browser / WalletConnect'
-			},
-			{
-				text: 'Professional Audits',
-				dam: isArbitrumMainnet ? '-' : <><Link underline="hover" href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20DamToken.pdf" target="blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem' }} color="textSecondary">SlowMist Security (Click to View)</Link></>,
-				flux: fluxAuditLink
-			},
-			{
-				text: 'Smart Contract Address',
-				dam: getAddressLink('0xF80D589b3Dbe130c270a69F1a69D050f268786Df'),
-				flux: getAddressLink(isArbitrumMainnet ? '0x64081252c497fcfec247a664e9d10ca8ed71b276' : '0x469eDA64aEd3A3Ad6f868c44564291aA415cB1d9')
-			},
-		]
-
-		return <Container maxWidth="md" component="main">
-			<Grid container spacing={5} alignItems="flex-end">
-				<TableContainer component={(props: any) => <Paper {...props} elevation={0} />}>
-					<Table aria-label="simple table" className={classes.comparisonTable}>
-						<TableHead>
-							<TableRow>
-								<TableCell></TableCell>
-								<TableCell align="right">
-									<Box mb={2}><img src={isArbitrumMainnet ? fluxLogo : logo} alt={`${damTokenName} Token`} style={{ width: '96px' }} /></Box>
-									{damTokenName} Token{isArbitrumMainnet ? ' (on L2)' : ''}
-								</TableCell>
-								<TableCell align="right">
-									<Box mb={2}><img src={isArbitrumMainnet ? arbiFluxLogo : fluxLogo} alt={`${fluxTokenName} Token`} style={{ width: '96px' }} /></Box>
-									{fluxTokenName} Token{isArbitrumMainnet ? ' (on L2)' : ''}
-								</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{tokens.map((token, index) => (
-								<TableRow key={index}>
-									<TableCell component="th" scope="row">
-										{token.text}
-									</TableCell>
-									<TableCell align="right">{token.dam}</TableCell>
-									<TableCell align="right">{token.flux}</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
-						<TableFooter>
-							<TableRow>
-								<TableCell component="th" scope="row">
-								</TableCell>
-								<TableCell align="right">
-									<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallButton} ecosystem={ecosystem} />
-								</TableCell>
-								<TableCell align="right">
-									<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallButton} ecosystem={ecosystem} />
-								</TableCell>
-							</TableRow>
-						</TableFooter>
-					</Table>
-				</TableContainer>
-			</Grid>
-		</Container>
-	}
-
-	const getButtons = () => {
-		const navigateDashboard = () => {
-			window.location.href = '#dashboard' // @todo
-		}
-
-		return <Grid container spacing={4} justifyContent="center" alignItems="center">
-			<Grid>
-				<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} ecosystem={ecosystem} />
-			</Grid>
-			<Grid>
-				<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard}>
-
-					<Grid container alignItems="center">
-						<Grid>
-							Validator Dashboard
-						</Grid>
-					</Grid>
-				</Button>
-			</Grid>
+	const getLiqudityPoolsButton = () => {
+		return <Grid>
+			<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} ecosystem={ecosystem} />
 		</Grid>
 	}
-
-	return <>
-		<Box mt={8}>
-			<Box py={6}>
-				<Container>
-					{getButtons()}
-					{getFeaturePoints()}
-				</Container>
-			</Box>
-
-			<Box mb={12}>
-				<Box my={9}>
-					<Typography component="div" variant="h4" color="textPrimary" align="center">
-						Our On-Chain Utility Tokens {isArbitrumMainnet ? 'on L2' : ''}
-					</Typography>
-				</Box>
-
-				<Box mx={3}>
-					{getTokens()}
-				</Box>
-			</Box>
-
-			<Box mb={12}>
-				<Paper className={classes.paperBorders}>
-					<Box py={3}>
-						<Container>
-							<Box my={6}>
-								{getSocialPoints()}
-							</Box>
-						</Container>
+	return (
+		<Box>
+			<Box mt={6} pt={4}>
+				<Box sx={{
+					minHeight: '100vh',
+					bgcolor: palette.background,
+					color: '#f3f4f6',
+					p: 3
+				}}>
+					<Box mb={2}>
+						<Grid container spacing={4} justifyContent="center" alignItems="center">
+							{getLiqudityPoolsButton()}
+							<Grid>
+								<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard} startIcon={<PlayArrowIcon />}>
+									Go to Liquidity Dashboard
+								</Button>
+							</Grid>
+						</Grid>
 					</Box>
-				</Paper>
-			</Box>
 
+					{/* Introduction Card */}
+					<Paper sx={{
+						maxWidth: '1152px',
+						mx: 'auto',
+						mb: 6,
+						p: 3,
+						bgcolor: palette.secondaryBackground,
+						borderRadius: 2
+					}}>
+						<Typography sx={{ fontSize: '1.25rem', mb: 2 }}>
+							Datamine Network is a decentralized system designed to:
+						</Typography>
+
+						<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 3 }}>
+							<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+								<ShieldIcon sx={{ color: palette.highlight, mr: 2, mt: 0.5 }} />
+								<Typography>
+									<Box component="span" sx={{ fontWeight: 'bold', color: palette.highlight }}>Manage Inflation:</Box> Keeps token supply balanced to maintain value.
+								</Typography>
+							</Box>
+
+							<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+								<BarChartIcon sx={{ color: palette.highlight, mr: 2, mt: 0.5 }} />
+								<Typography>
+									<Box component="span" sx={{ fontWeight: 'bold', color: palette.highlight }}>Promote Stability:</Box> Reduces market swings and increases liquidity.
+								</Typography>
+							</Box>
+
+							<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+								<TrendingUpIcon sx={{ color: palette.highlight, mr: 2, mt: 0.5 }} />
+								<Typography>
+									<Box component="span" sx={{ fontWeight: 'bold', color: palette.highlight }}>Reward Participation:</Box> Offers incentives for contributing to the ecosystem.
+								</Typography>
+							</Box>
+						</Box>
+
+						<Typography sx={{ fontSize: '1.125rem' }}>
+							Our ecosystem revolves around four tokens—DAM, FLUX, ArbiFLUX, and LOCK—each playing a unique role.
+						</Typography>
+					</Paper>
+
+					{/* Token Flow Diagram */}
+					<Box sx={{
+						maxWidth: '1152px',
+						mx: 'auto',
+						mb: 6,
+						p: 3,
+						bgcolor: palette.secondaryBackground,
+						borderRadius: 2
+					}}>
+						<Typography
+							variant="h3"
+							sx={{
+								fontSize: '1.5rem', // text-2xl
+								fontWeight: 'bold',
+								mb: 4,
+								textAlign: 'center'
+							}}
+						>
+							Datamine Ecosystem Flow
+						</Typography>
+
+						<svg viewBox="0 0 800 200" width="100%" height="200">
+							{/* DAM */}
+							<g transform="translate(62, 106)">
+								<image
+									href={damLogo}
+									x="-44"
+									y="-44"
+									width="76"
+									height="76"
+								/>
+								<text x="-4" y="45" textAnchor="middle" fill="white" fontSize="10">DAM</text>
+							</g>
+
+							{/* Arrow 1 */}
+							<g transform="translate(100, 100)">
+								<line x1="0" y1="0" x2="120" y2="0" stroke="#4b5563" strokeWidth="2" strokeDasharray="5,5" />
+								<polygon
+									points="120,0 110,-5 110,5"
+									fill="#4b5563"
+									style={{ animation: animateDAM ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none' }}
+								/>
+								<text x="60" y="-10" textAnchor="middle" fill="#9ca3af" fontSize="12">Lock</text>
+							</g>
+
+							{/* FLUX */}
+							<g transform="translate(266, 106)">
+								<image
+									href={fluxLogo}
+									x="-44"
+									y="-44"
+									width="76"
+									height="76"
+								/>
+								<text x="-4" y="45" textAnchor="middle" fill="white" fontSize="10">FLUX</text>
+							</g>
+
+							{/* Arrow 2 */}
+							<g transform="translate(300, 100)">
+								<line x1="0" y1="0" x2="120" y2="0" stroke="#4b5563" strokeWidth="2" strokeDasharray="5,5" />
+								<polygon
+									points="120,0 110,-5 110,5"
+									fill="#4b5563"
+									style={{ animation: animateFLUX ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none' }}
+								/>
+								<text x="60" y="-10" textAnchor="middle" fill="#9ca3af" fontSize="12">Bridge & Lock</text>
+							</g>
+
+							{/* ArbiFLUX */}
+							<g transform="translate(464, 106)">
+								<image
+									href={arbiFluxLogo}
+									x="-44"
+									y="-44"
+									width="76"
+									height="76"
+								/>
+								<text x="-4" y="45" textAnchor="middle" fill="white" fontSize="10">ArbiFLUX</text>
+							</g>
+
+							{/* Arrow 3 */}
+							<g transform="translate(500, 100)">
+								<line x1="0" y1="0" x2="120" y2="0" stroke="#4b5563" strokeWidth="2" strokeDasharray="5,5" />
+								<polygon
+									points="120,0 110,-5 110,5"
+									fill="#4b5563"
+									style={{ animation: animateArbiFLUX ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none' }}
+								/>
+								<text x="60" y="-10" textAnchor="middle" fill="#9ca3af" fontSize="12">Lock</text>
+							</g>
+
+							{/* LOCK */}
+							<g transform="translate(666, 106)">
+								<image
+									href={lockquidityLogo}
+									x="-44"
+									y="-44"
+									width="76"
+									height="76"
+								/>
+								<text x="-4" y="45" textAnchor="middle" fill="white" fontSize="10">Lockquidity</text>
+							</g>
+						</svg>
+					</Box>
+
+					{/* Token Sections */}
+					<Grid container spacing={4} sx={{ maxWidth: '1152px', mx: 'auto' }}>
+						{/* DAM Section */}
+						<Grid size={{ xs: 12, md: 6 }}>
+							<Card sx={{
+								height: '100%',
+								bgcolor: palette.secondaryBackground,
+								borderLeft: `4px solid ${palette.highlight}`,
+								borderRadius: 2,
+								boxShadow: 3
+							}}>
+								<CardContent sx={{ p: 3 }}>
+									<Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+										<Box sx={{
+											p: 1.5,
+											borderRadius: '50%',
+											mr: 2,
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center'
+										}}>
+											<svg width="40" height="40" viewBox="480 480 1040 1040">
+												<circle cx="1000" cy="1000" r="500" fill="#202336" />
+												<path fill="#fff" d="M806.39 855.43L695 919.9V790.96zM807.01 1000L695 1064.47V935.53zM806.39 1144.57L695 1209.04V1080.1zM810.92 1007.82v128.94l-112.01-64.47zM810.92 718.67l.65 128.94-112.04-64.47zM810.92 863.24l.65 128.95-112.04-64.47zM810.92 1152.39l.65 128.94-112.04-64.47zM820.69 847.61V718.67l111.35 64.47z" />
+												<path fill="#0ff" d="M820.69 1152.39l111.35 64.47-111.35 64.47z" />
+												<path fill="#fff" d="M825.25 855.43l111.35-64.47V919.9zM945.72 919.9V790.96l111.36 64.47zM945.72 935.53l111.36 64.47-111.36 64.47zM945.72 1080.1l111.36 64.47-111.36 64.47zM950.28 927.72l111.36-64.48v128.95zM1061.64 1007.82v128.94l-111.36-64.47zM1179.96 795.85v128.94l-111.35-64.47zM1300.47 860.32l-111.39 64.47-.5-128.94zM1189.08 1084.99l111.39 64.47-111.89 64.47zM1301.09 1004.89l-112.01 64.47V940.42zM1305 1012.7v128.94l-112.01-64.47zM1305 1157.94v128.95l-112.01-64.47zM1193.61 788.03L1305 723.56V852.5zM1305 868.13v128.94l-111.39-64.47z" />
+												<path fill="#0ff" d="M1367.77 632.23c-94.09-94.1-224.18-152.34-367.77-152.33-143.59-.01-273.68 58.23-367.77 152.33-94.1 94.09-152.34 224.18-152.33 367.77-.01 143.59 58.23 273.68 152.33 367.77 94.09 94.1 224.18 152.34 367.77 152.33 143.59.01 273.68-58.23 367.77-152.33 94.1-94.09 152.34-224.18 152.33-367.77.01-143.59-58.23-273.68-152.33-367.77zm-14.07 721.47c-90.55 90.53-215.54 146.5-353.7 146.51-138.16-.01-263.15-55.97-353.7-146.51-90.54-90.55-146.5-215.54-146.51-353.7.01-138.16 55.97-263.15 146.51-353.7 90.55-90.54 215.54-146.5 353.7-146.51 138.16.01 263.15 55.97 353.7 146.51 90.53 90.55 146.5 215.54 146.51 353.7-.01 138.16-55.98 263.15-146.51 353.7z" />
+											</svg>
+										</Box>
+										<Typography
+											variant="h4"
+											sx={{
+												fontSize: '1.5rem',
+												fontWeight: 'bold',
+												color: palette.highlight
+											}}
+										>
+											DAM: The Foundation Token
+										</Typography>
+									</Box>
+
+									<Divider sx={{ my: 2, borderColor: '#374151' }} /> {/* border-gray-700 */}
+
+									<Box sx={{ ml: 1.5, display: 'flex', flexDirection: 'column', gap: 2 }}>
+										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+											<ArrowForwardIcon sx={{ color: palette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
+											<Typography sx={{ color: '#e5e7eb' }}> {/* text-gray-200 */}
+												<Box component="span" sx={{ fontWeight: 'bold' }}>Role:</Box> DAM anchors the system and has a capped supply of 16,876,779 tokens.
+											</Typography>
+										</Box>
+
+										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+											<ArrowForwardIcon sx={{ color: '#60a5fa', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
+											<Typography sx={{ color: '#e5e7eb' }}> {/* text-gray-200 */}
+												<Box component="span" sx={{ fontWeight: 'bold' }}>Use:</Box> Lock DAM on Layer 1 (Ethereum) to mint FLUX, which drives participation and value stability.
+											</Typography>
+										</Box>
+									</Box>
+
+									<Box sx={{
+										mt: 3,
+										bgcolor: palette.background,
+										p: 2,
+										borderRadius: 1
+									}}>
+										<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+											<Typography sx={{ color: '#9ca3af' }}>Supply Cap</Typography> {/* text-gray-400 */}
+											<Typography sx={{ fontWeight: 'bold' }}>16,876,779 DAM</Typography>
+										</Box>
+
+										<Box sx={{ mt: 1, pt: 0.5, position: 'relative' }}>
+											<Box sx={{
+												height: '8px', // h-2
+												borderRadius: '4px',
+												bgcolor: '#374151', // bg-gray-700
+												overflow: 'hidden',
+												display: 'flex'
+											}}>
+												<Box sx={{
+													width: '75%', // w-3/4 
+													bgcolor: '#3b82f6', // bg-blue-500
+													display: 'flex',
+													flexDirection: 'column',
+													justifyContent: 'center',
+													textAlign: 'center',
+													whiteSpace: 'nowrap',
+													color: 'white'
+												}}></Box>
+											</Box>
+										</Box>
+									</Box>
+								</CardContent>
+							</Card>
+						</Grid>
+
+						{/* FLUX Section */}
+						<Grid size={{ xs: 12, md: 6 }}>
+							<Card sx={{
+								height: '100%',
+								bgcolor: palette.secondaryBackground,
+								borderLeft: `4px solid ${palette.highlight}`,
+								borderRadius: 2,
+								boxShadow: 3
+							}}>
+								<CardContent sx={{ p: 3 }}>
+									<Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+										<Box sx={{
+											p: 1.5,
+											borderRadius: '50%',
+											mr: 2,
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center'
+										}}>
+											<svg width="40" height="40" viewBox="480 480 1040 1040">
+												<path d="M1345.58 654.42c-88.41-88.43-210.65-143.15-345.58-143.14-134.93 0-257.17 54.72-345.58 143.14-88.43 88.41-143.15 210.65-143.14 345.58 0 134.93 54.72 257.17 143.14 345.58 88.41 88.43 210.65 143.15 345.58 143.14 134.93 0 257.17-54.72 345.58-143.14 88.43-88.41 143.15-210.65 143.14-345.58.01-134.93-54.71-257.17-143.14-345.58z" fill="#202336" />
+												<path fill="#0ff" d="M1345.58 654.42c-88.41-88.43-210.65-143.15-345.58-143.14-134.93 0-257.17 54.72-345.58 143.14-88.43 88.41-143.15 210.65-143.14 345.58 0 134.93 54.72 257.17 143.14 345.58 88.41 88.43 210.65 143.15 345.58 143.14 134.93 0 257.17-54.72 345.58-143.14 88.43-88.41 143.15-210.65 143.14-345.58.01-134.93-54.71-257.17-143.14-345.58zm-13.22 677.94c-85.09 85.07-202.54 137.66-332.36 137.67-129.82 0-247.27-52.6-332.36-137.67-85.07-85.09-137.66-202.54-137.67-332.36 0-129.82 52.6-247.27 137.67-332.36 85.09-85.07 202.54-137.66 332.36-137.67 129.82 0 247.27 52.6 332.36 137.67 85.07 85.09 137.66 202.54 137.67 332.36-.01 129.82-52.6 247.27-137.67 332.36z" />
+												<path fill="#fff" d="M933.75 896.55l112.67 65.22.51-130.43zM933.75 752.36l112.67 65.22.51-130.43zM1058.63 823.44l112.67 65.21.51-130.42zM1046.42 1123.81l-112.67 65.22 113.18 65.21z" />
+												<path fill="#0ff" d="M933.12 1042.79l113.3 65.21V977.58zM1058.57 1120.04l113.3 65.21v-130.43zM808.39 972.98l113.29 65.22V907.77zM687.08 899.29l113.3 65.22V834.08z" />
+												<path fill="#fff" d="M929.17 1050.69v130.43l113.3-65.21zM929.17 1197.61v130.42l113.3-65.21zM1041.84 823.44l-112.67-65.21v130.42zM1168.87 749.62l-112.67-65.21v130.43zM1296.32 823.44l-112.67-65.21v130.42z" />
+												<path fill="#0ff" d="M929.17 904.46v130.43l112.67-65.22zM1052.76 980.56v130.43l112.68-65.22zM1179.79 1054.82v130.43l112.67-65.21zM808.7 834.08v130.43l112.67-65.22z" />
+											</svg>
+										</Box>
+										<Typography
+											variant="h4"
+											sx={{
+												fontSize: '1.5rem',
+												fontWeight: 'bold',
+												color: palette.highlight
+											}}
+										>
+											FLUX: The Layer 1 Utility Token
+										</Typography>
+									</Box>
+
+									<Divider sx={{ my: 2, borderColor: '#374151' }} /> {/* border-gray-700 */}
+
+									<Box sx={{ ml: 1.5, display: 'flex', flexDirection: 'column', gap: 2 }}>
+										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+											<ArrowForwardIcon sx={{ color: palette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
+											<Typography sx={{ color: '#e5e7eb' }}> {/* text-gray-200 */}
+												<Box component="span" sx={{ fontWeight: 'bold' }}>Role:</Box> FLUX is minted when DAM is locked. It's used for rewards and transactions.
+											</Typography>
+										</Box>
+
+										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+											<ArrowForwardIcon sx={{ color: '#a855f7', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
+											<Typography sx={{ color: '#e5e7eb' }}> {/* text-gray-200 */}
+												<Box component="span" sx={{ fontWeight: 'bold' }}>Use:</Box> Validators can burn FLUX to boost minting rewards and reduce its supply. FLUX can also be bridged to Layer 2, where it can be locked to create ArbiFLUX.
+											</Typography>
+										</Box>
+									</Box>
+
+									<Box sx={{
+										mt: 3,
+										bgcolor: '#111827', // bg-gray-900
+										p: 2,
+										borderRadius: 1
+									}}>
+										<Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+											<LockIcon sx={{ color: palette.highlight, mr: 1 }} fontSize="small" />
+											<Typography sx={{ color: '#e5e7eb' }}>Lock DAM</Typography>
+											<ArrowForwardIcon sx={{ color: '#6b7280', mx: 1 }} fontSize="small" />
+											<Typography sx={{ color: palette.highlight, fontWeight: 'bold' }}>Mint FLUX</Typography>
+										</Box>
+
+										<Box sx={{ display: 'flex', alignItems: 'center' }}>
+											<SyncIcon sx={{ color: palette.highlight, mr: 1 }} fontSize="small" />
+											<Typography sx={{ color: '#e5e7eb' }}>Burn FLUX</Typography>
+											<ArrowForwardIcon sx={{ color: '#6b7280', mx: 1 }} fontSize="small" />
+											<Typography sx={{ color: palette.highlight, fontWeight: 'bold' }}>Boost APY</Typography>
+										</Box>
+									</Box>
+								</CardContent>
+							</Card>
+						</Grid>
+
+						{/* ArbiFLUX Section */}
+						<Grid size={{ xs: 12, md: 6 }}>
+							<Card sx={{
+								height: '100%',
+								bgcolor: palette.secondaryBackground,
+								borderLeft: `4px solid ${palette.highlight}`,
+								borderRadius: 2,
+								boxShadow: 3
+							}}>
+								<CardContent sx={{ p: 3 }}>
+									<Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+										<Box sx={{
+											p: 1.5,
+											borderRadius: '50%',
+											mr: 2,
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center'
+										}}>
+											<svg width="40" height="40" viewBox="480 480 1040 1040">
+												<path d="M1345.58 654.42c-88.41-88.43-210.65-143.15-345.58-143.14-134.93 0-257.17 54.72-345.58 143.14-88.43 88.41-143.15 210.65-143.14 345.58 0 134.93 54.72 257.17 143.14 345.58 88.41 88.43 210.65 143.15 345.58 143.14 134.93 0 257.17-54.72 345.58-143.14 88.43-88.41 143.15-210.65 143.14-345.58.01-134.93-54.71-257.17-143.14-345.58z" fill="#202336" />
+												<path fill="#28a0f0" d="M1345.58 654.42c-88.41-88.43-210.65-143.15-345.58-143.14-134.93 0-257.17 54.72-345.58 143.14-88.43 88.41-143.15 210.65-143.14 345.58 0 134.93 54.72 257.17 143.14 345.58 88.41 88.43 210.65 143.15 345.58 143.14 134.93 0 257.17-54.72 345.58-143.14 88.43-88.41 143.15-210.65 143.14-345.58.01-134.93-54.71-257.17-143.14-345.58zm-13.22 677.94c-85.09 85.07-202.54 137.66-332.36 137.67-129.82 0-247.27-52.6-332.36-137.67-85.07-85.09-137.66-202.54-137.67-332.36 0-129.82 52.6-247.27 137.67-332.36 85.09-85.07 202.54-137.66 332.36-137.67 129.82 0 247.27 52.6 332.36 137.67 85.07 85.09 137.66 202.54 137.67 332.36-.01 129.82-52.6 247.27-137.67 332.36z" />
+												<path fill="#fff" d="M933.75 896.55l112.67 65.22.51-130.43zM933.75 752.36l112.67 65.22.51-130.43zM1058.63 823.44l112.67 65.21.51-130.42zM1046.42 1123.81l-112.67 65.22 113.18 65.21z" />
+												<path fill="#28a0f0" d="M933.12 1042.79l113.3 65.21V977.58zM1058.57 1120.04l113.3 65.21v-130.43zM808.39 972.98l113.29 65.22V907.77zM687.08 899.29l113.3 65.22V834.08z" />
+												<path fill="#fff" d="M929.17 1050.69v130.43l113.3-65.21zM929.17 1197.61v130.42l113.3-65.21zM1041.84 823.44l-112.67-65.21v130.42zM1168.87 749.62l-112.67-65.21v130.43zM1296.32 823.44l-112.67-65.21v130.42z" />
+												<path fill="#28a0f0" d="M929.17 904.46v130.43l112.67-65.22zM1052.76 980.56v130.43l112.68-65.22zM1179.79 1054.82v130.43l112.67-65.21zM808.7 834.08v130.43l112.67-65.22z" />
+											</svg>
+										</Box>
+										<Typography
+											variant="h4"
+											sx={{
+												fontSize: '1.5rem',
+												fontWeight: 'bold',
+												color: palette.highlight
+											}}
+										>
+											ArbiFLUX: The Layer 2 Efficiency Token
+										</Typography>
+									</Box>
+
+									<Divider sx={{ my: 2, borderColor: '#374151' }} /> {/* border-gray-700 */}
+
+									<Box sx={{ ml: 1.5, display: 'flex', flexDirection: 'column', gap: 2 }}>
+										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+											<ArrowForwardIcon sx={{ color: palette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
+											<Typography sx={{ color: '#e5e7eb' }}> {/* text-gray-200 */}
+												<Box component="span" sx={{ fontWeight: 'bold' }}>Role:</Box> ArbiFLUX operates on Arbitrum (Layer 2) and is created by locking FLUX.
+											</Typography>
+										</Box>
+
+										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+											<ArrowForwardIcon sx={{ color: '#f472b6', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
+											<Typography sx={{ color: '#e5e7eb' }}> {/* text-gray-200 */}
+												<Box component="span" sx={{ fontWeight: 'bold' }}>Use:</Box> Lower Costs & Faster Transactions: Designed for scalability and efficiency. Validators can burn ArbiFLUX to boost minting rewards on Layer 2, or lock ArbiFLUX to create LOCK.
+											</Typography>
+										</Box>
+									</Box>
+
+									<Box sx={{
+										mt: 3,
+										bgcolor: '#111827', // bg-gray-900
+										p: 2,
+										borderRadius: 1
+									}}>
+										<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+											<Typography sx={{ color: '#9ca3af' }}>Transaction Cost</Typography>
+											<Box sx={{ display: 'flex', alignItems: 'center' }}>
+												<Box sx={{
+													px: 1,
+													py: 0.5,
+													bgcolor: '#581c87', // bg-purple-900
+													borderTopLeftRadius: '4px',
+													borderBottomLeftRadius: '4px',
+													fontSize: '0.75rem',
+													fontWeight: 'bold'
+												}}>
+													Layer 1
+												</Box>
+												<Box sx={{
+													px: 1,
+													py: 0.5,
+													bgcolor: '#831843', // bg-pink-900
+													borderTopRightRadius: '4px',
+													borderBottomRightRadius: '4px',
+													fontSize: '0.75rem',
+													fontWeight: 'bold',
+													color: palette.highlight // Cyan highlight color
+												}}>
+													Layer 2 ↓98%
+												</Box>
+											</Box>
+										</Box>
+
+										<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+											<Typography sx={{ color: '#9ca3af' }}>Transaction Speed</Typography>
+											<Box sx={{ display: 'flex', alignItems: 'center' }}>
+												<Box sx={{
+													px: 1,
+													py: 0.5,
+													bgcolor: '#581c87', // bg-purple-900
+													borderTopLeftRadius: '4px',
+													borderBottomLeftRadius: '4px',
+													fontSize: '0.75rem',
+													fontWeight: 'bold'
+												}}>
+													Layer 1
+												</Box>
+												<Box sx={{
+													px: 1,
+													py: 0.5,
+													bgcolor: '#831843', // bg-pink-900
+													borderTopRightRadius: '4px',
+													borderBottomRightRadius: '4px',
+													fontSize: '0.75rem',
+													fontWeight: 'bold',
+													color: palette.highlight
+												}}>
+													Layer 2 ↑50x
+												</Box>
+											</Box>
+										</Box>
+									</Box>
+								</CardContent>
+							</Card>
+						</Grid>
+
+						{/* LOCK Section */}
+						<Grid size={{ xs: 12, md: 6 }}>
+							<Card sx={{
+								height: '100%',
+								bgcolor: palette.secondaryBackground,
+								borderLeft: `4px solid ${palette.highlight}`,
+								borderRadius: 2,
+								boxShadow: 3
+							}}>
+								<CardContent sx={{ p: 3 }}>
+									<Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+										<Box sx={{
+											p: 1.5,
+											borderRadius: '50%',
+											mr: 2,
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center'
+										}}>
+											<svg width="40" height="40" viewBox="0 0 48 48">
+												<path fill="#0FF" d="M36.148 19.371h-4.512V4.512H17.043v14.859h-4.51V4.326c0-1.02.027-2.237.822-3.16C14.305.06 15.775 0 16.635 0h15.307c.9 0 2.285.06 3.262 1.085.918.966.945 2.306.945 3.241v15.045h-.001z" />
+												<g fill="#0FF">
+													<path d="M23.078 28.283L7.607 37.234V19.328zM23.707 9.29l.09 17.907-15.559-8.955zM23.707 29.367l.09 17.906-15.559-8.951zM25.594 28.285l15.47-8.954v17.907zM24.965 47.273V29.369l15.558 8.951zM24.965 27.199L24.877 9.29l15.555 8.954z" />
+												</g>
+												<path fill="#202336" d="M39.195 26.764c0-1.391-1.129-2.515-2.518-2.515s-2.48 1.125-2.48 2.515c0 .748.359 1.422.891 1.883v2.117c0 .895.697 1.621 1.59 1.621.896 0 1.594-.727 1.594-1.621v-2.045c.529-.463.923-1.17.923-1.955z" />
+											</svg>
+										</Box>
+										<Typography
+											variant="h4"
+											sx={{
+												fontSize: '1.5rem',
+												fontWeight: 'bold',
+												color: palette.highlight
+											}}
+										>
+											LOCK: The Stability and Liquidity Token
+										</Typography>
+									</Box>
+
+									<Divider sx={{ my: 2, borderColor: '#374151' }} /> {/* border-gray-700 */}
+
+									<Box sx={{ ml: 1.5, display: 'flex', flexDirection: 'column', gap: 2 }}>
+										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+											<ArrowForwardIcon sx={{ color: palette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
+											<Typography sx={{ color: '#e5e7eb' }}> {/* text-gray-200 */}
+												<Box component="span" sx={{ fontWeight: 'bold' }}>Role:</Box> LOCK enhances stability by contributing to a permanent liquidity pool.
+											</Typography>
+										</Box>
+
+										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+											<ArrowForwardIcon sx={{ color: '#4ade80', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
+											<Typography sx={{ color: '#e5e7eb' }}> {/* text-gray-200 */}
+												<Box component="span" sx={{ fontWeight: 'bold' }}>Use:</Box> Minted by locking ArbiFLUX. Can also be burned, but instead of reducing supply, this redirects value to the liquidity pool, ensuring long-term stability.
+											</Typography>
+										</Box>
+									</Box>
+
+									<Box sx={{
+										mt: 3,
+										bgcolor: '#111827', // bg-gray-900
+										p: 2,
+										borderRadius: 1
+									}}>
+										<Typography sx={{ color: '#e5e7eb', mb: 1 }}>
+											<Box component="span" sx={{ fontWeight: 'bold', color: palette.highlight }}>
+												Permanent Liquidity Pool
+											</Box>
+										</Typography>
+
+										<svg viewBox="0 0 200 60" width="100%" height="60">
+											<rect x="10" y="10" width="180" height="40" rx="5" fill="#064e3b" stroke="#10b981" strokeWidth="1" />
+											<circle cx="50" cy="30" r="15" fill="#831843" opacity="0.7" />
+											<circle cx="70" cy="30" r="15" fill="#4c1d95" opacity="0.7" />
+											<circle cx="90" cy="30" r="15" fill="#1e3a8a" opacity="0.7" />
+											<text x="130" y="35" fill="#d1d5db" fontSize="12" textAnchor="middle">Reduced Volatility</text>
+										</svg>
+									</Box>
+								</CardContent>
+							</Card>
+						</Grid>
+					</Grid>
+
+					{/* Security Section */}
+					<Paper sx={{
+						maxWidth: '1152px',
+						mx: 'auto',
+						mt: 6,
+						mb: 6,
+						p: 3,
+						bgcolor: palette.secondaryBackground,
+						borderRadius: 2
+					}}>
+						<Typography
+							variant="h3"
+							sx={{
+								fontSize: '1.5rem',
+								fontWeight: 'bold',
+								mb: 3,
+								textAlign: 'center',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center'
+							}}
+						>
+							<svg viewBox="0 0 24 24" width="24" height="24" style={{ marginRight: '8px' }}>
+								<path fill={palette.highlight} d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4c1.86 0 3.41 1.28 3.86 3H8.14c.45-1.72 2-3 3.86-3zm0 14c-3.08-1.39-5.39-4.39-5.92-8h11.84c-.53 3.61-2.84 6.61-5.92 8z" />
+							</svg>
+							Security Audits
+						</Typography>
+
+						<Box sx={{
+							display: 'flex',
+							flexDirection: { xs: 'column', md: 'row' },
+							gap: 3,
+							justifyContent: 'center',
+							alignItems: 'stretch',
+							mb: 2
+						}}>
+							<Card sx={{
+								flex: 1,
+								bgcolor: palette.background,
+								border: `1px solid ${palette.highlight}`,
+								borderRadius: 2
+							}}>
+								<CardContent>
+									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 2, textAlign: 'center' }}>
+										DAM Token Audit
+									</Typography>
+
+									<Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+										<svg width="80" height="80" viewBox="480 480 1040 1040">
+											<circle cx="1000" cy="1000" r="500" fill="#202336" />
+											<path fill="#fff" d="M806.39 855.43L695 919.9V790.96zM807.01 1000L695 1064.47V935.53zM806.39 1144.57L695 1209.04V1080.1zM810.92 1007.82v128.94l-112.01-64.47zM810.92 718.67l.65 128.94-112.04-64.47zM810.92 863.24l.65 128.95-112.04-64.47zM810.92 1152.39l.65 128.94-112.04-64.47zM820.69 847.61V718.67l111.35 64.47z" />
+											<path fill="#0ff" d="M820.69 1152.39l111.35 64.47-111.35 64.47z" />
+											<path fill="#fff" d="M825.25 855.43l111.35-64.47V919.9zM945.72 919.9V790.96l111.36 64.47zM945.72 935.53l111.36 64.47-111.36 64.47zM945.72 1080.1l111.36 64.47-111.36 64.47zM950.28 927.72l111.36-64.48v128.95zM1061.64 1007.82v128.94l-111.36-64.47zM1179.96 795.85v128.94l-111.35-64.47zM1300.47 860.32l-111.39 64.47-.5-128.94zM1189.08 1084.99l111.39 64.47-111.89 64.47zM1301.09 1004.89l-112.01 64.47V940.42zM1305 1012.7v128.94l-112.01-64.47zM1305 1157.94v128.95l-112.01-64.47zM1193.61 788.03L1305 723.56V852.5zM1305 868.13v128.94l-111.39-64.47z" />
+											<path fill="#0ff" d="M1367.77 632.23c-94.09-94.1-224.18-152.34-367.77-152.33-143.59-.01-273.68 58.23-367.77 152.33-94.1 94.09-152.34 224.18-152.33 367.77-.01 143.59 58.23 273.68 152.33 367.77 94.09 94.1 224.18 152.34 367.77 152.33 143.59.01 273.68-58.23 367.77-152.33 94.1-94.09 152.34-224.18 152.33-367.77.01-143.59-58.23-273.68-152.33-367.77zm-14.07 721.47c-90.55 90.53-215.54 146.5-353.7 146.51-138.16-.01-263.15-55.97-353.7-146.51-90.54-90.55-146.5-215.54-146.51-353.7.01-138.16 55.97-263.15 146.51-353.7 90.55-90.54 215.54-146.5 353.7-146.51 138.16.01 263.15 55.97 353.7 146.51 90.53 90.55 146.5 215.54 146.51 353.7-.01 138.16-55.98 263.15-146.51 353.7z" />
+										</svg>
+									</Box>
+
+									<Typography sx={{ color: '#e5e7eb', mb: 2, textAlign: 'center' }}>
+										The DAM token contract has been audited by SlowMist, a leading blockchain security firm.
+									</Typography>
+
+									<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+										<Button
+											component="a"
+											href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20DamToken.pdf"
+											target="_blank"
+											rel="noopener"
+											sx={{
+												bgcolor: palette.highlight,
+												color: 'black',
+												'&:hover': {
+													bgcolor: '#00CCCC',
+												}
+											}}
+										>
+											View Audit Report
+										</Button>
+									</Box>
+								</CardContent>
+							</Card>
+
+							<Card sx={{
+								flex: 1,
+								bgcolor: palette.background,
+								border: `1px solid ${palette.highlight}`,
+								borderRadius: 2
+							}}>
+								<CardContent>
+									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 2, textAlign: 'center' }}>
+										FLUX Token Audit
+									</Typography>
+
+									<Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+										<svg width="80" height="80" viewBox="480 480 1040 1040">
+											<path d="M1345.58 654.42c-88.41-88.43-210.65-143.15-345.58-143.14-134.93 0-257.17 54.72-345.58 143.14-88.43 88.41-143.15 210.65-143.14 345.58 0 134.93 54.72 257.17 143.14 345.58 88.41 88.43 210.65 143.15 345.58 143.14 134.93 0 257.17-54.72 345.58-143.14 88.43-88.41 143.15-210.65 143.14-345.58.01-134.93-54.71-257.17-143.14-345.58z" fill="#202336" />
+											<path fill="#0ff" d="M1345.58 654.42c-88.41-88.43-210.65-143.15-345.58-143.14-134.93 0-257.17 54.72-345.58 143.14-88.43 88.41-143.15 210.65-143.14 345.58 0 134.93 54.72 257.17 143.14 345.58 88.41 88.43 210.65 143.15 345.58 143.14 134.93 0 257.17-54.72 345.58-143.14 88.43-88.41 143.15-210.65 143.14-345.58.01-134.93-54.71-257.17-143.14-345.58zm-13.22 677.94c-85.09 85.07-202.54 137.66-332.36 137.67-129.82 0-247.27-52.6-332.36-137.67-85.07-85.09-137.66-202.54-137.67-332.36 0-129.82 52.6-247.27 137.67-332.36 85.09-85.07 202.54-137.66 332.36-137.67 129.82 0 247.27 52.6 332.36 137.67 85.07 85.09 137.66 202.54 137.67 332.36-.01 129.82-52.6 247.27-137.67 332.36z" />
+											<path fill="#fff" d="M933.75 896.55l112.67 65.22.51-130.43zM933.75 752.36l112.67 65.22.51-130.43zM1058.63 823.44l112.67 65.21.51-130.42zM1046.42 1123.81l-112.67 65.22 113.18 65.21z" />
+											<path fill="#0ff" d="M933.12 1042.79l113.3 65.21V977.58zM1058.57 1120.04l113.3 65.21v-130.43zM808.39 972.98l113.29 65.22V907.77zM687.08 899.29l113.3 65.22V834.08z" />
+											<path fill="#fff" d="M929.17 1050.69v130.43l113.3-65.21zM929.17 1197.61v130.42l113.3-65.21zM1041.84 823.44l-112.67-65.21v130.42zM1168.87 749.62l-112.67-65.21v130.43zM1296.32 823.44l-112.67-65.21v130.42z" />
+											<path fill="#0ff" d="M929.17 904.46v130.43l112.67-65.22zM1052.76 980.56v130.43l112.68-65.22zM1179.79 1054.82v130.43l112.67-65.21zM808.7 834.08v130.43l112.67-65.22z" />
+										</svg>
+									</Box>
+
+									<Typography sx={{ color: '#e5e7eb', mb: 2, textAlign: 'center' }}>
+										The FLUX token contract has been thoroughly audited by SlowMist to ensure security and reliability.
+									</Typography>
+
+									<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+										<Button
+											component="a"
+											href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf"
+											target="_blank"
+											rel="noopener"
+											sx={{
+												bgcolor: palette.highlight,
+												color: 'black',
+												'&:hover': {
+													bgcolor: '#00CCCC',
+												}
+											}}
+										>
+											View Audit Report
+										</Button>
+									</Box>
+								</CardContent>
+							</Card>
+						</Box>
+
+						<Typography sx={{ color: '#e5e7eb', textAlign: 'center' }}>
+							Security is a priority in the Datamine ecosystem, with audited contracts for the foundation tokens.
+						</Typography>
+					</Paper>
+
+					{/* Integration Flow */}
+					<Paper sx={{
+						maxWidth: '1152px',
+						mx: 'auto',
+						mt: 6,
+						mb: 6,
+						p: 3,
+						bgcolor: palette.secondaryBackground,
+						borderRadius: 2
+					}}>
+						<Typography
+							variant="h3"
+							sx={{
+								fontSize: '1.5rem', // text-2xl
+								fontWeight: 'bold',
+								mb: 3,
+								textAlign: 'center',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center'
+							}}
+						>
+							<SyncIcon sx={{ mr: 1, mb: 0.5 }} />
+							Integration Flow
+						</Typography>
+
+						<Grid container spacing={4} sx={{ height: '100%' }}>
+							<Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', flexDirection: 'column' }}>
+								<Box sx={{
+									bgcolor: palette.background,
+									p: 2,
+									borderRadius: 1,
+									mb: 2,
+									flex: 1 // Use flex to fill available space
+								}}>
+									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 1 }}>
+										Locking & Minting:
+									</Typography>
+									<Box sx={{ ml: 2 }}>
+										<Typography sx={{ color: '#d1d5db', mb: 0.5 }}>• Lock DAM to mint FLUX (Layer 1).</Typography>
+										<Typography sx={{ color: '#d1d5db', mb: 0.5 }}>• Transfer FLUX to Layer 2 and lock it to mint ArbiFLUX.</Typography>
+										<Typography sx={{ color: '#d1d5db' }}>• Lock ArbiFLUX to mint LOCK.</Typography>
+									</Box>
+								</Box>
+
+								<Box sx={{
+									bgcolor: palette.background,
+									p: 2,
+									borderRadius: 1,
+									flex: 1 // Use flex to fill available space
+								}}>
+									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 1 }}>
+										Burning & Rewards:
+									</Typography>
+									<Typography sx={{ color: '#d1d5db', ml: 2 }}>
+										Validators can burn FLUX, ArbiFLUX, or LOCK to boost minting rewards (APY), reduce supply, and stabilize the system.
+									</Typography>
+								</Box>
+							</Grid>
+
+							<Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', flexDirection: 'column' }}>
+								<Box sx={{
+									bgcolor: palette.background,
+									p: 2,
+									borderRadius: 1,
+									mb: 2,
+									flex: 1 // Use flex to fill available space
+								}}>
+									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 1 }}>
+										Liquidity & Stability:
+									</Typography>
+									<Typography sx={{ color: '#d1d5db', ml: 2 }}>
+										LOCK ensures market stability by contributing to a permanent liquidity pool, mitigating price swings and increasing depth.
+									</Typography>
+								</Box>
+
+								<Box sx={{
+									bgcolor: palette.background,
+									p: 2,
+									borderRadius: 1,
+									flex: 1 // Use flex to fill available space
+								}}>
+									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 1 }}>
+										Dynamic Monetary Policy:
+									</Typography>
+									<Typography sx={{ color: '#d1d5db', ml: 2 }}>
+										Tokens interact dynamically, balancing inflation and deflation to adapt to market conditions.
+									</Typography>
+								</Box>
+							</Grid>
+						</Grid>
+					</Paper>
+
+					{/* Why Join */}
+					<Paper sx={{
+						maxWidth: '1152px',
+						mx: 'auto',
+						mt: 6,
+						mb: 6,
+						p: 3,
+						bgcolor: palette.secondaryBackground,
+						borderRadius: 2
+					}}>
+						<Typography
+							variant="h3"
+							sx={{
+								fontSize: '1.5rem', // text-2xl
+								fontWeight: 'bold',
+								mb: 3,
+								textAlign: 'center'
+							}}
+						>
+							💪 Why Join Datamine?
+						</Typography>
+
+						<Grid container spacing={4}>
+							<Grid size={{ xs: 12, md: 4 }}>
+								<Card sx={{
+									height: '100%',
+									bgcolor: palette.background,
+									borderRadius: 1
+								}}>
+									<CardContent sx={{ p: 2 }}>
+										<Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+											<svg viewBox="0 0 100 100" width="80" height="80">
+												<circle cx="50" cy="50" r="40" fill={palette.secondaryBackground} stroke={palette.highlight} strokeWidth="2" />
+												<path d="M30,65 L45,50 L55,60 L70,35" stroke={palette.highlight} strokeWidth="4" fill="none" />
+												<circle cx="30" cy="65" r="5" fill={palette.highlight} />
+												<circle cx="45" cy="50" r="5" fill={palette.highlight} />
+												<circle cx="55" cy="60" r="5" fill={palette.highlight} />
+												<circle cx="70" cy="35" r="5" fill={palette.highlight} />
+											</svg>
+										</Box>
+										<Typography sx={{
+											fontWeight: 'bold',
+											color: palette.highlight,
+											textAlign: 'center',
+											mb: 1
+										}}>
+											Hedge Against Inflation
+										</Typography>
+										<Typography sx={{
+											color: '#d1d5db', // text-gray-300
+											textAlign: 'center'
+										}}>
+											Dynamic tokenomics adjust supply and demand to preserve purchasing power and stabilize value.
+										</Typography>
+									</CardContent>
+								</Card>
+							</Grid>
+
+							<Grid size={{ xs: 12, md: 4 }}>
+								<Card sx={{
+									height: '100%',
+									bgcolor: palette.background,
+									borderRadius: 1
+								}}>
+									<CardContent sx={{ p: 2 }}>
+										<Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+											<svg viewBox="0 0 100 100" width="80" height="80">
+												<circle cx="50" cy="50" r="40" fill={palette.secondaryBackground} stroke={palette.highlight} strokeWidth="2" />
+												<rect x="35" y="40" width="30" height="30" fill={palette.highlight} />
+												<path d="M50,30 L50,10" stroke={palette.highlight} strokeWidth="4" />
+												<path d="M50,30 L50,40" stroke={palette.highlight} strokeWidth="4" />
+												<circle cx="50" cy="30" r="5" fill={palette.highlight} />
+											</svg>
+										</Box>
+										<Typography sx={{
+											fontWeight: 'bold',
+											color: palette.highlight,
+											textAlign: 'center',
+											mb: 1
+										}}>
+											Generate Yield
+										</Typography>
+										<Typography sx={{
+											color: '#d1d5db', // text-gray-300
+											textAlign: 'center'
+										}}>
+											Validators and participants are rewarded for locking and burning tokens, driving efficient ecosystem participation.
+										</Typography>
+									</CardContent>
+								</Card>
+							</Grid>
+
+							<Grid size={{ xs: 12, md: 4 }}>
+								<Card sx={{
+									height: '100%',
+									bgcolor: palette.background,
+									borderRadius: 1
+								}}>
+									<CardContent sx={{ p: 2 }}>
+										<Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+											<svg viewBox="0 0 100 100" width="80" height="80">
+												<circle cx="50" cy="50" r="40" fill={palette.secondaryBackground} stroke={palette.highlight} strokeWidth="2" />
+												<rect x="30" y="60" width="10" height="20" fill={palette.highlight} />
+												<rect x="45" y="50" width="10" height="30" fill={palette.highlight} />
+												<rect x="60" y="40" width="10" height="40" fill={palette.highlight} />
+												<path d="M30,60 L70,40" stroke={palette.highlight} strokeWidth="2" strokeDasharray="5,3" />
+											</svg>
+										</Box>
+										<Typography sx={{
+											fontWeight: 'bold',
+											color: palette.highlight,
+											textAlign: 'center',
+											mb: 1
+										}}>
+											Enhance Market Resilience
+										</Typography>
+										<Typography sx={{
+											color: '#d1d5db', // text-gray-300
+											textAlign: 'center'
+										}}>
+											The permanent liquidity pool strengthens market depth, reducing volatility and supporting sustainable growth.
+										</Typography>
+									</CardContent>
+								</Card>
+							</Grid>
+						</Grid>
+					</Paper>
+
+				</Box>
+				{/* Footer */}
+				<FooterFragment ecosystem={ecosystem} />
+			</Box>
 		</Box>
-		<FooterFragment ecosystem={ecosystem} />
-	</>
+	);
 
 })
 

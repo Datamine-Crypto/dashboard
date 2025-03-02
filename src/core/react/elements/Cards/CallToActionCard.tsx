@@ -752,7 +752,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						title: <>
 							<Grid container justifyContent="space-between">
 								<Grid>
-									Validator Dashboard{getMintHeaderLabel()}{getApyHeader()}
+									Liquidity Dashboard{getMintHeaderLabel()}{/*getApyHeader()*/}
 								</Grid>
 								<Grid>
 									<FormControlLabel
@@ -906,7 +906,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 			title: <>
 				<Grid container justifyContent="space-between">
 					<Grid>
-						Validator Dashboard {getMintHeaderLabel()}
+						Liquidity Dashboard {getMintHeaderLabel()}
 					</Grid>
 					<Grid>
 						<FormControlLabel
