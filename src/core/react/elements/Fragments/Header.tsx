@@ -161,7 +161,12 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 					</Grid>
 					{getHelpButton()}
 					<Grid>
-						<Button variant="text" href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf" rel="noopener noreferrer" target="_blank">
+						<Button variant="text" href="https://dataminenetwork.medium.com/on-chain-immutable-ai-powered-decentralized-venture-opportunity-73e5ef617b72" rel="noopener noreferrer" target="_blank">
+							Investor Pitch Deck
+						</Button>
+					</Grid>
+					<Grid>
+						<Button variant="text" href="https://dataminenetwork.medium.com/on-chain-immutable-ai-powered-decentralized-venture-opportunity-73e5ef617b72" rel="noopener noreferrer" target="_blank">
 							View Security Audit
 						</Button>
 					</Grid>
