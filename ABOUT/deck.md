@@ -51,7 +51,6 @@ That's right, all of our data is visible to everyone and there are no unanswered
 Some metrics to highlight:
 
 - 5 years uptime and developer commitment
-
 - Over $50,000 in decentralized liquidity
 - Unique audited smart-contract with an awesome whitepaper that explains how we solve inflation through incentivized burning
 - 158 active users.
@@ -78,4 +77,52 @@ So yeah, if your firm is interested and you want to be a liquidity provider plea
 
 I've also attached a bunch of metrics for you to uses in this pitch.
 
-Please also mention our website: http://datamine.network
+Please also add the following links:
+Email: dev@datamine.network
+Website: https://datamine.network
+Github: https://github.com/datamine-crypto
+X: https://x.com/dataminenetwork
+Discord: https://discord.gg/2dQ7XAB22u
+Liquidity Pool: https://www.defined.fi/arb/0x0c93a1d3f68a0554d37f3e7af3a1442a94405e7a?cache=8bc52&quoteToken=token0
+
+Here is some more explanation on how the ecosystem works, please remove any dollar signs when talking about tokens (EX: $DAM will beocome DAM)
+
+
+Welcome to the Datamine Network! 🌐
+If you're new here, don’t worry—we’ve got you covered! 
+Datamine Network is a decentralized system designed to:
+✓ Manage Inflation: Keeps token supply balanced to maintain value.
+✓ Promote Stability: Reduces market swings and increases liquidity.
+✓ Reward Participation: Offers incentives for contributing to the ecosystem.
+Our ecosystem revolves around four tokens—$DAM, $FLUX, $ArbiFLUX, and $LOCK—each playing a unique role. 
+Let’s break it down step-by-step:
+󠀠
+1️⃣  DAM: The Foundation Token
+✓ Role: DAM anchors the system and has a capped supply of 16,876,779 tokens.
+✓ Use: Lock DAM on Layer 1 (Ethereum) to mint FLUX, which drives participation and value stability.
+󠀠
+2️⃣  FLUX: The Layer 1 Utility Token
+✓ Role: FLUX is minted when DAM is locked. It’s used for rewards and transactions.
+✓ Use: Validators can burn FLUX to boost minting rewards and reduce its supply. FLUX can also be bridged to Layer 2, where it can be locked to create ArbiFLUX.
+󠀠
+3️⃣  ArbiFLUX: The Layer 2 Efficiency Token
+✓ Role: ArbiFLUX operates on Arbitrum (Layer 2) and is created by locking FLUX.
+ ✓ Use: Lower Costs & Faster Transactions: Designed for scalability and efficiency. Validators can burn ArbiFLUX to boost minting rewards on Layer 2, or lock ArbiFLUX to create LOCK.
+󠀠
+4️⃣  LOCK: The Stability and Liquidity Token
+✓ Role: LOCK enhances stability by contributing to a permanent liquidity pool.
+✓ Use: Minted by locking ArbiFLUX. Can also be burned, but instead of reducing supply, this redirects value to the liquidity pool, ensuring long-term stability.
+🔄  Integration Flow
+☑️  Locking & Minting:
+Lock DAM to mint FLUX (Layer 1).
+Transfer FLUX to Layer 2 and lock it to mint ArbiFLUX.
+Lock ArbiFLUX to mint LOCK.
+☑️  Burning & Rewards: Validators can burn FLUX, ArbiFLUX, or LOCK to boost minting rewards (APY), reduce supply, and stabilize the system.
+ 
+☑️  Liquidity & Stability: LOCK ensures market stability by contributing to a permanent liquidity pool, mitigating price swings and increasing depth.
+☑️  Dynamic Monetary Policy: Tokens interact dynamically, balancing inflation and deflation to adapt to market conditions. 
+󠀠
+💪  Why Join Datamine?
+✭ Hedge Against Inflation: Dynamic tokenomics adjust supply and demand to preserve purchasing power and stabilize value.
+✭ Generate Yield: Validators and participants are rewarded for locking and burning tokens, driving efficient ecosystem participation.
+✭ Enhance Market Resilience: The permanent liquidity pool strengthens market depth, reducing volatility and supporting sustainable growth.
