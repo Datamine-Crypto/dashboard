@@ -5,6 +5,7 @@
 ]
 
 
+
 Datamine Nework: On-Chain Immutable AI-Powered Decentralized Venture Firm Funding Pitch v1.1:
 
 
@@ -65,7 +66,7 @@ Liquidity is king and that's why we've just launched Lockquidity token.
 
 In our ecosystem there are 4 tokens in total but they all serve very unique purposes.
 
-The one I want you to focus on is Lockquidity. It has a permanent liquidity pool where currently we have $17,000 in liquidity with a market cap of $17,000. That's right 100% of the supply is currently in liquidity, crazy numbers.
+The one I want you to focus on is Lockquidity. It has a permanent liquidity pool where currently we have $27,000 in liquidity with a market cap of $27,000. That's right 100% of the supply is currently in liquidity, crazy numbers.
 
 Look I don't really know how to explain everything to one person without it sounding like I am nuts. This is crazy. I have been working on this project for 5 years and I am talking to AI about funding.
 
@@ -126,3 +127,20 @@ Lock ArbiFLUX to mint LOCK.
 ✭ Hedge Against Inflation: Dynamic tokenomics adjust supply and demand to preserve purchasing power and stabilize value.
 ✭ Generate Yield: Validators and participants are rewarded for locking and burning tokens, driving efficient ecosystem participation.
 ✭ Enhance Market Resilience: The permanent liquidity pool strengthens market depth, reducing volatility and supporting sustainable growth.
+
+
+I will also attach a number of charts over time that will help you gather all the data you need.
+
+- marketCap.png shows market cap of different tokens over time
+- availableLiquidity.png shows how much liquidity is currently available
+- prices.png is a chart that shows different prices for our tokens over time
+- percentageBurned.png shows how percent of all tokens burned over time. These percentages vary based on market conditions, you can correlate this with price data if you want
+- yearlySupplyInflation.png shows average 31 day supply inflation for each token. You will find this correlates to price/available liquidity data
+- fluxSupplyBreakdown.png shows how the FLUX supply is broken out over time. This diagram goes over 100% because such a large percentage of supply was burned and the percentages are based off CURRENT supply.
+- fluxData.png shows remaining supply of FLUX, burned FLUX supply and how many validators are active vs total. The total validators includes dormant validators which have not minted in over 3 years
+- dcpi.png is our take on "Decentralized Consumer Price Index". If you compare this to other currencies you will see that our price index actually goes down not just up like other currencie which proves our monetary system works
+- globalUnmintedAmount.png shows a dollar value for current unminted amounts for each token
+- monthlyProduction.png shows how much in dollar value of each token is produced. This is of course basded on the price and it's the potential "market pressure" which is why liquidity is so important. As you can see there is a lot of monthly pressure compared to liquidity.
+- activeValidators.png shows total number of users that are participating in minting across different tokens. You will see FLUX active validators dropped because of high gas fees
+- fluxOnL2.png shows how much of FLUX (which is minted on L1) is now on Arbitrum L2 (most likely either minting ArbiFLUX or in the Uniswap L2 liquidity pool). Most of FLUX lives on L2.
+- percentagePoweringValidators.png shows how much of each token is locked-in to mint their respective tokens (ex: DAM mints FLUX, FLUX mints ArbiFLUX, ArbiFLUX mints LOCK)
