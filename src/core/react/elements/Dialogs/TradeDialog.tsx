@@ -175,6 +175,7 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 						slotProps={{
 							inputLabel: { shrink: true }
 						}}
+						autoFocus={!isDisabled}
 					/>
 				</Grid>
 				<Grid size={6} spacing={2}> {/* No 'item' prop */}
@@ -250,7 +251,10 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 
 
 		const getPrices = () => {
-			const getFluxPrice = () => {
+			const getFluxPrice = (token: Token) => {
+				if (ecosystem != Ecosystem.Flux && ecosystem != Ecosystem.ArbiFlux) {
+					return;
+				}
 				const balance = layerBalances[SwapToken.FLUX]
 				if (balance.isZero() || !balances) {
 					return;
@@ -260,10 +264,13 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 					{' '}
 					<>{BNToDecimal(balance, true, 18, 18)} {mintableTokenShortName}</>
 					{' / '}
-					$ {getPriceToggle({ value: balance, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD
+					$ {getPriceToggle({ value: balance, inputToken: token, outputToken: Token.USDC, balances, round: 2 })} USD
 				</Grid>
 			}
-			const getArbiFluxPrice = () => {
+			const getArbiFluxPrice = (token: Token) => {
+				if (ecosystem != Ecosystem.ArbiFlux && ecosystem != Ecosystem.Lockquidity) {
+					return;
+				}
 				if (layer !== Layer.Layer2) {
 					return;
 				}
@@ -277,10 +284,13 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 					{' '}
 					<>{BNToDecimal(balance, true, 18, 18)} {SwapToken.ArbiFLUX}</>
 					{' / '}
-					$ {getPriceToggle({ value: balance, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD
+					$ {getPriceToggle({ value: balance, inputToken: token, outputToken: Token.USDC, balances, round: 2 })} USD
 				</Grid>
 			}
 			const getLockPrice = () => {
+				if (ecosystem != Ecosystem.Lockquidity) {
+					return;
+				}
 				if (layer !== Layer.Layer2) {
 					return;
 				}
@@ -331,15 +341,24 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 
 			return <>
 				{getEthPrice()}
-				{getFluxPrice()}
+
+
+				{getFluxPrice(ecosystem == Ecosystem.ArbiFlux ? Token.Lockable : Token.Mintable)}
 				{getDamPrice()}
-				{getArbiFluxPrice()}
+
+				{getArbiFluxPrice(ecosystem == Ecosystem.ArbiFlux ? Token.Lockable : Token.Mintable)}
 				{getLockPrice()}
 			</>
 		}
 		return <>
 			<Box mb={3}>
-				<Typography component="div" gutterBottom={true}>Your tradable account balances:</Typography>
+				<Typography component="div" gutterBottom={true}>
+					Your tradable account balances
+
+					<Typography variant="body2" color="textSecondary">
+						({selectedAddress}):
+					</Typography>
+				</Typography>
 			</Box>
 			<Grid container justifyContent="space-between" alignItems="left" spacing={3} className={classes.topLeftPricesContainer}>
 				{getPrices()}

@@ -1376,6 +1376,10 @@ const queryHandlers = {
 			return;
 		}
 
+		if (inputToken.amount === '' || inputToken.amount === '0') {
+			return;
+		}
+
 		const swapOptions: SwapOptions = {
 			inputToken,
 			outputToken,

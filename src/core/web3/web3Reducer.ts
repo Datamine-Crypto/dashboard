@@ -518,6 +518,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					swapToken: state.swapState.input.swapToken
 				}
 			},
+			error: null,
 
 			...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
 		}
@@ -1148,7 +1149,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				const { input } = command.payload;
 
 				const getInput = () => {
-					if (!input || !input.swapToken) {
+					if (!input || !input.swapToken || input === '0') {
 						return {
 							swapToken: null,
 							amount: ''
@@ -1161,7 +1162,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					if (inputTokenBalance === '0') {
 						return {
 							swapToken: SwapToken.ETH,
-							amount: getSwapTokenBalance(SwapToken.ETH)
+							amount: '' // We don't want to prefill ETH amount, let user enter it getSwapTokenBalance(SwapToken.ETH)
 						}
 					}
 
@@ -1246,6 +1247,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 						amount: newAmount
 					}
 				},
+				error: null,
 
 				...withGetOutputQuote(),
 
@@ -1280,6 +1282,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 								swapToken: outputToken
 							}
 						},
+						error: null,
 
 						...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
 					}
@@ -1309,6 +1312,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 								swapToken: outputToken
 							}
 						},
+						error: null,
 
 						...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
 					}
