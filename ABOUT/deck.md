@@ -4,7 +4,7 @@
 	Why play the whole "hey can you add this section? Or what about these numbers? You can see exactly how this prompt was generated:
 ]
 
-
+// 2025-03-04 start:
 
 Datamine Nework: On-Chain Immutable AI-Powered Decentralized Venture Firm Funding Pitch v1.1:
 
@@ -144,3 +144,32 @@ I will also attach a number of charts over time that will help you gather all th
 - activeValidators.png shows total number of users that are participating in minting across different tokens. You will see FLUX active validators dropped because of high gas fees
 - fluxOnL2.png shows how much of FLUX (which is minted on L1) is now on Arbitrum L2 (most likely either minting ArbiFLUX or in the Uniswap L2 liquidity pool). Most of FLUX lives on L2.
 - percentagePoweringValidators.png shows how much of each token is locked-in to mint their respective tokens (ex: DAM mints FLUX, FLUX mints ArbiFLUX, ArbiFLUX mints LOCK)
+
+// 2025-04-06 update:
+
+I want to introduce a new metric called "Market Efficiency" for Lockquidity, here is how it will work:
+
+I've attached a price of ETH/LOCK in our liquidity pool on 2025-04-06 (ethLockPool.png)
+
+I want to explain why the stability of the pool is so important. "Put your ETH to work, convert ETH to Lockquidity" should be the main point.
+
+I want people to understand that burning LOCK is better than just holding ETH.
+
+In traditional finance: "buy LOW, sell HIGH" in our monetary ecosystem: "burn LOW, sell HIGH"
+
+First of all, this is a brand new asset class. 
+
+* Best of both worlds: price stability due to having large % of liquidity in the pool
+* Volatility of ETH: since the liquidity pool is 100% ETH, we mirror the performance (both up and down) of ETH. However with LOCK if the price of ETH goes down the burning incentives increase (Burn LOW, Sell HIGH)
+
+Currently we're starting to see the liquidity pool slowly stray away from 100% of liquidity being located in the liquidity pool. This is CRITICAL in proving that fresh, new liquidity for validators is coming from the markets!
+
+The higher that % of LOCK that is outside of the liquidity pool, the better the incentives are for burning LOCK.
+
+Currently 97.93% of the LOCK is inside the market, we will use this as a new metric: "Market Efficiency". 100%-97.93% = 2.07% market efficiency.
+
+The closer we get to 100% market efficiency, the more trading volatility is expected and the validators win the most as trader liquidity is recycled back as permanent liquidity.
+
+As inflation is rapidly decreasing and the market efficiency is increasing we'll see Lockquidity ecosystem truly shine for the first time.
+
+Lockquidity is it's own asset class and it will perform unlike any other class in the world. Lockquidity = king.
