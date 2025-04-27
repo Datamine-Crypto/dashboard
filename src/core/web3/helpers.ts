@@ -12,7 +12,8 @@ import { devLog } from '../utils/devLog';
 import { Balances, ConnectionMethod } from "./web3Reducer";
 
 interface PriceToggle {
-	value: BN;
+	value?: BN;
+	valueBig?: Big.Big;
 	inputToken: Token;
 	outputToken: Token;
 	balances: Balances;
@@ -21,9 +22,25 @@ interface PriceToggle {
 }
 
 export const getPriceToggle = ({ value, inputToken, outputToken, balances, round, removeCommas }: PriceToggle) => {
-	const commaRegex = /(\d)(?=(\d{3})+(?!\d))/g;
+	if (!value) {
+		return '*invalid value*';
+	}
 
 	const valueBig = new Big(value.toString(10));
+
+	return getPriceToggleBig({
+		valueBig,
+		inputToken, outputToken, balances, round, removeCommas
+	})
+}
+
+export const getPriceToggleBig = ({ valueBig, inputToken, outputToken, balances, round, removeCommas }: PriceToggle) => {
+	if (!valueBig) {
+		return '*invalid value*';
+	}
+
+	const commaRegex = /(\d)(?=(\d{3})+(?!\d))/g;
+
 
 	const div18 = new Big(10).pow(18);
 	const div6 = new Big(10).pow(6);

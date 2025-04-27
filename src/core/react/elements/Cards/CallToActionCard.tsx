@@ -33,7 +33,7 @@ import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetail
 import { formatMoney } from '../../../utils/formatMoney';
 import { getApy, TokenPair } from '../../../utils/getApy';
 import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '../../../web3/helperElements';
-import { BNToDecimal, getBlocksRemaining, getFormattedMultiplier, getPriceToggle } from '../../../web3/helpers';
+import { BNToDecimal, getBlocksRemaining, getFormattedMultiplier, getPriceToggle, getPriceToggleBig } from '../../../web3/helpers';
 import LightTooltip from '../LightTooltip';
 
 import { tss } from 'tss-react/mui';
@@ -229,7 +229,11 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 					const rawAmount = getLockedInAmount().div(new BN(10).pow(new BN(mintableTokenMintPerBlockDivisor))).mul(new BN(unmintedBlocks));
 
-					const blanceWithoutBonusesInUsdc = getPriceToggle({ value: rawAmount, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6 });
+					const rawAmountBig = new Big(rawAmount.toString(10))
+
+					const blanceWithoutBonusesInUsdc = getPriceToggleBig({ valueBig: rawAmountBig.mul(minBurnMultiplier), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6 });
+
+
 					const blanceWitMaxBonusesInUsdc = getPriceToggle({ value: rawAmount.mul(new BN(3 * maxBurnMultiplier)), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6 });
 
 					const getMintAmount = () => {
