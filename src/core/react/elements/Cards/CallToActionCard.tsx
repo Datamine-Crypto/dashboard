@@ -123,7 +123,7 @@ interface RenderParams {
 	dispatch: React.Dispatch<any>;
 	ecosystem: Ecosystem;
 	connectionMethod: ConnectionMethod;
-	marketAddressLock: MarketAddressLock;
+	marketAddressLock: MarketAddressLock | null;
 }
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, ecosystem, connectionMethod, marketAddressLock }) => {
 	const { classes } = useStyles();
@@ -760,6 +760,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 					const getMarketRewards = () => {
 
 						const getAmountReceived = (): BN | null => {
+							if (!marketAddressLock) {
+								return null
+							}
+
 							const amountBN = getMintAmount();
 
 							try {
@@ -1169,7 +1173,8 @@ const CallToActionCard: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
 	const { addressLock, address, selectedAddress, addressDetails, addressTokenDetails, balances, forecastSettings, clientSettings, ecosystem, connectionMethod, marketAddressLock } = web3State;
-	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances || !connectionMethod || !marketAddressLock) {
+
+	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances || !connectionMethod) {
 		return null;
 	}
 
