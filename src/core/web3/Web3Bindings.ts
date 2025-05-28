@@ -715,9 +715,10 @@ const queryHandlers = {
 						returns: {
 							params: ['uint256', 'uint256', 'uint256', 'bool', 'uint256'],
 							callback: (rewardsAmount: string, rewardsPercent: string, minBlockNumber: string, isPaused: string, minBurnAmount: string) => {
+								const rewardsPercentValue = new BN(rewardsPercent).toNumber()
 								return {
 									rewardsAmount: new BN(rewardsAmount),
-									rewardsPercent: new BN(rewardsPercent).toNumber(),
+									rewardsPercent: rewardsPercentValue === 0 ? 500 : rewardsPercentValue, //fallback to default 5% if 0%
 									minBlockNumber: new BN(minBlockNumber).toNumber(),
 									isPaused: isPaused,
 									minBurnAmount: new BN(minBurnAmount)

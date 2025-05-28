@@ -130,7 +130,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 		}
 
 		return <>
-			<Typography component="div" gutterBottom={true}>To continue select how many {mintableTokenShortName} tokens you wish to deposit.</Typography>
+			<Typography component="div" gutterBottom={true}>To continue select how many {mintableTokenShortName} tokens you wish to use from your market balance.</Typography>
 
 			{sharedContent}
 			<Box mt={3} mb={3}>
@@ -217,21 +217,15 @@ const MarketCollectRewardsDialog: React.FC = () => {
 	const maxAmountToBurn = getMaxAmountToBurn()
 
 	const getInitialAmountToBurn = () => {
-		if (!web3State.addressDetails || !web3State.marketAddressLock || !web3State.currentAddresMintableBalance) {
+		if (!web3State.addressDetails || !web3State.marketAddressLock || !web3State.currentAddressMarketAddressLock) {
 			return null
 		}
 		if (!maxAmountToBurn) {
 			return null
 		}
 
-		const totalAddressBalance = web3State.balances?.fluxToken ?? new BN(0);
-
-		if (totalAddressBalance.gt(maxAmountToBurn)) {
-			return maxAmountToBurn
-		}
-
-		if (web3State.currentAddresMintableBalance.lt(maxAmountToBurn)) {
-			return web3State.currentAddresMintableBalance
+		if (web3State.currentAddressMarketAddressLock.rewardsAmount.lt(maxAmountToBurn)) {
+			return web3State.currentAddressMarketAddressLock.rewardsAmount
 		}
 
 		return maxAmountToBurn
