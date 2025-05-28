@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, Divider, FormControlLabel, LinearProgress, Link, Slider, Switch, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, Chip, Divider, FormControlLabel, LinearProgress, Link, Slider, Switch, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
 import Grid from '@mui/material/Grid2';
@@ -29,7 +29,7 @@ import EthereumPurpleLogo from '../../../../svgs/ethereumPurple.svg';
 import fluxLogo from '../../../../svgs/fluxLogo.svg';
 import lockquidityLogo from '../../../../svgs/lockquidity.svg';
 import damLogo from '../../../../svgs/logo.svg';
-import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from '../../../interfaces';
+import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, MarketAddressLock, Token } from '../../../interfaces';
 import { formatMoney } from '../../../utils/formatMoney';
 import { getApy, TokenPair } from '../../../utils/getApy';
 import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '../../../web3/helperElements';
@@ -123,8 +123,9 @@ interface RenderParams {
 	dispatch: React.Dispatch<any>;
 	ecosystem: Ecosystem;
 	connectionMethod: ConnectionMethod;
+	marketAddressLock: MarketAddressLock;
 }
-const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, ecosystem, connectionMethod }) => {
+const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, ecosystem, connectionMethod, marketAddressLock }) => {
 	const { classes } = useStyles();
 
 	const { navigation, isArbitrumOnlyToken, lockableTokenShortName, mintableTokenShortName, isTokenLogoEnabled, maxBurnMultiplier, minBurnMultiplier, mintableTokenMintPerBlockDivisor, mintableTokenPriceDecimals, mintableTokenContractAddress } = getConfig(ecosystem)
@@ -132,6 +133,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 	const ecosystemConfig = getEcosystemConfig(ecosystem)
 	const isArbitrumMainnet = ecosystemConfig.layer === Layer.Layer2;
+
+	const isMarketLock = addressLock && ecosystemConfig.marketAddress && ecosystemConfig.marketAddress.toLowerCase() === addressLock.minterAddress
 
 	// Prevent inputs from autofills
 	const removeAutocompleteProps = {
@@ -197,6 +200,9 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 					const isCurrentAddress = selectedAddress === displayedAddress;
 					const getBurnButton = () => {
+						if (isMarketLock) {
+							return
+						}
 						const showBurnDialog = () => {
 							dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Burn } })
 						}
@@ -751,6 +757,41 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						</>
 					}
 
+					const getMarketRewards = () => {
+
+						const getAmountReceived = (): BN | null => {
+							const amountBN = getMintAmount();
+
+							try {
+								const rewardsAmount = amountBN.add(amountBN.mul(new BN(marketAddressLock.rewardsPercent)).div(new BN(10000)))
+								return rewardsAmount
+							} catch {
+								return null
+							}
+						}
+						const amountReceived = getAmountReceived()
+
+						if (!amountReceived) {
+							return
+						}
+						if (amountReceived.eq(new BN(0))) {
+							return
+						}
+
+						const balanceInUsdc = getPriceToggle({ value: amountReceived, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6, removeCommas: true });
+
+						if (isMarketLock) {
+							return <Chip label={`Available Reward For Burning: +$ ${balanceInUsdc}`} color="success" />
+						}
+					}
+					const getBottomRightText = () => {
+						if (isMarketLock) {
+							return
+						}
+						return <>
+							<Typography component="div" variant="h4">{getUsdcMint()}</Typography>
+						</>
+					}
 					return {
 						disabledText: getDisabledText(),
 						title: <>
@@ -785,7 +826,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 											= {`${BNToDecimal(getMintAmount(), true)} ${mintableTokenShortName}`}
 										</Typography>
 									</Box>
-									<Typography component="div" variant="h4">{getUsdcMint()}</Typography>
+									{getBottomRightText()}
+									{getMarketRewards()}
 								</Box>
 							</Box>
 						</Grid>,
@@ -876,7 +918,13 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						action: <>Mint {mintableTokenShortName}</>,
 						actionIcon: <RedeemIcon />,
 						onClick: () => {
-							dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Mint } })
+							if (isMarketLock) {
+
+								dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketCollectRewards } })
+							} else {
+
+								dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Mint } })
+							}
 						},
 						learnMoreHref: isHelpPageEnabled ? '#help/dashboard/mintFluxTokens' : undefined
 					}
@@ -951,6 +999,15 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 	const { disabledText } = ctaDetails;
 
 	const getButton = () => {
+
+		const lockedInDamAmount = new BN(addressLock.amount);
+		const isLocked = !lockedInDamAmount.isZero()
+		if (isMarketLock && isLocked) {
+			return <Button color="secondary" size="large" variant="outlined" onClick={() => ctaDetails.onClick()} startIcon={<Box display="flex" style={{ color: '#0ff' }}>{ctaDetails.actionIcon}</Box>}>
+				Collect Rewards
+			</Button>
+		}
+
 		const button = <Button color="secondary" disabled={!!disabledText} size="large" variant="outlined" onClick={() => ctaDetails.onClick()} startIcon={<Box display="flex" style={{ color: '#0ff' }}>{ctaDetails.actionIcon}</Box>}>
 			{ctaDetails.action}
 		</Button>
@@ -965,6 +1022,9 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 	const getBridgeButton = () => {
 		if (isArbitrumOnlyToken) {
 			return null;
+		}
+		if (ecosystem === Ecosystem.Lockquidity) {
+			return;
 		}
 
 		const startIcon = !isArbitrumMainnet ? ArbitrumLogo : EthereumPurpleLogo
@@ -1108,8 +1168,8 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 const CallToActionCard: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
-	const { addressLock, address, selectedAddress, addressDetails, addressTokenDetails, balances, forecastSettings, clientSettings, ecosystem, connectionMethod } = web3State;
-	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances || !connectionMethod) {
+	const { addressLock, address, selectedAddress, addressDetails, addressTokenDetails, balances, forecastSettings, clientSettings, ecosystem, connectionMethod, marketAddressLock } = web3State;
+	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances || !connectionMethod || !marketAddressLock) {
 		return null;
 	}
 
@@ -1127,6 +1187,7 @@ const CallToActionCard: React.FC = () => {
 		clientSettings={clientSettings}
 		ecosystem={ecosystem}
 		connectionMethod={connectionMethod}
+		marketAddressLock={marketAddressLock}
 	/>
 }
 

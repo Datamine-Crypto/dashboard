@@ -18,11 +18,11 @@ interface RenderParams {
 }
 
 const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, total, ecosystem }) => {
-	const { lockableTokenShortName, mintableTokenShortName } = getEcosystemConfig(ecosystem)
+	const { lockableTokenShortName, mintableTokenShortName, marketAddress } = getEcosystemConfig(ecosystem)
 
 	const [amount, setAmount] = React.useState(total);
 	const [minterAddress, setMinterAddress] = React.useState(selectedAddress);
-	const [minterType, setMinterType] = React.useState('self');
+	const [minterType, setMinterType] = React.useState(marketAddress ? 'market' : 'self');
 
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
@@ -31,7 +31,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 			type: commonLanguage.commands.LockInDamTokens,
 			payload: {
 				amount,
-				minterAddress
+				minterAddress: minterType === 'market' ? marketAddress : minterAddress
 			}
 		});
 	}
@@ -61,6 +61,14 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 			/>
 		</Box>
 
+	}
+
+	const getMarketOption = () => {
+		if (!marketAddress) {
+			return null
+		}
+
+		return <FormControlLabel value="market" control={<Radio color="secondary" />} label={<>Market automatically mints increasing my burn ratio <Typography component="div" color="secondary" display="inline" variant="body2">(Recommended)</Typography></>} />
 	}
 
 	return <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
@@ -94,6 +102,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 					<FormControl component="fieldset">
 						<FormLabel component="legend">Minting Address</FormLabel>
 						<RadioGroup aria-label="gender" name="gender1" value={minterType} onChange={event => setMinterType((event.target as HTMLInputElement).value)}>
+							{getMarketOption()}
 							<FormControlLabel value="self" control={<Radio color="secondary" />} label={`I want to mint my own ${mintableTokenShortName} tokens`} />
 							<FormControlLabel value="delegated" control={<Radio color="secondary" />} label={<>Another address mints {mintableTokenShortName} on my behalf <Typography component="div" color="textSecondary" display="inline" variant="body2">(Delegated Minter)</Typography></>} />
 						</RadioGroup>

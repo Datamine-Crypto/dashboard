@@ -131,6 +131,24 @@ interface UnlockParams {
 	from: string;
 }
 
+interface MarketBurnTokensParams {
+	amountToBurn: BN;
+	amountToReceive: BN;
+	burnToAddress: string;
+	targetBlock: number;
+	from: string;
+}
+interface MarketDepositParams {
+	amountToDeposit: BN;
+	rewardsPercent: number;
+	from: string;
+	minBlockNumber: BN;
+	minBurnAmount: BN;
+}
+
+interface MarketWithdrawAllParams {
+	from: string;
+}
 
 
 export const getWeb3Provider = async ({ useWalletConnect, ecosystem }: { useWalletConnect: boolean, ecosystem: Ecosystem }) => {
@@ -452,6 +470,7 @@ export const getFormattedMultiplier = (multiplier: number) => {
 	return `x ${(multiplier / 10000).toFixed(4)}`
 }
 export const rethrowWeb3Error = (err: any) => {
+	console.log(err)
 	if (err.message) {
 		// This works on mainnet and arbitrum
 		const extractedError = err.message.match(/"message"\:[ ]{0,1}\"(.+)\"/);
@@ -559,11 +578,17 @@ const withWeb3 = (web3: Web3, contract: any) => {
 	const getAddressTokenDetails = (address: string) => {
 		return contract.methods.getAddressTokenDetails(address).call;
 	}
+	const getMintAmount = (targetAddress: string, targetBlock: number) => {
+		return contract.methods.getMintAmount(targetAddress, targetBlock).call;
+	}
 	const getTotalSupply = () => {
 		return contract.methods.totalSupply().call;
 	}
 	const getReserves = () => {
 		return contract.methods.getReserves().call;
+	}
+	const isOperatorFor = (operatorAddress: string, tokenHolderAddress: string) => {
+		return contract.methods.isOperatorFor(operatorAddress, tokenHolderAddress).call;
 	}
 	const slot0 = () => {
 		return contract.methods.slot0().call;
@@ -650,6 +675,63 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			rethrowWeb3Error(err);
 		}
 	}
+	const marketBurnTokens = async ({ amountToBurn, amountToReceive, burnToAddress, targetBlock, from }: MarketBurnTokensParams) => {
+		try {
+			// Attempt to call the method first to check if there are any errors
+			await contract.methods.burnTokens(amountToBurn.toString(), amountToReceive.toString(), burnToAddress, targetBlock).call({ from });
+
+			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
+
+			const mintTx = await contract.methods.burnTokens(amountToBurn.toString(), amountToReceive.toString(), burnToAddress, targetBlock).send({
+				from,
+				maxFeePerGas,
+				maxPriorityFeePerGas,
+				gasPrice
+			})
+
+			return mintTx;
+		} catch (err) {
+			rethrowWeb3Error(err);
+		}
+	}
+	const marketDeposit = async ({ amountToDeposit, rewardsPercent, minBlockNumber, minBurnAmount, from }: MarketDepositParams) => {
+		try {
+			// Attempt to call the method first to check if there are any errors
+			await contract.methods.deposit(amountToDeposit.toString(), rewardsPercent, minBlockNumber.toString(), minBurnAmount.toString()).call({ from });
+
+			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
+
+			const mintTx = await contract.methods.deposit(amountToDeposit.toString(), rewardsPercent, minBlockNumber.toString(), minBurnAmount.toString()).send({
+				from,
+				maxFeePerGas,
+				maxPriorityFeePerGas,
+				gasPrice
+			})
+
+			return mintTx;
+		} catch (err) {
+			rethrowWeb3Error(err);
+		}
+	}
+	const marketWithdrawAll = async ({ from }: MarketWithdrawAllParams) => {
+		try {
+			// Attempt to call the method first to check if there are any errors
+			await contract.methods.withdrawAll().call({ from });
+
+			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
+
+			const mintTx = await contract.methods.withdrawAll().send({
+				from,
+				maxFeePerGas,
+				maxPriorityFeePerGas,
+				gasPrice
+			})
+
+			return mintTx;
+		} catch (err) {
+			rethrowWeb3Error(err);
+		}
+	}
 
 	return {
 		getTotalSupply,
@@ -660,7 +742,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 		// Flux-sepecific
 		lock,
 		getAddressLock,
-		//getMintAmount,
+		getMintAmount,
 		getReserves,
 		getAddressDetails,
 		mintToAddress,
@@ -668,7 +750,13 @@ const withWeb3 = (web3: Web3, contract: any) => {
 		unlockDamTokens,
 		getAddressTokenDetails,
 		slot0,
-		liquidity
+		liquidity,
+		isOperatorFor,
+
+		// Time-in-market
+		marketBurnTokens,
+		marketDeposit,
+		marketWithdrawAll
 	}
 }
 

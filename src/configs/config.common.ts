@@ -47,6 +47,11 @@ export interface EcosystemConfig {
 	mintableTokenContractAddress: string;
 
 	/**
+	 * What is the TIM (Time-in-Market) market address?
+	 */
+	marketAddress: string | null;
+
+	/**
 	 * On L1 this is the Uniswap V3 pool address for Lockable / ETH token
 	 */
 	lockableUniswapV3L1EthTokenContractAddress?: string;

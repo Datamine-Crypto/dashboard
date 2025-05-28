@@ -5,6 +5,8 @@ import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import BurnDialog from '../Dialogs/BurnDialog';
 import DamLockDialog from '../Dialogs/DamLockDialog';
+import MarketCollectRewardsDialog from '../Dialogs/MarketCollectRewardsDialog';
+import MarketDepositWithdrawDialog from '../Dialogs/MarketDepositWithdrawDialog';
 import MessageDialog from '../Dialogs/MessageDialog';
 import MintDialog from '../Dialogs/MintDialog';
 import SettingsDialog from '../Dialogs/SettingsDialog';
@@ -51,6 +53,12 @@ const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
 			}
 			case DialogType.WalletConnectRpc:
 				return <WalletConnectRpcDialog />
+
+			// Market dialogs
+			case DialogType.MarketCollectRewards:
+				return <MarketCollectRewardsDialog />
+			case DialogType.MarketDepositWithdraw:
+				return <MarketDepositWithdrawDialog />
 		}
 	}
 

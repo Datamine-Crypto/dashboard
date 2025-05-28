@@ -5,7 +5,7 @@ import Web3 from "web3";
 import { getEcosystemConfig } from "../../configs/config";
 import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
 import { HelpArticle } from "../helpArticles";
-import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from "../interfaces";
+import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, MarketAddressLock, Token } from "../interfaces";
 import { ReducerCommand, ReducerQuery, ReducerQueryHandler } from "../sideEffectReducer";
 import copyToClipBoard from "../utils/copyToClipboard";
 import { devLog } from "../utils/devLog";
@@ -163,6 +163,11 @@ export interface Web3State {
 	swapTokenBalances: SwapTokenBalances | null;
 
 	lastSwapThrottle: number | null;
+
+	marketAddressLock: MarketAddressLock | null;
+	currentAddressMarketAddressLock: MarketAddressLock | null;
+
+	currentAddresMintableBalance: BN | null;
 }
 
 const createWithWithQueries = (state: any) => {
@@ -288,7 +293,7 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					}
 				}
 
-				const { balances, swapTokenBalances, selectedAddress, addressLock, addressDetails, addressTokenDetails } = response
+				const { balances, swapTokenBalances, selectedAddress, addressLock, addressDetails, addressTokenDetails, marketAddressLock, currentAddressMarketAddressLock, currentAddresMintableBalance } = response
 
 				const getBlancesWithForecasting = () => {
 					if (!balances) {
@@ -308,7 +313,10 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					addressLock,
 					addressDetails,
 					addressTokenDetails,
-					swapTokenBalances
+					swapTokenBalances,
+					marketAddressLock,
+					currentAddressMarketAddressLock,
+					currentAddresMintableBalance
 				}
 			}
 		case commonLanguage.queries.GetLockInDamTokensResponse:
@@ -342,8 +350,17 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 				}
 			}
 		case commonLanguage.queries.GetBurnFluxResponse:
+		case commonLanguage.queries.Market.GetBurnFluxMarketResponse:
+		case commonLanguage.queries.Market.GetDepositMarketResponse:
+		case commonLanguage.queries.Market.GetWithdrawMarketResponse:
 			{
 				if (err) {
+					if ((err as any).message) {
+						return {
+							...state,
+							error: (err as any).message
+						}
+					}
 					return {
 						...state,
 						error: err
@@ -1127,6 +1144,106 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					}
 				}
 			}
+		case commonLanguage.commands.Market.BurnFluxTokens:
+			{
+				const { amount, address, maxAmountToBurn } = command.payload;
+
+				try {
+					const amountBN = parseBN(amount);
+
+					if (!state.marketAddressLock) {
+						return state
+					}
+
+					if (amountBN.gt(maxAmountToBurn)) {
+						throw new Error(commonLanguage.errors.Market.AmountExceedsMaxAddressMintable)
+					}
+
+					return {
+						...state,
+						error: null,
+						...withQueries([{ type: commonLanguage.queries.Market.GetBurnFluxMarketResponse, payload: { amount: amountBN, address } }])
+					}
+				} catch (err: any) {
+					if (err && err.message) {
+						switch (err.message) {
+							case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
+								return {
+									...state,
+									error: err.toString()
+								}
+						}
+					}
+					return {
+						...state,
+						error: commonLanguage.errors.InvalidNumber
+					}
+				}
+			}
+		case commonLanguage.commands.Market.DepositTokens:
+			{
+				const { amount, address } = command.payload;
+
+				try {
+					const amountBN = parseBN(amount);
+
+					if (!state.marketAddressLock) {
+						return state
+					}
+
+					if (amountBN.lte(new BN(0))) {
+						throw new Error(commonLanguage.errors.MustExceedZero)
+					}
+
+					return {
+						...state,
+						error: null,
+						...withQueries([{ type: commonLanguage.queries.Market.GetDepositMarketResponse, payload: { amount: amountBN, address } }])
+					}
+				} catch (err: any) {
+					console.log('err1:', err)
+					if (err && err.message) {
+						switch (err.message) {
+							case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
+								console.log('err2:', err)
+								return {
+									...state,
+									error: err.toString()
+								}
+						}
+					}
+					return {
+						...state,
+						error: commonLanguage.errors.InvalidNumber
+					}
+				}
+			}
+		case commonLanguage.commands.Market.WithdrawTokens:
+			{
+				const { } = command.payload;
+
+				try {
+					return {
+						...state,
+						error: null,
+						...withQueries([{ type: commonLanguage.queries.Market.GetWithdrawMarketResponse, payload: {} }])
+					}
+				} catch (err: any) {
+					if (err && err.message) {
+						switch (err.message) {
+							case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
+								return {
+									...state,
+									error: err.toString()
+								}
+						}
+					}
+					return {
+						...state,
+						error: commonLanguage.errors.InvalidNumber
+					}
+				}
+			}
 		case commonLanguage.commands.Swap.Trade:
 			{
 				const { } = command.payload;
@@ -1483,7 +1600,12 @@ const initialState: Web3State = {
 		},
 	},
 	swapTokenBalances: null,
-	lastSwapThrottle: null
+	lastSwapThrottle: null,
+
+	//@todo merge these into market: {}
+	marketAddressLock: null,
+	currentAddresMintableBalance: null,
+	currentAddressMarketAddressLock: null
 }
 
 const commonLanguage = {
@@ -1547,6 +1669,12 @@ const commonLanguage = {
 			ShowTradeDialog: 'SWAP:SHOW_TRADE_DIALOG',
 			FlipSwap: 'SWAP:FLIP',
 			ResetThottleGetOutputQuote: 'SWAP:RESET_THROTTLE_GET_OUTPUT_QUOTE'
+		},
+
+		Market: {
+			BurnFluxTokens: 'MARKET_BURN_FLUX_TOKENS',
+			DepositTokens: 'MARKET_DEPOSIT_TOKENS',
+			WithdrawTokens: 'MARKET_WITHDRAW_TOKENS',
 		}
 	},
 	queries: {
@@ -1571,14 +1699,24 @@ const commonLanguage = {
 		Swap: {
 			GetOutputQuote: 'SWAP:GET_OUTPUT_QUOTE',
 			ThrottleGetOutputQuote: 'SWAP:THROTTLE_GET_OUTPUT_QUOTE',
+		},
+		Market: {
+			GetBurnFluxMarketResponse: 'GET_BURN_FLUX_MARKET_RESPONSE',
+			GetDepositMarketResponse: 'GET_DEPOSIT_MARKET_RESPONSE',
+			GetWithdrawMarketResponse: 'GET_WITHDRAW_MARKET_RESPONSE',
 		}
 	},
 	errors: {
 		AlreadyInitialized: 'State is already initialized.',
 		Web3NotFound: 'Web3 not found.',
 		InvalidNumber: 'Please enter a valid number.',
+		MustExceedZero: 'Amount must exceed zero.',
 		FailedFetchingAccountState: 'Failed fetching account state.',
 		FailsafeAmountExceeded: 'You can only lock-in 100 FLUX during Failsafe Period',
+
+		Market: {
+			AmountExceedsMaxAddressMintable: 'Amount exceeds maximum that this address can mint'
+		}
 	}
 }
 

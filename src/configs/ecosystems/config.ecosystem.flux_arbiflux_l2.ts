@@ -1,5 +1,5 @@
-import { EcosystemConfig, Layer, LiquidityPoolType } from "../config.common"
 import ecosystemLogoSvg from '../../svgs/arbiFluxLogo.svg';
+import { EcosystemConfig, Layer, LiquidityPoolType } from "../config.common";
 
 export const getFluxArbiFluxEcosystemConfig = (): EcosystemConfig => {
 	return {
@@ -11,6 +11,8 @@ export const getFluxArbiFluxEcosystemConfig = (): EcosystemConfig => {
 		mintableTokenShortName: 'ArbiFLUX',
 		mintableTokenContractAddress: '0x64081252c497fcfec247a664e9d10ca8ed71b276',
 		mintableSushiSwapL2EthPair: '0xbF719D56c5f19ae0833ADC4080BEfC48A9B415b5',
+
+		marketAddress: null, // @todo
 
 		failsafeStartBlockNumber: 13463591,
 		layer: Layer.Layer2,

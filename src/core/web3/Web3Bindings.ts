@@ -5,6 +5,7 @@ import { commonLanguage, Web3State } from './web3Reducer';
 
 import damTokenAbi from './abis/dam.json';
 import fluxTokenAbi from './abis/flux.json';
+import marketAbi from './abis/market.json';
 import multicallAbi from './abis/multicall.json';
 import uniswapPairV3Abi from './abis/uniswapPairV3.json';
 
@@ -103,6 +104,7 @@ const getContracts = (web3: Web3, ecosystem: Ecosystem) => {
 	return {
 		damToken: new web3.eth.Contract(damTokenAbi as any, config.lockableTokenContractAddress),
 		fluxToken: new web3.eth.Contract(fluxTokenAbi as any, config.mintableTokenContractAddress),
+		market: config.marketAddress ? new web3.eth.Contract(marketAbi as any, config.marketAddress) : null,
 
 		//uniswapDamToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapEthDamTokenContractAddress), // For Legacy Uniswap V2 contract(we use V3 now)
 		//uniswapFluxToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapFluxEthTokenContractAddress), // For Legacy Uniswap V2 contract(we use V3 now)
@@ -666,6 +668,95 @@ const queryHandlers = {
 				}
 			}
 
+			const getMarketCall = (): Record<string, MultiCallParams> => {
+				if (!config.marketAddress || config.marketAddress === '0x0') {
+					return {}
+				}
+
+				return {
+					currentAddresMintableBalance: {
+						address: config.mintableTokenContractAddress, //@change this
+						function: {
+							signature: {
+								name: 'balanceOf',
+								type: 'function',
+								inputs: [
+									{
+										type: 'address',
+										name: 'targetAddress'
+									}]
+							},
+							parameters: [selectedAddress]
+						},
+
+						returns: {
+							params: ['uint256'],
+							callback: (positions: string) => {
+								return new BN(positions)
+							}
+						}
+					},
+					marketAddressLock: {
+						address: config.marketAddress,
+						function: {
+							signature: {
+								name: 'addressLocks',
+								type: 'function',
+								inputs: [
+									{
+										type: 'address',
+										name: 'address'
+									}
+								]
+							},
+							parameters: [selectedAddress]
+						},
+
+						returns: {
+							params: ['uint256', 'uint256', 'uint256', 'bool', 'uint256'],
+							callback: (rewardsAmount: string, rewardsPercent: string, minBlockNumber: string, isPaused: string, minBurnAmount: string) => {
+								return {
+									rewardsAmount: new BN(rewardsAmount),
+									rewardsPercent: new BN(rewardsPercent).toNumber(),
+									minBlockNumber: new BN(minBlockNumber).toNumber(),
+									isPaused: isPaused,
+									minBurnAmount: new BN(minBurnAmount)
+								}
+							}
+						}
+					},
+					currentAddressMarketAddressLock: {
+						address: config.marketAddress,
+						function: {
+							signature: {
+								name: 'addressLocks',
+								type: 'function',
+								inputs: [
+									{
+										type: 'address',
+										name: 'address'
+									}
+								]
+							},
+							parameters: [selectedAddress]
+						},
+
+						returns: {
+							params: ['uint256', 'uint256', 'uint256', 'bool', 'uint256'],
+							callback: (rewardsAmount: string, rewardsPercent: string, minBlockNumber: string, isPaused: string, minBurnAmount: string) => {
+								return {
+									rewardsAmount: new BN(rewardsAmount),
+									rewardsPercent: new BN(rewardsPercent).toNumber(),
+									minBlockNumber: new BN(minBlockNumber).toNumber(),
+									isPaused: isPaused,
+									minBurnAmount: new BN(minBurnAmount)
+								}
+							}
+						}
+					},
+				}
+			}
+
 			const multicallData = {
 				// ETH Balance
 				ethBalance: {
@@ -835,6 +926,7 @@ const queryHandlers = {
 						}
 					}
 				},
+				...getMarketCall(),
 
 				// FLUX: Address details
 				addressDetails: {
@@ -1026,7 +1118,10 @@ const queryHandlers = {
 
 				lockedLiquidtyUniTotalSupply, lockedLiquidityUniAmount,
 
-				otherEcosystemTokenBalance
+				otherEcosystemTokenBalance,
+				marketAddressLock,
+				currentAddressMarketAddressLock,
+				currentAddresMintableBalance
 			} = multicallDecodedResults
 
 			devLog('FindAccountState batch request success', multicallDecodedResults)
@@ -1201,6 +1296,9 @@ const queryHandlers = {
 				swapTokenBalances,
 				selectedAddress,
 				addressLock,
+				marketAddressLock,
+				currentAddressMarketAddressLock,
+				currentAddresMintableBalance,
 				addressDetails,
 				addressTokenDetails
 			};
@@ -1329,6 +1427,126 @@ const queryHandlers = {
 		});
 
 		return response && response.status
+	},
+	[commonLanguage.queries.Market.GetBurnFluxMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+		const { web3, ecosystem } = state;
+		if (!web3) {
+			throw commonLanguage.errors.Web3NotFound;
+		}
+		const selectedAddress = getSelectedAddress();
+
+		const { address, amount } = query.payload;
+
+		const contracts = getContracts(web3, state.ecosystem)
+
+		const config = getEcosystemConfig(ecosystem);
+
+		if (!config.marketAddress) {
+			return;
+		}
+
+		const marketContract = withWeb3(web3, contracts.market);
+
+		const fluxToken = withWeb3(web3, contracts.fluxToken);
+
+		const rewardsPercent = 500 // 5.00%
+
+		const { lastMintBlockNumber } = await fluxToken.getAddressLock(address)();
+
+		const tokensPerBlock = await fluxToken.getMintAmount(address, lastMintBlockNumber + 1n)();
+		if (tokensPerBlock < 0) {
+			throw 'Currently, you must target an address that mints at least 1 token per block'
+
+		}
+		const amountToReceive = amount.add(amount.mul(new BN(rewardsPercent)).div(new BN(10000)))
+
+		// Figure out how many blocks need to be minted for the best rewards
+		const blocksToMintForRequiredReceiveAmount = Math.ceil(new Big(amountToReceive).div(new Big(tokensPerBlock)).toNumber())
+
+		console.log('addrssLock:', { tokensPerBlock, lastMintBlockNumber, amount, blocksToMintAmount: blocksToMintForRequiredReceiveAmount })
+		console.log('amount:', amount.toString())
+		console.log('amountToReceive:', amountToReceive.toString())
+
+		const burnResponse = await marketContract.marketBurnTokens({
+			amountToBurn: amount,
+			amountToReceive,
+			burnToAddress: address,
+			targetBlock: lastMintBlockNumber + BigInt(blocksToMintForRequiredReceiveAmount),
+
+			from: selectedAddress
+		});
+		console.log(burnResponse)
+
+
+	},
+	[commonLanguage.queries.Market.GetDepositMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+		const { web3, ecosystem } = state;
+		if (!web3) {
+			throw commonLanguage.errors.Web3NotFound;
+		}
+		const selectedAddress = getSelectedAddress();
+
+		const { address, amount } = query.payload;
+
+		const contracts = getContracts(web3, state.ecosystem)
+
+		const config = getEcosystemConfig(ecosystem);
+
+		if (!config.marketAddress) {
+			return;
+		}
+
+		const marketContract = withWeb3(web3, contracts.market);
+
+		const fluxToken = withWeb3(web3, contracts.fluxToken);
+
+		const rewardsPercent = 500 // 5.00%, @todo customize via UI
+
+		//@todo check if already authorized
+
+		const isOperatorFor = await fluxToken.isOperatorFor(config.marketAddress, selectedAddress)()
+		console.log('isOperatorFor:', isOperatorFor)
+
+		if (!isOperatorFor) {
+			const authorizeOperatorResponse = await fluxToken.authorizeOperator({
+				operator: config.marketAddress,
+				from: selectedAddress
+			});
+			console.log('authorizeOperatorResponse:', authorizeOperatorResponse)
+		}
+
+		const depositResponse = await marketContract.marketDeposit({
+			amountToDeposit: amount,
+			rewardsPercent,
+			from: selectedAddress,
+			minBlockNumber: new BN(0), //@todo customize via UI
+			minBurnAmount: new BN(0) //@todo customize via UI
+		});
+
+		return depositResponse
+	},
+	[commonLanguage.queries.Market.GetWithdrawMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+		const { web3, ecosystem } = state;
+		if (!web3) {
+			throw commonLanguage.errors.Web3NotFound;
+		}
+		const selectedAddress = getSelectedAddress();
+
+		const contracts = getContracts(web3, state.ecosystem)
+
+		const config = getEcosystemConfig(ecosystem);
+
+		if (!config.marketAddress) {
+			return;
+		}
+
+		const marketContract = withWeb3(web3, contracts.market);
+
+		const withdrawResponse = await marketContract.marketWithdrawAll({
+			from: selectedAddress,
+		});
+
+		return withdrawResponse
 	},
 	[commonLanguage.queries.GetUnlockDamTokensResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3 } = state;

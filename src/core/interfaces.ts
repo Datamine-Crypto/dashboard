@@ -40,6 +40,8 @@ export enum DialogType {
 	TitleMessage = 'TITLE_MESSAGE',
 	WalletConnectRpc = 'WALLET_CONNECT_RPC',
 	ClientSettings = 'CLIENT_SETTINGS',
+	MarketCollectRewards = 'MARKET_COLLECT_REWARDS',
+	MarketDepositWithdraw = 'MARKET_DEPOSIT_WITHDRAW',
 }
 
 export enum Token {
@@ -47,4 +49,12 @@ export enum Token {
 	Lockable = 'Lockable',
 	ETH = 'ETH',
 	USDC = 'USDC'
+}
+
+export interface MarketAddressLock {
+	rewardsAmount: BN;
+	rewardsPercent: number;
+	minBlockNumber: BN;
+	isPaused: boolean;
+	minBurnAmount: BN;
 }

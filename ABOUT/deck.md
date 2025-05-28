@@ -173,3 +173,70 @@ The closer we get to 100% market efficiency, the more trading volatility is expe
 As inflation is rapidly decreasing and the market efficiency is increasing we'll see Lockquidity ecosystem truly shine for the first time.
 
 Lockquidity is it's own asset class and it will perform unlike any other class in the world. Lockquidity = king.
+
+// 2025-05-02 Update:
+
+Eventually the liquidity pool for Lockquidity will no longer have 100% liquidity inside of it. This will happen when traders come. When this happens the following occurs:
+
+Liquidity that was used to purchase LOCK will now be slowly re-added back to the liquidity pool by the validators. They will burn LOCK like usual, which will increase the LOCK supply in the pool, but the ETH will stay in the pool.
+The LOCK that was purchased will lose a tiny bit of value due to the small inflation from the validators. While this seems bad for anyone that purchases LOCK, the amount of loss would be very minor, much less than monetary inflation in a traditional system.
+The actual amount of LOCK that would be lost to inflation from validators would be less and less (as the supply increases the inflation lowers)
+3. If the LOCK is sold back on the market, the amount of ETH in the pool slightly increases due to the small inflation.
+4. The more LOCK is outside of the pool, the more value the validators add back to the pool. That means they are adding back more ETH as permanent liquidity.
+5. As more LOCK is outside of the ecosystem buying and burning LOCK means your buys have more volatility. With 100% of LOCK in the pool your volatility is as low as possible because you're getting the best bang for the buck.
+
+Overall as more traders come we will get further away from 100% liquidity in the pool, but at the same time that also means the value of LOCK goes up and the interest from traders grows. 
+
+The closer we are to 100% liquidity, the more value traders would get when buying LOCK.
+
+I think the biggest point of Lockquidity is that it allows you to not worry about "when to sell ETH" since you can sell your mints slowly overtime.
+
+This means "just holding ETH" is not as efficient as you never know when to sell it.
+
+Additionally there is no asset in the world that has the yield and growth potential combined together like Lockquidity.
+
+Can we tie-in "dollar-cost averaging" here into our messaging here? You could slowly mint and sell your LOCK rather than trying to time ETH tops.
+
+Lockquidity is both "Yield and Growth" asset which is the best of both worlds.
+
+- Yield comes from burning and generating LOCK.
+- Growth comes from ETH volatility and trading fees in the liquidity pool. As well as growth will eventually come from traders buying LOCK.
+
+// 2025-05-27
+
+This is where we introduce Datmaine Market: Decentralized "Time-in-market" solution
+
+Imagine if there was a button that anyone in the world can click that turns 100 LOCK into 105 LOCk instantly, guaranteed. Would you click this button?
+
+Everytime you click this button, you get +5 LOCK. If 5 LOCK = $0.01 then you are now making $0.01 click.
+
+What if 5 LOCK = $10, would you click a button to make $10? We believe the answer is, if such a button existed then someone in the world would click it.
+
+This is where Datamine Market comes in. It's our revolutionary way to decentarlize "Time-in-market" and create true decentralized demand in our ecosystem.
+
+Imagine when starting your validator you can instead ask public to click your mint button. "I will pay you 5% to burn any amount of LOCK to me that I can already mint"
+
+Meaning if you have $210 in unminted balance, imagine someone would say "I'll burn $200 worth of tokens to your address if you give me back $210 right away"
+
+This would be very benefitial to the validator because the APY they get long term is worth way more than 5% that they had to pay initially.
+
+This means a random person in the world can instantly get $10 worth of value in LOCK!
+
+Now if hundreds of validators enable public market minting we'll have a true decentralized market of APY! "How much is your time in market worth? 5%? 10%? etc."
+
+The beauty of our market is that it's a completely decentralized smart contract. That means no one is in control of this market and it's backed by Ethereum security.
+
+Validators can specify what reward % they are offering for someone to come and burn to their account. Want someone to burn to your account? Simply adjust your reward percentage accordingly.
+
+More details of how Datamine market works:
+- Validators offer their 105% of their unmited FLUX in exchange for 100% of someone burning to their account
+- This happens seamlessly in a single ethereum transaction with a single button click through a smart contract
+- This forces "Market Efficiency" metric to go up as tokens are stored in the market smart contract
+- The more lucrative the rewards are the more transactions we get.
+- Theoretical cap for this new feature is 7200 transactions per validator per day (if button is clicked once every 12 seconds due to Ethereum block timing).
+- Every market rewards collection transaction adds a burn+add liquidity through the liquidity pool for the amount burned
+- Internally we're using delegated partial burning to get increased minting efficiency. Meaning if you have $200 in unminted balance and someone burns $10, only $10.50 of amount is minted back to burner
+- Launching on Lockquidity first, but will also be deployed for FLUX and ArbiFLUX providing new utility for those tokens
+- Tokens are deposited into a smart contract where they can be spent for burning. Rewards are accumilated and can be collected at any time through a withdraw button without any additional fees
+- Rewards and rules (such as min amount of tokens that can be burned, duration) can be tweaked in realtime allowing for a more dynamic market
+
