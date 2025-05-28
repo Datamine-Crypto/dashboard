@@ -13,7 +13,7 @@ export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
 		mintableTokenContractAddress: '0x454F676D44DF315EEf9B5425178d5a8B524CEa03',
 		mintableSushiSwapL2EthPair: '0x0C93A1D3F68a0554d37F3e7AF3a1442a94405E7A',
 
-		marketAddress: '0x92AABCAc84596f84149c59D65dDc4C4679a4BB3E',
+		marketAddress: '0x8050D0E22dcA8cf9a97Aeb2579305F31C66e162f',
 
 		failsafeStartBlockNumber: 20959397,
 		layer: Layer.Layer2,

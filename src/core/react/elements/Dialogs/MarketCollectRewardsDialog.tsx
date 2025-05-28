@@ -85,17 +85,25 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 
 
 	const getAmountReceivedElement = () => {
-		const getAmountReceived = (): BN | null => {
+		const getAmountBN = (): BN | null => {
 			if (!amount) {
 				return null
 			}
 			try {
 				const amountBN = parseBN(amount)
-				const rewardsAmount = amountBN.add(amountBN.mul(new BN(marketAddressLock.rewardsPercent)).div(new BN(10000)))
-				return rewardsAmount
+				return amountBN
 			} catch {
 				return null
 			}
+		}
+		const amountBN = getAmountBN();
+		if (!amountBN) {
+			return
+		}
+
+		const getAmountReceived = (): BN => {
+			const rewardsAmount = amountBN.add(amountBN.mul(new BN(marketAddressLock.rewardsPercent)).div(new BN(10000)))
+			return rewardsAmount
 		}
 		const amountReceived = getAmountReceived()
 
@@ -106,7 +114,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 			return
 		}
 
-		const balanceInUsdc = getPriceToggle({ value: amountReceived, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6, removeCommas: true });
+		const balanceInUsdc = getPriceToggle({ value: amountReceived.sub(amountBN), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6, removeCommas: true });
 
 
 		return <Box>You Will Receive: <Box display="inline" fontWeight="fontWeightBold">

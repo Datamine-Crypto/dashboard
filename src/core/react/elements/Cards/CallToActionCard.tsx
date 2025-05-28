@@ -763,7 +763,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							const amountBN = getMintAmount();
 
 							try {
-								const rewardsAmount = amountBN.add(amountBN.mul(new BN(marketAddressLock.rewardsPercent)).div(new BN(10000)))
+								const rewardsAmount = amountBN.mul(new BN(marketAddressLock.rewardsPercent)).div(new BN(10000))
 								return rewardsAmount
 							} catch {
 								return null
