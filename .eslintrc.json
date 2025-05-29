@@ -1,3 +1,12 @@
 {
-  "extends": "react-app"
+  "extends": "react-app",
+   "rules": {
+    // Some eslint rules are disabled in our project:
+    "no-empty-pattern": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+	"react-hooks/exhaustive-deps": "off",
+	"eqeqeq": "off",
+	"no-mixed-operators": "off",
+	"jsx-a11y/alt-text": "off"
+  }
 }

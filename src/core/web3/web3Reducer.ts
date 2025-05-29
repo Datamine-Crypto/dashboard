@@ -489,7 +489,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 
 			return amount
 		}
-		const amount = (getAmount()).replace('/[^0-9\.]+/g', '');
+		const amount = (getAmount()).replace('/[^0-9.]+/g', '');
 
 		if (!amount) {
 			return '0'

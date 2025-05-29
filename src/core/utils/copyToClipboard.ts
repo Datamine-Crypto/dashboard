@@ -6,15 +6,15 @@ const copyToClipboardRaw = (str: string) => {
 	el.style.left = '-9999px';                      // Move outside the screen to make it invisible
 	document.body.appendChild(el);                  // Append the <textarea> element to the HTML document
 	const selected =
-		(<any>document.getSelection()).rangeCount > 0        // Check if there is any content selected previously
-			? (<any>document.getSelection()).getRangeAt(0)     // Store selection if found
+		(document.getSelection() as any).rangeCount > 0        // Check if there is any content selected previously
+			? (document.getSelection() as any).getRangeAt(0)     // Store selection if found
 			: false;                                    // Mark as false to know no selection existed before
 	el.select();                                    // Select the <textarea> content
 	document.execCommand('copy');                   // Copy - only works as a result of a user action (e.g. click events)
 	document.body.removeChild(el);                  // Remove the <textarea> element
 	if (selected) {                                 // If a selection existed before copying
-		(<any>document.getSelection()).removeAllRanges();    // Unselect everything on the HTML document
-		(<any>document.getSelection()).addRange(selected);   // Restore the original selection
+		(document.getSelection() as any).removeAllRanges();    // Unselect everything on the HTML document
+		(document.getSelection() as any).addRange(selected);   // Restore the original selection
 	}
 };
 
@@ -27,8 +27,8 @@ const copyToClipBoard = function (text: string) {
 				copyToClipboardRaw(text);
 			});
 		}
-		else if ((<any>window).clipboardData) { // Internet Explorer
-			(<any>window).clipboardData.setData("Text", text);
+		else if ((window as any).clipboardData) { // Internet Explorer
+			(window as any).clipboardData.setData("Text", text);
 		} else {
 			copyToClipboardRaw(text);
 		}

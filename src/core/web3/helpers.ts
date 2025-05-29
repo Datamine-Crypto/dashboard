@@ -253,7 +253,7 @@ export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: Conn
 		});
 	} catch (err) {
 		// This error code indicates that the chain has not been added to MetaMask.
-		if ((<any>err).code === 4902) {
+		if ((err as any).code === 4902) {
 			try {
 				await ethereum.request({
 					method: 'wallet_addEthereumChain',
@@ -474,7 +474,7 @@ export const rethrowWeb3Error = (err: any) => {
 	console.log(err)
 	if (err.message) {
 		// This works on mainnet and arbitrum
-		const extractedError = err.message.match(/"message"\:[ ]{0,1}\"(.+)\"/);
+		const extractedError = err.message.match(/"message":[ ]{0,1}"(.+)"/);
 		if (!!extractedError && !!extractedError[1]) {
 			throw extractedError[1].replace('execution reverted: ', '')
 		}
