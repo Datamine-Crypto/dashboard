@@ -302,7 +302,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 		<DialogContent dividers={true}>
 
 			<DialogContentText>
-				<Box py={1}>
+				<Box py={1} className={`${classes.markdownContainer} ${helpArticle.className}`}>
 					<ReactMarkdown components={{
 						// From https://github.com/remarkjs/react-markdown?tab=readme-ov-file#appendix-b-components
 						h1: (props) => heading(props, 1),
@@ -313,7 +313,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 						li: listItem,
 						code: code as any,
 						img: image
-					}} className={`${classes.markdownContainer} ${helpArticle.className}`}>
+					}}>
 						{helpArticle.body as string}
 					</ReactMarkdown>
 				</Box>
