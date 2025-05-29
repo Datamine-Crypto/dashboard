@@ -7,17 +7,17 @@ import { Ecosystem, NetworkType } from '../../../configs/config.common';
 import { HelpArticle, helpArticles } from '../../helpArticles';
 import { Web3Context } from '../../web3/Web3Context';
 import { commonLanguage } from '../../web3/web3Reducer';
-import MainAppBar from '../elements/Fragments/AppBar';
 import CenteredLoading from '../elements/Fragments/CenteredLoading';
 import DialogsFragment from '../elements/Fragments/DialogsFragment';
-import { MainDrawer } from '../elements/Fragments/Drawer';
 import PendingQueryFragment from '../elements/Fragments/PendingQueryFragment';
+const MainAppBar = lazy(() => import('../elements/Fragments/AppBar'));
 const HelpDialog = lazy(() => import('../elements/Dialogs/HelpDialog'));
 const CommunityPage = lazy(() => import('./CommunityPage'));
 const HelpPage = lazy(() => import('./HelpPage'));
 const OnboardingPage = lazy(() => import('./OnboardingPage'));
 const Terms = lazy(() => import('./Terms'));
 const TokenPage = lazy(() => import('./TokenPage'));
+const MainDrawer = lazy(() => import('../elements/Fragments/Drawer').then(module => ({ default: module.MainDrawer })));
 
 const DashboardPage = lazy(() => import('./DashboardPage'));
 const HomePage = lazy(() => import('./HomePage'));
@@ -224,11 +224,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 			{getAppBar()}
 			<MainDrawer />
 			<Box className={classes.contentContainer}>
-				{getHelpDialog()}
-				{getDialog()}
-				{getPendingQueries()}
-
 				<Suspense fallback={<CenteredLoading />}>
+					{getHelpDialog()}
+					{getDialog()}
+					{getPendingQueries()}
+
 					{getPage()}
 				</Suspense>
 			</Box>

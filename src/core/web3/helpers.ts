@@ -1,12 +1,10 @@
-import BN from 'bn.js';
-import Web3 from "web3";
-import { Token } from "../interfaces";
-
-import detectEthereumProvider from '@metamask/detect-provider';
 import Big from 'big.js';
+import BN from 'bn.js';
 import moment from 'moment';
+import Web3 from "web3";
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../configs/config';
 import { Ecosystem } from "../../configs/config.common";
+import { Token } from "../interfaces";
 import { devLog } from '../utils/devLog';
 import { Balances, ConnectionMethod } from "./web3Reducer";
 
@@ -207,6 +205,8 @@ export const getWeb3Provider = async ({ useWalletConnect, ecosystem }: { useWall
 	}
 
 	try {
+		// Dynamically import detectEthereumProvider
+		const detectEthereumProvider = (await import('@metamask/detect-provider')).default;
 		const provider = await detectEthereumProvider();
 		return provider;
 	} catch (err) {
@@ -284,7 +284,7 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 
 	const ethereum = await getWeb3Provider({
 		ecosystem,
-		useWalletConnect: true //@todo
+		useWalletConnect: false //@todo
 	})
 	if (!ethereum) {
 		alert('Failed adding to Metamask, no Web3 provider found');

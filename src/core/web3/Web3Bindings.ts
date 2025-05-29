@@ -12,7 +12,6 @@ import uniswapPairV3Abi from './abis/uniswapPairV3.json';
 import { getWeb3Provider, rethrowWeb3Error, withWeb3 } from './helpers';
 
 import BN from 'bn.js';
-import Fuse from 'fuse.js';
 
 import { HelpArticle, helpArticles } from '../helpArticles';
 import { QueryHandler } from '../sideEffectReducer';
@@ -1705,6 +1704,9 @@ const queryHandlers = {
 				"title",
 			]
 		};
+
+		// Dynamically import Fuse
+		const { default: Fuse } = await import('fuse.js');
 
 		const fuse = new Fuse(helpArticles, options);
 		const results = fuse.search(searchQuery)

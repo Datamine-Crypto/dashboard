@@ -1,15 +1,15 @@
 import { Box, Button, Card, CardActions, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Link, Typography, useMediaQuery, useTheme } from '@mui/material';
-import React, { useContext } from 'react';
+import React, { Suspense, lazy, useContext } from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
 import LaunchIcon from '@mui/icons-material/Launch';
-import ReactMarkdown from 'react-markdown';
 import { tss } from 'tss-react/mui';
 import { NetworkType } from '../../../../configs/config.common';
 import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from '../../../helpArticles';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import AddToFirefoxFragment from '../Fragments/AddToFirefoxFragment';
+import CenteredLoading from '../Fragments/CenteredLoading'; // Assuming you have a loading component
 import LightTooltip from '../LightTooltip';
 
 
@@ -19,6 +19,9 @@ interface RenderParams {
 	helpArticle: HelpArticle;
 	helpArticlesNetworkType: NetworkType;
 }
+// Dynamically import ReactMarkdown
+const ReactMarkdown = lazy(() => import('react-markdown'));
+
 enum ImageOption {
 	MaxWidth = '_maxWidth',
 	ClassName = '_className'
@@ -303,19 +306,21 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 
 			<DialogContentText>
 				<Box py={1} className={`${classes.markdownContainer} ${helpArticle.className}`}>
-					<ReactMarkdown components={{
-						// From https://github.com/remarkjs/react-markdown?tab=readme-ov-file#appendix-b-components
-						h1: (props) => heading(props, 1),
-						h2: (props) => heading(props, 2),
-						p: paragraph,
-						hr: thematicBreak,
-						a: link,
-						li: listItem,
-						code: code as any,
-						img: image
-					}}>
-						{helpArticle.body as string}
-					</ReactMarkdown>
+					<Suspense fallback={<CenteredLoading />}> {/* Or any other suitable fallback */}
+						<ReactMarkdown components={{
+							// From https://github.com/remarkjs/react-markdown?tab=readme-ov-file#appendix-b-components
+							h1: (props) => heading(props, 1),
+							h2: (props) => heading(props, 2),
+							p: paragraph,
+							hr: thematicBreak,
+							a: link,
+							li: listItem,
+							code: code as any,
+							img: image
+						}}>
+							{helpArticle.body as string}
+						</ReactMarkdown>
+					</Suspense>
 				</Box>
 			</DialogContentText>
 		</DialogContent>
