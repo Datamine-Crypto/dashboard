@@ -1,5 +1,5 @@
 import Big from 'big.js';
-import { Web3 } from 'web3';
+import type { Web3 } from 'web3'; // Changed to type-only import
 import { FluxAddressDetails, FluxAddressTokenDetails } from '../interfaces';
 import { commonLanguage, Web3State } from './web3Reducer';
 
@@ -17,8 +17,6 @@ import Fuse from 'fuse.js';
 import { HelpArticle, helpArticles } from '../helpArticles';
 import { QueryHandler } from '../sideEffectReducer';
 
-
-import axios from 'axios';
 import { getEcosystemConfig } from '../../configs/config';
 import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
 import { devLog } from '../utils/devLog';
@@ -95,8 +93,6 @@ const preselectAddress = async () => {
 
 	return []
 }
-
-const axiosInstance = axios.create({});
 
 const getContracts = (web3: Web3, ecosystem: Ecosystem) => {
 
@@ -200,7 +196,9 @@ const queryHandlers = {
 		web3provider = provider;
 
 		if (provider) {
-			const web3 = new Web3(provider);
+			// Dynamically import the Web3 constructor
+			const { default: Web3Constructor } = await import('web3');
+			const web3 = new Web3Constructor(provider);
 			web3.transactionBlockTimeout = 4 * 60 * 60; // (So users don't get timed out while selecting their transaction settings) 1 hour on L2
 
 			/**
@@ -359,6 +357,8 @@ const queryHandlers = {
 		const selectedAddress = getSelectedAddress();
 
 		if (web3) {
+			const { default: axios } = await import('axios');
+			const axiosInstance = axios.create({});
 			try {
 
 				const signature = await getSignature(web3, selectedAddress)
@@ -1675,6 +1675,8 @@ const queryHandlers = {
 			}
 			const helpArticleMdPath = getHelpArticleMdPath()
 
+			const { default: axios } = await import('axios');
+			const axiosInstance = axios.create({});
 			const helpArticlePath = `helpArticles/${helpArticleMdPath}.md`
 			const response = await axiosInstance.get<string>(helpArticlePath)
 

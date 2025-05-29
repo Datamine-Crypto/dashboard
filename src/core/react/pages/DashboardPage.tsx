@@ -13,7 +13,6 @@ import LightTooltip from '../elements/LightTooltip';
 
 import SettingsIcon from '@mui/icons-material/Settings';
 import { tss } from 'tss-react/mui';
-import VConsole from 'vconsole';
 import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
 import metamaskIcon from '../../../svgs/metamask.svg';
@@ -346,7 +345,10 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 		web3Dispatch({ type: web3CommonLanguage.commands.Initialize, payload: { address } });
 
 		if (isDevLogEnabled()) {
-			const vConsole = new VConsole();
+			import('vconsole').then(VConsoleModule => {
+				const VConsole = VConsoleModule.default;
+				new VConsole();
+			})
 		}
 
 

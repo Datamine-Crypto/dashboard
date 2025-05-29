@@ -1,5 +1,5 @@
 
-import React, { useContext } from 'react';
+import React, { lazy, useContext } from 'react';
 import { DialogType } from '../../../interfaces';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
@@ -13,7 +13,7 @@ import SettingsDialog from '../Dialogs/SettingsDialog';
 import TradeDialog from '../Dialogs/TradeDialog';
 import UnlockDialog from '../Dialogs/UnlockDialog';
 import WalletConnectRpcDialog from '../Dialogs/WalletConnectRpcDialog';
-import ZeroBalanceDialog from '../Dialogs/ZeroBalanceDialog';
+const ZeroBalanceDialog = lazy(() => import('../Dialogs/ZeroBalanceDialog'));
 
 interface Props {
 	dispatch: React.Dispatch<any>;

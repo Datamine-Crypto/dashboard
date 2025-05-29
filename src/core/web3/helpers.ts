@@ -3,7 +3,6 @@ import Web3 from "web3";
 import { Token } from "../interfaces";
 
 import detectEthereumProvider from '@metamask/detect-provider';
-import { EthereumProvider } from "@walletconnect/ethereum-provider";
 import Big from 'big.js';
 import moment from 'moment';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../configs/config';
@@ -174,6 +173,8 @@ export const getWeb3Provider = async ({ useWalletConnect, ecosystem }: { useWall
 		removeMetaTags();
 
 		const config = getEcosystemConfig(ecosystem);
+
+		const { EthereumProvider } = await import('@walletconnect/ethereum-provider');
 
 		const walletConnectProvider = await EthereumProvider.init({
 			projectId: config.walletConnect.projectId, // REQUIRED your projectId
