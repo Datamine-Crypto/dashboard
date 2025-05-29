@@ -1,9 +1,9 @@
-import { Box, Button, Card, CardActions, CardContent, Chip, Divider, FormControlLabel, LinearProgress, Link, Slider, Switch, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import { Box, Button, Card, CardActions, CardContent, Chip, Divider, FormControlLabel, Grid, LinearProgress, Link, Slider, Switch, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from '@mui/material';
+import type { AdapterMoment as AdapterMomentType } from '@mui/x-date-pickers/AdapterMoment';
+import type { LocalizationProviderProps } from '@mui/x-date-pickers/LocalizationProvider';
+import type { MobileDatePickerProps } from '@mui/x-date-pickers/MobileDatePicker';
+import React, { useContext, useEffect, useState } from 'react';
 
-import { Grid } from '@mui/material';
-import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 import Big from 'big.js';
 import BN from 'bn.js';
@@ -125,6 +125,12 @@ interface RenderParams {
 	connectionMethod: ConnectionMethod;
 	marketAddressLock: MarketAddressLock | null;
 }
+
+interface DatePickerDependencies {
+	LocalizationProvider: React.ElementType<LocalizationProviderProps<any, any>> | null;
+	MobileDatePicker: React.ElementType<MobileDatePickerProps<any>> | null;
+	AdapterMoment: typeof AdapterMomentType | null;
+}
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, ecosystem, connectionMethod, marketAddressLock }) => {
 	const { classes } = useStyles();
 
@@ -135,6 +141,40 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 	const isArbitrumMainnet = ecosystemConfig.layer === Layer.Layer2;
 
 	const isMarketLock = addressLock && ecosystemConfig.marketAddress && ecosystemConfig.marketAddress.toLowerCase() === addressLock.minterAddress
+
+	const [datePickerDeps, setDatePickerDeps] = useState<DatePickerDependencies>({
+		LocalizationProvider: null,
+		MobileDatePicker: null,
+		AdapterMoment: null,
+	});
+
+	useEffect(() => {
+		let isMounted = true;
+		if (forecastSettings.enabled && !datePickerDeps.AdapterMoment) { // Check for one, assume all load together
+			const loadDependencies = async () => {
+				try {
+					const [lpModule, mdpModule, amModule] = await Promise.all([
+						import('@mui/x-date-pickers/LocalizationProvider'),
+						import('@mui/x-date-pickers/MobileDatePicker'),
+						import('@mui/x-date-pickers/AdapterMoment')
+					]);
+					if (isMounted) {
+						setDatePickerDeps({
+							LocalizationProvider: lpModule.LocalizationProvider,
+							MobileDatePicker: mdpModule.MobileDatePicker,
+							AdapterMoment: amModule.AdapterMoment
+						});
+					}
+				} catch (err) {
+					console.error("Failed to load date picker dependencies", err);
+				}
+			};
+			loadDependencies();
+		}
+		return () => {
+			isMounted = false;
+		};
+	}, [forecastSettings.enabled, datePickerDeps.AdapterMoment]);
 
 	// Prevent inputs from autofills
 	const removeAutocompleteProps = {
@@ -333,67 +373,59 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							const value = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).add(parseFloat(forecastSettings.forecastStartBlocks) / (60 / 12), 'minutes')
 
 							const getBlocksDropdown = () => {
-								return <LocalizationProvider dateAdapter={AdapterMoment}>
-									<MobileDatePicker
-										closeOnSelect={true}
-										value={value}
-										//autoOk={true}
-										/*PopoverProps={{
-											anchorOrigin: {
-												vertical: 'top',
-												horizontal: 'left',
-											},
-											transformOrigin: {
-												vertical: 'bottom',
-												horizontal: 'right',
-											},
-											className: classes.datePicker
-										}}
-										inputFormat="YYYY/MM/DD"
-										renderInput={(props: any) => <TextField
-											type="text"
+								if (!datePickerDeps.LocalizationProvider || !datePickerDeps.MobileDatePicker || !datePickerDeps.AdapterMoment) {
+									return <Typography variant="caption" component="div">Loading date picker...</Typography>;
+								}
+								const { LocalizationProvider, MobileDatePicker, AdapterMoment } = datePickerDeps;
 
-											name="startBlocks"
-											//variant="inline"
+								return (
+									<LocalizationProvider dateAdapter={AdapterMoment}>
+										<MobileDatePicker
+											closeOnSelect={true}
+											value={value}
 											label="From"
-											//inputVariant="outlined"
-											//value={new Date()}
-											size="small"
-											{...props}
-											inputProps={{
-												...props.inputProps,
-												...removeAutocompleteProps
-											} as any}
-										/>}*/
-
-										onChange={(date: any) => {
-											if (date) {
-												date = date.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-
-												const currentDate = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-
-												const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 12)
-												//const additionalBlocks = addressLock.amount.isZero() ? 0 : (forecastSettings.alreadyMintedBlocks)
-
-												dispatch({ type: commonLanguage.commands.ForecastSetStartBlocks, payload: (blocksDiff).toString() })
-											}
-										}}
-									/>
-								</LocalizationProvider>
+											// slotProps={{
+											// 	textField: {
+											// 		size: "small",
+											// 		name: "startBlocks",
+											// 		inputProps: {
+											// 			...removeAutocompleteProps
+											// 		} as any,
+											// 	},
+											// 	mobilePaper: { className: classes.datePicker },
+											// }}
+											onChange={(date: any) => {
+												if (date) {
+													date = date.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+													const currentDate = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+													const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 12)
+													dispatch({ type: commonLanguage.commands.ForecastSetStartBlocks, payload: (blocksDiff).toString() })
+												}
+											}}
+											slots={{
+												textField: (props) => (
+													<TextField
+														{...props}
+														type="text"
+														name="startBlocks"
+														size="small"
+														inputProps={{
+															...props.inputProps,
+															...removeAutocompleteProps
+														} as any}
+													/>
+												)
+											}}
+											slotProps={{
+												mobilePaper: { className: classes.datePicker }
+											}}
+										/>
+									</LocalizationProvider>
+								);
 							}
 							return <>
 								<Box display="flex" alignItems="center">
 									{getBlocksDropdown()}
-									{/*}
-										<TextField
-											label="Blocks"
-											variant="outlined"
-											size="small"
-											onFocus={(e) => e.target.select()}
-											value={forecastSettings.forecastBlocks}
-											onChange={(e) => dispatch({ type: commonLanguage.commands.ForecastSetBlocks, payload: e.target.value })} />
-										<BlocksDropdown onClick={(blocks) => dispatch({ type: commonLanguage.commands.ForecastSetBlocks, payload: blocks.toString() })} />
-										*/}
 								</Box>
 
 
@@ -424,59 +456,53 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							const value = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).add(parseFloat(forecastSettings.forecastBlocks) / (60 / 12), 'minutes')
 
 							const getBlocksDropdown = () => {
-								return <LocalizationProvider dateAdapter={AdapterMoment}>
-									<MobileDatePicker
-										closeOnSelect={true}
-										/*
-										renderInput={(props: any) => <TextField
-											type="text"
-											name="endBlocks"
-											//variant="inline"
-											label="From"
-											//inputVariant="outlined"
-											//value={new Date()}
-											size="small"
+								if (!datePickerDeps.LocalizationProvider || !datePickerDeps.MobileDatePicker || !datePickerDeps.AdapterMoment) {
+									return <Typography variant="caption" component="div">Loading date picker...</Typography>;
+								}
+								const { LocalizationProvider, MobileDatePicker, AdapterMoment } = datePickerDeps;
 
-											{...props}
-											inputProps={{
-												...props.inputProps,
-												...removeAutocompleteProps
-											} as any}
-										/>}
-										inputFormat="YYYY/MM/DD"
-										*/
-										label="To"
-										//value={new Date()}
-										value={value}
-
-										onChange={(date: Moment | null) => {
-											if (date) {
-												date = date.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-
-												const currentDate = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-
-												const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 12)
-												//const additionalBlocks = addressLock.amount.isZero() ? 0 : (forecastSettings.alreadyMintedBlocks)
-
-												dispatch({ type: commonLanguage.commands.ForecastSetBlocks, payload: blocksDiff.toString() })
-											}
-										}}
-									/>
-								</LocalizationProvider>
+								return (
+									<LocalizationProvider dateAdapter={AdapterMoment}>
+										<MobileDatePicker
+											closeOnSelect={true}
+											label="To"
+											value={value}
+											// slotProps={{
+											// 	textField: {
+											// 		size: "small",
+											// 		name: "endBlocks",
+											// 		inputProps: {
+											// 			...removeAutocompleteProps
+											// 		} as any,
+											// 	},
+											// 	mobilePaper: { className: classes.datePicker },
+											// }}
+											onChange={(date: Moment | null) => {
+												if (date) {
+													date = date.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+													const currentDate = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+													const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 12)
+													dispatch({ type: commonLanguage.commands.ForecastSetBlocks, payload: blocksDiff.toString() })
+												}
+											}}
+											slots={{
+												textField: (props) => (
+													<TextField
+														{...props}
+														type="text"
+														name="endBlocks"
+														size="small"
+														inputProps={{ ...props.inputProps, ...removeAutocompleteProps } as any} />
+												)
+											}}
+											slotProps={{ mobilePaper: { className: classes.datePicker } }}
+										/>
+									</LocalizationProvider>
+								);
 							}
 							return <>
 								<Box display="flex" alignItems="center">
 									{getBlocksDropdown()}
-									{/*}
-									<TextField
-										label="Blocks"
-										variant="outlined"
-										size="small"
-										onFocus={(e) => e.target.select()}
-										value={forecastSettings.forecastBlocks}
-										onChange={(e) => dispatch({ type: commonLanguage.commands.ForecastSetBlocks, payload: e.target.value })} />
-									<BlocksDropdown onClick={(blocks) => dispatch({ type: commonLanguage.commands.ForecastSetBlocks, payload: blocks.toString() })} />
-									*/}
 								</Box>
 
 
