@@ -7,6 +7,7 @@
 	"react-hooks/exhaustive-deps": "off",
 	"eqeqeq": "off",
 	"no-mixed-operators": "off",
-	"jsx-a11y/alt-text": "off"
+	"jsx-a11y/alt-text": "off",
+	"no-throw-literal": "off"
   }
 }
