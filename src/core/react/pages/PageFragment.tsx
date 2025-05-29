@@ -1,23 +1,26 @@
 import { Box } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { lazy, Suspense, useContext, useEffect, useState } from 'react';
 import { tss } from 'tss-react/mui';
+
 import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem, NetworkType } from '../../../configs/config.common';
 import { HelpArticle, helpArticles } from '../../helpArticles';
 import { Web3Context } from '../../web3/Web3Context';
 import { commonLanguage } from '../../web3/web3Reducer';
-import HelpDialog from '../elements/Dialogs/HelpDialog';
 import MainAppBar from '../elements/Fragments/AppBar';
+import CenteredLoading from '../elements/Fragments/CenteredLoading';
 import DialogsFragment from '../elements/Fragments/DialogsFragment';
 import { MainDrawer } from '../elements/Fragments/Drawer';
 import PendingQueryFragment from '../elements/Fragments/PendingQueryFragment';
-import CommunityPage from './CommunityPage';
-import DashboardPage from './DashboardPage';
-import HelpPage from './HelpPage';
-import HomePage from './HomePage';
-import OnboardingPage from './OnboardingPage';
-import Terms from './Terms';
-import TokenPage from './TokenPage';
+const HelpDialog = lazy(() => import('../elements/Dialogs/HelpDialog'));
+const CommunityPage = lazy(() => import('./CommunityPage'));
+const HelpPage = lazy(() => import('./HelpPage'));
+const OnboardingPage = lazy(() => import('./OnboardingPage'));
+const Terms = lazy(() => import('./Terms'));
+const TokenPage = lazy(() => import('./TokenPage'));
+
+const DashboardPage = lazy(() => import('./DashboardPage'));
+const HomePage = lazy(() => import('./HomePage'));
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
@@ -225,7 +228,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				{getDialog()}
 				{getPendingQueries()}
 
-				{getPage()}
+				<Suspense fallback={<CenteredLoading />}>
+					{getPage()}
+				</Suspense>
 			</Box>
 		</Box>
 
