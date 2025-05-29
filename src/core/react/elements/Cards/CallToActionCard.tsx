@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardActions, CardContent, Chip, Divider, FormControlLabel, LinearProgress, Link, Slider, Switch, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
-import Grid from '@mui/material/Grid2';
+import { Grid } from '@mui/material';
 import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
@@ -785,7 +785,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 						const balanceInUsdc = getPriceToggle({ value: amountReceived, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6, removeCommas: true });
 
 						if (isMarketLock) {
-							return <Chip label={`Available Reward For Burning: +$ ${balanceInUsdc}`} color="success" />
+							return <Chip label={`Available Reward To Collect: +$ ${balanceInUsdc}`} color={parseFloat(balanceInUsdc) >= 0.01 ? 'success' : "warning"} />
 						}
 					}
 					const getBottomRightText = () => {
