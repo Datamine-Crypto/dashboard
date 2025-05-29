@@ -12,7 +12,7 @@ export const getFluxArbiFluxEcosystemConfig = (): EcosystemConfig => {
 		mintableTokenContractAddress: '0x64081252c497fcfec247a664e9d10ca8ed71b276',
 		mintableSushiSwapL2EthPair: '0xbF719D56c5f19ae0833ADC4080BEfC48A9B415b5',
 
-		marketAddress: null, // @todo
+		marketAddress: '0x0EBA2eB532a46AE8c7010668671e5Bcdc6D1212B',
 
 		failsafeStartBlockNumber: 13463591,
 		layer: Layer.Layer2,
