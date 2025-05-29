@@ -26,8 +26,7 @@ This project was originally developed using Node v16 but it's compatible with No
 ## Installation
 
 1. Navigate to your project directory.
-2. Type in `set NODE_OPTIONS=--openssl-legacy-provider`. If you are using Linux or macOS type in `export NODE_OPTIONS=--openssl-legacy-provider` instead. (This is only needed if you are using Node v18)
-3. Run `yarn install` (this is a one time requirement). If you get `ENOENT: no such file or directory, open 'package.json'` then you did not complete previous step
+2. Run `yarn install` (this is a one time requirement). 
 
 ## Running dApp Locally
 
@@ -53,18 +52,16 @@ This project does not contain any unit tests but this can be improved in the fut
 
 ## To Deploy
 
-### `yarn run build`
+### `yarn build`
 
 This will create a new build in build/ folder that you can host. We currently host this on github(https://datamine-crypto.github.io/realtime-decentralized-dashboard/) for decentralization reasons & proof of builds.
 
 The builds can be hosted in subfolders and do not perform external http calls for security & decentralization.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-Be sure `GENERATE_SOURCEMAP=false` is in .env file
+This project was bootstrapped with [Vite]https://vite.dev/).
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+You can learn more in the [Vite documentation](https://vite.dev/guide/).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
