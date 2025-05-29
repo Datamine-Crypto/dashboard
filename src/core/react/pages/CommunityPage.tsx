@@ -1,5 +1,5 @@
 import { Box, Card, CardActionArea, Chip, Container, Link, Paper, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React, { ReactNode, useContext } from 'react';
 
 

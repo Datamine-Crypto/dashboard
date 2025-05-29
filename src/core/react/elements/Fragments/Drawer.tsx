@@ -1,7 +1,7 @@
-import { Box, Button, Card, CardActionArea, Divider, Drawer, Hidden, Link, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { Box, Button, Card, CardActionArea, Divider, Drawer, Link, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 
 import clsx from 'clsx';
 
@@ -314,7 +314,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 
 		return <>
 			<div className={classes.toolbar}>
-				<Hidden lgUp>
+				<Box sx={{ display: { xs: 'block', lg: 'none' }, /*lgUp*/ }}>
 					<Link href="#">
 						<Card elevation={0}>
 							<CardActionArea className={classes.logoArea}>
@@ -328,7 +328,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 							</CardActionArea>
 						</Card>
 					</Link>
-				</Hidden>
+				</Box>
 			</div>
 			<Box height="100%">
 				<Grid container direction="column" justifyContent="space-between" className={classes.drawerGridContainer}>
@@ -351,7 +351,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 
 	return <nav className={classes.drawer} aria-label="mailbox folders">
 		{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-		<Hidden lgUp>
+		<Box sx={{ display: { xs: 'block', lg: 'none' }, /*lgUp*/ }}>
 			<Drawer
 				variant="temporary"
 				onClose={handleDrawerToggle}
@@ -371,8 +371,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			>
 				{getDrawer()}
 			</Drawer>
-		</Hidden>
-		<Hidden mdDown>
+		</Box>
+		<Box sx={{ display: { xs: 'none', lg: 'block' } /*mdDown*/ }}>
 			<Drawer
 				classes={{
 					root: clsx(classes.drawerRoot, classes.bigDrawerRoot),
@@ -386,7 +386,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			>
 				{getDrawer()}
 			</Drawer>
-		</Hidden>
+		</Box>
 	</nav>
 })
 

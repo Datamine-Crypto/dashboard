@@ -1,7 +1,7 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 
 import { Web3Context } from '../../../web3/Web3Context';
 import { ClientSettings, commonLanguage } from '../../../web3/web3Reducer';

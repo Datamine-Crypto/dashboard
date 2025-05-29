@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Divider, Link, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React, { useContext } from 'react';
 
 import { Web3Context } from '../../../web3/Web3Context';

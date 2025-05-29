@@ -1,5 +1,5 @@
 import { Box, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React, { ErrorInfo } from "react";
 import logo from '../../svgs/logo.svg'; // Tell webpack this JS file uses this image
 

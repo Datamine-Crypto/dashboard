@@ -1,6 +1,6 @@
 import BuildIcon from '@mui/icons-material/Build';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Box, Card, CardActionArea, Hidden, IconButton, Link, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, Box, Card, CardActionArea, IconButton, Link, Toolbar, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 import React, { useContext } from 'react';
@@ -120,9 +120,9 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 							<Grid>
 
 								<Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-									<Hidden smDown>
+									<Box sx={{ display: { xs: 'none', md: 'block' } /*smDown*/ }}>
 										{ecosystemName}
-									</Hidden>
+									</Box>
 								</Typography>
 							</Grid>
 						</Grid>
@@ -140,7 +140,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 			<nav className={classes.nav}>
 				{getSearchTextField()}
 
-				<Hidden lgUp>
+				<Box sx={{ display: { xs: 'block', lg: 'none' }, /*lgUp*/ }}>
 					<Box ml={1}>
 						<Tooltip title="Open Menu">
 							<IconButton onClick={() => dispatch({ type: commonLanguage.commands.OpenDrawer })}>
@@ -148,7 +148,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 							</IconButton>
 						</Tooltip>
 					</Box>
-				</Hidden>
+				</Box>
 			</nav>
 		</Toolbar>
 	</AppBar>

@@ -1,5 +1,5 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React from "react";
 import { getEcosystemConfig } from "../../../../configs/config";
 import { ecosystemConfigs } from "../../../../configs/config.base";

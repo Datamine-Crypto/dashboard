@@ -1,5 +1,5 @@
 import { Box, Container, FormControl, InputLabel, Link, List, ListItemButton, ListSubheader, MenuItem, Paper, Select, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import React, { useContext } from 'react';
 
 import { theme as datamineTheme } from '../../styles';

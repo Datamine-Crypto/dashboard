@@ -1,9 +1,9 @@
 import {
 	Box,
 	Button,
-	Grid,
 	Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { OnboardingProps } from './types';
 
 
@@ -188,12 +188,12 @@ const StepTwo: React.FC<OnboardingProps> = ({
 	return (
 		<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 			<Grid container spacing={4} sx={{ flexGrow: 1 }}>
-				<Grid item xs={12} md={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+				<Grid size={{ xs: 12, md: 5 }} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 					<Box sx={{ maxWidth: '100%', height: 'auto' }}>
 						<MetamaskSvg />
 					</Box>
 				</Grid>
-				<Grid item xs={12} md={7}>
+				<Grid size={{ xs: 12, md: 7 }}>
 					<Box sx={{ p: 3 }}>
 						<Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#0FF' }}>
 							Connect Your Wallet

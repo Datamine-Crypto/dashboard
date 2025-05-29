@@ -1,5 +1,5 @@
-import { Box, Card, Divider, Hidden, useMediaQuery, useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import { Box, Card, Divider, useMediaQuery, useTheme } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import React, { ReactNode } from 'react';
 import { tss } from 'tss-react/mui';
@@ -32,14 +32,14 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 			return <>&nbsp;<Typography component="div" color="textSecondary" variant="body2" display="inline">/</Typography> {sub}</>
 		}
 		return <>
-			<Hidden smDown>
+			<Box sx={{ display: { xs: 'none', md: 'block' } /*smDown*/ }}>
 				<Grid><Typography component="div" display="inline">{main}{getSub()}</Typography> {description}</Grid>
-			</Hidden>
-			<Hidden mdUp>
+			</Box>
+			<Box sx={{ display: { xs: 'block', md: 'none' } /*mdUp*/ }}>
 				<Grid size={{ xs: 12 }}>
 					<Typography component="div" display="inline">{main}</Typography>
 				</Grid>
-			</Hidden>
+			</Box>
 		</>
 	}
 	const getSmSubElement = () => {
@@ -84,9 +84,9 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 					</Box>
 
 				</Grid>
-				<Hidden smDown>
+				<Box sx={{ display: { xs: 'none', md: 'block' }, /*smDown*/ }}>
 					{getButtons()}
-				</Hidden>
+				</Box>
 			</Grid>
 		</Grid>
 	}
@@ -126,11 +126,11 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 		return <>
 			{getTitle()}
 			{getMainElement()}
-			<Hidden mdUp>
+			<Box sx={{ display: { xs: 'block', md: 'none' } /*mdUp*/ }}>
 				{getSmSubElement()}
 				{getSmDescriptionElement()}
 				{getSmButtons()}
-			</Hidden>
+			</Box>
 		</>
 	}
 	return <>
