@@ -301,6 +301,16 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 		return <Box mb={3}><Alert severity="info">{infoText}</Alert></Box>
 	}
 
+	const getSubmitButton = () => {
+		if (currentAddressMarketAddressLock && selectedAddress && currentAddressMarketAddressLock.rewardsAmount.gt(new BN(0))) {
+			return
+
+		}
+		return <Button type="submit" color="secondary" size="large" variant="outlined"  >
+			{getSubmitButtonText()}
+		</Button>
+	}
+
 	return <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 		<form onSubmit={onSubmit}>
 			<DialogTitle id="form-dialog-title">
@@ -348,9 +358,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 							Cancel
 						</Button>
 					</Box>
-					<Button type="submit" color="secondary" size="large" variant="outlined"  >
-						{getSubmitButtonText()}
-					</Button>
+					{getSubmitButton()}
 				</Box>
 			</DialogActions>
 		</form>

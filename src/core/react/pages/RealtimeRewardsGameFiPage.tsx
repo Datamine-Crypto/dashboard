@@ -1,6 +1,7 @@
 import {
 	Box,
 	Button,
+	CardMedia,
 	Paper,
 	Typography
 } from '@mui/material';
@@ -126,12 +127,16 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 
 	return (
 		<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+			<CardMedia
+				component="img"
+				height="194"
+				image="./images/datamineGems.png"
+				alt="Paella dish"
+			/>
 			{/* Header Section: Title, Subtitle, and Start Game Button */}
-			<Box textAlign="center" mb={6} mt={2}>
-				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold' }}>
-					Welcome to Datamine Gems!
-				</Typography>
-				<Typography variant="h5" color="text.secondary" paragraph sx={{ mb: 3 }}>
+			<Box textAlign="center" mb={6}>
+
+				<Typography variant="h6" color="text.secondary" paragraph sx={{ mb: 3, mt: 3 }}>
 					Unearth valuable rewards! Click gems in real-time in the ultimate #GameFi experience.
 				</Typography>
 				<Button

@@ -283,3 +283,11 @@ Each gem is unminted $ amount. The bigger the unminted $ the bigger/different co
 Addresses can be added to the game field as new gems (for any non-default addresses)
 
 Default addresses will be decided by the community based on burning participation/stability of the validator (ex: if address pauses minting they will be excluded from default addresses)
+
+Here is how the game works:
+- As each gem grows in $ it gets more prominent on the page.
+- It's in realtime so you can monitor all your gems in one place.
+- It's tracked in your browser so you can see total gems/$ you collected
+- It works without going to liquidity dashboard
+- It uses new V2 contract which is even more efficient as it does burn before distributing rewards
+- We added new "Atomic Multi-Address burning" so you will be able to collect multiple gems in 1 transaction (coming soon)
