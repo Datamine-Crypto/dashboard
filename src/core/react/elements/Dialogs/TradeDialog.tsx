@@ -220,7 +220,7 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 			return
 		}
 
-		return <Box my={2}><Alert severity="warning">{errorText}</Alert></Box>
+		return <Box my={2}><Alert severity={!hasWeb3 || !selectedAddress ? "info" : "warning"}>{errorText}</Alert></Box>
 	}
 
 	const getBalances = () => {

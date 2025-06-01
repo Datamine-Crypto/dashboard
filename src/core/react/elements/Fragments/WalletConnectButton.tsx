@@ -79,7 +79,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 	return <>
 		{getButton()}
 		<Menu
-			id="liquidity-pools-menu"
+			id="wallet-connect-menu"
 			anchorEl={anchorEl}
 			keepMounted
 			open={Boolean(anchorEl)}

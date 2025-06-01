@@ -7,7 +7,14 @@ import { Ecosystem, Layer } from "../../../../configs/config.common";
 import { switchNetwork } from "../../../web3/helpers";
 import { commonLanguage, ConnectionMethod } from "../../../web3/web3Reducer";
 
-export const getNetworkDropdown = (ecosystem: Ecosystem, connectionMethod: ConnectionMethod, dispatch: React.Dispatch<any>) => {
+interface Props {
+	ecosystem: Ecosystem
+	connectionMethod: ConnectionMethod
+	dispatch: React.Dispatch<any>
+	width?: number
+	hideEcosystems?: Ecosystem[]
+}
+export const getNetworkDropdown = ({ ecosystem, connectionMethod, dispatch, width, hideEcosystems = [] }: Props) => {
 
 
 	// All the known ecosystems will be iterated over
@@ -18,6 +25,9 @@ export const getNetworkDropdown = (ecosystem: Ecosystem, connectionMethod: Conne
 	for (const [ecosystemName, ecosystemConfig] of ecosystems) {
 
 		const { lockableTokenShortName, ecosystemLogoSvg, mintableTokenShortName, layer } = ecosystemConfig
+		if (hideEcosystems.some(hideEcosystem => hideEcosystem === ecosystemName)) {
+			continue;
+		}
 
 		ecosystemMenuItems.push(
 			<MenuItem value={ecosystemName}>
@@ -39,7 +49,7 @@ export const getNetworkDropdown = (ecosystem: Ecosystem, connectionMethod: Conne
 	}
 
 	return <Box mr={1}>
-		<FormControl size="small" variant="outlined" fullWidth style={{ width: 260 }} >
+		<FormControl size="small" variant="outlined" fullWidth style={{ width }} >
 			<InputLabel id="network-type">Ecosystem</InputLabel>
 			<Select
 				labelId="network-type"

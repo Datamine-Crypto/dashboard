@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActionArea, Divider, Drawer, Link, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { Box, Button, Card, CardActionArea, Chip, Divider, Drawer, Link, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
 import Grid from '@mui/material/Grid';
@@ -6,13 +6,13 @@ import Grid from '@mui/material/Grid';
 import clsx from 'clsx';
 
 import { ExpandMore } from '@mui/icons-material';
+import DiamondIcon from '@mui/icons-material/Diamond';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import HelpIcon from '@mui/icons-material/HelpOutline';
 import HomeIcon from '@mui/icons-material/Home';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import PeopleIcon from '@mui/icons-material/People';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PublicIcon from '@mui/icons-material/Public';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
@@ -22,7 +22,7 @@ import Logo from '../../../../svgs/logo.svg';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
-const drawerWidth = 280;
+const drawerWidth = 270;
 
 
 const useStyles = tss.create(({ theme }) => ({
@@ -163,9 +163,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				isBasicDivider: true
 			},
 			{
-				title: 'Public Market',
-				icon: <PublicIcon />,
-				href: 'https://datamine-crypto.github.io/datamine-pro-portal/#/addresses?addressLedger={%22limit%22:31,%22filterType%22:{%22sortBy%22:%22AddressUnmintedMarket%22},%22sort%22:%22DESC%22,%22range%22:{}}',
+				title: <>Datamine Gems <Chip size="small" label="#GameFi" /></>,
+				icon: <DiamondIcon />,
+				href: '#gamefi',
 			},
 			{
 				isBasicDivider: true
@@ -279,7 +279,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				}
 			}
 			return <ListItemButton key={button.title} className={button.className} {...getListItemProps() as any}>
-				<ListItemIcon>{button.icon}</ListItemIcon>
+				<ListItemIcon style={{ minWidth: 40 }}>{button.icon}</ListItemIcon>
 				<ListItemText primary={button.title} />
 				{getExpandIcon(!!button.expandIcon)}
 			</ListItemButton>

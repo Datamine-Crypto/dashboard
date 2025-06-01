@@ -130,9 +130,7 @@ interface UnlockParams {
 
 interface MarketBurnTokensParams {
 	amountToBurn: BN;
-	amountToReceive: BN;
 	burnToAddress: string;
-	targetBlock: number;
 	from: string;
 }
 interface MarketDepositParams {
@@ -676,14 +674,15 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			rethrowWeb3Error(err);
 		}
 	}
-	const marketBurnTokens = async ({ amountToBurn, amountToReceive, burnToAddress, targetBlock, from }: MarketBurnTokensParams) => {
+	const marketBurnTokens = async ({ amountToBurn, burnToAddress, from }: MarketBurnTokensParams) => {
+		console.log('burn:', { amountToBurn, burnToAddress, from })
 		try {
 			// Attempt to call the method first to check if there are any errors
-			await contract.methods.burnTokens(amountToBurn.toString(), amountToReceive.toString(), burnToAddress, targetBlock).call({ from });
+			await contract.methods.burnTokens(amountToBurn.toString(), burnToAddress).call({ from });
 
 			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
 
-			const mintTx = await contract.methods.burnTokens(amountToBurn.toString(), amountToReceive.toString(), burnToAddress, targetBlock).send({
+			const mintTx = await contract.methods.burnTokens(amountToBurn.toString(), burnToAddress).send({
 				from,
 				maxFeePerGas,
 				maxPriorityFeePerGas,

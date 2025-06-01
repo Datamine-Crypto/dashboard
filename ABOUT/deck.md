@@ -240,3 +240,46 @@ More details of how Datamine market works:
 - Tokens are deposited into a smart contract where they can be spent for burning. Rewards are accumilated and can be collected at any time through a withdraw button without any additional fees
 - Rewards and rules (such as min amount of tokens that can be burned, duration) can be tweaked in realtime allowing for a more dynamic market
 
+// 2025-05-29
+
+This is where Datamine Gems #GameFi comes in. "Gaming + Finance", the ultimate combo.
+
+We've gotten to a point where we just created the greatest game of all time: 
+- It's real-time 
+- anyone anywhere in the world can play
+- It's anonymous
+- It's low gas
+- Barrier to entry is only
+- It's mobile-friendly
+- The ultimate goal: be the fastest and the least-greedy person in the world.
+
+We created a new smart contract that can mint from multiple addresses autonomously. Meaning we can collect rewards from multiple 
+
+"Why are we doing this efficiency update?" Because we are trying to increase our monetary velocity.
+
+The most efficient and understandble the UI/UX is for the minting is the higher transactional throughput we get.
+
+This means increased stability in inflation % as total unminted tokens remain low.
+
+The more transactions we can get the better the rewards are for validators as they get a constant stream of increased APY %.
+
+// 2025-06-01
+
+The new Datamine Gems features a new "Version 2" of our Public Market smart contract
+
+The new public market smart contract features:
+
+- Burning tokens before reward distribution for new game theory concepts
+- Atoomic Batch burning from multiple addresses for even greater throughput
+- Automatic minting to latest Ethereum block for maximum rewards
+- Automatic amount prefilling to get highest rewards
+- Optional custom burn amount (ex: Users can burn 1000 tokens if you have 700 unminted and 300 in your market balance)
+- Even more optimized rewards distribution
+
+Datamine Gems comes with a set of prefilled addresses in the decentralzed dashboard. You are presented with a set of diamonds where each dimond = public market address.
+
+Each gem is unminted $ amount. The bigger the unminted $ the bigger/different color the gems are. Users can customize these gem colors as they see fit.
+
+Addresses can be added to the game field as new gems (for any non-default addresses)
+
+Default addresses will be decided by the community based on burning participation/stability of the validator (ex: if address pauses minting they will be excluded from default addresses)

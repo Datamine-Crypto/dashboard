@@ -12,7 +12,7 @@ export const getFluxArbiFluxEcosystemConfig = (): EcosystemConfig => {
 		mintableTokenContractAddress: '0x64081252c497fcfec247a664e9d10ca8ed71b276',
 		mintableSushiSwapL2EthPair: '0xbF719D56c5f19ae0833ADC4080BEfC48A9B415b5',
 
-		marketAddress: '0x0EBA2eB532a46AE8c7010668671e5Bcdc6D1212B',
+		marketAddress: null,
 
 		failsafeStartBlockNumber: 13463591,
 		layer: Layer.Layer2,
@@ -27,7 +27,13 @@ export const getFluxArbiFluxEcosystemConfig = (): EcosystemConfig => {
 
 		ecosystemLogoSvg,
 
-		minBurnMultiplier: 1
+		minBurnMultiplier: 1,
+
+		marketTopBurningaddresses: [
+			'0x66FC9b2c58ef14B95571B9F2FCD994Db66098EaB',
+			'0x62fC30839a188e58Cc127a859F2C305f562F464d',
+			//@todo add more
+		]
 
 	}
 }

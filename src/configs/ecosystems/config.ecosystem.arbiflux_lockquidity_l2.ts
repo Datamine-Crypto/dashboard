@@ -13,7 +13,7 @@ export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
 		mintableTokenContractAddress: '0x454F676D44DF315EEf9B5425178d5a8B524CEa03',
 		mintableSushiSwapL2EthPair: '0x0C93A1D3F68a0554d37F3e7AF3a1442a94405E7A',
 
-		marketAddress: '0x8050D0E22dcA8cf9a97Aeb2579305F31C66e162f',
+		marketAddress: '0xe948c8417DD2f8e7dfc88ac3F50b3F89Db7c29Dd',
 
 		failsafeStartBlockNumber: 20959397,
 		layer: Layer.Layer2,
@@ -30,6 +30,10 @@ export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
 
 		lockedLiquidityUniswapAddress: '0xE05E43eE517A6D2862f91Be27315318A8E991FCc',
 
-		minBurnMultiplier: 0.0001
+		minBurnMultiplier: 0.0001,
+
+		marketTopBurningaddresses: [
+			'0x62fC30839a188e58Cc127a859F2C305f562F464d',
+		]
 	}
 }

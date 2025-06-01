@@ -99,6 +99,42 @@ export interface SwapTokenBalances {
 		[SwapToken.ETH]: BN;
 	},
 }
+interface MarketAddress {
+	currentAddress: string;
+	mintAmount: BN;
+	rewardsAmount: BN;
+
+	/**
+	 * This would need to be divided by 10000
+	 */
+	rewardsPercent: number;
+
+	minBlockNumber: number;
+	minBurnAmount: BN;
+	isPaused: boolean;
+
+	//lastMintBlockNumber: number;
+	//mintPerBlock: BN;
+
+
+	minterAddress: string;
+	//prevBlockMintAmount: BN;
+}
+export interface MarketAddresses {
+	targetBlock: number;
+	addresses: MarketAddress[];
+}
+export interface MarketDetails {
+	gemAddresses: {
+		[Ecosystem.Flux]: string[],
+		[Ecosystem.ArbiFlux]: string[],
+		[Ecosystem.Lockquidity]: string[],
+	},
+	gemsCollected: {
+		count: 0,
+		sumDollarAmount: 0
+	}
+}
 export interface Web3State {
 	forecastSettings: ForecastSettings;
 	isInitialized: boolean;
@@ -168,6 +204,9 @@ export interface Web3State {
 	currentAddressMarketAddressLock: MarketAddressLock | null;
 
 	currentAddresMintableBalance: BN | null;
+	marketAddresses: MarketAddresses | null;
+
+	market: MarketDetails;
 }
 
 const createWithWithQueries = (state: any) => {
@@ -261,7 +300,12 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					connectionMethod: useWalletConnect ? ConnectionMethod.WalletConnect : ConnectionMethod.MetaMask,
 					isArbitrumMainnet,
 					ecosystem: updatedEcosystem,
-					...withQueries(selectedAddress ? [{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance: true } }] : [])
+					...withQueries(selectedAddress ? [
+						{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance: true } },
+						{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse },
+					] : [
+						{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse },
+					])
 				}
 			}
 		case commonLanguage.queries.EnableWeb3:
@@ -350,7 +394,6 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 				}
 			}
 		case commonLanguage.queries.GetBurnFluxResponse:
-		case commonLanguage.queries.Market.GetBurnFluxMarketResponse:
 		case commonLanguage.queries.Market.GetDepositMarketResponse:
 		case commonLanguage.queries.Market.GetWithdrawMarketResponse:
 			{
@@ -371,6 +414,80 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					...state,
 					dialog: null,
 					...withQueries([{ type: commonLanguage.queries.FindAccountState }])
+				}
+			}
+		case commonLanguage.queries.Market.GetMarketBurnFluxResponse:
+			{
+				if (err) {
+					if ((err as any).message) {
+						return {
+							...state,
+							error: (err as any).message
+						}
+					}
+					return {
+						...state,
+						error: err
+					}
+				}
+
+				if (!response) {
+					return {
+						...state,
+						// Don't close dialog
+						...withQueries([
+							{ type: commonLanguage.queries.FindAccountState },
+							{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse },
+						])
+					}
+				}
+
+				const { gem } = response
+
+				const gemsCollected = {
+					count: state.market.gemsCollected.count + 1,
+					sumDollarAmount: state.market.gemsCollected.sumDollarAmount + gem.dollarAmount
+				}
+
+				localStorage.setItem('marketGemsCollected', JSON.stringify(gemsCollected))
+
+				return {
+					...state,
+					// Don't close dialog
+					...withQueries([
+						{ type: commonLanguage.queries.FindAccountState },
+						{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse },
+					]),
+					market: {
+						...state.market,
+						gemsCollected
+					}
+				}
+			}
+		case commonLanguage.queries.Market.GetRefreshMarketAddressesResponse:
+			{
+				if (err) {
+					if ((err as any).message) {
+						return {
+							...state,
+							error: (err as any).message
+						}
+					}
+					return {
+						...state,
+						error: err
+					}
+				}
+
+				if (!response) {
+					return state
+				}
+
+				const { marketAddresses } = response
+
+				return {
+					...state,
+					marketAddresses
 				}
 			}
 		case commonLanguage.queries.GetTradeResponse:
@@ -646,7 +763,10 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				isLate: false,
 				dialog: closeDialog ? null : state.dialog,
 				lastAccountRefreshTimestampMs: currentTimestampMs,
-				...withQueries([{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance } }])
+				...withQueries([
+					{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance } },
+					{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} }
+				])
 			}
 		case commonLanguage.commands.ConnectToWallet:
 			return {
@@ -976,7 +1096,10 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					...state.forecastSettings,
 					enabled: false,
 				},
-				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance, payload: { targetEcosystem, useWalletConnect: state.connectionMethod === ConnectionMethod.WalletConnect } }])
+				error: null,
+				...withQueries([
+					{ type: commonLanguage.queries.FindWeb3Instance, payload: { targetEcosystem, useWalletConnect: state.connectionMethod === ConnectionMethod.WalletConnect } },
+				])
 			}
 		}
 		case commonLanguage.commands.DisconnectFromWalletConnect:
@@ -1144,25 +1267,50 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					}
 				}
 			}
-		case commonLanguage.commands.Market.BurnFluxTokens:
+		case commonLanguage.commands.Market.AddGemAddress: {
+			const { address } = command.payload;
+
+			const ecosystemAddresses = state.market.gemAddresses[state.ecosystem]
+
+			// Don't add duplicate addresses
+			if (ecosystemAddresses.some(ecosystemAddress => ecosystemAddress === address)) {
+				return state
+			}
+
+			const newecosystemAddresses = [
+				...ecosystemAddresses,
+				address
+			]
+
+			const gemAddresses = {
+				...state.market.gemAddresses,
+				[state.ecosystem]: newecosystemAddresses
+			}
+
+			localStorage.setItem('marketGemAddresses', JSON.stringify(gemAddresses))
+
+			return {
+				...state,
+				market: {
+					...state.market,
+					gemAddresses
+				}
+			}
+		}
+		case commonLanguage.commands.Market.MarketBurnFluxTokens:
 			{
-				const { amount, address, maxAmountToBurn } = command.payload;
+				const { address, amountToBurn, gem } = command.payload;
 
 				try {
-					const amountBN = parseBN(amount);
 
 					if (!state.marketAddressLock) {
 						return state
 					}
 
-					if (amountBN.gt(maxAmountToBurn)) {
-						throw new Error(commonLanguage.errors.Market.AmountExceedsMaxAddressMintable)
-					}
-
 					return {
 						...state,
 						error: null,
-						...withQueries([{ type: commonLanguage.queries.Market.GetBurnFluxMarketResponse, payload: { amount: amountBN, address } }])
+						...withQueries([{ type: commonLanguage.queries.Market.GetMarketBurnFluxResponse, payload: { address, amountToBurn, gem } }])
 					}
 				} catch (err: any) {
 					if (err && err.message) {
@@ -1238,6 +1386,26 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 								}
 						}
 					}
+					return {
+						...state,
+						error: commonLanguage.errors.InvalidNumber
+					}
+				}
+			}
+		case commonLanguage.commands.Market.RefreshMarketAddresses:
+			{
+				const { } = command.payload;
+
+				try {
+					if (!state.web3) {
+						return state
+					}
+					return {
+						...state,
+						error: null,
+						...withQueries([{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} }])
+					}
+				} catch (err: any) {
 					return {
 						...state,
 						error: commonLanguage.errors.InvalidNumber
@@ -1527,6 +1695,45 @@ const getHelpArticlesNetworkType = () => {
 
 const helpArticlesNetworkType = getHelpArticlesNetworkType()
 
+const getCustomMarketAddresses = () => {
+	const defaultCustomMarketAddresses = {
+		[Ecosystem.Flux]: [],
+		[Ecosystem.ArbiFlux]: [],
+		[Ecosystem.Lockquidity]: [],
+	}
+
+	const marketGemAddressesJson = localStorage.getItem('marketGemAddresses')
+	if (!marketGemAddressesJson) {
+		return defaultCustomMarketAddresses
+	}
+	try {
+		const customAddresses = JSON.parse(marketGemAddressesJson)
+		return customAddresses
+	} catch (err) {
+		console.log('defaultCustomMarketAddresses parse error:', err)
+		return defaultCustomMarketAddresses
+	}
+}
+
+const getMarketGemsCollected = () => {
+	const defaultMarketGemsCollected = {
+		count: 0,
+		sumDollarAmount: 0
+	}
+
+	const marketGemsCollectedJson = localStorage.getItem('marketGemsCollected')
+	if (!marketGemsCollectedJson) {
+		return defaultMarketGemsCollected
+	}
+	try {
+		const marketGemsCollected = JSON.parse(marketGemsCollectedJson)
+		return marketGemsCollected
+	} catch (err) {
+		console.log('marketGemsCollected parse error:', err)
+		return defaultMarketGemsCollected
+	}
+}
+
 const initialState: Web3State = {
 	pendingQueries: [],
 	forecastSettings: {
@@ -1605,7 +1812,13 @@ const initialState: Web3State = {
 	//@todo merge these into market: {}
 	marketAddressLock: null,
 	currentAddresMintableBalance: null,
-	currentAddressMarketAddressLock: null
+	currentAddressMarketAddressLock: null,
+	marketAddresses: null,
+
+	market: {
+		gemAddresses: getCustomMarketAddresses(),
+		gemsCollected: getMarketGemsCollected()
+	}
 }
 
 const commonLanguage = {
@@ -1672,9 +1885,11 @@ const commonLanguage = {
 		},
 
 		Market: {
-			BurnFluxTokens: 'MARKET_BURN_FLUX_TOKENS',
+			MarketBurnFluxTokens: 'MARKET_BURN_FLUX_TOKENS',
 			DepositTokens: 'MARKET_DEPOSIT_TOKENS',
 			WithdrawTokens: 'MARKET_WITHDRAW_TOKENS',
+			RefreshMarketAddresses: 'MARKET_REFRESH_MARKET_ADDRESSES',
+			AddGemAddress: 'MARKET_ADD_GEM_ADDRESS',
 		}
 	},
 	queries: {
@@ -1701,9 +1916,10 @@ const commonLanguage = {
 			ThrottleGetOutputQuote: 'SWAP:THROTTLE_GET_OUTPUT_QUOTE',
 		},
 		Market: {
-			GetBurnFluxMarketResponse: 'GET_BURN_FLUX_MARKET_RESPONSE',
+			GetMarketBurnFluxResponse: 'GET_BURN_FLUX_MARKET_RESPONSE',
 			GetDepositMarketResponse: 'GET_DEPOSIT_MARKET_RESPONSE',
 			GetWithdrawMarketResponse: 'GET_WITHDRAW_MARKET_RESPONSE',
+			GetRefreshMarketAddressesResponse: 'GET_REFRESH_MARKET_ADDRESSES_RESPONSE',
 		}
 	},
 	errors: {

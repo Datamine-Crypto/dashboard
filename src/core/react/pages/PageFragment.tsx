@@ -7,9 +7,11 @@ import { Ecosystem, NetworkType } from '../../../configs/config.common';
 import { HelpArticle, helpArticles } from '../../helpArticles';
 import { Web3Context } from '../../web3/Web3Context';
 import { commonLanguage } from '../../web3/web3Reducer';
+import LoadingDialog from '../elements/Dialogs/LoadingDialog';
 import CenteredLoading from '../elements/Fragments/CenteredLoading';
 import DialogsFragment from '../elements/Fragments/DialogsFragment';
 import PendingQueryFragment from '../elements/Fragments/PendingQueryFragment';
+import RealtimeRewardsGameFiPage from './RealtimeRewardsGameFiPage';
 const MainAppBar = lazy(() => import('../elements/Fragments/AppBar'));
 const HelpDialog = lazy(() => import('../elements/Dialogs/HelpDialog'));
 const CommunityPage = lazy(() => import('./CommunityPage'));
@@ -36,7 +38,8 @@ enum Page {
 	Help,
 	Community,
 	TokenPage,
-	Onboarding
+	Onboarding,
+	RealtimeRewardsGameFi
 }
 const useStyles = tss.create(({ theme }) => ({
 	pageContainer: {
@@ -95,6 +98,11 @@ const getPageDetails = () => {
 
 		return {
 			page: Page.Onboarding,
+		}
+	}
+	if (path === 'gamefi') {
+		return {
+			page: Page.RealtimeRewardsGameFi
 		}
 	}
 
@@ -191,6 +199,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 			case Page.Onboarding:
 				document.title = `Get Started - ${ecosystemName}`;
 				return <OnboardingPage />
+			case Page.RealtimeRewardsGameFi:
+				document.title = `Get Started - ${ecosystemName}`;
+				return <RealtimeRewardsGameFiPage />
+
+
 		}
 
 		document.title = `${ecosystemSlogan} - ${ecosystemName}`;
@@ -225,9 +238,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 			<MainDrawer />
 			<Box className={classes.contentContainer}>
 				<Suspense fallback={<CenteredLoading />}>
-					{getHelpDialog()}
-					{getDialog()}
-					{getPendingQueries()}
+					<Suspense fallback={<LoadingDialog />}>
+						{getHelpDialog()}
+						{getDialog()}
+						{getPendingQueries()}
+					</Suspense>
 
 					{getPage()}
 				</Suspense>

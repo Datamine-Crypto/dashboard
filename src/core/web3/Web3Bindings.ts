@@ -1334,7 +1334,7 @@ const queryHandlers = {
 
 				// This will pretty print on frontend in a table
 				throw {
-					err: (<any>err).message ? (<any>err).message : err,
+					err: (err as any).message ? (err as any).message : err,
 					netId,
 					networkType
 				}
@@ -1428,14 +1428,14 @@ const queryHandlers = {
 
 		return response && response.status
 	},
-	[commonLanguage.queries.Market.GetBurnFluxMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.Market.GetMarketBurnFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3, ecosystem } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
 		}
 		const selectedAddress = getSelectedAddress();
 
-		const { address, amount } = query.payload;
+		const { address, amountToBurn, gem } = query.payload;
 
 		const contracts = getContracts(web3, state.ecosystem)
 
@@ -1449,34 +1449,20 @@ const queryHandlers = {
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 
-		const rewardsPercent = 500 // 5.00%
 
-		const { lastMintBlockNumber } = await fluxToken.getAddressLock(address)();
-
-		const tokensPerBlock = await fluxToken.getMintAmount(address, lastMintBlockNumber + 1n)();
-		if (tokensPerBlock < 0) {
-			throw 'Currently, you must target an address that mints at least 1 token per block'
-
-		}
-		const amountToReceive = amount.add(amount.mul(new BN(rewardsPercent)).div(new BN(10000)))
 
 		// Figure out how many blocks need to be minted for the best rewards
-		const blocksToMintForRequiredReceiveAmount = Math.ceil(new Big(amountToReceive).div(new Big(tokensPerBlock)).toNumber())
 
-		console.log('addrssLock:', { tokensPerBlock, lastMintBlockNumber, amount, blocksToMintAmount: blocksToMintForRequiredReceiveAmount })
-		console.log('amount:', amount.toString())
-		console.log('amountToReceive:', amountToReceive.toString())
 
 		const burnResponse = await marketContract.marketBurnTokens({
-			amountToBurn: amount,
-			amountToReceive,
+			amountToBurn,
 			burnToAddress: address,
-			targetBlock: lastMintBlockNumber + BigInt(blocksToMintForRequiredReceiveAmount),
 
 			from: selectedAddress
 		});
 		console.log(burnResponse)
 
+		return { gem }
 
 	},
 	[commonLanguage.queries.Market.GetDepositMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
@@ -1524,6 +1510,80 @@ const queryHandlers = {
 		});
 
 		return depositResponse
+	},
+	[commonLanguage.queries.Market.GetRefreshMarketAddressesResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+
+		const { web3, ecosystem } = state;
+		if (!web3) {
+			throw commonLanguage.errors.Web3NotFound;
+		}
+
+		const contracts = getContracts(web3, state.ecosystem)
+		const config = getEcosystemConfig(state.ecosystem);
+
+		if (!config.marketAddress) {
+			return
+		}
+
+		const marketAddressesToFetch = config.marketTopBurningaddresses
+
+		const customGemAddresses = state.market.gemAddresses[ecosystem]
+
+		const allAddressesToFetch = [
+			...marketAddressesToFetch,
+			...customGemAddresses
+		].map(address => address.toLowerCase())
+
+		const uniqueAddressesToFetch = [...new Set(allAddressesToFetch)]
+
+		const multicallData = {
+			// ETH Balance
+			marketAddresses: {
+				address: config.marketAddress,
+				function: {
+					signature: {
+						name: 'getAddressLockDetailsBatch',
+						type: 'function',
+						inputs: [
+							{
+								type: 'address[]',
+								name: 'addressesToQuery'
+							},
+						]
+					},
+					parameters: [uniqueAddressesToFetch]
+				},
+
+				returns: {
+					params: ['tuple(address,uint256,uint256,uint256,uint256,uint256,bool,address)[]', 'uint256'],
+					callback: (addressData: any, targetBlock: any) => {
+						return {
+							targetBlock: Number(targetBlock),
+							addresses: addressData.map((address: any) => ({
+								currentAddress: address[0],
+								mintAmount: new BN(address[1]),
+
+								rewardsAmount: new BN(address[2]),
+								rewardsPercent: Number(address[3]),
+								minBlockNumber: Number(address[4]),
+								minBurnAmount: new BN(address[5]),
+								isPaused: address[6],
+
+								minterAddress: address[7],
+							}))
+						}
+					}
+				}
+			},
+		} as any
+
+
+		const calls = encodeMulticall(web3, multicallData)
+		const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call()) as any;
+
+		const { marketAddresses } = decodeMulticall(web3, multicallEncodedResults, multicallData)
+
+		return { marketAddresses }
 	},
 	[commonLanguage.queries.Market.GetWithdrawMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3, ecosystem } = state;

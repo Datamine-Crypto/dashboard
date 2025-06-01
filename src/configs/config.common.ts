@@ -124,4 +124,11 @@ export interface EcosystemConfig {
 	lockedLiquidityUniswapAddress?: string;
 
 	minBurnMultiplier: number;
+
+	/**
+	 * Per-ecosystem top-burning addresses
+	 * These are updated frequently based on activity. 
+	 * Top 9 addresses in each ecosystem are default gems in Datamine Gems #GameFi
+	 */
+	marketTopBurningaddresses: string[];
 }

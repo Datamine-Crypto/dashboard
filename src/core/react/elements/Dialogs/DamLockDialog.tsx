@@ -1,6 +1,7 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
+import DiamondIcon from '@mui/icons-material/Diamond';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { BNToDecimal } from '../../../web3/helpers';
@@ -68,7 +69,8 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 			return null
 		}
 
-		return <FormControlLabel value="market" control={<Radio color="secondary" />} label={<>Market automatically mints increasing my burn ratio <Typography component="div" color="secondary" display="inline" variant="body2">(Recommended)</Typography></>} />
+		return <FormControlLabel value="market" control={<Radio color="secondary" />} label={<Box display="flex" alignItems="center"><DiamondIcon style={{ color: '#0FF' }} /><Box ml={0.5}>Datamine Gems: Public market minting <Typography component="div" color="secondary" display="inline" variant="body2">(Recommended)</Typography></Box></Box>
+		} />
 	}
 
 	return <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">

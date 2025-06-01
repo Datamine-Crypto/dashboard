@@ -1157,7 +1157,12 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 							{getBridgeButton()}
 						</Grid>
 						<Grid>
-							{getNetworkDropdown(ecosystem, connectionMethod, dispatch)}
+							{getNetworkDropdown({
+								ecosystem,
+								connectionMethod,
+								dispatch,
+								width: 260,
+							})}
 						</Grid>
 					</Grid>
 				</Grid>

@@ -27,6 +27,8 @@ export const getDamFluxEcosystemConfig = (): EcosystemConfig => {
 
 		ecosystemLogoSvg,
 
-		minBurnMultiplier: 1
+		minBurnMultiplier: 1,
+
+		marketTopBurningaddresses: [] //@todo
 	}
 }

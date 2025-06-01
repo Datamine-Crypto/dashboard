@@ -279,7 +279,6 @@ const Render: React.FC<RenderProps> = React.memo(({ buttonType, contents, ecosys
 	return <>
 		{getButton()}
 		<Menu
-			id="liquidity-pools-menu"
 			anchorEl={anchorEl}
 			keepMounted
 			open={Boolean(anchorEl)}
