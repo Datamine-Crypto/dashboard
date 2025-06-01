@@ -22,8 +22,7 @@ import Logo from '../../../../svgs/logo.svg';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
-const drawerWidth = 270;
-
+const drawerWidth = 280;
 
 const useStyles = tss.create(({ theme }) => ({
 	root: {
