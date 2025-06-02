@@ -196,7 +196,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 			<Grid>
 				<Box display="inline-block">
 					<Card elevation={3} >
-						<LightTooltip title={`Watch How ${ecosystemName} Ecosystem Works`} placement="top">
+						<LightTooltip title={`Watch How ${ecosystemName} Works`} placement="top">
 							<CardActionArea href="https://youtu.be/dsqz3XGx7RY" target="_blank" rel="noopener noreferrer">
 								<CardMedia component="img" image="./images/videoSplash.png" style={{ maxWidth: 600 }} />
 							</CardActionArea>

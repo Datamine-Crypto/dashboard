@@ -15,7 +15,6 @@
 		"@mui/utils": "^7.1.1",
 		"@mui/x-date-pickers": "8.5.0",
 		"@walletconnect/ethereum-provider": "^2.21.0",
-		"axios": "^1.7.9",
 		"big.js": "^7.0.1",
 		"bn.js": "^5.2.1",
 		"fuse.js": "^7.0.0",

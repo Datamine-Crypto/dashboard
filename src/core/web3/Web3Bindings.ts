@@ -356,22 +356,20 @@ const queryHandlers = {
 		const selectedAddress = getSelectedAddress();
 
 		if (web3) {
-			const { default: axios } = await import('axios');
-			const axiosInstance = axios.create({});
 			try {
-
-				const signature = await getSignature(web3, selectedAddress)
-				console.log('signature:', signature)
-
-				/*const response = await axiosInstance({
-					method: 'post',
-					url: '/accessLinks/generate',
-					data: {
-						signature
-					}
-				  });
-						
-			  console.log('generate:x',signature,response)*/
+				/*
+								const signature = await getSignature(web3, selectedAddress)
+								console.log('signature:', signature)
+				
+								const response = await axiosInstance({
+									method: 'post',
+									url: '/accessLinks/generate',
+									data: {
+										signature
+									}
+								  });
+										
+							  console.log('generate:x',signature,response)*/
 
 			} catch (err) {
 				console.log('err:', err)
@@ -1734,12 +1732,15 @@ const queryHandlers = {
 			}
 			const helpArticleMdPath = getHelpArticleMdPath()
 
-			const { default: axios } = await import('axios');
-			const axiosInstance = axios.create({});
 			const helpArticlePath = `helpArticles/${helpArticleMdPath}.md`
-			const response = await axiosInstance.get<string>(helpArticlePath)
+			const response = await fetch(helpArticlePath);
 
-			helpArticle.body = response.data
+			if (response.ok) {
+				const fileContent: string = await response.text();
+				helpArticle.body = fileContent
+			}
+
+
 		}
 
 		return helpArticle;

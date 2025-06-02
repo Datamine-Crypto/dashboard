@@ -32,10 +32,12 @@ export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
 
 		minBurnMultiplier: 0.0001,
 
+		// Ordered by LOCK/Month
 		marketTopBurningaddresses: [
 			'0x199a2Fc79825a3a5843fEF0c38Ad92dd7E00e57e',
 			'0x66FC9b2c58ef14B95571B9F2FCD994Db66098EaB',
 			'0x26ad2CEb6Bcc4E9D07E0D1Ea737944B75Ae1450F',
+			'0x30a3509FbD34d30C8581069F8Cdd6D9Db65EDa53',
 			'0x618543F369fda50595b60FB98d1c4974E71b55e2',
 			'0x9c51CeaB11C88c267ead15E8bDc18cC515640Eae',
 			'0x0aa668366919D2EB60F58Af5E9aCfCC1B296286e',
