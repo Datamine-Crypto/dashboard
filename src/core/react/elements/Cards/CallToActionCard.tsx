@@ -127,7 +127,7 @@ interface RenderParams {
 }
 
 interface DatePickerDependencies {
-	LocalizationProvider: React.ElementType<LocalizationProviderProps<any, any>> | null;
+	LocalizationProvider: React.ElementType<LocalizationProviderProps<any>> | null;
 	MobileDatePicker: React.ElementType<MobileDatePickerProps<any>> | null;
 	AdapterMoment: typeof AdapterMomentType | null;
 }
@@ -381,6 +381,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								return (
 									<LocalizationProvider dateAdapter={AdapterMoment}>
 										<MobileDatePicker
+											enableAccessibleFieldDOMStructure={false}
 											closeOnSelect={true}
 											value={value}
 											label="From"
@@ -464,6 +465,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								return (
 									<LocalizationProvider dateAdapter={AdapterMoment}>
 										<MobileDatePicker
+											enableAccessibleFieldDOMStructure={false}
 											closeOnSelect={true}
 											label="To"
 											value={value}
@@ -875,7 +877,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 												<TableCell align="left" style={{ width: 25 }}>
 													<LockIcon style={{ color: '#3fb57f', verticalAlign: 'middle' }} />
 												</TableCell>
-												<TableCell className={classes.formCell} component="th" scope="row" align="left" style={{ width: 140 }}>
+												<TableCell className={classes.formCell} component="th" scope="row" align="left" style={{ width: 175 }}>
 													{getLockedInAmountArea()}
 												</TableCell>
 											</TableRow>
