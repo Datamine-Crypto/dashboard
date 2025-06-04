@@ -133,6 +133,11 @@ interface MarketBurnTokensParams {
 	burnToAddress: string;
 	from: string;
 }
+interface MarketBatchBurnTokensParams {
+	amountToBurn: BN;
+	addresses: string[];
+	from: string;
+}
 interface MarketDepositParams {
 	amountToDeposit: BN;
 	rewardsPercent: number;
@@ -694,6 +699,32 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			rethrowWeb3Error(err);
 		}
 	}
+	const marketBatchBurnTokens = async ({ amountToBurn, addresses, from }: MarketBatchBurnTokensParams) => {
+		console.log('batch burn:', { amountToBurn, addresses, from })
+		try {
+
+			const burnRequest = addresses.map((address: string) => ([
+				amountToBurn.toString(),
+				address,
+			]))
+
+			// Attempt to call the method first to check if there are any errors
+			await contract.methods.burnTokensFromAddresses(burnRequest).call({ from });
+
+			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
+
+			const mintTx = await contract.methods.burnTokensFromAddresses(burnRequest).send({
+				from,
+				maxFeePerGas,
+				maxPriorityFeePerGas,
+				gasPrice
+			})
+
+			return mintTx;
+		} catch (err) {
+			rethrowWeb3Error(err);
+		}
+	}
 	const marketDeposit = async ({ amountToDeposit, rewardsPercent, minBlockNumber, minBurnAmount, from }: MarketDepositParams) => {
 		try {
 			// Attempt to call the method first to check if there are any errors
@@ -756,7 +787,8 @@ const withWeb3 = (web3: Web3, contract: any) => {
 		// Time-in-market
 		marketBurnTokens,
 		marketDeposit,
-		marketWithdrawAll
+		marketWithdrawAll,
+		marketBatchBurnTokens
 	}
 }
 

@@ -18,6 +18,7 @@ import { QueryHandler } from '../sideEffectReducer';
 
 import { getEcosystemConfig } from '../../configs/config';
 import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
+import { Gem } from '../react/elements/Fragments/DatamineGemsGame';
 import { devLog } from '../utils/devLog';
 import { performSwap } from '../utils/swap/performSwap';
 import { SwapOptions, SwapPlatform, SwapToken } from '../utils/swap/swapOptions';
@@ -1433,7 +1434,7 @@ const queryHandlers = {
 		}
 		const selectedAddress = getSelectedAddress();
 
-		const { address, amountToBurn, gem } = query.payload;
+		const { gems, amountToBurn }: { gems: Gem[], amountToBurn: BN } = query.payload
 
 		const contracts = getContracts(web3, state.ecosystem)
 
@@ -1447,21 +1448,26 @@ const queryHandlers = {
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 
+		if (gems.length === 1) {
+			const gem = gems[0]
+			const burnResponse = await marketContract.marketBurnTokens({
+				amountToBurn,
+				burnToAddress: gem.ethereumAddress,
 
-
-		// Figure out how many blocks need to be minted for the best rewards
-
-
-		const burnResponse = await marketContract.marketBurnTokens({
-			amountToBurn,
-			burnToAddress: address,
-
-			from: selectedAddress
-		});
-		console.log(burnResponse)
-
-		return { gem }
-
+				from: selectedAddress
+			});
+			console.log(burnResponse)
+			return { gems }
+		} else {
+			const addresses = gems.map(gem => gem.ethereumAddress)
+			const burnBatchResponse = await marketContract.marketBatchBurnTokens({
+				amountToBurn,
+				addresses,
+				from: selectedAddress
+			});
+			console.log(burnBatchResponse)
+			return { gems }
+		}
 	},
 	[commonLanguage.queries.Market.GetDepositMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3, ecosystem } = state;

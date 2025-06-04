@@ -28,8 +28,8 @@ export enum GemColor {
 
 // --- Configuration Object ---
 const localConfig = {
-	gridSize: 3,
-	totalCells: 3 * 3,
+	gridSize: 4,
+	totalCells: 4 * 3,
 	numParticles: 20,
 	particleBaseSizeXs: '10px',
 	particleBaseSizeSm: '14px',
@@ -348,7 +348,7 @@ const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onA
 // --- DatamineGemsGame Component ---
 interface DatamineGemsGameProps {
 	initialGems: GridState;
-	onAttemptCollectGem: (gem: Gem) => boolean;
+	onAttemptCollectGem: (gem: Gem[]) => boolean;
 	onAddGem?: (ethereumAddress: string) => void;
 	gemsCollected: number; // New prop
 	totalCollectedBalance: number; // New prop
@@ -445,7 +445,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 		}
 
 		if (gem.error) {
-			if (onAttemptCollectGem) { onAttemptCollectGem(gem); }
+			if (onAttemptCollectGem) { onAttemptCollectGem([gem]); }
 			return;
 		}
 
@@ -453,7 +453,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 
 		if (!isGemItemClickable) return;
 
-		const canCollect = onAttemptCollectGem(gem);
+		const canCollect = onAttemptCollectGem([gem]);
 		if (canCollect) {
 			handleActualGemCollection(gem, index);
 		}
@@ -520,6 +520,28 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 	};
 
 
+	const getBatchGemsToCollect = () => {
+		const bronzeTier = gemValuesConfig["Bronze"]
+
+		const visibleGems = grid.filter(gem => gem && gem?.dollarAmount > bronzeTier) as Gem[]
+
+		return visibleGems
+
+	}
+	const batchOfGemsToCollect = getBatchGemsToCollect()
+
+	const handleCollectAllGems = () => {
+		onAttemptCollectGem(batchOfGemsToCollect)
+	}
+	const getBatchCollectButton = () => {
+		if (batchOfGemsToCollect.length === 0) {
+			return
+		}
+
+		const totalDollarAmount = batchOfGemsToCollect.reduce((total, gem) => total + gem.dollarAmount, 0);
+		return <Button onClick={handleCollectAllGems} color="secondary" variant="outlined">Collect All Gems ($ {totalDollarAmount.toFixed(localConfig.dollarDecimalPlaces)})</Button>
+	}
+
 	return (
 		<Paper elevation={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: { xs: 2, sm: 3 }, borderRadius: 3, backgroundColor: 'background.default', margin: 'auto', minWidth: { xs: '95%', sm: 380 } }}>
 			<Box sx={{
@@ -530,13 +552,8 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 				width: '100%',
 				justifyContent: 'space-between',
 			}}>
-				<Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', flexGrow: 1, justifyContent: { xs: 'center', sm: 'flex-start' } }}>
-					<Typography variant="body1" sx={{ mr: { sm: 2 }, mb: { xs: 1, sm: 0 }, fontWeight: 'medium' }}>
-						Gems Collected: {gemsCollected} {/* Use prop */}
-					</Typography>
-					<Typography variant="body1" color="success.main" sx={{ fontWeight: 'medium' }}>
-						Total Collected: ${totalCollectedBalance.toFixed(localConfig.dollarDecimalPlaces)} {/* Use prop */}
-					</Typography>
+				<Box>
+					{getBatchCollectButton()}
 				</Box>
 				<Box sx={{ display: 'flex' }}>
 					{onAddGem && (
@@ -567,7 +584,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 				sx={{ width: { xs: 190, sm: 330 }, justifyContent: 'center', mb: 3 }}
 			>
 				{grid.map((gemInCell, index) => (
-					<Grid size={{ xs: 4 }} key={gemInCell?.id || `empty-slot-${index}`} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+					<Grid size={{ xs: 3 }} key={gemInCell?.id || `empty-slot-${index}`} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 						<GemItem
 							gemContent={gemInCell}
 							itemIndex={index}
@@ -577,6 +594,15 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 					</Grid>
 				))}
 			</Grid>
+
+			<Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', flexGrow: 1, justifyContent: { xs: 'center', sm: 'flex-start' } }}>
+				<Typography variant="body1" sx={{ mr: { sm: 2 }, mb: { xs: 1, sm: 0 }, fontWeight: 'medium' }}>
+					Gems Collected: {gemsCollected} {/* Use prop */}
+				</Typography>
+				<Typography variant="body1" color="success.main" sx={{ fontWeight: 'medium' }}>
+					Total Collected: ${totalCollectedBalance.toFixed(localConfig.dollarDecimalPlaces)} {/* Use prop */}
+				</Typography>
+			</Box>
 
 			{/* Settings Dialog */}
 			<Dialog open={isSettingsDialogOpen} onClose={handleCloseSettingsDialog} fullWidth maxWidth="xs">

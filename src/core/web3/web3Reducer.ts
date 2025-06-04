@@ -6,6 +6,7 @@ import { getEcosystemConfig } from "../../configs/config";
 import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
 import { HelpArticle } from "../helpArticles";
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, MarketAddressLock, Token } from "../interfaces";
+import { Gem } from '../react/elements/Fragments/DatamineGemsGame';
 import { ReducerCommand, ReducerQuery, ReducerQueryHandler } from "../sideEffectReducer";
 import copyToClipBoard from "../utils/copyToClipboard";
 import { devLog } from "../utils/devLog";
@@ -442,11 +443,13 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					}
 				}
 
-				const { gem } = response
+				const { gems }: { gems: Gem[] } = response
+
+				const totalDollarAmountOfGems = gems.reduce((total, gem) => total + gem.dollarAmount, 0);
 
 				const gemsCollected = {
-					count: state.market.gemsCollected.count + 1,
-					sumDollarAmount: state.market.gemsCollected.sumDollarAmount + gem.dollarAmount
+					count: state.market.gemsCollected.count + gems.length,
+					sumDollarAmount: state.market.gemsCollected.sumDollarAmount + totalDollarAmountOfGems
 				}
 
 				localStorage.setItem('marketGemsCollected', JSON.stringify(gemsCollected))
@@ -1299,7 +1302,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 		}
 		case commonLanguage.commands.Market.MarketBurnFluxTokens:
 			{
-				const { address, amountToBurn, gem } = command.payload;
+				const { amountToBurn, gems } = command.payload;
 
 				try {
 
@@ -1310,7 +1313,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					return {
 						...state,
 						error: null,
-						...withQueries([{ type: commonLanguage.queries.Market.GetMarketBurnFluxResponse, payload: { address, amountToBurn, gem } }])
+						...withQueries([{ type: commonLanguage.queries.Market.GetMarketBurnFluxResponse, payload: { amountToBurn, gems } }])
 					}
 				} catch (err: any) {
 					if (err && err.message) {

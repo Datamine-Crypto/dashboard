@@ -151,8 +151,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 
 	console.log('marketAddresses:', marketAddresses)
 
-	const onAttemptCollectGem = (gem: Gem) => {
-		console.log('collect:', gem)
+	const onAttemptCollectGem = (gems: Gem[]) => {
 		if (!currentAddressMarketAddressLock) {
 			console.log('currentAddressMarketAddressLock is null')
 
@@ -163,19 +162,13 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 			dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } })
 			return false
 		}
-		const marketAddress = marketAddresses?.addresses.find(address => address.currentAddress.toLowerCase() === gem.ethereumAddress.toLowerCase())
 
-		if (!marketAddress) {
-			return false
-		}
-		console.log('+ mintAmount', marketAddress.mintAmount.toString())
 
 		dispatch({
 			type: commonLanguage.commands.Market.MarketBurnFluxTokens,
 			payload: {
-				address: gem.ethereumAddress,
 				amountToBurn: new BN(0),
-				gem
+				gems
 			}
 		})
 
