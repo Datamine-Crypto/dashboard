@@ -519,11 +519,10 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 		handleCloseAddGemDialog();
 	};
 
-
 	const getBatchGemsToCollect = () => {
 		const bronzeTier = gemValuesConfig["Bronze"]
 
-		const visibleGems = grid.filter(gem => gem && gem?.dollarAmount > bronzeTier) as Gem[]
+		const visibleGems = grid.filter(gem => gem && gem?.dollarAmount > bronzeTier && !gem.error) as Gem[]
 
 		return visibleGems
 
