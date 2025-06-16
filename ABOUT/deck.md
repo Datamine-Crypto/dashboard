@@ -291,3 +291,13 @@ Here is how the game works:
 - It works without going to liquidity dashboard
 - It uses new V2 contract which is even more efficient as it does burn before distributing rewards
 - We added new "Atomic Multi-Address burning" so you will be able to collect multiple gems in 1 transaction (coming soon)
+
+// 2025-06-05
+
+We've also added a new "Collect all gems" button. This button will automatically collect all gems on screen without having to click on each.
+
+This is an "atomic collection" because it's coded in the smart contract. Meaning you can collect all gems from 10+ addresses in a single transaction.
+
+This is an example of how GameFi can be optimized further. This atomic collection allows us to maximise transactional throughput with more frequent minting.
+
+Additionally validators that participate in datamine gems will get greater rewards with more frequent burning to their addresses.
