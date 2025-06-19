@@ -14,7 +14,7 @@
 		"@mui/system": "^7.1.1",
 		"@mui/utils": "^7.1.1",
 		"@mui/x-date-pickers": "8.5.2",
-		"@walletconnect/ethereum-provider": "2.21.1",
+		"@walletconnect/ethereum-provider": "^2.21.3",
 		"big.js": "^7.0.1",
 		"bn.js": "^5.2.1",
 		"fuse.js": "^7.0.0",
