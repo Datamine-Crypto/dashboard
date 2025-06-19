@@ -812,12 +812,12 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 
 						const balanceInUsdc = getPriceToggle({ value: amountReceived, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 6, removeCommas: true });
 
-						if (isMarketLock) {
+						if (isMarketLock && !forecastSettings.enabled) {
 							return <Chip label={`Available Reward To Collect: +$ ${balanceInUsdc}`} color={parseFloat(balanceInUsdc) >= 0.01 ? 'success' : "warning"} />
 						}
 					}
 					const getBottomRightText = () => {
-						if (isMarketLock) {
+						if (isMarketLock && !forecastSettings.enabled) {
 							return
 						}
 						return <>
