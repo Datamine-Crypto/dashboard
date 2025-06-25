@@ -7,6 +7,15 @@ export default defineConfig({
 		react(), // This plugin automatically handles Emotion's Babel transform if @emotion/react or @emotion/styled is detected.
 
 	],
+	experimental: {
+		// This targets the MUI libraries for optimization
+		optimizePackageImports: {
+			include: [
+				'@mui/material',
+				'@mui/icons-material'
+			]
+		}
+	} as any,
 	// To match homepage: "." from package.json for relative asset paths in the build.
 	base: './',
 	build: {

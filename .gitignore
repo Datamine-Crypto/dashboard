@@ -38,3 +38,6 @@ ehthumbs.db
 
 # Storybook
 storybook-static/
+
+.yarn/
+.yarnrc.yml
