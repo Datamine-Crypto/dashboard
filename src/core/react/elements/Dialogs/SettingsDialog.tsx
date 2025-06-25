@@ -6,8 +6,7 @@ import Grid from '@mui/material/Grid';
 import { Web3Context } from '../../../web3/Web3Context';
 import { ClientSettings, commonLanguage } from '../../../web3/web3Reducer';
 
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import SettingsIcon from '@mui/icons-material/Settings';
+import { AccessTime, Settings } from '@mui/icons-material';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { formatMoney } from '../../../utils/formatMoney';
@@ -70,7 +69,7 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 						{clientSettings.useEip1559 ? <Typography component="div" color="secondary">L1: Use EIP1559 Transactions (Recommended)</Typography> : <Typography component="div">Use Legacy Transactions (NOT RECOMMENDED)</Typography>}
 					</Grid>
 					<Grid>
-						<Box ml={0.5} display="flex"><AccessTimeIcon color={clientSettings.useEip1559 ? 'secondary' : undefined} /></Box>
+						<Box ml={0.5} display="flex"><AccessTime color={clientSettings.useEip1559 ? 'secondary' : undefined} /></Box>
 					</Grid>
 				</Grid>
 			</>}
@@ -82,7 +81,7 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 		<DialogTitle id="form-dialog-title">
 			<Box display="flex" alignItems="center" alignContent="center">
 				Settings
-				<Box display="flex" pl={1} ><SettingsIcon style={{ color: '#0ff' }} /></Box>
+				<Box display="flex" pl={1} ><Settings style={{ color: '#0ff' }} /></Box>
 			</Box>
 		</DialogTitle>
 		<DialogContent>

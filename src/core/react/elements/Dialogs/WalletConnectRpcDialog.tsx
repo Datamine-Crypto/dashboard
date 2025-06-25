@@ -5,7 +5,7 @@ import React, { useContext } from 'react';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
-import SettingsInputAntennaIcon from '@mui/icons-material/SettingsInputAntenna';
+import { SettingsInputAntenna } from '@mui/icons-material';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 
@@ -43,7 +43,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress
 			<DialogTitle id="form-dialog-title">
 				<Box display="flex" alignItems="center" alignContent="center">
 					WalletConnect Ethereum RPC Mainnet Endpoint*
-					<Box display="flex" pl={1} ><SettingsInputAntennaIcon style={{ color: '#0ff' }} /></Box>
+					<Box display="flex" pl={1} ><SettingsInputAntenna style={{ color: '#0ff' }} /></Box>
 				</Box>
 			</DialogTitle>
 			<DialogContent>

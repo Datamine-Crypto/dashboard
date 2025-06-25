@@ -1,7 +1,7 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
-import ImportExportIcon from '@mui/icons-material/ImportExport';
+import { ImportExport } from '@mui/icons-material';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
@@ -98,7 +98,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 			<DialogTitle id="form-dialog-title">
 				<Box display="flex" alignItems="center" alignContent="center">
 					Deposit/Withdraw Market Balance
-					<Box display="flex" pl={1} ><ImportExportIcon style={{ color: '#00ffff' }} /></Box>
+					<Box display="flex" pl={1} ><ImportExport style={{ color: '#00ffff' }} /></Box>
 				</Box>
 			</DialogTitle>
 			<DialogContent>

@@ -4,8 +4,7 @@ import React, { useContext } from 'react';
 
 import { Web3Context } from '../../../web3/Web3Context';
 
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
+import { Visibility, Whatshot }  from '@mui/icons-material';
 import { FluxAddressLock } from '../../../interfaces';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import LightTooltip from '../LightTooltip';
@@ -21,7 +20,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 	const getButton = () => {
 		const disabledText = false //!isCurrentAddress ? <>Select the <Box fontWeight="bold" display="inline">Delegated Minter Address</Box> account in your wallet to mint for this address.</> : null;
 
-		const button = <Button color="secondary" disabled={!!disabledText} size="large" variant="outlined" onClick={() => dispatch({ type: commonLanguage.commands.DisplayAccessLinks })} startIcon={<Box display="flex" style={{ color: '#0ff' }}><VisibilityIcon /></Box>}>
+		const button = <Button color="secondary" disabled={!!disabledText} size="large" variant="outlined" onClick={() => dispatch({ type: commonLanguage.commands.DisplayAccessLinks })} startIcon={<Box display="flex" style={{ color: '#0ff' }}><Visibility /></Box>}>
 			Display Access Links
 		</Button>
 
@@ -57,7 +56,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 			</Box>
 			<Box mx={2} mt={3}>
 				Introducing our fresh take on "as a service" market segment: <strong style={{ color: '#ff9b00' }} >
-					<WhatshotIcon style={{ color: '#ff9b00', verticalAlign: 'middle' }} />Burn-As-A-Service</strong>  <Chip label="@todo add 'get more info' button here" variant="outlined" />
+					<Whatshot style={{ color: '#ff9b00', verticalAlign: 'middle' }} />Burn-As-A-Service</strong>  <Chip label="@todo add 'get more info' button here" variant="outlined" />
 			</Box>
 			<Box mx={2} mt={3}>
 				We've already finished the feature but don't have much time to explain it yet (Datamine way of working backwards). Click the 'Display Access Links' below to start (they're free!).

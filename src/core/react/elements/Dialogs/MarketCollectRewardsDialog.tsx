@@ -1,8 +1,7 @@
 import { Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Link, Typography } from '@mui/material';
 import React, { useContext, useEffect } from 'react';
 
-import DiamondIcon from '@mui/icons-material/Diamond';
-import ImportExportIcon from '@mui/icons-material/ImportExport';
+import { Diamond, ImportExport} from '@mui/icons-material';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
@@ -99,7 +98,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 		if (!currentAddressMarketAddressLock || currentAddressMarketAddressLock.rewardsAmount.eq(new BN(0))) {
 			return
 		}
-		return <Button color="secondary" size="small" variant="outlined" onClick={() => showDepositWithdrawDialog()} startIcon={<Box display="flex" style={{ color: '#0ff' }}><ImportExportIcon style={{ color: '#00ffff' }} /></Box>}>
+		return <Button color="secondary" size="small" variant="outlined" onClick={() => showDepositWithdrawDialog()} startIcon={<Box display="flex" style={{ color: '#0ff' }}><ImportExport style={{ color: '#00ffff' }} /></Box>}>
 			Deposit/Withdraw
 		</Button>
 	}
@@ -308,7 +307,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 		<form onSubmit={onSubmit}>
 			<DialogTitle id="form-dialog-title">
 				<Box display="flex" alignItems="center" alignContent="center">
-					<Box display="flex" pr={1} ><DiamondIcon style={{ color: '#00ffff' }} /></Box>
+					<Box display="flex" pr={1} ><Diamond style={{ color: '#00ffff' }} /></Box>
 
 					Datamine Gems
 					<Chip size="small" label="#GameFi" />

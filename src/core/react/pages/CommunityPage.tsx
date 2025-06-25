@@ -3,8 +3,7 @@ import Grid from '@mui/material/Grid';
 import React, { ReactNode, useContext } from 'react';
 
 
-import TimelineIcon from '@mui/icons-material/Timeline';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import {Timeline, Twitter } from '@mui/icons-material';
 
 import discordLogo from '../../../svgs/discord.svg';
 import mediumLogo from '../../../svgs/medium.svg';
@@ -158,7 +157,7 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 				<Card elevation={0}>
 					<CardActionArea>
 						{getPoint({
-							icon: <TwitterIcon style={{ fontSize: datamineTheme.muiTheme.typography.h3.fontSize, color: datamineTheme.classes.palette.highlight }} />,
+							icon: <Twitter style={{ fontSize: datamineTheme.muiTheme.typography.h3.fontSize, color: datamineTheme.classes.palette.highlight }} />,
 							title: 'Twitter: @dataminenetwork',
 							content: `This Twitter community is moderated by Datamine Ecosystem Smart Contact &amp; Analytics Architects. Here you can find regular updates to Datamine Network & Analytics platform. Be sure to follow!`
 						})}
@@ -180,7 +179,7 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 				<Card elevation={0}>
 					<CardActionArea>
 						{getPoint({
-							icon: <TimelineIcon style={{ fontSize: datamineTheme.muiTheme.typography.h3.fontSize, color: datamineTheme.classes.palette.highlight }} />,
+							icon: <Timeline style={{ fontSize: datamineTheme.muiTheme.typography.h3.fontSize, color: datamineTheme.classes.palette.highlight }} />,
 							title: 'Analytics Tool: DAM Community Calculator',
 							content: `An amazing APY calculator for DAM & FLUX. Created and hosted by the community.`
 						})}

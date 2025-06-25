@@ -1,8 +1,7 @@
 import { Box, Button, Card, CardActions, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Link, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React, { Suspense, lazy, useContext } from 'react';
 
-import CloseIcon from '@mui/icons-material/Close';
-import LaunchIcon from '@mui/icons-material/Launch';
+import { Close, Launch } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
 import { NetworkType } from '../../../../configs/config.common';
 import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from '../../../helpArticles';
@@ -188,7 +187,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				return null;
 			}
 
-			return <LaunchIcon style={{ fontSize: 20, verticalAlign: 'sub', marginRight: 2 }} />
+			return <Launch style={{ fontSize: 20, verticalAlign: 'sub', marginRight: 2 }} />
 		}
 
 		return <Link href={props.href} title={props.href} target="_blank" rel="noopener noreferrer" onClick={onClick}>{getIcon()}{props.children}</Link>
@@ -285,11 +284,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 			<Box style={{ float: 'right' }}>
 				<LightTooltip title="Open Help Article In New Tab">
 					<IconButton href={`#help/${helpArticle.id}`} target="_blank" rel="noopener noreferrer"  >
-						<LaunchIcon />
+						<Launch />
 					</IconButton>
 				</LightTooltip>
 				<IconButton aria-label="close" onClick={() => dispatch({ type: commonLanguage.commands.CloseHelpArticle })}>
-					<CloseIcon />
+					<Close />
 				</IconButton>
 			</Box>
 			<Box display="flex" alignItems="center" alignContent="center">

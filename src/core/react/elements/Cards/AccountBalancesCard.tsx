@@ -5,9 +5,7 @@ import React, { useContext } from 'react';
 import { Web3Context } from '../../../web3/Web3Context';
 import { Balances, commonLanguage } from '../../../web3/web3Reducer';
 
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import LockOpenIcon from '@mui/icons-material/Stop';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
+import { OpenInNew, Stop, Whatshot } from '@mui/icons-material';
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from '../../../interfaces';
 import { BNToDecimal, getBurnRatio, getPriceToggle } from '../../../web3/helpers';
 
@@ -86,7 +84,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 
 			const getButton = () => {
 				const isDisabled = !isCurrentAddress || addressDetails.fluxBalance.isZero()
-				const button = <Button disabled={isDisabled} size="small" variant="outlined" color="secondary" onClick={() => showBurnDialog()} startIcon={<WhatshotIcon style={{ color: '#ff9b00' }} />}>Burn {mintableTokenShortName}</Button>
+				const button = <Button disabled={isDisabled} size="small" variant="outlined" color="secondary" onClick={() => showBurnDialog()} startIcon={<Whatshot style={{ color: '#ff9b00' }} />}>Burn {mintableTokenShortName}</Button>
 
 				if (addressDetails.fluxBalance.isZero()) {
 					return <LightTooltip title={`This address must have ${mintableTokenShortName} tokens to burn.`}><Box display="inline-block">{button}</Box></LightTooltip>
@@ -148,7 +146,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 			}
 
 			const getButton = () => {
-				const button = <Button disabled={!isCurrentAddress} size="small" variant="outlined" onClick={() => showUnlockDialog()} startIcon={<LockOpenIcon style={{ color: '#0FF' }} />}>Stop Mint</Button>
+				const button = <Button disabled={!isCurrentAddress} size="small" variant="outlined" onClick={() => showUnlockDialog()} startIcon={<Stop style={{ color: '#0FF' }} />}>Stop Mint</Button>
 
 				if (!isCurrentAddress) {
 					return <LightTooltip title="You must select this account in your wallet to stop a validator for this address."><Box display="inline-block">{button}</Box></LightTooltip>
@@ -232,7 +230,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 									</Grid>
 									<Grid>
 										<Box ml={0.5}>
-											<OpenInNewIcon fontSize="small" />
+											<OpenInNew fontSize="small" />
 										</Box>
 									</Grid>
 								</Grid>

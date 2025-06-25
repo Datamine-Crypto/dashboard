@@ -10,17 +10,19 @@ import BN from 'bn.js';
 import { Web3Context } from '../../../web3/Web3Context';
 import { Balances, ClientSettings, commonLanguage, ConnectionMethod, ForecastSettings } from '../../../web3/web3Reducer';
 
-import AlarmIcon from '@mui/icons-material/Alarm';
-import AppsIcon from '@mui/icons-material/Apps';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import AddIcon from '@mui/icons-material/AvTimer';
-import DateRangeIcon from '@mui/icons-material/DateRange';
-import LockIcon from '@mui/icons-material/PlayArrow';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import RedeemIcon from '@mui/icons-material/Redeem';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
+import {
+  Alarm as AlarmIcon,
+  Apps as AppsIcon,
+  AttachMoney as AttachMoneyIcon,
+  AvTimer as AddIcon,
+  DateRange as DateRangeIcon,
+  PlayArrow as LockIcon,
+  PowerSettingsNew as PowerSettingsNewIcon,
+  Redeem as RedeemIcon,
+  Whatshot as WhatshotIcon,
+  InsertInvitation
+} from '@mui/icons-material';
 
-import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import moment, { Moment } from 'moment';
 import { Ecosystem, Layer } from '../../../../configs/config.common';
 import arbiFluxLogo from '../../../../svgs/arbiFluxLogo.svg';
@@ -440,7 +442,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 								</Typography>
 							</TableCell>
 							<TableCell align="left">
-								<InsertInvitationIcon style={{ color: '#00ffff', verticalAlign: 'middle' }} />
+								<InsertInvitation style={{ color: '#00ffff', verticalAlign: 'middle' }} />
 							</TableCell>
 							<TableCell component="th" scope="row" align="left">
 								{getStartArea()}

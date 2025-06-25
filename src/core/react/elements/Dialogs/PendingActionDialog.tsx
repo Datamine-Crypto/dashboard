@@ -3,7 +3,7 @@ import React from 'react';
 
 import { commonLanguage, ConnectionMethod } from '../../../web3/web3Reducer';
 
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import { HourglassEmpty } from '@mui/icons-material';
 
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
@@ -124,7 +124,7 @@ const PendingActionDialog: React.FC<Params> = React.memo(({ open, queries, conne
 			<Box display="flex" justifyContent="space-between">
 				<Box display="flex" alignItems="center" alignContent="center">
 					{title}
-					<Box display="flex" pl={1} ><HourglassEmptyIcon style={{ color: '#0ff' }} /></Box>
+					<Box display="flex" pl={1} ><HourglassEmpty style={{ color: '#0ff' }} /></Box>
 				</Box>
 
 				{/*<LightTooltip title="Click For Help &amp; Tips"><IconButton onClick={onClose} ><HelpOutlineIcon style={{ color: '#bfbfc3' }} /></IconButton></LightTooltip>*/}

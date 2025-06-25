@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '../../../interfaces';
 import { Balances, commonLanguage } from '../../../web3/web3Reducer';
 
-import LockOpenIcon from '@mui/icons-material/Stop';
+import { LockOpen } from '@mui/icons-material';
 import Big from 'big.js';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
@@ -58,7 +58,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails
 				return;
 			}
 
-			return <Box px={2} display="inline-block"><Button size="small" variant="outlined" onClick={() => showUnlockDialog()} startIcon={<LockOpenIcon style={{ color: '#0FF' }} />}>Unlock DAM</Button></Box>
+			return <Box px={2} display="inline-block"><Button size="small" variant="outlined" onClick={() => showUnlockDialog()} startIcon={<LockOpen style={{ color: '#0FF' }} />}>Unlock DAM</Button></Box>
 		}
 		return <>
 			DAM Powering Validators

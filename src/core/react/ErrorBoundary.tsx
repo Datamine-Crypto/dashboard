@@ -1,4 +1,4 @@
-import RefreshIcon from '@mui/icons-material/Refresh';
+import { Refresh } from '@mui/icons-material';
 import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextareaAutosize, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React, { ErrorInfo } from "react";
@@ -85,7 +85,7 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 							</Box>
 						</Grid>
 						<Grid>
-							<Button onClick={reloadPage} variant="contained" color="warning" size="large" startIcon={<RefreshIcon />}>Refresh Page</Button>
+							<Button onClick={reloadPage} variant="contained" color="warning" size="large" startIcon={<Refresh />}>Refresh Page</Button>
 						</Grid>
 					</Grid>
 					</Box>

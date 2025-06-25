@@ -11,7 +11,7 @@ import Web3Account from '../elements/Web3Account';
 import logo from '../../../svgs/logo.svg'; // Tell webpack this JS file uses this image
 import LightTooltip from '../elements/LightTooltip';
 
-import SettingsIcon from '@mui/icons-material/Settings';
+import {Settings} from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
@@ -269,7 +269,7 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, isInitialized, addr
 							<Grid>
 								<Button size="small" variant="outlined" color="secondary" onClick={() => { dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.ClientSettings } }) }}>
 									<Box mr={0.5}>
-										<SettingsIcon style={{ verticalAlign: 'middle', marginRight: 8 }} />
+										<Settings style={{ verticalAlign: 'middle', marginRight: 8 }} />
 									</Box>
 									Settings
 								</Button>

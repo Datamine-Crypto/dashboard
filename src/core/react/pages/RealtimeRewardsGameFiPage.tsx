@@ -12,15 +12,17 @@ import Grid from '@mui/system/Grid';
 import { Web3Context } from '../../web3/Web3Context';
 
 
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import BoltIcon from '@mui/icons-material/Bolt'; // For efficiency/velocity
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
-import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-import PublicIcon from '@mui/icons-material/Public';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import SpeedIcon from '@mui/icons-material/Speed';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import {
+  Autorenew as AutorenewIcon,
+  Bolt as BoltIcon,
+  EmojiEvents as EmojiEventsIcon,
+  LocalGasStation as LocalGasStationIcon,
+  PhoneAndroid as PhoneAndroidIcon,
+  Public as PublicIcon,
+  RocketLaunch as RocketLaunchIcon,
+  Speed as SpeedIcon,
+  VisibilityOff as VisibilityOffIcon
+} from '@mui/icons-material';
 import {
 	alpha,
 	Avatar,
@@ -62,7 +64,7 @@ const FeatureCard = styled(Paper)(({ theme }) => ({
 	backgroundColor: alpha(theme.palette.background.paper, 0.6), // Semi-transparent background for glass effect
 	backdropFilter: 'blur(10px)', // Blur effect for the background
 	border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`, // Subtle border
-	borderRadius: theme.shape.borderRadius * 2, // More rounded corners
+	borderRadius: (theme.shape.borderRadius as number) * 2, // More rounded corners
 	transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
 	'&:hover': {
 		transform: 'translateY(-5px)', // Slight lift on hover

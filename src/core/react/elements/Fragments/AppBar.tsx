@@ -1,5 +1,4 @@
-import BuildIcon from '@mui/icons-material/Build';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Build, Menu } from '@mui/icons-material';
 import { AppBar, Box, Card, CardActionArea, IconButton, Link, Toolbar, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
@@ -104,7 +103,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 					//onClick={userSessionActions.drawerOpen}
 					className={clsx(classes.menuButton, userSessionState.isDrawerOpen && classes.menuButtonHidden)}
 				>
-					<MenuIcon />
+					<Menu />
 				</IconButton>
 			)}
 
@@ -133,7 +132,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 
 
 			{isToggleEnabled && (<Tooltip title="Settings (Coming Soon)"><IconButton color='inherit' /*onClick={userSessionActions.toggleTheme}*/>
-				<BuildIcon />
+				<Build />
 			</IconButton>
 			</Tooltip>)}
 
@@ -144,7 +143,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 					<Box ml={1}>
 						<Tooltip title="Open Menu">
 							<IconButton onClick={() => dispatch({ type: commonLanguage.commands.OpenDrawer })}>
-								<MenuIcon />
+								<Menu />
 							</IconButton>
 						</Tooltip>
 					</Box>

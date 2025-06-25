@@ -4,16 +4,18 @@ import React, { useContext } from 'react';
 import Grid from '@mui/material/Grid';
 
 import clsx from 'clsx';
+import {
+  Diamond as DiamondIcon,
+  Equalizer as EqualizerIcon,
+  ExpandMore,
+  HelpOutline as HelpIcon,
+  Home as HomeIcon,
+  LocalLibrary as LocalLibraryIcon,
+  People as PeopleIcon,
+  PlayArrow as PlayArrowIcon,
+  Whatshot as WhatshotIcon
+} from '@mui/icons-material';
 
-import { ExpandMore } from '@mui/icons-material';
-import DiamondIcon from '@mui/icons-material/Diamond';
-import EqualizerIcon from '@mui/icons-material/Equalizer';
-import HelpIcon from '@mui/icons-material/HelpOutline';
-import HomeIcon from '@mui/icons-material/Home';
-import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
-import PeopleIcon from '@mui/icons-material/People';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';

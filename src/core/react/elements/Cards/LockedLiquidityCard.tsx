@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 
 import { Web3Context } from '../../../web3/Web3Context';
 
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { OpenInNew } from '@mui/icons-material';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem, Layer } from '../../../../configs/config.common';
@@ -115,7 +115,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 									</Grid>
 									<Grid>
 										<Box ml={0.5}>
-											<OpenInNewIcon fontSize="small" />
+											<OpenInNew fontSize="small" />
 										</Box>
 									</Grid>
 								</Grid>

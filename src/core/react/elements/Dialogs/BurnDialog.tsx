@@ -1,7 +1,7 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Link, TextField, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
-import WhatshotIcon from '@mui/icons-material/Whatshot';
+import { Whatshot } from '@mui/icons-material';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { BNToDecimal } from '../../../web3/helpers';
@@ -73,7 +73,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 			<DialogTitle id="form-dialog-title">
 				<Box display="flex" alignItems="center" alignContent="center">
 					Burn {mintableTokenShortName} tokens
-					<Box display="flex" pl={1} ><WhatshotIcon style={{ color: '#ff9b00' }} /></Box>
+					<Box display="flex" pl={1} ><Whatshot style={{ color: '#ff9b00' }} /></Box>
 				</Box>
 			</DialogTitle>
 			<DialogContent>

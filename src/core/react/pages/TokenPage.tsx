@@ -1,9 +1,12 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LockIcon from '@mui/icons-material/Lock';
-import ShieldIcon from '@mui/icons-material/Shield';
-import SyncIcon from '@mui/icons-material/Sync';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import {
+  ArrowForward as ArrowForwardIcon,
+  BarChart as BarChartIcon,
+  Lock as LockIcon,
+  Shield as ShieldIcon,
+  Sync as SyncIcon,
+  TrendingUp as TrendingUpIcon,
+  PlayArrow as PlayArrowIcon
+} from '@mui/icons-material';
 import {
 	Box,
 	Button,
@@ -20,7 +23,6 @@ import fluxLogo from '../../../svgs/fluxLogo.svg';
 import lockquidityLogo from '../../../svgs/lockquidity.svg';
 import damLogo from '../../../svgs/logo.svg';
 
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Grid from '@mui/system/Grid';
 import { Web3Context } from '../../web3/Web3Context';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';

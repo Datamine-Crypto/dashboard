@@ -1,7 +1,7 @@
 import { Alert, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Link, MenuItem, TextField, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { KeyboardArrowDown } from '@mui/icons-material';
 import { Grid } from '@mui/system';
 import BN from 'bn.js';
 import { tss } from 'tss-react/mui';
@@ -448,7 +448,7 @@ const Render: React.FC<RenderParams> = React.memo(({ swapTokenBalances, balances
 					</Box>
 					<Box display="flex" justifyContent="center">
 						<IconButton onClick={onFlipSwap}>
-							<KeyboardArrowDownIcon />
+							<KeyboardArrowDown />
 						</IconButton>
 					</Box>
 					{getCombobox({ value: `~${swapState.output.amount}`, label: getComboboxLabel(swapState.output, 'You receive', true), swapToken: swapState.output.swapToken, swapTokenDetails: outputTokens, swapOperation: SwapOperation.Output })}

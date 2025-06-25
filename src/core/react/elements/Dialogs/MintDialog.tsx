@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import { Web3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
-import RedeemIcon from '@mui/icons-material/Redeem';
+import { Redeem } from '@mui/icons-material';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { FluxAddressDetails } from '../../../interfaces';
@@ -52,7 +52,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, addressDet
 			<DialogTitle id="form-dialog-title">
 				<Box display="flex" alignItems="center" alignContent="center">
 					Mint {mintableTokenShortName} tokens
-					<Box display="flex" pl={1} ><RedeemIcon style={{ color: '#0ff' }} /></Box>
+					<Box display="flex" pl={1} ><Redeem style={{ color: '#0ff' }} /></Box>
 				</Box>
 			</DialogTitle>
 			<DialogContent>

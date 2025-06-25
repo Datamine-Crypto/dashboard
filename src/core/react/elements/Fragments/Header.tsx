@@ -2,11 +2,10 @@ import { Box, Button, Card, CardActionArea, CardMedia, Container, Typography } f
 import Grid from '@mui/material/Grid';
 import React from 'react';
 
-import ArrowRightIcon from '@mui/icons-material/PlayArrow';
+import { ArrowRight, PlayArrow } from '@mui/icons-material';
 
 import logo from '../../../../svgs/logo.svg';
 
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
@@ -98,7 +97,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 	}
 
 	const getArrow = () => {
-		return <Box display="inline"><ArrowRightIcon fontSize="large" className={classes.arrow} /></Box>
+		return <Box display="inline"><ArrowRight fontSize="large" className={classes.arrow} /></Box>
 	}
 	const getTitle = () => {
 		if (isSubPage) {
@@ -177,7 +176,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 			<Grid container spacing={4} justifyContent="center" alignItems="center">
 				{getLiqudityPoolsButton()}
 				<Grid>
-					<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard} startIcon={<PlayArrowIcon />}>
+					<Button variant="outlined" color="secondary" size="large" style={{ fontSize: '1.1rem' }} onClick={navigateDashboard} startIcon={<PlayArrow />}>
 						Go to Liquidity Dashboard
 					</Button>
 				</Grid>

@@ -1,6 +1,4 @@
-import AddIcon from '@mui/icons-material/Add';
-import DiamondIcon from '@mui/icons-material/Diamond';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Add, Diamond, MoreVert } from '@mui/icons-material';
 import {
 	Box,
 	Button,
@@ -321,7 +319,7 @@ const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onA
 					'&:hover': { backgroundColor: isClickable && isIdleAndNotCollecting ? 'action.hover' : 'transparent' },
 				}}
 			>
-				<DiamondIcon
+				<Diamond
 					sx={{
 						fontSize: displayTier.iconSize,
 						color: displayTier.color,
@@ -563,7 +561,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 								size="small"
 								sx={{ mr: 0.5 }}
 							>
-								<AddIcon />
+								<Add />
 							</IconButton>
 						</LightTooltip>
 					)}
@@ -572,7 +570,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 						onClick={handleOpenSettingsDialog}
 						size="small"
 					>
-						<MoreVertIcon />
+						<MoreVert />
 					</IconButton>
 				</Box>
 			</Box>
@@ -613,7 +611,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 					{localConfig.gemTiers.map((tier) => {
 						return (
 							<Box key={tier.name} sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-								<DiamondIcon sx={{ color: tier.color, mr: 1.5, fontSize: '24px' }} />
+								<Diamond sx={{ color: tier.color, mr: 1.5, fontSize: '24px' }} />
 								<TextField
 									margin="none"
 									label={`${tier.name} Value`}
