@@ -27,14 +27,16 @@ Welcome to the Datamine Network Dashboard! This project is a web-based dashboard
 
 ## 🏛️ Key Architectural Patterns
 
-The `src` directory is organized with a clear separation of concerns:
+The `src` directory is meticulously organized to ensure a clear separation of concerns and maintainability. Here's a breakdown of its core structure:
 
-- **`src/core/`**: Contains the application's core logic.
-  - **`src/core/react/`**: Houses all React components, pages, and UI-related elements.
-  - **`src/core/web3/`**: Manages all blockchain interactions, including Web3 provider setup, contract bindings, and ABI definitions (located in `src/core/web3/abis/`).
-  - **`src/core/utils/`**: A collection of helper functions for tasks like formatting, calculations, and clipboard interaction.
-- **`src/configs/`**: Manages all environment and application configurations.
-  - **`src/configs/ecosystems/`**: Defines specific configurations for different blockchain environments the dashboard can connect to, such as Ethereum Mainnet (L1) and Arbitrum (L2). This is a critical directory for understanding multi-chain functionality.
+-   **`src/core/`**: This directory serves as the heart of the application, encapsulating its fundamental logic and shared functionalities.
+    -   **`src/core/react/`**: Dedicated to the user interface, this sub-directory houses all React components, pages, and UI-related elements. Think of it as where the visual magic happens! ✨
+    -   **`src/core/web3/`**: This is where all blockchain interactions are managed. It includes Web3 provider setup, smart contract bindings, and ABI definitions (found in `src/core/web3/abis/`). It's the bridge to the decentralized world. 🌉
+    -   **`src/core/utils/`**: A versatile collection of helper functions for common tasks such as data formatting, complex calculations, and clipboard interaction. These are the handy tools that keep the application running smoothly. 🔧
+-   **`src/configs/`**: This directory is responsible for managing all environment-specific and application-wide configurations.
+    -   **`src/configs/ecosystems/`**: A crucial part of the multi-chain functionality, this sub-directory defines specific configurations for each blockchain environment the dashboard can connect to (e.g., Ethereum Mainnet L1 and Arbitrum L2). This enables seamless operation across different networks. 🔗
+
+This structured approach ensures that the codebase remains modular, scalable, and easy to navigate for developers.
 
 ## 💡 Core Datamine Concepts
 
