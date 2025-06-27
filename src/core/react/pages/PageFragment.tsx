@@ -15,7 +15,7 @@ import RealtimeRewardsGameFiPage from './RealtimeRewardsGameFiPage';
 const MainAppBar = lazy(() => import('../elements/Fragments/AppBar'));
 const HelpDialog = lazy(() => import('../elements/Dialogs/HelpDialog'));
 const CommunityPage = lazy(() => import('./CommunityPage'));
-const HelpPage = lazy(() => import('./HelpPage'));
+const HelpPage = lazy(() => import('./help/HelpPage'));
 const OnboardingPage = lazy(() => import('./OnboardingPage'));
 const Terms = lazy(() => import('./Terms'));
 const TokenPage = lazy(() => import('./TokenPage'));
