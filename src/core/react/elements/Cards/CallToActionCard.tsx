@@ -133,6 +133,12 @@ interface DatePickerDependencies {
 	MobileDatePicker: React.ElementType<MobileDatePickerProps<any>> | null;
 	AdapterMoment: typeof AdapterMomentType | null;
 }
+/**
+ * A memoized functional component that renders the Call To Action card on the dashboard.
+ * This card dynamically displays different actions and information based on the user's Web3 state,
+ * including minting, burning, and forecasting tools.
+ * @param params - Object containing various state variables and dispatch function.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, selectedAddress, displayedAddress, addressDetails, addressTokenDetails, dispatch, forecastSettings, clientSettings, ecosystem, connectionMethod, marketAddressLock }) => {
 	const { classes } = useStyles();
 
@@ -150,6 +156,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, balances, sele
 		AdapterMoment: null,
 	});
 
+	/**
+	 * Effect hook to dynamically load date picker dependencies when the forecasting mode is enabled.
+	 * This optimizes bundle size by only loading these components when needed.
+	 */
 	useEffect(() => {
 		let isMounted = true;
 		if (forecastSettings.enabled && !datePickerDeps.AdapterMoment) { // Check for one, assume all load together

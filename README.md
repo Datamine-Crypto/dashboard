@@ -193,7 +193,12 @@ This project was bootstrapped with [Vite](https://vite.dev/).
 
 ## 🧪 Testing Strategy
 
-Currently, this project does not have dedicated unit or integration tests due to time constraints. Future development may include implementing tests using frameworks like Jest and React Testing Library.
+While comprehensive UI testing is valuable, our current focus prioritizes rapid UI experimentation. This approach is informed by:
+
+-   **Audited Smart Contracts**: Our core smart contracts have undergone thorough audits (see [audits folder](https://github.com/Datamine-Crypto/white-paper/tree/master/audits)), ensuring their reliability and security. This mitigates concerns about the underlying blockchain logic.
+-   **Direct MetaMask Communication**: The UI primarily communicates directly with MetaMask, acting as a thin client to immutable smart contracts. This reduces the complexity and risk typically associated with backend integrations.
+
+Given these factors, we find it more efficient to iterate quickly on the UI, leveraging the stability of the audited contracts and the direct, secure wallet interaction. Future development may include UI tests as the project matures and UI stability becomes a higher priority.
 
 ## 📚 Learn More
 

@@ -38,6 +38,11 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 
+/**
+ * A memoized functional component that renders the account balances card.
+ * It displays various token balances, locked amounts, and related actions for a given address.
+ * @param params - Object containing addressLock, displayedAddress, selectedAddress, addressDetails, addressTokenDetails, balances, dispatch, and ecosystem.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddress, addressTokenDetails, displayedAddress, addressDetails, balances, dispatch, ecosystem }) => {
 
 	const config = getConfig(ecosystem);
@@ -52,6 +57,9 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 	const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase(); // Lowercase for WalletConnect
 	const isCurrentAddress = selectedAddress === displayedAddress;
 
+	/**
+	 * Displays the mint dialog.
+	 */
 	const showMintDialog = () => {
 		dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Mint } })
 	}
