@@ -50,8 +50,8 @@ Welcome to the Datamine Network Dashboard! This project is a web-based dashboard
 The `src` directory is meticulously organized to ensure a clear separation of concerns and maintainability. Here's a breakdown of its core structure:
 
 -   **`src/core/`**: This directory serves as the heart of the application, encapsulating its fundamental logic and shared functionalities.
-    -   **`src/core/react/`**: Dedicated to the user interface, this sub-directory houses all React components, pages, and UI-related elements. Think of it as where the visual magic happens! ✨
-    -   **`src/core/web3/`**: This is where all blockchain interactions are managed. It includes Web3 provider setup, smart contract bindings, and ABI definitions (found in `src/core/web3/abis/`). It's the bridge to the decentralized world. 🌉
+    -   **`src/core/react/`**: Dedicated to the user interface, this sub-directory houses all React components, pages, and UI-related elements. Styling is primarily handled using `tss-react` and `useStyles` from `tss.create()`, with Material-UI themes defined in `src/core/styles.ts`. Think of it as where the visual magic happens! ✨
+    -   **`src/core/web3/`**: This is where all blockchain interactions are managed. It includes Web3 provider setup, smart contract bindings, and ABI definitions (found in `src/core/web3/abis/`). State management for Web3 interactions is handled by `src/core/web3/web3Reducer.ts` and `src/core/web3/web3Bindings.ts` in tandem, utilizing a "Commands & Queries" pattern. `Web3Reducer` controls state and updates `pendingQueries`, which are then converted into asynchronous calls to `Web3Bindings`. It's the bridge to the decentralized world. 🌉
     -   **`src/core/utils/`**: A versatile collection of helper functions for common tasks such as data formatting, complex calculations, and clipboard interaction. These are the handy tools that keep the application running smoothly. 🔧
 -   **`src/configs/`**: This directory is responsible for managing all environment-specific and application-wide configurations.
     -   **`src/configs/ecosystems/`**: A crucial part of the multi-chain functionality, this sub-directory defines specific configurations for each blockchain environment the dashboard can connect to (e.g., Ethereum Mainnet L1 and Arbitrum L2). This enables seamless operation across different networks. 🔗
@@ -144,6 +144,10 @@ This will create a new build in build/ folder that you can host. We currently ho
 The builds can be hosted in subfolders and do not perform external http calls for security & decentralization.
 
 This project was bootstrapped with [Vite](https://vite.dev/).
+
+## 🧪 Testing Strategy
+
+Currently, this project does not have dedicated unit or integration tests due to time constraints. Future development may include implementing tests using frameworks like Jest and React Testing Library.
 
 ## 📚 Learn More
 

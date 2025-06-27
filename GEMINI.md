@@ -37,3 +37,33 @@ The following commands are used for development:
 - `yarn start`: Runs the application in development mode using Vite.
 - `yarn build`: Compiles and bundles the application for production.
 - `yarn deploy`: Creates a production build with a specific base path for deployment.
+
+Extra information help you understand the Datamine ecosystem better:
+
+#### 1. Styling Conventions & Theming
+
+- For styling we're using `tss-react` and `useStyles` from `tss.create()`
+
+- `src/core/styles.ts` contains our MUI themes
+
+#### 2. State Management
+
+- `src/core/web3/web3Reducer.ts` and `src/core/web3/web3Bindings.ts` work in tandem. We use `commonLanguage` (in `web3Reducer`) as "Commands & Queries" pattern.
+
+- `sideEffectReducer.ts` contains the logic for handling queries
+
+- `Web3Reducer` controls sate and updates `pendingQueries`. `pendingQueries` are converted into async calls to `Web3Bindings`. This is a creative way to manage state & seperate out async logic.
+
+#### 3. Ecosystem Configuration Details
+
+- There are 3 ecosystems in Datamine Network: DAM->FLUX(L1), FLUX(L2)->ArbiFLUX(L2), ArbiFLUX(L2)->LOCK(L2)
+
+- You can toggle between any ecosystem in the decentralized dashboard.
+
+- Settings for each of these ecosystems are located in `/src/configs/ecosystems`
+
+- L2 here means Arbitrum Layer 2. 
+
+#### 4. Testing Strategy (Current & Future)
+
+- Don't have any tests at the moment and not planning to due to time constraints.
