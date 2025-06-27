@@ -61,6 +61,7 @@
     "deploy": "vite build --base=./",
     "bundle-visualizer": "npx vite-bundle-visualizer",
     "format": "prettier --write src/**/*.{ts,tsx,js,jsx,json,css,scss,md}",
+    "lint": "eslint .",
     "prepare": "husky"
   },
   "eslintConfig": {

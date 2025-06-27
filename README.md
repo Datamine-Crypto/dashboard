@@ -82,6 +82,7 @@ In the project directory, you can run the following scripts:
 *   `yarn build`: Builds the app for production to the `build` folder.
 *   `yarn deploy`: Creates a production build with a specific base path for deployment.
 *   `yarn format`: Formats code using Prettier.
+*   `yarn lint`: Lints the project using ESLint.
 
 Welcome to the Datamine Network Dashboard! This project is a web-based dashboard for the Datamine Network, built with React and TypeScript. It provides users with tools to interact with Datamine smart contracts, view analytics, and manage their assets across different blockchain layers.
 

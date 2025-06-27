@@ -46,7 +46,7 @@ const HelpPage: React.FC<Props> = () => {
 						</Box>
 						{/* Two-column layout for larger screens */}
 						<Grid container spacing={2}>
-							<Grid size={{xs: 12, md:6}}>
+							<Grid size={{ xs: 12, md: 6 }}>
 								{Object.keys(SearchCategory)
 									.slice(0, Math.ceil(Object.keys(SearchCategory).length / 2))
 									.map((categoryKey, index) => (
@@ -68,7 +68,7 @@ const HelpPage: React.FC<Props> = () => {
 										</Accordion>
 									))}
 							</Grid>
-							<Grid size={{xs: 12, md:6}}>
+							<Grid size={{ xs: 12, md: 6 }}>
 								{Object.keys(SearchCategory)
 									.slice(Math.ceil(Object.keys(SearchCategory).length / 2))
 									.map((categoryKey, index) => (

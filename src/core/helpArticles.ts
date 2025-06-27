@@ -122,7 +122,7 @@ const helpArticles: HelpArticle[] = [
 
 	// Uniswap
 	{
-			id: 'uniswap/buyingDatamineTokens',
+		id: 'uniswap/buyingDatamineTokens',
 		title: '📈 Uniswap: Buying Datamine (DAM)',
 		titleL2: '📈 Uniswap: Buying FLUX (L2)',
 		category: SearchCategory.Uniswap,

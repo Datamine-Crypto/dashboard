@@ -235,9 +235,7 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 				description:
 					"Datamine FLUX is DeFi's first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.",
 				url: 'https://datamine-crypto.github.io/dashboard/', // origin must match your domain & subdomain
-				icons: [
-					'https://raw.githubusercontent.com/Datamine-Crypto/dashboard/refs/heads/main/public/logos/dam256.png',
-				],
+				icons: ['https://raw.githubusercontent.com/Datamine-Crypto/dashboard/refs/heads/main/public/logos/dam256.png'],
 			},
 		},
 	};

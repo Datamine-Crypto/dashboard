@@ -47,6 +47,7 @@ The following commands are used for development:
 - `yarn build`: Compiles and bundles the application for production.
 - `yarn deploy`: Creates a production build with a specific base path for deployment.
 - `yarn format`: Formats code using Prettier.
+- `yarn lint`: Lints the project using ESLint.
 
 Extra information help you understand the Datamine ecosystem better:
 
