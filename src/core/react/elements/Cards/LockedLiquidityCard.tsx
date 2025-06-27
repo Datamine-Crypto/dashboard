@@ -17,8 +17,13 @@ import LightTooltip from '../LightTooltip';
 import { tss } from 'tss-react/mui';
 
 
+/**
+ * Props for the Render component within LockedLiquidityCard.
+ */
 interface RenderParams {
+	/** The balances of various tokens. */
 	balances: Balances;
+	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }
 
@@ -162,6 +167,11 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 	</Card>
 });
 
+/**
+ * LockedLiquidityCard component that displays information about the permanently locked liquidity
+ * in Uniswap pools for the current ecosystem.
+ * It fetches liquidity data from the Web3Context and renders it using the Render component.
+ */
 const LockedLiquidityCard: React.FC = () => {
 	const { state: web3State } = useContext(Web3Context)
 

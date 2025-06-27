@@ -9,10 +9,17 @@ import { FluxAddressLock } from '../../../interfaces';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import LightTooltip from '../LightTooltip';
 
+/**
+ * Props for the Render component within DatamineNetworkCard.
+ */
 interface RenderParams {
+	/** The Flux address lock details. */
 	addressLock: FluxAddressLock;
+	/** The address currently being displayed. */
 	displayedAddress: string;
+	/** The currently selected address in the wallet. */
 	selectedAddress: string;
+	/** The dispatch function from the Web3Context. */
 	dispatch: React.Dispatch<any>;
 }
 
@@ -20,7 +27,7 @@ interface RenderParams {
  * A memoized functional component that renders the Datamine Network Pro card.
  * This card provides information about the Datamine Network's burn-as-a-service concept
  * and allows users to display access links.
- * @param params - Object containing dispatch function.
+ * @param params - Object containing addressLock, displayedAddress, selectedAddress, and dispatch function.
  */
 const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 	const getButton = () => {

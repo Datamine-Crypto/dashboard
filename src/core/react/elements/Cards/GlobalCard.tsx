@@ -11,10 +11,17 @@ import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '../../.
 import { Balances } from '../../../web3/web3Reducer';
 import DetailedListItem from '../Fragments/DetailedListItem';
 
+/**
+ * Props for the Render component within GlobalCard.
+ */
 interface RenderParams {
+	/** Detailed information about the Flux address. */
 	addressDetails: FluxAddressDetails;
+	/** Token-related details for the Flux address. */
 	addressTokenDetails: FluxAddressTokenDetails;
+	/** Balances of various tokens. */
 	balances: Balances;
+	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }
 

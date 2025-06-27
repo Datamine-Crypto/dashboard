@@ -27,14 +27,25 @@ const useStyles = tss.create(({ theme }) => ({
 }
 ));
 
+/**
+ * Props for the Render component within AccountBalancesCard.
+ */
 interface RenderParams {
+	/** The Flux address lock details. */
 	addressLock: FluxAddressLock;
+	/** The address currently being displayed. */
 	displayedAddress: string;
+	/** The currently selected address in the wallet. */
 	selectedAddress: string
+	/** Detailed information about the Flux address. */
 	addressDetails: FluxAddressDetails;
+	/** Token-related details for the Flux address. */
 	addressTokenDetails: FluxAddressTokenDetails;
+	/** Balances of various tokens. */
 	balances: Balances;
+	/** The dispatch function from the Web3Context. */
 	dispatch: React.Dispatch<any>;
+	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }
 
@@ -268,6 +279,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressLock, selectedAddres
 	</Card>
 });
 
+/**
+ * AccountBalancesCard component displays the balances and related information for the currently selected Web3 account.
+ * It fetches data from the Web3Context and renders various sub-components to show token balances, locked amounts, and actions like burning or unlocking tokens.
+ */
 const AccountBalancesCard: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 

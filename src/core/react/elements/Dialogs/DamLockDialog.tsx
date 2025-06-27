@@ -8,16 +8,29 @@ import { BNToDecimal } from '../../../web3/helpers';
 import { Web3Context } from '../../../web3/Web3Context';
 import { Balances, commonLanguage } from '../../../web3/web3Reducer';
 
+/**
+ * Props for the Render component within DamLockDialog.
+ */
 interface RenderParams {
+	/** The currently selected address in the wallet. */
 	selectedAddress: string;
+	/** Balances of various tokens. */
 	balances: Balances;
+	/** The dispatch function from the Web3Context. */
 	dispatch: React.Dispatch<any>;
+	/** The current ecosystem. */
 	ecosystem: Ecosystem;
-
+	/** Any error message to display. */
 	error: string | null;
+	/** The total amount of tokens available. */
 	total: string | null;
 }
 
+/**
+ * A memoized functional component that renders the DamLockDialog.
+ * This dialog allows users to lock in DAM tokens to start a validator and choose a minter address.
+ * @param params - Object containing selectedAddress, balances, dispatch, error, total, and ecosystem.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, total, ecosystem }) => {
 	const { lockableTokenShortName, mintableTokenShortName, marketAddress } = getEcosystemConfig(ecosystem)
 

@@ -17,12 +17,26 @@ import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/Exp
 import LightTooltip from '../LightTooltip';
 
 
+/**
+ * Props for the Render component within RealtimeLiqudityCard.
+ */
 interface RenderParams {
+	/** The balances of various tokens. */
 	balances: Balances;
+	/** Token-related details for the Flux address. */
 	addressTokenDetails: FluxAddressTokenDetails;
+	/** Detailed information about the Flux address. */
 	addressDetails: FluxAddressDetails;
+	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }
+
+/**
+ * A memoized functional component that renders the Realtime Liquidity Card.
+ * It displays real-time information about the liquidity of various tokens in Uniswap/SushiSwap pools,
+ * including market caps and available liquidity.
+ * @param params - Object containing balances, addressTokenDetails, addressDetails, and ecosystem.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, ecosystem }) => {
 	const config = getEcosystemConfig(ecosystem);
 	const { layer, mintableTokenShortName, lockableTokenShortName, isLiquidityPoolAdditionalButtonsEnabled, liquidityPoolType } = config

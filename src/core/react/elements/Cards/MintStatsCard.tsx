@@ -17,16 +17,33 @@ import { Ecosystem } from '../../../../configs/config.common';
 import { getRequiredFluxToBurn } from '../../../web3/helperElements';
 import DetailedListItem from '../Fragments/DetailedListItem';
 
+/**
+ * Props for the Render component within MintStatsCard.
+ */
 interface RenderParams {
+	/** The Flux address lock details. */
 	addressLock: FluxAddressLock;
+	/** The address currently being displayed. */
 	displayedAddress: string;
+	/** Detailed information about the Flux address. */
 	addressDetails: FluxAddressDetails;
+	/** Token-related details for the Flux address. */
 	addressTokenDetails: FluxAddressTokenDetails;
+	/** The currently selected address in the wallet. */
 	selectedAddress: string;
+	/** Balances of various tokens. */
 	balances: Balances;
+	/** The dispatch function from the Web3Context. */
 	dispatch: React.Dispatch<any>;
+	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }
+
+/**
+ * A memoized functional component that renders the Minting Statistics card.
+ * It displays various statistics related to token minting, such as locked amounts, burn ratios, and time until bonuses.
+ * @param params - Object containing addressLock, addressDetails, addressTokenDetails, selectedAddress, balances, displayedAddress, dispatch, and ecosystem.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ addressLock, addressDetails, addressTokenDetails, selectedAddress, balances, displayedAddress, dispatch, ecosystem }) => {
 	const { mintableTokenShortName, maxBurnMultiplier, minBurnMultiplier } = getEcosystemConfig(ecosystem)
 

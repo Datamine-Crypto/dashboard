@@ -12,12 +12,18 @@ import CenteredLoading from '../Fragments/CenteredLoading'; // Assuming you have
 import LightTooltip from '../LightTooltip';
 
 
+/**
+ * Props for the Render component within HelpDialog.
+ */
 interface RenderParams {
+	/** The dispatch function from the Web3Context. */
 	dispatch: React.Dispatch<any>;
-
+	/** The help article to display. */
 	helpArticle: HelpArticle;
+	/** The network type for which the help articles are being displayed. */
 	helpArticlesNetworkType: NetworkType;
 }
+
 // Dynamically import ReactMarkdown
 const ReactMarkdown = lazy(() => import('react-markdown'));
 
@@ -115,6 +121,11 @@ enum ComponentType {
 	AddToMetamask = 'AddToMetamask'
 }
 
+/**
+ * A memoized functional component that renders the Help Dialog.
+ * This dialog displays help articles formatted with Markdown, including dynamic content and styling.
+ * @param params - Object containing dispatch function, helpArticle, and helpArticlesNetworkType.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType }) => {
 	const { classes } = useStyles();
 

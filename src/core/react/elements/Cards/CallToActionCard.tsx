@@ -113,26 +113,45 @@ const useStyles = tss.create(({ theme }) => ({
 }));
 
 
+/**
+ * Props for the Render component.
+ */
 interface RenderParams {
+	/** The Flux address lock details. */
 	addressLock: FluxAddressLock;
+	/** The currently selected address in the wallet. */
 	selectedAddress: string;
+	/** The address currently being displayed. */
 	displayedAddress: string;
+	/** Detailed information about the Flux address. */
 	addressDetails: FluxAddressDetails;
+	/** Token-related details for the Flux address. */
 	addressTokenDetails: FluxAddressTokenDetails;
+	/** Balances of various tokens. */
 	balances: Balances;
+	/** Current forecast settings. */
 	forecastSettings: ForecastSettings;
+	/** Current client settings. */
 	clientSettings: ClientSettings;
+	/** The dispatch function from the Web3Context. */
 	dispatch: React.Dispatch<any>;
+	/** The current ecosystem. */
 	ecosystem: Ecosystem;
+	/** The current connection method. */
 	connectionMethod: ConnectionMethod;
+	/** Market address lock details, if applicable. */
 	marketAddressLock: MarketAddressLock | null;
 }
 
+/**
+ * Dependencies for the date picker, dynamically loaded.
+ */
 interface DatePickerDependencies {
 	LocalizationProvider: React.ElementType<LocalizationProviderProps<any>> | null;
 	MobileDatePicker: React.ElementType<MobileDatePickerProps<any>> | null;
 	AdapterMoment: typeof AdapterMomentType | null;
 }
+
 /**
  * A memoized functional component that renders the Call To Action card on the dashboard.
  * This card dynamically displays different actions and information based on the user's Web3 state,

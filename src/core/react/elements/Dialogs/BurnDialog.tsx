@@ -8,15 +8,23 @@ import { BNToDecimal } from '../../../web3/helpers';
 import { Web3Context } from '../../../web3/Web3Context';
 import { Balances, commonLanguage } from '../../../web3/web3Reducer';
 
+/**
+ * Props for the Render component within BurnDialog.
+ */
 interface RenderParams {
+	/** The currently selected address in the wallet. */
 	selectedAddress: string;
+	/** Balances of various tokens. */
 	balances: Balances;
+	/** The dispatch function from the Web3Context. */
 	dispatch: React.Dispatch<any>;
-
+	/** Any error message to display. */
 	error: string | null;
+	/** The amount of tokens to burn. */
 	amount: string | null;
+	/** Setter for the amount of tokens to burn. */
 	setAmount: React.Dispatch<any>;
-
+	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }
 
@@ -118,6 +126,11 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 	</Dialog>
 });
 
+/**
+ * BurnDialog component for burning Flux tokens.
+ * This dialog allows users to specify an amount of Flux tokens to burn and a target Ethereum address.
+ * Burning tokens permanently increases the minting rate on the destination address.
+ */
 const BurnDialog: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
