@@ -7,6 +7,8 @@
 [![Material-UI](https://img.shields.io/badge/Material--UI-v7-0081CB?logo=mui&logoColor=white)](https://mui.com/)
 [![Web3.js](https://img.shields.io/badge/Web3.js-v4-F16822?logo=web3.js&logoColor=white)](https://web3js.org/)
 [![Yarn](https://img.shields.io/badge/Yarn-v4-2C8EBB?logo=yarn&logoColor=white)](https://yarnpkg.com/)
+[![Status](https://img.shields.io/badge/Status-Under%20Active%20Development-blue)](https://github.com/Datamine-Crypto/realtime-decentralized-dashboard)
+[![Discord](https://img.shields.io/badge/Discord-Join%20our%20Community-5865F2?logo=discord&logoColor=white)](https://discord.gg/2dQ7XAB22u)
 
 You can access the latest version of Datamine Realtime Decentralized Dashboard by clicking the following link:
 
@@ -16,19 +18,21 @@ You can access the latest version of Datamine Realtime Decentralized Dashboard b
 
 ## Table of Contents
 
-- [✨ Core Technologies](#-core-technologies)
-- [🏛️ Key Architectural Patterns](#️-key-architectural-patterns)
-- [💡 Core Datamine Concepts](#-core-datamine-concepts)
-- [✨ Features](#-features)
-- [📸 Screenshots](#-screenshots)
-- [🤝 Contributing](#-contributing)
-- [🛠️ Development Workflow](#️-development-workflow)
+- ✨ [Core Technologies](#-core-technologies)
+- 🏛️ [Key Architectural Patterns](#️-key-architectural-patterns)
+- 💡 [Core Datamine Concepts](#-core-datamine-concepts)
+- ⚙️ [Configuration](#%EF%B8%8F-configuration)
+- ✨ [Features](#-features)
+- 📸 [Screenshots](#-screenshots)
+- 🤝 [Contributing](#-contributing)
+- 🛠️ [Development Workflow](#️-development-workflow)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running dApp Locally](#running-dapp-locally)
   - [To Deploy](#to-deploy)
-- [📚 Learn More](#-learn-more)
-- [📄 License](#-license)
+- 📚 [Learn More](#-learn-more)
+- ❓ [Support](#-support)
+- 📄 [License](#-license)
 
 Welcome to the Datamine Network Dashboard! This project is a web-based dashboard for the Datamine Network, built with React and TypeScript. It provides users with tools to interact with Datamine smart contracts, view analytics, and manage their assets across different blockchain layers.
 
@@ -53,6 +57,15 @@ The `src` directory is meticulously organized to ensure a clear separation of co
     -   **`src/configs/ecosystems/`**: A crucial part of the multi-chain functionality, this sub-directory defines specific configurations for each blockchain environment the dashboard can connect to (e.g., Ethereum Mainnet L1 and Arbitrum L2). This enables seamless operation across different networks. 🔗
 
 This structured approach ensures that the codebase remains modular, scalable, and easy to navigate for developers.
+
+## ⚙️ Configuration
+
+The Datamine Network Dashboard is highly configurable to adapt to different blockchain environments and user preferences. Key configuration files are located in the `src/configs/` directory:
+
+-   **`src/configs/config.ts`**: The main configuration file, where you can adjust general application settings.
+-   **`src/configs/ecosystems/`**: This directory contains specific configurations for each supported blockchain ecosystem (e.g., `config.ecosystem.dam_flux_l1.ts` for Ethereum Mainnet, `config.ecosystem.arbiflux_lockquidity_l2.ts` for Arbitrum L2). These files define network details, contract addresses, and other ecosystem-specific parameters.
+
+To switch between ecosystems or customize settings, you can modify these files directly. For development, you might also leverage environment variables if your setup supports them.
 
 ## 💡 Core Datamine Concepts
 
@@ -137,6 +150,13 @@ This project was bootstrapped with [Vite](https://vite.dev/).
 You can learn more in the [Vite documentation](https://vite.dev/).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## ❓ Support
+
+If you have any questions, issues, or just want to connect with the community, please reach out through our:
+
+-   **Discord**: Join our [Discord server](https://discord.gg/2dQ7XAB22u) for real-time discussions and support. 💬
+-   **GitHub Issues**: For bug reports or feature requests, please open an issue on our [GitHub repository](https://github.com/Datamine-Crypto/realtime-decentralized-dashboard/issues). 🐛
 
 ## 📄 License
 
