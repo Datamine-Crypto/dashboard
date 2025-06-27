@@ -5,11 +5,11 @@
 export enum Ecosystem {
 	Flux = 'Flux',
 	ArbiFlux = 'ArbiFlux',
-	Lockquidity = 'Lockquidity'
+	Lockquidity = 'Lockquidity',
 }
 export enum Layer {
 	Layer1 = 'Layer1',
-	Layer2 = 'Layer2'
+	Layer2 = 'Layer2',
 }
 export enum NetworkType {
 	Localhost = 'LOCALHOST',
@@ -20,11 +20,10 @@ export enum NetworkType {
 
 export enum LiquidityPoolType {
 	SushiSwap = 'SushiSwap',
-	Uniswap = 'Uniswap'
+	Uniswap = 'Uniswap',
 }
 
 export interface EcosystemConfig {
-
 	/**
 	 * What is the address of token that you have to "lock-in" (ex: DAM)
 	 */
@@ -36,7 +35,7 @@ export interface EcosystemConfig {
 	lockableTokenFullName: string;
 
 	/**
-	 * Shortest name to display ex: "DAM" for lockable token 
+	 * Shortest name to display ex: "DAM" for lockable token
 	 */
 	lockableTokenShortName: string;
 
@@ -82,7 +81,7 @@ export interface EcosystemConfig {
 
 	/**
 	 * If your token has a failsafe limit enabled, at what block does it start?
-	 * Failsafe allows only a certain amount of tokens to be locked-up in beginning. 
+	 * Failsafe allows only a certain amount of tokens to be locked-up in beginning.
 	 * (These are the settings you've set when initializing smart contract)
 	 */
 	failsafeStartBlockNumber: number;
@@ -113,12 +112,12 @@ export interface EcosystemConfig {
 	/**
 	 * Smart contract value from _mintPerBlockDivisor (this is the second number in 10 ** 8)
 	 */
-	mintableTokenMintPerBlockDivisor: number,
+	mintableTokenMintPerBlockDivisor: number;
 
 	/**
 	 * When displaying price how many decimials do you want to see when displaying prices?
 	 */
-	mintableTokenPriceDecimals: number,
+	mintableTokenPriceDecimals: number;
 
 	ecosystemLogoSvg: string;
 
@@ -131,7 +130,7 @@ export interface EcosystemConfig {
 
 	/**
 	 * Per-ecosystem top-burning addresses
-	 * These are updated frequently based on activity. 
+	 * These are updated frequently based on activity.
 	 * Top 9 addresses in each ecosystem are default gems in Datamine Gems #GameFi
 	 */
 	marketTopBurningaddresses: string[];

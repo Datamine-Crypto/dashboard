@@ -1,19 +1,33 @@
-import { Box, Button, Card, CardActionArea, Chip, Divider, Drawer, Link, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	Card,
+	CardActionArea,
+	Chip,
+	Divider,
+	Drawer,
+	Link,
+	List,
+	ListItemButton,
+	ListItemIcon,
+	ListItemText,
+	Typography,
+} from '@mui/material';
 import React, { useContext } from 'react';
 
 import Grid from '@mui/material/Grid';
 
 import clsx from 'clsx';
 import {
-  Diamond as DiamondIcon,
-  Equalizer as EqualizerIcon,
-  ExpandMore,
-  HelpOutline as HelpIcon,
-  Home as HomeIcon,
-  LocalLibrary as LocalLibraryIcon,
-  People as PeopleIcon,
-  PlayArrow as PlayArrowIcon,
-  Whatshot as WhatshotIcon
+	Diamond as DiamondIcon,
+	Equalizer as EqualizerIcon,
+	ExpandMore,
+	HelpOutline as HelpIcon,
+	Home as HomeIcon,
+	LocalLibrary as LocalLibraryIcon,
+	People as PeopleIcon,
+	PlayArrow as PlayArrowIcon,
+	Whatshot as WhatshotIcon,
 } from '@mui/icons-material';
 
 import { tss } from 'tss-react/mui';
@@ -36,11 +50,8 @@ const useStyles = tss.create(({ theme }) => ({
 			flexShrink: 0,
 		},
 	},
-	bigDrawerRoot: {
-
-	},
+	bigDrawerRoot: {},
 	mobileDrawerRoot: {
-
 		zIndex: `${theme.zIndex.drawer + 12} !important`,
 	},
 	appBar: {
@@ -57,8 +68,8 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 	// necessary for content to be below app bar
 	toolbar: {
-		...theme.mixins.toolbar as any,
-		marginTop: theme.spacing(2)
+		...(theme.mixins.toolbar as any),
+		marginTop: theme.spacing(2),
 	},
 	content: {
 		flexGrow: 1,
@@ -89,7 +100,7 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 	nested: {
 		paddingLeft: theme.spacing(4),
-		background: '#22242e'
+		background: '#22242e',
 	},
 	logoArea: {
 		display: 'flex',
@@ -99,7 +110,7 @@ const useStyles = tss.create(({ theme }) => ({
 		flexGrow: 1,
 	},
 	parent: {
-		background: '#22242e'
+		background: '#22242e',
 	},
 	drawerGridContainer: {
 		height: '100%',
@@ -109,11 +120,11 @@ const useStyles = tss.create(({ theme }) => ({
 		fontSize: '0.7rem',
 		'&:hover': {
 			background: '#333851',
-		}
+		},
 	},
 	lastExpandedItem: {
-		paddingBottom: theme.spacing(2)
-	}
+		paddingBottom: theme.spacing(2),
+	},
 }));
 
 interface RenderParams {
@@ -122,9 +133,16 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpen, ecosystem }) => {
-
-	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem)
-	const { isL1PageEnabled, isL2PageEnabled, isCommunityPageEnabled, isAnalyticsPagesEnabled, ecosystemButtonlabel, discordInviteLink, isHelpPageEnabled } = navigation
+	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem);
+	const {
+		isL1PageEnabled,
+		isL2PageEnabled,
+		isCommunityPageEnabled,
+		isAnalyticsPagesEnabled,
+		ecosystemButtonlabel,
+		discordInviteLink,
+		isHelpPageEnabled,
+	} = navigation;
 
 	//const { classes } = useStyles() ;
 
@@ -138,47 +156,51 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				title: <>Learn More</>,
 				icon: <LocalLibraryIcon />,
 				href: '#about',
-				className: classes.nested
+				className: classes.nested,
 			},
-		]
-	}
+		];
+	};
 	const getCommunityPage = () => {
 		if (!isCommunityPageEnabled) {
-			return []
+			return [];
 		}
 		return [
 			{
 				title: 'Community',
 				icon: <PeopleIcon />,
 				href: '#community',
-				className: classes.nested
+				className: classes.nested,
 			},
-		]
-	}
+		];
+	};
 	const getAnalyticsPages = () => {
 		if (!isAnalyticsPagesEnabled) {
-			return []
+			return [];
 		}
 		return [
 			{
-				isBasicDivider: true
+				isBasicDivider: true,
 			},
 			{
-				title: <>Datamine Gems <Chip size="small" label="#GameFi" /></>,
+				title: (
+					<>
+						Datamine Gems <Chip size="small" label="#GameFi" />
+					</>
+				),
 				icon: <DiamondIcon />,
 				href: '#gamefi',
 			},
 			{
-				isBasicDivider: true
+				isBasicDivider: true,
 			},
 			{
 				title: 'Ecosystem Analytics',
 				icon: <EqualizerIcon />,
 				expandIcon: true,
-				href: 'https://datamine-crypto.github.io/datamine-pro-portal/'
+				href: 'https://datamine-crypto.github.io/datamine-pro-portal/',
 			},
 			{
-				isBasicDivider: true
+				isBasicDivider: true,
 			},
 			/*
 			{
@@ -190,67 +212,70 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			{
 				isBasicDivider: true
 			},*/
-		]
-	}
+		];
+	};
 	const getHelpPage = () => {
 		if (!isHelpPageEnabled) {
-			return []
+			return [];
 		}
 		return [
 			{
 				title: 'Help',
 				icon: <HelpIcon />,
 				href: '#help',
-				className: `${classes.nested} ${classes.lastExpandedItem}`
+				className: `${classes.nested} ${classes.lastExpandedItem}`,
 			},
-		]
-	}
+		];
+	};
 
 	const buttons = [
 		{
-			isBasicDivider: true
+			isBasicDivider: true,
 		},
 		{
 			title: ecosystemButtonlabel,
 
 			icon: <WhatshotIcon />,
 			className: classes.parent,
-			expandIcon: true
+			expandIcon: true,
 		},
 		{
 			title: 'Homepage',
 			icon: <HomeIcon />,
 			href: '#',
-			className: classes.nested
+			className: classes.nested,
 		},
 		{
 			title: 'Liquidity Dashboard',
 			icon: <PlayArrowIcon />,
 			href: '#dashboard',
-			className: classes.nested
+			className: classes.nested,
 		},
 		...getL2Page(),
 		...getCommunityPage(),
 		...getHelpPage(),
-		...getAnalyticsPages()
-	]
+		...getAnalyticsPages(),
+	];
 
 	const getDrawer = () => {
-
 		const getExpandIcon = (shouldExpand: boolean) => {
 			if (!shouldExpand) {
 				return null;
 			}
 
-			return <ExpandMore />
-		}
+			return <ExpandMore />;
+		};
 
 		const drawerButtons = buttons.map((button: any) => {
 			if (button.isDivider) {
-				return <Box my={2}><Divider /></Box>
+				return (
+					<Box my={2}>
+						<Divider />
+					</Box>
+				);
 			}
 			if (button.isBasicDivider) {
-				return <Divider />
+				return <Divider />;
 			}
 			const getListItemProps = () => {
 				if (button.href) {
@@ -260,146 +285,138 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 						href: button.href,
 						color: 'textPrimary',
 						onClick: () => {
-							dispatch({ type: commonLanguage.commands.CloseDrawer })
-						}
-					}
+							dispatch({ type: commonLanguage.commands.CloseDrawer });
+						},
+					};
 				}
 
 				if (!button.onClick) {
-					return {
-
-					}
+					return {};
 				}
 
 				return {
 					button: true,
 					onClick: () => {
-						dispatch({ type: commonLanguage.commands.CloseDrawer })
+						dispatch({ type: commonLanguage.commands.CloseDrawer });
 						button.onClick();
-					}
-				}
-			}
-			return <ListItemButton key={button.title} className={button.className} {...getListItemProps() as any}>
-				<ListItemIcon style={{ minWidth: 40 }}>{button.icon}</ListItemIcon>
-				<ListItemText primary={button.title} />
-				{getExpandIcon(!!button.expandIcon)}
-			</ListItemButton>
-		})
+					},
+				};
+			};
+			return (
+				<ListItemButton key={button.title} className={button.className} {...(getListItemProps() as any)}>
+					<ListItemIcon style={{ minWidth: 40 }}>{button.icon}</ListItemIcon>
+					<ListItemText primary={button.title} />
+					{getExpandIcon(!!button.expandIcon)}
+				</ListItemButton>
+			);
+		});
 
 		const getDiscordButton = () => {
 			if (!discordInviteLink) {
 				return null;
 			}
-			return <Box my={3}>
-				<Grid
-					container
-					justifyContent="center">
-					<Grid>
-						<Button
-							variant="contained"
-							color="secondary"
-							startIcon={<img src={discordWhiteLogo} alt={`Discord: ${ecosystemName}`} width="18" height="18" />}
-							size="medium"
-							className={classes.discordButton}
-							href={discordInviteLink}
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							Chat With Us On Discord!
-						</Button>
-
+			return (
+				<Box my={3}>
+					<Grid container justifyContent="center">
+						<Grid>
+							<Button
+								variant="contained"
+								color="secondary"
+								startIcon={<img src={discordWhiteLogo} alt={`Discord: ${ecosystemName}`} width="18" height="18" />}
+								size="medium"
+								className={classes.discordButton}
+								href={discordInviteLink}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Chat With Us On Discord!
+							</Button>
+						</Grid>
 					</Grid>
-				</Grid>
-			</Box>
-		}
-
-		return <>
-			<div className={classes.toolbar}>
-				<Box sx={{ display: { xs: 'block', lg: 'none' }, /*lgUp*/ }}>
-					<Link href="#">
-						<Card elevation={0}>
-							<CardActionArea className={classes.logoArea}>
-								<Box mr={2}>
-									<img src={Logo} width="54" height="54" />
-								</Box>
-								<Typography component="div" color="inherit" noWrap className={classes.title}>
-									{ecosystemName}
-								</Typography>
-
-							</CardActionArea>
-						</Card>
-					</Link>
 				</Box>
-			</div>
-			<Box height="100%">
-				<Grid container direction="column" justifyContent="space-between" className={classes.drawerGridContainer}>
-					<Grid>
-						<List>
-							{drawerButtons}
-						</List>
+			);
+		};
+
+		return (
+			<>
+				<div className={classes.toolbar}>
+					<Box sx={{ display: { xs: 'block', lg: 'none' } /*lgUp*/ }}>
+						<Link href="#">
+							<Card elevation={0}>
+								<CardActionArea className={classes.logoArea}>
+									<Box mr={2}>
+										<img src={Logo} width="54" height="54" />
+									</Box>
+									<Typography component="div" color="inherit" noWrap className={classes.title}>
+										{ecosystemName}
+									</Typography>
+								</CardActionArea>
+							</Card>
+						</Link>
+					</Box>
+				</div>
+				<Box height="100%">
+					<Grid container direction="column" justifyContent="space-between" className={classes.drawerGridContainer}>
+						<Grid>
+							<List>{drawerButtons}</List>
+						</Grid>
+						<Grid>{getDiscordButton()}</Grid>
 					</Grid>
-					<Grid>
-						{getDiscordButton()}
-					</Grid>
-				</Grid>
-			</Box>
-		</>
-	}
+				</Box>
+			</>
+		);
+	};
 
 	const handleDrawerToggle = () => {
-		dispatch({ type: commonLanguage.commands.CloseDrawer })
-	}
+		dispatch({ type: commonLanguage.commands.CloseDrawer });
+	};
 
-	return <nav className={classes.drawer} aria-label="mailbox folders">
-		{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-		<Box sx={{ display: { xs: 'block', lg: 'none' }, /*lgUp*/ }}>
-			<Drawer
-				variant="temporary"
-				onClose={handleDrawerToggle}
-				//open={mobileOpen}
-				//onClose={handleDrawerToggle}
-				classes={{
-					root: clsx(classes.drawerRoot, classes.mobileDrawerRoot),
-					paper: clsx(classes.drawerPaper, !isMobileDrawerOpen && classes.drawerPaperClose),
-				}}
-				ModalProps={{
-					keepMounted: true, // Better open performance on mobile.
-				}}
-				PaperProps={{
-					elevation: 4
-				}}
-				open={isMobileDrawerOpen}
-			>
-				{getDrawer()}
-			</Drawer>
-		</Box>
-		<Box sx={{ display: { xs: 'none', lg: 'block' } /*mdDown*/ }}>
-			<Drawer
-				classes={{
-					root: clsx(classes.drawerRoot, classes.bigDrawerRoot),
-					paper: clsx(classes.drawerPaper, !isBigDrawerOpen && classes.drawerPaperClose),
-				}}
-				variant="permanent"
-				open={isBigDrawerOpen}
-				PaperProps={{
-					elevation: 4
-				}}
-			>
-				{getDrawer()}
-			</Drawer>
-		</Box>
-	</nav>
-})
-
-
+	return (
+		<nav className={classes.drawer} aria-label="mailbox folders">
+			{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+			<Box sx={{ display: { xs: 'block', lg: 'none' } /*lgUp*/ }}>
+				<Drawer
+					variant="temporary"
+					onClose={handleDrawerToggle}
+					//open={mobileOpen}
+					//onClose={handleDrawerToggle}
+					classes={{
+						root: clsx(classes.drawerRoot, classes.mobileDrawerRoot),
+						paper: clsx(classes.drawerPaper, !isMobileDrawerOpen && classes.drawerPaperClose),
+					}}
+					ModalProps={{
+						keepMounted: true, // Better open performance on mobile.
+					}}
+					PaperProps={{
+						elevation: 4,
+					}}
+					open={isMobileDrawerOpen}
+				>
+					{getDrawer()}
+				</Drawer>
+			</Box>
+			<Box sx={{ display: { xs: 'none', lg: 'block' } /*mdDown*/ }}>
+				<Drawer
+					classes={{
+						root: clsx(classes.drawerRoot, classes.bigDrawerRoot),
+						paper: clsx(classes.drawerPaper, !isBigDrawerOpen && classes.drawerPaperClose),
+					}}
+					variant="permanent"
+					open={isBigDrawerOpen}
+					PaperProps={{
+						elevation: 4,
+					}}
+				>
+					{getDrawer()}
+				</Drawer>
+			</Box>
+		</nav>
+	);
+});
 
 export const MainDrawer: React.FC = () => {
-	const { state: web3State, dispatch } = useContext(Web3Context)
+	const { state: web3State, dispatch } = useContext(Web3Context);
 	const { ecosystem } = web3State;
 
-	return <Render
-		isMobileDrawerOpen={web3State.isMobileDrawerOpen}
-		dispatch={dispatch}
-		ecosystem={ecosystem}
-	/>
-}
+	return <Render isMobileDrawerOpen={web3State.isMobileDrawerOpen} dispatch={dispatch} ecosystem={ecosystem} />;
+};

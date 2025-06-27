@@ -57,7 +57,7 @@ interface ReducerQueryData {
 export interface ReducerQuery {
 	/** Optional: Unique identifier for the query. */
 	id?: string;
-	/** The type of the query. */	type: string;
+	/** The type of the query. */ type: string;
 	/** Optional: The payload of the query. */
 	payload?: any;
 }
@@ -86,7 +86,6 @@ export interface QueryHandler<T> {
 	dispatch: React.Dispatch<any>;
 }
 
-
 /**
  * Processes a queue of ReducerQueries by invoking their respective handlers.
  * It dispatches success or error actions based on the query handler's outcome.
@@ -101,30 +100,29 @@ const handleQueries = async ({ state, dispatch, queryHandlers }: HandlerQueriesP
 	for (const query of queries) {
 		const queryHandler = queryHandlers[query.type];
 		if (!queryHandler) {
-			throw commonLanguage.errors.QueryHandlerNotFound
+			throw commonLanguage.errors.QueryHandlerNotFound;
 		}
 
 		try {
-			const response = await queryHandler({ state, query, dispatch })
+			const response = await queryHandler({ state, query, dispatch });
 			dispatch({
 				type: commonLanguage.commands.HandleQuery,
 				payload: {
 					query,
-					response
-				}
-			})
-		}
-		catch (err) {
+					response,
+				},
+			});
+		} catch (err) {
 			dispatch({
 				type: commonLanguage.commands.HandleQuery,
 				payload: {
 					query,
-					err
-				}
-			})
+					err,
+				},
+			});
 		}
 	}
-}
+};
 /**
  * Creates a higher-order reducer that handles both commands and query responses.
  * It intercepts query responses to remove them from the pending queries list.
@@ -143,33 +141,29 @@ const sideEffectReducer = (params: SideEffectReducerParams) => {
 				const { query } = data.payload;
 				const stateWithoutPendingQuery = {
 					...newState,
-					pendingQueries: newState.pendingQueries.filter((pendingQuery: ReducerQuery) => pendingQuery.id !== query.id)
-				}
+					pendingQueries: newState.pendingQueries.filter((pendingQuery: ReducerQuery) => pendingQuery.id !== query.id),
+				};
 				return stateWithoutPendingQuery;
 			}
 
 			return handleCommand(state, data);
-		}
+		};
 
 		const newState = handleData();
 
-
 		return newState;
-	}
-}
+	};
+};
 
 const commonLanguage = {
 	commands: {
 		HandleQuery: 'HANDLE_QUERY',
 		HandleQueries: 'HANDLE_QUERIES',
-		QueueQueries: 'QUEUE_QUERIES'
+		QueueQueries: 'QUEUE_QUERIES',
 	},
 	errors: {
-		QueryHandlerNotFound: 'Query handler not found.'
-	}
-}
-
-export {
-	commonLanguage, handleQueries,
-	sideEffectReducer
+		QueryHandlerNotFound: 'Query handler not found.',
+	},
 };
+
+export { commonLanguage, handleQueries, sideEffectReducer };

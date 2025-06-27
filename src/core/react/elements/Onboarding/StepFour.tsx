@@ -1,12 +1,4 @@
-import {
-	Box,
-	Button,
-	Grid,
-	Paper,
-	Slider,
-	Stack,
-	Typography
-} from '@mui/material';
+import { Box, Button, Grid, Paper, Slider, Stack, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { OnboardingProps } from './types';
 
@@ -48,11 +40,7 @@ const WhaleSvg = () => (
 	</svg>
 );
 
-const StepFour: React.FC<OnboardingProps> = ({
-	handleNext,
-	handleBack,
-	handleSelectSizeOption,
-}) => {
+const StepFour: React.FC<OnboardingProps> = ({ handleNext, handleBack, handleSelectSizeOption }) => {
 	// Initialize slider value based on selectedOption or default to 10
 	const getInitialValue = () => {
 		return 10; // default to shrimp
@@ -72,30 +60,42 @@ const StepFour: React.FC<OnboardingProps> = ({
 	// Get appropriate display name for the animal type
 	const getAnimalName = (type: string) => {
 		switch (type) {
-			case 'shrimp': return 'Shrimp';
-			case 'narwhal': return 'Narwhal';
-			case 'whale': return 'Whale';
-			default: return 'Shrimp';
+			case 'shrimp':
+				return 'Shrimp';
+			case 'narwhal':
+				return 'Narwhal';
+			case 'whale':
+				return 'Whale';
+			default:
+				return 'Shrimp';
 		}
 	};
 
 	// Get description based on the animal type
 	const getAnimalDescription = (type: string) => {
 		switch (type) {
-			case 'shrimp': return 'Start small and test the waters';
-			case 'narwhal': return 'For medium size validators';
-			case 'whale': return 'Larger validators that plan to burn more';
-			default: return 'Start small and test the waters';
+			case 'shrimp':
+				return 'Start small and test the waters';
+			case 'narwhal':
+				return 'For medium size validators';
+			case 'whale':
+				return 'Larger validators that plan to burn more';
+			default:
+				return 'Start small and test the waters';
 		}
 	};
 
 	// Get SVG component based on the animal type
 	const getAnimalSvg = (type: string) => {
 		switch (type) {
-			case 'shrimp': return <ShrimpSvg />;
-			case 'narwhal': return <NarwhalSvg />;
-			case 'whale': return <WhaleSvg />;
-			default: return <ShrimpSvg />;
+			case 'shrimp':
+				return <ShrimpSvg />;
+			case 'narwhal':
+				return <NarwhalSvg />;
+			case 'whale':
+				return <WhaleSvg />;
+			default:
+				return <ShrimpSvg />;
 		}
 	};
 
@@ -138,9 +138,7 @@ const StepFour: React.FC<OnboardingProps> = ({
 							<ellipse cx="150" cy="250" rx="80" ry="20" fill="#004444" opacity="0.5" />
 
 							{/* Main fire shape */}
-							<path
-								d="M100,250 C70,220 90,150 150,100 C210,150 230,220 200,250 Z"
-								fill="url(#fireGradient)">
+							<path d="M100,250 C70,220 90,150 150,100 C210,150 230,220 200,250 Z" fill="url(#fireGradient)">
 								<animate
 									attributeName="d"
 									dur="3s"
@@ -157,7 +155,8 @@ const StepFour: React.FC<OnboardingProps> = ({
 							<path
 								d="M120,250 C100,220 130,170 150,140 C170,170 200,220 180,250 Z"
 								fill="url(#innerFireGradient)"
-								opacity="0.8">
+								opacity="0.8"
+							>
 								<animate
 									attributeName="d"
 									dur="2s"
@@ -171,10 +170,7 @@ const StepFour: React.FC<OnboardingProps> = ({
 							</path>
 
 							{/* Inner flame */}
-							<path
-								d="M135,250 C125,220 140,180 150,160 C160,180 175,220 165,250 Z"
-								fill="#00FFFF"
-								opacity="0.9">
+							<path d="M135,250 C125,220 140,180 150,160 C160,180 175,220 165,250 Z" fill="#00FFFF" opacity="0.9">
 								<animate
 									attributeName="d"
 									dur="1.5s"
@@ -207,7 +203,6 @@ const StepFour: React.FC<OnboardingProps> = ({
 								<animate attributeName="cy" dur="3.5s" values="165;65" repeatCount="indefinite" />
 								<animate attributeName="opacity" dur="3.5s" values="1;0" repeatCount="indefinite" />
 							</circle>
-
 						</svg>
 					</Box>
 				</Grid>
@@ -217,16 +212,18 @@ const StepFour: React.FC<OnboardingProps> = ({
 							Buy ArbiFLUX Tokens
 						</Typography>
 						<Typography variant="body2" paragraph>
-							<strong>Select your size:</strong> The amount you select represents the size of your validator in the network.
-							Larger validators can burn more LOCK tokens to increase their minting speed.
+							<strong>Select your size:</strong> The amount you select represents the size of your validator in the
+							network. Larger validators can burn more LOCK tokens to increase their minting speed.
 						</Typography>
 						<Typography variant="body2" paragraph>
-							Once you start your ArbiFLUX validator your will start generating LOCK tokens. There is a cap of how much LOCK you can burn based on your validator size.
+							Once you start your ArbiFLUX validator your will start generating LOCK tokens. There is a cap of how much
+							LOCK you can burn based on your validator size.
 						</Typography>
 						<Typography variant="body2">
-							<strong>Recommendation:</strong> Start small if you're new to the platform, and you can always increase your position as you become more familiar with how the system works. We recommend starting with $10 to get familiar with the ecosystem and increasing it later on.
+							<strong>Recommendation:</strong> Start small if you're new to the platform, and you can always increase
+							your position as you become more familiar with how the system works. We recommend starting with $10 to get
+							familiar with the ecosystem and increasing it later on.
 						</Typography>
-
 
 						<Paper
 							elevation={0}
@@ -235,11 +232,20 @@ const StepFour: React.FC<OnboardingProps> = ({
 								my: 3,
 								bgcolor: 'rgba(0, 255, 255, 0.05)',
 								border: '1px solid rgba(0, 255, 255, 0.2)',
-								borderRadius: 2
+								borderRadius: 2,
 							}}
 						>
 							<Stack spacing={3} alignItems="center">
-								<Box sx={{ textAlign: 'center', minHeight: '120px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+								<Box
+									sx={{
+										textAlign: 'center',
+										minHeight: '120px',
+										display: 'flex',
+										flexDirection: 'column',
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}
+								>
 									{getAnimalSvg(currentAnimal)}
 
 									<Typography variant="h5" sx={{ mt: 1, fontWeight: 'bold' }}>
@@ -291,7 +297,7 @@ const StepFour: React.FC<OnboardingProps> = ({
 											'& .MuiSlider-markLabel': {
 												color: 'rgba(0, 255, 255, 0.7)',
 												fontWeight: 'bold',
-											}
+											},
 										}}
 									/>
 								</Box>
@@ -302,20 +308,10 @@ const StepFour: React.FC<OnboardingProps> = ({
 			</Grid>
 
 			<Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
-				<Button
-					variant="outlined"
-					color="primary"
-					onClick={handleBack}
-					sx={{ minWidth: 120 }}
-				>
+				<Button variant="outlined" color="primary" onClick={handleBack} sx={{ minWidth: 120 }}>
 					Back
 				</Button>
-				<Button
-
-					variant="outlined" color="secondary"
-					onClick={handleNext}
-					sx={{ minWidth: 120 }}
-				>
+				<Button variant="outlined" color="secondary" onClick={handleNext} sx={{ minWidth: 120 }}>
 					Continue
 				</Button>
 			</Box>

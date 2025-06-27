@@ -1,8 +1,7 @@
-import Web3 from "web3";
-import { Ecosystem, Layer } from "../../../configs/config.common";
+import Web3 from 'web3';
+import { Ecosystem, Layer } from '../../../configs/config.common';
 
-export interface SwapPlatformOptions {
-}
+export interface SwapPlatformOptions {}
 
 export enum SwapToken {
 	ETH = 'ETH',
@@ -17,11 +16,11 @@ export enum SwapToken {
  */
 export enum SwapOperation {
 	Input = 'Input',
-	Output = 'Output'
+	Output = 'Output',
 }
 
 export enum SwapPlatform {
-	UniswapV2 = 'UniswapV2'
+	UniswapV2 = 'UniswapV2',
 }
 
 export interface SwapTokenDetails {
@@ -70,5 +69,5 @@ export interface SwapQuote {
 	out: {
 		minAmount: string;
 		maxAmount: string;
-	}
+	};
 }

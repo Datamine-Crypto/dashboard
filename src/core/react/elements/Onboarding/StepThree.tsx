@@ -1,9 +1,4 @@
-import {
-	Box,
-	Button,
-	Grid,
-	Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { OnboardingProps } from './types';
 
@@ -44,7 +39,17 @@ const OperatorSvg = ({ width = '100%', height = '100%', className = '' }) => {
 				{/* User Wallet */}
 				<g transform="translate(120, 280)">
 					<rect x="0" y="0" width="160" height="100" rx="15" fill="#1E2530" stroke="#59F6F2" strokeWidth="2" />
-					<rect x="20" y="20" width="120" height="25" rx="5" fill="#0D1117" stroke="#59F6F2" strokeWidth="1" opacity="0.8" />
+					<rect
+						x="20"
+						y="20"
+						width="120"
+						height="25"
+						rx="5"
+						fill="#0D1117"
+						stroke="#59F6F2"
+						strokeWidth="1"
+						opacity="0.8"
+					/>
 					<rect x="20" y="55" width="60" height="25" rx="5" fill="#59F6F2" opacity="0.8" />
 					<circle cx="130" cy="25" r="15" fill="#0D1117" stroke="#59F6F2" strokeWidth="1" />
 					<circle cx="130" cy="25" r="7" fill="#59F6F2" opacity="0.8" />
@@ -93,60 +98,34 @@ const OperatorSvg = ({ width = '100%', height = '100%', className = '' }) => {
 				{/* Permission request animation */}
 				<g>
 					{/* Connection line */}
-					<path d="M200,300 C300,250 500,250 600,300" fill="none" stroke="#59F6F2" strokeWidth="2" strokeDasharray="6,3" opacity="0.6" />
+					<path
+						d="M200,300 C300,250 500,250 600,300"
+						fill="none"
+						stroke="#59F6F2"
+						strokeWidth="2"
+						strokeDasharray="6,3"
+						opacity="0.6"
+					/>
 
 					{/* Animated data packets */}
 					<circle r="5" fill="#59F6F2">
-						<animateMotion
-							path="M200,300 C300,250 500,250 600,300"
-							dur="2s"
-							begin="0.5s"
-							fill="freeze"
-						/>
-						<animate
-							attributeName="opacity"
-							values="1;0"
-							dur="0.3s"
-							begin="2.5s"
-							fill="freeze"
-						/>
+						<animateMotion path="M200,300 C300,250 500,250 600,300" dur="2s" begin="0.5s" fill="freeze" />
+						<animate attributeName="opacity" values="1;0" dur="0.3s" begin="2.5s" fill="freeze" />
 					</circle>
 
 					{/* Access request packet */}
 					<g>
 						<rect width="30" height="20" rx="5" fill="#59F6F2" opacity="0.9">
-							<animateMotion
-								path="M600,300 C500,250 300,250 200,300"
-								dur="1.5s"
-								begin="3s"
-								fill="freeze"
-							/>
-							<animate
-								attributeName="opacity"
-								values="0;0.9;0"
-								dur="3s"
-								begin="3s"
-								fill="freeze"
-							/>
+							<animateMotion path="M600,300 C500,250 300,250 200,300" dur="1.5s" begin="3s" fill="freeze" />
+							<animate attributeName="opacity" values="0;0.9;0" dur="3s" begin="3s" fill="freeze" />
 						</rect>
 					</g>
 
 					{/* Access granted packet */}
 					<g>
 						<polygon points="0,0 15,10 0,20" fill="#59F6F2">
-							<animateMotion
-								path="M200,300 C300,350 500,350 600,300"
-								dur="1.5s"
-								begin="5s"
-								fill="freeze"
-							/>
-							<animate
-								attributeName="opacity"
-								values="0;1;0"
-								dur="3s"
-								begin="5s"
-								fill="freeze"
-							/>
+							<animateMotion path="M200,300 C300,350 500,350 600,300" dur="1.5s" begin="5s" fill="freeze" />
+							<animate attributeName="opacity" values="0;1;0" dur="3s" begin="5s" fill="freeze" />
 						</polygon>
 					</g>
 				</g>
@@ -165,119 +144,73 @@ const OperatorSvg = ({ width = '100%', height = '100%', className = '' }) => {
 
 					{/* Connection authorization effect */}
 					<circle cx="400" cy="300" r="50" fill="none" stroke="#59F6F2" strokeWidth="2" opacity="0">
-						<animate
-							attributeName="r"
-							values="1;80"
-							dur="1.5s"
-							begin="6.5s"
-							fill="freeze"
-						/>
-						<animate
-							attributeName="opacity"
-							values="0.8;0"
-							dur="1.5s"
-							begin="6.5s"
-							fill="freeze"
-						/>
+						<animate attributeName="r" values="1;80" dur="1.5s" begin="6.5s" fill="freeze" />
+						<animate attributeName="opacity" values="0.8;0" dur="1.5s" begin="6.5s" fill="freeze" />
 					</circle>
 				</g>
 
 				{/* Final established connection */}
 				<g>
 					<path d="M200,300 C300,350 500,350 600,300" fill="none" stroke="#59F6F2" strokeWidth="2" opacity="0">
-						<animate
-							attributeName="opacity"
-							values="0;0.8"
-							dur="0.5s"
-							begin="7s"
-							fill="freeze"
-						/>
+						<animate attributeName="opacity" values="0;0.8" dur="0.5s" begin="7s" fill="freeze" />
 					</path>
 
 					{/* Animated dots representing active connection */}
 					<circle r="4" fill="#59F6F2" opacity="0">
-						<animate
-							attributeName="opacity"
-							values="0;0.9"
-							dur="0.5s"
-							begin="7.5s"
-							fill="freeze"
-						/>
-						<animateMotion
-							path="M200,300 C300,350 500,350 600,300"
-							dur="3s"
-							begin="7.5s"
-							repeatCount="indefinite"
-						/>
+						<animate attributeName="opacity" values="0;0.9" dur="0.5s" begin="7.5s" fill="freeze" />
+						<animateMotion path="M200,300 C300,350 500,350 600,300" dur="3s" begin="7.5s" repeatCount="indefinite" />
 					</circle>
 
 					<circle r="4" fill="#59F6F2" opacity="0">
-						<animate
-							attributeName="opacity"
-							values="0;0.9"
-							dur="0.5s"
-							begin="8.5s"
-							fill="freeze"
-						/>
-						<animateMotion
-							path="M200,300 C300,350 500,350 600,300"
-							dur="3s"
-							begin="8.5s"
-							repeatCount="indefinite"
-						/>
+						<animate attributeName="opacity" values="0;0.9" dur="0.5s" begin="8.5s" fill="freeze" />
+						<animateMotion path="M200,300 C300,350 500,350 600,300" dur="3s" begin="8.5s" repeatCount="indefinite" />
 					</circle>
 
 					<circle r="4" fill="#59F6F2" opacity="0">
-						<animate
-							attributeName="opacity"
-							values="0;0.9"
-							dur="0.5s"
-							begin="9.5s"
-							fill="freeze"
-						/>
-						<animateMotion
-							path="M200,300 C300,350 500,350 600,300"
-							dur="3s"
-							begin="9.5s"
-							repeatCount="indefinite"
-						/>
+						<animate attributeName="opacity" values="0;0.9" dur="0.5s" begin="9.5s" fill="freeze" />
+						<animateMotion path="M200,300 C300,350 500,350 600,300" dur="3s" begin="9.5s" repeatCount="indefinite" />
 					</circle>
 				</g>
 
 				{/* Pulsing glow around the contract after connection is established */}
 				<circle cx="600" cy="330" r="90" fill="none" stroke="#59F6F2" strokeWidth="1" opacity="0">
-					<animate
-						attributeName="opacity"
-						values="0;0.3"
-						dur="0.5s"
-						begin="7s"
-						fill="freeze"
-					/>
-					<animate
-						attributeName="r"
-						values="90;100;90"
-						dur="3s"
-						begin="7s"
-						repeatCount="indefinite"
-					/>
+					<animate attributeName="opacity" values="0;0.3" dur="0.5s" begin="7s" fill="freeze" />
+					<animate attributeName="r" values="90;100;90" dur="3s" begin="7s" repeatCount="indefinite" />
 				</circle>
 
 				{/* Abstract blockchain elements in background */}
 				<g opacity="0.2">
-					<polygon points="700,100 730,115 730,145 700,160 670,145 670,115" fill="none" stroke="#59F6F2" strokeWidth="1" />
-					<polygon points="100,100 130,115 130,145 100,160 70,145 70,115" fill="none" stroke="#59F6F2" strokeWidth="1" />
-					<polygon points="700,500 730,515 730,545 700,560 670,545 670,515" fill="none" stroke="#59F6F2" strokeWidth="1" />
-					<polygon points="100,500 130,515 130,545 100,560 70,545 70,515" fill="none" stroke="#59F6F2" strokeWidth="1" />
+					<polygon
+						points="700,100 730,115 730,145 700,160 670,145 670,115"
+						fill="none"
+						stroke="#59F6F2"
+						strokeWidth="1"
+					/>
+					<polygon
+						points="100,100 130,115 130,145 100,160 70,145 70,115"
+						fill="none"
+						stroke="#59F6F2"
+						strokeWidth="1"
+					/>
+					<polygon
+						points="700,500 730,515 730,545 700,560 670,545 670,515"
+						fill="none"
+						stroke="#59F6F2"
+						strokeWidth="1"
+					/>
+					<polygon
+						points="100,500 130,515 130,545 100,560 70,545 70,515"
+						fill="none"
+						stroke="#59F6F2"
+						strokeWidth="1"
+					/>
 				</g>
 			</svg>
 		</div>
 	);
 };
 
-const StepThree: React.FC<OnboardingProps> = ({
-	handleBack,
-	handleNext
-}) => {
+const StepThree: React.FC<OnboardingProps> = ({ handleBack, handleNext }) => {
 	return (
 		<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 			<Grid container spacing={4} sx={{ flexGrow: 1 }}>
@@ -293,7 +226,8 @@ const StepThree: React.FC<OnboardingProps> = ({
 						</Typography>
 
 						<Typography variant="body1" paragraph>
-							Before you can start a validator, you will need to allow access for Datamine Network to interact with it's smart contract.
+							Before you can start a validator, you will need to allow access for Datamine Network to interact with it's
+							smart contract.
 						</Typography>
 
 						<Typography variant="body1" paragraph>
@@ -309,31 +243,24 @@ const StepThree: React.FC<OnboardingProps> = ({
 						</Typography>
 
 						<Typography variant="body1" paragraph>
-							When you click "Approve Access" below, MetaMask will open and ask you to confirm this permission. This only gives access to the specific functions needed and never allows moving your tokens without your explicit approval.
+							When you click "Approve Access" below, MetaMask will open and ask you to confirm this permission. This
+							only gives access to the specific functions needed and never allows moving your tokens without your
+							explicit approval.
 						</Typography>
 
 						<Typography variant="body2" paragraph sx={{ fontStyle: 'italic', mt: 2 }}>
-							Note: You'll only need to do this once per wallet. You are only granting permission to Datamine Ecosystem tokens.
+							Note: You'll only need to do this once per wallet. You are only granting permission to Datamine Ecosystem
+							tokens.
 						</Typography>
 					</Box>
 				</Grid>
 			</Grid>
 
 			<Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
-				<Button
-					variant="outlined"
-					color="primary"
-					onClick={handleBack}
-					sx={{ minWidth: 120 }}
-				>
+				<Button variant="outlined" color="primary" onClick={handleBack} sx={{ minWidth: 120 }}>
 					Back
 				</Button>
-				<Button
-
-					variant="outlined" color="secondary"
-					onClick={handleNext}
-					sx={{ minWidth: 120 }}
-				>
+				<Button variant="outlined" color="secondary" onClick={handleNext} sx={{ minWidth: 120 }}>
 					Continue
 				</Button>
 			</Box>

@@ -1,4 +1,3 @@
-
 import { Box, Paper } from '@mui/material';
 import React, { useState } from 'react';
 import ProgressStepper from './ProgressStepper';
@@ -14,7 +13,7 @@ const OnboardingFragment: React.FC = () => {
 	const totalSteps = 4;
 
 	const handleNext = () => {
-		setActiveStep((prevActiveStep) => prevActiveStep >= totalSteps - 1 ? 0 : prevActiveStep + 1);
+		setActiveStep((prevActiveStep) => (prevActiveStep >= totalSteps - 1 ? 0 : prevActiveStep + 1));
 	};
 
 	const handleBack = () => {

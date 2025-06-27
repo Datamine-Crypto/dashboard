@@ -1,4 +1,3 @@
-
 import { getConfigOverrides } from './config.overrides';
 import { Ecosystem, Layer, NetworkType } from './config.common';
 import { getBaseConfig } from './config.base';
@@ -15,12 +14,11 @@ import { getNetworkConfig } from './config.network';
  * @returns A complete configuration object for the specified ecosystem.
  */
 export const getEcosystemConfig = (ecosystem: Ecosystem) => {
-
-	const baseConfig = getBaseConfig(ecosystem)
+	const baseConfig = getBaseConfig(ecosystem);
 
 	return {
 		...baseConfig,
 		...getNetworkConfig(baseConfig.layer),
-		...getConfigOverrides(baseConfig)
-	}
-}
+		...getConfigOverrides(baseConfig),
+	};
+};

@@ -6,13 +6,24 @@
  * @param [params.includeCurrencySuffix=false] - Whether to explicitly append the currency code if not already present in the formatted string.
  * @returns The formatted currency string.
  */
-export const formatMoney = ({ amount, currency, includeCurrencySuffix = false }: { amount: number, currency: string, includeCurrencySuffix?: boolean }) => {
-	const exchangedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency, currencyDisplay: 'narrowSymbol' }).format(amount)
+export const formatMoney = ({
+	amount,
+	currency,
+	includeCurrencySuffix = false,
+}: {
+	amount: number;
+	currency: string;
+	includeCurrencySuffix?: boolean;
+}) => {
+	const exchangedAmount = new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency,
+		currencyDisplay: 'narrowSymbol',
+	}).format(amount);
 
 	if (includeCurrencySuffix && exchangedAmount.indexOf(currency) === -1) {
-		return `${exchangedAmount} ${currency}`
-
+		return `${exchangedAmount} ${currency}`;
 	}
 
-	return exchangedAmount
-}
+	return exchangedAmount;
+};

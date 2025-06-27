@@ -1,5 +1,5 @@
 import ecosystemLogoSvg from '../../svgs/lockquidity.svg';
-import { EcosystemConfig, Layer, LiquidityPoolType } from "../config.common";
+import { EcosystemConfig, Layer, LiquidityPoolType } from '../config.common';
 
 export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
 	// This file defines the complete configuration for the Arbitrum L2 (ArbiFLUX/LOCK) ecosystem.
@@ -52,6 +52,6 @@ export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
 			'0x2D1bAa47DBdb317AC076Bd192F75889424Da44E0',
 			'0x7a50e45e3C9487c81ae1393f0751aaDA3ce442cA',
 			//@todo add more
-		]
-	}
-}
+		],
+	};
+};

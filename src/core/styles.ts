@@ -6,15 +6,15 @@ import { createTheme } from '@mui/material/styles';
 const palette = {
 	highlight: '#0FF',
 	background: '#272936',
-	secondaryBackground: '#202336'
-}
+	secondaryBackground: '#202336',
+};
 
 /**
  * Defines CSS classes based on the color palette.
  */
 const classes = {
-	palette
-}
+	palette,
+};
 
 /**
  * Creates a Material-UI theme with custom palette and component overrides.
@@ -27,7 +27,6 @@ const muiTheme = createTheme({
 			main: '#fff',
 			contrastText: '#0ff',
 
-
 			// dark: will be calculated from palette.primary.main,
 			// contrastText: will be calculated to contrast with palette.primary.main
 		},
@@ -36,8 +35,7 @@ const muiTheme = createTheme({
 			// dark: will be calculated from palette.secondary.main,
 			contrastText: '#fff',
 		},
-		text: {
-		},
+		text: {},
 		// Used by `getContrastText()` to maximize the contrast between
 		// the background and the text.
 		contrastThreshold: 3,
@@ -50,34 +48,34 @@ const muiTheme = createTheme({
 		MuiButton: {
 			styleOverrides: {
 				root: {
-					fontWeight: 400
-				}
-			}
+					fontWeight: 400,
+				},
+			},
 		},
 		MuiBackdrop: {
 			styleOverrides: {
 				root: {
-					backgroundColor: 'rgba(0, 0, 0, 0.50)'
-				}
-			}
+					backgroundColor: 'rgba(0, 0, 0, 0.50)',
+				},
+			},
 		},
 		MuiPaper: {
 			styleOverrides: {
 				root: {
 					backgroundColor: classes.palette.background,
-					'--Paper-overlay': 'none !important' // Overrides the extra overlay on top of all the papers (which adds extra bright color)
-				}
-			}
+					'--Paper-overlay': 'none !important', // Overrides the extra overlay on top of all the papers (which adds extra bright color)
+				},
+			},
 		},
 
 		MuiFormLabel: {
 			styleOverrides: {
 				root: {
 					'&.Mui-focused': {
-						color: '#0FF'
-					}
-				}
-			}
+						color: '#0FF',
+					},
+				},
+			},
 		},
 		MuiOutlinedInput: {
 			styleOverrides: {
@@ -86,18 +84,16 @@ const muiTheme = createTheme({
 						borderColor: '#0FF',
 						borderWidth: 1,
 					},
-				}
-			}
+				},
+			},
 		},
-	}
-
+	},
 });
-export type DatamineTheme = typeof muiTheme
+export type DatamineTheme = typeof muiTheme;
 
 const theme = {
 	muiTheme,
-	classes
-}
+	classes,
+};
 
 export { theme };
-

@@ -3,14 +3,18 @@ import {
 	Box,
 	Button,
 	CircularProgress,
-	Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
 	Grid,
 	IconButton,
 	InputAdornment,
 	keyframes,
 	Paper,
 	TextField,
-	Typography
+	Typography,
 } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -36,10 +40,10 @@ const localConfig = {
 	dollarDecimalPlaces: 4,
 	ethAddressDisplayLength: 10,
 	gemTiers: [
-		{ name: "Bronze", color: GemColor.Bronze, dollarAmount: 0.01, iconSize: { xs: 28, sm: 35, md: 40 } },
-		{ name: "Silver", color: GemColor.Silver, dollarAmount: 0.05, iconSize: { xs: 34, sm: 42, md: 50 } },
-		{ name: "Gold", color: GemColor.Gold, dollarAmount: 0.10, iconSize: { xs: 40, sm: 50, md: 60 } },
-		{ name: "Epic", color: GemColor.Epic, dollarAmount: 0.25, iconSize: { xs: 48, sm: 60, md: 75 } },
+		{ name: 'Bronze', color: GemColor.Bronze, dollarAmount: 0.01, iconSize: { xs: 28, sm: 35, md: 40 } },
+		{ name: 'Silver', color: GemColor.Silver, dollarAmount: 0.05, iconSize: { xs: 34, sm: 42, md: 50 } },
+		{ name: 'Gold', color: GemColor.Gold, dollarAmount: 0.1, iconSize: { xs: 40, sm: 50, md: 60 } },
+		{ name: 'Epic', color: GemColor.Epic, dollarAmount: 0.25, iconSize: { xs: 48, sm: 60, md: 75 } },
 	] as const,
 	localStorageKey: 'datamineGemsConfig',
 };
@@ -48,14 +52,16 @@ interface GemTier {
 	name: string;
 	color: GemColor;
 	dollarAmount: number;
-	iconSize: { xs: number; sm: number; md: number; };
+	iconSize: { xs: number; sm: number; md: number };
 }
 
-const DEFAULT_GEM_VALUES: Record<string, number> = localConfig.gemTiers.reduce((acc, tier) => {
-	acc[tier.name] = tier.dollarAmount;
-	return acc;
-}, {} as Record<string, number>);
-
+const DEFAULT_GEM_VALUES: Record<string, number> = localConfig.gemTiers.reduce(
+	(acc, tier) => {
+		acc[tier.name] = tier.dollarAmount;
+		return acc;
+	},
+	{} as Record<string, number>
+);
 
 export interface Gem {
 	id: string;
@@ -74,10 +80,12 @@ const getTierInfoByDollarAmount = (
 	currentTierValues: Record<string, number>
 ): GemTier | undefined => {
 	let bestMatchTier: GemTier | undefined = undefined;
-	const configuredTiers = localConfig.gemTiers.map(tier => ({
-		...tier,
-		configuredDollarAmount: currentTierValues[tier.name] ?? tier.dollarAmount
-	})).sort((a, b) => a.configuredDollarAmount - b.configuredDollarAmount);
+	const configuredTiers = localConfig.gemTiers
+		.map((tier) => ({
+			...tier,
+			configuredDollarAmount: currentTierValues[tier.name] ?? tier.dollarAmount,
+		}))
+		.sort((a, b) => a.configuredDollarAmount - b.configuredDollarAmount);
 
 	for (const tier of configuredTiers) {
 		if (gemDollarAmount >= tier.configuredDollarAmount) {
@@ -91,7 +99,6 @@ const getTierInfoByDollarAmount = (
 	}
 	return bestMatchTier;
 };
-
 
 // --- Animation Keyframes ---
 const shakeAnimation = keyframes`
@@ -122,12 +129,16 @@ interface ParticleProps {
 const Particle: React.FC<ParticleProps> = React.memo(({ color, delay, duration, targetX, targetY }) => (
 	<Box
 		sx={{
-			position: 'absolute', top: '50%', left: '50%',
+			position: 'absolute',
+			top: '50%',
+			left: '50%',
 			width: { xs: localConfig.particleBaseSizeXs, sm: localConfig.particleBaseSizeSm },
 			height: { xs: localConfig.particleBaseSizeXs, sm: localConfig.particleBaseSizeSm },
-			backgroundColor: color, borderRadius: '50%',
+			backgroundColor: color,
+			borderRadius: '50%',
 			boxShadow: `0 0 7px ${color}, 0 0 12px ${color}`,
-			'--target-x': targetX, '--target-y': targetY,
+			'--target-x': targetX,
+			'--target-y': targetY,
 			animation: `${particleFlyOut} ${duration}s cubic-bezier(0.1, 0.7, 0.3, 1) ${delay}s forwards`,
 			pointerEvents: 'none',
 		}}
@@ -143,53 +154,61 @@ interface GemItemProps {
 }
 
 const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onAttemptCollect, currentGemValues }) => {
-	const commonPaperStyles = useMemo(() => ({
-		width: { xs: 60, sm: 80, md: 100 },
-		height: { xs: 60, sm: 80, md: 100 },
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-		borderRadius: 2,
-		boxSizing: 'border-box',
-		position: 'relative',
-	}), []);
+	const commonPaperStyles = useMemo(
+		() => ({
+			width: { xs: 60, sm: 80, md: 100 },
+			height: { xs: 60, sm: 80, md: 100 },
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
+			borderRadius: 2,
+			boxSizing: 'border-box',
+			position: 'relative',
+		}),
+		[]
+	);
 
-	const { displayTier, computedProgress, showProgressBar, progressTargetTierConfiguredValue, progressTargetTierName } = useMemo(() => {
-		if (!gemContent) return { displayTier: undefined, computedProgress: 0, showProgressBar: false, progressTargetTierConfiguredValue: 0, progressTargetTierName: null };
+	const { displayTier, computedProgress, showProgressBar, progressTargetTierConfiguredValue, progressTargetTierName } =
+		useMemo(() => {
+			if (!gemContent)
+				return {
+					displayTier: undefined,
+					computedProgress: 0,
+					showProgressBar: false,
+					progressTargetTierConfiguredValue: 0,
+					progressTargetTierName: null,
+				};
 
-		const firstTierDefinition = localConfig.gemTiers[0];
-		const firstTierConfiguredValue = currentGemValues[firstTierDefinition.name] ?? firstTierDefinition.dollarAmount;
+			const firstTierDefinition = localConfig.gemTiers[0];
+			const firstTierConfiguredValue = currentGemValues[firstTierDefinition.name] ?? firstTierDefinition.dollarAmount;
 
-		let progress = 0;
-		let shouldShowProgressBar = false;
-		let targetTierName: string | null = null;
-		let targetValue = 0;
+			let progress = 0;
+			let shouldShowProgressBar = false;
+			let targetTierName: string | null = null;
+			let targetValue = 0;
 
-		const currentActualTier = getTierInfoByDollarAmount(gemContent.dollarAmount, currentGemValues);
+			const currentActualTier = getTierInfoByDollarAmount(gemContent.dollarAmount, currentGemValues);
 
-		if (gemContent.dollarAmount < firstTierConfiguredValue && firstTierConfiguredValue > 0) {
-			progress = (gemContent.dollarAmount / firstTierConfiguredValue) * 100;
-			shouldShowProgressBar = true;
-			targetTierName = firstTierDefinition.name;
-			targetValue = firstTierConfiguredValue;
-		} else {
-			shouldShowProgressBar = false;
-		}
+			if (gemContent.dollarAmount < firstTierConfiguredValue && firstTierConfiguredValue > 0) {
+				progress = (gemContent.dollarAmount / firstTierConfiguredValue) * 100;
+				shouldShowProgressBar = true;
+				targetTierName = firstTierDefinition.name;
+				targetValue = firstTierConfiguredValue;
+			} else {
+				shouldShowProgressBar = false;
+			}
 
-		return {
-			displayTier: currentActualTier || firstTierDefinition,
-			computedProgress: Math.min(100, progress),
-			showProgressBar: shouldShowProgressBar,
-			progressTargetTierConfiguredValue: targetValue,
-			progressTargetTierName: targetTierName
-		};
-	}, [gemContent, currentGemValues]);
+			return {
+				displayTier: currentActualTier || firstTierDefinition,
+				computedProgress: Math.min(100, progress),
+				showProgressBar: shouldShowProgressBar,
+				progressTargetTierConfiguredValue: targetValue,
+				progressTargetTierName: targetTierName,
+			};
+		}, [gemContent, currentGemValues]);
 
 	const isClickable = useMemo(() => {
-		return gemContent &&
-			!gemContent.isCollecting &&
-			!gemContent.error &&
-			gemContent.dollarAmount > 0;
+		return gemContent && !gemContent.isCollecting && !gemContent.error && gemContent.dollarAmount > 0;
 	}, [gemContent]);
 
 	const handleClick = useCallback(() => {
@@ -205,8 +224,12 @@ const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onA
 			if (gemContent.error) {
 				return (
 					<React.Fragment>
-						<Typography variant="caption" display="block" color="error">{gemContent.error}</Typography>
-						<Typography variant="caption" display="block" color="error">Address: {trimmedAddress}</Typography>
+						<Typography variant="caption" display="block" color="error">
+							{gemContent.error}
+						</Typography>
+						<Typography variant="caption" display="block" color="error">
+							Address: {trimmedAddress}
+						</Typography>
 					</React.Fragment>
 				);
 			}
@@ -214,8 +237,12 @@ const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onA
 			if (isClickable) {
 				return (
 					<React.Fragment>
-						<Typography variant="caption" display="block">Click to Collect Reward: ${gemContent.dollarAmount.toFixed(localConfig.dollarDecimalPlaces)}</Typography>
-						<Typography variant="caption" display="block">Address: {trimmedAddress}</Typography>
+						<Typography variant="caption" display="block">
+							Click to Collect Reward: ${gemContent.dollarAmount.toFixed(localConfig.dollarDecimalPlaces)}
+						</Typography>
+						<Typography variant="caption" display="block">
+							Address: {trimmedAddress}
+						</Typography>
 					</React.Fragment>
 				);
 			}
@@ -223,8 +250,13 @@ const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onA
 			if (showProgressBar && progressTargetTierName) {
 				return (
 					<React.Fragment>
-						<Typography variant="caption" display="block">Progress to ${progressTargetTierConfiguredValue.toFixed(localConfig.dollarDecimalPlaces)} reward: {Math.floor(computedProgress)}%</Typography>
-						<Typography variant="caption" display="block">Address: {trimmedAddress}</Typography>
+						<Typography variant="caption" display="block">
+							Progress to ${progressTargetTierConfiguredValue.toFixed(localConfig.dollarDecimalPlaces)} reward:{' '}
+							{Math.floor(computedProgress)}%
+						</Typography>
+						<Typography variant="caption" display="block">
+							Address: {trimmedAddress}
+						</Typography>
 					</React.Fragment>
 				);
 			}
@@ -232,17 +264,32 @@ const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onA
 			if (displayTier) {
 				return (
 					<React.Fragment>
-						<Typography variant="caption" display="block">{displayTier.name} Gem</Typography>
-						<Typography variant="caption" display="block">Value: ${gemContent.dollarAmount.toFixed(localConfig.dollarDecimalPlaces)}</Typography>
-						<Typography variant="caption" display="block">Address: {trimmedAddress}</Typography>
-						<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>(Cannot collect)</Typography>
+						<Typography variant="caption" display="block">
+							{displayTier.name} Gem
+						</Typography>
+						<Typography variant="caption" display="block">
+							Value: ${gemContent.dollarAmount.toFixed(localConfig.dollarDecimalPlaces)}
+						</Typography>
+						<Typography variant="caption" display="block">
+							Address: {trimmedAddress}
+						</Typography>
+						<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
+							(Cannot collect)
+						</Typography>
 					</React.Fragment>
 				);
 			}
 		}
-		return "Empty Slot";
-	}, [gemContent, displayTier, showProgressBar, computedProgress, progressTargetTierConfiguredValue, progressTargetTierName, isClickable]);
-
+		return 'Empty Slot';
+	}, [
+		gemContent,
+		displayTier,
+		showProgressBar,
+		computedProgress,
+		progressTargetTierConfiguredValue,
+		progressTargetTierName,
+		isClickable,
+	]);
 
 	if (!gemContent) {
 		return (
@@ -266,16 +313,28 @@ const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onA
 						sx={{ color: red[500], position: 'absolute' }}
 					/>
 					<Typography
-						variant="caption" component="div" color="error"
-						sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '0.7rem', zIndex: 1, fontWeight: 'bold' }}
-					>?</Typography>
+						variant="caption"
+						component="div"
+						color="error"
+						sx={{
+							position: 'absolute',
+							top: '50%',
+							left: '50%',
+							transform: 'translate(-50%, -50%)',
+							fontSize: '0.7rem',
+							zIndex: 1,
+							fontWeight: 'bold',
+						}}
+					>
+						?
+					</Typography>
 				</Paper>
 			</LightTooltip>
 		);
 	}
 
 	if (!displayTier) {
-		console.warn("Could not determine tier for gem:", gemContent);
+		console.warn('Could not determine tier for gem:', gemContent);
 		return (
 			<LightTooltip title="Error: Unknown Gem Type" placement="top" arrow>
 				<Paper sx={{ ...commonPaperStyles, backgroundColor: 'transparent', opacity: 0.6 }} />
@@ -297,8 +356,17 @@ const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onA
 						sx={{ color: grey[700], position: 'absolute' }}
 					/>
 					<Typography
-						variant="caption" component="div" color="text.secondary"
-						sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '0.7rem', zIndex: 1 }}
+						variant="caption"
+						component="div"
+						color="text.secondary"
+						sx={{
+							position: 'absolute',
+							top: '50%',
+							left: '50%',
+							transform: 'translate(-50%, -50%)',
+							fontSize: '0.7rem',
+							zIndex: 1,
+						}}
 					>{`${Math.floor(computedProgress)}%`}</Typography>
 				</Paper>
 			</LightTooltip>
@@ -314,7 +382,9 @@ const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onA
 				onClick={handleClick}
 				disabled={!isClickable || gemContent.isCollecting}
 				sx={{
-					...commonPaperStyles, padding: 0, overflow: 'visible',
+					...commonPaperStyles,
+					padding: 0,
+					overflow: 'visible',
 					animation: isClickable && isIdleAndNotCollecting ? `${shakeAnimation} 2s ease-in-out infinite` : 'none',
 					'&:hover': { backgroundColor: isClickable && isIdleAndNotCollecting ? 'action.hover' : 'transparent' },
 				}}
@@ -324,20 +394,28 @@ const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onA
 						fontSize: displayTier.iconSize,
 						color: displayTier.color,
 						transition: 'transform 0.2s ease-in-out, filter 0.3s ease-in-out',
-						animation: isClickable && isIdleAndNotCollecting ? `${idleShineAnimation} 2.2s ease-in-out infinite 0.3s` : 'none',
+						animation:
+							isClickable && isIdleAndNotCollecting ? `${idleShineAnimation} 2.2s ease-in-out infinite 0.3s` : 'none',
 						'&:hover': {
 							transform: isClickable && isIdleAndNotCollecting ? 'scale(1.15)' : 'none',
-							filter: isClickable && isIdleAndNotCollecting ? 'brightness(120%) drop-shadow(1px 1px 3px rgba(0,0,0,0.4))' : undefined,
-						}
+							filter:
+								isClickable && isIdleAndNotCollecting
+									? 'brightness(120%) drop-shadow(1px 1px 3px rgba(0,0,0,0.4))'
+									: undefined,
+						},
 					}}
 				/>
-				{gemContent.isCollecting && Array.from({ length: localConfig.numParticles }).map((_, i) => (
-					<Particle key={i} color={displayTier.color} delay={Math.random() * 0.25}
-						duration={0.8 + Math.random() * 0.7}
-						targetX={`${(Math.random() - 0.5) * (Math.random() * 150 + 70)}px`}
-						targetY={`${(Math.random() - 0.5) * (Math.random() * 150 + 70)}px`}
-					/>
-				))}
+				{gemContent.isCollecting &&
+					Array.from({ length: localConfig.numParticles }).map((_, i) => (
+						<Particle
+							key={i}
+							color={displayTier.color}
+							delay={Math.random() * 0.25}
+							duration={0.8 + Math.random() * 0.7}
+							targetX={`${(Math.random() - 0.5) * (Math.random() * 150 + 70)}px`}
+							targetY={`${(Math.random() - 0.5) * (Math.random() * 150 + 70)}px`}
+						/>
+					))}
 			</IconButton>
 		</LightTooltip>
 	);
@@ -357,7 +435,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 	onAttemptCollectGem,
 	onAddGem,
 	gemsCollected, // Destructure new prop
-	totalCollectedBalance // Destructure new prop
+	totalCollectedBalance, // Destructure new prop
 }) => {
 	const [gemValuesConfig, setGemValuesConfig] = useState<Record<string, number>>(() => {
 		try {
@@ -374,7 +452,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 				if (isValidStoredConfig) return parsedConfig;
 			}
 		} catch (error) {
-			console.error("Error loading gem values from localStorage:", error);
+			console.error('Error loading gem values from localStorage:', error);
 		}
 		return DEFAULT_GEM_VALUES;
 	});
@@ -387,26 +465,33 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 	const [newGemEthereum, setNewGemEthereum] = useState('');
 
 	const [editableGemValues, setEditableGemValues] = useState<Record<string, string>>(
-		Object.entries(gemValuesConfig).reduce((acc, [tierName, value]) => {
-			acc[tierName] = String(value);
-			return acc;
-		}, {} as Record<string, string>)
+		Object.entries(gemValuesConfig).reduce(
+			(acc, [tierName, value]) => {
+				acc[tierName] = String(value);
+				return acc;
+			},
+			{} as Record<string, string>
+		)
 	);
 
 	useEffect(() => {
 		try {
 			localStorage.setItem(localConfig.localStorageKey, JSON.stringify(gemValuesConfig));
 		} catch (error) {
-			console.error("Error saving gem values to localStorage:", error);
+			console.error('Error saving gem values to localStorage:', error);
 		}
 	}, [gemValuesConfig]);
 
-
 	useEffect(() => {
-		setEditableGemValues(Object.entries(gemValuesConfig).reduce((acc, [tierName, value]) => {
-			acc[tierName] = String(value);
-			return acc;
-		}, {} as Record<string, string>));
+		setEditableGemValues(
+			Object.entries(gemValuesConfig).reduce(
+				(acc, [tierName, value]) => {
+					acc[tierName] = String(value);
+					return acc;
+				},
+				{} as Record<string, string>
+			)
+		);
 	}, [gemValuesConfig]);
 
 	useEffect(() => {
@@ -415,7 +500,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 	}, [initialGems]);
 
 	const handleActualGemCollection = useCallback((gemToCollect: Gem, index: number) => {
-		setGrid(prevGrid =>
+		setGrid((prevGrid) =>
 			prevGrid.map((cell, i) =>
 				i === index && cell && cell.id === gemToCollect.id ? { ...cell, isCollecting: true } : cell
 			)
@@ -423,7 +508,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 		// No longer setting totalBalance or collectedCount here
 
 		setTimeout(() => {
-			setGrid(prevGrid => {
+			setGrid((prevGrid) => {
 				const newGrid = [...prevGrid];
 				if (newGrid[index] && newGrid[index]?.id === gemToCollect.id) {
 					newGrid[index] = { ...newGrid[index]!, isCollecting: false };
@@ -434,38 +519,47 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 		}, localConfig.particleEffectDuration);
 	}, []);
 
+	const handleGemInteractionAttempt = useCallback(
+		(gem: Gem) => {
+			const index = grid.findIndex((g) => g?.id === gem.id);
+			if (index === -1) {
+				console.error('Clicked gem not found in grid:', gem);
+				return;
+			}
 
-	const handleGemInteractionAttempt = useCallback((gem: Gem) => {
-		const index = grid.findIndex(g => g?.id === gem.id);
-		if (index === -1) {
-			console.error("Clicked gem not found in grid:", gem);
-			return;
-		}
+			if (gem.error) {
+				if (onAttemptCollectGem) {
+					onAttemptCollectGem([gem]);
+				}
+				return;
+			}
 
-		if (gem.error) {
-			if (onAttemptCollectGem) { onAttemptCollectGem([gem]); }
-			return;
-		}
+			const isGemItemClickable = !gem.isCollecting && !gem.error && gem.dollarAmount > 0;
 
-		const isGemItemClickable = !gem.isCollecting && !gem.error && gem.dollarAmount > 0;
+			if (!isGemItemClickable) return;
 
-		if (!isGemItemClickable) return;
-
-		const canCollect = onAttemptCollectGem([gem]);
-		if (canCollect) {
-			handleActualGemCollection(gem, index);
-		}
-	}, [onAttemptCollectGem, handleActualGemCollection, grid, gemValuesConfig]);
+			const canCollect = onAttemptCollectGem([gem]);
+			if (canCollect) {
+				handleActualGemCollection(gem, index);
+			}
+		},
+		[onAttemptCollectGem, handleActualGemCollection, grid, gemValuesConfig]
+	);
 
 	const handleResetSettingsToDefault = useCallback(() => {
 		setGemValuesConfig(DEFAULT_GEM_VALUES);
 	}, []);
 
 	const handleOpenSettingsDialog = () => {
-		setEditableGemValues(Object.entries(gemValuesConfig).reduce((acc, [tierName, value]) => {
-			acc[tierName] = String(value);
-			return acc;
-		}, {} as Record<string, string>));
+		setEditableGemValues(
+			Object.entries(gemValuesConfig).reduce(
+				(acc, [tierName, value]) => {
+					acc[tierName] = String(value);
+					return acc;
+				},
+				{} as Record<string, string>
+			)
+		);
 		setIsSettingsDialogOpen(true);
 	};
 
@@ -497,7 +591,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 	};
 
 	const handleEditableGemValueChange = (tierName: string, value: string) => {
-		setEditableGemValues(prev => ({ ...prev, [tierName]: value }));
+		setEditableGemValues((prev) => ({ ...prev, [tierName]: value }));
 	};
 
 	// --- Add Gem Dialog Logic ---
@@ -518,58 +612,64 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 	};
 
 	const getBatchGemsToCollect = () => {
-		const bronzeTier = gemValuesConfig["Bronze"]
+		const bronzeTier = gemValuesConfig['Bronze'];
 
-		const visibleGems = grid.filter(gem => gem && gem?.dollarAmount > bronzeTier && !gem.error) as Gem[]
+		const visibleGems = grid.filter((gem) => gem && gem?.dollarAmount > bronzeTier && !gem.error) as Gem[];
 
-		return visibleGems
-
-	}
-	const batchOfGemsToCollect = getBatchGemsToCollect()
+		return visibleGems;
+	};
+	const batchOfGemsToCollect = getBatchGemsToCollect();
 
 	const handleCollectAllGems = () => {
-		onAttemptCollectGem(batchOfGemsToCollect)
-	}
+		onAttemptCollectGem(batchOfGemsToCollect);
+	};
 	const getBatchCollectButton = () => {
 		if (batchOfGemsToCollect.length === 0) {
-			return
+			return;
 		}
 
 		const totalDollarAmount = batchOfGemsToCollect.reduce((total, gem) => total + gem.dollarAmount, 0);
-		return <Button onClick={handleCollectAllGems} color="secondary" variant="outlined">Collect All Gems ($ {totalDollarAmount.toFixed(localConfig.dollarDecimalPlaces)})</Button>
-	}
+		return (
+			<Button onClick={handleCollectAllGems} color="secondary" variant="outlined">
+				Collect All Gems ($ {totalDollarAmount.toFixed(localConfig.dollarDecimalPlaces)})
+			</Button>
+		);
+	};
 
 	return (
-		<Paper elevation={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: { xs: 2, sm: 3 }, borderRadius: 3, backgroundColor: 'background.default', margin: 'auto', minWidth: { xs: '95%', sm: 380 } }}>
-			<Box sx={{
+		<Paper
+			elevation={3}
+			sx={{
 				display: 'flex',
-				flexDirection: { xs: 'column', sm: 'row' },
+				flexDirection: 'column',
 				alignItems: 'center',
-				mb: 2,
-				width: '100%',
-				justifyContent: 'space-between',
-			}}>
-				<Box>
-					{getBatchCollectButton()}
-				</Box>
+				p: { xs: 2, sm: 3 },
+				borderRadius: 3,
+				backgroundColor: 'background.default',
+				margin: 'auto',
+				minWidth: { xs: '95%', sm: 380 },
+			}}
+		>
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: { xs: 'column', sm: 'row' },
+					alignItems: 'center',
+					mb: 2,
+					width: '100%',
+					justifyContent: 'space-between',
+				}}
+			>
+				<Box>{getBatchCollectButton()}</Box>
 				<Box sx={{ display: 'flex' }}>
 					{onAddGem && (
 						<LightTooltip title="Add custom Datamine Gem Ethereum address" placement="top">
-							<IconButton
-								aria-label="add gem"
-								onClick={handleOpenAddGemDialog}
-								size="small"
-								sx={{ mr: 0.5 }}
-							>
+							<IconButton aria-label="add gem" onClick={handleOpenAddGemDialog} size="small" sx={{ mr: 0.5 }}>
 								<Add />
 							</IconButton>
 						</LightTooltip>
 					)}
-					<IconButton
-						aria-label="settings"
-						onClick={handleOpenSettingsDialog}
-						size="small"
-					>
+					<IconButton aria-label="settings" onClick={handleOpenSettingsDialog} size="small">
 						<MoreVert />
 					</IconButton>
 				</Box>
@@ -581,7 +681,11 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 				sx={{ width: { xs: 190, sm: 330 }, justifyContent: 'center', mb: 3 }}
 			>
 				{grid.map((gemInCell, index) => (
-					<Grid size={{ xs: 3 }} key={gemInCell?.id || `empty-slot-${index}`} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+					<Grid
+						size={{ xs: 3 }}
+						key={gemInCell?.id || `empty-slot-${index}`}
+						sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+					>
 						<GemItem
 							gemContent={gemInCell}
 							itemIndex={index}
@@ -592,7 +696,15 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 				))}
 			</Grid>
 
-			<Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', flexGrow: 1, justifyContent: { xs: 'center', sm: 'flex-start' } }}>
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: { xs: 'column', sm: 'row' },
+					alignItems: 'center',
+					flexGrow: 1,
+					justifyContent: { xs: 'center', sm: 'flex-start' },
+				}}
+			>
 				<Typography variant="body1" sx={{ mr: { sm: 2 }, mb: { xs: 1, sm: 0 }, fontWeight: 'medium' }}>
 					Gems Collected: {gemsCollected} {/* Use prop */}
 				</Typography>
@@ -605,9 +717,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 			<Dialog open={isSettingsDialogOpen} onClose={handleCloseSettingsDialog} fullWidth maxWidth="xs">
 				<DialogTitle>Gem Value Settings</DialogTitle>
 				<DialogContent>
-					<DialogContentText sx={{ mb: 2 }}>
-						Modify the dollar amount for each gem color.
-					</DialogContentText>
+					<DialogContentText sx={{ mb: 2 }}>Modify the dollar amount for each gem color.</DialogContentText>
 					{localConfig.gemTiers.map((tier) => {
 						return (
 							<Box key={tier.name} sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -623,7 +733,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 									InputProps={{
 										startAdornment: <InputAdornment position="start">$</InputAdornment>,
 									}}
-									inputProps={{ step: "0.0001" }}
+									inputProps={{ step: '0.0001' }}
 								/>
 							</Box>
 						);
@@ -631,7 +741,9 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleCloseSettingsDialog}>Cancel</Button>
-					<Button onClick={handleSaveSettings} color="secondary" variant="outlined">Save</Button>
+					<Button onClick={handleSaveSettings} color="secondary" variant="outlined">
+						Save
+					</Button>
 				</DialogActions>
 			</Dialog>
 
@@ -640,13 +752,22 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 				<DialogTitle>Add Gem by Address</DialogTitle>
 				<DialogContent>
 					<DialogContentText sx={{ mb: 2 }}>
-						Add another Gem by entering Ethereum Address. This gem will be added as your playfield and the address must be participating in the game.
+						Add another Gem by entering Ethereum Address. This gem will be added as your playfield and the address must
+						be participating in the game.
 					</DialogContentText>
 					<TextField
 						autoFocus
 						margin="dense"
 						id="new-gem-ethereum"
-						label={<>Ethereum Add<Box component="span" sx={{ position: 'absolute', left: '-9999px' }}>{' '}</Box>ress</>}
+						label={
+							<>
+								Ethereum Add
+								<Box component="span" sx={{ position: 'absolute', left: '-9999px' }}>
+									{' '}
+								</Box>
+								ress
+							</>
+						}
 						type="text"
 						fullWidth
 						variant="outlined"
@@ -654,13 +775,15 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 						onChange={(e) => setNewGemEthereum(e.target.value)}
 						autoComplete="off"
 						inputProps={{
-							autoComplete: 'off'
+							autoComplete: 'off',
 						}}
 					/>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleCloseAddGemDialog}>Cancel</Button>
-					<Button onClick={handleConfirmAddGem} color="secondary" variant="outlined">Add Gem</Button>
+					<Button onClick={handleConfirmAddGem} color="secondary" variant="outlined">
+						Add Gem
+					</Button>
 				</DialogActions>
 			</Dialog>
 		</Paper>

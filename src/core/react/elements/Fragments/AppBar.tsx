@@ -21,7 +21,7 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 	logo: {
 		fontSize: 35,
-		verticalAlign: "middle",
+		verticalAlign: 'middle',
 	},
 	appBar: {
 		backgroundColor: theme.palette.mode === 'dark' ? '#272936' : theme.palette.primary.main,
@@ -31,7 +31,6 @@ const useStyles = tss.create(({ theme }) => ({
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
 		}),
-
 	},
 	menuButton: {
 		marginRight: 16,
@@ -44,7 +43,7 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 
 	link: {
-		marginLeft: theme.spacing(2)
+		marginLeft: theme.spacing(2),
 	},
 	logoArea: {
 		display: 'flex',
@@ -54,8 +53,8 @@ const useStyles = tss.create(({ theme }) => ({
 		display: 'flex',
 		flex: 1,
 		maxWidth: 500,
-		alignItems: 'center'
-	}
+		alignItems: 'center',
+	},
 }));
 
 interface INavProps {
@@ -66,107 +65,99 @@ interface INavProps {
 	ecosystem: Ecosystem;
 }
 
-
 const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }) => {
 	//const { state: socketState, dispatch: socketDispatch } = useContext(SocketContext)
-	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem)
-	const { isHelpPageEnabled } = navigation
+	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem);
+	const { isHelpPageEnabled } = navigation;
 
 	const { cx, classes } = useStyles();
-
 
 	const userSessionState = {
 		isDrawerOpen: false,
 		isLoggedIn: false,
 		balance: 0,
 		usdBalance: 0,
-		theme: 'ThemeDark'
-	}
-	const isToggleEnabled = false
+		theme: 'ThemeDark',
+	};
+	const isToggleEnabled = false;
 
 	const getSearchTextField = () => {
 		if (!isHelpPageEnabled) {
-			return null
+			return null;
 		}
 
-		return <HelpComboboxFragment id={'nav-search'} />
-	}
+		return <HelpComboboxFragment id={'nav-search'} />;
+	};
 
+	return (
+		<AppBar className={clsx(classes.appBar)}>
+			<Toolbar className={classes.toolbar}>
+				{isToggleEnabled && sidebar && (
+					<IconButton
+						edge="start"
+						color="inherit"
+						aria-label="Open drawer"
+						//onClick={userSessionActions.drawerOpen}
+						className={clsx(classes.menuButton, userSessionState.isDrawerOpen && classes.menuButtonHidden)}
+					>
+						<Menu />
+					</IconButton>
+				)}
 
-	return <AppBar className={clsx(classes.appBar)} >
-		<Toolbar className={classes.toolbar}>
-			{isToggleEnabled && sidebar && (
-				<IconButton
-					edge="start"
-					color="inherit"
-					aria-label="Open drawer"
-					//onClick={userSessionActions.drawerOpen}
-					className={clsx(classes.menuButton, userSessionState.isDrawerOpen && classes.menuButtonHidden)}
-				>
-					<Menu />
-				</IconButton>
-			)}
-
-			<Link href="#">
-				<Card elevation={0}>
-					<CardActionArea className={classes.logoArea}>
-						<Grid container alignItems="center">
-							<Grid>
-								<Box mr={2} mt={0.5}>
-									<img src={DamLogo} width="54" height="54" alt="Datemine Network" />
-								</Box>
-							</Grid>
-							<Grid>
-
-								<Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-									<Box sx={{ display: { xs: 'none', md: 'block' } /*smDown*/ }}>
-										{ecosystemName}
+				<Link href="#">
+					<Card elevation={0}>
+						<CardActionArea className={classes.logoArea}>
+							<Grid container alignItems="center">
+								<Grid>
+									<Box mr={2} mt={0.5}>
+										<img src={DamLogo} width="54" height="54" alt="Datemine Network" />
 									</Box>
-								</Typography>
+								</Grid>
+								<Grid>
+									<Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+										<Box sx={{ display: { xs: 'none', md: 'block' } /*smDown*/ }}>{ecosystemName}</Box>
+									</Typography>
+								</Grid>
 							</Grid>
-						</Grid>
+						</CardActionArea>
+					</Card>
+				</Link>
 
-					</CardActionArea>
-				</Card>
-			</Link>
+				{isToggleEnabled && (
+					<Tooltip title="Settings (Coming Soon)">
+						<IconButton color="inherit" /*onClick={userSessionActions.toggleTheme}*/>
+							<Build />
+						</IconButton>
+					</Tooltip>
+				)}
 
+				<nav className={classes.nav}>
+					{getSearchTextField()}
 
-			{isToggleEnabled && (<Tooltip title="Settings (Coming Soon)"><IconButton color='inherit' /*onClick={userSessionActions.toggleTheme}*/>
-				<Build />
-			</IconButton>
-			</Tooltip>)}
-
-			<nav className={classes.nav}>
-				{getSearchTextField()}
-
-				<Box sx={{ display: { xs: 'block', lg: 'none' }, /*lgUp*/ }}>
-					<Box ml={1}>
-						<Tooltip title="Open Menu">
-							<IconButton onClick={() => dispatch({ type: commonLanguage.commands.OpenDrawer })}>
-								<Menu />
-							</IconButton>
-						</Tooltip>
+					<Box sx={{ display: { xs: 'block', lg: 'none' } /*lgUp*/ }}>
+						<Box ml={1}>
+							<Tooltip title="Open Menu">
+								<IconButton onClick={() => dispatch({ type: commonLanguage.commands.OpenDrawer })}>
+									<Menu />
+								</IconButton>
+							</Tooltip>
+						</Box>
 					</Box>
-				</Box>
-			</nav>
-		</Toolbar>
-	</AppBar>
-})
+				</nav>
+			</Toolbar>
+		</AppBar>
+	);
+});
 
 interface AppBarProps {
 	sidebar: boolean;
 }
 const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
-	const { state: web3State, dispatch } = useContext(Web3Context)
+	const { state: web3State, dispatch } = useContext(Web3Context);
 
 	const { ecosystem, selectedAddress } = web3State;
 
-	return <Render
-		sidebar={sidebar}
-		dispatch={dispatch}
-		selectedAddress={selectedAddress}
-		ecosystem={ecosystem}
-	/>
-}
+	return <Render sidebar={sidebar} dispatch={dispatch} selectedAddress={selectedAddress} ecosystem={ecosystem} />;
+};
 
-export default MainAppBar
+export default MainAppBar;

@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 import React from 'react';
 
-
 import { getEcosystemConfig } from '../../../configs/config';
 import { Ecosystem } from '../../../configs/config.common';
 import FooterFragment from '../elements/Fragments/FooterFragment';
@@ -16,14 +15,16 @@ interface Props {
  * @param props - Object containing the current ecosystem.
  */
 const HomePage: React.FC<Props> = React.memo(({ ecosystem }) => {
-	const { isHomepageVideoVisible } = getEcosystemConfig(ecosystem)
-	return <>
-		<Box mt={8}>
-			<Header isSubPage={false} isVideoVisible={isHomepageVideoVisible} ecosystem={ecosystem} />
-		</Box>
+	const { isHomepageVideoVisible } = getEcosystemConfig(ecosystem);
+	return (
+		<>
+			<Box mt={8}>
+				<Header isSubPage={false} isVideoVisible={isHomepageVideoVisible} ecosystem={ecosystem} />
+			</Box>
 
-		<FooterFragment ecosystem={ecosystem} />
-	</>
-})
+			<FooterFragment ecosystem={ecosystem} />
+		</>
+	);
+});
 
 export default HomePage;

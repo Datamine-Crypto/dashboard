@@ -1,4 +1,3 @@
-
 import React, { lazy, useContext } from 'react';
 import { DialogType } from '../../../interfaces';
 import { Web3Context } from '../../../web3/Web3Context';
@@ -21,67 +20,60 @@ interface Props {
 	dialogParams: any;
 }
 const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
-
 	const getDialog = () => {
 		const onClose = () => {
 			dispatch({ type: commonLanguage.commands.CloseDialog });
-		}
+		};
 		if (!dialog) {
 			return null;
 		}
 
 		switch (dialog) {
 			case DialogType.Mint:
-				return <MintDialog />
+				return <MintDialog />;
 			case DialogType.LockIn:
-				return <DamLockDialog />
+				return <DamLockDialog />;
 			case DialogType.Burn:
-				return <BurnDialog />
+				return <BurnDialog />;
 			case DialogType.Unlock:
-				return <UnlockDialog />
+				return <UnlockDialog />;
 			case DialogType.Trade:
-				return <TradeDialog />
+				return <TradeDialog />;
 			case DialogType.ZeroEth:
 			case DialogType.ZeroDam:
-				return <ZeroBalanceDialog dialogType={dialog} />
+				return <ZeroBalanceDialog dialogType={dialog} />;
 			case DialogType.TitleMessage: {
 				const { title, message } = dialogParams;
-				return <MessageDialog title={title} message={message} open={true} onClose={onClose} />
+				return <MessageDialog title={title} message={message} open={true} onClose={onClose} />;
 			}
 			case DialogType.ClientSettings: {
-				return <SettingsDialog />
+				return <SettingsDialog />;
 			}
 			case DialogType.WalletConnectRpc:
-				return <WalletConnectRpcDialog />
+				return <WalletConnectRpcDialog />;
 
 			// Market dialogs
 			case DialogType.MarketCollectRewards:
-				return <MarketCollectRewardsDialog />
+				return <MarketCollectRewardsDialog />;
 			case DialogType.MarketDepositWithdraw:
-				return <MarketDepositWithdrawDialog />
+				return <MarketDepositWithdrawDialog />;
 		}
-	}
+	};
 
-	return getDialog()
-}
+	return getDialog();
+};
 
-
-interface Params {
-}
+interface Params {}
 
 /**
  * This fragment contains all the dialogs in one place
  * Help Dialog is excluded as it's a seperate system
  */
-const DialogsFragment: React.FC<Params> = ({ }) => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
+const DialogsFragment: React.FC<Params> = ({}) => {
+	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
 
 	const { dialog, dialogParams } = web3State;
 
-	return <Render
-		dialog={dialog}
-		dialogParams={dialogParams}
-		dispatch={web3Dispatch}
-	/>
-}
+	return <Render dialog={dialog} dialogParams={dialogParams} dispatch={web3Dispatch} />;
+};
 export default DialogsFragment;

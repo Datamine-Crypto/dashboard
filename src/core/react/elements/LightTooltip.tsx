@@ -5,7 +5,7 @@ import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
  * Defines the props for the custom LightTooltip component.
  * Extends Material-UI's TooltipProps to inherit standard tooltip properties.
  */
-interface CustomTooltipProps extends TooltipProps { }
+interface CustomTooltipProps extends TooltipProps {}
 
 // Create the styled Tooltip component
 /**
@@ -29,7 +29,7 @@ const LightTooltip = styled(({ className, ...props }: CustomTooltipProps) => (
 		color: '#272936', // Match the tooltip background
 		'&:before': {
 			border: '1px solid #0ff', // Match the tooltip border
-		}
+		},
 	},
 }));
-export default LightTooltip
+export default LightTooltip;

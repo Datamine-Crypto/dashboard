@@ -1,4 +1,3 @@
-
 import CircularProgress from '@mui/material/CircularProgress';
 
 const CenteredLoading = () => (

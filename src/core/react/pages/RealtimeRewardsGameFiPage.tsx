@@ -1,35 +1,22 @@
-import {
-	Box,
-	Button,
-	CardMedia,
-	Paper,
-	Typography
-} from '@mui/material';
+import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 import { Ecosystem } from '../../../configs/config.common';
 
 import Grid from '@mui/system/Grid';
 import { Web3Context } from '../../web3/Web3Context';
 
-
 import {
-  Autorenew as AutorenewIcon,
-  Bolt as BoltIcon,
-  EmojiEvents as EmojiEventsIcon,
-  LocalGasStation as LocalGasStationIcon,
-  PhoneAndroid as PhoneAndroidIcon,
-  Public as PublicIcon,
-  RocketLaunch as RocketLaunchIcon,
-  Speed as SpeedIcon,
-  VisibilityOff as VisibilityOffIcon
+	Autorenew as AutorenewIcon,
+	Bolt as BoltIcon,
+	EmojiEvents as EmojiEventsIcon,
+	LocalGasStation as LocalGasStationIcon,
+	PhoneAndroid as PhoneAndroidIcon,
+	Public as PublicIcon,
+	RocketLaunch as RocketLaunchIcon,
+	Speed as SpeedIcon,
+	VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
-import {
-	alpha,
-	Avatar,
-	Container,
-	styled,
-	useTheme,
-} from '@mui/material'; // Assuming MUI v7 imports are similar
+import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // Assuming MUI v7 imports are similar
 import { DialogType } from '../../interfaces';
 import { commonLanguage } from '../../web3/web3Reducer';
 import FooterFragment from '../elements/Fragments/FooterFragment';
@@ -38,7 +25,7 @@ import FooterFragment from '../elements/Fragments/FooterFragment';
 const palette = {
 	highlight: '#0FF',
 	background: '#272936',
-	secondaryBackground: '#202336'
+	secondaryBackground: '#202336',
 }; // For constant APY stream
 
 // Define Props for the component, including the new onClick handler
@@ -134,15 +121,9 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 
 	return (
 		<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-			<CardMedia
-				component="img"
-				height="194"
-				image="./images/datamineGems.png"
-				alt="Paella dish"
-			/>
+			<CardMedia component="img" height="194" image="./images/datamineGems.png" alt="Paella dish" />
 			{/* Header Section: Title, Subtitle, and Start Game Button */}
 			<Box textAlign="center" mb={6}>
-
 				<Typography variant="h6" color="text.secondary" paragraph sx={{ mb: 3, mt: 3 }}>
 					Unearth valuable rewards! Click gems in real-time in the ultimate #GameFi experience.
 				</Typography>
@@ -162,7 +143,7 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 							transform: 'translateY(-3px)',
 							// Update hover boxShadow if needed, e.g., using success color
 							boxShadow: `0 12px 20px ${alpha(theme.palette.secondary.main, 0.4)}`,
-							background: '#0FF'
+							background: '#0FF',
 						},
 					}}
 					onClick={onStartGameClick || (() => console.log('Start Game Clicked! (Datamine Gems)'))} // Use passed prop or default console log
@@ -174,10 +155,21 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 			{/* Introduction Section: "What is Datamine Gems?" */}
 			<Section>
 				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold' }}>
-					What is <GradientText as="span" variant="h4" sx={{ display: 'inline' }}>Datamine Gems</GradientText>?
+					What is{' '}
+					<GradientText as="span" variant="h4" sx={{ display: 'inline' }}>
+						Datamine Gems
+					</GradientText>
+					?
 				</Typography>
-				<Typography variant="body1" color="text.secondary" textAlign="center" sx={{ maxWidth: '750px', margin: '0 auto 20px auto' }}>
-					Datamine Gems is a thrilling GameFi experience where you click on dynamically spawning gems to earn real rewards. It combines the excitement of discovery with the power of decentralized finance. Simple, engaging, and rewarding – get ready to click your way to success!
+				<Typography
+					variant="body1"
+					color="text.secondary"
+					textAlign="center"
+					sx={{ maxWidth: '750px', margin: '0 auto 20px auto' }}
+				>
+					Datamine Gems is a thrilling GameFi experience where you click on dynamically spawning gems to earn real
+					rewards. It combines the excitement of discovery with the power of decentralized finance. Simple, engaging,
+					and rewarding – get ready to click your way to success!
 				</Typography>
 			</Section>
 
@@ -187,14 +179,23 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 					Why You'll Love Collecting Gems
 				</Typography>
 				{/* Grid layout for features - using MUI v7.10 <Grid size={{...}}> syntax */}
-				<Grid container spacing={4} alignItems="stretch"> {/* alignItems="stretch" makes cards in a row same height */}
+				<Grid container spacing={4} alignItems="stretch">
+					{' '}
+					{/* alignItems="stretch" makes cards in a row same height */}
 					{features.map((feature, index) => (
-						<Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}> {/* Responsive grid item sizing */}
-							<FeatureCard elevation={6}> {/* Using styled FeatureCard */}
-								<FeatureIconWrapper>
-									{feature.icon}
-								</FeatureIconWrapper>
-								<Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 'bold', color: theme.palette.text.primary }}>
+						<Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
+							{' '}
+							{/* Responsive grid item sizing */}
+							<FeatureCard elevation={6}>
+								{' '}
+								{/* Using styled FeatureCard */}
+								<FeatureIconWrapper>{feature.icon}</FeatureIconWrapper>
+								<Typography
+									variant="h6"
+									component="h3"
+									gutterBottom
+									sx={{ fontWeight: 'bold', color: theme.palette.text.primary }}
+								>
 									{feature.title}
 								</Typography>
 								<Typography variant="body2" color="text.secondary">
@@ -209,35 +210,50 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 			{/* Ecosystem Impact Section */}
 			<Section>
 				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold', mb: 1 }}>
-					<GradientText as="span" variant="h4" sx={{ display: 'inline' }}>Powering the Ecosystem:</GradientText>
+					<GradientText as="span" variant="h4" sx={{ display: 'inline' }}>
+						Powering the Ecosystem:
+					</GradientText>
 				</Typography>
 				<Typography variant="h5" gutterBottom textAlign="center" sx={{ mb: 4 }}>
 					The Drive for Unmatched Efficiency
 				</Typography>
 				{/* alignItems changed from "center" to "start" */}
 				<Grid container spacing={4} alignItems="start">
-					<Grid size={{ xs: 12, md: 6 }}> {/* Responsive grid item */}
-						<Box sx={{ textAlign: { xs: 'center', md: 'left' } }}> {/* Responsive text alignment */}
+					<Grid size={{ xs: 12, md: 6 }}>
+						{' '}
+						{/* Responsive grid item */}
+						<Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+							{' '}
+							{/* Responsive text alignment */}
 							<BoltIcon sx={{ fontSize: 60, color: 'primary.main', mb: 2 }} />
 							<Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
 								Boosting Monetary Velocity
 							</Typography>
 							<Typography variant="body1" color="text.secondary" paragraph>
-								Datamine Gems isn't just about fun; it's a catalyst for enhancing the entire Datamine Network. Our efficiency updates, including a new smart contract for autonomous multi-address minting, are designed to significantly increase monetary velocity.
+								Datamine Gems isn't just about fun; it's a catalyst for enhancing the entire Datamine Network. Our
+								efficiency updates, including a new smart contract for autonomous multi-address minting, are designed to
+								significantly increase monetary velocity.
 							</Typography>
 						</Box>
 					</Grid>
-					<Grid size={{ xs: 12, md: 6 }}> {/* Responsive grid item */}
-						<Box sx={{ textAlign: { xs: 'center', md: 'left' } }}> {/* Responsive text alignment */}
+					<Grid size={{ xs: 12, md: 6 }}>
+						{' '}
+						{/* Responsive grid item */}
+						<Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+							{' '}
+							{/* Responsive text alignment */}
 							<AutorenewIcon sx={{ fontSize: 60, color: 'secondary.main', mb: 2 }} />
 							<Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
 								Maximizing Validator Rewards
 							</Typography>
 							<Typography variant="body1" color="text.secondary" paragraph>
-								More on-chain interactions from gem collections mean better, more consistent rewards for our valued validators. Datamine Gems provides a constant stream of activity, boosting APY and reinforcing the health of our decentralized monetary system.
+								More on-chain interactions from gem collections mean better, more consistent rewards for our valued
+								validators. Datamine Gems provides a constant stream of activity, boosting APY and reinforcing the
+								health of our decentralized monetary system.
 							</Typography>
 							<Typography variant="body1" color="text.secondary" paragraph sx={{ fontStyle: 'italic' }}>
-								This is GameFi with a purpose: driving efficiency, stability, and rewards throughout the Datamine ecosystem.
+								This is GameFi with a purpose: driving efficiency, stability, and rewards throughout the Datamine
+								ecosystem.
 							</Typography>
 						</Box>
 					</Grid>
@@ -247,11 +263,8 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 	);
 };
 
-
-
 // Main component
 interface RenderParams {
-
 	dispatch: React.Dispatch<any>;
 	ecosystem: Ecosystem;
 }
@@ -262,51 +275,55 @@ interface RenderParams {
  * @param params - Object containing dispatch function and ecosystem.
  */
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
-
-
-	return <Box>
-		<Box mt={6} pt={4}>
-
-
-			<Box sx={{
-				minHeight: '100vh',
-				bgcolor: palette.background,
-				color: '#f3f4f6',
-				p: 3
-			}}>
-				<Paper sx={{
-					maxWidth: '1152px',
-					mx: 'auto',
-					mb: 6,
-					p: 3,
-					bgcolor: palette.secondaryBackground,
-					borderRadius: 2
-				}}>
-					<DatamineGemsLandingPage onStartGameClick={() => { dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketCollectRewards } }) }} />
-				</Paper>
+	return (
+		<Box>
+			<Box mt={6} pt={4}>
+				<Box
+					sx={{
+						minHeight: '100vh',
+						bgcolor: palette.background,
+						color: '#f3f4f6',
+						p: 3,
+					}}
+				>
+					<Paper
+						sx={{
+							maxWidth: '1152px',
+							mx: 'auto',
+							mb: 6,
+							p: 3,
+							bgcolor: palette.secondaryBackground,
+							borderRadius: 2,
+						}}
+					>
+						<DatamineGemsLandingPage
+							onStartGameClick={() => {
+								dispatch({
+									type: commonLanguage.commands.ShowDialog,
+									payload: { dialog: DialogType.MarketCollectRewards },
+								});
+							}}
+						/>
+					</Paper>
+				</Box>
+				{/* Footer */}
+				<FooterFragment ecosystem={ecosystem} />
 			</Box>
-			{/* Footer */}
-			<FooterFragment ecosystem={ecosystem} />
 		</Box>
-	</Box>
+	);
+});
 
-})
-
-interface Props {
-}
+interface Props {}
 /**
  * RealtimeRewardsGameFiPage component that serves as the entry point for the Datamine Gems GameFi experience.
  * It provides the necessary Web3 context (dispatch and ecosystem) to its child components.
  * @param props - Component props (currently empty).
  */
-const RealtimeRewardsGameFiPage: React.FC<Props> = ({ }) => {
-	const { state: web3State, dispatch } = useContext(Web3Context)
-	const { ecosystem } = web3State
+const RealtimeRewardsGameFiPage: React.FC<Props> = ({}) => {
+	const { state: web3State, dispatch } = useContext(Web3Context);
+	const { ecosystem } = web3State;
 
-	return <Render
-		dispatch={dispatch}
-		ecosystem={ecosystem}
-	/>
-}
+	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
+};
 
-export default RealtimeRewardsGameFiPage
+export default RealtimeRewardsGameFiPage;

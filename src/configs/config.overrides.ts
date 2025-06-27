@@ -1,4 +1,4 @@
-import { getBaseConfig } from "./config.base"
+import { getBaseConfig } from './config.base';
 
 /**
  * Your token can override these configs instead of overriding base values
@@ -10,10 +10,11 @@ import { getBaseConfig } from "./config.base"
  * @param baseConfig The base configuration object to be overridden.
  * @returns A partial configuration object containing the overrides.
  */
-export const getConfigOverrides = (baseConfig: ReturnType<typeof getBaseConfig>): Partial<ReturnType<typeof getBaseConfig>> => {
+export const getConfigOverrides = (
+	baseConfig: ReturnType<typeof getBaseConfig>
+): Partial<ReturnType<typeof getBaseConfig>> => {
 	return {
 		// Example of override (your token doesn't have liquidity pools):
 		//isLiquidityPoolsEnabled: false
-
-	}
-}
+	};
+};

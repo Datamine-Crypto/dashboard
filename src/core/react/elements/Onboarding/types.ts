@@ -1,4 +1,3 @@
-
 export interface OnboardingProps {
 	activeStep: number;
 	handleNext: () => void;

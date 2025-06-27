@@ -1,4 +1,3 @@
-
 import { Box, MobileStepper } from '@mui/material';
 import React from 'react';
 
@@ -7,10 +6,7 @@ interface ProgressStepperProps {
 	totalSteps: number;
 }
 
-const ProgressStepper: React.FC<ProgressStepperProps> = ({
-	activeStep,
-	totalSteps,
-}) => {
+const ProgressStepper: React.FC<ProgressStepperProps> = ({ activeStep, totalSteps }) => {
 	return (
 		<Box sx={{ width: '100%', mb: 2 }}>
 			<MobileStepper

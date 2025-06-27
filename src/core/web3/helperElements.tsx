@@ -8,17 +8,37 @@ import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../confi
 import { Ecosystem } from '../../configs/config.common';
 import { Balances } from './web3Reducer';
 
-export const getRequiredFluxToBurnDecimal = ({ ecosystem, globalFluxBurned, targetMultiplier, globalDamLockedIn, myFluxBurned, myDamLockedIn }: { ecosystem: Ecosystem, globalFluxBurned: Big, targetMultiplier: number, globalDamLockedIn: Big, myFluxBurned: Big, myDamLockedIn: Big }) => {
+export const getRequiredFluxToBurnDecimal = ({
+	ecosystem,
+	globalFluxBurned,
+	targetMultiplier,
+	globalDamLockedIn,
+	myFluxBurned,
+	myDamLockedIn,
+}: {
+	ecosystem: Ecosystem;
+	globalFluxBurned: Big;
+	targetMultiplier: number;
+	globalDamLockedIn: Big;
+	myFluxBurned: Big;
+	myDamLockedIn: Big;
+}) => {
 	const { minBurnMultiplier } = getEcosystemConfig(ecosystem);
 
-	const top = new Big(-1).mul(targetMultiplier - minBurnMultiplier).mul(globalFluxBurned).mul(myDamLockedIn).add(new Big(globalDamLockedIn).mul(myFluxBurned));
+	const top = new Big(-1)
+		.mul(targetMultiplier - minBurnMultiplier)
+		.mul(globalFluxBurned)
+		.mul(myDamLockedIn)
+		.add(new Big(globalDamLockedIn).mul(myFluxBurned));
 
-	const bottom = new Big(-1).mul(globalDamLockedIn).add(new Big(targetMultiplier - minBurnMultiplier).mul(myDamLockedIn))
+	const bottom = new Big(-1)
+		.mul(globalDamLockedIn)
+		.add(new Big(targetMultiplier - minBurnMultiplier).mul(myDamLockedIn));
 	if (bottom.eq(new Big(0))) {
-		return new Big(0)
+		return new Big(0);
 	}
 
-	return top.div(bottom).div(new Big(10).pow(18))
+	return top.div(bottom).div(new Big(10).pow(18));
 
 	/*
 	Here is another way to get to the same output:
@@ -56,16 +76,27 @@ export const getRequiredFluxToBurnDecimal = ({ ecosystem, globalFluxBurned, targ
 	const pow18 = new Big(10).pow(18)
 	return top.div(bottom).div(pow18)
 	*/
-}
+};
 export const numberWithCommas = (numberToFormat: string) => {
-	var parts = numberToFormat.split(".");
-	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	return parts.join(".");
-}
+	var parts = numberToFormat.split('.');
+	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	return parts.join('.');
+};
 
-
-export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, ecosystem, targetMultiplier = new Big("9") }: { addressDetails: FluxAddressDetails, addressLock: FluxAddressLock, balances: Balances, ecosystem: Ecosystem, targetMultiplier?: Big }) => {
-	const { maxBurnMultiplier, mintableTokenPriceDecimals } = getConfig(ecosystem)
+export const getRequiredFluxToBurn = ({
+	addressDetails,
+	addressLock,
+	balances,
+	ecosystem,
+	targetMultiplier = new Big('9'),
+}: {
+	addressDetails: FluxAddressDetails;
+	addressLock: FluxAddressLock;
+	balances: Balances;
+	ecosystem: Ecosystem;
+	targetMultiplier?: Big;
+}) => {
+	const { maxBurnMultiplier, mintableTokenPriceDecimals } = getConfig(ecosystem);
 
 	const globalFluxBurned = new Big(addressDetails.globalBurnedAmount.toString());
 	const globalDamLockedIn = new Big(addressDetails.globalLockedAmount.toString());
@@ -73,7 +104,7 @@ export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, e
 	const myFluxBurned = new Big(addressLock.burnedAmount.toString());
 	const myDamLockedIn = new Big(addressLock.amount.toString());
 
-	const negative = new Big("-1");
+	const negative = new Big('-1');
 
 	/*
 	a = globalFluxBurned
@@ -86,8 +117,12 @@ export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, e
 	(−taf+cd) / (−c+tf)
 	*/
 
-	const top = negative.mul(targetMultiplier).mul(globalFluxBurned).mul(myDamLockedIn).add(globalDamLockedIn.mul(myFluxBurned))
-	const bottom = negative.mul(globalDamLockedIn).add(targetMultiplier.mul(myDamLockedIn))
+	const top = negative
+		.mul(targetMultiplier)
+		.mul(globalFluxBurned)
+		.mul(myDamLockedIn)
+		.add(globalDamLockedIn.mul(myFluxBurned));
+	const bottom = negative.mul(globalDamLockedIn).add(targetMultiplier.mul(myDamLockedIn));
 
 	const getFluxRequired = () => {
 		if (bottom == new Big(0)) {
@@ -95,14 +130,15 @@ export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, e
 		}
 
 		return top.div(bottom);
-	}
+	};
 	const fluxRequired = getFluxRequired();
 
-	const isTargetReached = fluxRequired == new Big(0) || addressDetails.addressBurnMultiplier === 10000 * maxBurnMultiplier;
+	const isTargetReached =
+		fluxRequired == new Big(0) || addressDetails.addressBurnMultiplier === 10000 * maxBurnMultiplier;
 
-	const fluxRequiredBn = new BN(fluxRequired.abs().round(0).toFixed())
+	const fluxRequiredBn = new BN(fluxRequired.abs().round(0).toFixed());
 
-	const fluxRequiredToBurn = BNToDecimal(fluxRequiredBn, true, 18, mintableTokenPriceDecimals)
+	const fluxRequiredToBurn = BNToDecimal(fluxRequiredBn, true, 18, mintableTokenPriceDecimals);
 
 	const fluxRequiredToBurnInUsdc = `$ ${getPriceToggle({ value: fluxRequiredBn, inputToken: Token.Mintable, outputToken: Token.USDC, balances })} USD`;
 
@@ -110,6 +146,6 @@ export const getRequiredFluxToBurn = ({ addressDetails, addressLock, balances, e
 		fluxRequiredToBurn,
 		fluxRequiredToBurnRaw: fluxRequired.abs(),
 		fluxRequiredToBurnInUsdc,
-		isTargetReached
-	}
-}
+		isTargetReached,
+	};
+};

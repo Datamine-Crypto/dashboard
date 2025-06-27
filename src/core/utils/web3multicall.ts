@@ -1,6 +1,6 @@
 // This utility leverages the Multicall contract to aggregate multiple read-only contract calls into a single blockchain transaction.
 // This significantly reduces network overhead and improves application performance by minimizing RPC requests.
-import Web3 from "web3";
+import Web3 from 'web3';
 
 /**
  * This file contains a very useful function to utilize multicall smart contract.
@@ -12,11 +12,11 @@ export interface MultiCallParams {
 	function: {
 		signature: any;
 		parameters: string[];
-	}
+	};
 	returns: {
 		params: string[];
 		callback: (...params: any[]) => any;
-	}
+	};
 }
 
 /**
@@ -28,13 +28,13 @@ export const encodeMulticall = (web3: Web3, multicallParams: Record<string, Mult
 
 	return multicallEntries
 		.filter(([key, multicallParam]) => {
-			return multicallParam !== undefined
+			return multicallParam !== undefined;
 		})
-		.map(([key, multicallParam]) => ([
+		.map(([key, multicallParam]) => [
 			multicallParam.address,
-			web3.eth.abi.encodeFunctionCall(multicallParam.function.signature, multicallParam.function.parameters)
-		]))
-}
+			web3.eth.abi.encodeFunctionCall(multicallParam.function.signature, multicallParam.function.parameters),
+		]);
+};
 
 interface EncodedMulticallResults {
 	blockNumber: string;
@@ -44,27 +44,32 @@ interface EncodedMulticallResults {
 /**
  * Decode the result of a multicall contract call. These should be mapped directly against the called params (to exclude any calls that we didn't want to call )
  */
-export const decodeMulticall = (web3: Web3, encodedMulticallResults: EncodedMulticallResults, multicallParams: Record<string, MultiCallParams>) => {
-
+export const decodeMulticall = (
+	web3: Web3,
+	encodedMulticallResults: EncodedMulticallResults,
+	multicallParams: Record<string, MultiCallParams>
+) => {
 	const multicallEntries = Object.entries<MultiCallParams>(multicallParams);
 
 	const decodedResults = multicallEntries
 		.filter(([key, multicallParam]) => {
-			return multicallParam !== undefined
+			return multicallParam !== undefined;
 		})
 		.reduce((results, [key, multicallParam], index) => {
+			const encodedReturnData = encodedMulticallResults.returnData[index];
 
-			const encodedReturnData = encodedMulticallResults.returnData[index]
+			const decodedParams = (web3.eth.abi as any).decodeParameters(
+				multicallParam.returns.params,
+				encodedReturnData
+			) as any[]; // Will be Results object (non-array)
+			const decodedParamsArray = multicallParam.returns.params.map((_, index) => decodedParams[index]);
 
-			const decodedParams = (web3.eth.abi as any).decodeParameters(multicallParam.returns.params, encodedReturnData) as any[] // Will be Results object (non-array)
-			const decodedParamsArray = multicallParam.returns.params.map((_, index) => decodedParams[index])
-
-			const result = multicallParam.returns.callback(...decodedParamsArray)
+			const result = multicallParam.returns.callback(...decodedParamsArray);
 			return {
 				...results,
-				[key]: result
-			}
-		}, {} as any)
+				[key]: result,
+			};
+		}, {} as any);
 
 	return decodedResults;
-}
+};

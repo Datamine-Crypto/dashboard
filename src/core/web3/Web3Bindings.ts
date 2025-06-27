@@ -34,68 +34,56 @@ const getSelectedAddress = () => {
 	}
 
 	if (web3provider.accounts != null && web3provider.accounts.length > 0) {
-
 		const selectedAddress = web3provider.accounts.length > 0 ? web3provider.accounts[0] : null;
-		return selectedAddress
+		return selectedAddress;
 	}
-
 
 	const { selectedAddress } = web3provider;
 
 	if (!selectedAddress) {
-
 		if (preselectedAddress) {
 			return preselectedAddress;
 		}
 	}
 
 	return selectedAddress;
-}
+};
 
 const preselectAddress = async () => {
-
 	try {
 		const addresses = await web3provider.enable();
 
-		console.log('enable:', addresses)
+		console.log('enable:', addresses);
 		if (addresses && addresses.length > 0) {
-			preselectedAddress = addresses[0]
+			preselectedAddress = addresses[0];
 			return addresses;
 		}
-	} catch (err) {
-	}
+	} catch (err) {}
 
-	const selectedAddress = getSelectedAddress()
+	const selectedAddress = getSelectedAddress();
 
 	if (!selectedAddress && !preselectedAddress) {
 		try {
-			const accounts = await web3provider.request(
-				"eth_requestAccounts"
-			);
+			const accounts = await web3provider.request('eth_requestAccounts');
 			if (accounts.length > 0) {
-				preselectedAddress = accounts[0];//@todo
+				preselectedAddress = accounts[0]; //@todo
 				return accounts;
 			}
-		} catch (err) {
-		}
+		} catch (err) {}
 
 		try {
-			const accounts = await web3provider.send(
-				"eth_requestAccounts"
-			);
+			const accounts = await web3provider.send('eth_requestAccounts');
 			if (accounts.length > 0) {
-				preselectedAddress = accounts[0];//@todo
-				return accounts
+				preselectedAddress = accounts[0]; //@todo
+				return accounts;
 			}
-		} catch (err) {
-		}
+		} catch (err) {}
 	}
 
-	return []
-}
+	return [];
+};
 
 const getContracts = (web3: Web3, ecosystem: Ecosystem) => {
-
 	const config = getEcosystemConfig(ecosystem);
 	return {
 		damToken: new web3.eth.Contract(damTokenAbi as any, config.lockableTokenContractAddress),
@@ -106,13 +94,19 @@ const getContracts = (web3: Web3, ecosystem: Ecosystem) => {
 		//uniswapFluxToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapFluxEthTokenContractAddress), // For Legacy Uniswap V2 contract(we use V3 now)
 		//usdcEthToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapUsdcEthTokenContractAddress), // For Legacy Uniswap V2 contract(we use V3 now)
 
-		uniswapV3DamToken: new web3.eth.Contract(uniswapPairV3Abi as any, config.lockableUniswapV3L1EthTokenContractAddress),
-		uniswapV3FluxToken: new web3.eth.Contract(uniswapPairV3Abi as any, config.mintableUniswapV3L1EthTokenContractAddress),
+		uniswapV3DamToken: new web3.eth.Contract(
+			uniswapPairV3Abi as any,
+			config.lockableUniswapV3L1EthTokenContractAddress
+		),
+		uniswapV3FluxToken: new web3.eth.Contract(
+			uniswapPairV3Abi as any,
+			config.mintableUniswapV3L1EthTokenContractAddress
+		),
 		uniswapV3UsdcEthToken: new web3.eth.Contract(uniswapPairV3Abi as any, config.uniswapV3UsdcEthTokenContractAddress),
 
 		multicall: new web3.eth.Contract(multicallAbi as any, config.uniswapMulticallAdress),
-	}
-}
+	};
+};
 
 const localConfig = {
 	/**
@@ -130,8 +124,8 @@ const localConfig = {
 	 * How often to reset the throttle for quote ouputs
 	 * This way when you're typing the amount you aren't fetching every keystroke (wait up to X miliseconds between each amount adjustmnet)
 	 */
-	thottleGetOutputQuoteMs: 1000
-}
+	thottleGetOutputQuoteMs: 1000,
+};
 
 /**
  * Every 12 seconds (when a new block comes in) refresh the state
@@ -140,46 +134,47 @@ const subscribeToBlockUpdates = (web3: Web3, dispatch: React.Dispatch<any>) => {
 	setInterval(() => {
 		dispatch({ type: commonLanguage.commands.RefreshAccountState });
 	}, localConfig.blockUpdatesIntervalMs);
-}
+};
 
 const getSignature = async (web3: any, selectedAddress: any) => {
-
 	const msgParams = [
 		{
 			type: 'string',
 			name: 'Message',
-			value: 'DISPLAY_DATAMINE_PRO_ACCESS_LINKS'
+			value: 'DISPLAY_DATAMINE_PRO_ACCESS_LINKS',
 		},
-	]
+	];
 
-	var from = selectedAddress
-	var params = [msgParams, from]
+	var from = selectedAddress;
+	var params = [msgParams, from];
 
 	const method = 'eth_signTypedData';
 
 	const result = await new Promise((resolve, reject) => {
-		(web3.currentProvider as any).sendAsync({
-			method,
-			params,
-			from,
-		}, function (err: any, result: any) {
-			if (err) {
-				reject(err);
-				return;
-			}
+		(web3.currentProvider as any).sendAsync(
+			{
+				method,
+				params,
+				from,
+			},
+			function (err: any, result: any) {
+				if (err) {
+					reject(err);
+					return;
+				}
 
-			if (!result.result) {
-				reject('Invalid return')
-				return;
-			}
+				if (!result.result) {
+					reject('Invalid return');
+					return;
+				}
 
-			resolve(result.result);
-		})
+				resolve(result.result);
+			}
+		);
 	});
 
 	return result;
-}
-
+};
 
 /**
  * We'll use this to clear setTimeout for commonLanguage.queries.Swap.ThrottleGetOutputQuote
@@ -191,11 +186,10 @@ let thottleGetOutputQuoteTimeout: any;
 // It's crucial that these functions handle network errors and return results back to the reducer for state updates.
 const queryHandlers = {
 	[commonLanguage.queries.FindWeb3Instance]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
+		const useWalletConnect = query.payload?.useWalletConnect;
 
-		const useWalletConnect = query.payload?.useWalletConnect
-
-		const provider = await getWeb3Provider({ useWalletConnect, ecosystem: state.ecosystem })
-		devLog('Found provider:', { provider, useWalletConnect, ecosystem: state.ecosystem })
+		const provider = await getWeb3Provider({ useWalletConnect, ecosystem: state.ecosystem });
+		devLog('Found provider:', { provider, useWalletConnect, ecosystem: state.ecosystem });
 		web3provider = provider;
 
 		if (provider) {
@@ -211,18 +205,19 @@ const queryHandlers = {
 				provider.on('accountsChanged', () => {
 					dispatch({
 						type: commonLanguage.commands.RefreshAccountState,
-						payload: { updateEthBalance: true }
+						payload: { updateEthBalance: true },
 					});
 				});
-			}
+			};
 			subscribeToAccountUpdates(dispatch);
 
 			const subscribeToNetworkChanges = (dispatch: React.Dispatch<any>) => {
 				const reinitializeWeb3 = () => {
 					dispatch({
-						type: commonLanguage.commands.ReinitializeWeb3, payload: { targetEcosystem: state.targetEcosystem }
+						type: commonLanguage.commands.ReinitializeWeb3,
+						payload: { targetEcosystem: state.targetEcosystem },
 					});
-				}
+				};
 				provider.on('networkChanged', reinitializeWeb3); // [DEPRECATED] networkChanged is deprecated for chainChanged
 				provider.on('chainChanged', reinitializeWeb3);
 
@@ -230,7 +225,7 @@ const queryHandlers = {
 				provider.on('disconnect', () => {
 					window.location.reload();
 				});
-			}
+			};
 			subscribeToNetworkChanges(dispatch);
 
 			const getInitialSelectedAddress = () => {
@@ -238,23 +233,23 @@ const queryHandlers = {
 					return null;
 				}
 
-				const selectedAddress = getSelectedAddress()
+				const selectedAddress = getSelectedAddress();
 				if (selectedAddress) {
 					subscribeToBlockUpdates(web3, dispatch);
 				}
 				return selectedAddress;
-			}
+			};
 			const selectedAddress = getInitialSelectedAddress();
 
-			devLog('FindWeb3Instance selectedAddress:', selectedAddress)
+			devLog('FindWeb3Instance selectedAddress:', selectedAddress);
 
 			const networkType = 'main';
 
 			const chainId = Number(await web3.eth.getChainId());
-			devLog('FindWeb3Instance chainId:', chainId)
+			devLog('FindWeb3Instance chainId:', chainId);
 
-			const isArbitrumMainnet = chainId === 42161
-			devLog('FindWeb3Instance isArbitrumMainnet:', isArbitrumMainnet)
+			const isArbitrumMainnet = chainId === 42161;
+			devLog('FindWeb3Instance isArbitrumMainnet:', isArbitrumMainnet);
 
 			// We'll be handling errors from reverts so pass them in. (Arbitrum can't use this)
 			if (!isArbitrumMainnet) {
@@ -268,7 +263,7 @@ const queryHandlers = {
 				selectedAddress,
 				networkType,
 				chainId,
-				useWalletConnect
+				useWalletConnect,
 			};
 		}
 
@@ -279,16 +274,16 @@ const queryHandlers = {
 		//walletConnectProvider = null;
 
 		if (!web3provider) {
-			devLog('EnableWeb3 web3provider is missing?')
-			web3provider = await getWeb3Provider({ useWalletConnect: false, ecosystem: state.ecosystem })
+			devLog('EnableWeb3 web3provider is missing?');
+			web3provider = await getWeb3Provider({ useWalletConnect: false, ecosystem: state.ecosystem });
 		}
 
 		// Checks to see if user has selectedAddress. If not we'll call eth_requestAccounts and select first one
-		const addresses = await preselectAddress()
-		devLog('EnableWeb3 addresses:', addresses)
+		const addresses = await preselectAddress();
+		devLog('EnableWeb3 addresses:', addresses);
 
 		const selectedAddress = getSelectedAddress();
-		devLog('EnableWeb3 selectedAddress:', selectedAddress)
+		devLog('EnableWeb3 selectedAddress:', selectedAddress);
 
 		const { web3 } = state;
 		if (web3 && selectedAddress) {
@@ -296,8 +291,8 @@ const queryHandlers = {
 		}
 
 		return {
-			selectedAddress
-		}
+			selectedAddress,
+		};
 	},
 	/*
 	[commonLanguage.queries.EnableWalletConnect]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
@@ -355,7 +350,6 @@ const queryHandlers = {
 	},
 
 	[commonLanguage.queries.FindAccessLinks]: async ({ state, query }: QueryHandler<Web3State>) => {
-
 		const { web3 } = state;
 		const selectedAddress = getSelectedAddress();
 
@@ -374,25 +368,22 @@ const queryHandlers = {
 								  });
 										
 							  console.log('generate:x',signature,response)*/
-
 			} catch (err) {
-				console.log('err:', err)
+				console.log('err:', err);
 			}
-
-
 		}
 
-		console.log('FindAccessLinks!')
-		const accessLinks: any[] = []
+		console.log('FindAccessLinks!');
+		const accessLinks: any[] = [];
 
 		return {
-			accessLinks
-		}
+			accessLinks,
+		};
 	},
 	[commonLanguage.queries.FindAccountState]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3, address, ecosystem } = state;
 
-		devLog('FindAccountState:', { address, ecosystem })
+		devLog('FindAccountState:', { address, ecosystem });
 
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
@@ -400,45 +391,43 @@ const queryHandlers = {
 
 		// When user logs out clean the state (this will trigger a connect to wallte button)
 		const selectedAddress = getSelectedAddress();
-		devLog('FindAccountState selectedAddress:', selectedAddress)
+		devLog('FindAccountState selectedAddress:', selectedAddress);
 
 		if (!selectedAddress) {
 			return {
 				balances: null,
 				selectedAddress: null,
 				addressLock: null,
-				addressDetails: null
-			}
+				addressDetails: null,
+			};
 		}
 
 		const getAccountState = async () => {
-
 			const addressToFetch = address ?? selectedAddress;
-			devLog('FindAccountState addressToFetch:', { addressToFetch, ecosystem })
+			devLog('FindAccountState addressToFetch:', { addressToFetch, ecosystem });
 
-			const contracts = getContracts(web3, state.ecosystem)
+			const contracts = getContracts(web3, state.ecosystem);
 			const config = getEcosystemConfig(state.ecosystem);
 			const isArbitrumMainnet = config.layer === Layer.Layer2;
 
-			devLog('FindAccountState Making batch request:')
+			devLog('FindAccountState Making batch request:');
 
 			const getFluxSupplyAddress = () => {
 				if (isArbitrumMainnet) {
-					return config.mintableSushiSwapL2EthPair as string
+					return config.mintableSushiSwapL2EthPair as string;
 				}
 
-				return config.mintableUniswapV3L1EthTokenContractAddress as string
-			}
+				return config.mintableUniswapV3L1EthTokenContractAddress as string;
+			};
 			const getDamSupplyAddress = () => {
 				if (isArbitrumMainnet) {
-					return config.lockableSushiSwapL2EthPair as string
+					return config.lockableSushiSwapL2EthPair as string;
 				}
 
-				return config.lockableUniswapV3L1EthTokenContractAddress as string
-			}
+				return config.lockableUniswapV3L1EthTokenContractAddress as string;
+			};
 
 			const getUniswapFluxPriceCall = (): Record<string, MultiCallParams> => {
-
 				// On L2 we'll get the balance of pool from SushiSwap
 				if (isArbitrumMainnet) {
 					return {
@@ -448,9 +437,9 @@ const queryHandlers = {
 								signature: {
 									name: 'getReserves',
 									type: 'function',
-									inputs: []
+									inputs: [],
 								},
-								parameters: []
+								parameters: [],
 							},
 
 							returns: {
@@ -458,15 +447,15 @@ const queryHandlers = {
 								callback: (reserve0: string, reserve1: string) => {
 									return {
 										slot0: {
-											sqrtPriceX96: reserve0
+											sqrtPriceX96: reserve0,
 										},
 										reserve0,
-										reserve1
-									}
-								}
-							}
-						}
-					}
+										reserve1,
+									};
+								},
+							},
+						},
+					};
 				}
 
 				// On L1 we'll get the balance of pool from Uniswap v3
@@ -477,9 +466,9 @@ const queryHandlers = {
 							signature: {
 								name: 'slot0',
 								type: 'function',
-								inputs: []
+								inputs: [],
 							},
-							parameters: []
+							parameters: [],
 						},
 
 						returns: {
@@ -487,14 +476,14 @@ const queryHandlers = {
 							callback: (sqrtPriceX96: string) => {
 								return {
 									slot0: {
-										sqrtPriceX96
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+										sqrtPriceX96,
+									},
+								};
+							},
+						},
+					},
+				};
+			};
 
 			const getUniswapDamPriceCall = (): Record<string, MultiCallParams> => {
 				// On L2 we'll get the balance of pool from SushiSwap
@@ -506,15 +495,14 @@ const queryHandlers = {
 								signature: {
 									name: 'getReserves',
 									type: 'function',
-									inputs: []
+									inputs: [],
 								},
-								parameters: []
+								parameters: [],
 							},
 
 							returns: {
 								params: ['uint112', 'uint112'],
 								callback: (reserve0: string, reserve1: string) => {
-
 									// Swap pairs if you have created ETH / Lockable token instead
 									if (config.lockableSushiSwapL2EthPairSwapPairs) {
 										[reserve0, reserve1] = [reserve1, reserve0];
@@ -522,15 +510,15 @@ const queryHandlers = {
 
 									return {
 										slot0: {
-											sqrtPriceX96: reserve0
+											sqrtPriceX96: reserve0,
 										},
 										reserve0,
-										reserve1
-									}
-								}
-							}
-						}
-					}
+										reserve1,
+									};
+								},
+							},
+						},
+					};
 				}
 
 				// On L1 we'll get the balance of pool from Uniswap v3
@@ -541,9 +529,9 @@ const queryHandlers = {
 							signature: {
 								name: 'slot0',
 								type: 'function',
-								inputs: []
+								inputs: [],
 							},
-							parameters: []
+							parameters: [],
 						},
 
 						returns: {
@@ -551,18 +539,18 @@ const queryHandlers = {
 							callback: (sqrtPriceX96: string) => {
 								return {
 									slot0: {
-										sqrtPriceX96
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+										sqrtPriceX96,
+									},
+								};
+							},
+						},
+					},
+				};
+			};
 
 			const getLockedLiquidityBalanceCall = (): Record<string, MultiCallParams> => {
 				if (!config.lockedLiquidityUniswapAddress || !config.mintableSushiSwapL2EthPair) {
-					return {}
+					return {};
 				}
 
 				return {
@@ -572,17 +560,17 @@ const queryHandlers = {
 							signature: {
 								name: 'totalSupply',
 								type: 'function',
-								inputs: []
+								inputs: [],
 							},
-							parameters: []
+							parameters: [],
 						},
 
 						returns: {
 							params: ['uint256'],
 							callback: (totalSupply: string) => {
-								return new BN(totalSupply)
-							}
-						}
+								return new BN(totalSupply);
+							},
+						},
 					},
 					lockedLiquidityUniAmount: {
 						address: config.mintableSushiSwapL2EthPair, //This points to UNI-V2 Token
@@ -593,21 +581,22 @@ const queryHandlers = {
 								inputs: [
 									{
 										type: 'address',
-										name: 'targetAddress'
-									}]
+										name: 'targetAddress',
+									},
+								],
 							},
-							parameters: [config.lockedLiquidityUniswapAddress]
+							parameters: [config.lockedLiquidityUniswapAddress],
 						},
 
 						returns: {
 							params: ['uint256'],
 							callback: (addressBalance: string) => {
-								return new BN(addressBalance)
-							}
-						}
-					}
-				}
-			}
+								return new BN(addressBalance);
+							},
+						},
+					},
+				};
+			};
 
 			/**
 			 * On ArbiFLUX ecostem this would return Lockquidity balance
@@ -620,12 +609,12 @@ const queryHandlers = {
 						case Ecosystem.ArbiFlux:
 							return Ecosystem.Lockquidity;
 						default:
-							return null
+							return null;
 					}
-				}
+				};
 				const otherEcosystem = getOtherEcosystem();
 				if (!otherEcosystem) {
-					return {}
+					return {};
 				}
 
 				const otherEcosystemConfig = getEcosystemConfig(otherEcosystem);
@@ -635,12 +624,12 @@ const queryHandlers = {
 						case Ecosystem.ArbiFlux:
 							return otherEcosystemConfig.mintableTokenContractAddress; // Get Lockquidity balance
 						default:
-							return null
+							return null;
 					}
-				}
-				const address = getAddress()
+				};
+				const address = getAddress();
 				if (!address) {
-					return {}
+					return {};
 				}
 
 				return {
@@ -653,25 +642,26 @@ const queryHandlers = {
 								inputs: [
 									{
 										type: 'address',
-										name: 'targetAddress'
-									}]
+										name: 'targetAddress',
+									},
+								],
 							},
-							parameters: [addressToFetch]
+							parameters: [addressToFetch],
 						},
 
 						returns: {
 							params: ['uint256'],
 							callback: (addressBalance: string) => {
-								return new BN(addressBalance)
-							}
-						}
-					}
-				}
-			}
+								return new BN(addressBalance);
+							},
+						},
+					},
+				};
+			};
 
 			const getMarketCall = (): Record<string, MultiCallParams> => {
 				if (!config.marketAddress || config.marketAddress === '0x0') {
-					return {}
+					return {};
 				}
 
 				return {
@@ -684,18 +674,19 @@ const queryHandlers = {
 								inputs: [
 									{
 										type: 'address',
-										name: 'targetAddress'
-									}]
+										name: 'targetAddress',
+									},
+								],
 							},
-							parameters: [selectedAddress]
+							parameters: [selectedAddress],
 						},
 
 						returns: {
 							params: ['uint256'],
 							callback: (positions: string) => {
-								return new BN(positions)
-							}
-						}
+								return new BN(positions);
+							},
+						},
 					},
 					marketAddressLock: {
 						address: config.marketAddress,
@@ -706,26 +697,32 @@ const queryHandlers = {
 								inputs: [
 									{
 										type: 'address',
-										name: 'address'
-									}
-								]
+										name: 'address',
+									},
+								],
 							},
-							parameters: [selectedAddress]
+							parameters: [selectedAddress],
 						},
 
 						returns: {
 							params: ['uint256', 'uint256', 'uint256', 'bool', 'uint256'],
-							callback: (rewardsAmount: string, rewardsPercent: string, minBlockNumber: string, isPaused: string, minBurnAmount: string) => {
-								const rewardsPercentValue = new BN(rewardsPercent).toNumber()
+							callback: (
+								rewardsAmount: string,
+								rewardsPercent: string,
+								minBlockNumber: string,
+								isPaused: string,
+								minBurnAmount: string
+							) => {
+								const rewardsPercentValue = new BN(rewardsPercent).toNumber();
 								return {
 									rewardsAmount: new BN(rewardsAmount),
 									rewardsPercent: rewardsPercentValue === 0 ? 500 : rewardsPercentValue, //fallback to default 5% if 0%
 									minBlockNumber: new BN(minBlockNumber).toNumber(),
 									isPaused: isPaused,
-									minBurnAmount: new BN(minBurnAmount)
-								}
-							}
-						}
+									minBurnAmount: new BN(minBurnAmount),
+								};
+							},
+						},
 					},
 					currentAddressMarketAddressLock: {
 						address: config.marketAddress,
@@ -736,28 +733,34 @@ const queryHandlers = {
 								inputs: [
 									{
 										type: 'address',
-										name: 'address'
-									}
-								]
+										name: 'address',
+									},
+								],
 							},
-							parameters: [selectedAddress]
+							parameters: [selectedAddress],
 						},
 
 						returns: {
 							params: ['uint256', 'uint256', 'uint256', 'bool', 'uint256'],
-							callback: (rewardsAmount: string, rewardsPercent: string, minBlockNumber: string, isPaused: string, minBurnAmount: string) => {
+							callback: (
+								rewardsAmount: string,
+								rewardsPercent: string,
+								minBlockNumber: string,
+								isPaused: string,
+								minBurnAmount: string
+							) => {
 								return {
 									rewardsAmount: new BN(rewardsAmount),
 									rewardsPercent: new BN(rewardsPercent).toNumber(),
 									minBlockNumber: new BN(minBlockNumber).toNumber(),
 									isPaused: isPaused,
-									minBurnAmount: new BN(minBurnAmount)
-								}
-							}
-						}
+									minBurnAmount: new BN(minBurnAmount),
+								};
+							},
+						},
 					},
-				}
-			}
+				};
+			};
 
 			const multicallData = {
 				// ETH Balance
@@ -770,18 +773,19 @@ const queryHandlers = {
 							inputs: [
 								{
 									type: 'address',
-									name: 'addr'
-								}]
+									name: 'addr',
+								},
+							],
 						},
-						parameters: [addressToFetch]
+						parameters: [addressToFetch],
 					},
 
 					returns: {
 						params: ['uint256'],
 						callback: (ethBalance: string) => {
-							return new BN(ethBalance)
-						}
-					}
+							return new BN(ethBalance);
+						},
+					},
 				},
 
 				// Uniswap: ETH Price
@@ -791,39 +795,37 @@ const queryHandlers = {
 						signature: {
 							name: 'slot0',
 							type: 'function',
-							inputs: []
+							inputs: [],
 						},
-						parameters: []
+						parameters: [],
 					},
 
 					returns: {
 						params: ['uint160'],
 						callback: (sqrtPriceX96: string) => {
 							const getUsdPriceFromUniswapV3EthPool = (sqrtPriceX96: string, flipPrice: boolean) => {
-
-								const num = new Big(sqrtPriceX96).times(sqrtPriceX96)
-								const denom = new Big(2).pow(192)
-								const price1 = num.div(denom)
-								const price0 = new Big(1).div(price1)
+								const num = new Big(sqrtPriceX96).times(sqrtPriceX96);
+								const denom = new Big(2).pow(192);
+								const price1 = num.div(denom);
+								const price0 = new Big(1).div(price1);
 
 								if (flipPrice) {
-									return new Big(10).pow(12).div(price1)
+									return new Big(10).pow(12).div(price1);
 								}
 
-								return new Big(10).pow(12).div(price0)
+								return new Big(10).pow(12).div(price0);
+							};
 
-							}
+							const ethUsdPrice = getUsdPriceFromUniswapV3EthPool(sqrtPriceX96, !isArbitrumMainnet); // Arbitrum is USDC/ETH and Mainnet is USDC/ETH
 
-							const ethUsdPrice = getUsdPriceFromUniswapV3EthPool(sqrtPriceX96, !isArbitrumMainnet) // Arbitrum is USDC/ETH and Mainnet is USDC/ETH
-
-							const usdcPriceLong = ethUsdPrice.mul(new Big(10).pow(6))
+							const usdcPriceLong = ethUsdPrice.mul(new Big(10).pow(6));
 
 							return {
 								usdc: new BN(usdcPriceLong.toFixed(0)),
-								eth: new BN(10).pow(new BN(18))
-							}
-						}
-					}
+								eth: new BN(10).pow(new BN(18)),
+							};
+						},
+					},
 				},
 				// FLUX: Total Supply
 				fluxTotalSupply: {
@@ -832,17 +834,17 @@ const queryHandlers = {
 						signature: {
 							name: 'totalSupply',
 							type: 'function',
-							inputs: []
+							inputs: [],
 						},
-						parameters: []
+						parameters: [],
 					},
 
 					returns: {
 						params: ['uint256'],
 						callback: (totalSupply: string) => {
-							return new BN(totalSupply)
-						}
-					}
+							return new BN(totalSupply);
+						},
+					},
 				},
 
 				// DAM: Total Supply
@@ -852,19 +854,18 @@ const queryHandlers = {
 						signature: {
 							name: 'totalSupply',
 							type: 'function',
-							inputs: []
+							inputs: [],
 						},
-						parameters: []
+						parameters: [],
 					},
 
 					returns: {
 						params: ['uint256'],
 						callback: (totalSupply: string) => {
-							return new BN(totalSupply)
-						}
-					}
+							return new BN(totalSupply);
+						},
+					},
 				},
-
 
 				// FLUX: Address token details
 				addressTokenDetails: {
@@ -876,27 +877,32 @@ const queryHandlers = {
 							inputs: [
 								{
 									type: 'address',
-									name: 'targetAddress'
-								}
-							]
+									name: 'targetAddress',
+								},
+							],
 						},
-						parameters: [addressToFetch]
+						parameters: [addressToFetch],
 					},
 
 					returns: {
 						params: ['uint256', 'bool', 'uint256', 'uint256', 'uint256'],
-						callback: (blockNumber: string, isFluxOperator: boolean, damBalance: string, myRatio: string, globalRatio: string) => {
+						callback: (
+							blockNumber: string,
+							isFluxOperator: boolean,
+							damBalance: string,
+							myRatio: string,
+							globalRatio: string
+						) => {
 							return {
 								blockNumber: new BN(blockNumber).toNumber(),
 								isFluxOperator: isFluxOperator,
 								damBalance: new BN(damBalance),
 								myRatio: new BN(myRatio),
-								globalRatio: new BN(globalRatio)
-							}
-						}
-					}
+								globalRatio: new BN(globalRatio),
+							};
+						},
+					},
 				},
-
 
 				// FLUX: Address locks
 				addressLock: {
@@ -908,25 +914,31 @@ const queryHandlers = {
 							inputs: [
 								{
 									type: 'address',
-									name: 'address'
-								}
-							]
+									name: 'address',
+								},
+							],
 						},
-						parameters: [addressToFetch]
+						parameters: [addressToFetch],
 					},
 
 					returns: {
 						params: ['uint256', 'uint256', 'uint256', 'uint256', 'address'],
-						callback: (amount: string, burnedAmount: string, blockNumber: string, lastMintBlockNumber: string, minterAddress: string) => {
+						callback: (
+							amount: string,
+							burnedAmount: string,
+							blockNumber: string,
+							lastMintBlockNumber: string,
+							minterAddress: string
+						) => {
 							return {
 								amount: new BN(amount),
 								blockNumber: new BN(blockNumber).toNumber(),
 								burnedAmount: new BN(burnedAmount),
 								lastMintBlockNumber: new BN(lastMintBlockNumber).toNumber(),
-								minterAddress: minterAddress.toLowerCase()
-							}
-						}
-					}
+								minterAddress: minterAddress.toLowerCase(),
+							};
+						},
+					},
 				},
 				...getMarketCall(),
 
@@ -940,16 +952,24 @@ const queryHandlers = {
 							inputs: [
 								{
 									type: 'address',
-									name: 'targetAddress'
-								}
-							]
+									name: 'targetAddress',
+								},
+							],
 						},
-						parameters: [addressToFetch]
+						parameters: [addressToFetch],
 					},
 
 					returns: {
 						params: ['uint256', 'uint256', 'uint256', 'uint256', 'uint256', 'uint256', 'uint256'],
-						callback: (blockNumber: string, fluxBalance: string, mintAmount: string, addressTimeMultiplier: string, addressBurnMultiplier: string, globalLockedAmount: string, globalBurnedAmount: string) => {
+						callback: (
+							blockNumber: string,
+							fluxBalance: string,
+							mintAmount: string,
+							addressTimeMultiplier: string,
+							addressBurnMultiplier: string,
+							globalLockedAmount: string,
+							globalBurnedAmount: string
+						) => {
 							return {
 								blockNumber: new BN(blockNumber).toNumber(),
 								fluxBalance: new BN(fluxBalance),
@@ -959,15 +979,14 @@ const queryHandlers = {
 								addressTimeMultiplierRaw: new BN(addressTimeMultiplier),
 								addressBurnMultiplierRaw: new BN(addressBurnMultiplier),
 								globalLockedAmount: new BN(globalLockedAmount),
-								globalBurnedAmount: new BN(globalBurnedAmount)
-							}
-						}
-					}
+								globalBurnedAmount: new BN(globalBurnedAmount),
+							};
+						},
+					},
 				},
 
 				// Uniswap: DAM Price
 				...getUniswapDamPriceCall(),
-
 
 				// DAM: Total Supply of Uniswap
 				liquidityDamV3: {
@@ -979,20 +998,20 @@ const queryHandlers = {
 							inputs: [
 								{
 									type: 'address',
-									name: 'targetAddress'
-								}]
+									name: 'targetAddress',
+								},
+							],
 						},
-						parameters: [getDamSupplyAddress()]
+						parameters: [getDamSupplyAddress()],
 					},
 
 					returns: {
 						params: ['uint256'],
 						callback: (positions: string) => {
-							return positions
-						}
-					}
+							return positions;
+						},
+					},
 				},
-
 
 				// Uniswap: FLUX Price
 				...getUniswapFluxPriceCall(),
@@ -1007,18 +1026,19 @@ const queryHandlers = {
 							inputs: [
 								{
 									type: 'address',
-									name: 'targetAddress'
-								}]
+									name: 'targetAddress',
+								},
+							],
 						},
-						parameters: [getFluxSupplyAddress()]
+						parameters: [getFluxSupplyAddress()],
 					},
 
 					returns: {
 						params: ['uint256'],
 						callback: (positions: string) => {
-							return positions
-						}
-					}
+							return positions;
+						},
+					},
 				},
 
 				// FLUX: Total Supply of Arbitrum Bridge
@@ -1031,18 +1051,19 @@ const queryHandlers = {
 							inputs: [
 								{
 									type: 'address',
-									name: 'targetAddress'
-								}]
+									name: 'targetAddress',
+								},
+							],
 						},
-						parameters: ['0xcEe284F754E854890e311e3280b767F80797180d'] // This doesn't really do anything when on L2 since the balance would be 0 (extra call that can be removed in the future)
+						parameters: ['0xcEe284F754E854890e311e3280b767F80797180d'], // This doesn't really do anything when on L2 since the balance would be 0 (extra call that can be removed in the future)
 					},
 
 					returns: {
 						params: ['uint256'],
 						callback: (positions: string) => {
-							return positions
-						}
-					}
+							return positions;
+						},
+					},
 				},
 
 				// ETH: Total Supply of FLUX / ETH Uniswap Pool
@@ -1055,18 +1076,19 @@ const queryHandlers = {
 							inputs: [
 								{
 									type: 'address',
-									name: 'targetAddress'
-								}]
+									name: 'targetAddress',
+								},
+							],
 						},
-						parameters: [getFluxSupplyAddress()]
+						parameters: [getFluxSupplyAddress()],
 					},
 
 					returns: {
 						params: ['uint256'],
 						callback: (positions: string) => {
-							return positions
-						}
-					}
+							return positions;
+						},
+					},
 				},
 
 				// ETH: Total Supply of DAM / ETH Uniswap Pool
@@ -1079,29 +1101,29 @@ const queryHandlers = {
 							inputs: [
 								{
 									type: 'address',
-									name: 'targetAddress'
-								}]
+									name: 'targetAddress',
+								},
+							],
 						},
-						parameters: [getDamSupplyAddress()]
+						parameters: [getDamSupplyAddress()],
 					},
 
 					returns: {
 						params: ['uint256'],
 						callback: (positions: string) => {
-							return positions
-						}
-					}
+							return positions;
+						},
+					},
 				},
 
 				...getLockedLiquidityBalanceCall(),
-				...getOtherEcosystemTokenBalance()
-			}
+				...getOtherEcosystemTokenBalance(),
+			};
 
-
-			const calls = encodeMulticall(web3, multicallData)
+			const calls = encodeMulticall(web3, multicallData);
 			const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call()) as any;
 
-			const multicallDecodedResults = decodeMulticall(web3, multicallEncodedResults, multicallData)
+			const multicallDecodedResults = decodeMulticall(web3, multicallEncodedResults, multicallData);
 
 			const {
 				ethBalance,
@@ -1113,98 +1135,99 @@ const queryHandlers = {
 				addressLock,
 				addressDetails,
 
-				uniswapDamTokenReservesV3, liquidityDamV3,
-				uniswapFluxTokenReservesV3, uniswapFluxBalance,
+				uniswapDamTokenReservesV3,
+				liquidityDamV3,
+				uniswapFluxTokenReservesV3,
+				uniswapFluxBalance,
 
-				arbitrumBridgeBalance, wrappedEthFluxUniswapAddressBalance, wrappedEthDamUniswapAddressBalance,
+				arbitrumBridgeBalance,
+				wrappedEthFluxUniswapAddressBalance,
+				wrappedEthDamUniswapAddressBalance,
 
-				lockedLiquidtyUniTotalSupply, lockedLiquidityUniAmount,
+				lockedLiquidtyUniTotalSupply,
+				lockedLiquidityUniAmount,
 
 				otherEcosystemTokenBalance,
 				marketAddressLock,
 				currentAddressMarketAddressLock,
-				currentAddresMintableBalance
-			} = multicallDecodedResults
+				currentAddresMintableBalance,
+			} = multicallDecodedResults;
 
-			devLog('FindAccountState batch request success', multicallDecodedResults)
+			devLog('FindAccountState batch request success', multicallDecodedResults);
 
 			const getV3ReservesDAM = () => {
-				const { slot0, reserve0, reserve1 } = uniswapDamTokenReservesV3 as any
+				const { slot0, reserve0, reserve1 } = uniswapDamTokenReservesV3 as any;
 
 				if (isArbitrumMainnet) {
-					const ethAvailable = new Big(reserve1)
-					const damAvailable = new Big(reserve0)
+					const ethAvailable = new Big(reserve1);
+					const damAvailable = new Big(reserve0);
 
-					const price1 = damAvailable.div(ethAvailable)
-					const price0 = new Big(1).div(price1)
+					const price1 = damAvailable.div(ethAvailable);
+					const price0 = new Big(1).div(price1);
 
 					return {
 						eth: new BN(reserve0),
 						dam: new BN(reserve1),
 						ethPrice: price1,
-						damPrice: price0
-					}
+						damPrice: price0,
+					};
 				}
 
+				const { sqrtPriceX96 } = slot0;
+				const num = new Big(sqrtPriceX96).times(sqrtPriceX96);
+				const denom = new Big(2).pow(192);
+				const price1 = num.div(denom);
+				const price0 = new Big(1).div(price1);
 
-				const { sqrtPriceX96 } = slot0
-				const num = new Big(sqrtPriceX96).times(sqrtPriceX96)
-				const denom = new Big(2).pow(192)
-				const price1 = num.div(denom)
-				const price0 = new Big(1).div(price1)
-
-				const damAvailable = new Big(liquidityDamV3 as string).div(new Big(10).pow(18))
-				const ethAvailable = new Big(wrappedEthDamUniswapAddressBalance).div(new Big(10).pow(18))
+				const damAvailable = new Big(liquidityDamV3 as string).div(new Big(10).pow(18));
+				const ethAvailable = new Big(wrappedEthDamUniswapAddressBalance).div(new Big(10).pow(18));
 
 				return {
 					eth: new BN(ethAvailable.mul(100).toFixed(0)).mul(new BN(10).pow(new BN(16))),
 					dam: new BN(damAvailable.mul(100).toFixed(0)).mul(new BN(10).pow(new BN(16))),
 					ethPrice: price0,
-					damPrice: price1
-				}
-			}
+					damPrice: price1,
+				};
+			};
 			const fixedUniswapDamTokenReservesV3 = getV3ReservesDAM();
 
 			const getV3ReservesFLUX = () => {
-				const { slot0, reserve0, reserve1 } = uniswapFluxTokenReservesV3 as any
+				const { slot0, reserve0, reserve1 } = uniswapFluxTokenReservesV3 as any;
 
 				if (isArbitrumMainnet) {
-					const ethAvailable = new Big(reserve0)
-					const fluxAvailable = new Big(reserve1)
+					const ethAvailable = new Big(reserve0);
+					const fluxAvailable = new Big(reserve1);
 
-					const price1 = fluxAvailable.div(ethAvailable)
-					const price0 = new Big(1).div(price1)
+					const price1 = fluxAvailable.div(ethAvailable);
+					const price0 = new Big(1).div(price1);
 
 					return {
 						eth: new BN(reserve1),
 						flux: new BN(reserve0),
 						ethPrice: price1,
-						fluxPrice: price0
-					}
+						fluxPrice: price0,
+					};
 				}
 
+				const { sqrtPriceX96, tick } = slot0;
+				const num = new Big(sqrtPriceX96).times(sqrtPriceX96);
+				const denom = new Big(2).pow(192);
+				const price1 = num.div(denom);
+				const price0 = new Big(1).div(price1);
 
-				const { sqrtPriceX96, tick } = slot0
-				const num = new Big(sqrtPriceX96).times(sqrtPriceX96)
-				const denom = new Big(2).pow(192)
-				const price1 = num.div(denom)
-				const price0 = new Big(1).div(price1)
-
-				const fluxAvailable = new Big(uniswapFluxBalance as string).div(new Big(10).pow(18))
-				const ethAvailable = new Big(wrappedEthFluxUniswapAddressBalance).div(new Big(10).pow(18))
+				const fluxAvailable = new Big(uniswapFluxBalance as string).div(new Big(10).pow(18));
+				const ethAvailable = new Big(wrappedEthFluxUniswapAddressBalance).div(new Big(10).pow(18));
 
 				return {
 					eth: new BN(ethAvailable.mul(100).toFixed(0)).mul(new BN(10).pow(new BN(16))),
 					flux: new BN(fluxAvailable.mul(100).toFixed(0)).mul(new BN(10).pow(new BN(16))),
 					ethPrice: price1,
-					fluxPrice: price0
-				}
-			}
+					fluxPrice: price0,
+				};
+			};
 			const fixedUniswapFluxTokenReservesV3 = getV3ReservesFLUX();
 
-
 			const getSwapTokenBalances = () => {
-
 				const getCurrentSwapTokenBalances = () => {
 					if (!state.swapTokenBalances) {
 						return {
@@ -1219,50 +1242,50 @@ const queryHandlers = {
 								[SwapToken.LOCK]: new BN(0),
 								[SwapToken.ETH]: new BN(0),
 							},
-						}
+						};
 					}
-					return state.swapTokenBalances
-				}
-				const swapTokenBalances = getCurrentSwapTokenBalances()
-
+					return state.swapTokenBalances;
+				};
+				const swapTokenBalances = getCurrentSwapTokenBalances();
 
 				const getL2ArbiFluxSwapBalance = () => {
-
 					switch (state.ecosystem) {
 						case Ecosystem.ArbiFlux:
-							return (addressDetails as FluxAddressDetails).fluxBalance
+							return (addressDetails as FluxAddressDetails).fluxBalance;
 						case Ecosystem.Lockquidity:
 							return (addressTokenDetails as FluxAddressTokenDetails).damBalance;
 					}
 
-					return swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX]
-				}
+					return swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX];
+				};
 				const getL2LockSwapBalance = () => {
 					switch (state.ecosystem) {
 						case Ecosystem.ArbiFlux:
-							return otherEcosystemTokenBalance
+							return otherEcosystemTokenBalance;
 						case Ecosystem.Lockquidity:
-							return (addressDetails as FluxAddressDetails).fluxBalance
+							return (addressDetails as FluxAddressDetails).fluxBalance;
 					}
 
-					return swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX]
-				}
+					return swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX];
+				};
 
 				const getFluxL2SwapBlance = () => {
 					switch (state.ecosystem) {
 						case Ecosystem.ArbiFlux:
 							return (addressTokenDetails as FluxAddressTokenDetails).damBalance;
 						//case Ecosystem.Lockquidity: //@todo get from extra prop
-
-
 					}
-					return swapTokenBalances[Layer.Layer2][SwapToken.FLUX]
-				}
+					return swapTokenBalances[Layer.Layer2][SwapToken.FLUX];
+				};
 
 				return {
 					[Layer.Layer1]: {
-						[SwapToken.DAM]: !isArbitrumMainnet ? (addressTokenDetails as FluxAddressTokenDetails).damBalance : swapTokenBalances[Layer.Layer1][SwapToken.DAM],
-						[SwapToken.FLUX]: !isArbitrumMainnet ? (addressDetails as FluxAddressDetails).fluxBalance : swapTokenBalances[Layer.Layer1][SwapToken.FLUX],
+						[SwapToken.DAM]: !isArbitrumMainnet
+							? (addressTokenDetails as FluxAddressTokenDetails).damBalance
+							: swapTokenBalances[Layer.Layer1][SwapToken.DAM],
+						[SwapToken.FLUX]: !isArbitrumMainnet
+							? (addressDetails as FluxAddressDetails).fluxBalance
+							: swapTokenBalances[Layer.Layer1][SwapToken.FLUX],
 						[SwapToken.ETH]: !isArbitrumMainnet ? ethBalance : swapTokenBalances[Layer.Layer1][SwapToken.ETH],
 					},
 					[Layer.Layer2]: {
@@ -1271,11 +1294,9 @@ const queryHandlers = {
 						[SwapToken.LOCK]: getL2LockSwapBalance(),
 						[SwapToken.ETH]: isArbitrumMainnet ? ethBalance : swapTokenBalances[Layer.Layer2][SwapToken.ETH],
 					},
-
-				}
-			}
+				};
+			};
 			const swapTokenBalances = getSwapTokenBalances();
-
 
 			return {
 				balances: {
@@ -1293,7 +1314,7 @@ const queryHandlers = {
 					arbitrumBridgeBalance: new BN(arbitrumBridgeBalance),
 
 					lockedLiquidtyUniTotalSupply,
-					lockedLiquidityUniAmount
+					lockedLiquidityUniAmount,
 				},
 				swapTokenBalances,
 				selectedAddress,
@@ -1302,33 +1323,32 @@ const queryHandlers = {
 				currentAddressMarketAddressLock,
 				currentAddresMintableBalance,
 				addressDetails,
-				addressTokenDetails
+				addressTokenDetails,
 			};
-		}
+		};
 
 		// Try 3 times to get account state
 		for (let attempt = 0; attempt <= 3; attempt++) {
 			try {
-				const accountState = await getAccountState()
+				const accountState = await getAccountState();
 				return accountState;
 			} catch (err) {
-				devLog('FindAccountState batch request failure:', { err, message: (err as any).message })
+				devLog('FindAccountState batch request failure:', { err, message: (err as any).message });
 				// Retry
 				switch (attempt) {
 					case 0:
-						await new Promise(resolve => setTimeout(resolve, 1000))
+						await new Promise((resolve) => setTimeout(resolve, 1000));
 						continue;
 					case 1:
-						await new Promise(resolve => setTimeout(resolve, 2500))
+						await new Promise((resolve) => setTimeout(resolve, 2500));
 						continue;
 					case 2:
-						await new Promise(resolve => setTimeout(resolve, 5000))
+						await new Promise((resolve) => setTimeout(resolve, 5000));
 						continue;
-
 				}
 
 				const netId = await web3.eth.net.getId();
-				devLog('netId:', netId)
+				devLog('netId:', netId);
 
 				//const networkType = await web3.eth.net.networkType();
 				const networkType = 'main';
@@ -1338,8 +1358,8 @@ const queryHandlers = {
 				throw {
 					err: (err as any).message ? (err as any).message : err,
 					netId,
-					networkType
-				}
+					networkType,
+				};
 			}
 		}
 	},
@@ -1350,19 +1370,19 @@ const queryHandlers = {
 		}
 		const selectedAddress = getSelectedAddress();
 
-		const contracts = getContracts(web3, state.ecosystem)
-		const config = getEcosystemConfig(state.ecosystem)
+		const contracts = getContracts(web3, state.ecosystem);
+		const config = getEcosystemConfig(state.ecosystem);
 
 		const damToken = withWeb3(web3, contracts.damToken);
 
 		const response = await damToken.authorizeOperator({
 			operator: config.mintableTokenContractAddress,
-			from: selectedAddress
+			from: selectedAddress,
 		});
 
 		console.log('GetAuthorizeFluxOperatorResponse:', response);
 
-		return response && response.status
+		return response && response.status;
 	},
 	[commonLanguage.queries.GetLockInDamTokensResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3 } = state;
@@ -1373,19 +1393,19 @@ const queryHandlers = {
 
 		const { amount, minterAddress } = query.payload;
 
-		const contracts = getContracts(web3, state.ecosystem)
+		const contracts = getContracts(web3, state.ecosystem);
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 
 		const response = await fluxToken.lock({
 			amount,
 			minterAddress,
-			from: selectedAddress
+			from: selectedAddress,
 		});
 
 		console.log('GetLockInDamTokensResponse:', response);
 
-		return response && response.status
+		return response && response.status;
 	},
 	[commonLanguage.queries.GetMintFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3 } = state;
@@ -1396,19 +1416,19 @@ const queryHandlers = {
 
 		const { sourceAddress, targetAddress, blockNumber } = query.payload;
 
-		const contracts = getContracts(web3, state.ecosystem)
+		const contracts = getContracts(web3, state.ecosystem);
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 		const response = await fluxToken.mintToAddress({
 			sourceAddress,
 			targetAddress,
 			blockNumber,
-			from: selectedAddress
+			from: selectedAddress,
 		});
 
 		console.log('GetMintFluxResponse:', response);
 
-		return response && response.status
+		return response && response.status;
 	},
 	[commonLanguage.queries.GetBurnFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3 } = state;
@@ -1419,16 +1439,16 @@ const queryHandlers = {
 
 		const { address, amount } = query.payload;
 
-		const contracts = getContracts(web3, state.ecosystem)
+		const contracts = getContracts(web3, state.ecosystem);
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 		const response = await fluxToken.burnToAddress({
 			targetAddress: address,
 			amount,
-			from: selectedAddress
+			from: selectedAddress,
 		});
 
-		return response && response.status
+		return response && response.status;
 	},
 	[commonLanguage.queries.Market.GetMarketBurnFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3, ecosystem } = state;
@@ -1437,9 +1457,9 @@ const queryHandlers = {
 		}
 		const selectedAddress = getSelectedAddress();
 
-		const { gems, amountToBurn }: { gems: Gem[], amountToBurn: BN } = query.payload
+		const { gems, amountToBurn }: { gems: Gem[]; amountToBurn: BN } = query.payload;
 
-		const contracts = getContracts(web3, state.ecosystem)
+		const contracts = getContracts(web3, state.ecosystem);
 
 		const config = getEcosystemConfig(ecosystem);
 
@@ -1452,24 +1472,24 @@ const queryHandlers = {
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 
 		if (gems.length === 1) {
-			const gem = gems[0]
+			const gem = gems[0];
 			const burnResponse = await marketContract.marketBurnTokens({
 				amountToBurn,
 				burnToAddress: gem.ethereumAddress,
 
-				from: selectedAddress
+				from: selectedAddress,
 			});
-			console.log(burnResponse)
-			return { gems }
+			console.log(burnResponse);
+			return { gems };
 		} else {
-			const addresses = gems.map(gem => gem.ethereumAddress)
+			const addresses = gems.map((gem) => gem.ethereumAddress);
 			const burnBatchResponse = await marketContract.marketBatchBurnTokens({
 				amountToBurn,
 				addresses,
-				from: selectedAddress
+				from: selectedAddress,
 			});
-			console.log(burnBatchResponse)
-			return { gems }
+			console.log(burnBatchResponse);
+			return { gems };
 		}
 	},
 	[commonLanguage.queries.Market.GetDepositMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
@@ -1481,7 +1501,7 @@ const queryHandlers = {
 
 		const { address, amount } = query.payload;
 
-		const contracts = getContracts(web3, state.ecosystem)
+		const contracts = getContracts(web3, state.ecosystem);
 
 		const config = getEcosystemConfig(ecosystem);
 
@@ -1493,19 +1513,19 @@ const queryHandlers = {
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 
-		const rewardsPercent = 500 // 5.00%, @todo customize via UI
+		const rewardsPercent = 500; // 5.00%, @todo customize via UI
 
 		//@todo check if already authorized
 
-		const isOperatorFor = await fluxToken.isOperatorFor(config.marketAddress, selectedAddress)()
-		console.log('isOperatorFor:', isOperatorFor)
+		const isOperatorFor = await fluxToken.isOperatorFor(config.marketAddress, selectedAddress)();
+		console.log('isOperatorFor:', isOperatorFor);
 
 		if (!isOperatorFor) {
 			const authorizeOperatorResponse = await fluxToken.authorizeOperator({
 				operator: config.marketAddress,
-				from: selectedAddress
+				from: selectedAddress,
 			});
-			console.log('authorizeOperatorResponse:', authorizeOperatorResponse)
+			console.log('authorizeOperatorResponse:', authorizeOperatorResponse);
 		}
 
 		const depositResponse = await marketContract.marketDeposit({
@@ -1513,35 +1533,36 @@ const queryHandlers = {
 			rewardsPercent,
 			from: selectedAddress,
 			minBlockNumber: new BN(0), //@todo customize via UI
-			minBurnAmount: new BN(0) //@todo customize via UI
+			minBurnAmount: new BN(0), //@todo customize via UI
 		});
 
-		return depositResponse
+		return depositResponse;
 	},
-	[commonLanguage.queries.Market.GetRefreshMarketAddressesResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
-
+	[commonLanguage.queries.Market.GetRefreshMarketAddressesResponse]: async ({
+		state,
+		query,
+	}: QueryHandler<Web3State>) => {
 		const { web3, ecosystem } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
 		}
 
-		const contracts = getContracts(web3, state.ecosystem)
+		const contracts = getContracts(web3, state.ecosystem);
 		const config = getEcosystemConfig(state.ecosystem);
 
 		if (!config.marketAddress) {
-			return
+			return;
 		}
 
-		const marketAddressesToFetch = config.marketTopBurningaddresses
+		const marketAddressesToFetch = config.marketTopBurningaddresses;
 
-		const customGemAddresses = state.market.gemAddresses[ecosystem]
+		const customGemAddresses = state.market.gemAddresses[ecosystem];
 
-		const allAddressesToFetch = [
-			...marketAddressesToFetch,
-			...customGemAddresses
-		].map(address => address.toLowerCase())
+		const allAddressesToFetch = [...marketAddressesToFetch, ...customGemAddresses].map((address) =>
+			address.toLowerCase()
+		);
 
-		const uniqueAddressesToFetch = [...new Set(allAddressesToFetch)]
+		const uniqueAddressesToFetch = [...new Set(allAddressesToFetch)];
 
 		const multicallData = {
 			// ETH Balance
@@ -1554,11 +1575,11 @@ const queryHandlers = {
 						inputs: [
 							{
 								type: 'address[]',
-								name: 'addressesToQuery'
+								name: 'addressesToQuery',
 							},
-						]
+						],
 					},
-					parameters: [uniqueAddressesToFetch]
+					parameters: [uniqueAddressesToFetch],
 				},
 
 				returns: {
@@ -1577,20 +1598,19 @@ const queryHandlers = {
 								isPaused: address[6],
 
 								minterAddress: address[7],
-							}))
-						}
-					}
-				}
+							})),
+						};
+					},
+				},
 			},
-		} as any
+		} as any;
 
-
-		const calls = encodeMulticall(web3, multicallData)
+		const calls = encodeMulticall(web3, multicallData);
 		const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call()) as any;
 
-		const { marketAddresses } = decodeMulticall(web3, multicallEncodedResults, multicallData)
+		const { marketAddresses } = decodeMulticall(web3, multicallEncodedResults, multicallData);
 
-		return { marketAddresses }
+		return { marketAddresses };
 	},
 	[commonLanguage.queries.Market.GetWithdrawMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3, ecosystem } = state;
@@ -1599,7 +1619,7 @@ const queryHandlers = {
 		}
 		const selectedAddress = getSelectedAddress();
 
-		const contracts = getContracts(web3, state.ecosystem)
+		const contracts = getContracts(web3, state.ecosystem);
 
 		const config = getEcosystemConfig(ecosystem);
 
@@ -1613,7 +1633,7 @@ const queryHandlers = {
 			from: selectedAddress,
 		});
 
-		return withdrawResponse
+		return withdrawResponse;
 	},
 	[commonLanguage.queries.GetUnlockDamTokensResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3 } = state;
@@ -1622,22 +1642,21 @@ const queryHandlers = {
 		}
 		const selectedAddress = getSelectedAddress();
 
-		const contracts = getContracts(web3, state.ecosystem)
+		const contracts = getContracts(web3, state.ecosystem);
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 		const response = await fluxToken.unlockDamTokens({
-			from: selectedAddress
+			from: selectedAddress,
 		});
 
 		console.log('GetUnlockDamTokensResponse:', response);
 
-		return response && response.status
+		return response && response.status;
 	},
-
 
 	[commonLanguage.queries.Swap.ThrottleGetOutputQuote]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
 		if (!state.web3) {
-			return
+			return;
 		}
 
 		clearTimeout(thottleGetOutputQuoteTimeout);
@@ -1648,7 +1667,7 @@ const queryHandlers = {
 	},
 	[commonLanguage.queries.Swap.GetOutputQuote]: async ({ state, query }: QueryHandler<Web3State>) => {
 		if (!state.web3) {
-			return
+			return;
 		}
 
 		const { swapState } = state;
@@ -1657,7 +1676,7 @@ const queryHandlers = {
 		const outputToken = swapState.output;
 
 		if (!inputToken || !outputToken) {
-			console.log('invalid token:', { inputToken, outputToken })
+			console.log('invalid token:', { inputToken, outputToken });
 			return;
 		}
 
@@ -1672,11 +1691,10 @@ const queryHandlers = {
 
 			web3: state.web3,
 			web3provider,
-			onlyGetQuote: true
-		}
+			onlyGetQuote: true,
+		};
 		try {
-			const quote = await performSwap(swapOptions)
-
+			const quote = await performSwap(swapOptions);
 
 			return quote;
 		} catch (err) {
@@ -1685,7 +1703,7 @@ const queryHandlers = {
 	},
 	[commonLanguage.queries.GetTradeResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		if (!state.web3) {
-			return
+			return;
 		}
 
 		const { swapState } = state;
@@ -1694,10 +1712,9 @@ const queryHandlers = {
 		const outputToken = swapState.output;
 
 		if (!inputToken || !outputToken) {
-			console.log('invalid token:', { inputToken, outputToken })
+			console.log('invalid token:', { inputToken, outputToken });
 			return;
 		}
-
 
 		const swapOptions: SwapOptions = {
 			inputToken,
@@ -1705,58 +1722,52 @@ const queryHandlers = {
 			swapPlatform: SwapPlatform.UniswapV2,
 
 			web3: state.web3,
-			web3provider
-		}
+			web3provider,
+		};
 		try {
-			await performSwap(swapOptions)
-
+			await performSwap(swapOptions);
 		} catch (err) {
 			rethrowWeb3Error(err);
 		}
 
 		return true;
 	},
-	[commonLanguage.queries.ResetHelpArticleBodies]: async ({ }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.ResetHelpArticleBodies]: async ({}: QueryHandler<Web3State>) => {
 		// After switching network betwen L1/L2 clear the body (so proper body loads)
 		for (const helpArticle of helpArticles) {
 			helpArticle.body = undefined;
 		}
-
 	},
 	[commonLanguage.queries.GetFullHelpArticle]: async ({ state, query }: QueryHandler<Web3State>) => {
-		const helpArticle = query.payload.helpArticle as HelpArticle
+		const helpArticle = query.payload.helpArticle as HelpArticle;
 		const helpArticlesNetworkType = query.payload.helpArticlesNetworkType as NetworkType;
 
-
 		if (!helpArticle.body) {
-
 			const getHelpArticleMdPath = () => {
 				switch (helpArticlesNetworkType) {
 					case NetworkType.Arbitrum:
 						if (helpArticle.articleL2Path) {
-							return helpArticle.articleL2Path
+							return helpArticle.articleL2Path;
 						}
 				}
-				return helpArticle.id
-			}
-			const helpArticleMdPath = getHelpArticleMdPath()
+				return helpArticle.id;
+			};
+			const helpArticleMdPath = getHelpArticleMdPath();
 
-			const helpArticlePath = `helpArticles/${helpArticleMdPath}.md`
+			const helpArticlePath = `helpArticles/${helpArticleMdPath}.md`;
 			const response = await fetch(helpArticlePath);
 
 			if (response.ok) {
 				const fileContent: string = await response.text();
-				helpArticle.body = fileContent
+				helpArticle.body = fileContent;
 			}
-
-
 		}
 
 		return helpArticle;
 	},
 
 	[commonLanguage.queries.PerformSearch]: async ({ state, query }: QueryHandler<Web3State>) => {
-		const { searchQuery } = query.payload
+		const { searchQuery } = query.payload;
 		const options = {
 			// isCaseSensitive: false,
 			// includeScore: false,
@@ -1770,26 +1781,21 @@ const queryHandlers = {
 			// useExtendedSearch: false,
 			// ignoreLocation: false,
 			// ignoreFieldNorm: false,
-			keys: [
-				"title",
-			]
+			keys: ['title'],
 		};
 
 		// Dynamically import Fuse
 		const { default: Fuse } = await import('fuse.js');
 
 		const fuse = new Fuse(helpArticles, options);
-		const results = fuse.search(searchQuery)
+		const results = fuse.search(searchQuery);
 
 		const mappedResults = results.map((result: any) => ({
 			...result.item,
-			refIndex: result.refIndex
-		}))
+			refIndex: result.refIndex,
+		}));
 		return mappedResults;
 	},
-}
-
-export {
-	queryHandlers
 };
 
+export { queryHandlers };

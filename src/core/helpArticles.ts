@@ -1,4 +1,3 @@
-
 export enum SearchCategory {
 	Onboarding = 'Onboarding',
 	//Use = 'Use',
@@ -85,40 +84,40 @@ const helpArticles: HelpArticle[] = [
 	{
 		id: 'ecosystem/useCases',
 		title: 'Use Cases',
-		category: SearchCategory.Learn
+		category: SearchCategory.Learn,
 	},
 	{
 		id: 'ecosystem/mintingBonusesExplained',
 		title: 'Minting Bonuses Explained',
-		category: SearchCategory.Learn
+		category: SearchCategory.Learn,
 	},
 	{
 		id: 'ecosystem/datamineDashboardOverview',
 		title: 'Datamine Dashboard Overview',
-		category: SearchCategory.Learn
+		category: SearchCategory.Learn,
 	},
 
 	// Onboarding
 	{
 		id: 'onboarding/installingUsingMetamask',
 		title: 'MetaMask: Installing & Using',
-		category: SearchCategory.Onboarding
+		category: SearchCategory.Onboarding,
 	},
 	{
 		id: 'onboarding/addTokensToMetamask',
 		title: 'MetaMask: Adding DAM / FLUX Tokens',
 		titleL2: 'MetaMask: Adding FLUX / ArbiFLUX Tokens',
-		category: SearchCategory.Onboarding
+		category: SearchCategory.Onboarding,
 	},
 	{
 		id: 'onboarding/connectingMetamask',
 		title: 'MetaMask: Connecting To Dashboard',
-		category: SearchCategory.Onboarding
+		category: SearchCategory.Onboarding,
 	},
 	{
 		id: 'onboarding/hardwareWalletLedger',
 		title: 'Hardware Wallet: Connecting to Ledger Nano S',
-		category: SearchCategory.Onboarding
+		category: SearchCategory.Onboarding,
 	},
 
 	// Uniswap
@@ -126,30 +125,30 @@ const helpArticles: HelpArticle[] = [
 		id: 'uniswap/buyingDatamineTokens',
 		title: 'Uniswap: Buying Datamine (DAM)',
 		titleL2: 'Uniswap: Buying FLUX (L2)',
-		category: SearchCategory.Uniswap
+		category: SearchCategory.Uniswap,
 	},
 	{
 		id: 'uniswap/addingLiquidity',
 		title: 'Uniswap: Adding Liquidity',
-		category: SearchCategory.Uniswap
+		category: SearchCategory.Uniswap,
 	},
 
 	// Advanced / Ecosystem In-Depth
 	{
 		id: 'advanced/delegatedMinting',
 		title: 'Delegated Minting Guide',
-		category: SearchCategory.Advanced
+		category: SearchCategory.Advanced,
 	},
 	{
 		id: 'advanced/lockinMoreDatamineTokens',
 		title: 'How to grow your validator (Add more DAM)',
 		titleL2: 'How to grow your validator ( Add more FLUX (L2) )',
-		category: SearchCategory.Advanced
+		category: SearchCategory.Advanced,
 	},
 	{
 		id: 'advanced/metamaskGas',
 		title: 'MetaMask: Transaction Speed & GAS fees',
-		category: SearchCategory.Advanced
+		category: SearchCategory.Advanced,
 	},
 
 	// Dashboard
@@ -158,21 +157,21 @@ const helpArticles: HelpArticle[] = [
 		title: 'Starting Validator',
 		titleL2: 'Starting Validator',
 		category: SearchCategory.Dashboard,
-		articleL2Path: 'dashboard/startingDecentralizedMintL2'
+		articleL2Path: 'dashboard/startingDecentralizedMintL2',
 	},
 	{
 		id: 'dashboard/mintFluxTokens',
 		title: 'Minting FLUX Tokens',
 		titleL2: 'Minting ArbiFLUX Tokens',
 		category: SearchCategory.Dashboard,
-		articleL2Path: 'dashboard/mintArbiFluxTokensL2'
+		articleL2Path: 'dashboard/mintArbiFluxTokensL2',
 	},
 	{
 		id: 'dashboard/burningFluxTokens',
 		title: 'Burning FLUX Tokens',
 		titleL2: 'Burning ArbiFLUX Tokens',
 		category: SearchCategory.Dashboard,
-		articleL2Path: 'dashboard/burningArbiFluxTokensL2'
+		articleL2Path: 'dashboard/burningArbiFluxTokensL2',
 	},
 
 	/*
@@ -187,8 +186,6 @@ const helpArticles: HelpArticle[] = [
 		category: SearchCategory.Use
 	},
 	*/
-]
+];
 
-export {
-	helpArticles
-};
+export { helpArticles };

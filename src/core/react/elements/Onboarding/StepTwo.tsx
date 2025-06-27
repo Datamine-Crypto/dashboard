@@ -1,11 +1,6 @@
-import {
-	Box,
-	Button,
-	Typography,
-} from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { OnboardingProps } from './types';
-
 
 const MetamaskSvg = ({ width = '100%', height = '100%', className = '' }) => {
 	return (
@@ -45,7 +40,8 @@ const MetamaskSvg = ({ width = '100%', height = '100%', className = '' }) => {
 						fillOpacity="0.8"
 						stroke="#F6851B"
 						strokeWidth="3"
-						filter="url(#glow)" />
+						filter="url(#glow)"
+					/>
 
 					{/* Animated connection lines from central hexagon */}
 					<line x1="400" y1="390" x2="400" y2="500" stroke="#F6851B" strokeWidth="4" opacity="0.8">
@@ -54,28 +50,52 @@ const MetamaskSvg = ({ width = '100%', height = '100%', className = '' }) => {
 
 					{/* ETH logo abstracted inside a circle */}
 					<circle cx="400" cy="550" r="50" fill="#0D1117" stroke="#F6851B" strokeWidth="3" opacity="0.9" />
-					<path
-						d="M400,520 L370,550 L400,580 L430,550 Z"
-						fill="#F6851B"
-						opacity="0.9" />
-					<path
-						d="M400,510 L370,550 L400,570 L430,550 Z"
-						fill="#FFFFFF"
-						opacity="0.5" />
+					<path d="M400,520 L370,550 L400,580 L430,550 Z" fill="#F6851B" opacity="0.9" />
+					<path d="M400,510 L370,550 L400,570 L430,550 Z" fill="#FFFFFF" opacity="0.5" />
 				</g>
 
 				{/* Wallet interface abstraction */}
 				<g transform="translate(250, 650)">
 					{/* Wallet container */}
-					<rect x="0" y="0" width="300" height="200" rx="15" fill="#1E2530" stroke="#F6851B" strokeWidth="2" opacity="0.9" />
+					<rect
+						x="0"
+						y="0"
+						width="300"
+						height="200"
+						rx="15"
+						fill="#1E2530"
+						stroke="#F6851B"
+						strokeWidth="2"
+						opacity="0.9"
+					/>
 
 					{/* Wallet header */}
 					<rect x="0" y="0" width="300" height="40" rx="15" fill="#F6851B" opacity="0.8" />
 					<rect x="0" y="40" width="300" height="1" fill="#F6851B" opacity="0.5" />
 
 					{/* Wallet content */}
-					<rect x="20" y="60" width="260" height="30" rx="5" fill="#0D1117" stroke="#F6851B" strokeWidth="1" opacity="0.7" />
-					<rect x="20" y="110" width="260" height="20" rx="5" fill="#0D1117" stroke="#F6851B" strokeWidth="1" opacity="0.7" />
+					<rect
+						x="20"
+						y="60"
+						width="260"
+						height="30"
+						rx="5"
+						fill="#0D1117"
+						stroke="#F6851B"
+						strokeWidth="1"
+						opacity="0.7"
+					/>
+					<rect
+						x="20"
+						y="110"
+						width="260"
+						height="20"
+						rx="5"
+						fill="#0D1117"
+						stroke="#F6851B"
+						strokeWidth="1"
+						opacity="0.7"
+					/>
 					<rect x="20" y="150" width="120" height="30" rx="5" fill="#F6851B" opacity="0.8" />
 					<rect x="160" y="150" width="120" height="30" rx="5" fill="#E2761B" opacity="0.8" />
 				</g>
@@ -139,12 +159,32 @@ const MetamaskSvg = ({ width = '100%', height = '100%', className = '' }) => {
 
 				{/* Connecting dApp icon abstraction */}
 				<g transform="translate(250, 200)">
-					<rect x="0" y="0" width="60" height="60" rx="10" fill="#0D1117" stroke="#F6851B" strokeWidth="2" opacity="0.8" />
+					<rect
+						x="0"
+						y="0"
+						width="60"
+						height="60"
+						rx="10"
+						fill="#0D1117"
+						stroke="#F6851B"
+						strokeWidth="2"
+						opacity="0.8"
+					/>
 					<circle cx="30" cy="30" r="15" fill="#F6851B" opacity="0.7" />
 				</g>
 
 				<g transform="translate(490, 200)">
-					<rect x="0" y="0" width="60" height="60" rx="10" fill="#0D1117" stroke="#F6851B" strokeWidth="2" opacity="0.8" />
+					<rect
+						x="0"
+						y="0"
+						width="60"
+						height="60"
+						rx="10"
+						fill="#0D1117"
+						stroke="#F6851B"
+						strokeWidth="2"
+						opacity="0.8"
+					/>
 					<rect x="15" y="15" width="30" height="30" fill="#F6851B" opacity="0.7" />
 				</g>
 
@@ -172,19 +212,40 @@ const MetamaskSvg = ({ width = '100%', height = '100%', className = '' }) => {
 				</circle>
 
 				{/* Hexagonal blockchain elements */}
-				<polygon points="150,150 180,135 180,105 150,90 120,105 120,135" fill="none" stroke="#E2761B" strokeWidth="1" opacity="0.5" />
-				<polygon points="650,150 680,135 680,105 650,90 620,105 620,135" fill="none" stroke="#E2761B" strokeWidth="1" opacity="0.5" />
-				<polygon points="150,1100 180,1085 180,1055 150,1040 120,1055 120,1085" fill="none" stroke="#E2761B" strokeWidth="1" opacity="0.5" />
-				<polygon points="650,1100 680,1085 680,1055 650,1040 620,1055 620,1085" fill="none" stroke="#E2761B" strokeWidth="1" opacity="0.5" />
+				<polygon
+					points="150,150 180,135 180,105 150,90 120,105 120,135"
+					fill="none"
+					stroke="#E2761B"
+					strokeWidth="1"
+					opacity="0.5"
+				/>
+				<polygon
+					points="650,150 680,135 680,105 650,90 620,105 620,135"
+					fill="none"
+					stroke="#E2761B"
+					strokeWidth="1"
+					opacity="0.5"
+				/>
+				<polygon
+					points="150,1100 180,1085 180,1055 150,1040 120,1055 120,1085"
+					fill="none"
+					stroke="#E2761B"
+					strokeWidth="1"
+					opacity="0.5"
+				/>
+				<polygon
+					points="650,1100 680,1085 680,1055 650,1040 620,1055 620,1085"
+					fill="none"
+					stroke="#E2761B"
+					strokeWidth="1"
+					opacity="0.5"
+				/>
 			</svg>
 		</div>
 	);
 };
 
-const StepTwo: React.FC<OnboardingProps> = ({
-	handleNext,
-	handleBack,
-}) => {
+const StepTwo: React.FC<OnboardingProps> = ({ handleNext, handleBack }) => {
 	return (
 		<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 			<Grid container spacing={4} sx={{ flexGrow: 1 }}>
@@ -200,7 +261,8 @@ const StepTwo: React.FC<OnboardingProps> = ({
 						</Typography>
 
 						<Typography variant="body1" paragraph>
-							You'll need MetaMask to interact with the Datamine Network. MetaMask is a secure digital wallet that lets you safely store your tokens and interact with websites.
+							You'll need MetaMask to interact with the Datamine Network. MetaMask is a secure digital wallet that lets
+							you safely store your tokens and interact with websites.
 						</Typography>
 
 						<Typography variant="body1" paragraph>
@@ -217,27 +279,18 @@ const StepTwo: React.FC<OnboardingProps> = ({
 						</Typography>
 
 						<Typography variant="body1" paragraph>
-							Don't worry — your wallet information stays secure and private. We only connect to perform actions you approve.
+							Don't worry — your wallet information stays secure and private. We only connect to perform actions you
+							approve.
 						</Typography>
 					</Box>
 				</Grid>
 			</Grid>
 
 			<Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
-				<Button
-					variant="outlined"
-					color="primary"
-					onClick={handleBack}
-					sx={{ minWidth: 120 }}
-				>
+				<Button variant="outlined" color="primary" onClick={handleBack} sx={{ minWidth: 120 }}>
 					Back
 				</Button>
-				<Button
-
-					variant="outlined" color="secondary"
-					onClick={handleNext}
-					sx={{ minWidth: 120 }}
-				>
+				<Button variant="outlined" color="secondary" onClick={handleNext} sx={{ minWidth: 120 }}>
 					Continue
 				</Button>
 			</Box>

@@ -1,7 +1,7 @@
 import fluxAbi from '../../web3/abis/flux.json';
 import uniswapV2RouterABI from '../../web3/abis/uniswapv2router.json';
-import { performSwapUniswapV2, UniswapV2SwapPlatformOptions } from "./performSwapUniswapV2";
-import { SwapOptions, SwapPlatform, SwapToken, SwapTokenDetails } from "./swapOptions";
+import { performSwapUniswapV2, UniswapV2SwapPlatformOptions } from './performSwapUniswapV2';
+import { SwapOptions, SwapPlatform, SwapToken, SwapTokenDetails } from './swapOptions';
 
 import { Ecosystem, Layer } from '../../../configs/config.common';
 import arbiFluxLogo from '../../../svgs/arbiFluxLogo.svg';
@@ -22,7 +22,7 @@ export const availableSwapTokens: SwapTokenDetails[] = [
 		logo: lockquidityLogo,
 		ecosystem: Ecosystem.Lockquidity,
 		layer: Layer.Layer2,
-		uniswapv2routerAddress: '0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24' // Uniswap V2 Router address on L2
+		uniswapv2routerAddress: '0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24', // Uniswap V2 Router address on L2
 	} as SwapTokenDetailsUniswapV2,
 	{
 		swapToken: SwapToken.FLUX,
@@ -33,7 +33,7 @@ export const availableSwapTokens: SwapTokenDetails[] = [
 		logo: fluxLogo,
 		ecosystem: Ecosystem.ArbiFlux, // We want to switch to ArbiFLUX on L2 to trade this token
 		layer: Layer.Layer2,
-		uniswapv2routerAddress: '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506' // SushiSwap V2 Router address on L2
+		uniswapv2routerAddress: '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', // SushiSwap V2 Router address on L2
 	} as SwapTokenDetailsUniswapV2,
 	{
 		swapToken: SwapToken.ETH,
@@ -43,7 +43,7 @@ export const availableSwapTokens: SwapTokenDetails[] = [
 		address: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1', // ETH address on L2
 		logo: EthereumPurpleLogo,
 		ecosystem: null,
-		layer: null // Available on both
+		layer: null, // Available on both
 	},
 	{
 		swapToken: SwapToken.ArbiFLUX,
@@ -54,7 +54,7 @@ export const availableSwapTokens: SwapTokenDetails[] = [
 		logo: arbiFluxLogo,
 		ecosystem: Ecosystem.ArbiFlux,
 		layer: Layer.Layer2,
-		uniswapv2routerAddress: '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506' // SushiSwap V2 Router address on L2
+		uniswapv2routerAddress: '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', // SushiSwap V2 Router address on L2
 	},
 ];
 
@@ -64,34 +64,28 @@ export const availableSwapTokens: SwapTokenDetails[] = [
  * @param swapOptions - An object containing details about the swap, including input/output tokens, amounts, and the target swap platform.
  * @returns A promise that resolves when the swap is complete, or rejects if an error occurs.
  */
-export const performSwap = async (
-	swapOptions: SwapOptions
-) => {
-	const {
-		swapPlatform
-	} = swapOptions
-
-
+export const performSwap = async (swapOptions: SwapOptions) => {
+	const { swapPlatform } = swapOptions;
 
 	switch (swapPlatform) {
 		case SwapPlatform.UniswapV2:
-
 			const getRouterAddress = () => {
-				const nonEthToken = swapOptions.inputToken.swapToken !== SwapToken.ETH ? swapOptions.inputToken.swapToken : swapOptions.outputToken.swapToken;
-				const matchingTokenDetails = availableSwapTokens.find(availableSwapToken => availableSwapToken.swapToken === nonEthToken) as SwapTokenDetailsUniswapV2;
+				const nonEthToken =
+					swapOptions.inputToken.swapToken !== SwapToken.ETH
+						? swapOptions.inputToken.swapToken
+						: swapOptions.outputToken.swapToken;
+				const matchingTokenDetails = availableSwapTokens.find(
+					(availableSwapToken) => availableSwapToken.swapToken === nonEthToken
+				) as SwapTokenDetailsUniswapV2;
 
 				return matchingTokenDetails.uniswapv2routerAddress;
-			}
+			};
 
 			const uniswapV2SwapPlatformOptions: UniswapV2SwapPlatformOptions = {
 				uniswapV2RouterABI,
-				uniswapv2routerAddress: getRouterAddress()
-			}
+				uniswapv2routerAddress: getRouterAddress(),
+			};
 
-			return await performSwapUniswapV2(
-				swapOptions,
-				uniswapV2SwapPlatformOptions
-			)
+			return await performSwapUniswapV2(swapOptions, uniswapV2SwapPlatformOptions);
 	}
-
-}
+};

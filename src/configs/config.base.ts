@@ -12,8 +12,8 @@ import { getFluxArbiFluxEcosystemConfig } from './ecosystems/config.ecosystem.fl
 export const ecosystemConfigs = {
 	[Ecosystem.Flux]: getDamFluxEcosystemConfig(),
 	[Ecosystem.ArbiFlux]: getFluxArbiFluxEcosystemConfig(),
-	[Ecosystem.Lockquidity]: getArbiFluxLockquidityEcosystemConfig()
-}
+	[Ecosystem.Lockquidity]: getArbiFluxLockquidityEcosystemConfig(),
+};
 
 /**
  * Returns the base configuration for the given ecosystem, combining common settings with ecosystem-specific details.
@@ -24,7 +24,7 @@ export const ecosystemConfigs = {
 export const getBaseConfig = (ecosystem: Ecosystem) => {
 	const ecosystemConfig = ecosystemConfigs[ecosystem];
 
-	const { layer } = ecosystemConfig
+	const { layer } = ecosystemConfig;
 
 	/**
 	 * "Explore Liquidity Pools" dropdown
@@ -54,11 +54,11 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 				links: {
 					info: 'https://www.defined.fi/eth/0xbd233d685ede81e00faaefebd55150c76778a34e',
 					buy: 'https://app.uniswap.org/explore/tokens/ethereum/0xf80d589b3dbe130c270a69f1a69d050f268786df',
-					addLiquidity: 'https://app.uniswap.org/explore/pools/ethereum/0xBd233D685eDE81E00faaEFEbD55150C76778a34e'
+					addLiquidity: 'https://app.uniswap.org/explore/pools/ethereum/0xBd233D685eDE81E00faaEFEbD55150C76778a34e',
 				},
 				image: logo,
 				layer: 1,
-				isHot: false
+				isHot: false,
 			},
 		],
 		[
@@ -69,11 +69,11 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 				links: {
 					info: 'https://www.defined.fi/arb/0x088f6dcde862781db7b01feb67afd265abbc6d90',
 					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
-					addLiquidity: 'https://www.sushi.com/arbitrum/pool/v2/0x088F6dCDe862781db7b01fEB67afd265aBbC6d90/add'
+					addLiquidity: 'https://www.sushi.com/arbitrum/pool/v2/0x088F6dCDe862781db7b01fEB67afd265aBbC6d90/add',
 				},
 				image: fluxLogo,
 				layer: 2,
-				isHot: false
+				isHot: false,
 			},
 			{
 				name: 'ArbiFLUX',
@@ -82,11 +82,11 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 				links: {
 					info: 'https://www.defined.fi/arb/0xbf719d56c5f19ae0833adc4080befc48a9b415b5',
 					buy: 'https://swap.defillama.com/?chain=arbitrum&from=0x0000000000000000000000000000000000000000&to=0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
-					addLiquidity: 'https://www.sushi.com/arbitrum/pool/v2/0xbf719d56c5f19ae0833adc4080befc48a9b415b5/add'
+					addLiquidity: 'https://www.sushi.com/arbitrum/pool/v2/0xbf719d56c5f19ae0833adc4080befc48a9b415b5/add',
 				},
 				image: arbiFluxLogo,
 				layer: 2,
-				isHot: false
+				isHot: false,
 			},
 			{
 				name: SwapToken.LOCK,
@@ -95,15 +95,14 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 				links: {
 					info: 'https://www.defined.fi/arb/0x0c93a1d3f68a0554d37f3e7af3a1442a94405e7a',
 					buy: 'https://app.uniswap.org/swap?outputCurrency=0x454F676D44DF315EEf9B5425178d5a8B524CEa03&inputCurrency=ETH&chain=arbitrum',
-					addLiquidity: 'https://app.uniswap.org/add/v2/0x454F676D44DF315EEf9B5425178d5a8B524CEa03/ETH?chain=arbitrum'
+					addLiquidity: 'https://app.uniswap.org/add/v2/0x454F676D44DF315EEf9B5425178d5a8B524CEa03/ETH?chain=arbitrum',
 				},
 				image: lockquidityLogo,
 				layer: 2,
-				isHot: true
+				isHot: true,
 			},
 		],
-	]
-
+	];
 
 	const baseConfig = {
 		...ecosystemConfig,
@@ -115,7 +114,7 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 
 		network: {
 			type: 'main',
-			typeDisplay: 'Ethereum Mainnet'
+			typeDisplay: 'Ethereum Mainnet',
 		},
 
 		liquidityPoolGroups,
@@ -180,12 +179,10 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 		 */
 		maxBurnMultiplier: 10,
 
-
 		/**
 		 * Left side navigation (buttons on left side or top right on mobile)
 		 */
 		navigation: {
-
 			/**
 			 * Left side navigation for explaining about L1 Token (Ex: FLUX L1 Ecosystem)
 			 */
@@ -220,27 +217,30 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 			 * Create an invite link to your Discord community that doesn't expire.
 			 * If you set this to null it won't show the button on link
 			 */
-			discordInviteLink: 'https://discord.gg/2dQ7XAB22u' as string | null
+			discordInviteLink: 'https://discord.gg/2dQ7XAB22u' as string | null,
 		},
 
 		walletConnect: {
 			projectId: 'e6d6b80cec26fb35f4ae37173c3b4620',
 			optionalChains: [
 				1, // ETH
-				42161 // Arbitrum
+				42161, // Arbitrum
 			],
 			rpcMap: {
 				'1': 'https://rpc.ankr.com/eth',
-				'42161': 'https://arb1.arbitrum.io/rpc'
+				'42161': 'https://arb1.arbitrum.io/rpc',
 			},
 			metadata: {
 				name: 'Datamine Network',
-				description: 'Datamine FLUX is DeFi\'s first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.',
+				description:
+					"Datamine FLUX is DeFi's first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.",
 				url: 'https://datamine-crypto.github.io/realtime-decentralized-dashboard/', // origin must match your domain & subdomain
-				icons: ['https://raw.githubusercontent.com/Datamine-Crypto/realtime-decentralized-dashboard/refs/heads/master/logos/dam256.png']
-			}
-		}
-	}
+				icons: [
+					'https://raw.githubusercontent.com/Datamine-Crypto/realtime-decentralized-dashboard/refs/heads/master/logos/dam256.png',
+				],
+			},
+		},
+	};
 
-	return baseConfig
-}
+	return baseConfig;
+};

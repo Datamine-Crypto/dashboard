@@ -8,10 +8,12 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-const CssBaseline = lazy(() => import('@mui/material/CssBaseline'))
-const Web3ContextProvider = lazy(() => import('./core/web3/Web3Context').then(module => ({ default: module.Web3ContextProvider })));
-const PageFragment = lazy(() => import('./core/react/pages/PageFragment'))
-const CenteredLoading = lazy(() => import('./core/react/elements/Fragments/CenteredLoading'))
+const CssBaseline = lazy(() => import('@mui/material/CssBaseline'));
+const Web3ContextProvider = lazy(() =>
+	import('./core/web3/Web3Context').then((module) => ({ default: module.Web3ContextProvider }))
+);
+const PageFragment = lazy(() => import('./core/react/pages/PageFragment'));
+const CenteredLoading = lazy(() => import('./core/react/elements/Fragments/CenteredLoading'));
 
 /**
  * The main application component.
@@ -19,7 +21,6 @@ const CenteredLoading = lazy(() => import('./core/react/elements/Fragments/Cente
  * Uses React.lazy and Suspense for code splitting and loading indicators.
  */
 function App() {
-
 	return (
 		<React.Fragment>
 			<CssBaseline />

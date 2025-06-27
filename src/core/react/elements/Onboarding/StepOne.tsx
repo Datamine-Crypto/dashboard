@@ -17,7 +17,6 @@ import lockquidityLogo from '../../../../svgs/lockquidity.svg';
 import fluxLogo from '../../../../svgs/logo.svg';
 import { OnboardingProps } from './types';
 
-
 // Corporate Memphis style illustration
 const CorporateMemphisSvg = ({ width = '100%', height = '100%', className = '' }) => {
 	return (
@@ -147,42 +146,91 @@ const CorporateMemphisSvg = ({ width = '100%', height = '100%', className = '' }
 				</circle>
 
 				{/* Hexagonal pattern elements (blockchain/web3 symbolism) */}
-				<polygon points="100,200 130,175 130,125 100,100 70,125 70,175" fill="none" stroke="#F6B859" strokeWidth="1" opacity="0.5" />
-				<polygon points="700,200 730,175 730,125 700,100 670,125 670,175" fill="none" stroke="#F6B859" strokeWidth="1" opacity="0.5" />
-				<polygon points="150,1050 180,1025 180,975 150,950 120,975 120,1025" fill="none" stroke="#F6B859" strokeWidth="1" opacity="0.5" />
-				<polygon points="650,1050 680,1025 680,975 650,950 620,975 620,1025" fill="none" stroke="#F6B859" strokeWidth="1" opacity="0.5" />
+				<polygon
+					points="100,200 130,175 130,125 100,100 70,125 70,175"
+					fill="none"
+					stroke="#F6B859"
+					strokeWidth="1"
+					opacity="0.5"
+				/>
+				<polygon
+					points="700,200 730,175 730,125 700,100 670,125 670,175"
+					fill="none"
+					stroke="#F6B859"
+					strokeWidth="1"
+					opacity="0.5"
+				/>
+				<polygon
+					points="150,1050 180,1025 180,975 150,950 120,975 120,1025"
+					fill="none"
+					stroke="#F6B859"
+					strokeWidth="1"
+					opacity="0.5"
+				/>
+				<polygon
+					points="650,1050 680,1025 680,975 650,950 620,975 620,1025"
+					fill="none"
+					stroke="#F6B859"
+					strokeWidth="1"
+					opacity="0.5"
+				/>
 
 				{/* Additional hexagons for taller design */}
-				<polygon points="120,500 150,475 150,425 120,400 90,425 90,475" fill="none" stroke="#F65959" strokeWidth="1" opacity="0.4" />
-				<polygon points="680,500 710,475 710,425 680,400 650,425 650,475" fill="none" stroke="#F65959" strokeWidth="1" opacity="0.4" />
-				<polygon points="250,100 280,75 280,25 250,0 220,25 220,75" fill="none" stroke="#59F6F2" strokeWidth="1" opacity="0.3" />
-				<polygon points="550,100 580,75 580,25 550,0 520,25 520,75" fill="none" stroke="#59F6F2" strokeWidth="1" opacity="0.3" />
-				<polygon points="250,1150 280,1125 280,1075 250,1050 220,1075 220,1125" fill="none" stroke="#59F6F2" strokeWidth="1" opacity="0.3" />
-				<polygon points="550,1150 580,1125 580,1075 550,1050 520,1075 520,1125" fill="none" stroke="#59F6F2" strokeWidth="1" opacity="0.3" />
+				<polygon
+					points="120,500 150,475 150,425 120,400 90,425 90,475"
+					fill="none"
+					stroke="#F65959"
+					strokeWidth="1"
+					opacity="0.4"
+				/>
+				<polygon
+					points="680,500 710,475 710,425 680,400 650,425 650,475"
+					fill="none"
+					stroke="#F65959"
+					strokeWidth="1"
+					opacity="0.4"
+				/>
+				<polygon
+					points="250,100 280,75 280,25 250,0 220,25 220,75"
+					fill="none"
+					stroke="#59F6F2"
+					strokeWidth="1"
+					opacity="0.3"
+				/>
+				<polygon
+					points="550,100 580,75 580,25 550,0 520,25 520,75"
+					fill="none"
+					stroke="#59F6F2"
+					strokeWidth="1"
+					opacity="0.3"
+				/>
+				<polygon
+					points="250,1150 280,1125 280,1075 250,1050 220,1075 220,1125"
+					fill="none"
+					stroke="#59F6F2"
+					strokeWidth="1"
+					opacity="0.3"
+				/>
+				<polygon
+					points="550,1150 580,1125 580,1075 550,1050 520,1075 520,1125"
+					fill="none"
+					stroke="#59F6F2"
+					strokeWidth="1"
+					opacity="0.3"
+				/>
 			</svg>
 		</div>
 	);
 };
 
 // Token SVGs
-const LockquiditySvg = () => (
-	<img src={lockquidityLogo} width={40} height={40} style={{ verticalAlign: 'middle' }} />
-);
+const LockquiditySvg = () => <img src={lockquidityLogo} width={40} height={40} style={{ verticalAlign: 'middle' }} />;
 
-const ArbiFluxSvg = () => (
-	<img src={arbiFluxLogo} width={40} height={40} style={{ verticalAlign: 'middle' }} />
-);
+const ArbiFluxSvg = () => <img src={arbiFluxLogo} width={40} height={40} style={{ verticalAlign: 'middle' }} />;
 
-const FluxSvg = () => (
-	<img src={fluxLogo} width={40} height={40} style={{ verticalAlign: 'middle' }} />
-);
+const FluxSvg = () => <img src={fluxLogo} width={40} height={40} style={{ verticalAlign: 'middle' }} />;
 
-const StepOne: React.FC<OnboardingProps> = ({
-	handleNext,
-	handleBack,
-	handleSelectOption,
-	selectedOption,
-}) => {
+const StepOne: React.FC<OnboardingProps> = ({ handleNext, handleBack, handleSelectOption, selectedOption }) => {
 	return (
 		<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 			<Grid container spacing={4} sx={{ flexGrow: 1 }}>
@@ -197,12 +245,10 @@ const StepOne: React.FC<OnboardingProps> = ({
 							Select your Ecosystem
 						</Typography>
 						<Typography variant="body1" paragraph>
-							Datamine Network consists of multiple ecosystems. We recommend starting with Lockquidity which features the latest and greatest features. You can switch between ecosystems any time.
+							Datamine Network consists of multiple ecosystems. We recommend starting with Lockquidity which features
+							the latest and greatest features. You can switch between ecosystems any time.
 						</Typography>
-						<RadioGroup
-							value={selectedOption}
-							onChange={(e) => handleSelectOption(e.target.value)}
-						>
+						<RadioGroup value={selectedOption} onChange={(e) => handleSelectOption(e.target.value)}>
 							<Card
 								sx={{
 									mb: 2,
@@ -216,8 +262,8 @@ const StepOne: React.FC<OnboardingProps> = ({
 									'&:hover': {
 										bgcolor: selectedOption === 'lockquidity' ? 'rgba(0, 255, 255, 0.15)' : 'rgba(0, 255, 255, 0.05)',
 										transform: 'translateY(-2px)',
-										boxShadow: '0px 4px 8px rgba(0, 255, 255, 0.1)'
-									}
+										boxShadow: '0px 4px 8px rgba(0, 255, 255, 0.1)',
+									},
 								}}
 								onClick={() => handleSelectOption('lockquidity')}
 							>
@@ -230,7 +276,7 @@ const StepOne: React.FC<OnboardingProps> = ({
 										right: 10,
 										bgcolor: '#0FF',
 										color: '#202336',
-										fontWeight: 'bold'
+										fontWeight: 'bold',
 									}}
 								/>
 								<CardContent>
@@ -249,7 +295,8 @@ const StepOne: React.FC<OnboardingProps> = ({
 										<Box sx={{ ml: 2 }}>
 											<Typography variant="h6">Lockquidity</Typography>
 											<Typography variant="body2">
-												Cutting-edge features: Permanent Liquidity, Low Volatility, Instant Transactions, Cheap Fees, Large Liquidity Pool
+												Cutting-edge features: Permanent Liquidity, Low Volatility, Instant Transactions, Cheap Fees,
+												Large Liquidity Pool
 											</Typography>
 										</Box>
 									</Box>
@@ -268,8 +315,8 @@ const StepOne: React.FC<OnboardingProps> = ({
 									'&:hover': {
 										bgcolor: selectedOption === 'arbiflux' ? 'rgba(0, 255, 255, 0.15)' : 'rgba(0, 255, 255, 0.05)',
 										transform: 'translateY(-2px)',
-										boxShadow: '0px 4px 8px rgba(0, 255, 255, 0.1)'
-									}
+										boxShadow: '0px 4px 8px rgba(0, 255, 255, 0.1)',
+									},
 								}}
 								onClick={() => handleSelectOption('arbiflux')}
 							>
@@ -289,7 +336,8 @@ const StepOne: React.FC<OnboardingProps> = ({
 										<Box sx={{ ml: 2 }}>
 											<Typography variant="h6">ArbiFLUX</Typography>
 											<Typography variant="body2">
-												Generates tokens for Lockquidity ecosystem. High volatility, Instant Transactions, Cheap Fees. Warning: Low liquidity.
+												Generates tokens for Lockquidity ecosystem. High volatility, Instant Transactions, Cheap Fees.
+												Warning: Low liquidity.
 											</Typography>
 										</Box>
 									</Box>
@@ -308,8 +356,8 @@ const StepOne: React.FC<OnboardingProps> = ({
 									'&:hover': {
 										bgcolor: selectedOption === 'flux' ? 'rgba(0, 255, 255, 0.15)' : 'rgba(0, 255, 255, 0.05)',
 										transform: 'translateY(-2px)',
-										boxShadow: '0px 4px 8px rgba(0, 255, 255, 0.1)'
-									}
+										boxShadow: '0px 4px 8px rgba(0, 255, 255, 0.1)',
+									},
 								}}
 								onClick={() => handleSelectOption('flux')}
 							>
@@ -329,7 +377,8 @@ const StepOne: React.FC<OnboardingProps> = ({
 										<Box sx={{ ml: 2 }}>
 											<Typography variant="h6">FLUX</Typography>
 											<Typography variant="body2">
-												Generates tokens for ArbiFLUX ecosystem. Low volatility. Warning: Expensive Fees & Slow Transactions.
+												Generates tokens for ArbiFLUX ecosystem. Low volatility. Warning: Expensive Fees & Slow
+												Transactions.
 											</Typography>
 										</Box>
 									</Box>
@@ -341,20 +390,10 @@ const StepOne: React.FC<OnboardingProps> = ({
 			</Grid>
 
 			<Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
-				<Button
-					variant="outlined"
-					color="primary"
-					onClick={handleBack}
-					sx={{ minWidth: 120 }}
-				>
+				<Button variant="outlined" color="primary" onClick={handleBack} sx={{ minWidth: 120 }}>
 					Skip
 				</Button>
-				<Button
-
-					variant="outlined" color="secondary"
-					onClick={handleNext}
-					sx={{ minWidth: 120 }}
-				>
+				<Button variant="outlined" color="secondary" onClick={handleNext} sx={{ minWidth: 120 }}>
 					Continue
 				</Button>
 			</Box>

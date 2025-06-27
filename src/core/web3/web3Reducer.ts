@@ -1,22 +1,29 @@
 import Big from 'big.js';
 import BN from 'bn.js';
 import { v4 as uuidv4 } from 'uuid';
-import Web3 from "web3";
-import { getEcosystemConfig } from "../../configs/config";
+import Web3 from 'web3';
+import { getEcosystemConfig } from '../../configs/config';
 import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
-import { HelpArticle } from "../helpArticles";
-import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, MarketAddressLock, Token } from "../interfaces";
+import { HelpArticle } from '../helpArticles';
+import {
+	DialogType,
+	FluxAddressDetails,
+	FluxAddressLock,
+	FluxAddressTokenDetails,
+	MarketAddressLock,
+	Token,
+} from '../interfaces';
 import { Gem } from '../react/elements/Fragments/DatamineGemsGame';
-import { ReducerCommand, ReducerQuery, ReducerQueryHandler } from "../sideEffectReducer";
-import copyToClipBoard from "../utils/copyToClipboard";
-import { devLog } from "../utils/devLog";
+import { ReducerCommand, ReducerQuery, ReducerQueryHandler } from '../sideEffectReducer';
+import copyToClipBoard from '../utils/copyToClipboard';
+import { devLog } from '../utils/devLog';
 import { availableSwapTokens } from '../utils/swap/performSwap';
 import { SwapOperation, SwapQuote, SwapToken, SwapTokenWithAmount } from '../utils/swap/swapOptions';
-import { BNToDecimal, getPriceToggle, parseBN } from "./helpers";
+import { BNToDecimal, getPriceToggle, parseBN } from './helpers';
 
 export enum ConnectionMethod {
 	MetaMask = 'MetaMask',
-	WalletConnect = 'WalletConnect'
+	WalletConnect = 'WalletConnect',
 }
 
 interface UniswapReservesDam {
@@ -37,7 +44,7 @@ interface UniswapReservesUsdcEth {
 }
 export enum ForecastMultiplierType {
 	Burn = 'Burn',
-	LockIn = 'LockIn'
+	LockIn = 'LockIn',
 }
 export interface ForecastSettings {
 	enabled: boolean;
@@ -62,7 +69,7 @@ export interface Balances {
 	fluxToken: BN;
 	eth: BN | null;
 	fluxTotalSupply: BN;
-	damTotalSupply: BN
+	damTotalSupply: BN;
 	uniswapDamTokenReserves: UniswapReservesDam;
 	uniswapFluxTokenReserves: UniswapReservesFlux;
 	uniswapUsdcEthTokenReserves: UniswapReservesUsdcEth;
@@ -85,20 +92,20 @@ export interface ClientSettings {
 
 export interface SwapState {
 	input: SwapTokenWithAmount;
-	output: SwapTokenWithAmount
+	output: SwapTokenWithAmount;
 }
 export interface SwapTokenBalances {
 	[Layer.Layer1]: {
 		[SwapToken.DAM]: BN;
 		[SwapToken.FLUX]: BN;
 		[SwapToken.ETH]: BN;
-	},
+	};
 	[Layer.Layer2]: {
 		[SwapToken.ArbiFLUX]: BN;
 		[SwapToken.FLUX]: BN;
 		[SwapToken.LOCK]: BN;
 		[SwapToken.ETH]: BN;
-	},
+	};
 }
 interface MarketAddress {
 	currentAddress: string;
@@ -117,7 +124,6 @@ interface MarketAddress {
 	//lastMintBlockNumber: number;
 	//mintPerBlock: BN;
 
-
 	minterAddress: string;
 	//prevBlockMintAmount: BN;
 }
@@ -127,14 +133,14 @@ export interface MarketAddresses {
 }
 export interface MarketDetails {
 	gemAddresses: {
-		[Ecosystem.Flux]: string[],
-		[Ecosystem.ArbiFlux]: string[],
-		[Ecosystem.Lockquidity]: string[],
-	},
+		[Ecosystem.Flux]: string[];
+		[Ecosystem.ArbiFlux]: string[];
+		[Ecosystem.Lockquidity]: string[];
+	};
 	gemsCollected: {
-		count: 0,
-		sumDollarAmount: 0
-	}
+		count: 0;
+		sumDollarAmount: 0;
+	};
 }
 export interface Web3State {
 	forecastSettings: ForecastSettings;
@@ -215,17 +221,17 @@ const createWithWithQueries = (state: any) => {
 		const queriesWithIds = queries.map((query) => {
 			return {
 				...query,
-				id: uuidv4()
-			}
+				id: uuidv4(),
+			};
 		});
 
 		return {
 			query: queriesWithIds,
-			queriesCount: state.queriesCount + queries.length
-		}
-	}
-	return withQueries
-}
+			queriesCount: state.queriesCount + queries.length,
+		};
+	};
+	return withQueries;
+};
 
 //const config = getConfig()
 
@@ -234,226 +240,223 @@ const localConfig = {
 	 * Make sure we don't refresh accounts more than X miliseconds between each call (for thottling)
 	 */
 	throttleAccountRefreshMs: 2000,
-}
+};
 
 const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>) => {
 	const { query, err, response } = payload;
 
 	const config = getEcosystemConfig(state.ecosystem);
 
-	const withQueries = createWithWithQueries(state)
+	const withQueries = createWithWithQueries(state);
 
 	switch (query.type) {
-		case commonLanguage.queries.FindWeb3Instance:
-			{
-				if (err) {
-					devLog('FindWeb3Instance reducer err:', { err, message: (err as any).message })
-					return {
-						...state,
-						hasWeb3: false
-					}
-				}
-
-				const { web3, selectedAddress, networkType, chainId, useWalletConnect } = response;
-
-				const isArbitrumMainnet = chainId === 42161
-				devLog('FindWeb3Instance reducer isArbitrumMainnet:', { networkType, chainId, isArbitrumMainnet, ecosystem: state.ecosystem, targetEcosystem: state.targetEcosystem })
-
-
-				/**
-				 * Possibly override the current ecosystem once we figure out what network we're on
-				 * For example if we're on L1 and last known ecosystem selected was L2 then change it to L1 and user doesn't have to refresh anything
-				 * @todo the ecosystems are hard-coded here just change it to have some setting for which ecosystem is "default" for that layer (or pick first one from the layers)
-				 */
-				const getUpdatedEcosystem = (ecosystem: Ecosystem) => {
-					const ecosystemConfig = getEcosystemConfig(ecosystem)
-					// Default to Flux (L1) if not on Arbitrum
-					if (ecosystemConfig.layer == Layer.Layer2 && !isArbitrumMainnet) {
-						return Ecosystem.Flux;
-					}
-					// Default to Lockquidity (L2) if  on Arbitrum
-					if (ecosystemConfig.layer == Layer.Layer1 && isArbitrumMainnet) {
-						return Ecosystem.Lockquidity;
-					}
-
-					// Return whatever user selected last
-					return ecosystem;
-				}
-				const updatedEcosystem = !state.targetEcosystem ? getUpdatedEcosystem(state.ecosystem) : getUpdatedEcosystem(state.targetEcosystem)
-
-				const isUnsupportedNetwork = config.isArbitrumOnlyToken && !isArbitrumMainnet
-
-				if (networkType !== 'main' && (chainId !== 1) || isUnsupportedNetwork) { // private is for cloudflare RPC. chainId 1 is Ehtereum Mainnet (others is BSC for example)
-
-					if (!isArbitrumMainnet || isUnsupportedNetwork) {
-						return {
-							...state,
-							isIncorrectNetwork: true
-						}
-					}
-				}
-
+		case commonLanguage.queries.FindWeb3Instance: {
+			if (err) {
+				devLog('FindWeb3Instance reducer err:', { err, message: (err as any).message });
 				return {
 					...state,
-					web3,
-					hasWeb3: true,
-					selectedAddress,
-					connectionMethod: useWalletConnect ? ConnectionMethod.WalletConnect : ConnectionMethod.MetaMask,
-					isArbitrumMainnet,
-					ecosystem: updatedEcosystem,
-					...withQueries(selectedAddress ? [
-						{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance: true } },
-						{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse },
-					] : [
-						{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse },
-					])
-				}
+					hasWeb3: false,
+				};
 			}
-		case commonLanguage.queries.EnableWeb3:
-		case commonLanguage.queries.EnableWalletConnect:
-			{
-				if (err) {
-					return state;
+
+			const { web3, selectedAddress, networkType, chainId, useWalletConnect } = response;
+
+			const isArbitrumMainnet = chainId === 42161;
+			devLog('FindWeb3Instance reducer isArbitrumMainnet:', {
+				networkType,
+				chainId,
+				isArbitrumMainnet,
+				ecosystem: state.ecosystem,
+				targetEcosystem: state.targetEcosystem,
+			});
+
+			/**
+			 * Possibly override the current ecosystem once we figure out what network we're on
+			 * For example if we're on L1 and last known ecosystem selected was L2 then change it to L1 and user doesn't have to refresh anything
+			 * @todo the ecosystems are hard-coded here just change it to have some setting for which ecosystem is "default" for that layer (or pick first one from the layers)
+			 */
+			const getUpdatedEcosystem = (ecosystem: Ecosystem) => {
+				const ecosystemConfig = getEcosystemConfig(ecosystem);
+				// Default to Flux (L1) if not on Arbitrum
+				if (ecosystemConfig.layer == Layer.Layer2 && !isArbitrumMainnet) {
+					return Ecosystem.Flux;
+				}
+				// Default to Lockquidity (L2) if  on Arbitrum
+				if (ecosystemConfig.layer == Layer.Layer1 && isArbitrumMainnet) {
+					return Ecosystem.Lockquidity;
 				}
 
-				const { selectedAddress } = response
+				// Return whatever user selected last
+				return ecosystem;
+			};
+			const updatedEcosystem = !state.targetEcosystem
+				? getUpdatedEcosystem(state.ecosystem)
+				: getUpdatedEcosystem(state.targetEcosystem);
 
-				const connectionMethod = query.type === commonLanguage.queries.EnableWeb3 ? ConnectionMethod.MetaMask : ConnectionMethod.WalletConnect;
+			const isUnsupportedNetwork = config.isArbitrumOnlyToken && !isArbitrumMainnet;
 
-				return {
-					...state,
-					selectedAddress,
-					connectionMethod,
-					...withQueries(selectedAddress ? [{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance: true } }] : [])
-				}
-			}
-		case commonLanguage.queries.FindAccountState:
-			{
-				if (err) {
-					console.log('FindAccountState Error:', err);
+			if ((networkType !== 'main' && chainId !== 1) || isUnsupportedNetwork) {
+				// private is for cloudflare RPC. chainId 1 is Ehtereum Mainnet (others is BSC for example)
 
+				if (!isArbitrumMainnet || isUnsupportedNetwork) {
 					return {
 						...state,
-						isLate: true
-					}
-				}
-
-				const { balances, swapTokenBalances, selectedAddress, addressLock, addressDetails, addressTokenDetails, marketAddressLock, currentAddressMarketAddressLock, currentAddresMintableBalance } = response
-
-				const getBlancesWithForecasting = () => {
-					if (!balances) {
-						return balances;
-					}
-					return {
-						...balances,
-						forecastFluxPrice: state.forecastSettings.forecastFluxPrice
-					}
-				}
-
-				return {
-					...state,
-					isLate: false,
-					balances: getBlancesWithForecasting(),
-					selectedAddress,
-					addressLock,
-					addressDetails,
-					addressTokenDetails,
-					swapTokenBalances,
-					marketAddressLock,
-					currentAddressMarketAddressLock,
-					currentAddresMintableBalance
-				}
-			}
-		case commonLanguage.queries.GetLockInDamTokensResponse:
-			{
-				if (err) {
-					return {
-						...state,
-						error: err
+						isIncorrectNetwork: true,
 					};
 				}
+			}
+
+			return {
+				...state,
+				web3,
+				hasWeb3: true,
+				selectedAddress,
+				connectionMethod: useWalletConnect ? ConnectionMethod.WalletConnect : ConnectionMethod.MetaMask,
+				isArbitrumMainnet,
+				ecosystem: updatedEcosystem,
+				...withQueries(
+					selectedAddress
+						? [
+								{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance: true } },
+								{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse },
+							]
+						: [{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse }]
+				),
+			};
+		}
+		case commonLanguage.queries.EnableWeb3:
+		case commonLanguage.queries.EnableWalletConnect: {
+			if (err) {
+				return state;
+			}
+
+			const { selectedAddress } = response;
+
+			const connectionMethod =
+				query.type === commonLanguage.queries.EnableWeb3 ? ConnectionMethod.MetaMask : ConnectionMethod.WalletConnect;
+
+			return {
+				...state,
+				selectedAddress,
+				connectionMethod,
+				...withQueries(
+					selectedAddress
+						? [{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance: true } }]
+						: []
+				),
+			};
+		}
+		case commonLanguage.queries.FindAccountState: {
+			if (err) {
+				console.log('FindAccountState Error:', err);
 
 				return {
 					...state,
-					dialog: null,
-					...withQueries([{ type: commonLanguage.queries.FindAccountState }])
-				}
+					isLate: true,
+				};
 			}
-		case commonLanguage.queries.GetMintFluxResponse:
-			{
-				if (err) {
-					return {
-						...state,
-						error: err
-					}
-				}
 
+			const {
+				balances,
+				swapTokenBalances,
+				selectedAddress,
+				addressLock,
+				addressDetails,
+				addressTokenDetails,
+				marketAddressLock,
+				currentAddressMarketAddressLock,
+				currentAddresMintableBalance,
+			} = response;
+
+			const getBlancesWithForecasting = () => {
+				if (!balances) {
+					return balances;
+				}
+				return {
+					...balances,
+					forecastFluxPrice: state.forecastSettings.forecastFluxPrice,
+				};
+			};
+
+			return {
+				...state,
+				isLate: false,
+				balances: getBlancesWithForecasting(),
+				selectedAddress,
+				addressLock,
+				addressDetails,
+				addressTokenDetails,
+				swapTokenBalances,
+				marketAddressLock,
+				currentAddressMarketAddressLock,
+				currentAddresMintableBalance,
+			};
+		}
+		case commonLanguage.queries.GetLockInDamTokensResponse: {
+			if (err) {
 				return {
 					...state,
-					dialog: null,
-					...withQueries([{ type: commonLanguage.queries.FindAccountState }])
-				}
+					error: err,
+				};
 			}
+
+			return {
+				...state,
+				dialog: null,
+				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
+			};
+		}
+		case commonLanguage.queries.GetMintFluxResponse: {
+			if (err) {
+				return {
+					...state,
+					error: err,
+				};
+			}
+
+			return {
+				...state,
+				dialog: null,
+				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
+			};
+		}
 		case commonLanguage.queries.GetBurnFluxResponse:
 		case commonLanguage.queries.Market.GetDepositMarketResponse:
-		case commonLanguage.queries.Market.GetWithdrawMarketResponse:
-			{
-				if (err) {
-					if ((err as any).message) {
-						return {
-							...state,
-							error: (err as any).message
-						}
-					}
+		case commonLanguage.queries.Market.GetWithdrawMarketResponse: {
+			if (err) {
+				if ((err as any).message) {
 					return {
 						...state,
-						error: err
-					}
+						error: (err as any).message,
+					};
 				}
-
 				return {
 					...state,
-					dialog: null,
-					...withQueries([{ type: commonLanguage.queries.FindAccountState }])
-				}
+					error: err,
+				};
 			}
-		case commonLanguage.queries.Market.GetMarketBurnFluxResponse:
-			{
-				if (err) {
-					if ((err as any).message) {
-						return {
-							...state,
-							error: (err as any).message
-						}
-					}
+
+			return {
+				...state,
+				dialog: null,
+				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
+			};
+		}
+		case commonLanguage.queries.Market.GetMarketBurnFluxResponse: {
+			if (err) {
+				if ((err as any).message) {
 					return {
 						...state,
-						error: err
-					}
+						error: (err as any).message,
+					};
 				}
+				return {
+					...state,
+					error: err,
+				};
+			}
 
-				if (!response) {
-					return {
-						...state,
-						// Don't close dialog
-						...withQueries([
-							{ type: commonLanguage.queries.FindAccountState },
-							{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse },
-						])
-					}
-				}
-
-				const { gems }: { gems: Gem[] } = response
-
-				const totalDollarAmountOfGems = gems.reduce((total, gem) => total + gem.dollarAmount, 0);
-
-				const gemsCollected = {
-					count: state.market.gemsCollected.count + gems.length,
-					sumDollarAmount: state.market.gemsCollected.sumDollarAmount + totalDollarAmountOfGems
-				}
-
-				localStorage.setItem('marketGemsCollected', JSON.stringify(gemsCollected))
-
+			if (!response) {
 				return {
 					...state,
 					// Don't close dialog
@@ -461,102 +464,116 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 						{ type: commonLanguage.queries.FindAccountState },
 						{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse },
 					]),
-					market: {
-						...state.market,
-						gemsCollected
-					}
-				}
+				};
 			}
-		case commonLanguage.queries.Market.GetRefreshMarketAddressesResponse:
-			{
-				if (err) {
-					if ((err as any).message) {
-						return {
-							...state,
-							error: (err as any).message
-						}
-					}
+
+			const { gems }: { gems: Gem[] } = response;
+
+			const totalDollarAmountOfGems = gems.reduce((total, gem) => total + gem.dollarAmount, 0);
+
+			const gemsCollected = {
+				count: state.market.gemsCollected.count + gems.length,
+				sumDollarAmount: state.market.gemsCollected.sumDollarAmount + totalDollarAmountOfGems,
+			};
+
+			localStorage.setItem('marketGemsCollected', JSON.stringify(gemsCollected));
+
+			return {
+				...state,
+				// Don't close dialog
+				...withQueries([
+					{ type: commonLanguage.queries.FindAccountState },
+					{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse },
+				]),
+				market: {
+					...state.market,
+					gemsCollected,
+				},
+			};
+		}
+		case commonLanguage.queries.Market.GetRefreshMarketAddressesResponse: {
+			if (err) {
+				if ((err as any).message) {
 					return {
 						...state,
-						error: err
-					}
+						error: (err as any).message,
+					};
 				}
-
-				if (!response) {
-					return state
-				}
-
-				const { marketAddresses } = response
-
 				return {
 					...state,
-					marketAddresses
-				}
-			}
-		case commonLanguage.queries.GetTradeResponse:
-			{
-				if (err) {
-					return {
-						...state,
-						error: err
-					}
-				}
-
-				return {
-					...state,
-					dialog: null,
-					...withQueries([{ type: commonLanguage.queries.FindAccountState }])
-				}
-			}
-		case commonLanguage.queries.GetUnlockDamTokensResponse:
-			{
-				if (err) {
-					return {
-						...state,
-						error: err
-					}
-				}
-
-				return {
-					...state,
-					dialog: null,
-					...withQueries([{ type: commonLanguage.queries.FindAccountState }])
-				}
+					error: err,
+				};
 			}
 
-		case commonLanguage.queries.GetAuthorizeFluxOperatorResponse:
-			{
-				if (err) {
-					return state;
-				}
-
-				return {
-					...state,
-					...withQueries([{ type: commonLanguage.queries.FindAccountState }])
-				}
+			if (!response) {
+				return state;
 			}
 
-		case commonLanguage.queries.PerformSearch:
-			{
-				return {
-					...state,
-					helpArticles: response
-				}
-			}
-		case commonLanguage.queries.GetFullHelpArticle:
-			{
-				return {
-					...state,
-					helpArticle: response
-				}
-			}
-		case commonLanguage.queries.Swap.GetOutputQuote: {
+			const { marketAddresses } = response;
 
+			return {
+				...state,
+				marketAddresses,
+			};
+		}
+		case commonLanguage.queries.GetTradeResponse: {
 			if (err) {
 				return {
 					...state,
-					error: err
-				}
+					error: err,
+				};
+			}
+
+			return {
+				...state,
+				dialog: null,
+				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
+			};
+		}
+		case commonLanguage.queries.GetUnlockDamTokensResponse: {
+			if (err) {
+				return {
+					...state,
+					error: err,
+				};
+			}
+
+			return {
+				...state,
+				dialog: null,
+				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
+			};
+		}
+
+		case commonLanguage.queries.GetAuthorizeFluxOperatorResponse: {
+			if (err) {
+				return state;
+			}
+
+			return {
+				...state,
+				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
+			};
+		}
+
+		case commonLanguage.queries.PerformSearch: {
+			return {
+				...state,
+				helpArticles: response,
+			};
+		}
+		case commonLanguage.queries.GetFullHelpArticle: {
+			return {
+				...state,
+				helpArticle: response,
+			};
+		}
+		case commonLanguage.queries.Swap.GetOutputQuote: {
+			if (err) {
+				return {
+					...state,
+					error: err,
+				};
 			}
 
 			// If we get an empty response, don't update the output. This is useful for throttling
@@ -564,9 +581,9 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 				return state;
 			}
 
-			const swapQuote = response as SwapQuote
+			const swapQuote = response as SwapQuote;
 
-			console.log('swapQuote:', swapQuote)
+			console.log('swapQuote:', swapQuote);
 			return {
 				...state,
 				//BNToDecimal(
@@ -574,56 +591,55 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					...state.swapState,
 					output: {
 						...state.swapState.output,
-						amount: `${BNToDecimal(new BN(swapQuote.out.minAmount))}`
-					}
+						amount: `${BNToDecimal(new BN(swapQuote.out.minAmount))}`,
+					},
 				},
-			}
+			};
 		}
-
 	}
 	return state;
-}
+};
 const handleCommand = (state: Web3State, command: ReducerCommand) => {
-	const withQueries = createWithWithQueries(state)
+	const withQueries = createWithWithQueries(state);
 
 	const config = getEcosystemConfig(state.ecosystem);
 
 	const getForecastAmount = (payload: string, defaultAmount: string, removePeriod: boolean = false) => {
-
 		const getAmount = () => {
 			const getTrimmedZerosAmount = () => {
-				const amount = (payload as string);
+				const amount = payload as string;
 				if (amount.indexOf('.') === -1) {
-					return amount.replace(/^0+/, '')
+					return amount.replace(/^0+/, '');
 				}
-				return amount
-			}
+				return amount;
+			};
 
-			const amount = getTrimmedZerosAmount()
+			const amount = getTrimmedZerosAmount();
 			if (amount === '..') {
-				return '0'
+				return '0';
 			}
 			if (amount.endsWith('.') && removePeriod) {
 				return amount.slice(0, -1);
 			}
 
-			return amount
-		}
-		const amount = (getAmount()).replace('/[^0-9.]+/g', '');
+			return amount;
+		};
+		const amount = getAmount().replace('/[^0-9.]+/g', '');
 
 		if (!amount) {
-			return '0'
+			return '0';
 		}
 		if (amount === '.') {
-			return '0.'
+			return '0.';
 		}
 
-		if (!`${amount}0`.match(/^\d*(\.\d+)?$/) || amount.length > 27) { // 27 = max supply + 18 digits + period 
-			return defaultAmount
+		if (!`${amount}0`.match(/^\d*(\.\d+)?$/) || amount.length > 27) {
+			// 27 = max supply + 18 digits + period
+			return defaultAmount;
 		}
 
 		return amount;
-	}
+	};
 
 	const getSwapTokenBalance = (swapToken: SwapToken | null) => {
 		if (!state.swapTokenBalances) {
@@ -632,49 +648,51 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 
 		switch (swapToken) {
 			case SwapToken.LOCK:
-				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.LOCK] ?? null)
+				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.LOCK] ?? null);
 			case SwapToken.FLUX:
-				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.FLUX] ?? null)
+				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.FLUX] ?? null);
 			case SwapToken.ArbiFLUX:
-				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX] ?? null)
+				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX] ?? null);
 			case SwapToken.ETH:
-				return BNToDecimal(state.balances?.eth ?? null)
+				return BNToDecimal(state.balances?.eth ?? null);
 		}
-	}
+	};
 	const getFlipSwapState = () => {
 		return {
 			...state,
 			swapState: {
 				input: {
 					...state.swapState.input,
-					swapToken: state.swapState.output.swapToken
+					swapToken: state.swapState.output.swapToken,
 				},
 				output: {
 					...state.swapState.output,
 					amount: '...',
-					swapToken: state.swapState.input.swapToken
-				}
+					swapToken: state.swapState.input.swapToken,
+				},
 			},
 			error: null,
 
-			...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
-		}
-	}
+			...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }]),
+		};
+	};
 
 	/**
 	 * When showing the trade window (or chaning a token in the trade window) we want to change the ecosysetem
 	 * The change is required because we pull in balances & liquidity for that specific ecosystem
 	 */
 	const getSwapTokenEcosystem = (swapToken: SwapToken) => {
-		const availableSwapToken = availableSwapTokens.find(availableSwapToken => availableSwapToken.swapToken === swapToken);
+		const availableSwapToken = availableSwapTokens.find(
+			(availableSwapToken) => availableSwapToken.swapToken === swapToken
+		);
 
 		// If we are switching to ETH then we don't need to change ecosystem
 		if (!availableSwapToken || !availableSwapToken.ecosystem) {
 			return state.ecosystem;
 		}
 
-		const stateEcosystemConfig = getEcosystemConfig(state.ecosystem)
-		const newEcosystemConfig = getEcosystemConfig(availableSwapToken.ecosystem)
+		const stateEcosystemConfig = getEcosystemConfig(state.ecosystem);
+		const newEcosystemConfig = getEcosystemConfig(availableSwapToken.ecosystem);
 
 		// We don't want to change the ecosystem right away (this will be handled on page reload after user selects to swap network)
 		if (stateEcosystemConfig.layer != newEcosystemConfig.layer) {
@@ -682,82 +700,82 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 		}
 
 		return newEcosystemConfig.ecosystem;
-	}
+	};
 
 	switch (command.type) {
-		case commonLanguage.commands.UpdateEcosystem:
-			{
-				const { ecosystem: newEcosystem } = command.payload;
+		case commonLanguage.commands.UpdateEcosystem: {
+			const { ecosystem: newEcosystem } = command.payload;
 
-				const stateEcosystemConfig = getEcosystemConfig(state.ecosystem)
-				const newEcosystemConfig = getEcosystemConfig(newEcosystem)
-				console.log('stateEcosystemConfig:', stateEcosystemConfig, 'newEcosystemConfig:', newEcosystemConfig)
+			const stateEcosystemConfig = getEcosystemConfig(state.ecosystem);
+			const newEcosystemConfig = getEcosystemConfig(newEcosystem);
+			console.log('stateEcosystemConfig:', stateEcosystemConfig, 'newEcosystemConfig:', newEcosystemConfig);
 
-				// We don't want to change the ecosystem right away (this will be handled on page reload after user selects to swap network)
-				if (stateEcosystemConfig.layer != newEcosystemConfig.layer) {
-					return state;
-				}
-
-				return {
-					...state,
-					ecosystem: newEcosystem,
-					forecastSettings: {
-						...state.forecastSettings,
-						enabled: false,
-					}
-				}
+			// We don't want to change the ecosystem right away (this will be handled on page reload after user selects to swap network)
+			if (stateEcosystemConfig.layer != newEcosystemConfig.layer) {
+				return state;
 			}
-		case commonLanguage.commands.QueueQueries:
-			{
-				const { queries } = command.payload;
 
-				return {
-					...state,
-					pendingQueries: [
-						...state.pendingQueries,
-						...queries
-					]
-				}
+			return {
+				...state,
+				ecosystem: newEcosystem,
+				forecastSettings: {
+					...state.forecastSettings,
+					enabled: false,
+				},
+			};
+		}
+		case commonLanguage.commands.QueueQueries: {
+			const { queries } = command.payload;
+
+			return {
+				...state,
+				pendingQueries: [...state.pendingQueries, ...queries],
+			};
+		}
+		case commonLanguage.commands.UpdateAddress: {
+			const { address } = command.payload;
+
+			if (address === state.address) {
+				return state;
 			}
-		case commonLanguage.commands.UpdateAddress:
-			{
-				const { address } = command.payload;
 
-				if (address === state.address) {
-					return state
-				}
-
-				return {
-					...state,
-					isLate: false,
-					dialog: null,
-					forecastSettings: {
-						...state.forecastSettings,
-						enabled: false // Disable forecasting calculator when address changes
-					},
-					address, // Update current selected address
-					...withQueries([{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance: false } }])
-				}
-			}
+			return {
+				...state,
+				isLate: false,
+				dialog: null,
+				forecastSettings: {
+					...state.forecastSettings,
+					enabled: false, // Disable forecasting calculator when address changes
+				},
+				address, // Update current selected address
+				...withQueries([{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance: false } }]),
+			};
+		}
 
 		case commonLanguage.commands.RefreshAccountState:
-			const { updateEthBalance, closeDialog, forceRefresh = false } = command.payload ?? {} as any;
+			const { updateEthBalance, closeDialog, forceRefresh = false } = command.payload ?? ({} as any);
 
 			// Apply throttling (only if we're not refreshing ETH balance. ETH balance updates usually happen at important times so think of it like "forced refresh")
-			const currentTimestampMs = Date.now()
-			if (!updateEthBalance
-				&& currentTimestampMs < state.lastAccountRefreshTimestampMs + localConfig.throttleAccountRefreshMs
-				&& !forceRefresh) {
+			const currentTimestampMs = Date.now();
+			if (
+				!updateEthBalance &&
+				currentTimestampMs < state.lastAccountRefreshTimestampMs + localConfig.throttleAccountRefreshMs &&
+				!forceRefresh
+			) {
 				return state;
 			}
 
 			const { web3 } = state;
 			if (!web3) {
-				return state
+				return state;
 			}
 
 			// Make sure we can't queue double blocks find
-			if (state.pendingQueries.findIndex(pendingQuery => pendingQuery.type === commonLanguage.queries.FindAccountState) >= 0) {
+			if (
+				state.pendingQueries.findIndex(
+					(pendingQuery) => pendingQuery.type === commonLanguage.queries.FindAccountState
+				) >= 0
+			) {
 				return state;
 			}
 
@@ -768,266 +786,279 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				lastAccountRefreshTimestampMs: currentTimestampMs,
 				...withQueries([
 					{ type: commonLanguage.queries.FindAccountState, payload: { updateEthBalance } },
-					{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} }
-				])
-			}
+					{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} },
+				]),
+			};
 		case commonLanguage.commands.ConnectToWallet:
 			return {
 				...state,
-				...withQueries([{ type: commonLanguage.queries.EnableWeb3 }])
-			}
+				...withQueries([{ type: commonLanguage.queries.EnableWeb3 }]),
+			};
 
 		case commonLanguage.commands.ClientSettings.SetUseEip1559: {
-			const useEip1559 = command.payload
+			const useEip1559 = command.payload;
 
-			localStorage.setItem('clientSettingsUseEip1559', command.payload.toString())
+			localStorage.setItem('clientSettingsUseEip1559', command.payload.toString());
 
 			return {
 				...state,
 				clientSettings: {
 					...state.clientSettings,
-					useEip1559
-				}
-			}
+					useEip1559,
+				},
+			};
 		}
 
-		case commonLanguage.commands.ClientSettings.SetPriceMultiplier:
-			{
+		case commonLanguage.commands.ClientSettings.SetPriceMultiplier: {
+			try {
+				const priceMultiplierAmount = getForecastAmount(
+					command.payload,
+					state.clientSettings.priceMultiplierAmount,
+					false
+				);
 
-				try {
-					const priceMultiplierAmount = getForecastAmount(command.payload, state.clientSettings.priceMultiplierAmount, false);
-
-					const priceMultiplier = parseFloat(getForecastAmount(command.payload, state.clientSettings.priceMultiplierAmount, true))
-					if (priceMultiplier > 100000) {
-						return state;
-					}
-
-					localStorage.setItem('clientSettingsPriceMultiplierAmount', priceMultiplierAmount)
-
-					return {
-						...state,
-						clientSettings: {
-							...state.clientSettings,
-							priceMultiplier,
-							priceMultiplierAmount
-						}
-					}
-				} catch (err) {
-					return state
+				const priceMultiplier = parseFloat(
+					getForecastAmount(command.payload, state.clientSettings.priceMultiplierAmount, true)
+				);
+				if (priceMultiplier > 100000) {
+					return state;
 				}
-			}
-		case commonLanguage.commands.ClientSettings.SetCurrency:
-			{
-				const currency = command.payload
-				localStorage.setItem('clientSettingsCurrency', currency)
+
+				localStorage.setItem('clientSettingsPriceMultiplierAmount', priceMultiplierAmount);
 
 				return {
 					...state,
 					clientSettings: {
 						...state.clientSettings,
-						currency
-					}
-				}
-			}
-		case commonLanguage.commands.ToggleForecastMode:
-			{
-				if (!state.addressLock || !state.addressDetails) {
-					return state;
-				}
-
-				const isLocked = !state.addressLock.amount.isZero()
-
-				const getLockAmount = () => {
-					if (!state.addressLock || !isLocked) {
-						return new BN("1000").mul(new BN(10).pow(new BN(18)));
-					}
-					return state.addressLock.amount
-				}
-				const lockAmount = getLockAmount()
-
-				const getUnmintedBlocks = () => {
-					if (!state.addressDetails || !state.addressLock || !isLocked) {
-						return 31 * 24 * 60 * (60 / 12); // 1 Month default
-					}
-					return state.addressDetails.blockNumber - state.addressLock.lastMintBlockNumber;
-				}
-				const unmintedBlocks = getUnmintedBlocks()
-
-				const forecastAmount = new Big(lockAmount.toString(10)).div(new Big(10).pow(18));
-				const blocks = unmintedBlocks;
-				const forecastBlocks = isLocked ? 0 : blocks.toString()
-				const forecastStartBlocks = (state.addressLock.amount.isZero() ? 0 : ((state.addressDetails.blockNumber - state.addressLock.lastMintBlockNumber) * -1)).toString()
-				const forecastBurn = isLocked ? state.addressDetails.addressBurnMultiplier : 10000;
-				const forecastTime = isLocked ? state.addressDetails.addressTimeMultiplier : 30000;
-
-				const forecastBurnAmount = (forecastBurn / 10000).toFixed(4)
-				const forecastTimeAmount = (forecastTime / 10000).toFixed(4)
-
-				const alreadyMintedBlocks = state.addressLock.lastMintBlockNumber - state.addressDetails.blockNumber
-
-				const enabled = !state.forecastSettings.enabled
-
-				const getForecastFluxPrice = () => {
-					if (!state.balances || !enabled) {
-						return ''
-					}
-					return getPriceToggle({ value: new BN(10).pow(new BN(18)), inputToken: Token.Mintable, outputToken: Token.USDC, balances: state.balances, round: config.mintableTokenPriceDecimals })
-				}
-
-				const forecastFluxPrice = getForecastFluxPrice()
-
-				return {
-					...state,
-					forecastSettings: {
-						...state.forecastSettings,
-						enabled,
-						amount: lockAmount,
-						forecastAmount,
-						forecastBlocks,
-						forecastStartBlocks,
-						blocks,
-						forecastBurn,
-						forecastBurnAmount,
-						forecastTime,
-						forecastTimeAmount,
-						forecastFluxPrice,
-						alreadyMintedBlocks
+						priceMultiplier,
+						priceMultiplierAmount,
 					},
-					balances: {
-						...state.balances,
-						forecastFluxPrice: ''
-					}
-				}
+				};
+			} catch (err) {
+				return state;
 			}
+		}
+		case commonLanguage.commands.ClientSettings.SetCurrency: {
+			const currency = command.payload;
+			localStorage.setItem('clientSettingsCurrency', currency);
+
+			return {
+				...state,
+				clientSettings: {
+					...state.clientSettings,
+					currency,
+				},
+			};
+		}
+		case commonLanguage.commands.ToggleForecastMode: {
+			if (!state.addressLock || !state.addressDetails) {
+				return state;
+			}
+
+			const isLocked = !state.addressLock.amount.isZero();
+
+			const getLockAmount = () => {
+				if (!state.addressLock || !isLocked) {
+					return new BN('1000').mul(new BN(10).pow(new BN(18)));
+				}
+				return state.addressLock.amount;
+			};
+			const lockAmount = getLockAmount();
+
+			const getUnmintedBlocks = () => {
+				if (!state.addressDetails || !state.addressLock || !isLocked) {
+					return 31 * 24 * 60 * (60 / 12); // 1 Month default
+				}
+				return state.addressDetails.blockNumber - state.addressLock.lastMintBlockNumber;
+			};
+			const unmintedBlocks = getUnmintedBlocks();
+
+			const forecastAmount = new Big(lockAmount.toString(10)).div(new Big(10).pow(18));
+			const blocks = unmintedBlocks;
+			const forecastBlocks = isLocked ? 0 : blocks.toString();
+			const forecastStartBlocks = (
+				state.addressLock.amount.isZero()
+					? 0
+					: (state.addressDetails.blockNumber - state.addressLock.lastMintBlockNumber) * -1
+			).toString();
+			const forecastBurn = isLocked ? state.addressDetails.addressBurnMultiplier : 10000;
+			const forecastTime = isLocked ? state.addressDetails.addressTimeMultiplier : 30000;
+
+			const forecastBurnAmount = (forecastBurn / 10000).toFixed(4);
+			const forecastTimeAmount = (forecastTime / 10000).toFixed(4);
+
+			const alreadyMintedBlocks = state.addressLock.lastMintBlockNumber - state.addressDetails.blockNumber;
+
+			const enabled = !state.forecastSettings.enabled;
+
+			const getForecastFluxPrice = () => {
+				if (!state.balances || !enabled) {
+					return '';
+				}
+				return getPriceToggle({
+					value: new BN(10).pow(new BN(18)),
+					inputToken: Token.Mintable,
+					outputToken: Token.USDC,
+					balances: state.balances,
+					round: config.mintableTokenPriceDecimals,
+				});
+			};
+
+			const forecastFluxPrice = getForecastFluxPrice();
+
+			return {
+				...state,
+				forecastSettings: {
+					...state.forecastSettings,
+					enabled,
+					amount: lockAmount,
+					forecastAmount,
+					forecastBlocks,
+					forecastStartBlocks,
+					blocks,
+					forecastBurn,
+					forecastBurnAmount,
+					forecastTime,
+					forecastTimeAmount,
+					forecastFluxPrice,
+					alreadyMintedBlocks,
+				},
+				balances: {
+					...state.balances,
+					forecastFluxPrice: '',
+				},
+			};
+		}
 		case commonLanguage.commands.ForecastSetBurn:
 			const forecastBurn = command.payload as number;
-			const forecastBurnAmount = (forecastBurn / 10000).toFixed(4)
+			const forecastBurnAmount = (forecastBurn / 10000).toFixed(4);
 			return {
 				...state,
 				forecastSettings: {
 					...state.forecastSettings,
 					forecastBurn,
-					forecastBurnAmount
-				}
-			}
+					forecastBurnAmount,
+				},
+			};
 		case commonLanguage.commands.ForecastSetBurnAmount: {
-			const maxBurn = 10000 * config.maxBurnMultiplier
-			const forecastBurnAmountNumberRaw = Math.round(parseFloat(getForecastAmount(command.payload, state.forecastSettings.forecastBurnAmount, true)) * 10000)
-			const forecastBurn = Math.max(10000, Math.min(maxBurn, forecastBurnAmountNumberRaw))
+			const maxBurn = 10000 * config.maxBurnMultiplier;
+			const forecastBurnAmountNumberRaw = Math.round(
+				parseFloat(getForecastAmount(command.payload, state.forecastSettings.forecastBurnAmount, true)) * 10000
+			);
+			const forecastBurn = Math.max(10000, Math.min(maxBurn, forecastBurnAmountNumberRaw));
 
 			const getForecastBurnAmount = () => {
 				if (forecastBurnAmountNumberRaw < 10000 || forecastBurnAmountNumberRaw > maxBurn) {
-					return (forecastBurn / 10000).toFixed(4)
+					return (forecastBurn / 10000).toFixed(4);
 				}
 
 				return getForecastAmount(command.payload, state.forecastSettings.forecastBurnAmount, false);
-			}
-			const forecastBurnAmount = getForecastBurnAmount()
+			};
+			const forecastBurnAmount = getForecastBurnAmount();
 
 			return {
 				...state,
 				forecastSettings: {
 					...state.forecastSettings,
 					forecastBurn,
-					forecastBurnAmount
-				}
-			}
+					forecastBurnAmount,
+				},
+			};
 		}
 		case commonLanguage.commands.ForecastSetTime:
 			const forecastTime = command.payload as number;
-			const forecastTimeAmount = (forecastTime / 10000).toFixed(4)
+			const forecastTimeAmount = (forecastTime / 10000).toFixed(4);
 
 			return {
 				...state,
 				forecastSettings: {
 					...state.forecastSettings,
 					forecastTime,
-					forecastTimeAmount
-				}
-			}
+					forecastTimeAmount,
+				},
+			};
 
 		case commonLanguage.commands.ForecastSetTimeAmount: {
-			const forecastTimeAmountNumberRaw = Math.round(parseFloat(getForecastAmount(command.payload, state.forecastSettings.forecastTimeAmount, true)) * 10000)
-			const forecastTime = Math.max(10000, Math.min(100000, forecastTimeAmountNumberRaw))
+			const forecastTimeAmountNumberRaw = Math.round(
+				parseFloat(getForecastAmount(command.payload, state.forecastSettings.forecastTimeAmount, true)) * 10000
+			);
+			const forecastTime = Math.max(10000, Math.min(100000, forecastTimeAmountNumberRaw));
 
 			const getForecastTimeAmount = () => {
 				if (forecastTimeAmountNumberRaw < 10000 || forecastTimeAmountNumberRaw > 100000) {
-					return (forecastTime / 10000).toFixed(4)
+					return (forecastTime / 10000).toFixed(4);
 				}
 
 				return getForecastAmount(command.payload, state.forecastSettings.forecastTimeAmount, false);
-			}
-			const forecastTimeAmount = getForecastTimeAmount()
+			};
+			const forecastTimeAmount = getForecastTimeAmount();
 
 			return {
 				...state,
 				forecastSettings: {
 					...state.forecastSettings,
 					forecastTime,
-					forecastTimeAmount
-				}
-			}
+					forecastTimeAmount,
+				},
+			};
 		}
 		case commonLanguage.commands.ForecastSetBlocks: {
+			const forecastBlocks = command.payload;
 
-			const forecastBlocks = command.payload
-
-			const blocks = Math.max(0, parseInt(forecastBlocks) - parseInt(state.forecastSettings.forecastStartBlocks))
+			const blocks = Math.max(0, parseInt(forecastBlocks) - parseInt(state.forecastSettings.forecastStartBlocks));
 
 			return {
 				...state,
 				forecastSettings: {
 					...state.forecastSettings,
 					forecastBlocks,
-					blocks
-				}
-			}
+					blocks,
+				},
+			};
 		}
 		case commonLanguage.commands.ForecastSetStartBlocks: {
+			const forecastStartBlocks = command.payload;
 
-			const forecastStartBlocks = command.payload
-
-			const blocks = Math.max(0, parseInt(state.forecastSettings.forecastBlocks) - parseInt(forecastStartBlocks))
+			const blocks = Math.max(0, parseInt(state.forecastSettings.forecastBlocks) - parseInt(forecastStartBlocks));
 
 			return {
 				...state,
 				forecastSettings: {
 					...state.forecastSettings,
 					forecastStartBlocks,
-					blocks
-				}
-			}
+					blocks,
+				},
+			};
 		}
 
-		case commonLanguage.commands.ForecastSetAmount:
-			{
+		case commonLanguage.commands.ForecastSetAmount: {
+			const forecastAmount = getForecastAmount(command.payload, state.forecastSettings.forecastAmount, false);
+			return {
+				...state,
+				forecastSettings: {
+					...state.forecastSettings,
+					forecastAmount,
+					amount: new Big(
+						getForecastAmount(command.payload, state.forecastSettings.forecastAmount, true).toString()
+					).mul(new Big(10).pow(18)),
+				},
+			};
+		}
 
-				const forecastAmount = getForecastAmount(command.payload, state.forecastSettings.forecastAmount, false);
-				return {
-					...state,
-					forecastSettings: {
-						...state.forecastSettings,
-						forecastAmount,
-						amount: new Big(getForecastAmount(command.payload, state.forecastSettings.forecastAmount, true).toString()).mul(new Big(10).pow(18))
-					}
-				}
-			}
-
-		case commonLanguage.commands.ForecastSetFluxPrice:
-			{
-				const forecastFluxPrice = getForecastAmount(command.payload, state.forecastSettings.forecastFluxPrice, false);
-				return {
-					...state,
-					forecastSettings: {
-						...state.forecastSettings,
-						forecastFluxPrice
-					},
-					balances: {
-						...state.balances,
-						forecastFluxPrice
-					}
-				}
-			}
+		case commonLanguage.commands.ForecastSetFluxPrice: {
+			const forecastFluxPrice = getForecastAmount(command.payload, state.forecastSettings.forecastFluxPrice, false);
+			return {
+				...state,
+				forecastSettings: {
+					...state.forecastSettings,
+					forecastFluxPrice,
+				},
+				balances: {
+					...state.balances,
+					forecastFluxPrice,
+				},
+			};
+		}
 
 		case commonLanguage.commands.Initialize:
 			const { address } = command.payload;
@@ -1039,8 +1070,8 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				...state,
 				isInitialized: true,
 				address,
-				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance }])
-			}
+				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance }]),
+			};
 		//This is how we can do RPC selection
 		/*case commonLanguage.commands.ShowWalletConnectRpc:
 			return {
@@ -1049,7 +1080,6 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			}*/
 		case commonLanguage.commands.ShowWalletConnectRpc:
 		case commonLanguage.commands.InitializeWalletConnect: {
-
 			const { isArbitrumMainnet } = command.payload;
 
 			/*const rpcAddress = (command.payload.rpcAddress as string).trim();
@@ -1085,11 +1115,10 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				isArbitrumMainnet,
 				dialog: null,
 				error: null,
-				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance, payload: { useWalletConnect: true } }])
-			}
+				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance, payload: { useWalletConnect: true } }]),
+			};
 		}
 		case commonLanguage.commands.ReinitializeWeb3: {
-
 			const { targetEcosystem } = command.payload;
 
 			return {
@@ -1101,15 +1130,18 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				},
 				error: null,
 				...withQueries([
-					{ type: commonLanguage.queries.FindWeb3Instance, payload: { targetEcosystem, useWalletConnect: state.connectionMethod === ConnectionMethod.WalletConnect } },
-				])
-			}
+					{
+						type: commonLanguage.queries.FindWeb3Instance,
+						payload: { targetEcosystem, useWalletConnect: state.connectionMethod === ConnectionMethod.WalletConnect },
+					},
+				]),
+			};
 		}
 		case commonLanguage.commands.DisconnectFromWalletConnect:
 			return {
 				...state,
-				...withQueries([{ type: commonLanguage.queries.DisconnectWalletConnect }])
-			}
+				...withQueries([{ type: commonLanguage.queries.DisconnectWalletConnect }]),
+			};
 		case commonLanguage.commands.DisplayAccessLinks:
 			if (state.isDisplayingLinks) {
 				//return state;
@@ -1118,390 +1150,383 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			return {
 				...state,
 				isDisplayingLinks: true,
-				...withQueries([{ type: commonLanguage.queries.FindAccessLinks }])
-			}
+				...withQueries([{ type: commonLanguage.queries.FindAccessLinks }]),
+			};
 
 		case commonLanguage.commands.AuthorizeFluxOperator:
 			if (state.balances?.damToken?.isZero()) {
 				return {
 					...state,
-					dialog: DialogType.ZeroDam
-				}
+					dialog: DialogType.ZeroDam,
+				};
 			}
 			if (state.balances?.eth?.isZero()) {
 				return {
 					...state,
-					dialog: DialogType.ZeroEth
-				}
+					dialog: DialogType.ZeroEth,
+				};
 			}
 			return {
 				...state,
-				...withQueries([{ type: commonLanguage.queries.GetAuthorizeFluxOperatorResponse }])
-			}
+				...withQueries([{ type: commonLanguage.queries.GetAuthorizeFluxOperatorResponse }]),
+			};
 		case commonLanguage.commands.UnlockDamTokens:
 			return {
 				...state,
 				error: null,
-				...withQueries([{ type: commonLanguage.queries.GetUnlockDamTokensResponse }])
-			}
+				...withQueries([{ type: commonLanguage.queries.GetUnlockDamTokensResponse }]),
+			};
 		case commonLanguage.commands.DismissPendingAction:
 			return {
 				...state,
-				lastDismissedPendingActionCount: state.queriesCount
-			}
-		case commonLanguage.commands.LockInDamTokens:
-			{
-				try {
-					const { amount, minterAddress } = command.payload;
+				lastDismissedPendingActionCount: state.queriesCount,
+			};
+		case commonLanguage.commands.LockInDamTokens: {
+			try {
+				const { amount, minterAddress } = command.payload;
 
-					const amountBN = parseBN(amount);
-
-					return {
-						...state,
-						error: null,
-						...withQueries([{ type: commonLanguage.queries.GetLockInDamTokensResponse, payload: { amount: amountBN, minterAddress } }])
-					}
-				} catch (err) {
-					return {
-						...state,
-						error: commonLanguage.errors.InvalidNumber
-					}
-				}
-			}
-		case commonLanguage.commands.MintFluxTokens:
-			{
-				const { sourceAddress, targetAddress, blockNumber } = command.payload;
+				const amountBN = parseBN(amount);
 
 				return {
 					...state,
 					error: null,
-					...withQueries([{ type: commonLanguage.queries.GetMintFluxResponse, payload: { sourceAddress, targetAddress, blockNumber } }])
-				}
+					...withQueries([
+						{ type: commonLanguage.queries.GetLockInDamTokensResponse, payload: { amount: amountBN, minterAddress } },
+					]),
+				};
+			} catch (err) {
+				return {
+					...state,
+					error: commonLanguage.errors.InvalidNumber,
+				};
 			}
+		}
+		case commonLanguage.commands.MintFluxTokens: {
+			const { sourceAddress, targetAddress, blockNumber } = command.payload;
 
-		case commonLanguage.commands.CopyAnalytics:
-			{
-				const { balances, addressLock, addressDetails, addressTokenDetails } = state
-				if (!balances || !addressLock || !addressDetails || !addressTokenDetails) {
-					return state;
-				}
-				try {
-					const clipboardState = {
-						address: state.selectedAddress,
-						balances: {
-							dam: balances.damToken.toString(10),
-							flux: balances.fluxToken.toString(10),
-						},
-						addressLock: {
-							amount: addressLock.amount.toString(10),
-							blockNumber: addressLock.blockNumber,
-							burnedAmount: addressLock.burnedAmount.toString(10),
-							lastMintBlockNumber: addressLock.lastMintBlockNumber,
-							minterAddress: addressLock.minterAddress
-						},
-						addressDetails: {
-							blockNumber: addressDetails.blockNumber,
-							fluxBalance: addressDetails.fluxBalance.toString(),
-							mintAmount: addressDetails.mintAmount.toString(),
-							addressTimeMultiplier: addressDetails.addressTimeMultiplier,
-							addressBurnMultiplier: addressDetails.addressBurnMultiplier,
-							addressTimeMultiplierRaw: addressDetails.addressTimeMultiplierRaw,
-							addressBurnMultiplierRaw: addressDetails.addressBurnMultiplierRaw,
-							globalLockedAmount: addressDetails.globalLockedAmount.toString(),
-							globalBurnedAmount: addressDetails.globalBurnedAmount.toString(),
-						},
-						addressTokenDetails: {
-							blockNumber: addressTokenDetails.blockNumber,
-							isFluxOperator: addressTokenDetails.isFluxOperator,
-							damBalance: addressTokenDetails.damBalance.toString(),
-							myRatio: addressTokenDetails.myRatio.toString(),
-							globalRatio: addressTokenDetails.globalRatio.toString(),
-						}
-					}
-					copyToClipBoard(JSON.stringify(clipboardState));
-				} catch (error) {
-					console.log(error);
-					alert('Failed copying to clipboard. (Check console error log)');
-				}
-				return state
+			return {
+				...state,
+				error: null,
+				...withQueries([
+					{ type: commonLanguage.queries.GetMintFluxResponse, payload: { sourceAddress, targetAddress, blockNumber } },
+				]),
+			};
+		}
+
+		case commonLanguage.commands.CopyAnalytics: {
+			const { balances, addressLock, addressDetails, addressTokenDetails } = state;
+			if (!balances || !addressLock || !addressDetails || !addressTokenDetails) {
+				return state;
 			}
-		case commonLanguage.commands.ShowDialog:
-			{
-				const { dialog, dialogParams } = command.payload;
+			try {
+				const clipboardState = {
+					address: state.selectedAddress,
+					balances: {
+						dam: balances.damToken.toString(10),
+						flux: balances.fluxToken.toString(10),
+					},
+					addressLock: {
+						amount: addressLock.amount.toString(10),
+						blockNumber: addressLock.blockNumber,
+						burnedAmount: addressLock.burnedAmount.toString(10),
+						lastMintBlockNumber: addressLock.lastMintBlockNumber,
+						minterAddress: addressLock.minterAddress,
+					},
+					addressDetails: {
+						blockNumber: addressDetails.blockNumber,
+						fluxBalance: addressDetails.fluxBalance.toString(),
+						mintAmount: addressDetails.mintAmount.toString(),
+						addressTimeMultiplier: addressDetails.addressTimeMultiplier,
+						addressBurnMultiplier: addressDetails.addressBurnMultiplier,
+						addressTimeMultiplierRaw: addressDetails.addressTimeMultiplierRaw,
+						addressBurnMultiplierRaw: addressDetails.addressBurnMultiplierRaw,
+						globalLockedAmount: addressDetails.globalLockedAmount.toString(),
+						globalBurnedAmount: addressDetails.globalBurnedAmount.toString(),
+					},
+					addressTokenDetails: {
+						blockNumber: addressTokenDetails.blockNumber,
+						isFluxOperator: addressTokenDetails.isFluxOperator,
+						damBalance: addressTokenDetails.damBalance.toString(),
+						myRatio: addressTokenDetails.myRatio.toString(),
+						globalRatio: addressTokenDetails.globalRatio.toString(),
+					},
+				};
+				copyToClipBoard(JSON.stringify(clipboardState));
+			} catch (error) {
+				console.log(error);
+				alert('Failed copying to clipboard. (Check console error log)');
+			}
+			return state;
+		}
+		case commonLanguage.commands.ShowDialog: {
+			const { dialog, dialogParams } = command.payload;
+
+			return {
+				...state,
+				error: null,
+				dialog,
+				dialogParams,
+			};
+		}
+		case commonLanguage.commands.CloseDialog: {
+			return {
+				...state,
+				error: null,
+				dialog: null,
+			};
+		}
+		case commonLanguage.commands.DismissError: {
+			return {
+				...state,
+				error: null,
+			};
+		}
+		case commonLanguage.commands.BurnFluxTokens: {
+			const { amount, address } = command.payload;
+
+			try {
+				const amountBN = parseBN(amount);
 
 				return {
 					...state,
 					error: null,
-					dialog,
-					dialogParams
-				}
-			}
-		case commonLanguage.commands.CloseDialog:
-			{
+					...withQueries([
+						{ type: commonLanguage.queries.GetBurnFluxResponse, payload: { amount: amountBN, address } },
+					]),
+				};
+			} catch (err) {
 				return {
 					...state,
-					error: null,
-					dialog: null
-				}
+					error: commonLanguage.errors.InvalidNumber,
+				};
 			}
-		case commonLanguage.commands.DismissError:
-			{
-				return {
-					...state,
-					error: null
-				}
-			}
-		case commonLanguage.commands.BurnFluxTokens:
-			{
-				const { amount, address } = command.payload;
-
-				try {
-					const amountBN = parseBN(amount);
-
-					return {
-						...state,
-						error: null,
-						...withQueries([{ type: commonLanguage.queries.GetBurnFluxResponse, payload: { amount: amountBN, address } }])
-					}
-				} catch (err) {
-					return {
-						...state,
-						error: commonLanguage.errors.InvalidNumber
-					}
-				}
-			}
+		}
 		case commonLanguage.commands.Market.AddGemAddress: {
 			const { address } = command.payload;
 
-			const ecosystemAddresses = state.market.gemAddresses[state.ecosystem]
+			const ecosystemAddresses = state.market.gemAddresses[state.ecosystem];
 
 			// Don't add duplicate addresses
-			if (ecosystemAddresses.some(ecosystemAddress => ecosystemAddress === address)) {
-				return state
+			if (ecosystemAddresses.some((ecosystemAddress) => ecosystemAddress === address)) {
+				return state;
 			}
 
-			const newecosystemAddresses = [
-				...ecosystemAddresses,
-				address
-			]
+			const newecosystemAddresses = [...ecosystemAddresses, address];
 
 			const gemAddresses = {
 				...state.market.gemAddresses,
-				[state.ecosystem]: newecosystemAddresses
-			}
+				[state.ecosystem]: newecosystemAddresses,
+			};
 
-			localStorage.setItem('marketGemAddresses', JSON.stringify(gemAddresses))
+			localStorage.setItem('marketGemAddresses', JSON.stringify(gemAddresses));
 
 			return {
 				...state,
 				market: {
 					...state.market,
-					gemAddresses
-				}
-			}
+					gemAddresses,
+				},
+			};
 		}
-		case commonLanguage.commands.Market.MarketBurnFluxTokens:
-			{
-				const { amountToBurn, gems } = command.payload;
+		case commonLanguage.commands.Market.MarketBurnFluxTokens: {
+			const { amountToBurn, gems } = command.payload;
 
-				try {
-
-					if (!state.marketAddressLock) {
-						return state
-					}
-
-					return {
-						...state,
-						error: null,
-						...withQueries([{ type: commonLanguage.queries.Market.GetMarketBurnFluxResponse, payload: { amountToBurn, gems } }])
-					}
-				} catch (err: any) {
-					if (err && err.message) {
-						switch (err.message) {
-							case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
-								return {
-									...state,
-									error: err.toString()
-								}
-						}
-					}
-					return {
-						...state,
-						error: commonLanguage.errors.InvalidNumber
-					}
+			try {
+				if (!state.marketAddressLock) {
+					return state;
 				}
-			}
-		case commonLanguage.commands.Market.DepositTokens:
-			{
-				const { amount, address } = command.payload;
-
-				try {
-					const amountBN = parseBN(amount);
-
-					if (!state.marketAddressLock) {
-						return state
-					}
-
-					if (amountBN.lte(new BN(0))) {
-						throw new Error(commonLanguage.errors.MustExceedZero)
-					}
-
-					return {
-						...state,
-						error: null,
-						...withQueries([{ type: commonLanguage.queries.Market.GetDepositMarketResponse, payload: { amount: amountBN, address } }])
-					}
-				} catch (err: any) {
-					console.log('err1:', err)
-					if (err && err.message) {
-						switch (err.message) {
-							case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
-								console.log('err2:', err)
-								return {
-									...state,
-									error: err.toString()
-								}
-						}
-					}
-					return {
-						...state,
-						error: commonLanguage.errors.InvalidNumber
-					}
-				}
-			}
-		case commonLanguage.commands.Market.WithdrawTokens:
-			{
-				const { } = command.payload;
-
-				try {
-					return {
-						...state,
-						error: null,
-						...withQueries([{ type: commonLanguage.queries.Market.GetWithdrawMarketResponse, payload: {} }])
-					}
-				} catch (err: any) {
-					if (err && err.message) {
-						switch (err.message) {
-							case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
-								return {
-									...state,
-									error: err.toString()
-								}
-						}
-					}
-					return {
-						...state,
-						error: commonLanguage.errors.InvalidNumber
-					}
-				}
-			}
-		case commonLanguage.commands.Market.RefreshMarketAddresses:
-			{
-				const { } = command.payload;
-
-				try {
-					if (!state.web3) {
-						return state
-					}
-					return {
-						...state,
-						error: null,
-						...withQueries([{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} }])
-					}
-				} catch (err: any) {
-					return {
-						...state,
-						error: commonLanguage.errors.InvalidNumber
-					}
-				}
-			}
-		case commonLanguage.commands.Swap.Trade:
-			{
-				const { } = command.payload;
-
-				try {
-					return {
-						...state,
-						error: null,
-						...withQueries([{ type: commonLanguage.queries.GetTradeResponse, payload: {} }])
-					}
-				} catch (err) {
-					return {
-						...state,
-						error: commonLanguage.errors.InvalidNumber
-					}
-				}
-			}
-		case commonLanguage.commands.Swap.ShowTradeDialog:
-			{
-				const { input } = command.payload;
-
-				const getInput = () => {
-					if (!input || !input.swapToken || input === '0') {
-						return {
-							swapToken: null,
-							amount: ''
-						}
-					}
-
-					const inputTokenBalance = getSwapTokenBalance(input.swapToken)
-
-					// If we don't have any of this token, most likely the person wants to buy it so inverse the swap and prefill ETH amount
-					if (inputTokenBalance === '0') {
-						return {
-							swapToken: SwapToken.ETH,
-							amount: '' // We don't want to prefill ETH amount, let user enter it getSwapTokenBalance(SwapToken.ETH)
-						}
-					}
-
-					return {
-						swapToken: input.swapToken,
-						amount: inputTokenBalance
-					}
-
-				}
-				const inputState = getInput()
-
-				const getOutput = () => {
-					if (inputState.swapToken === SwapToken.ETH && input && input.swapToken) {
-						return {
-							swapToken: input.swapToken,
-							amount: '...'
-						}
-					}
-
-					return {
-						swapToken: SwapToken.ETH,
-						amount: '...'
-					}
-				}
-
-				const outputState = getOutput()
-
-				const ecosystem = getSwapTokenEcosystem(inputState.swapToken === SwapToken.ETH ? outputState.swapToken : inputState.swapToken)
-
 
 				return {
 					...state,
-					ecosystem,
 					error: null,
-					dialog: DialogType.Trade,
-					dialogParams: {},
-					swapState: {
-						input: inputState,
-						output: outputState
-					},
-
-					...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
+					...withQueries([
+						{ type: commonLanguage.queries.Market.GetMarketBurnFluxResponse, payload: { amountToBurn, gems } },
+					]),
+				};
+			} catch (err: any) {
+				if (err && err.message) {
+					switch (err.message) {
+						case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
+							return {
+								...state,
+								error: err.toString(),
+							};
+					}
 				}
+				return {
+					...state,
+					error: commonLanguage.errors.InvalidNumber,
+				};
 			}
+		}
+		case commonLanguage.commands.Market.DepositTokens: {
+			const { amount, address } = command.payload;
+
+			try {
+				const amountBN = parseBN(amount);
+
+				if (!state.marketAddressLock) {
+					return state;
+				}
+
+				if (amountBN.lte(new BN(0))) {
+					throw new Error(commonLanguage.errors.MustExceedZero);
+				}
+
+				return {
+					...state,
+					error: null,
+					...withQueries([
+						{ type: commonLanguage.queries.Market.GetDepositMarketResponse, payload: { amount: amountBN, address } },
+					]),
+				};
+			} catch (err: any) {
+				console.log('err1:', err);
+				if (err && err.message) {
+					switch (err.message) {
+						case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
+							console.log('err2:', err);
+							return {
+								...state,
+								error: err.toString(),
+							};
+					}
+				}
+				return {
+					...state,
+					error: commonLanguage.errors.InvalidNumber,
+				};
+			}
+		}
+		case commonLanguage.commands.Market.WithdrawTokens: {
+			const {} = command.payload;
+
+			try {
+				return {
+					...state,
+					error: null,
+					...withQueries([{ type: commonLanguage.queries.Market.GetWithdrawMarketResponse, payload: {} }]),
+				};
+			} catch (err: any) {
+				if (err && err.message) {
+					switch (err.message) {
+						case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
+							return {
+								...state,
+								error: err.toString(),
+							};
+					}
+				}
+				return {
+					...state,
+					error: commonLanguage.errors.InvalidNumber,
+				};
+			}
+		}
+		case commonLanguage.commands.Market.RefreshMarketAddresses: {
+			const {} = command.payload;
+
+			try {
+				if (!state.web3) {
+					return state;
+				}
+				return {
+					...state,
+					error: null,
+					...withQueries([{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} }]),
+				};
+			} catch (err: any) {
+				return {
+					...state,
+					error: commonLanguage.errors.InvalidNumber,
+				};
+			}
+		}
+		case commonLanguage.commands.Swap.Trade: {
+			const {} = command.payload;
+
+			try {
+				return {
+					...state,
+					error: null,
+					...withQueries([{ type: commonLanguage.queries.GetTradeResponse, payload: {} }]),
+				};
+			} catch (err) {
+				return {
+					...state,
+					error: commonLanguage.errors.InvalidNumber,
+				};
+			}
+		}
+		case commonLanguage.commands.Swap.ShowTradeDialog: {
+			const { input } = command.payload;
+
+			const getInput = () => {
+				if (!input || !input.swapToken || input === '0') {
+					return {
+						swapToken: null,
+						amount: '',
+					};
+				}
+
+				const inputTokenBalance = getSwapTokenBalance(input.swapToken);
+
+				// If we don't have any of this token, most likely the person wants to buy it so inverse the swap and prefill ETH amount
+				if (inputTokenBalance === '0') {
+					return {
+						swapToken: SwapToken.ETH,
+						amount: '', // We don't want to prefill ETH amount, let user enter it getSwapTokenBalance(SwapToken.ETH)
+					};
+				}
+
+				return {
+					swapToken: input.swapToken,
+					amount: inputTokenBalance,
+				};
+			};
+			const inputState = getInput();
+
+			const getOutput = () => {
+				if (inputState.swapToken === SwapToken.ETH && input && input.swapToken) {
+					return {
+						swapToken: input.swapToken,
+						amount: '...',
+					};
+				}
+
+				return {
+					swapToken: SwapToken.ETH,
+					amount: '...',
+				};
+			};
+
+			const outputState = getOutput();
+
+			const ecosystem = getSwapTokenEcosystem(
+				inputState.swapToken === SwapToken.ETH ? outputState.swapToken : inputState.swapToken
+			);
+
+			return {
+				...state,
+				ecosystem,
+				error: null,
+				dialog: DialogType.Trade,
+				dialogParams: {},
+				swapState: {
+					input: inputState,
+					output: outputState,
+				},
+
+				...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }]),
+			};
+		}
 		case commonLanguage.commands.Swap.ResetThottleGetOutputQuote: {
 			return {
 				...state,
 				lastSwapThrottle: null,
 
-				...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
-			}
+				...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }]),
+			};
 		}
 		case commonLanguage.commands.Swap.SetAmount: {
 			const { amount } = command.payload;
@@ -1512,13 +1537,12 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			 * After a while ResetThrottleGetOutputQuote() above will be called and the actual quote executed
 			 */
 			const withGetOutputQuote = () => {
-
 				return {
 					lastSwapThrottle: Date.now(),
 
-					...withQueries([{ type: commonLanguage.queries.Swap.ThrottleGetOutputQuote }])
-				}
-			}
+					...withQueries([{ type: commonLanguage.queries.Swap.ThrottleGetOutputQuote }]),
+				};
+			};
 			const newAmount = getForecastAmount(amount, state.swapState.input.amount);
 
 			// No update necessary (Ex: invalid chartacters were stripped)
@@ -1532,29 +1556,27 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					...state.swapState,
 					input: {
 						...state.swapState.input,
-						amount: newAmount
-					}
+						amount: newAmount,
+					},
 				},
 				error: null,
 
 				...withGetOutputQuote(),
-
-			}
+			};
 		}
 		case commonLanguage.commands.Swap.SetToken: {
 			const { swapOperation, swapToken } = command.payload;
 
-
 			switch (swapOperation) {
 				case SwapOperation.Input: {
 					if (swapToken === state.swapState.output.swapToken) {
-						return getFlipSwapState()
+						return getFlipSwapState();
 					}
 
-					const inputToken = swapToken
-					const outputToken = swapToken === SwapToken.ETH ? state.swapState.input.swapToken : SwapToken.ETH
+					const inputToken = swapToken;
+					const outputToken = swapToken === SwapToken.ETH ? state.swapState.input.swapToken : SwapToken.ETH;
 
-					const ecosystem = getSwapTokenEcosystem(swapToken)
+					const ecosystem = getSwapTokenEcosystem(swapToken);
 
 					return {
 						...state,
@@ -1563,28 +1585,28 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 							...state.swapState,
 							input: {
 								...state.swapState.input,
-								swapToken: inputToken
+								swapToken: inputToken,
 							},
 							output: {
 								...state.swapState.output,
-								swapToken: outputToken
-							}
+								swapToken: outputToken,
+							},
 						},
 						error: null,
 
-						...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
-					}
+						...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }]),
+					};
 				}
 
 				case SwapOperation.Output: {
 					if (swapToken === state.swapState.input.swapToken) {
-						return getFlipSwapState()
+						return getFlipSwapState();
 					}
 
-					const inputToken = swapToken === SwapToken.ETH ? state.swapState.output.swapToken : SwapToken.ETH
-					const outputToken = swapToken
+					const inputToken = swapToken === SwapToken.ETH ? state.swapState.output.swapToken : SwapToken.ETH;
+					const outputToken = swapToken;
 
-					const ecosystem = getSwapTokenEcosystem(swapToken)
+					const ecosystem = getSwapTokenEcosystem(swapToken);
 
 					return {
 						...state,
@@ -1593,85 +1615,81 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 							...state.swapState,
 							input: {
 								...state.swapState.input,
-								swapToken: inputToken
+								swapToken: inputToken,
 							},
 							output: {
 								...state.swapState.output,
-								swapToken: outputToken
-							}
+								swapToken: outputToken,
+							},
 						},
 						error: null,
 
-						...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }])
-					}
+						...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }]),
+					};
 				}
 			}
 
 			return state;
-
 		}
-		case commonLanguage.commands.Swap.FlipSwap:
-			{
-				return getFlipSwapState()
-			}
-		case commonLanguage.commands.SetSearch:
-			{
-				const searchQuery = command.payload;
+		case commonLanguage.commands.Swap.FlipSwap: {
+			return getFlipSwapState();
+		}
+		case commonLanguage.commands.SetSearch: {
+			const searchQuery = command.payload;
 
-				return {
-					...state,
-					searchQuery,
-					...withQueries([{ type: commonLanguage.queries.PerformSearch, payload: { searchQuery } }])
-				}
-			}
-		case commonLanguage.commands.ShowHelpArticle:
-			{
-				const { helpArticle } = command.payload;
+			return {
+				...state,
+				searchQuery,
+				...withQueries([{ type: commonLanguage.queries.PerformSearch, payload: { searchQuery } }]),
+			};
+		}
+		case commonLanguage.commands.ShowHelpArticle: {
+			const { helpArticle } = command.payload;
 
-				const { helpArticlesNetworkType } = state
+			const { helpArticlesNetworkType } = state;
 
-				return {
-					...state,
-					searchQuery: '',
-					...withQueries([{ type: commonLanguage.queries.GetFullHelpArticle, payload: { helpArticle, helpArticlesNetworkType } }])
-				}
-			}
+			return {
+				...state,
+				searchQuery: '',
+				...withQueries([
+					{ type: commonLanguage.queries.GetFullHelpArticle, payload: { helpArticle, helpArticlesNetworkType } },
+				]),
+			};
+		}
 		case commonLanguage.commands.CloseHelpArticle:
 			return {
 				...state,
-				helpArticle: null
-			}
+				helpArticle: null,
+			};
 		case commonLanguage.commands.OpenDrawer:
 			return {
 				...state,
-				isMobileDrawerOpen: true
-			}
+				isMobileDrawerOpen: true,
+			};
 		case commonLanguage.commands.CloseDrawer:
 			return {
 				...state,
-				isMobileDrawerOpen: false
-			}
+				isMobileDrawerOpen: false,
+			};
 		case commonLanguage.commands.SetHelpArticlesNetworkType: {
 			const helpArticlesNetworkType = command.payload as NetworkType;
 
-
-			localStorage.setItem('helpArticlesNetworkType', helpArticlesNetworkType.toString())
+			localStorage.setItem('helpArticlesNetworkType', helpArticlesNetworkType.toString());
 
 			return {
 				...state,
 				helpArticlesNetworkType,
-				...withQueries([{ type: commonLanguage.queries.ResetHelpArticleBodies }])
-			}
+				...withQueries([{ type: commonLanguage.queries.ResetHelpArticleBodies }]),
+			};
 		}
 	}
 	return state;
-}
-
+};
 
 // Notice things are taken from localStorage here
 
 const getDefaultEcosystem = () => {
-	const targetEcosystem = localStorage.getItem('targetEcosystem')
+	const targetEcosystem = localStorage.getItem('targetEcosystem');
 	if (targetEcosystem) {
 		return targetEcosystem as Ecosystem;
 	}
@@ -1679,63 +1697,71 @@ const getDefaultEcosystem = () => {
 	// Default to Lockquidity on the first visit.
 	// If You are on L1 then it'll auto-fix to Flux (see handling of commonLanguage.queries.FindWeb3Instance)
 	return Ecosystem.Lockquidity;
-}
+};
 
-const defaultEcosystem = getDefaultEcosystem()
+const defaultEcosystem = getDefaultEcosystem();
 
 const config = getEcosystemConfig(defaultEcosystem);
 
-const priceMultiplierAmount = localStorage.getItem('clientSettingsPriceMultiplierAmount') ? localStorage.getItem('clientSettingsPriceMultiplierAmount') as string : '1.00';
-const currency = localStorage.getItem('clientSettingsCurrency') ? localStorage.getItem('clientSettingsCurrency') as string : 'USD';
-const useEip1559 = !localStorage.getItem('clientSettingsUseEip1559') || localStorage.getItem('clientSettingsUseEip1559') === 'true'
+const priceMultiplierAmount = localStorage.getItem('clientSettingsPriceMultiplierAmount')
+	? (localStorage.getItem('clientSettingsPriceMultiplierAmount') as string)
+	: '1.00';
+const currency = localStorage.getItem('clientSettingsCurrency')
+	? (localStorage.getItem('clientSettingsCurrency') as string)
+	: 'USD';
+const useEip1559 =
+	!localStorage.getItem('clientSettingsUseEip1559') || localStorage.getItem('clientSettingsUseEip1559') === 'true';
 
 const getHelpArticlesNetworkType = () => {
-	const defaultHelpArticlesNetworkType = config.isArbitrumOnlyToken ? NetworkType.Arbitrum : NetworkType.Mainnet
-	const helpArticlesNetworkType = localStorage.getItem('helpArticlesNetworkType') && !config.isArbitrumOnlyToken ? localStorage.getItem('helpArticlesNetworkType') as NetworkType : defaultHelpArticlesNetworkType;
+	const defaultHelpArticlesNetworkType = config.isArbitrumOnlyToken ? NetworkType.Arbitrum : NetworkType.Mainnet;
+	const helpArticlesNetworkType =
+		localStorage.getItem('helpArticlesNetworkType') && !config.isArbitrumOnlyToken
+			? (localStorage.getItem('helpArticlesNetworkType') as NetworkType)
+			: defaultHelpArticlesNetworkType;
 
-	return helpArticlesNetworkType
-}
+	return helpArticlesNetworkType;
+};
 
-const helpArticlesNetworkType = getHelpArticlesNetworkType()
+const helpArticlesNetworkType = getHelpArticlesNetworkType();
 
 const getCustomMarketAddresses = () => {
 	const defaultCustomMarketAddresses = {
 		[Ecosystem.Flux]: [],
 		[Ecosystem.ArbiFlux]: [],
 		[Ecosystem.Lockquidity]: [],
-	}
+	};
 
-	const marketGemAddressesJson = localStorage.getItem('marketGemAddresses')
+	const marketGemAddressesJson = localStorage.getItem('marketGemAddresses');
 	if (!marketGemAddressesJson) {
-		return defaultCustomMarketAddresses
+		return defaultCustomMarketAddresses;
 	}
 	try {
-		const customAddresses = JSON.parse(marketGemAddressesJson)
-		return customAddresses
+		const customAddresses = JSON.parse(marketGemAddressesJson);
+		return customAddresses;
 	} catch (err) {
-		console.log('defaultCustomMarketAddresses parse error:', err)
-		return defaultCustomMarketAddresses
+		console.log('defaultCustomMarketAddresses parse error:', err);
+		return defaultCustomMarketAddresses;
 	}
-}
+};
 
 const getMarketGemsCollected = () => {
 	const defaultMarketGemsCollected = {
 		count: 0,
-		sumDollarAmount: 0
-	}
+		sumDollarAmount: 0,
+	};
 
-	const marketGemsCollectedJson = localStorage.getItem('marketGemsCollected')
+	const marketGemsCollectedJson = localStorage.getItem('marketGemsCollected');
 	if (!marketGemsCollectedJson) {
-		return defaultMarketGemsCollected
+		return defaultMarketGemsCollected;
 	}
 	try {
-		const marketGemsCollected = JSON.parse(marketGemsCollectedJson)
-		return marketGemsCollected
+		const marketGemsCollected = JSON.parse(marketGemsCollectedJson);
+		return marketGemsCollected;
 	} catch (err) {
-		console.log('marketGemsCollected parse error:', err)
-		return defaultMarketGemsCollected
+		console.log('marketGemsCollected parse error:', err);
+		return defaultMarketGemsCollected;
 	}
-}
+};
 
 const initialState: Web3State = {
 	pendingQueries: [],
@@ -1754,7 +1780,7 @@ const initialState: Web3State = {
 		forecastBlocks: '0',
 		forecastStartBlocks: '0',
 		forecastFluxPrice: '',
-		alreadyMintedBlocks: 0
+		alreadyMintedBlocks: 0,
 	},
 	isInitialized: false,
 	isDisplayingLinks: false,
@@ -1794,7 +1820,7 @@ const initialState: Web3State = {
 		priceMultiplier: parseFloat(priceMultiplierAmount),
 		priceMultiplierAmount,
 		currency,
-		useEip1559
+		useEip1559,
 	},
 
 	lastAccountRefreshTimestampMs: 0,
@@ -1802,11 +1828,11 @@ const initialState: Web3State = {
 	swapState: {
 		input: {
 			swapToken: null,
-			amount: ''
+			amount: '',
 		},
 		output: {
 			swapToken: null,
-			amount: ''
+			amount: '',
 		},
 	},
 	swapTokenBalances: null,
@@ -1820,9 +1846,9 @@ const initialState: Web3State = {
 
 	market: {
 		gemAddresses: getCustomMarketAddresses(),
-		gemsCollected: getMarketGemsCollected()
-	}
-}
+		gemsCollected: getMarketGemsCollected(),
+	},
+};
 
 // This reducer manages the core Web3 state and orchestrates interactions with the blockchain.
 // It implements a "Commands & Queries" pattern:
@@ -1873,7 +1899,7 @@ const commonLanguage = {
 		ClientSettings: {
 			SetPriceMultiplier: 'CLIENT_SETTINGS_SET_PRICE_MULTIPLIER',
 			SetUseEip1559: 'SET_USE_EIP1559',
-			SetCurrency: 'SET_CURRENCY'
+			SetCurrency: 'SET_CURRENCY',
 		},
 
 		UpdateEcosystem: 'UPDATE_ECOSYSTEM',
@@ -1889,7 +1915,7 @@ const commonLanguage = {
 			SetToken: 'SWAP:SET_TOKEN',
 			ShowTradeDialog: 'SWAP:SHOW_TRADE_DIALOG',
 			FlipSwap: 'SWAP:FLIP',
-			ResetThottleGetOutputQuote: 'SWAP:RESET_THROTTLE_GET_OUTPUT_QUOTE'
+			ResetThottleGetOutputQuote: 'SWAP:RESET_THROTTLE_GET_OUTPUT_QUOTE',
 		},
 
 		Market: {
@@ -1898,7 +1924,7 @@ const commonLanguage = {
 			WithdrawTokens: 'MARKET_WITHDRAW_TOKENS',
 			RefreshMarketAddresses: 'MARKET_REFRESH_MARKET_ADDRESSES',
 			AddGemAddress: 'MARKET_ADD_GEM_ADDRESS',
-		}
+		},
 	},
 	queries: {
 		FindWeb3Instance: 'FIND_WEB3_INSTANCE',
@@ -1928,7 +1954,7 @@ const commonLanguage = {
 			GetDepositMarketResponse: 'GET_DEPOSIT_MARKET_RESPONSE',
 			GetWithdrawMarketResponse: 'GET_WITHDRAW_MARKET_RESPONSE',
 			GetRefreshMarketAddressesResponse: 'GET_REFRESH_MARKET_ADDRESSES_RESPONSE',
-		}
+		},
 	},
 	errors: {
 		AlreadyInitialized: 'State is already initialized.',
@@ -1939,12 +1965,9 @@ const commonLanguage = {
 		FailsafeAmountExceeded: 'You can only lock-in 100 FLUX during Failsafe Period',
 
 		Market: {
-			AmountExceedsMaxAddressMintable: 'Amount exceeds maximum that this address can mint'
-		}
-	}
-}
-
-export {
-	commonLanguage, handleCommand, handleQueryResponse, initialState
+			AmountExceedsMaxAddressMintable: 'Amount exceeds maximum that this address can mint',
+		},
+	},
 };
 
+export { commonLanguage, handleCommand, handleQueryResponse, initialState };

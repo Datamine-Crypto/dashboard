@@ -1,74 +1,100 @@
 {
-	"name": "datamine-network-dashboard",
-	"version": "1.0.0",
-	"private": true,
-	"homepage": ".",
-	"dependencies": {
-		"@date-io/moment": "^3.2.0",
-		"@emotion/react": "^11.14.0",
-		"@emotion/styled": "^11.14.0",
-		"@fontsource/roboto": "^5.2.6",
-		"@metamask/detect-provider": "^2.0.0",
-		"@mui/icons-material": "^7.1.2",
-		"@mui/material": "^7.1.2",
-		"@mui/system": "^7.1.1",
-		"@mui/utils": "^7.1.1",
-		"@mui/x-date-pickers": "^8.5.3",
-		"@walletconnect/ethereum-provider": "^2.21.4",
-		"big.js": "^7.0.1",
-		"bn.js": "^5.2.1",
-		"clsx": "^2.1.1",
-		"events": "^3.3.0",
-		"fuse.js": "^7.0.0",
-		"moment": "^2.29.1",
-		"react": "^19.0.0",
-		"react-dom": "^19.0.0",
-		"react-markdown": "^10.1.0",
-		"tss-react": "^4.9.14",
-		"typescript": "^5.7.3",
-		"uuid": "^11.1.0",
-		"vconsole": "^3.9.4",
-		"web3": "^4.16.0"
-	},
-	"scripts": {
-		"start": "vite",
-		"build": "vite build",
-		"preview": "vite preview",
-		"eject": "echo 'Vite does not require an eject script.'",
-		"deploy": "vite build --base=./",
-		"bundle-visualizer": "npx vite-bundle-visualizer"
-	},
-	"eslintConfig": {
-		"extends": "react-app"
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"devDependencies": {
-		"@types/big.js": "^6.2.2",
-		"@types/bn.js": "^5.1.6",
-		"@types/events": "^3",
-		"@types/jest": "^30.0.0",
-		"@types/node": "^24.0.4",
-		"@types/react": "^19.1.8",
-		"@types/react-dom": "^19.0.2",
-		"@types/react-vis": "^1.11.6",
-		"@types/uuid": "^10.0.0",
-		"@vitejs/plugin-react": "^4.6.0",
-		"eslint": "^8.57.0",
-		"eslint-config-react-app": "^7.0.1",
-		"typescript-eslint": "^8.35.0",
-		"vite": "^7.0.0",
-		"vite-bundle-visualizer": "^1.2.1"
-	},
-	"packageManager": "yarn@4.9.2"
+  "name": "datamine-network-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "homepage": ".",
+  "description": "A web-based dashboard for the Datamine Network, built with React and TypeScript, providing tools to interact with Datamine smart contracts, view analytics, and manage assets across different blockchain layers.",
+  "keywords": [
+    "datamine",
+    "flux",
+    "blockchain",
+    "react",
+    "typescript",
+    "web3",
+    "dashboard",
+    "defi",
+    "ethereum",
+    "arbitrum",
+    "material-ui"
+  ],
+  "author": "Datamine Network",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Datamine-Crypto/realtime-decentralized-dashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Datamine-Crypto/realtime-decentralized-dashboard/issues"
+  },
+  "dependencies": {
+    "@date-io/moment": "^3.2.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fontsource/roboto": "^5.2.6",
+    "@metamask/detect-provider": "^2.0.0",
+    "@mui/icons-material": "^7.1.2",
+    "@mui/material": "^7.1.2",
+    "@mui/system": "^7.1.1",
+    "@mui/utils": "^7.1.1",
+    "@mui/x-date-pickers": "^8.5.3",
+    "@walletconnect/ethereum-provider": "^2.21.4",
+    "big.js": "^7.0.1",
+    "bn.js": "^5.2.1",
+    "clsx": "^2.1.1",
+    "events": "^3.3.0",
+    "fuse.js": "^7.0.0",
+    "moment": "^2.29.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "tss-react": "^4.9.14",
+    "typescript": "^5.7.3",
+    "uuid": "^11.1.0",
+    "vconsole": "^3.9.4",
+    "web3": "^4.16.0"
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "eject": "echo 'Vite does not require an eject script.'",
+    "deploy": "vite build --base=./",
+    "bundle-visualizer": "npx vite-bundle-visualizer",
+    "format": "prettier --write src/**/*.{ts,tsx,js,jsx,json,css,scss,md}"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/big.js": "^6.2.2",
+    "@types/bn.js": "^5.1.6",
+    "@types/events": "^3",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.4",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.0.2",
+    "@types/react-vis": "^1.11.6",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^4.6.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-config-react-app": "^7.0.1",
+    "prettier": "^3.6.2",
+    "typescript-eslint": "^8.35.0",
+    "vite": "^7.0.0",
+    "vite-bundle-visualizer": "^1.2.1"
+  },
+  "packageManager": "yarn@4.9.2"
 }

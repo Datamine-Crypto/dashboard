@@ -16,7 +16,6 @@ import LightTooltip from '../LightTooltip';
 
 import { tss } from 'tss-react/mui';
 
-
 /**
  * Props for the Render component within LockedLiquidityCard.
  */
@@ -30,7 +29,7 @@ interface RenderParams {
 const useStyles = tss.create(({ theme }) => ({
 	address: {
 		fontSize: '0.7rem',
-		letterSpacing: 0
+		letterSpacing: 0,
 	},
 }));
 
@@ -42,28 +41,25 @@ const useStyles = tss.create(({ theme }) => ({
 const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 	const { classes } = useStyles();
 
-	const {
-		mintableTokenShortName,
-		layer,
-		mintableSushiSwapL2EthPair,
-	} = getEcosystemConfig(ecosystem)
+	const { mintableTokenShortName, layer, mintableSushiSwapL2EthPair } = getEcosystemConfig(ecosystem);
 
-	const { lockedLiquidityUniAmount, lockedLiquidtyUniTotalSupply, uniswapFluxTokenReserves } = balances
+	const { lockedLiquidityUniAmount, lockedLiquidtyUniTotalSupply, uniswapFluxTokenReserves } = balances;
 
-	const percentLockedLiquidity = (lockedLiquidityUniAmount.mul(new BN(1000000)).div(lockedLiquidtyUniTotalSupply).toNumber() / 10000)
+	const percentLockedLiquidity =
+		lockedLiquidityUniAmount.mul(new BN(1000000)).div(lockedLiquidtyUniTotalSupply).toNumber() / 10000;
 
 	/**
 	 * Calculates and displays the percentage of the mintable token's liquidity that is permanently locked.
 	 * @returns A DetailedListItem component showing the locked percentage.
 	 */
 	const getLockedPercentage = () => {
-		return <DetailedListItem
-			title={`Percentage of ${mintableTokenShortName} Locked Liquidity:`}
-			main={<>
-				{percentLockedLiquidity.toFixed(2)}%
-			</>}
-		/>
-	}
+		return (
+			<DetailedListItem
+				title={`Percentage of ${mintableTokenShortName} Locked Liquidity:`}
+				main={<>{percentLockedLiquidity.toFixed(2)}%</>}
+			/>
+		);
+	};
 
 	/**
 	 * Calculates and returns the percentage of a token's supply that is available in Uniswap liquidity pools.
@@ -73,98 +69,117 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 	const getAvailableLiquidity = (token: Token) => {
 		switch (token) {
 			case Token.Lockable:
-				const damSupply = getBNPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false)
-				return <> <Typography component="div" variant="body2" color="textSecondary" display="inline">({damSupply}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)</Typography></>
+				const damSupply = getBNPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false);
+				return (
+					<>
+						{' '}
+						<Typography component="div" variant="body2" color="textSecondary" display="inline">
+							({damSupply}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)
+						</Typography>
+					</>
+				);
 			case Token.Mintable:
-				const fluxSupply = getBNPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false)
-				return <> <Typography component="div" variant="body2" color="textSecondary" display="inline">({fluxSupply}% of current supply)</Typography></>
+				const fluxSupply = getBNPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false);
+				return (
+					<>
+						{' '}
+						<Typography component="div" variant="body2" color="textSecondary" display="inline">
+							({fluxSupply}% of current supply)
+						</Typography>
+					</>
+				);
 		}
-	}
+	};
 	/**
 	 * Renders a DetailedListItem component for the permanently locked mintable token liquidity.
 	 * @returns A DetailedListItem component.
 	 */
 	const getFluxAvailableLiquidity = () => {
-		const permaLockedMintableToken = uniswapFluxTokenReserves.flux.mul(new BN(percentLockedLiquidity * 100)).div(new BN(10000))
+		const permaLockedMintableToken = uniswapFluxTokenReserves.flux
+			.mul(new BN(percentLockedLiquidity * 100))
+			.div(new BN(10000));
 
 		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: permaLockedMintableToken, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
-		return <DetailedListItem
-			title={`Perma-Locked Liquidity:`}
-			main={<>{BNToDecimal(permaLockedMintableToken, true, 18, 2)} {mintableTokenShortName}</>}
-			sub={<>{fluxEthUsdcLiquidity}</>}
-			description={<>{getAvailableLiquidity(Token.Mintable)}</>}
-			buttons={[
-			]}
-		/>
-	}
+		return (
+			<DetailedListItem
+				title={`Perma-Locked Liquidity:`}
+				main={
+					<>
+						{BNToDecimal(permaLockedMintableToken, true, 18, 2)} {mintableTokenShortName}
+					</>
+				}
+				sub={<>{fluxEthUsdcLiquidity}</>}
+				description={<>{getAvailableLiquidity(Token.Mintable)}</>}
+				buttons={[]}
+			/>
+		);
+	};
 
 	/**
 	 * Renders a DetailedListItem component for the permanently locked ETH liquidity.
 	 * @returns A DetailedListItem component.
 	 */
 	const getFluxAvailableLiquidityEth = () => {
-		const permaLockedEth = uniswapFluxTokenReserves.eth.mul(new BN(percentLockedLiquidity * 100)).div(new BN(10000))
+		const permaLockedEth = uniswapFluxTokenReserves.eth.mul(new BN(percentLockedLiquidity * 100)).div(new BN(10000));
 
 		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: permaLockedEth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD`;
 
-		return <DetailedListItem
-			title={`Perma-Locked ETH:`}
-			main={<>{BNToDecimal(permaLockedEth, true, 18, 2)} ETH</>}
-			sub={<>{fluxEthUsdcLiquidity}</>}
-			buttons={[
-			]}
-		/>
-	}
+		return (
+			<DetailedListItem
+				title={`Perma-Locked ETH:`}
+				main={<>{BNToDecimal(permaLockedEth, true, 18, 2)} ETH</>}
+				sub={<>{fluxEthUsdcLiquidity}</>}
+				buttons={[]}
+			/>
+		);
+	};
 
-	return <Card >
-		<CardContent>
-			<Grid container justifyContent="space-between" alignItems="center">
-				<Grid>
-					<Typography component="div" variant="h5">
-
-						<LightTooltip title="This liquidity is permanently locked in the Uniswap v2 pool. This form of liquidity is locked-in to the ecosystem and can not be removed.">
-							<Box>Perma-Locked Uniswap Liquidity</Box>
-						</LightTooltip>
-					</Typography>
-				</Grid>
-				<Grid>
-					<Typography component="div" variant="body2" color="textSecondary">
-						<LightTooltip title="Click to view this information on Arbiscan">
-							<Link href={`https://arbiscan.io/token/${mintableSushiSwapL2EthPair}#balances`} color="textSecondary" target="_blank" className={classes.address} >
-								<Grid
-									container
-									direction="row"
-									justifyContent="center"
-									alignItems="center"
+	return (
+		<Card>
+			<CardContent>
+				<Grid container justifyContent="space-between" alignItems="center">
+					<Grid>
+						<Typography component="div" variant="h5">
+							<LightTooltip title="This liquidity is permanently locked in the Uniswap v2 pool. This form of liquidity is locked-in to the ecosystem and can not be removed.">
+								<Box>Perma-Locked Uniswap Liquidity</Box>
+							</LightTooltip>
+						</Typography>
+					</Grid>
+					<Grid>
+						<Typography component="div" variant="body2" color="textSecondary">
+							<LightTooltip title="Click to view this information on Arbiscan">
+								<Link
+									href={`https://arbiscan.io/token/${mintableSushiSwapL2EthPair}#balances`}
+									color="textSecondary"
+									target="_blank"
+									className={classes.address}
 								>
-									<Grid>
-										View On Arbiscan
+									<Grid container direction="row" justifyContent="center" alignItems="center">
+										<Grid>View On Arbiscan</Grid>
+										<Grid>
+											<Box ml={0.5}>
+												<OpenInNew fontSize="small" />
+											</Box>
+										</Grid>
 									</Grid>
-									<Grid>
-										<Box ml={0.5}>
-											<OpenInNew fontSize="small" />
-										</Box>
-									</Grid>
-								</Grid>
-							</Link>
-						</LightTooltip>
-					</Typography>
+								</Link>
+							</LightTooltip>
+						</Typography>
+					</Grid>
 				</Grid>
-			</Grid>
-			<Box mt={1} mb={2}>
-				<Divider />
-			</Box>
-			<Grid container>
-				<Grid size={{ xs: 12, md: 6 }}>
-					{getFluxAvailableLiquidity()}
-					{getFluxAvailableLiquidityEth()}
+				<Box mt={1} mb={2}>
+					<Divider />
+				</Box>
+				<Grid container>
+					<Grid size={{ xs: 12, md: 6 }}>
+						{getFluxAvailableLiquidity()}
+						{getFluxAvailableLiquidityEth()}
+					</Grid>
+					<Grid size={{ xs: 12, md: 6 }}>{getLockedPercentage()}</Grid>
 				</Grid>
-				<Grid size={{ xs: 12, md: 6 }}>
-					{getLockedPercentage()}
-				</Grid>
-			</Grid>
-		</CardContent>
-	</Card>
+			</CardContent>
+		</Card>
+	);
 });
 
 /**
@@ -173,17 +188,14 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
  * It fetches liquidity data from the Web3Context and renders it using the Render component.
  */
 const LockedLiquidityCard: React.FC = () => {
-	const { state: web3State } = useContext(Web3Context)
+	const { state: web3State } = useContext(Web3Context);
 
 	const { balances, ecosystem } = web3State;
 	if (!balances || !balances.lockedLiquidityUniAmount || !balances.lockedLiquidtyUniTotalSupply) {
 		return null;
 	}
 
-	return <Render
-		balances={balances}
-		ecosystem={ecosystem}
-	/>
-}
+	return <Render balances={balances} ecosystem={ecosystem} />;
+};
 
 export default LockedLiquidityCard;

@@ -1,5 +1,5 @@
 import ecosystemLogoSvg from '../../svgs/logo.svg';
-import { EcosystemConfig, Layer, LiquidityPoolType } from "../config.common";
+import { EcosystemConfig, Layer, LiquidityPoolType } from '../config.common';
 
 export const getDamFluxEcosystemConfig = (): EcosystemConfig => {
 	// This file defines the complete configuration for the Ethereum Mainnet (L1) ecosystem.
@@ -32,6 +32,6 @@ export const getDamFluxEcosystemConfig = (): EcosystemConfig => {
 
 		minBurnMultiplier: 1,
 
-		marketTopBurningaddresses: [] //@todo
-	}
-}
+		marketTopBurningaddresses: [], //@todo
+	};
+};

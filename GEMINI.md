@@ -6,7 +6,7 @@ Be sure to read package.json for all the packages/frameworks that we are using a
 
 I will sometimes ask you to add some suggested content for GEMINI.md to improve your understand of this project in future runs (so you don't have to do as much research).
 
-Be sure to make your own suggestions to update GEMINI.md as you learn of new concepts you might find useful on a restart.
+Be sure to make your own suggestions to update GEMINI.md as you learn of new concepts you might find useful on a restart. But these have to be new contexts, not your list of updates.
 
 This project is a React-based web application for interacting with the Datamine Network. It uses Material-UI for components and styling and Web3.js for blockchain interactions. The project is configured to work with multiple blockchain
      ecosystems, as defined in the `src/configs/ecosystems` directory. The core logic is separated into three main directories: `react` for UI components, `utils` for utility functions, and `web3` for blockchain-related logic. The project uses
@@ -18,12 +18,12 @@ This project is a React-based web application for interacting with the Datamine 
 This project is a web-based dashboard for the Datamine Network, built with React and TypeScript. It provides users with tools to interact with Datamine smart contracts, view analytics, and manage their assets across different blockchain layers.
 
 ## Core Technologies
-- **Framework:** React v19
-- **UI Library:** Material-UI (MUI) v7
-- **Blockchain Interaction:** Web3.js v4, @walletconnect/ethereum-provider
-- **Language:** TypeScript
-- **Build Tool:** Vite
-- **Package Manager:** Yarn v4
+- **Framework:** React v19.0.0
+- **UI Library:** Material-UI (MUI) v7.1.2
+- **Blockchain Interaction:** Web3.js v4.16.0, @walletconnect/ethereum-provider
+- **Language:** TypeScript v5.7.3
+- **Build Tool:** Vite v7.0.0
+- **Package Manager:** Yarn v4.9.2
 
 ## Key Architectural Patterns
 The `src` directory is organized with a clear separation of concerns:
@@ -41,52 +41,49 @@ The following commands are used for development:
 - `yarn start`: Runs the application in development mode using Vite.
 - `yarn build`: Compiles and bundles the application for production.
 - `yarn deploy`: Creates a production build with a specific base path for deployment.
+- `yarn format`: Formats code using Prettier.
 
 Extra information help you understand the Datamine ecosystem better:
 
 #### 1. Styling Conventions & Theming
 
 - For styling we're using `tss-react` and `useStyles` from `tss.create()`
-
 - `src/core/styles.ts` contains our MUI themes
 
 #### 2. State Management
 
 - `src/core/web3/web3Reducer.ts` and `src/core/web3/web3Bindings.ts` work in tandem. We use `commonLanguage` (in `web3Reducer`) as "Commands & Queries" pattern.
-
 - `sideEffectReducer.ts` contains the logic for handling queries
-
 - `Web3Reducer` controls sate and updates `pendingQueries`. `pendingQueries` are converted into async calls to `Web3Bindings`. This is a creative way to manage state & seperate out async logic.
+- The `Web3State` interface in `web3Reducer.ts` defines the complete application state.
+- The reducer persists user settings (e.g., selected ecosystem, currency) in `localStorage`.
 
 #### 3. Ecosystem Configuration Details
 
 - There are 3 ecosystems in Datamine Network: DAM->FLUX(L1), FLUX(L2)->ArbiFLUX(L2), ArbiFLUX(L2)->LOCK(L2)
-
 - You can toggle between any ecosystem in the decentralized dashboard.
+- Settings for each of these ecosystems are located in `/src/configs/ecosystems`. Each file (e.g., `config.ecosystem.dam_flux_l1.ts`) contains all necessary parameters for a specific chain.
+- L2 here means Arbitrum Layer 2.
 
-- Settings for each of these ecosystems are located in `/src/configs/ecosystems`
+#### 4. Build & Development (`vite.config.mts`)
+- **Build Output:** The project builds to a `build` directory with hashed asset filenames.
+- **Development Server:** Runs on port `3000` and opens the browser on start.
+- **Optimizations:** Includes experimental optimizations for `@mui/material` and `@mui/icons-material`.
 
-- L2 here means Arbitrum Layer 2. 
-
-#### 4. Testing Strategy (Current & Future)
-
-- Don't have any tests at the moment and not planning to due to time constraints.
-
-#### 5. Core Business Logic / Domain Concepts (Code Perspective)
-
-- **Decentralized Minting**: Logic for initiating, tracking, or claiming decentralized minting rewards is primarily found in `src/core/web3/Web3Bindings.ts` (e.g., `GetMintFluxResponse`) and its UI interaction in `src/core/react/pages/DashboardPage.tsx`.
-- **Liquidity Management**: Core logic for interacting with Uniswap (or other DEXs) for adding/removing liquidity or performing swaps is located in `src/core/utils/swap/performSwap.ts` and `src/core/web3/Web3Bindings.ts` (e.g., `GetTradeResponse`).
-- **Analytics Data Flow**: On-chain data is fetched and processed in `src/core/web3/Web3Bindings.ts` (e.g., `FindAccountState`) and then displayed by various components in `src/core/react/elements/Cards/`.
+#### 5. Application Structure (`src/App.tsx`)
+- **Root Component:** `App.tsx` is the main entry point.
+- **Core Providers:** It sets up `ThemeProvider` (MUI), `ErrorBoundary`, and `Web3ContextProvider`.
+- **Code Splitting:** Uses `React.lazy` and `Suspense` to lazy-load major components, improving initial load times.
 
 #### 6. Key Smart Contracts and ABIs
 
-- `src/core/web3/abis/dam.json`: ABI for the Datamine (DAM) token contract, used for token transfers, approvals, etc.
+- `src/core/web3/abis/dam.json`: ABI for the Datamine (DAM) token contract.
 - `src/core/web3/abis/flux.json`: ABI for the Flux (FLUX) token contract.
-- `src/core/web3/abis/market.json`: ABI for the core Datamine Network market contract, handling minting, burning, and staking logic.
-- `src/core/web3/abis/uniswapv2router.json`: ABI for the Uniswap V2 Router, used for token swaps and liquidity management.
-- `src/core/web3/abis/uniswapPair.json`: ABI for Uniswap V2 Pair contracts, used for liquidity pool interactions.
-- `src/core/web3/abis/uniswapPairV3.json`: ABI for Uniswap V3 Pair contracts, used for liquidity pool interactions.
-- `src/core/web3/abis/multicall.json`: ABI for the Multicall contract, used to aggregate multiple read-only calls into a single transaction.
+- `src/core/web3/abis/market.json`: ABI for the core Datamine Network market contract (minting, burning, staking).
+- `src/core/web3/abis/uniswapv2router.json`: ABI for the Uniswap V2 Router.
+- `src/core/web3/abis/uniswapPair.json`: ABI for Uniswap V2 Pair contracts.
+- `src/core/web3/abis/uniswapPairV3.json`: ABI for Uniswap V3 Pair contracts.
+- `src/core/web3/abis/multicall.json`: ABI for the Multicall contract.
 
 #### 7. Error Handling Strategy
 
@@ -96,3 +93,6 @@ Extra information help you understand the Datamine ecosystem better:
 
 - Help article content is fetched from Markdown files in `public/helpArticles/` via standard `fetch` API calls.
 - Search functionality for help articles uses `fuse.js`.
+
+#### 9. Testing Strategy
+- No tests are currently implemented.
