@@ -1,6 +1,6 @@
 # Datamine Dashboard Overview
 
-[The Datamine Dashboard](https://datamine-crypto.github.io/realtime-decentralized-dashboard/) is a feature-rich user interface and all-in-one realtime powerhouse of data. Get all your $DAM, $FLUX, $ETH, & $USD analytics points from on-chain data in a single place instantly. The dashboard is where you can start your validator and produce/destroy FLUX tokens.
+[The Datamine Dashboard](https://datamine-crypto.github.io/dashboard/) is a feature-rich user interface and all-in-one realtime powerhouse of data. Get all your $DAM, $FLUX, $ETH, & $USD analytics points from on-chain data in a single place instantly. The dashboard is where you can start your validator and produce/destroy FLUX tokens.
 
 ## Watch your $FLUX USD balance increase on real-time, on-chain USD multi-route Uniswap data.
 We've taken all the complications and calculations away. See your unminted FLUX tokens balance in realtime based on all your bonuses.

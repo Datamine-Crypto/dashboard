@@ -12,7 +12,10 @@ This project is a React-based web application for interacting with the Datamine 
      ecosystems, as defined in the `src/configs/ecosystems` directory. The core logic is separated into three main directories: `react` for UI components, `utils` for utility functions, and `web3` for blockchain-related logic. The project uses
      Vite for building and development, with scripts defined in `package.json`.
 
+
 When making Material UI updates please use <Grid size={{}}> which is new in MUI v7.1 (Do not use <Grid item xs=...> style)
+
+<Grid size={{ xs: 12, md:6 }}> is CORRECT. <Grid item xs={12} md={6}> is INCORRECT
 
 # Gemini Project Context: Datamine Network Dashboard
 

@@ -1,4 +1,4 @@
-*Preface: For true decentralization and openness we've decided to open source 3 years of work for Datamine Network dApp. We believe this will close another gap of centralization and bring us closer to true vision of DeFi.* 🔮
+*Preface: For true decentralization and openness we've decided to open source 6 years of work for Datamine Network dApp. We believe this will close another gap of centralization and bring us closer to true vision of DeFi.* 🔮
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-v19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
@@ -12,9 +12,9 @@
 
 You can access the latest version of Datamine Realtime Decentralized Dashboard by clicking the following link:
 
-<https://datamine-crypto.github.io/realtime-decentralized-dashboard/>
+<https://datamine-crypto.github.io/dashboard/>
 
-# 🚀 Realtime Decentralized Dashboard
+# 🚀 Datamine Realtime Decentralized Dashboard
 
 ## Table of Contents
 
@@ -171,7 +171,7 @@ You will also see any lint errors in the console.
 
 #### `yarn build`
 
-This will create a new build in build/ folder that you can host. We currently host this on github(<https://datamine-crypto.github.io/realtime-decentralized-dashboard/>) for decentralization reasons & proof of builds.
+This will create a new build in build/ folder that you can host. We currently host this on github(<https://datamine-crypto.github.io/dashboard/>) for decentralization reasons & proof of builds.
 
 The `homepage` field in `package.json` is set to `.`, which is crucial for GitHub Pages deployments when the site is hosted in a subfolder (e.g., `your-username.github.io/your-repo-name/`). This ensures that relative paths for assets are correctly resolved.
 
