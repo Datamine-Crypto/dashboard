@@ -1,10 +1,12 @@
-- Datamine (DAM) is a standard ERC-777 smart contract deployed on Ethereum with a **FIXED** supply of 16,876,778 tokens
+This article provides a detailed overview of the Datamine Network's core tokens, DAM and FLUX, and explains key concepts related to their functionality and interaction within the ecosystem.
 
-- FLUX is a **NON-FIXED** supply token which forms the base currency of DeFi. FLUX has linear and predictable deflation through Burning
+- **Datamine (DAM)**: A standard ERC-777 smart contract token deployed on Ethereum with a **FIXED** supply of 16,876,778 tokens. DAM tokens are primarily used for staking to power validators.
 
-- **Mint Start/Stop**: To generate FLUX tokens you need to start a validator. Mints are powered by Datamine (DAM) tokens. A validator generates 0.00000001 FLUX per 1 DAM each ETH block (every ~13 sec)
+- **FLUX**: A **NON-FIXED** supply token that serves as the base currency of the Datamine DeFi ecosystem. FLUX features linear and predictable deflation through a burning mechanism.
 
-- **Delegated Minting**: When you start your validator you can specify ANOTHER Ethereum address to mint on behalf of your address. This is a core security feature of Datamine Ecosystem
+- **Validator (Mint Start/Stop)**: To generate FLUX tokens, you must start a validator by locking your Datamine (DAM) tokens. A validator generates approximately 0.00000001 FLUX per 1 DAM per Ethereum block (roughly every 13 seconds).
+
+- **Delegated Minting**: This feature allows you to designate another Ethereum address to mint FLUX tokens on behalf of your validator. This enhances security by enabling you to keep your DAM tokens in cold storage while minting with a separate, web-based wallet.
 
 - **Remote Minting**: This feature enables you to Mint FLUX from your phone to any Ethereum address, even though the DAM may stored on your hardware wallet (e.g. Ledger)
 

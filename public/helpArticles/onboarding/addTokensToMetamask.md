@@ -1,14 +1,13 @@
-To quickly add Datamine (DAM) and FLUX (FLUX) tokens to your MetaMask wallet, first login to Metamask and then click the button below:
+This guide provides instructions on how to add Datamine (DAM) and FLUX tokens to your MetaMask wallet. You can use the automated button below, or follow the manual steps.
 
 ```component
 	{"type": "AddToMetamask"}
 ```
 
-If that doesn't work, you may follow the instructions below:
+If the button does not work, follow these manual steps:
 
-# Step 1
-
-Open your MetaMask wallet Menu and click on "Add Token" at the very bottom. 
+# Step 1: Add Token in MetaMask
+Open your MetaMask wallet, navigate to the menu, and click on "Add Token" at the bottom.
 
 ![Metamask](../../helpArticles/assets/images/pngs/addingTokensToMetamask/adding1.png#_maxWidth=350)
 

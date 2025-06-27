@@ -1,7 +1,7 @@
-**Datamine FLUX** is DeFi's first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.
-
-![Our Use Case: Transaction-incentivized Liquidity Pools](../helpArticles/assets/images/svgs/synergy.svg#_className=rightIcon)
 # Our Use Case: Transaction-incentivized Liquidity Pools
+Datamine FLUX is DeFi's first inflation-resistant currency built on Ethereum, establishing market equilibrium using a variation of the Proof-of-Burn algorithm.
+
+![Our Use Case: Transaction-incentivized Liquidity Pools](../../helpArticles/assets/images/svgs/synergy.svg#_className=rightIcon)
 DAM and FLUX are dual interconnected tokens that offer unique incentives for providing liquidity on Uniswap & Balancer pools. Our core on-chain use case ensures constant movement of tokens through any liquidity pool.
 
 Datamine (DAM) tokens have fixed supply to form high volatility pool. Over 70% of lifetime DAM supply is located in the FLUX minting smart contract. Constant demand to start more validators creates on-chain velocity.

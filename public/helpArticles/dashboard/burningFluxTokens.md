@@ -1,28 +1,24 @@
-Burning FLUX increases burn mutliplier **at time of minting FLUX**. Your validator can receive up FLUX tokens up to 10x faster by burning 9x the global burned average. The number of FLUX required to burn to get to these multipliers is available on our dashboard.
+Burning FLUX tokens increases your burn multiplier, which can significantly boost your FLUX minting rate (up to 10x faster). The amount of FLUX required to achieve these multipliers is displayed on your dashboard.
 
-Minting and burning are smart contract actions that incur a small gas fee. If your wallet contains FLUX tokens, you will see the "BURN FLUX" button. 
-
-When confirming your transaction in MetaMask, we recommend setting the GAS FEE to "Fast" to ensure your transaction processes quickly.
+Both minting and burning are smart contract actions that incur a small gas fee. If your wallet holds FLUX tokens, the "BURN FLUX" button will be active. When confirming your transaction in MetaMask, we recommend setting the gas fee to "Fast" for quicker processing.
 
 ![Burning](../../helpArticles/assets/images/pngs/burningFlux/burningFlux1.png)
 
-# Step 1
-Click "BURN FLUX"
+# Step 1: Initiate Burn
+Click the "BURN FLUX" button.
 
 ![Burning](../../helpArticles/assets/images/pngs/burningFlux/burningFlux2.png#_maxWidth=512)
 
-# Step 2
-Enter the quantity of ArbiFLUX tokens you would like to burn.
-
-(Your burn bonus will update after your burn transaction confirms).
+# Step 2: Enter Quantity
+Enter the quantity of FLUX tokens you wish to burn. Your burn bonus will update after your transaction is confirmed.
 
 ![Burning](../../helpArticles/assets/images/pngs/burningFlux/burningFlux3.png#_maxWidth=512)
 
-# Step 3
-Please follow directions in MetaMask window to continue. **Remember to set GAS FEE to fast.**
+# Step 3: Confirm in MetaMask
+Follow the instructions in your MetaMask window to finalize the transaction. Remember to set the gas fee to "Fast."
 
 ![Burning](../../helpArticles/assets/images/pngs/burningFlux/burningFlux4.png)
 
-**Congratulations, you have successfully increased your burn multiplier!**
+**Congratulations! You have successfully increased your burn multiplier.**
 
-**The amount of FLUX burned is PERMANENT and stays associated with your Ehtereum address FOREVER.** That means stopping your validator will not reset your FLUX burned amount.
+**Important:** The amount of FLUX burned is **PERMANENT** and remains associated with your Ethereum address **FOREVER**. Stopping your validator will not reset your burned FLUX amount.
