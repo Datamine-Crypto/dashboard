@@ -13,6 +13,15 @@ const useStyles = tss.create(({ theme }) => ({
 	paperBottom: {
 		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
 	},
+	gridContainer: {
+		justifyContent: 'space-between',
+		[theme.breakpoints.down('sm')]: {
+			flexDirection: 'column',
+			alignItems: 'center',
+			textAlign: 'center',
+			justifyContent: 'center',
+		}
+	}
 }));
 
 interface Props {
@@ -52,7 +61,7 @@ const FooterFragment: React.FC<Props> = React.memo(({ ecosystem }) => {
 			<Box py={3}>
 				<Container>
 					<Box>
-						<Grid container spacing={3} justifyContent="space-between">
+						<Grid container spacing={3} className={classes.gridContainer}>
 							<Grid>
 								<Grid container spacing={3} justifyContent="center" direction="column">
 									{getGridItem()}
