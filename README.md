@@ -16,7 +16,6 @@ You can access the latest version of Datamine Realtime Decentralized Dashboard b
 
 ## Table of Contents
 
-- [🚀 Realtime Decentralized Dashboard](#-realtime-decentralized-dashboard)
 - [✨ Core Technologies](#-core-technologies)
 - [🏛️ Key Architectural Patterns](#️-key-architectural-patterns)
 - [💡 Core Datamine Concepts](#-core-datamine-concepts)
