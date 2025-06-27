@@ -96,3 +96,42 @@ Extra information help you understand the Datamine ecosystem better:
 
 #### 9. Testing Strategy
 - No tests are currently implemented.
+
+## src Folder Structure
+
+The `src` directory is organized into the following main subdirectories:
+
+- **`src/configs/`**: Contains application configuration files.
+  - `config.base.ts`, `config.common.ts`, `config.network.ts`, `config.overrides.ts`, `config.ts`: Various configuration files.
+  - **`src/configs/ecosystems/`**: Holds configurations for different blockchain ecosystems.
+    - `config.ecosystem.arbiflux_lockquidity_l2.ts`
+    - `config.ecosystem.dam_flux_l1.ts`
+    - `config.ecosystem.flux_arbiflux_l2.ts`
+
+- **`src/core/`**: Contains the core application logic.
+  - `helpArticles.ts`, `interfaces.ts`, `sideEffectReducer.ts`, `styles.ts`: Core utility and type definition files.
+  - **`src/core/react/`**: Houses all React components, pages, and UI-related elements.
+    - `ErrorBoundary.tsx`: Error boundary component.
+    - **`src/core/react/elements/`**: Reusable UI components.
+      - `LightTooltip.tsx`, `Web3Account.tsx`
+      - **`src/core/react/elements/Cards/`**: Card components for displaying data.
+      - **`src/core/react/elements/Dialogs/`**: Dialog components.
+      - **`src/core/react/elements/Fragments/`**: Smaller, reusable UI fragments.
+      - **`src/core/react/elements/Onboarding/`**: Components related to the onboarding process.
+    - **`src/core/react/pages/`**: Top-level page components.
+      - `CommunityPage.tsx`, `DashboardPage.tsx`, `HelpPage.tsx`, `OnboardingPage.tsx`, `PageFragment.tsx`, `RealtimeRewardsGameFiPage.tsx`, `Terms.tsx`, `TokenPage.tsx`
+  - **`src/core/utils/`**: Collection of helper functions.
+    - `copyToClipboard.ts`, `devLog.ts`, `formatMoney.ts`, `getApy.ts`, `web3multicall.ts`
+    - **`src/core/utils/swap/`**: Functions related to token swapping.
+      - `performSwap.ts`, `performSwapUniswapV2.ts`, `sampleQuoteSingleSwap.ts`, `swapOptions.ts`
+  - **`src/core/web3/`**: Manages all blockchain interactions.
+    - `helperElements.tsx`, `helpers.ts`, `Web3Bindings.ts`, `Web3Context.tsx`, `web3Reducer.ts`
+    - **`src/core/web3/abis/`**: ABI (Application Binary Interface) JSON files for smart contracts.
+      - `dam.json`, `flux.json`, `market.json`, `multicall.json`, `uniswapPair.json`, `uniswapPairV3.json`, `uniswapv2router.json`
+
+- **`src/svgs/`**: Contains SVG assets.
+
+- **Root `src` files**:
+  - `App.tsx`: Main application component.
+  - `index.tsx`: Entry point for React application.
+  - `react-app-env.d.ts`, `service-worker.ts`, `serviceWorkerRegistration.ts`, `vite-env.d.ts`: Environment and service worker related files.

@@ -84,20 +84,6 @@ The Datamine Network operates on several key principles and components, with the
 
 These concepts work together to create a robust and decentralized ecosystem for data mining and asset management.
 
-## 💡 Core Datamine Concepts
-
-The Datamine Network operates on several key principles and components, with their core logic implemented across various parts of the codebase:
-
-- **DAM (Datamine Token)**: The primary token of the Datamine Network, often used for staking and participating in the network's economic activities. 💰
-- **FLUX (Flux Token)**: A secondary token, often earned through mining or other network activities, representing a form of reward or utility within the ecosystem. ⚡
-- **Liquidity Pools**: Decentralized exchanges (DEXs) like Uniswap are crucial for providing liquidity for DAM and FLUX tokens, enabling seamless trading. 💧
-- **Multi-chain Ecosystem**: The dashboard supports interactions across different blockchain layers (e.g., Ethereum Mainnet L1 and Arbitrum L2), allowing users to manage assets and participate in activities on their preferred chain. ⛓️
-- **Decentralized Minting**: A core mechanism where new tokens are generated through a decentralized process, often involving staking or mining. The logic for initiating, tracking, or claiming decentralized minting rewards is primarily found in `src/core/web3/Web3Bindings.ts` (e.g., `GetMintFluxResponse`) and its UI interaction in `src/core/react/pages/DashboardPage.tsx`. ⛏️
-- **Liquidity Management**: The core logic for interacting with Uniswap (or other DEXs) for adding/removing liquidity or performing swaps is located in `src/core/utils/swap/performSwap.ts` and `src/core/web3/Web3Bindings.ts` (e.g., `GetTradeResponse`).
-- **Analytics Data Flow**: On-chain data is fetched and processed in `src/core/web3/Web3Bindings.ts` (e.g., `FindAccountState`) and then displayed by various components in `src/core/react/elements/Cards/`.
-
-These concepts work together to create a robust and decentralized ecosystem for data mining and asset management.
-
 ## 📜 Key Smart Contracts and ABIs
 
 The project interacts with several key smart contracts, whose Application Binary Interfaces (ABIs) are located in `src/core/web3/abis/`. Understanding these contracts is essential for comprehending the blockchain interactions:
