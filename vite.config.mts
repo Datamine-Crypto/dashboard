@@ -1,11 +1,12 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import mkcert from 'vite-plugin-mkcert';
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
 		react(), // This plugin automatically handles Emotion's Babel transform if @emotion/react or @emotion/styled is detected.
-
+		mkcert(), // Enable HTTPS for development server
 	],
 	experimental: {
 		// This targets the MUI libraries for optimization

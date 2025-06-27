@@ -72,7 +72,7 @@ Extra information help you understand the Datamine ecosystem better:
 
 #### 4. Build & Development (`vite.config.mts`)
 - **Build Output:** The project builds to a `build` directory with hashed asset filenames.
-- **Development Server:** Runs on port `3000` and opens the browser on start.
+- **Development Server:** Runs on port `3000` and opens the browser on start. HTTPS is enabled via `vite-plugin-mkcert` for secure local development.
 - **Optimizations:** Includes experimental optimizations for `@mui/material` and `@mui/icons-material`.
 
 #### 5. Application Structure (`src/App.tsx`)
