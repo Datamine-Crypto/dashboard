@@ -75,6 +75,9 @@ Extra information help you understand the Datamine ecosystem better:
 - **Development Server:** Runs on port `3000` and opens the browser on start. HTTPS is enabled via `vite-plugin-mkcert` for secure local development.
 - **Optimizations:** Includes experimental optimizations for `@mui/material` and `@mui/icons-material`.
 
+#### 5. Linting (`.eslintrc.json`)
+- The `.eslintrc.json` file has been configured to exclude the `build` directory from linting and to recognize `BigInt` and `globalThis` by setting the `browser`, `es2021`, and `node` environments.
+
 #### 5. Application Structure (`src/App.tsx`)
 - **Root Component:** `App.tsx` is the main entry point.
 - **Core Providers:** It sets up `ThemeProvider` (MUI), `ErrorBoundary`, and `Web3ContextProvider`.

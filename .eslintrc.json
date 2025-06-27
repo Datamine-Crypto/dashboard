@@ -1,5 +1,15 @@
 {
   "extends": ["react-app", "prettier"],
+  "ignorePatterns": ["build/"],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module"
+  },
    "rules": {
     // Some eslint rules are disabled in our project:
     "no-empty-pattern": "off",
