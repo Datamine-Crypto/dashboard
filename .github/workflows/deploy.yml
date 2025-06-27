@@ -18,7 +18,9 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
-          yarn-version: 4.9.2
+
+      - name: Install Yarn 4.9.2
+        run: npm install -g yarn@4.9.2
 
       - name: Install dependencies
         run: yarn install --immutable
