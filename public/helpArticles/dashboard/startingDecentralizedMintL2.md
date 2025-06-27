@@ -1,10 +1,8 @@
-# Connecting To Arbitrum L2
+# How to Start a Decentralized Mint (L2)
 
-To continue, your MetaMask wallets needs to have FLUX (L2) and ETH on Arbitrum L2. Please note you will need to be connected to Arbitrum L2 network to proceed.
+This guide explains how to start a decentralized mint on the Arbitrum L2 network, allowing you to generate ArbiFLUX tokens by staking your FLUX (L2) tokens. To proceed, ensure your MetaMask wallet has FLUX (L2) and ETH on Arbitrum L2. If you only have assets on Mainnet (L1), you must bridge them to L2 using the official Arbitrum Bridge: [bridge.arbitrum.io](https://bridge.arbitrum.io/).
 
-If you only have assets on Mainnet (L1) you must bridget them to L2 using the official Arbitrum Bridge: [bridge.arbitrum.io](https://bridge.arbitrum.io/)
-
-# Authorizing ArbiFLUX Smart Contract
+## Authorizing ArbiFLUX Smart Contract
 
 In order to start your L2 mint, you need to authorize the ArbiFLUX minting smart contract to interact with your Ethereum wallet (which costs a small gas fee on Arbitrum). This option will only be available after you have connected your MetaMask wallet to Datamine ecosystem. 
 
@@ -14,15 +12,15 @@ By pressing Enable, Datamine checks your FLUX (L2) and ETH balances before allow
 
 ![You'll need a bit of Ethereum](../../helpArticles/assets/images/pngs/lockingInDam/lockin2.png#_maxWidth=512)
 
-# Starting Datamine Validator
+## Starting Datamine Validator
 
-## Step 1
+### Step 1
 
 You can now begin by clicking the "Start Validator" button. After paying a small gas fee for starting your validator, you will instantly start generating ArbiFLUX tokens in your dashboard (**with every single block ~ 12 seconds, you generate of 0.00000001 ArbiFLUX per 1 FLUX (L2) in mint**)
 
 ![Start Validator](../../helpArticles/assets/images/pngs/lockingInDam/lockin3L2.png)
 
-## Step 2
+### Step 2
 
 To continue, enter how many FLUX (L2) tokens you wish to use for your validator. You can stop your validator to get 100% of FLUX (L2) tokens back at any time.
 

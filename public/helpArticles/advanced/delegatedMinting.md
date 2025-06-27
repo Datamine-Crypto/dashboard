@@ -1,13 +1,15 @@
+# How to Use Delegated Minting
+
 Delegated minting allows you to designate a different Ethereum wallet address to mint your FLUX tokens. This is particularly useful for keeping your DAM tokens in cold storage while using a web-based wallet for minting.
 
 You can delegate minting to any Ethereum address compatible with MetaMask. For instance, you could start a validator and grant a friend permission to mint your FLUX balance directly to their address.
 
-# Step 1: Start Your Validator
+## Step 1: Start Your Validator
 Click "Start Validator" to begin the process.
 
 ![Delegated Minting](../../helpArticles/assets/images/pngs/delegatedMinting/delegatedMinting1.png)
 
-# Step 2. 
+## Step 2. 
 At the next screen, enter the total DAM tokens you would like to start your validator with. Then select the following Minting Address option:
 
 **"I want another address to mint FLUX on my behalf (Delegated Minter)"**
@@ -16,19 +18,19 @@ Be sure to enter the Ethereum address that will mint your FLUX (e.g. your friend
 
 ![Delegated Minting](../../helpArticles/assets/images/pngs/delegatedMinting/delegatedMinting2.png#_maxWidth=512)
 
-# Step 3. 
+## Step 3. 
 Confirm the transaction in your MetaMask account. 
 
 ![Delegated Minting](../../helpArticles/assets/images/pngs/delegatedMinting/delegatedMinting3.png#_maxWidth=512)
 
-# Step 4. 
+## Step 4. 
 Depending on your network Gas fee, you will see your transaction change from Pending --> Confirmed after several seconds or a few minutes.
 
 ![Delegated Minting](../../helpArticles/assets/images/pngs/delegatedMinting/delegatedMinting4.png#_maxWidth=512)
 
 ![Delegated Minting](../../helpArticles/assets/images/pngs/delegatedMinting/delegatedMinting5.png#_maxWidth=512)
 
-# Step 5. 
+## Step 5. 
 Go to the **Address Balances** section of your Dashboard. 
 If you hover your mouse **over your address in the top right corner**, your address-specific dashboard URL will be displayed. Notice in the lower right-hand corner you can also see the Minter Address. 
 

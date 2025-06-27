@@ -1,6 +1,8 @@
-Datamine supports MetaMask, an ethereum wallet in your browser. This is a general guide for adding MetaMask to your Chrome browser.  
+# Installing and Using MetaMask
 
-# Step 1
+This guide provides a comprehensive walkthrough on how to install and set up MetaMask, an Ethereum wallet, in your browser. It also covers basic operations like sending and receiving cryptocurrency.  
+
+## Step 1
 
 Visit metamask.io or search for “Metamask extension” using your favorite search engine.
 
@@ -10,25 +12,25 @@ Click on the link ‘Install MetaMask for Chrome’
 
 ![Metamask](../../helpArticles/assets/images/pngs/metamask/metamask2.png#_maxWidth=512)
 
-# Step 2
+## Step 2
 
 Clicking the link will take you to the official Google Chrome Extension page of MetaMask. Click on ‘Add to Chrome’ in order to install the MetaMask plugin.
 
 ![Metamask](../../helpArticles/assets/images/pngs/metamask/metamask3.png#_maxWidth=512)
 
-# Step 3
+## Step 3
 
 Once you click the ‘Add to Chrome’ link it will open a popup in your Chrome browser to confirm the addition of MetaMask to your extensions. Click on ‘Add Extension’. This will install the MetaMask extension in your Chrome browser
 
 ![Metamask](../../helpArticles/assets/images/pngs/metamask/metamask4.png#_maxWidth=512)
 
-# Step 4
+## Step 4
 
 Next click on ‘Get Started’ to generate your first MetaMask wallet.
 
 ![Metamask](../../helpArticles/assets/images/pngs/metamask/metamask5.png#_maxWidth=512)
 
-# Step 5
+## Step 5
 
 The next screen will give you two options
 
@@ -40,7 +42,7 @@ Create a Wallet - this option will take you through the steps of creating a new 
 
 Click on ‘Create a Wallet’.
 
-# Step 6
+## Step 6
 
 After you click ‘Create a Wallet’ it will open up ‘Help Us Improve MetaMask’ page which includes the permissions of MetaMask and how it keeps your keys safe.
 
@@ -48,13 +50,13 @@ After you click ‘Create a Wallet’ it will open up ‘Help Us Improve MetaMas
 
 You can click on "No Thanks"or "I agree" and proceed to the next step.
 
-# Step 7
+## Step 7
 
 The next step is to create a strong password for your MetaMask wallet. This is the password that you will use to sign into MetaMask everyday from your browser and also sign transactions. Therefore, please make sure that you have a strong password that cannot get compromised.
 
 ![Metamask](../../helpArticles/assets/images/pngs/metamask/metamask8.png#_maxWidth=512)
 
-# Step 8
+## Step 8
 
 Once you have setup a strong password, the next step is to note down your Seed Keywords. A combination of the seed keywords or ‘Secret Backup Phrase’ along with your ‘Password’ is the key to your MetaMask account.
 
@@ -62,13 +64,13 @@ Once you have setup a strong password, the next step is to note down your Seed K
 
 Once you’ve written down the seed keywords, click on ‘Next’ button to proceed to the net step. On the next screen after this, MetaMask will confirm that you have stored the ‘Secret Backup Phrase’ safely.
 
-# Step 9
+## Step 9
 
 Read the tips on the next page and click ‘All done’. 
 
 ![Metamask](../../helpArticles/assets/images/pngs/metamask/metamask10.png#_maxWidth=512)
 
-# Step 10
+## Step 10
 
 Now that you have successfully created your MetaMask Wallet and you will be at the following screen:
 
@@ -78,7 +80,7 @@ You can operate your wallet from the above screen or you can click on the Metama
 
 ---
 
-# How to send ETH
+## How to send ETH
 
 Login into your Metamask wallet and click on ‘Send’.
 
@@ -88,7 +90,7 @@ Enter the ‘Recipient's Address’ and the amount that you want to send. Select
 
 ---
 
-# How to receive ETH, DAM & FLUX
+## How to receive ETH, DAM & FLUX
 
 ![Metamask](../../helpArticles/assets/images/pngs/metamask/metamask13.png#_maxWidth=512)
 

@@ -1,8 +1,8 @@
-```
-To continue, your MetaMask wallets needs to have DAM and ETH.
-```
+# How to Start a Decentralized Mint (L1)
 
-# Authorizing FLUX Smart Contract
+This guide explains how to start a decentralized mint on the Datamine Network, allowing you to generate FLUX tokens by staking your DAM tokens. To proceed, ensure your MetaMask wallet has both DAM and ETH.
+
+## Authorizing FLUX Smart Contract
 
 In order to start your validator, you need to authorize the Datamine smart contract to interact with your Ethereum wallet (which costs a small gas fee). This option will only be available after you have connected your MetaMask wallet to Datamine ecosystem
 
@@ -12,7 +12,7 @@ By pressing Enable, Datamine checks your DAM and ETH balances before allowing yo
 
 ![You'll need a bit of Ethereum](../../helpArticles/assets/images/pngs/lockingInDam/lockin2.png#_maxWidth=512)
 
-# Starting Datamine Validator
+## Starting Datamine Validator
 
 ## Step 1
 

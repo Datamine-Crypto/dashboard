@@ -1,4 +1,4 @@
-# What global problem are we trying to fix?
+# What Global Problem Are We Trying to Fix?
 
 Datamine Ecosystem aims to solve one of the biggest economic problems: **Inflation**. DAM & FLUX tokens aim to be deflationary **base currencies of DeFi** hooking into other DeFi projects.
 
@@ -12,7 +12,7 @@ As adoption grows these liquidity pool incentives will only get better as Uniswa
 
 ![Use Case](../../helpArticles/assets/images/pngs/usecase.png)
 
-# Datamine Use Case: Supply vs Demand
+## Datamine Use Case: Supply vs Demand
 
 The only way to generate FLUX tokens is to start a validator using Datamine (DAM) tokens. DAM tokens are generally purchased through the liquidity pool such as Uniswap or Balancer. Due to the high percentage of Datamine (DAM) tokens being used by mints there is a very small percentage of tokens available for purchase on the market.
 

@@ -1,3 +1,5 @@
+# How to Add Liquidity to Uniswap Pools
+
 This guide explains how to add liquidity to Uniswap pools, focusing on the ETH-DAM pair. By providing liquidity, you can earn fees from trading activity on the platform.
 
 Liquidity pools are collections of tokens locked in a smart contract, facilitating decentralized trading. When you deposit an equivalent value of two tokens (e.g., ETH and DAM) into a pool, you become a liquidity provider (LP) and receive liquidity tokens representing your share of the pool.
@@ -12,12 +14,12 @@ No. When you supply a pair (e.g., DAM/ETH), you receive a liquidity token for th
 
 For a more technical explanation, we recommend reading: [A Graphical Guide for Understanding Uniswap](https://docs.ethhub.io/guides/graphical-guide-for-understanding-uniswap/)
 
-# Step 1: Add Liquidity to the ETH-DAM Pair
+## Step 1: Add Liquidity to the ETH-DAM Pair
 Click on "+ Add Liquidity" to begin. (Note: This step is optional. If you want to learn about swapping tokens instead, skip to Step 4).
 
 ![Uniswap](../../helpArticles/assets/images/pngs/uniswap/uniswap10.png)
 
-# Step 2: Enter Token Amounts
+## Step 2: Enter Token Amounts
 To add liquidity, you must have both ETH and DAM tokens in your wallet. You cannot add liquidity with only one of the assets.
 
 ![Uniswap](../../helpArticles/assets/images/pngs/uniswap/uniswap11.png)
@@ -26,7 +28,7 @@ You can quickly determine the maximum amount of DAM or ETH you can add by clicki
 
 ![Uniswap](../../helpArticles/assets/images/pngs/uniswap/uniswap12.png)
 
-# Step 3: Confirm Liquidity Provision
+## Step 3: Confirm Liquidity Provision
 Confirm the liquidity provision. In the example below, 495 DAM and 0.053 ETH are being added to the ETH-DAM Uniswap Liquidity pool. Follow the instructions in your MetaMask wallet to confirm the transaction.
 
 ![Uniswap](../../helpArticles/assets/images/pngs/uniswap/uniswap13.png#_maxWidth=512)
@@ -47,7 +49,7 @@ You can view your pooled liquidity by visiting: [uniswap.exchange/pool](https://
 
 You can add or remove your pooled ETH/DAM tokens at any time. Congratulations, you are now a **Uniswap liquidity provider** and will **passively earn exchange fees (1.00%)** for every swap transaction involving DAM.
 
-# Step 4: Swapping DAM Tokens
+## Step 4: Swapping DAM Tokens
 To swap DAM tokens, ensure you are on: [uniswap.exchange/swap](https://uniswap.exchange/swap)
 
 This menu allows you to swap DAM for any ERC-20 token, and vice-versa. Calculations are based on the current market price.

@@ -1,8 +1,8 @@
-```
-To mint ArbiFLUX tokens you must first start a validator with your FLUX (L2) tokens.
-```
+# How to Mint ArbiFLUX Tokens (L2)
 
-# Step 1
+This guide explains the process of minting ArbiFLUX tokens from your FLUX (L2) validator. To begin, you must have an active validator with your FLUX (L2) tokens.
+
+## Step 1
 
 Now that your validator is started you will instantly start generating FLUX tokens of **0.00000001 ArbiFLUX per 1 FLUX (L2) in mint** ~ every 12 seconds with each block. This means that your ArbiFLUX token balance automatically increases with each block in realtime in your dashboard.
 
@@ -18,14 +18,14 @@ The most efficient way to mint tokens at any time is:
 
 Bonuses are calculated at the time of minting ArbiFLUX tokens.
 
-# Step 2
+## Step 2
 To continue, please specify an address where you want to mint these ArbiFLUX tokens. You can specify any Ethereum-based address.
 ![Minting](../../helpArticles/assets/images/pngs/mintingFlux/mintingFlux2L2.png#_maxWidth=512)
 
-# Step 3
+## Step 3
 Please follow directions in MetaMask window to finalize your validator (this action requires a small gas fee)
 
 ![Minting](../../helpArticles/assets/images/pngs/mintingFlux/mintingFlux3.png)
 
-# Step 4
+## Step 4
 Congratulations, you have successfully minted your ArbiFLUX tokens.

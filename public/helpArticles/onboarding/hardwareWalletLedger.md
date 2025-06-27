@@ -1,14 +1,16 @@
+# How to Securely Store DAM Tokens on Your Ledger Device
+
 After reading this guide, you will know how to securely store DAM tokens on your Ledger device. You must own a Ledger Hardware Wallet and have MetaMask installed before starting.
 
-**Step 1**: Download the official Ledger Live application from: [www.ledger.com/ledger-live/download/](https://www.ledger.com/ledger-live/download/)
+## Step 1: Download Ledger Live
 
 ![Ledger](../../helpArticles/assets/images/pngs/ledger/ledger1.png#_maxWidth=350)
 
-**Step 2**:** If you have not set up your Ledger device, see the video below. Otherwise go to step 3. 
+## Step 2: Set Up Your Ledger Device (if not already done) 
 
 ![Ledger](../../helpArticles/assets/images/pngs/ledger/ledger2.png#_maxWidth=350)
 
-**Step 3**: Install the **Ethereum app** on your Ledger hardware wallet to manage Ethereum (ETH) with Ledger Live.
+## Step 3: Install the Ethereum App on Your Ledger
 
 1. Open the Manager in Ledger Live:
 ![Ledger](../../helpArticles/assets/images/pngs/ledger/ledger3.png#_maxWidth=350)
@@ -22,7 +24,7 @@ After reading this guide, you will know how to securely store DAM tokens on your
 4. Find **Ethereum** in the app catalog using the Ledger Live software. Click the Install button of the app. Your device will display Processing... The app will then be installed. Now it's time to use the actual device.
 ![Ledger](../../helpArticles/assets/images/pngs/ledger/ledger6.png)
 
-**Step 4**: Enable contract data (so that you can interact with smart contracts).
+## Step 4: Enable Contract Data
 
 1. Select the Ethereum Application on your Ledger Device. 
 ![Ledger](../../helpArticles/assets/images/pngs/ledger/ledger7.jpg)
@@ -35,7 +37,7 @@ After reading this guide, you will know how to securely store DAM tokens on your
 
 4. You may now exit out of the Ethereum application. 
 
-**Step 5**: Connecting Ledger to MetaMask.
+## Step 5: Connecting Ledger to MetaMask
 
 Before starting, make sure that you have the most up-to-date firmware on your Ledger device (firmware version 1.6) and the most up-to-date Ethereum App on the Ledger (from Ledger Live > Manager). 
 

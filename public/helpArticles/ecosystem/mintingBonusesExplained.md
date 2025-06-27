@@ -1,4 +1,6 @@
-With every single block, you generate **0.00000001 FLUX per 1 DAM int mint**. This is your constant minting rate, and will show up as the real-time FLUX balance in your dashboard. As you would have read in the Minting Guide, you do not actually own the FLUX tokens until you press Mint FLUX. 
+# Understanding FLUX Minting Bonuses
+
+This article explains the various bonuses that affect your FLUX token minting rate. While your base minting rate is constant, these bonuses are applied to the total amount of unminted blocks at the time of minting your FLUX tokens. 
 
 In your dashboard, you will see the number of blocks you can mint called "unminted blocks." In this example below, there are 150 unminted blocks. This number, along with the bonuses, will be used to calculate the total amount of FLUX you can mint in the example at the bottom. 
 
@@ -8,13 +10,13 @@ In your dashboard, you will see the number of blocks you can mint called "unmint
 
 **Now let's learn about specific FLUX minting rate bonuses**
 
-_Mint Time Bonus:_
+## Mint Time Bonus
 
 The maximum Mint bonus you can achieve for starting a validator is 3x.  Once you have reached 3x Time Bonus, every time you Mint FLUX, you generate 3x the amount.
 
 **3x Time Bonus**: After you leave a validator started for at least 24 hours, you will start receiving a small mint multiplier every 12 seconds. This lasts for 28 days after which you gain a **permanent** (until you stop your validator) 3x bonus to your FLUX validator.
 
-_FLUX Burn Multiplier:_
+## FLUX Burn Multiplier
 
 The value of FLUX originates from borrowing a portion of the worldwide FLUX mint rate when burning FLUX.
 
