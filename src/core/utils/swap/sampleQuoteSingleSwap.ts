@@ -6,6 +6,12 @@ import Web3 from 'web3';
  * This is not used but a good sample to have
  * Example output: "Expected 1 ETH output amount: 321882.440178210659442729 DAM"
  */
+/**
+ * Demonstrates how to get a quote for a single token swap using Uniswap V3's Quoter contract.
+ * This function is for sample purposes and is not actively used in the application's swap logic.
+ * It calculates the expected output amount for a given input amount and token pair.
+ * @param web3 The Web3 instance to interact with the blockchain.
+ */
 const sampleQuoteSingleSwap = async (web3: Web3) => {
 
 	//L1

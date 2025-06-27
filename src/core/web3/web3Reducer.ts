@@ -1824,6 +1824,11 @@ const initialState: Web3State = {
 	}
 }
 
+// This reducer manages the core Web3 state and orchestrates interactions with the blockchain.
+// It implements a "Commands & Queries" pattern:
+// - 'commonLanguage' actions represent user intentions or system events (commands/queries).
+// - 'pendingQueries' holds requests that need to be processed asynchronously by Web3Bindings.
+// This separation ensures state updates are pure and side effects are handled externally.
 const commonLanguage = {
 	commands: {
 		QueueQueries: 'QUEUE_QUERIES',

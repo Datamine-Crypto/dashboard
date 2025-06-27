@@ -19,6 +19,12 @@ interface PriceToggle {
 }
 
 export const getPriceToggle = ({ value, inputToken, outputToken, balances, round, removeCommas }: PriceToggle) => {
+	/**
+	 * Formats a numeric value (BN) into a price string based on input and output tokens and current balances.
+	 * It calculates the price using Uniswap reserves and applies formatting options.
+	 * @param params - Object containing value, inputToken, outputToken, balances, optional rounding, and comma removal.
+	 * @returns The formatted price string.
+	 */
 	if (!value) {
 		return '*invalid value*';
 	}
@@ -31,6 +37,12 @@ export const getPriceToggle = ({ value, inputToken, outputToken, balances, round
 	})
 }
 
+/**
+ * Formats a Big.js numeric value into a price string based on input and output tokens and current balances.
+ * It calculates the price using Uniswap reserves and applies formatting options.
+ * @param params - Object containing valueBig, inputToken, outputToken, balances, optional rounding, and comma removal.
+ * @returns The formatted price string.
+ */
 export const getPriceToggleBig = ({ valueBig, inputToken, outputToken, balances, round, removeCommas }: PriceToggle) => {
 	if (!valueBig) {
 		return '*invalid value*';
@@ -151,6 +163,12 @@ interface MarketWithdrawAllParams {
 }
 
 
+/**
+ * Retrieves a Web3 provider, prioritizing WalletConnect if `useWalletConnect` is true.
+ * It attempts to detect MetaMask, Trust Wallet, or a generic Web3 provider.
+ * @param params - Object containing `useWalletConnect` flag and `ecosystem`.
+ * @returns A Web3 provider instance.
+ */
 export const getWeb3Provider = async ({ useWalletConnect, ecosystem }: { useWalletConnect: boolean, ecosystem: Ecosystem }) => {
 
 	/**
@@ -236,6 +254,13 @@ export const getWeb3Provider = async ({ useWalletConnect, ecosystem }: { useWall
 }
 
 
+/**
+ * Switches the connected network in the user's Web3 provider (e.g., MetaMask).
+ * If the chain is not already added, it attempts to add it.
+ * @param ecosystem The target ecosystem for the network switch.
+ * @param connectionMethod The current connection method (e.g., MetaMask, WalletConnect).
+ * @param chainId The hexadecimal chain ID of the network to switch to.
+ */
 export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: ConnectionMethod, chainId: string) => {
 
 	//const { ethereum } = window as any;
@@ -281,6 +306,10 @@ export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: Conn
 
 }
 
+/**
+ * Adds the project's main tokens (DAM and FLUX) to the user's MetaMask wallet.
+ * @param ecosystem The current ecosystem to determine which token addresses and details to add.
+ */
 export const addToMetamask = async (ecosystem: Ecosystem) => {
 	const config = getConfig(ecosystem);
 	const { mintableTokenShortName, lockableTokenShortName, dashboardAbsoluteUrl, lockableTokenLogoFileName, mintableTokenLogoFileName } = config
@@ -303,6 +332,9 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 		const tokenDecimals = 18;
 		const tokenImage = `${dashboardAbsoluteUrl}/logos/${lockableTokenLogoFileName}.png`;
 
+		/**
+		 * Adds the DAM token to MetaMask.
+		 */
 		ethereum.sendAsync(
 			{
 				method: 'wallet_watchAsset',
@@ -329,6 +361,9 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 		const tokenDecimals = 18;
 		const tokenImage = `${dashboardAbsoluteUrl}/logos/${mintableTokenLogoFileName}.png`;
 
+		/**
+		 * Adds the FLUX token to MetaMask.
+		 */
 		ethereum.sendAsync(
 			{
 				method: 'wallet_watchAsset',
@@ -355,6 +390,12 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 	addTokens();
 }
 
+/**
+ * Creates a batch request for multiple Web3 calls and executes them.
+ * @param web3 The Web3 instance.
+ * @param calls An array of call objects, each with a `call` method and a `callback` function.
+ * @returns A Promise that resolves with an array of results from the batch calls.
+ */
 export const makeBatchRequest = (web3: Web3, calls: any) => {
 	let batch = new web3.BatchRequest();
 
@@ -377,6 +418,13 @@ export const makeBatchRequest = (web3: Web3, calls: any) => {
 	return Promise.all(promises)
 }
 
+/**
+ * Calculates the percentage of `bnA` relative to the sum of `bnA` and `bnB`.
+ * @param bnA The first BN (BigNumber) value.
+ * @param bnB The second BN (BigNumber) value.
+ * @param shouldAdd If true, calculates percentage of bnA/(bnA+bnB); otherwise, bnA/bnB.
+ * @returns The calculated percentage as a string, formatted to two decimal places.
+ */
 export const getBNPercent = (bnA: BN, bnB: BN, shouldAdd: boolean = true) => {
 	if (bnB.isZero() || bnA.isZero()) {
 		return "0.00";
@@ -396,6 +444,14 @@ export const parseBN = (unformattedInput: string) => {
 	return new BN(parsedNumber);
 }
 export const BNToDecimal = (number: BN | null, addCommas: boolean = false, decimals: number = 18, round: number = 0) => {
+	/**
+	 * Converts a BN (BigNumber) to a decimal string, with optional comma formatting, decimal places, and rounding.
+	 * @param number The BN to convert.
+	 * @param [addCommas=false] Whether to add comma separators for thousands.
+	 * @param [decimals=18] The number of decimal places to consider for the conversion.
+	 * @param [round=0] The number of decimal places to round to.
+	 * @returns The converted decimal string, or null if the input number is null.
+	 */
 	if (!number) {
 		return null;
 	}
@@ -422,12 +478,28 @@ export const BNToDecimal = (number: BN | null, addCommas: boolean = false, decim
 	return finalAmount;
 }
 
+/**
+ * Formats a burn ratio into a human-readable string.
+ * @param ratio The BN (BigNumber) representing the burn ratio.
+ * @param ecosystem The current ecosystem to get token short names.
+ * @returns A formatted string showing the burn ratio between mintable and lockable tokens.
+ */
 export const getBurnRatio = (ratio: BN, ecosystem: Ecosystem) => {
 	const { mintableTokenShortName, lockableTokenShortName } = getEcosystemConfig(ecosystem)
 
 	return `${BNToDecimal(ratio, true, 10, 5)} ${mintableTokenShortName} / 1 ${lockableTokenShortName}`
 }
 
+/**
+ * Calculates the remaining blocks until a certain duration or block number is reached.
+ * @param startBlockNumber The block number when the event started.
+ * @param blockDuration The total duration in blocks for the event.
+ * @param currentBlock The current block number.
+ * @param defaultText The default text to return if `startBlockNumber` is 0.
+ * @param [showBlocks=true] Whether to include the number of blocks in the returned string.
+ * @param [showDuration=true] Whether to include the human-readable duration (hours, days, years) in the returned string.
+ * @returns A formatted string indicating the remaining time or blocks.
+ */
 export const getBlocksRemaining = (startBlockNumber: number, blockDuration: number, currentBlock: number, defaultText: string, showBlocks: boolean = true, showDuration: boolean = true) => {
 	if (startBlockNumber === 0) {
 		return defaultText
@@ -466,13 +538,30 @@ export const getBlocksRemaining = (startBlockNumber: number, blockDuration: numb
 	return `${durationText}${blocksText}`;
 }
 
+/**
+ * Calculates a future date based on a given number of blocks from now.
+ * Assumes an average block time of 12 seconds.
+ * @param blocksDuration The number of blocks from the current time.
+ * @returns A Moment.js object representing the future date.
+ */
 export const getBlocksDateFromNow = (blocksDuration: number) => {
 	return moment().add(blocksDuration * 12, 'seconds')
 }
 
+/**
+ * Formats a raw multiplier value into a human-readable string (e.g., "x 1.2345").
+ * @param multiplier The raw multiplier value (e.g., 10000 for 1x).
+ * @returns A formatted string representing the multiplier.
+ */
 export const getFormattedMultiplier = (multiplier: number) => {
 	return `x ${(multiplier / 10000).toFixed(4)}`
 }
+/**
+ * Rethrows a Web3 error after attempting to extract a more human-readable message.
+ * It tries to parse error messages from MetaMask or other Web3 providers.
+ * @param err The error object caught from a Web3 interaction.
+ * @throws A new error with a more descriptive message if one can be extracted, otherwise the original error message.
+ */
 export const rethrowWeb3Error = (err: any) => {
 	console.log(err)
 	if (err.message) {
@@ -483,7 +572,12 @@ export const rethrowWeb3Error = (err: any) => {
 		}
 
 		// Convert web3 error into human-readable exception (ex: not enough to lock-in)
-		const tryThrowError = (jsonData: any) => {
+		/**
+	 * Attempts to extract a human-readable error reason from a JSON error object.
+	 * @param jsonData The JSON data from the error message.
+	 * @throws The extracted error reason or message if found.
+	 */
+	const tryThrowError = (jsonData: any) => {
 			if (jsonData && jsonData.data) {
 				for (const [, errorDetails] of (Object.entries(jsonData.data) as any)) {
 					if (errorDetails?.reason) {
@@ -518,6 +612,12 @@ export const rethrowWeb3Error = (err: any) => {
 	console.log('Unhandled exception:', err);
 	throw commonLanguage.errors.UnknownError
 }
+/**
+ * Retrieves the estimated gas fees (maxFeePerGas, maxPriorityFeePerGas, or gasPrice) for a transaction.
+ * It considers EIP-1559 if enabled in client settings.
+ * @param web3 The Web3 instance.
+ * @returns An object containing gas fee estimates.
+ */
 export const getGasFees = async (web3: Web3) => {
 
 	// Read Eth.send_transaction on https://web3py.readthedocs.io/en/stable/web3.eth.html
@@ -543,6 +643,13 @@ export const getGasFees = async (web3: Web3) => {
 
 	return { maxFeePerGas: maxFeePerGas?.toString(), maxPriorityFeePerGas: maxPriorityFeePerGas?.toString() }
 }
+/**
+ * Wraps a Web3 contract instance with helper functions for common contract interactions.
+ * This provides a more convenient and centralized way to call contract methods and handle gas fees.
+ * @param web3 The Web3 instance.
+ * @param contract The Web3 contract instance to wrap.
+ * @returns An object containing wrapped contract methods.
+ */
 const withWeb3 = (web3: Web3, contract: any) => {
 	if (!contract) {
 		throw commonLanguage.errors.UnknownContract;
@@ -559,10 +666,20 @@ const withWeb3 = (web3: Web3, contract: any) => {
 	 */
 
 
+	/**
+	 * Calls the `balanceOf` method on the contract.
+	 * @param tokenHolderAddress The address of the token holder.
+	 * @returns The call object for the `balanceOf` method.
+	 */
 	const getBalanceOf = (tokenHolderAddress: string) => {
 		return contract.methods.balanceOf(tokenHolderAddress).call;
 	}
 
+	/**
+	 * Authorizes an operator to spend tokens on behalf of the caller.
+	 * @param params - Object containing the operator address and the sender's address.
+	 * @returns The transaction receipt.
+	 */
 	const authorizeOperator = async ({ operator, from }: AuthorizeOperatorParams) => {
 		const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3)
 
@@ -573,35 +690,83 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			gasPrice
 		});
 	}
+	/**
+	 * Calls the `addressLocks` method on the contract to get lock details for an address.
+	 * @param address The address to query.
+	 * @returns The call object for the `addressLocks` method.
+	 */
 	const getAddressLock = (address: string) => {
 		return contract.methods.addressLocks(address).call;
 	}
+	/**
+	 * Calls the `getAddressDetails` method on the contract to get details about an address.
+	 * @param address The address to query.
+	 * @returns The call object for the `getAddressDetails` method.
+	 */
 	const getAddressDetails = (address: string) => {
 		return contract.methods.getAddressDetails(address).call;
 	}
+	/**
+	 * Calls the `getAddressTokenDetails` method on the contract to get token-specific details for an address.
+	 * @param address The address to query.
+	 * @returns The call object for the `getAddressTokenDetails` method.
+	 */
 	const getAddressTokenDetails = (address: string) => {
 		return contract.methods.getAddressTokenDetails(address).call;
 	}
+	/**
+	 * Calls the `getMintAmount` method on the contract to get the mintable amount for a target address and block.
+	 * @param targetAddress The target address.
+	 * @param targetBlock The target block number.
+	 * @returns The call object for the `getMintAmount` method.
+	 */
 	const getMintAmount = (targetAddress: string, targetBlock: number) => {
 		return contract.methods.getMintAmount(targetAddress, targetBlock).call;
 	}
+	/**
+	 * Calls the `totalSupply` method on the contract.
+	 * @returns The call object for the `totalSupply` method.
+	 */
 	const getTotalSupply = () => {
 		return contract.methods.totalSupply().call;
 	}
+	/**
+	 * Calls the `getReserves` method on a Uniswap V2 pair contract.
+	 * @returns The call object for the `getReserves` method.
+	 */
 	const getReserves = () => {
 		return contract.methods.getReserves().call;
 	}
+	/**
+	 * Calls the `isOperatorFor` method on the contract to check if an address is an operator for another.
+	 * @param operatorAddress The address of the potential operator.
+	 * @param tokenHolderAddress The address of the token holder.
+	 * @returns The call object for the `isOperatorFor` method.
+	 */
 	const isOperatorFor = (operatorAddress: string, tokenHolderAddress: string) => {
 		return contract.methods.isOperatorFor(operatorAddress, tokenHolderAddress).call;
 	}
+	/**
+	 * Calls the `slot0` method on a Uniswap V3 pool contract to get the current state of the pool.
+	 * @returns The call object for the `slot0` method.
+	 */
 	const slot0 = () => {
 		return contract.methods.slot0().call;
 	}
+	/**
+	 * Calls the `liquidity` method on a Uniswap V3 pool contract to get the current liquidity.
+	 * @returns The call object for the `liquidity` method.
+	 */
 	const liquidity = () => {
 		return contract.methods.liquidity().call;
 	}
 
 
+	/**
+	 * Locks DAM tokens to mint FLUX.
+	 * @param params - Object containing the minter address, amount to lock, and sender's address.
+	 * @returns The transaction receipt.
+	 */
 	const lock = async ({ minterAddress, amount, from }: LockParams) => {
 		try {
 			// Attempt to call the method first to check if there are any errors
@@ -621,6 +786,11 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			rethrowWeb3Error(err);
 		}
 	}
+	/**
+	 * Unlocks previously locked DAM tokens.
+	 * @param params - Object containing the sender's address.
+	 * @returns The transaction receipt.
+	 */
 	const unlockDamTokens = async ({ from }: UnlockParams) => {
 		try {
 			// Attempt to call the method first to check if there are any errors
@@ -641,6 +811,11 @@ const withWeb3 = (web3: Web3, contract: any) => {
 		}
 	}
 
+	/**
+	 * Mints FLUX tokens to a specified address.
+	 * @param params - Object containing source address, target address, block number, and sender's address.
+	 * @returns The transaction receipt.
+	 */
 	const mintToAddress = async ({ sourceAddress, targetAddress, blockNumber, from }: MintToAddressParams) => {
 		try {
 			// Attempt to call the method first to check if there are any errors
@@ -660,6 +835,11 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			rethrowWeb3Error(err);
 		}
 	}
+	/**
+	 * Burns FLUX tokens from a specified address.
+	 * @param params - Object containing target address, amount to burn, and sender's address.
+	 * @returns The transaction receipt.
+	 */
 	const burnToAddress = async ({ targetAddress, amount, from }: BurnToAddressParams) => {
 		try {
 			// Attempt to call the method first to check if there are any errors
@@ -679,6 +859,11 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			rethrowWeb3Error(err);
 		}
 	}
+	/**
+	 * Burns tokens in the market contract.
+	 * @param params - Object containing amount to burn, address to burn to, and sender's address.
+	 * @returns The transaction receipt.
+	 */
 	const marketBurnTokens = async ({ amountToBurn, burnToAddress, from }: MarketBurnTokensParams) => {
 		console.log('burn:', { amountToBurn, burnToAddress, from })
 		try {
@@ -699,6 +884,11 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			rethrowWeb3Error(err);
 		}
 	}
+	/**
+	 * Burns tokens from multiple addresses in a batch operation within the market contract.
+	 * @param params - Object containing amount to burn, an array of addresses, and sender's address.
+	 * @returns The transaction receipt.
+	 */
 	const marketBatchBurnTokens = async ({ amountToBurn, addresses, from }: MarketBatchBurnTokensParams) => {
 		console.log('batch burn:', { amountToBurn, addresses, from })
 		try {
@@ -725,6 +915,11 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			rethrowWeb3Error(err);
 		}
 	}
+	/**
+	 * Deposits tokens into the market contract.
+	 * @param params - Object containing amount to deposit, rewards percentage, minimum block number, minimum burn amount, and sender's address.
+	 * @returns The transaction receipt.
+	 */
 	const marketDeposit = async ({ amountToDeposit, rewardsPercent, minBlockNumber, minBurnAmount, from }: MarketDepositParams) => {
 		try {
 			// Attempt to call the method first to check if there are any errors
@@ -744,6 +939,11 @@ const withWeb3 = (web3: Web3, contract: any) => {
 			rethrowWeb3Error(err);
 		}
 	}
+	/**
+	 * Withdraws all tokens from the market contract.
+	 * @param params - Object containing the sender's address.
+	 * @returns The transaction receipt.
+	 */
 	const marketWithdrawAll = async ({ from }: MarketWithdrawAllParams) => {
 		try {
 			// Attempt to call the method first to check if there are any errors

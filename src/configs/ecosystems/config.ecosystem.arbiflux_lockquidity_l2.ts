@@ -2,6 +2,9 @@ import ecosystemLogoSvg from '../../svgs/lockquidity.svg';
 import { EcosystemConfig, Layer, LiquidityPoolType } from "../config.common";
 
 export const getArbiFluxLockquidityEcosystemConfig = (): EcosystemConfig => {
+	// This file defines the complete configuration for the Arbitrum L2 (ArbiFLUX/LOCK) ecosystem.
+	// It includes network details, token addresses, smart contract ABIs, and feature flags specific to this chain.
+	// This allows the dashboard to dynamically adapt its functionality based on the connected network.
 	return {
 		lockableTokenFullName: 'ArbiFLUX',
 		lockableTokenShortName: 'ArbiFLUX',

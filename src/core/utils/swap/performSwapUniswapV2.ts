@@ -20,6 +20,13 @@ const localConfig = {
 	 */
 	deadlineMinutes: 20
 }
+/**
+ * Performs a token swap operation using the Uniswap V2 (or compatible) router.
+ * It handles quoting, allowance checks, and sending the swap transaction.
+ * @param swapOptions - Options for the swap, including input/output tokens, amounts, and Web3 instances.
+ * @param swapPlatformOptions - Platform-specific options for Uniswap V2, including ABI and router address.
+ * @returns A SwapQuote if `onlyGetQuote` is true, otherwise the transaction receipt.
+ */
 export const performSwapUniswapV2 = async (swapOptions: SwapOptions, swapPlatformOptions: UniswapV2SwapPlatformOptions) => {
 	const {
 		web3,

@@ -63,6 +63,11 @@ const useStyles = tss.create(({ theme }) => ({
 interface Props {
 	ecosystem: Ecosystem;
 }
+/**
+ * A memoized functional component that displays the MIT License and information about the dashboard build.
+ * It retrieves ecosystem-specific configuration details like the dashboard URL and copyright year.
+ * @param props - Object containing the current ecosystem.
+ */
 const Terms: React.FC<Props> = React.memo(({ ecosystem }) => {
 	const { classes } = useStyles();
 	const { ecosystemName, dashboardAbsoluteUrl, mitCopyrightYear } = getConfig(ecosystem)

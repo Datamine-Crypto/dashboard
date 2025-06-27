@@ -2,6 +2,9 @@ import ecosystemLogoSvg from '../../svgs/logo.svg';
 import { EcosystemConfig, Layer, LiquidityPoolType } from "../config.common";
 
 export const getDamFluxEcosystemConfig = (): EcosystemConfig => {
+	// This file defines the complete configuration for the Ethereum Mainnet (L1) ecosystem.
+	// It includes network details, token addresses, smart contract ABIs, and feature flags specific to this chain.
+	// This allows the dashboard to dynamically adapt its functionality based on the connected network.
 	return {
 		lockableTokenFullName: 'Datamine (DAM)',
 		lockableTokenShortName: 'DAM',

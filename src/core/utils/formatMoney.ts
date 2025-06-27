@@ -1,3 +1,11 @@
+/**
+ * Formats a numeric amount into a currency string.
+ * @param params - An object containing the amount, currency code, and an optional flag to include the currency suffix.
+ * @param params.amount - The numeric amount to format.
+ * @param params.currency - The currency code (e.g., 'USD', 'EUR').
+ * @param [params.includeCurrencySuffix=false] - Whether to explicitly append the currency code if not already present in the formatted string.
+ * @returns The formatted currency string.
+ */
 export const formatMoney = ({ amount, currency, includeCurrencySuffix = false }: { amount: number, currency: string, includeCurrencySuffix?: boolean }) => {
 	const exchangedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency, currencyDisplay: 'narrowSymbol' }).format(amount)
 

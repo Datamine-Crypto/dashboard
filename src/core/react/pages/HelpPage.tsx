@@ -104,6 +104,11 @@ interface RenderProps {
 	ecosystem: Ecosystem;
 }
 
+/**
+ * A memoized functional component that renders the main content of the Help Page.
+ * It displays help articles categorized by topic and allows users to search and filter them.
+ * @param params - Object containing dispatch function, helpArticlesNetworkType, and ecosystem.
+ */
 const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetworkType, ecosystem }) => {
 	const { classes } = useStyles();
 
@@ -112,6 +117,11 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 
 	const isArbitrumMainnet = helpArticlesNetworkType === NetworkType.Arbitrum;
 
+	/**
+	 * Generates a list of help article categories and their respective articles.
+	 * Articles are filtered and displayed based on the selected network type.
+	 * @returns An array of Grid components, each containing a List of help articles.
+	 */
 	const getContainerItems = () => {
 		return Object.keys(SearchCategory).map((categoryKey, index) => {
 			const getHelpListItems = () => {
@@ -151,6 +161,11 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 		})
 	}
 
+	/**
+	 * Conditionally renders a dropdown to select the network type for help articles.
+	 * This is only shown if the token is not Arbitrum-only.
+	 * @returns A React element for the network type dropdown or null.
+	 */
 	const getHelpArticlesNetworkTypeDropdown = () => {
 		if (isArbitrumOnlyToken) {
 			return null
@@ -204,6 +219,10 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 		</>
 	}
 
+	/**
+	 * Provides additional help text, including a link to Discord if available.
+	 * @returns A React element with additional help information.
+	 */
 	const getAdditionalHelpText = () => {
 		if (!discordInviteLink) {
 			return <>If you need to chat with someone please reach out to our community for assistance.</>
@@ -265,6 +284,11 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, helpArticlesNetwor
 
 interface Props { }
 
+/**
+ * HelpPage component that displays a knowledge base of help articles.
+ * It allows users to browse articles by category and switch between network-specific content.
+ * @param props - Component props (currently empty).
+ */
 const HelpPage: React.FC<Props> = ({ }) => {
 	const { state: web3State, dispatch } = useContext(Web3Context)
 

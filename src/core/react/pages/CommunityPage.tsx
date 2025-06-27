@@ -112,9 +112,19 @@ interface RenderProps {
 	ecosystem: Ecosystem;
 }
 
+/**
+ * A memoized functional component that renders the main content of the Community Page.
+ * It displays various social and community links for the Datamine Network.
+ * @param props - Object containing the ecosystem.
+ */
 const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 	const { classes } = useStyles();
 
+	/**
+ * Generates a styled point element for displaying information with an icon, title, and content.
+ * @param params - Object containing title, content, icon, and optional margin top/bottom.
+ * @returns A React Box component containing the styled point.
+ */
 	const getPoint = ({ title, content, icon, mt, mb }: PointParams) => {
 		return <Box mt={mt !== undefined ? mt : 4} mb={mb !== undefined ? mb : 4}>
 			<Grid
@@ -140,6 +150,11 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 		</Box>
 	}
 
+	/**
+	 * Renders a collection of social media and community links as styled points.
+	 * Each link is wrapped in a CardActionArea for interactive behavior.
+	 * @returns A React Fragment containing the social points.
+	 */
 	const getSocialPoints = () => {
 		return <>
 			<Link href="https://discord.gg/2dQ7XAB22u" target="_blank" rel="noopener noreferrer">
@@ -238,6 +253,11 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 
 interface Props { }
 
+/**
+ * CommunityPage component that displays information about the Datamine Network community.
+ * It fetches the current ecosystem from Web3Context and passes it to the Render component.
+ * @param props - Component props (currently empty).
+ */
 const CommunityPage: React.FC<Props> = ({ }) => {
 	const { state: web3State, dispatch } = useContext(Web3Context)
 	const { ecosystem } = web3State

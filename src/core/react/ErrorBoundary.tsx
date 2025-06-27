@@ -13,6 +13,10 @@ type ErrorState = {
  * This will catch any exceptions that happen and show the middle of the screen (check console for more info)
  */
 export default class ErrorBoundary extends React.Component<{}, ErrorState> {
+	/**
+	 * Constructs the ErrorBoundary component.
+	 * @param props The component props.
+	 */
 	constructor(props: any) {
 		super(props);
 
@@ -21,6 +25,12 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 		}
 	}
 
+	/**
+	 * Catches errors that occur in the component tree below and logs them.
+	 * It also updates the component's state to display a fallback UI.
+	 * @param error The error that was thrown.
+	 * @param errorInfo Information about the component stack where the error occurred.
+	 */
 	componentDidCatch(error: Error, errorInfo: ErrorInfo) {
 		// Display fallback UI
 		this.setState({
@@ -30,6 +40,10 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 		});
 	}
 
+	/**
+	 * Renders the component's children or a fallback error UI if an error has occurred.
+	 * @returns The rendered React elements.
+	 */
 	render() {
 		const { hasError, error, errorInfo } = this.state
 
@@ -37,6 +51,10 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 			return <img src={logo} alt="Datamine Network" style={{ width: '128px' }} />;
 		}
 
+		/**
+		 * Renders the error message display, including error details and a refresh button.
+		 * @returns React.ReactElement or empty fragment if no error.
+		 */
 		const getErrorMessage = () => {
 			if (!hasError) {
 				return <></>;
@@ -111,6 +129,9 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 			</Box >
 		}
 
+		/**
+		 * Reloads the current page, effectively resetting the application state.
+		 */
 		const reloadPage = () => {
 			window.location.href = '?' + (new Date()).getTime()
 		}

@@ -5,6 +5,11 @@ import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 interface CustomTooltipProps extends TooltipProps { }
 
 // Create the styled Tooltip component
+/**
+ * A custom styled Material-UI Tooltip component with a light theme.
+ * It features a dark background, white text, a highlight border, and custom padding and font size.
+ * @param props - Props passed to the Material-UI Tooltip component.
+ */
 const LightTooltip = styled(({ className, ...props }: CustomTooltipProps) => (
 	<Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({

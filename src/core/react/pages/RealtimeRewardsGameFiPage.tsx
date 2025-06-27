@@ -90,6 +90,11 @@ const GradientText = styled(Typography)(({ theme }) => ({
 	fontWeight: 700, // Bold gradient text
 }));
 
+/**
+ * Renders the landing page for Datamine Gems, a GameFi experience.
+ * It showcases features and the impact of the game on the ecosystem.
+ * @param props - Component props, including an optional onStartGameClick handler.
+ */
 const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onStartGameClick }) => {
 	const theme = useTheme(); // Hook to access theme properties
 
@@ -251,6 +256,11 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 // Main component
+/**
+ * Main component for the Realtime Rewards GameFi Page.
+ * It renders the DatamineGemsLandingPage and the FooterFragment.
+ * @param params - Object containing dispatch function and ecosystem.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 
 
@@ -284,6 +294,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 
 interface Props {
 }
+/**
+ * RealtimeRewardsGameFiPage component that serves as the entry point for the Datamine Gems GameFi experience.
+ * It provides the necessary Web3 context (dispatch and ecosystem) to its child components.
+ * @param props - Component props (currently empty).
+ */
 const RealtimeRewardsGameFiPage: React.FC<Props> = ({ }) => {
 	const { state: web3State, dispatch } = useContext(Web3Context)
 	const { ecosystem } = web3State

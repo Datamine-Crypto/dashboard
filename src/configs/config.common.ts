@@ -1,3 +1,7 @@
+/**
+ * This file defines common enums and interfaces used across the application,
+ * particularly for configuring different blockchain ecosystems and their properties.
+ */
 export enum Ecosystem {
 	Flux = 'Flux',
 	ArbiFlux = 'ArbiFlux',

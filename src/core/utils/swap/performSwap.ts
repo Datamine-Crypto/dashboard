@@ -58,6 +58,12 @@ export const availableSwapTokens: SwapTokenDetails[] = [
 	},
 ];
 
+/**
+ * Initiates a token swap operation based on the specified swap platform.
+ * This function acts as a router, delegating the swap logic to the appropriate platform-specific handler.
+ * @param swapOptions - An object containing details about the swap, including input/output tokens, amounts, and the target swap platform.
+ * @returns A promise that resolves when the swap is complete, or rejects if an error occurs.
+ */
 export const performSwap = async (
 	swapOptions: SwapOptions
 ) => {

@@ -186,6 +186,9 @@ const getSignature = async (web3: any, selectedAddress: any) => {
  */
 let thottleGetOutputQuoteTimeout: any;
 
+// This module executes the asynchronous Web3 operations requested by the web3Reducer.
+// Each function here corresponds to a specific blockchain interaction (e.g., minting, swapping, reading contract data).
+// It's crucial that these functions handle network errors and return results back to the reducer for state updates.
 const queryHandlers = {
 	[commonLanguage.queries.FindWeb3Instance]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
 

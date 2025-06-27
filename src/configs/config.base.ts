@@ -15,6 +15,12 @@ export const ecosystemConfigs = {
 	[Ecosystem.Lockquidity]: getArbiFluxLockquidityEcosystemConfig()
 }
 
+/**
+ * Returns the base configuration for the given ecosystem, combining common settings with ecosystem-specific details.
+ * This function also defines the structure for liquidity pool groups and various feature flags for the dashboard.
+ * @param ecosystem The ecosystem for which to retrieve the base configuration.
+ * @returns The base configuration object.
+ */
 export const getBaseConfig = (ecosystem: Ecosystem) => {
 	const ecosystemConfig = ecosystemConfigs[ecosystem];
 

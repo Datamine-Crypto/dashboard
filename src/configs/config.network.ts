@@ -4,6 +4,12 @@ import { Layer, NetworkType } from "./config.common";
  * Get "Layer-specific" network configuration.
  * The uniswap and wrapped ETH have different addresses on Ethereum and Arbitrum
  */
+/**
+ * Retrieves the network configuration specific to a given blockchain layer (L1 or L2).
+ * This includes addresses for Uniswap V3 USDC/ETH pair, Multicall contract, and Wrapped ETH.
+ * @param layer The blockchain layer (Layer.Layer1 or Layer.Layer2) for which to get the configuration.
+ * @returns The static configuration object for the specified layer.
+ */
 export const getNetworkConfig = (layer: Layer): StaticConfig => {
 	switch (layer) {
 

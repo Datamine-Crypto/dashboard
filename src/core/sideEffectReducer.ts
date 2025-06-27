@@ -39,6 +39,11 @@ export interface QueryHandler<T> {
 }
 
 
+/**
+ * Processes a queue of ReducerQueries by invoking their respective handlers.
+ * It dispatches success or error actions based on the query handler's outcome.
+ * @param params - Object containing the current state, dispatch function, and query handlers.
+ */
 const handleQueries = async ({ state, dispatch, queryHandlers }: HandlerQueriesParams) => {
 	const { query: queries } = state;
 	if (!queries) {
@@ -72,6 +77,12 @@ const handleQueries = async ({ state, dispatch, queryHandlers }: HandlerQueriesP
 		}
 	}
 }
+/**
+ * Creates a higher-order reducer that handles both commands and query responses.
+ * It intercepts query responses to remove them from the pending queries list.
+ * @param params - Object containing handleQueryResponse and handleCommand functions.
+ * @returns A reducer function that processes state based on commands and query responses.
+ */
 const sideEffectReducer = (params: SideEffectReducerParams) => {
 	const { handleQueryResponse, handleCommand } = params;
 

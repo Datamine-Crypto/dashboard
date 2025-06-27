@@ -1,5 +1,7 @@
 Read the information about this project in ABOUT/deck.md file
 
+Source is located in `/src` folder. Read that folder as it contains a lot of comments which explain many concepts
+
 Be sure to read package.json for all the packages/frameworks that we are using as it's very important to know what versions of React and Material UI we are using.
 
 I will sometimes ask you to add some suggested content for GEMINI.md to improve your understand of this project in future runs (so you don't have to do as much research).
@@ -67,3 +69,28 @@ Extra information help you understand the Datamine ecosystem better:
 #### 4. Testing Strategy (Current & Future)
 
 - Don't have any tests at the moment and not planning to due to time constraints.
+
+#### 5. Core Business Logic / Domain Concepts (Code Perspective)
+
+- **Decentralized Minting**: Logic for initiating, tracking, or claiming decentralized minting rewards is primarily found in `src/core/web3/Web3Bindings.ts` (e.g., `GetMintFluxResponse`) and its UI interaction in `src/core/react/pages/DashboardPage.tsx`.
+- **Liquidity Management**: Core logic for interacting with Uniswap (or other DEXs) for adding/removing liquidity or performing swaps is located in `src/core/utils/swap/performSwap.ts` and `src/core/web3/Web3Bindings.ts` (e.g., `GetTradeResponse`).
+- **Analytics Data Flow**: On-chain data is fetched and processed in `src/core/web3/Web3Bindings.ts` (e.g., `FindAccountState`) and then displayed by various components in `src/core/react/elements/Cards/`.
+
+#### 6. Key Smart Contracts and ABIs
+
+- `src/core/web3/abis/dam.json`: ABI for the Datamine (DAM) token contract, used for token transfers, approvals, etc.
+- `src/core/web3/abis/flux.json`: ABI for the Flux (FLUX) token contract.
+- `src/core/web3/abis/market.json`: ABI for the core Datamine Network market contract, handling minting, burning, and staking logic.
+- `src/core/web3/abis/uniswapv2router.json`: ABI for the Uniswap V2 Router, used for token swaps and liquidity management.
+- `src/core/web3/abis/uniswapPair.json`: ABI for Uniswap V2 Pair contracts, used for liquidity pool interactions.
+- `src/core/web3/abis/uniswapPairV3.json`: ABI for Uniswap V3 Pair contracts, used for liquidity pool interactions.
+- `src/core/web3/abis/multicall.json`: ABI for the Multicall contract, used to aggregate multiple read-only calls into a single transaction.
+
+#### 7. Error Handling Strategy
+
+- Global error handling for Web3 transactions is managed via `src/core/web3/helpers.ts` (`rethrowWeb3Error`) and then propagated to `web3Reducer.ts` to update the `error` state. User-facing error messages are typically displayed via Material-UI Snackbars or custom dialogs triggered by the `dialog` state in `web3Reducer`.
+
+#### 8. Third-Party Integrations (Beyond Web3)
+
+- Help article content is fetched from Markdown files in `public/helpArticles/` via standard `fetch` API calls.
+- Search functionality for help articles uses `fuse.js`.

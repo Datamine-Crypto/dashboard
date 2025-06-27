@@ -42,6 +42,12 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 // Main component
+/**
+ * A memoized functional component that renders the main content of the Token Page.
+ * It displays information about DAM, FLUX, ArbiFLUX, and LOCK tokens, including their roles, uses, and ecosystem flow.
+ * It also features security audit links and an integration flow section.
+ * @param params - Object containing dispatch function and ecosystem.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 	// Animation states
 	const [animateDAM, setAnimateDAM] = useState(false);
@@ -50,9 +56,16 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 	const [animateLOCK, setAnimateLOCK] = useState(false);
 
 
+	/**
+	 * Navigates the user to the dashboard page.
+	 */
 	const navigateDashboard = () => {
 		window.location.href = '#dashboard' // @todo
 	}
+	/**
+	 * Renders a button to explore liquidity pools.
+	 * @returns A Grid component containing the ExploreLiquidityPools button.
+	 */
 	const getLiqudityPoolsButton = () => {
 		return <Grid>
 			<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.ExtraLargeButton} ecosystem={ecosystem} />
@@ -951,6 +964,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 
 interface Props {
 }
+/**
+ * TokenPage component that serves as the entry point for displaying token-related information.
+ * It provides the necessary Web3 context (dispatch and ecosystem) to its child components.
+ * @param props - Component props (currently empty).
+ */
 const TokenPage: React.FC<Props> = ({ }) => {
 	const { state: web3State, dispatch } = useContext(Web3Context)
 	const { ecosystem } = web3State

@@ -10,6 +10,11 @@ import Header from '../elements/Fragments/Header';
 interface Props {
 	ecosystem: Ecosystem;
 }
+/**
+ * A memoized functional component that renders the Home Page of the dashboard.
+ * It includes a Header (with optional video) and a Footer.
+ * @param props - Object containing the current ecosystem.
+ */
 const HomePage: React.FC<Props> = React.memo(({ ecosystem }) => {
 	const { isHomepageVideoVisible } = getEcosystemConfig(ecosystem)
 	return <>

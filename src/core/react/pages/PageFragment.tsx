@@ -57,6 +57,10 @@ const useStyles = tss.create(({ theme }) => ({
 	}
 }));
 
+/**
+ * Determines the current page and any associated parameters based on the URL hash.
+ * @returns An object containing the current page enum and any relevant parameters (e.g., address, helpArticleId).
+ */
 const getPageDetails = () => {
 	const path = window.location.hash.toLowerCase().replace('#', '');
 	//const path = window.location.pathname.toLowerCase().replace(/^\//, '');
@@ -137,6 +141,11 @@ const getPageDetails = () => {
 	}
 }
 
+/**
+ * A memoized functional component that renders the main page content based on the current route.
+ * It also manages global dialogs and pending queries.
+ * @param params - Object containing dispatch function, helpArticle, helpArticlesNetworkType, and ecosystem.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType, ecosystem }) => {
 	const { classes } = useStyles();
 
@@ -176,6 +185,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 		return () => window.removeEventListener('hashchange', onHashChanged)
 	}, [])
 
+	/**
+	 * Renders the appropriate page component based on the current route.
+	 * Sets the document title dynamically based on the current page.
+	 * @returns The React component for the current page.
+	 */
 	const getPage = () => {
 		const pageDetails = getPageDetails();
 
@@ -210,12 +224,20 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 		return <HomePage ecosystem={ecosystem} />
 	}
 
+	/**
+	 * Renders the main application bar.
+	 * @returns The MainAppBar component.
+	 */
 	const getAppBar = () => {
 		return <Box>
 			<MainAppBar sidebar={false} />
 		</Box>
 	}
 
+	/**
+	 * Conditionally renders the HelpDialog component if a help article is selected.
+	 * @returns The HelpDialog component or null.
+	 */
 	const getHelpDialog = () => {
 		if (!helpArticle) {
 			return null;
@@ -225,9 +247,17 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 		//Check out TradeDialog for an example
 		return <HelpDialog helpArticle={helpArticle} helpArticlesNetworkType={helpArticlesNetworkType} />
 	}
+	/**
+	 * Renders the DialogsFragment component, which manages various application dialogs.
+	 * @returns The DialogsFragment component.
+	 */
 	const getDialog = () => {
 		return <DialogsFragment />
 	}
+	/**
+	 * Renders the PendingQueryFragment component, which displays pending blockchain transactions.
+	 * @returns The PendingQueryFragment component.
+	 */
 	const getPendingQueries = () => {
 		return <PendingQueryFragment />
 	}
@@ -264,6 +294,10 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 const PageFragment: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context)
 
+	/**
+	 * Effect hook to initialize special pages based on the URL hash when the component mounts.
+	 * It dispatches actions to update the application state for pages like Dashboard and Help.
+	 */
 	useEffect(() => {
 
 		const pageDetails = getPageDetails();

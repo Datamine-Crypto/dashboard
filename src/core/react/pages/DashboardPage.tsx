@@ -50,6 +50,11 @@ const useStyles = tss.create(({ theme }) => ({
 	}
 }))
 
+/**
+ * A memoized functional component that renders the main dashboard content.
+ * It handles various states like loading, network errors, wallet connection, and displays account information.
+ * @param params - Object containing various state variables and dispatch function.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ isLate, isInitialized, addressDetails, hasWeb3, selectedAddress, isIncorrectNetwork, connectionMethod, dispatch, ecosystem }) => {
 	const { classes } = useStyles();
 
@@ -59,6 +64,10 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, isInitialized, addr
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
 	// Add loading to middle of the page
+	/**
+	 * Conditionally renders a loading indicator or network error messages.
+	 * @returns A React element representing the loading state or null if the app is initialized.
+	 */
 	const getLoadingIndicator = () => {
 		if (isIncorrectNetwork) {
 			if (config.network.type === 'ropsten') {
@@ -87,10 +96,20 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, isInitialized, addr
 		</Box>
 	}
 
+	/**
+	 * Renders the main logo of the application.
+	 * @returns An img element displaying the logo.
+	 */
 	const getLogo = () => {
 		return <img src={logo} alt="Logo" style={{ width: '128px' }} />;
 	}
 
+	/**
+	 * Renders a centered content splash screen with a title, message, and optional content.
+	 * Used for displaying initial loading, network errors, or wallet connection prompts.
+	 * @param params - Object containing title, message, and optional content.
+	 * @returns A React element for the centered content splash.
+	 */
 	const getCenterContent = ({ title, message, content }: CenterContent) => {
 		return <Box className={classes.fullScreenSplash}>
 			<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
@@ -104,6 +123,10 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, isInitialized, addr
 		</Box>
 	}
 
+	/**
+	 * Renders the splash screen prompting the user to install an Ethereum-based wallet.
+	 * @returns A React element for the wallet installation splash screen.
+	 */
 	const getConnectWalletSplash = () => {
 
 		const getLiquidityPoolsButton = () => {
@@ -134,7 +157,15 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, isInitialized, addr
 			</Box></Box>
 	}
 
+	/**
+	 * Renders the connect wallet button, adapting to whether MetaMask is detected.
+	 * @returns A React element for the connect wallet button.
+	 */
 	const getConnectWalletButton = () => {
+		/**
+		 * Checks if MetaMask is installed and available in the browser.
+		 * @returns True if MetaMask is detected, false otherwise.
+		 */
 		const isMetaMask = () => {
 			const web3 = (window as any).web3;
 			if (!web3 || !web3.currentProvider || !web3.currentProvider.isMetaMask) {
@@ -143,6 +174,10 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, isInitialized, addr
 
 			return true;
 		}
+		/**
+		 * Returns the MetaMask icon if MetaMask is detected, otherwise null.
+		 * @returns A React element containing the MetaMask icon or null.
+		 */
 		const getWalletIcon = () => {
 			if (!isMetaMask()) {
 				return null;
@@ -280,18 +315,22 @@ const Render: React.FC<RenderParams> = React.memo(({ isLate, isInitialized, addr
 			)
 		}
 
-		const getLiquidityPoolsButton = () => {
-			if (!isLiquidityPoolsEnabled) {
-				return null
-			}
-			return (
-				<Grid>
-					<Box mr={3}>
-						<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallText} ecosystem={ecosystem} />
-					</Box>
-				</Grid>
-			)
+			/**
+	 * Conditionally renders a button to explore liquidity pools if enabled.
+	 * @returns An ExploreLiquidityPools component or null.
+	 */
+	const getLiquidityPoolsButton = () => {
+		if (!isLiquidityPoolsEnabled) {
+			return null
 		}
+		return (
+			<Grid>
+				<Box mr={3}>
+					<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallText} ecosystem={ecosystem} />
+				</Box>
+			</Grid>
+		)
+	}
 
 		const getFooter = () => {
 			return <Box mt={6} pb={6} mx={4} display="flex" justifyContent="space-between">

@@ -23,6 +23,10 @@ type Config = {
 	onUpdate?: (registration: ServiceWorkerRegistration) => void;
 };
 
+/**
+ * Registers a service worker to enable offline capabilities and faster loading on subsequent visits.
+ * @param config - Optional configuration object with onSuccess and onUpdate callbacks.
+ */
 export function register(config?: Config) {
 	if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
 		// The URL constructor is available in all browsers that support SW.
@@ -57,6 +61,11 @@ export function register(config?: Config) {
 	}
 }
 
+/**
+ * Registers the service worker if it's found to be valid.
+ * @param swUrl - The URL of the service worker script.
+ * @param config - Optional configuration object with onSuccess and onUpdate callbacks.
+ */
 function registerValidSW(swUrl: string, config?: Config) {
 	navigator.serviceWorker
 		.register(swUrl)
@@ -101,6 +110,12 @@ function registerValidSW(swUrl: string, config?: Config) {
 		});
 }
 
+/**
+ * Checks if the service worker found at `swUrl` is valid.
+ * If not, it unregisters any existing service worker and reloads the page.
+ * @param swUrl - The URL of the service worker script.
+ * @param config - Optional configuration object with onSuccess and onUpdate callbacks.
+ */
 function checkValidServiceWorker(swUrl: string, config?: Config) {
 	// Check if the service worker can be found. If it can't reload the page.
 	fetch(swUrl, {
@@ -129,6 +144,9 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
 		});
 }
 
+/**
+ * Unregisters the service worker.
+ */
 export function unregister() {
 	if ('serviceWorker' in navigator) {
 		navigator.serviceWorker.ready

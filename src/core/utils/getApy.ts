@@ -8,6 +8,13 @@ export enum TokenPair {
 	FLUX_ETH = 'FLUX_ETH',
 	DAM_ETH = 'DAM_ETH'
 }
+/**
+ * Calculates the Annual Percentage Yield (APY) for Datamine Network tokens.
+ * It takes into account various factors like token prices, block rewards, and multipliers.
+ * @param ecosystem The current ecosystem (e.g., Flux, ArbiFlux).
+ * @param pools A Map containing liquidity pool data for different token pairs.
+ * @returns An object containing APY percentages (no burn, max burn) and token prices, or null if data is incomplete.
+ */
 export const getApy = (ecosystem: Ecosystem, pools: Map<TokenPair, any>) => {
 	const { mintableTokenMintPerBlockDivisor } = getEcosystemConfig(ecosystem)
 	const damPool = pools.get(TokenPair.DAM_ETH);

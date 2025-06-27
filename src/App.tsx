@@ -13,6 +13,11 @@ const Web3ContextProvider = lazy(() => import('./core/web3/Web3Context').then(mo
 const PageFragment = lazy(() => import('./core/react/pages/PageFragment'))
 const CenteredLoading = lazy(() => import('./core/react/elements/Fragments/CenteredLoading'))
 
+/**
+ * The main application component.
+ * It sets up the Material-UI theme, ErrorBoundary, Web3Context, and renders the main PageFragment.
+ * Uses React.lazy and Suspense for code splitting and loading indicators.
+ */
 function App() {
 
 	return (

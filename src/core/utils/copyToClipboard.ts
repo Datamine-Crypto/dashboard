@@ -1,3 +1,8 @@
+/**
+ * Copies the given string to the clipboard using a fallback method involving a textarea element.
+ * This method is used when the modern `navigator.clipboard.writeText` API is not available or fails.
+ * @param str The string to copy to the clipboard.
+ */
 const copyToClipboardRaw = (str: string) => {
 	const el = document.createElement('textarea');  // Create a <textarea> element
 	el.value = str;                                 // Set its value to the string that you want copied
@@ -18,6 +23,12 @@ const copyToClipboardRaw = (str: string) => {
 	}
 };
 
+/**
+ * Copies the given text to the clipboard.
+ * It attempts to use the modern `navigator.clipboard.writeText` API first.
+ * If that fails or is not available, it falls back to a method that uses a temporary textarea element.
+ * @param text The text to be copied to the clipboard.
+ */
 const copyToClipBoard = function (text: string) {
 	try {
 		if (navigator.clipboard != undefined) {//Chrome

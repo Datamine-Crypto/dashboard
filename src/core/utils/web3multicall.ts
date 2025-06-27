@@ -1,3 +1,5 @@
+// This utility leverages the Multicall contract to aggregate multiple read-only contract calls into a single blockchain transaction.
+// This significantly reduces network overhead and improves application performance by minimizing RPC requests.
 import Web3 from "web3";
 
 /**
