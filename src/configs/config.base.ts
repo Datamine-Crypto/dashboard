@@ -155,7 +155,7 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 		/**
 		 * In a few places we'll have this absolute url to the dashboard (ex: Terms page and add to metamask button)
 		 */
-		dashboardAbsoluteUrl: 'https://github.com/Datamine-Crypto/realtime-decentralized-dashboard',
+		dashboardAbsoluteUrl: 'https://github.com/Datamine-Crypto/dashboard',
 
 		/**
 		 * For your MIT license, what copyright year do you want to show
@@ -236,7 +236,7 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 					"Datamine FLUX is DeFi's first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.",
 				url: 'https://datamine-crypto.github.io/dashboard/', // origin must match your domain & subdomain
 				icons: [
-					'https://raw.githubusercontent.com/Datamine-Crypto/realtime-decentralized-dashboard/refs/heads/master/logos/dam256.png',
+					'https://raw.githubusercontent.com/Datamine-Crypto/dashboard/refs/heads/main/public/logos/dam256.png',
 				],
 			},
 		},

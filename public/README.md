@@ -7,7 +7,7 @@
 [![Material-UI](https://img.shields.io/badge/Material--UI-v7-0081CB?logo=mui&logoColor=white)](https://mui.com/)
 [![Web3.js](https://img.shields.io/badge/Web3.js-v4-F16822?logo=web3.js&logoColor=white)](https://web3js.org/)
 [![Yarn](https://img.shields.io/badge/Yarn-v4-2C8EBB?logo=yarn&logoColor=white)](https://yarnpkg.com/)
-[![Status](https://img.shields.io/badge/Status-Under%20Active%20Development-blue)](https://github.com/Datamine-Crypto/realtime-decentralized-dashboard)
+[![Status](https://img.shields.io/badge/Status-Under%20Active%20Development-blue)](https://github.com/Datamine-Crypto/dashboard)
 [![Discord](https://img.shields.io/badge/Discord-Join%20our%20Community-5865F2?logo=discord&logoColor=white)](https://discord.gg/2dQ7XAB22u)
 
 You can access the latest version of Datamine Realtime Decentralized Dashboard by clicking the following link:
@@ -18,6 +18,7 @@ You can access the latest version of Datamine Realtime Decentralized Dashboard b
 
 ## Table of Contents
 
+- 🚀 [Quick Start Guide](#-quick-start-guide)
 - ✨ [Core Technologies](#-core-technologies)
 - 🏛️ [Key Architectural Patterns](#️-key-architectural-patterns)
 - 💡 [Core Datamine Concepts](#-core-datamine-concepts)
@@ -36,6 +37,96 @@ You can access the latest version of Datamine Realtime Decentralized Dashboard b
 - 📚 [Learn More](#-learn-more)
 - ❓ [Support](#-support)
 - 📄 [License](#-license)
+
+## 🚀 Quick Start Guide
+
+This guide will help you get the Datamine Realtime Decentralized Dashboard up and running on your local machine.
+
+### Prerequisites
+
+To run this project locally, you will need to have Node.js and Yarn installed.
+
+*   **Node.js**: We recommend using Node.js v18 or higher. You can download it from [nodejs.org](https://nodejs.org/en/).
+*   **Yarn**: This project uses Yarn v4. You can install it globally via npm: `npm install -g yarn@^4.0.0`
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/Datamine-Crypto/dashboard.git
+    ```
+2.  **Navigate to the project directory:**
+    ```bash
+    cd dashboard
+    ```
+3.  **Install dependencies:**
+    ```bash
+    yarn install
+    ```
+
+### Running the Application
+
+Once the dependencies are installed, you can start the development server:
+
+```bash
+yarn start
+```
+
+This will open the application in your browser at `http://localhost:3000`. The page will automatically reload if you make any code changes.
+
+## Available Scripts
+
+In the project directory, you can run the following scripts:
+
+*   `yarn start`: Runs the app in development mode.
+*   `yarn build`: Builds the app for production to the `build` folder.
+*   `yarn deploy`: Creates a production build with a specific base path for deployment.
+*   `yarn format`: Formats code using Prettier.
+
+## 🚀 Quick Start Guide
+
+This guide will help you get the Datamine Realtime Decentralized Dashboard up and running on your local machine.
+
+### Prerequisites
+
+To run this project locally, you will need to have Node.js and Yarn installed.
+
+*   **Node.js**: We recommend using Node.js v18 or higher. You can download it from [nodejs.org](https://nodejs.org/en/).
+*   **Yarn**: This project uses Yarn v4. You can install it globally via npm: `npm install -g yarn@^4.0.0`
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/Datamine-Crypto/dashboard.git
+    ```
+2.  **Navigate to the project directory:**
+    ```bash
+    cd dashboard
+    ```
+3.  **Install dependencies:**
+    ```bash
+    yarn install
+    ```
+
+### Running the Application
+
+Once the dependencies are installed, you can start the development server:
+
+```bash
+yarn start
+```
+
+This will open the application in your browser at `http://localhost:3000`. The page will automatically reload if you make any code changes.
+
+## Available Scripts
+
+In the project directory, you can run the following scripts:
+
+*   `yarn start`: Runs the app in development mode.
+*   `yarn build`: Builds the app for production to the `build` folder.
+*   `yarn deploy`: Creates a production build with a specific base path for deployment.
+*   `yarn format`: Formats code using Prettier.
 
 Welcome to the Datamine Network Dashboard! This project is a web-based dashboard for the Datamine Network, built with React and TypeScript. It provides users with tools to interact with Datamine smart contracts, view analytics, and manage their assets across different blockchain layers.
 
@@ -199,7 +290,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 If you have any questions, issues, or just want to connect with the community, please reach out through our:
 
 -   **Discord**: Join our [Discord server](https://discord.gg/2dQ7XAB22u) for real-time discussions and support. 💬
--   **GitHub Issues**: For bug reports or feature requests, please open an issue on our [GitHub repository](https://github.com/Datamine-Crypto/realtime-decentralized-dashboard/issues). 🐛
+-   **GitHub Issues**: For bug reports or feature requests, please open an issue on our [GitHub repository](https://github.com/Datamine-Crypto/dashboard/issues). 🐛
 
 ## 📄 License
 

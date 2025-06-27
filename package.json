@@ -21,10 +21,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Datamine-Crypto/realtime-decentralized-dashboard.git"
+    "url": "https://github.com/Datamine-Crypto/dashboard.git"
   },
   "bugs": {
-    "url": "https://github.com/Datamine-Crypto/realtime-decentralized-dashboard/issues"
+    "url": "https://github.com/Datamine-Crypto/dashboard/issues"
   },
   "dependencies": {
     "@date-io/moment": "^3.2.0",
