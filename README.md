@@ -173,6 +173,8 @@ You will also see any lint errors in the console.
 
 This will create a new build in build/ folder that you can host. We currently host this on github(<https://datamine-crypto.github.io/realtime-decentralized-dashboard/>) for decentralization reasons & proof of builds.
 
+The `homepage` field in `package.json` is set to `.`, which is crucial for GitHub Pages deployments when the site is hosted in a subfolder (e.g., `your-username.github.io/your-repo-name/`). This ensures that relative paths for assets are correctly resolved.
+
 The builds can be hosted in subfolders and do not perform external http calls for security & decentralization.
 
 This project was bootstrapped with [Vite](https://vite.dev/).
