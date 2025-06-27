@@ -14,6 +14,23 @@ You can access the latest version of Datamine Realtime Decentralized Dashboard b
 
 # 🚀 Realtime Decentralized Dashboard
 
+## Table of Contents
+
+- [🚀 Realtime Decentralized Dashboard](#-realtime-decentralized-dashboard)
+- [✨ Core Technologies](#-core-technologies)
+- [🏛️ Key Architectural Patterns](#️-key-architectural-patterns)
+- [💡 Core Datamine Concepts](#-core-datamine-concepts)
+- [✨ Features](#-features)
+- [📸 Screenshots](#-screenshots)
+- [🤝 Contributing](#-contributing)
+- [🛠️ Development Workflow](#️-development-workflow)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running dApp Locally](#running-dapp-locally)
+  - [To Deploy](#to-deploy)
+- [📚 Learn More](#-learn-more)
+- [📄 License](#-license)
+
 Welcome to the Datamine Network Dashboard! This project is a web-based dashboard for the Datamine Network, built with React and TypeScript. It provides users with tools to interact with Datamine smart contracts, view analytics, and manage their assets across different blockchain layers.
 
 ## ✨ Core Technologies
@@ -118,6 +135,10 @@ This project was bootstrapped with [Vite](https://vite.dev/).
 
 ## 📚 Learn More
 
-You can learn more in the [Vite documentation](https://vite.dev/guide/).
+You can learn more in the [Vite documentation](https://vite.dev/).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. ⚖️
