@@ -41,3 +41,6 @@ storybook-static/
 
 .yarn/
 .yarnrc.yml
+
+.pnp.cjs
+.pnp.loader.mjs
