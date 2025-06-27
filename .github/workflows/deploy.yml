@@ -18,9 +18,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
-
-      - name: Enable Corepack
-        run: corepack enable
+          yarn-version: 4.9.2
 
       - name: Install dependencies
         run: yarn install --immutable

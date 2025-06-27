@@ -99,7 +99,7 @@ Extra information help you understand the Datamine ecosystem better:
 
 #### 10. GitHub Pages Deployment
 - The `homepage` field in `package.json` is set to `.`, which is crucial for GitHub Pages deployments when the site is hosted in a subfolder (e.g., `your-username.github.io/your-repo-name/`). This ensures that relative paths for assets are correctly resolved.
-- The GitHub Actions workflow (`.github/workflows/deploy.yml`) now includes a step to `corepack enable` before installing dependencies, ensuring the correct Yarn version is used for deployment.
+- The GitHub Actions workflow (`.github/workflows/deploy.yml`) now explicitly sets `yarn-version: 4.9.2` in the `setup-node` step, ensuring the correct Yarn version is used during the build process.
 
 ## src Folder Structure
 
