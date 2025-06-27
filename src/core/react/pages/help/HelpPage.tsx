@@ -1,6 +1,5 @@
-import { Box, Container, Paper, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import { Box, Container, Paper, Accordion, AccordionSummary, AccordionDetails, Typography, Grid } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Grid from '@mui/material/Grid';
 import React, { useContext } from 'react';
 
 import { theme as datamineTheme } from '../../../styles';
@@ -45,24 +44,53 @@ const HelpPage: React.FC<Props> = () => {
 						<Box mb={3}>
 							<HelpComboboxFragment id="main-search" isBigSearch={true} />
 						</Box>
-						{Object.keys(SearchCategory).map((categoryKey, index) => (
-							<Accordion key={index} defaultExpanded={true}>
-								<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-									<Typography variant="h6">
-										{helpArticlesNetworkType === NetworkType.Arbitrum
-											? SearchCategoryTextL2[categoryKey as keyof typeof SearchCategoryTextL2]
-											: SearchCategoryText[categoryKey as keyof typeof SearchCategoryText]}
-									</Typography>
-								</AccordionSummary>
-								<AccordionDetails>
-									<HelpArticleCategorySection
-										dispatch={dispatch}
-										helpArticlesNetworkType={helpArticlesNetworkType}
-										categoryKey={categoryKey}
-									/>
-								</AccordionDetails>
-							</Accordion>
-						))}
+						{/* Two-column layout for larger screens */}
+						<Grid container spacing={2}>
+							<Grid size={{xs: 12, md:6}}>
+								{Object.keys(SearchCategory)
+									.slice(0, Math.ceil(Object.keys(SearchCategory).length / 2))
+									.map((categoryKey, index) => (
+										<Accordion key={index} defaultExpanded={true}>
+											<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+												<Typography variant="h6">
+													{helpArticlesNetworkType === NetworkType.Arbitrum
+														? SearchCategoryTextL2[categoryKey as keyof typeof SearchCategoryTextL2]
+														: SearchCategoryText[categoryKey as keyof typeof SearchCategoryText]}
+												</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<HelpArticleCategorySection
+													dispatch={dispatch}
+													helpArticlesNetworkType={helpArticlesNetworkType}
+													categoryKey={categoryKey}
+												/>
+											</AccordionDetails>
+										</Accordion>
+									))}
+							</Grid>
+							<Grid size={{xs: 12, md:6}}>
+								{Object.keys(SearchCategory)
+									.slice(Math.ceil(Object.keys(SearchCategory).length / 2))
+									.map((categoryKey, index) => (
+										<Accordion key={index} defaultExpanded={true}>
+											<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+												<Typography variant="h6">
+													{helpArticlesNetworkType === NetworkType.Arbitrum
+														? SearchCategoryTextL2[categoryKey as keyof typeof SearchCategoryTextL2]
+														: SearchCategoryText[categoryKey as keyof typeof SearchCategoryText]}
+												</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<HelpArticleCategorySection
+													dispatch={dispatch}
+													helpArticlesNetworkType={helpArticlesNetworkType}
+													categoryKey={categoryKey}
+												/>
+											</AccordionDetails>
+										</Accordion>
+									))}
+							</Grid>
+						</Grid>
 					</Container>
 				</Box>
 			</Paper>
