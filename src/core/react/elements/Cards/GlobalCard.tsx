@@ -18,20 +18,37 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 
+/**
+ * A memoized functional component that renders the Global Statistics card.
+ * It displays global data such as token supply, burned amounts, locked amounts, and burn ratios.
+ * @param params - Object containing addressDetails, addressTokenDetails, balances, and ecosystem.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressTokenDetails, balances, ecosystem }) => {
 	const { lockableTokenShortName, mintableTokenShortName, mintableTokenPriceDecimals, layer } = getEcosystemConfig(ecosystem)
 
 	const { globalRatio, blockNumber } = addressTokenDetails;
 
+	/**
+	 * Calculates and returns the USD value of the globally burned mintable tokens.
+	 * @returns A React element displaying the USD value.
+	 */
 	const getBurnedUsdc = () => {
 		const balanceInUsdc = `$ ${getPriceToggle({ value: addressDetails.globalBurnedAmount, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <>{balanceInUsdc}</>
 	}
+	/**
+	 * Calculates and returns the percentage of burned mintable tokens relative to the total supply.
+	 * @returns A React element displaying the percentage.
+	 */
 	const getBurnPercent = () => {
 		const burnPercent = getBNPercent(addressDetails.globalBurnedAmount, balances.fluxTotalSupply, false)
 		return <>({burnPercent}% of minted {mintableTokenShortName})</>
 	}
 
+	/**
+	 * Renders a DetailedListItem component for the current supply of the mintable token.
+	 * @returns A DetailedListItem component.
+	 */
 	const getFluxCurrentSupply = () => {
 		const balanceInUsdc = `$ ${getPriceToggle({ value: balances.fluxTotalSupply, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <DetailedListItem
@@ -41,6 +58,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 		/>
 	}
 
+	/**
+	 * Renders a DetailedListItem component for the globally burned mintable tokens.
+	 * @returns A DetailedListItem component.
+	 */
 	const getFluxBurned = () => {
 		return <DetailedListItem
 			title={`${mintableTokenShortName} Burned:`}
@@ -49,6 +70,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			description={<Typography component="div" variant="body2" color="textSecondary" display="inline">{getBurnPercent()}</Typography>}
 		/>
 	}
+	/**
+	 * Renders a DetailedListItem component for the globally locked-in lockable tokens.
+	 * @returns A DetailedListItem component.
+	 */
 	const getDamLockedIn = () => {
 		const lockedPercent = getBNPercent(addressDetails.globalLockedAmount, balances.damTotalSupply, false)
 		const getLockedPercent = () => {
@@ -64,6 +89,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 		/>
 	}
 
+	/**
+	 * Renders a DetailedListItem component for the global burn ratio of mintable tokens.
+	 * @returns A DetailedListItem component.
+	 */
 	const getFluxBurnRatio = () => {
 		return <DetailedListItem
 			title={`${mintableTokenShortName} Burn Ratio:`}
@@ -98,6 +127,10 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 	</Card>
 });
 
+/**
+ * GlobalCard component that displays global statistics for the Datamine Network.
+ * It fetches global data from the Web3Context and renders it using the Render component.
+ */
 const GlobalCard: React.FC = () => {
 	const { state: web3State } = useContext(Web3Context)
 

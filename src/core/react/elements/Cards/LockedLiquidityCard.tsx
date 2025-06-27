@@ -29,6 +29,11 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 }));
 
+/**
+ * A memoized functional component that renders the Locked Liquidity Card.
+ * It displays information about the permanently locked liquidity in Uniswap pools.
+ * @param params - Object containing balances and ecosystem.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 	const { classes } = useStyles();
 
@@ -42,6 +47,10 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 
 	const percentLockedLiquidity = (lockedLiquidityUniAmount.mul(new BN(1000000)).div(lockedLiquidtyUniTotalSupply).toNumber() / 10000)
 
+	/**
+	 * Calculates and displays the percentage of the mintable token's liquidity that is permanently locked.
+	 * @returns A DetailedListItem component showing the locked percentage.
+	 */
 	const getLockedPercentage = () => {
 		return <DetailedListItem
 			title={`Percentage of ${mintableTokenShortName} Locked Liquidity:`}
@@ -51,6 +60,11 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 		/>
 	}
 
+	/**
+	 * Calculates and returns the percentage of a token's supply that is available in Uniswap liquidity pools.
+	 * @param token The token (Lockable or Mintable) for which to calculate the available liquidity.
+	 * @returns A React element displaying the percentage of supply in liquidity.
+	 */
 	const getAvailableLiquidity = (token: Token) => {
 		switch (token) {
 			case Token.Lockable:
@@ -61,6 +75,10 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 				return <> <Typography component="div" variant="body2" color="textSecondary" display="inline">({fluxSupply}% of current supply)</Typography></>
 		}
 	}
+	/**
+	 * Renders a DetailedListItem component for the permanently locked mintable token liquidity.
+	 * @returns A DetailedListItem component.
+	 */
 	const getFluxAvailableLiquidity = () => {
 		const permaLockedMintableToken = uniswapFluxTokenReserves.flux.mul(new BN(percentLockedLiquidity * 100)).div(new BN(10000))
 
@@ -75,6 +93,10 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 		/>
 	}
 
+	/**
+	 * Renders a DetailedListItem component for the permanently locked ETH liquidity.
+	 * @returns A DetailedListItem component.
+	 */
 	const getFluxAvailableLiquidityEth = () => {
 		const permaLockedEth = uniswapFluxTokenReserves.eth.mul(new BN(percentLockedLiquidity * 100)).div(new BN(10000))
 

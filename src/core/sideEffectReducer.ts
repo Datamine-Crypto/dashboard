@@ -1,40 +1,88 @@
+/**
+ * Parameters for the SideEffectReducer.
+ */
 interface SideEffectReducerParams {
+	/**
+	 * Function to handle the response of a query.
+	 * @param data - The query response data.
+	 * @returns The updated state.
+	 */
 	handleQueryResponse: (data: ReducerQueryHandler<any>) => any;
+	/**
+	 * Function to handle a command.
+	 * @param state - The current state.
+	 * @param data - The command data.
+	 * @returns The updated state.
+	 */
 	handleCommand: (state: any, data: any) => any;
 }
 
+/**
+ * Parameters for handling queries.
+ */
 interface HandlerQueriesParams {
+	/** The dispatch function from React's useReducer. */
 	dispatch: React.Dispatch<any>;
+	/** The current state. */
 	state: any;
+	/** An object containing query handlers, keyed by query type. */
 	queryHandlers: any;
 }
 
+/**
+ * Represents a command dispatched to the reducer.
+ */
 export interface ReducerCommand {
+	/** The type of the command. */
 	type: string;
+	/** The payload of the command. */
 	payload: any;
 }
 
+/**
+ * Represents the data structure for a query response within the reducer.
+ */
 interface ReducerQueryData {
+	/** Error message if the query failed. */
 	err: string;
+	/** The response data from the query. */
 	response: any;
+	/** The original query that was executed. */
 	query: ReducerQuery;
 }
 
+/**
+ * Represents a query to be processed by the reducer.
+ */
 export interface ReducerQuery {
+	/** Optional: Unique identifier for the query. */
 	id?: string;
-	type: string;
+	/** The type of the query. */	type: string;
+	/** Optional: The payload of the query. */
 	payload?: any;
 }
 
+/**
+ * Represents the data passed to a ReducerQueryHandler.
+ * @template T - The type of the state.
+ */
 export interface ReducerQueryHandler<T> {
-	state: T,
+	/** The current state. */
+	state: T;
+	/** The payload containing query response data. */
 	payload: ReducerQueryData;
 }
 
-
+/**
+ * Represents the parameters passed to a QueryHandler function.
+ * @template T - The type of the state.
+ */
 export interface QueryHandler<T> {
+	/** The current state. */
 	state: T;
+	/** The query to be handled. */
 	query: ReducerQuery;
+	/** The dispatch function from React's useReducer. */
 	dispatch: React.Dispatch<any>;
 }
 

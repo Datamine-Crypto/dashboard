@@ -16,6 +16,12 @@ interface RenderParams {
 	dispatch: React.Dispatch<any>;
 }
 
+/**
+ * A memoized functional component that renders the Datamine Network Pro card.
+ * This card provides information about the Datamine Network's burn-as-a-service concept
+ * and allows users to display access links.
+ * @param params - Object containing dispatch function.
+ */
 const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 	const getButton = () => {
 		const disabledText = false //!isCurrentAddress ? <>Select the <Box fontWeight="bold" display="inline">Delegated Minter Address</Box> account in your wallet to mint for this address.</> : null;

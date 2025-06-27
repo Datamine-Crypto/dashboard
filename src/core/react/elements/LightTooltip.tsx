@@ -1,7 +1,10 @@
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 
-// Define the props for your custom tooltip by extending the base TooltipProps
+/**
+ * Defines the props for the custom LightTooltip component.
+ * Extends Material-UI's TooltipProps to inherit standard tooltip properties.
+ */
 interface CustomTooltipProps extends TooltipProps { }
 
 // Create the styled Tooltip component

@@ -23,11 +23,29 @@ export enum SearchCategoryTextL2 {
 	Advanced = 'Ecosystem In-Depth (Advanced Topics)',
 	Uniswap = 'Uniswap & Automated Liquidity',
 }
+/**
+ * Interface for a help article.
+ */
 export interface HelpArticle {
+	/**
+	 * Unique identifier for the help article. This often corresponds to the markdown file name.
+	 */
 	id: string;
+	/**
+	 * The primary title of the help article (for L1 ecosystem).
+	 */
 	title: string;
+	/**
+	 * Optional: The title of the help article for the L2 ecosystem, if different from L1.
+	 */
 	titleL2?: string;
+	/**
+	 * Optional: The path to the L2 specific markdown article, if different from L1.
+	 */
 	articleL2Path?: string;
+	/**
+	 * The category the help article belongs to.
+	 */
 	category: SearchCategory;
 
 	/**
@@ -40,6 +58,11 @@ export interface HelpArticle {
 	 */
 	className?: string;
 }
+
+/**
+ * Array of help articles, defining their metadata and categorization.
+ * The content of these articles is loaded from markdown files based on their 'id'.
+ */
 const helpArticles: HelpArticle[] = [
 	// Learning Ecosystem
 	{

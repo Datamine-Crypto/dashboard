@@ -1,14 +1,24 @@
 import { createTheme } from '@mui/material/styles';
 
+/**
+ * Defines the color palette used across the application.
+ */
 const palette = {
 	highlight: '#0FF',
 	background: '#272936',
 	secondaryBackground: '#202336'
 }
+
+/**
+ * Defines CSS classes based on the color palette.
+ */
 const classes = {
 	palette
 }
 
+/**
+ * Creates a Material-UI theme with custom palette and component overrides.
+ */
 const muiTheme = createTheme({
 	palette: {
 		mode: 'dark',
