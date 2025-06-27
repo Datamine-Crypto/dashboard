@@ -17,7 +17,7 @@ const Web3Context = React.createContext<Web3ContextValue>(null as any);
 const emitter = new EventEmitter();
 const reducer = sideEffectReducer({
 	handleQueryResponse,
-	handleCommand
+	handleCommand,
 });
 
 interface Props {
@@ -29,21 +29,14 @@ const Web3ContextProvider: React.FC<Props> = ({ children }) => {
 	// Handle new query & event effects
 	useEffect(() => {
 		const { query } = state;
-		handleQueries({ state, dispatch, queryHandlers })
+		handleQueries({ state, dispatch, queryHandlers });
 
 		if (query) {
-			dispatch({ type: commonLanguage.commands.QueueQueries, payload: { queries: query } })
+			dispatch({ type: commonLanguage.commands.QueueQueries, payload: { queries: query } });
 		}
 	}, [state.query]);
 
-	return (<Web3Context.Provider value={{ state, dispatch, emitter }}>
-		{children}
-	</Web3Context.Provider>
-	);
-}
-
-export {
-	Web3Context,
-	Web3ContextProvider
+	return <Web3Context.Provider value={{ state, dispatch, emitter }}>{children}</Web3Context.Provider>;
 };
 
+export { Web3Context, Web3ContextProvider };
