@@ -110,6 +110,13 @@ Extra information help you understand the Datamine ecosystem better:
 - The `homepage` field in `package.json` is set to `.`, which is crucial for GitHub Pages deployments when the site is hosted in a subfolder (e.g., `your-username.github.io/your-repo-name/`). This ensures that relative paths for assets are correctly resolved.
 - The GitHub Actions workflow (`.github/workflows/deploy.yml`) now explicitly sets `yarn-version: 4.9.2` in the `setup-node` step, ensuring the correct Yarn version is used during the build process.
 
+#### 11. Additional Development Setup & Tools
+- **HTTPS for Localhost**: Implemented using `vite-plugin-mkcert` in `vite.config.mts` for secure local development.
+- **ESLint Configuration**: The `.eslintrc.json` file has been updated to exclude the `build` directory from linting and to correctly recognize `BigInt` and `globalThis` by setting the `browser`, `es2021`, and `node` environments.
+- **Pre-commit Hooks**: `husky` and `lint-staged` are configured to automatically run ESLint and Prettier on staged files before committing, ensuring code quality and consistency.
+- **VS Code Workspace Hiding**: The `.vscode/settings.json` file is configured to hide various development-related files and folders (e.g., `.husky`, `.yarn`, `.vscode`, `.github`, `.env`, `.eslintrc.json`, `.gitignore`, `.pnp.cjs`, `.pnp.loader.mjs`, `.prettierrc.json`, `index.html`, `LICENSE`, `tsconfig.json`, `tsconfig.node.json`, `vite.config.mts`, `yarn.lock`, `build`, `node_modules`, `src/react-app-env.d.ts`, `src/service-worker.ts`, `src/serviceWorkerRegistration.ts`, `src/vite-env.d.ts`) from the VS Code explorer to reduce clutter.
+- **`yarn lint` script**: A new `lint` script has been added to `package.json` to easily run ESLint across the project.
+
 ## src Folder Structure
 
 The `src` directory is organized into the following main subdirectories:
