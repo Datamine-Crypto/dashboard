@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, Divider, Typography } from '@mui/materi
 import Grid from '@mui/material/Grid';
 import React, { useContext } from 'react';
 
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 
 import { BNToDecimal, getBlocksRemaining } from '../../../web3/helpers';
 
@@ -283,7 +283,7 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const MintStatsCard: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const { address, selectedAddress, addressLock, addressDetails, addressTokenDetails, balances, ecosystem } = web3State;
 	if (!addressLock || !addressDetails || !addressTokenDetails || !selectedAddress || !balances) {

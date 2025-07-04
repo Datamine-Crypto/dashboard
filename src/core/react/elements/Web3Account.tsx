@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React, { useContext } from 'react';
 
-import { Web3Context } from '../../web3/Web3Context';
+import { useWeb3Context } from '../../web3/Web3Context';
 import CallToActionCard from './Cards/CallToActionCard';
 
 import GlobalCard from './Cards/GlobalCard';
@@ -93,7 +93,7 @@ const Web3Account: React.FC = () => {
 	// This component is responsible for managing and displaying the user's Web3 account connection status.
 	// It handles wallet connection (e.g., MetaMask, WalletConnect), displays the connected address,
 	// and provides options for disconnecting or switching networks.
-	const { state: web3State, dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch } = useWeb3Context();
 
 	const { ecosystem } = web3State;
 

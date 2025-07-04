@@ -21,7 +21,7 @@ import { Close, Launch } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
 import { NetworkType } from '../../../../configs/config.common';
 import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from '../../../helpArticles';
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import AddToFirefoxFragment from '../Fragments/AddToFirefoxFragment';
 import CenteredLoading from '../Fragments/CenteredLoading'; // Assuming you have a loading component
@@ -409,7 +409,7 @@ interface DialogProps {
 	helpArticlesNetworkType: NetworkType;
 }
 const HelpDialog: React.FC<DialogProps> = ({ helpArticle, helpArticlesNetworkType }) => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	return <Render helpArticle={helpArticle} dispatch={web3Dispatch} helpArticlesNetworkType={helpArticlesNetworkType} />;
 };

@@ -20,7 +20,7 @@ import { Diamond } from '@mui/icons-material';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { BNToDecimal } from '../../../web3/helpers';
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import { Balances, commonLanguage } from '../../../web3/web3Reducer';
 
 /**
@@ -214,7 +214,7 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const DamLockDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const total = BNToDecimal(web3State.balances?.damToken ?? null);
 

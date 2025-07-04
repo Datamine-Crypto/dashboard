@@ -7,7 +7,7 @@ import { Ecosystem, Layer } from '../../../../configs/config.common';
 import { DialogType } from '../../../interfaces';
 import { ReducerQuery } from '../../../sideEffectReducer';
 import { BNToDecimal } from '../../../web3/helpers';
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import { Balances, commonLanguage } from '../../../web3/web3Reducer';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
 
@@ -153,7 +153,7 @@ interface DialogParams {
 	dialogType: DialogType;
 }
 const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const { pendingQueries, selectedAddress, balances, ecosystem } = web3State;
 	if (!pendingQueries || !selectedAddress || !balances) {

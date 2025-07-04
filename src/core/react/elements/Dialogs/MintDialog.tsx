@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import React, { useContext } from 'react';
 
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
 import { Redeem } from '@mui/icons-material';
@@ -131,7 +131,7 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const MintDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 	const [address, setAddress] = React.useState(web3State.selectedAddress);
 
 	const { selectedAddress, addressDetails, error, ecosystem } = web3State;

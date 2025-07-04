@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/
 import Grid from '@mui/material/Grid';
 import React, { useContext } from 'react';
 
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 
 import BN from 'bn.js';
 import { getEcosystemConfig } from '../../../../configs/config';
@@ -343,7 +343,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 });
 
 const RealtimeLiqudityCard: React.FC = () => {
-	const { state: web3State } = useContext(Web3Context);
+	const { state: web3State } = useWeb3Context();
 
 	const { balances, addressTokenDetails, addressDetails, ecosystem } = web3State;
 	if (!balances || !addressTokenDetails || !addressDetails) {

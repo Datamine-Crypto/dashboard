@@ -21,6 +21,28 @@ import { availableSwapTokens } from '../utils/swap/performSwap';
 import { SwapOperation, SwapQuote, SwapToken, SwapTokenWithAmount } from '../utils/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN } from './helpers';
 
+type Commands = typeof commonLanguage.commands;
+type Queries = typeof commonLanguage.queries;
+
+type RecursiveKeyOf<TObj extends object> = {
+	[TKey in keyof TObj & (string | number)]: TObj[TKey] extends object
+		? `${TKey}` | `${TKey}.${RecursiveKeyOf<TObj[TKey]>}`
+		: `${TKey}`;
+}[keyof TObj & (string | number)];
+
+type CommandType = RecursiveKeyOf<Commands>;
+type QueryType = RecursiveKeyOf<Queries>;
+
+// Augment the existing interfaces to be more specific
+declare module '../sideEffectReducer' {
+	interface ReducerCommand {
+		type: CommandType;
+	}
+	interface ReducerQuery {
+		type: QueryType;
+	}
+}
+
 export enum ConnectionMethod {
 	MetaMask = 'MetaMask',
 	WalletConnect = 'WalletConnect',
@@ -1848,7 +1870,7 @@ const initialState: Web3State = {
 		gemAddresses: getCustomMarketAddresses(),
 		gemsCollected: getMarketGemsCollected(),
 	},
-};
+} as const;
 
 // This reducer manages the core Web3 state and orchestrates interactions with the blockchain.
 // It implements a "Commands & Queries" pattern:
@@ -1968,6 +1990,6 @@ const commonLanguage = {
 			AmountExceedsMaxAddressMintable: 'Amount exceeds maximum that this address can mint',
 		},
 	},
-};
+} as const;
 
 export { commonLanguage, handleCommand, handleQueryResponse, initialState };

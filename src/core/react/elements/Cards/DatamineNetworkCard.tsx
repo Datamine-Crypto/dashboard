@@ -2,7 +2,7 @@ import { Alert, Box, Button, Card, CardContent, Chip, Divider, Typography } from
 import Grid from '@mui/material/Grid';
 import React, { useContext } from 'react';
 
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 
 import { Visibility, Whatshot } from '@mui/icons-material';
 import { FluxAddressLock } from '../../../interfaces';
@@ -111,7 +111,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 });
 
 const DatamineNetworkCard: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const { addressLock, address, selectedAddress } = web3State;
 	if (!addressLock || !selectedAddress) {

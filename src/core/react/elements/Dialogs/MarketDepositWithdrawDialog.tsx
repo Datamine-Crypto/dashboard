@@ -22,7 +22,7 @@ import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { MarketAddressLock } from '../../../interfaces';
 import { BNToDecimal } from '../../../web3/helpers';
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import { Balances, commonLanguage } from '../../../web3/web3Reducer';
 
 enum Action {
@@ -212,7 +212,7 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const MarketDepositWithdrawDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const {
 		balances,

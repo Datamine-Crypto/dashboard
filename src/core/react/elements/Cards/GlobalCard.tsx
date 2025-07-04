@@ -2,7 +2,7 @@ import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React, { useContext } from 'react';
 
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem, Layer } from '../../../../configs/config.common';
@@ -173,7 +173,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
  * It fetches global data from the Web3Context and renders it using the Render component.
  */
 const GlobalCard: React.FC = () => {
-	const { state: web3State } = useContext(Web3Context);
+	const { state: web3State } = useWeb3Context();
 
 	const { addressDetails, addressTokenDetails, balances, ecosystem } = web3State;
 	if (!addressDetails || !addressTokenDetails || !balances) {

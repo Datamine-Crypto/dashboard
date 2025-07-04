@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useReducer } from 'react';
+import React, { ReactNode, useContext, useEffect, useReducer } from 'react';
 
 import { queryHandlers } from './Web3Bindings';
 import { handleCommand, handleQueryResponse, initialState, Web3State } from './web3Reducer';
@@ -12,7 +12,7 @@ export interface Web3ContextValue {
 	emitter: EventEmitter;
 }
 
-const Web3Context = React.createContext<Web3ContextValue>(null as any);
+const Web3Context = React.createContext<Web3ContextValue | undefined>(undefined);
 
 const emitter = new EventEmitter();
 const reducer = sideEffectReducer({
@@ -39,4 +39,12 @@ const Web3ContextProvider: React.FC<Props> = ({ children }) => {
 	return <Web3Context.Provider value={{ state, dispatch, emitter }}>{children}</Web3Context.Provider>;
 };
 
-export { Web3Context, Web3ContextProvider };
+const useWeb3Context = () => {
+	const context = useContext(Web3Context);
+	if (context === undefined) {
+		throw new Error('useWeb3Context must be used within a Web3ContextProvider');
+	}
+	return context;
+};
+
+export { Web3ContextProvider, useWeb3Context };

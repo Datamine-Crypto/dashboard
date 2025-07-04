@@ -8,7 +8,7 @@ import walletconnectIcon from '../../../../svgs/walletconnect.svg';
 
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import { commonLanguage as web3CommonLanguage } from '../../../web3/web3Reducer';
 
 interface RenderParams {
@@ -120,7 +120,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 interface Props {}
 
 const WalletConnectButton: React.FC<Props> = ({}) => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 	const { ecosystem } = web3State;
 
 	return <Render dispatch={web3Dispatch} ecosystem={ecosystem} />;

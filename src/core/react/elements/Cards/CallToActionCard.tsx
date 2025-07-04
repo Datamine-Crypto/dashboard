@@ -27,7 +27,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import Big from 'big.js';
 import BN from 'bn.js';
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import {
 	Balances,
 	ClientSettings,
@@ -1653,7 +1653,7 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const CallToActionCard: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const {
 		addressLock,

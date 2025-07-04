@@ -9,7 +9,7 @@ import uniswapLogo from '../../../../svgs/uniswap.svg';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
 const useStyles = tss.create(({ theme }) => ({
@@ -346,7 +346,7 @@ interface Params {
 	ecosystem: Ecosystem;
 }
 const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, hideIcon, contents, ecosystem }) => {
-	const { dispatch: web3Dispatch } = useContext(Web3Context);
+	const { dispatch: web3Dispatch } = useWeb3Context();
 
 	return (
 		<Render

@@ -5,7 +5,7 @@ import React, { useContext } from 'react';
 import { theme as datamineTheme } from '../../../styles';
 
 import { SearchCategory, SearchCategoryText, SearchCategoryTextL2 } from '../../../helpArticles';
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import FooterFragment from '../../elements/Fragments/FooterFragment';
 import HelpComboboxFragment from '../../elements/Fragments/HelpComboboxFragment';
 
@@ -31,7 +31,7 @@ interface Props {}
  */
 const HelpPage: React.FC<Props> = () => {
 	const { classes } = useStyles();
-	const { state: web3State, dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch } = useWeb3Context();
 	const { helpArticlesNetworkType, ecosystem } = web3State;
 
 	return (

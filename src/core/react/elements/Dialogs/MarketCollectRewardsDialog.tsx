@@ -19,7 +19,7 @@ import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { DialogType, FluxAddressDetails, MarketAddressLock, Token } from '../../../interfaces';
 import { BNToDecimal, getPriceToggle } from '../../../web3/helpers';
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import { Balances, commonLanguage, ConnectionMethod, MarketAddresses, MarketDetails } from '../../../web3/web3Reducer';
 import DatamineGemsGame, { Gem } from '../Fragments/DatamineGemsGame';
 import { getNetworkDropdown } from '../Fragments/EcosystemDropdown';
@@ -437,7 +437,7 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const MarketCollectRewardsDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	useEffect(() => {
 		web3Dispatch({ type: commonLanguage.commands.Market.RefreshMarketAddresses, payload: {} });

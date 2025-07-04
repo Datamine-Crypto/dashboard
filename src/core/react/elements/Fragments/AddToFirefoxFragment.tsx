@@ -7,7 +7,7 @@ import { Ecosystem } from '../../../../configs/config.common';
 import metamaskIcon from '../../../../svgs/metamask.svg';
 import { DialogType } from '../../../interfaces';
 import { addToMetamask } from '../../../web3/helpers';
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import { commonLanguage, ConnectionMethod } from '../../../web3/web3Reducer';
 import LightTooltip from '../LightTooltip';
 
@@ -79,7 +79,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 interface Props {}
 
 const AddToFirefoxFragment: React.FC<Props> = ({}) => {
-	const { state: web3State, dispatch: web3Dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const { connectionMethod, ecosystem } = web3State;
 

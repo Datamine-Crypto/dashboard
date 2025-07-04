@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { Ecosystem } from '../../../configs/config.common';
 
 import Grid from '@mui/system/Grid';
-import { Web3Context } from '../../web3/Web3Context';
+import { useWeb3Context } from '../../web3/Web3Context';
 
 import {
 	Autorenew as AutorenewIcon,
@@ -320,7 +320,7 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const RealtimeRewardsGameFiPage: React.FC<Props> = ({}) => {
-	const { state: web3State, dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch } = useWeb3Context();
 	const { ecosystem } = web3State;
 
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;

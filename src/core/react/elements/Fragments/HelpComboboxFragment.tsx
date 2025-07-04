@@ -2,7 +2,7 @@ import { Autocomplete, TextField } from '@mui/material';
 import React, { useContext } from 'react';
 import { NetworkType } from '../../../../configs/config.common';
 import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from '../../../helpArticles';
-import { Web3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
 import { tss } from 'tss-react/mui';
@@ -84,7 +84,7 @@ interface Props {
 	isBigSearch?: boolean;
 }
 const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
-	const { state: web3State, dispatch } = useContext(Web3Context);
+	const { state: web3State, dispatch } = useWeb3Context();
 
 	const { searchQuery, helpArticles, helpArticlesNetworkType } = web3State;
 
