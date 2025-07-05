@@ -76,6 +76,97 @@ yarn start
 
 This will open the application in your browser at `https://localhost:3000`. The page will automatically reload if you make any code changes.
 
+# 🗺️ Context Map: Datamine Network Knowledge Base
+
+This map outlines the key concepts, components, and principles of the Datamine Network, serving as a shared knowledge base.
+
+- **🌐 Datamine Network Overview**
+  - **🎯 Purpose:** Web-based dashboard for interacting with Datamine smart contracts, viewing analytics, and managing assets across different blockchain layers.
+  - **✨ Core Values & Principles:**
+    - 💧 Transaction-incentivized Liquidity Pools
+    - 🔥 On-Chain Linear Deflation (FLUX)
+    - 📊 Realtime Multi-Smart Contract Analytics
+    - 🔒 Secure By Design & Professionally Audited
+    - 🤝 Built For The Community
+    - 🌍 Global Problem Solved (Inflation)
+
+- **🪙 Tokens**
+  - **💰 DAM (Datamine Token)**
+    - 🔢 Fixed Supply: 16,876,778 tokens
+    - 📜 Standard: ERC-777
+    - 💡 Primary Use: Staking to power validators
+  - **⚡ FLUX (Flux Token)**
+    - 📈 Supply: Non-fixed, linear and predictable deflation through burning
+    - 💡 Primary Use: Base currency of the ecosystem, earned through minting
+  - **🔵 ArbiFLUX**
+    - 🔗 Layer: L2 (Arbitrum)
+    - 💡 Primary Use: Combats gas costs of minting FLUX on L1
+  - **🔐 LOCK (Lockquidity Token)**
+    - 🎯 Purpose: Enhances stability, contributes to permanent liquidity pool
+    - ⛏️ Minting: Minted by locking ArbiFLUX
+    - 🔥 Burning Mechanism: Redirects value to liquidity pool (not supply reduction)
+    - 📊 Market Efficiency: 100% - percentage of LOCK inside the market
+
+- **⚙️ Core Mechanisms & Features**
+  - **✅ Validator (Mint Start/Stop)**
+    - 🔄 Process: Locking DAM tokens to generate FLUX
+  - **🤝 Delegated Minting:** Allows another address to mint FLUX on behalf of a validator
+  - **📱 Remote Minting/Burning:** Mint/burn FLUX from phone to any Ethereum address
+  - **✂️ Partial Minting:** Specify percentage (0-100%) to mint smaller amounts
+  - **⏳ Mint Age Multiplier:** Increases over time (up to 3x after 28 days) for continuous validator operation
+  - **🔥 Burn Multiplier:** Variable (up to 10x) based on FLUX burned relative to global averages
+  - **🛒 Datamine Market (Decentralized "Time-in-market" solution)**
+    - 💡 Concept: Decentralizes "Time-in-market", creates decentralized demand
+    - 🔄 Mechanism: Validators offer rewards for burning LOCK to their account (single ETH transaction)
+  - **💎 Datamine Gems #GameFi**
+    - 🎮 Concept: Real-time game to collect "gems" (public market addresses with unminted balances)
+    - 🔄 Mechanism: Burning tokens, V2 Public Market smart contract, atomic batch burning, optimized reward distribution, "Collect all gems" button
+    - 🎯 Goal: Increase monetary velocity and transactional throughput
+
+- **🔗 Ecosystems & Layers**
+  - **⛓️ Multi-chain Support:** Ethereum Mainnet (L1), Arbitrum (L2)
+  - **🌳 Ecosystems Defined:**
+    - DAM->FLUX (L1)
+    - FLUX (L2)->ArbiFLUX (L2)
+    - ArbiFLUX (L2)->LOCK (L2)
+  - **⚙️ Configuration:** Managed in `src/configs/ecosystems/`
+
+- **📜 Smart Contracts & ABIs**
+  - **📍 Location:** `src/core/web3/abis/`
+  - **🔑 Key Contracts:**
+    - DAM Token (`dam.json`)
+    - FLUX Token (`flux.json`)
+    - Market Contract (`market.json`)
+    - Uniswap V2 Router (`uniswapv2router.json`)
+    - Uniswap Pair (`uniswapPair.json`)
+    - Uniswap Pair V3 (`uniswapPairV3.json`)
+    - Multicall (`multicall.json`)
+  - **🛡️ Security Features:** SafeMath, Mutex, Checks-Effects-Interactions, Modifiers (`preventSameBlock()`, `requireLocked()`), Immutable State Variables, ERC-1820 ERC777TokensRecipient
+  - **🛠️ Core Functions:** `lock()`, `unlock()`, `burnToAddress()`, `mintToAddress()`
+  - **🔍 View-Only Functions (Analytics):** `getMintAmount()`, `getAddressTimeMultiplier()`, `getAddressBurnMultiplier()`, `getAddressRatio()`, `getGlobalRatio()`
+  - **📦 Data Aggregation:** `getAddressDetails()`, `getAddressTokenDetails()`
+
+- **🏗️ Application Architecture (High-Level)**
+  - **🖥️ UI:** React components (`src/core/react/`)
+  - **🔗 Blockchain Interaction:** Web3.js, Web3Bindings, Web3Context, web3Reducer (`src/core/web3/`)
+  - **🧠 State Management:** `web3Reducer.ts` and `Web3Bindings.ts` (Commands & Queries pattern), `sideEffectReducer.ts`
+  - **🔧 Utilities:** Helper functions (`src/core/utils/`)
+  - **⚙️ Configuration:** `src/configs/`
+  - **🎨 Styling:** `tss-react`, `useStyles`, Material-UI themes (`src/core/styles.ts`)
+  - **🚨 Error Handling:** `src/core/web3/helpers.ts` (`rethrowWeb3Error`), `web3Reducer.ts` (error state), Material-UI Snackbars/Dialogs
+
+- **🔌 Third-Party Integrations**
+  - **📚 Help Articles:** Markdown files in `public/helpArticles/`, fetched via `fetch` API
+  - **🔍 Search:** `fuse.js` for help articles
+
+- **🛠️ Development & Deployment**
+  - **🏗️ Build Tool:** Vite (`vite.config.mts`)
+  - **📦 Package Manager:** Yarn
+  - **📜 Scripts:** `yarn start`, `yarn build`, `yarn deploy`, `yarn format`, `yarn lint`
+  - **💻 Local Development:** HTTPS via `vite-plugin-mkcert`
+  - **🧹 Code Quality:** ESLint, Prettier, Husky, Lint-staged
+  - **🚀 Deployment:** GitHub Pages (`.github/workflows/deploy.yml`, `package.json` homepage field)
+
 ## Available Scripts
 
 In the project directory, you can run the following scripts:
