@@ -117,6 +117,57 @@ Extra information help you understand the Datamine ecosystem better:
 - **VS Code Workspace Hiding**: The `.vscode/settings.json` file is configured to hide various development-related files and folders (e.g., `.husky`, `.yarn`, `.vscode`, `.github`, `.env`, `.eslintrc.json`, `.gitignore`, `.pnp.cjs`, `.pnp.loader.mjs`, `.prettierrc.json`, `index.html`, `LICENSE`, `tsconfig.json`, `tsconfig.node.json`, `vite.config.mts`, `yarn.lock`, `build`, `node_modules`, `src/react-app-env.d.ts`, `src/service-worker.ts`, `src/serviceWorkerRegistration.ts`, `src/vite-env.d.ts`) from the VS Code explorer to reduce clutter.
 - **`yarn lint` script**: A new `lint` script has been added to `package.json` to easily run ESLint across the project.
 
+#### 12. New Features & GameFi (from 2025-05-27 onwards)
+
+- **Datamine Market (Decentralized "Time-in-market" solution):** A revolutionary way to decentralize "Time-in-market" and create true decentralized demand. Validators can offer a percentage reward for others to burn LOCK to their account, effectively decentralizing demand and increasing market efficiency. This happens seamlessly in a single Ethereum transaction.
+- **Datamine Gems #GameFi:** A real-time game where users collect "gems" (public market addresses with unminted balances) by burning tokens. It features a new V2 Public Market smart contract for even greater throughput, atomic batch burning from multiple addresses, and optimized reward distribution. A "Collect all gems" button allows for single-transaction collection from multiple addresses. This aims to increase monetary velocity and transactional throughput.
+
+#### 13. Lockquidity (LOCK) Token
+
+- **Purpose:** Enhances stability by contributing to a permanent liquidity pool.
+- **Minting:** Minted by locking ArbiFLUX.
+- **Burning Mechanism:** Burning LOCK redirects value to the liquidity pool instead of reducing supply, ensuring long-term stability.
+- **Market Efficiency:** A new metric defined as 100% - percentage of LOCK inside the market. Higher market efficiency indicates more trading volatility and benefits validators.
+
+#### 14. Core Values & Ecosystem Principles
+
+- **Transaction-incentivized Liquidity Pools:** DAM and FLUX offer unique incentives for providing liquidity on Uniswap & Balancer pools, ensuring constant token movement.
+- **On-Chain Linear Deflation:** FLUX supply is non-fixed and features predictable deflation through a burning mechanism, with its generation tied to DAM staking.
+- **Realtime Multi-Smart Contract Analytics:** The dashboard provides real-time on-chain market sentiment, balances in USD, and analytics through deep Uniswap integration.
+- **Secure By Design & Professionally Audited:** All business logic is executed via audited smart contracts, ensuring fund safety and security without third-party involvement.
+- **Built For The Community:** Utilizes serverless, web3, and mobile technologies for a seamless and secure user experience.
+- **Global Problem Solved:** The Datamine Ecosystem aims to solve inflation through its deflationary tokenomics and on-chain demand generation.
+
+#### 15. Token Specifications & Mechanics
+
+- **DAM (Datamine Token):** Fixed supply (16,876,778 tokens), ERC-777 standard, primarily used for staking to power validators.
+- **FLUX (Flux Token):** Non-fixed supply, base currency of the ecosystem, features linear and predictable deflation through burning.
+- **Validator (Mint Start/Stop):** Process of locking DAM tokens to generate FLUX.
+- **Delegated Minting:** Allows a different Ethereum address to mint FLUX tokens on behalf of a validator.
+- **Remote Minting/Burning:** Features for minting FLUX from a phone to any Ethereum address, and burning FLUX to any address with an active mint.
+- **Partial Minting:** Ability to specify a percentage of minting (0-100%) and mint smaller amounts to other addresses.
+- **Mint Age Multiplier:** Increases over time (up to 3x after 28 days) for continuous validator operation.
+- **Burn Multiplier:** Variable multiplier (up to 10x) based on FLUX burned relative to global averages.
+
+#### 16. Uniswap Integration
+
+- **Adding Liquidity:** Guides on how to add liquidity to Uniswap pools, specifically the ETH-DAM pair, to earn fees from trading activity.
+- **Buying Datamine Tokens:** Instructions on how to purchase DAM tokens on Uniswap by swapping with ETH or other ERC-20 tokens.
+
+#### 17. Smart Contracts - In-Depth Breakdown
+
+- **Technology Stack:** Smart contracts are written in Solidity (v0.6.9) and are ERC-777 compatible, built upon OpenZeppelin secure libraries.
+- **Security Features:**
+    - **SafeMath:** Used for all arithmetic operations to prevent integer overflow and underflow.
+    - **Mutex & Checks-Effects-Interactions Pattern:** Over-used for re-entrancy attack protection and ensuring state changes occur after checks and before external interactions.
+    - **Modifiers:** Custom modifiers like `preventSameBlock()` and `requireLocked()` enhance security and prevent user errors.
+    - **Immutable State Variables:** Key variables are set at contract creation and cannot be changed, improving security.
+    - **ERC-1820 ERC777TokensRecipient Implementation:** Unique implementation to control which tokens can be sent to the FLUX smart contract.
+- **Core Functions:** Detailed explanation of `lock()`, `unlock()`, `burnToAddress()`, and `mintToAddress()` functions, including their security considerations and how they modify the contract's state.
+- **View-Only Functions:** Explanation of `getMintAmount()`, `getAddressTimeMultiplier()`, `getAddressBurnMultiplier()`, `getAddressRatio()`, and `getGlobalRatio()` functions, which provide real-time analytics without modifying state.
+- **Data Aggregation:** Helper functions like `getAddressDetails()` and `getAddressTokenDetails()` are provided to reduce network calls for dashboard data.
+- **Additional Security Considerations (ConsenSys):** Adherence to best practices like preparing for failure, careful rollout, keeping contracts simple, staying up to date, awareness of blockchain properties, and secure development recommendations (external calls, public data, integer handling, assert/require/revert usage, modifiers, rounding, fallback functions, visibility, pragma locking, events, `tx.origin`, timestamp dependence, EIP20 approve/transferFrom attack).
+
 ## src Folder Structure
 
 The `src` directory is organized into the following main subdirectories:
