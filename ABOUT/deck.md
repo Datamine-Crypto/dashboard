@@ -301,3 +301,63 @@ This is an "atomic collection" because it's coded in the smart contract. Meaning
 This is an example of how GameFi can be optimized further. This atomic collection allows us to maximise transactional throughput with more frequent minting.
 
 Additionally validators that participate in datamine gems will get greater rewards with more frequent burning to their addresses.
+
+// 2025-07-05 update:
+
+Here is some more structured information about the project that might be useful for the pitch.
+
+### Core Technologies
+- **Framework:** React v19.0.0
+- **UI Library:** Material-UI (MUI) v7.1.2
+- **Blockchain Interaction:** Web3.js v4.16.0, @walletconnect/ethereum-provider
+- **Language:** TypeScript v5.7.3
+- **Build Tool:** Vite v7.0.0
+- **Package Manager:** Yarn v4.9.2
+
+### Key Architectural Patterns
+The `src` directory is organized with a clear separation of concerns:
+
+- **`src/core/`**: Contains the application's core logic.
+  - **`src/core/react/`**: Houses all React components, pages, and UI-related elements.
+  - **`src/core/web3/`**: Manages all blockchain interactions, including Web3 provider setup, contract bindings, and ABI definitions (located in `src/core/web3/abis/`).
+  - **`src/core/utils/`**: A collection of helper functions for tasks like formatting, calculations, and clipboard interaction.
+- **`src/configs/`**: Manages all environment and application configurations.
+  - **`src/configs/ecosystems/`**: Defines specific configurations for different blockchain environments the dashboard can connect to, such as Ethereum Mainnet (L1) and Arbitrum (L2). This is a critical directory for understanding multi-chain functionality.
+
+### Key Smart Contracts and ABIs
+
+- `src/core/web3/abis/dam.json`: ABI for the Datamine (DAM) token contract.
+- `src/core/web3/abis/flux.json`: ABI for the Flux (FLUX) token contract.
+- `src/core/web3/abis/market.json`: ABI for the core Datamine Network market contract (minting, burning, staking).
+- `src/core/web3/abis/uniswapv2router.json`: ABI for the Uniswap V2 Router.
+- `src/core/web3/abis/uniswapPair.json`: ABI for Uniswap V2 Pair contracts.
+- `src/core/web3/abis/uniswapPairV3.json`: ABI for Uniswap V3 Pair contracts.
+- `src/core/web3/abis/multicall.json`: ABI for the Multicall contract.
+
+### Smart Contracts - In-Depth Breakdown
+
+- **Technology Stack:** Smart contracts are written in Solidity (v0.6.9) and are ERC-777 compatible, built upon OpenZeppelin secure libraries.
+- **Security Features:**
+    - **SafeMath:** Used for all arithmetic operations to prevent integer overflow and underflow.
+    - **Mutex & Checks-Effects-Interactions Pattern:** Over-used for re-entrancy attack protection and ensuring state changes occur after checks and before external interactions.
+    - **Modifiers:** Custom modifiers like `preventSameBlock()` and `requireLocked()` enhance security and prevent user errors.
+    - **Immutable State Variables:** Key variables are set at contract creation and cannot be changed, improving security.
+    - **ERC-1820 ERC777TokensRecipient Implementation:** Unique implementation to control which tokens can be sent to the FLUX smart contract.
+
+### Development Workflow
+The following commands are used for development:
+
+- `yarn start`: Runs the application in development mode using Vite.
+- `yarn build`: Compiles and bundles the application for production.
+- `yarn deploy`: Creates a production build with a specific base path for deployment.
+- `yarn format`: Formats code using Prettier.
+- `yarn lint`: Lints the project using ESLint.
+
+### Vibe Code Contribute
+
+We welcome contributions from the community, and we're excited to introduce a new way to contribute that aligns with the "vibe coding" philosophy, powered by the Gemini CLI. This approach aims to streamline the development process, reduce friction, and allow you to focus on the creative aspects of building.
+
+**Intent-Driven Development:** Instead of manually navigating files and performing repetitive tasks, you can express your intentions directly to the CLI. For example:
+- "Add a new feature to the dashboard."
+- "Refactor this component for better performance."
+- "Fix this bug in the smart contract interaction."
