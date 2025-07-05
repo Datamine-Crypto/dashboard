@@ -1,4 +1,4 @@
-Read the information about this project in ABOUT/deck.md file
+Read the information about this project in ABOUT/deck.md and README.md files
 
 Source is located in `/src` folder. Read that folder as it contains a lot of comments which explain many concepts
 
@@ -395,6 +395,8 @@ FLUX (L1) is using Uniswap V3 (1% pool)
 FLUX (L2) is using Sushiswap (which is a fork of Uniswap V2) (0.3% pool)
 ArbiFLUX (L2) is using Sushiswap (which is a fork of Uniswap V2) (0.3% pool)
 LOCK (L2) is using Uniswap V2 (0.3% pool). The Lockquidity pool is hardcoded into the smart contract and can never be changed again
+- **Q: What is the role of `Web3Context.tsx` in the application's architecture, and how does it facilitate blockchain interactions across different components?**
+- **A:** `Web3Context.tsx` simply provides a `React.createContext` for `Web3State`. There is also a `useWeb3Context` hook so you can access global state (we only have `Web3State` that is global across the entire app).
 - **Q: Could you elaborate on the "forecasting calculator" feature? What is its purpose, and how does it work from a user's perspective?**
 - The forecasting tool allows a user to toggle a "forecasting mode" that shows a forecasted amount that they would mint over a certain time. Here they can drag sliders for burn & time multipliers, enter prediced price and also pick start/end times for their unminted time. This way they can calculate potential amount that can be minted in the future.
 The forecasting tool is available for all ecosystems.
