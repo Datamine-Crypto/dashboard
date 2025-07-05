@@ -8,6 +8,27 @@ import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../confi
 import { Ecosystem } from '../../configs/config.common';
 import { Balances } from './web3Reducer';
 
+/**
+ * @file helperElements.tsx
+ * @description This file contains utility functions and helper components primarily used for
+ * calculating and formatting data related to Web3 interactions and token burning.
+ * It leverages `bn.js` and `big.js` for precise arithmetic operations with large numbers
+ * common in blockchain applications.
+ */
+
+/**
+ * @function getRequiredFluxToBurnDecimal
+ * @description Calculates the required amount of FLUX to burn to reach a specific burn multiplier.
+ * This function performs complex arithmetic based on global and personal burn statistics.
+ * @param {object} params - The parameters for the calculation.
+ * @param {Ecosystem} params.ecosystem - The current blockchain ecosystem.
+ * @param {Big} params.globalFluxBurned - The total amount of FLUX burned globally.
+ * @param {number} params.targetMultiplier - The desired burn multiplier to achieve.
+ * @param {Big} params.globalDamLockedIn - The total amount of DAM locked globally.
+ * @param {Big} params.myFluxBurned - The amount of FLUX burned by the current user.
+ * @param {Big} params.myDamLockedIn - The amount of DAM locked by the current user.
+ * @returns {Big} The calculated amount of FLUX (in decimal form) required to burn.
+ */
 export const getRequiredFluxToBurnDecimal = ({
 	ecosystem,
 	globalFluxBurned,
@@ -77,12 +98,31 @@ export const getRequiredFluxToBurnDecimal = ({
 	return top.div(bottom).div(pow18)
 	*/
 };
+
+/**
+ * @function numberWithCommas
+ * @description Formats a number string by adding commas as thousands separators.
+ * @param {string} numberToFormat - The number string to format.
+ * @returns {string} The formatted number string.
+ */
 export const numberWithCommas = (numberToFormat: string) => {
 	var parts = numberToFormat.split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	return parts.join('.');
 };
 
+/**
+ * @function getRequiredFluxToBurn
+ * @description Calculates the required amount of FLUX to burn to achieve a target burn multiplier.
+ * This function integrates with the application's state (address details, balances) and ecosystem configuration.
+ * @param {object} params - The parameters for the calculation.
+ * @param {FluxAddressDetails} params.addressDetails - Detailed information about the user's Flux address.
+ * @param {FluxAddressLock} params.addressLock - The lock details for the user's Flux address.
+ * @param {Balances} params.balances - The current token balances of the user.
+ * @param {Ecosystem} params.ecosystem - The current blockchain ecosystem.
+ * @param {Big} [params.targetMultiplier=new Big('9')] - The desired target multiplier (defaulting to 9).
+ * @returns {object} An object containing the required FLUX to burn (formatted and raw), its USD equivalent, and a boolean indicating if the target is reached.
+ */
 export const getRequiredFluxToBurn = ({
 	addressDetails,
 	addressLock,
