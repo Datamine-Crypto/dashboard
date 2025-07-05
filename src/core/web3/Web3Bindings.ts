@@ -580,7 +580,7 @@ const queryHandlers = {
 				// On L1 we'll get the balance of pool from Uniswap v3
 				return {
 					uniswapDamTokenReservesV3: {
-						address: config.lockableUniswapV3L1EthTokenContractAddress as string,
+						address: config.lockableUniswapV3L1EthTokenContractAddress || '',
 						function: {
 							signature: {
 								name: 'slot0',

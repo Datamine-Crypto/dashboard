@@ -253,7 +253,7 @@ The `src` directory is organized into the following main subdirectories:
     - **`src/core/utils/swap/`**: Functions related to token swapping.
       - `performSwap.ts`, `performSwapUniswapV2.ts`, `sampleQuoteSingleSwap.ts`, `swapOptions.ts`
   - **`src/core/web3/`**: Manages all blockchain interactions.
-    - `helperElements.tsx`, `helpers.ts`, `Web3Bindings.ts`, `Web3Context.tsx`, `web3Reducer.ts`
+    - `helpers.ts`, `Web3Bindings.ts`, `Web3Context.tsx`, `web3Reducer.ts`
     - **`src/core/web3/abis/`**: ABI (Application Binary Interface) JSON files for smart contracts.
       - `dam.json`, `flux.json`, `market.json`, `multicall.json`, `uniswapPair.json`, `uniswapPairV3.json`, `uniswapv2router.json`
 
@@ -292,7 +292,7 @@ This map outlines the key concepts, components, and principles of the Datamine N
   - **🔐 LOCK (Lockquidity Token)**
     - 🎯 Purpose: Enhances stability, contributes to permanent liquidity pool
     - ⛏️ Minting: Minted by locking ArbiFLUX
-    - 🔥 Burning Mechanism: Redirects value to liquidity pool (not supply reduction)
+    - 🔥 Burning Mechanism: Redirects value to a permanent liquidity pool (not supply reduction)
     - 📊 Market Efficiency: 100% - percentage of LOCK inside the market
 
 - **⚙️ Core Mechanisms & Features**
@@ -383,3 +383,18 @@ This map outlines the key concepts, components, and principles of the Datamine N
 
 - The `devLog` utility in `src/core/utils/devLog.ts` provides a conditional logging mechanism.
 - Logs are only displayed when the `devLog=1` query parameter is present in the URL, which is useful for debugging without affecting the production build.
+
+### Question-Driven Context Expansion
+
+- **Q: What is the purpose of the `sideEffectReducer.ts` file and how does it relate to the existing state management pattern?**
+- **A:** `sideEffectReducer.ts` is a pattern where a reducer can append queries to its state. These queries are then picked up and handled by a separate module (`Web3Bindings.ts`), decoupling asynchronous logic from the synchronous state updates. This ensures that state updates are always instantaneous and predictable, as they are not waiting for asynchronous operations to complete. The `sideEffectReducer` listens for changes in the `pendingQueries` array in the state and executes the corresponding asynchronous logic.
+- **Q: Are there any plans to integrate with other DEXs besides Uniswap V2, and if so, which ones are being considered?**
+- **A:** We're already using a number of DEXes:
+DAM (L1) is using Uniswap V3 (1% pool)
+FLUX (L1) is using Uniswap V3 (1% pool)
+FLUX (L2) is using Sushiswap (which is a fork of Uniswap V2) (0.3% pool)
+ArbiFLUX (L2) is using Sushiswap (which is a fork of Uniswap V2) (0.3% pool)
+LOCK (L2) is using Uniswap V2 (0.3% pool). The Lockquidity pool is hardcoded into the smart contract and can never be changed again
+- **Q: Could you elaborate on the "forecasting calculator" feature? What is its purpose, and how does it work from a user's perspective?**
+- The forecasting tool allows a user to toggle a "forecasting mode" that shows a forecasted amount that they would mint over a certain time. Here they can drag sliders for burn & time multipliers, enter prediced price and also pick start/end times for their unminted time. This way they can calculate potential amount that can be minted in the future.
+The forecasting tool is available for all ecosystems.

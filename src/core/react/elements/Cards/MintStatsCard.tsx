@@ -14,7 +14,7 @@ import { LockOpen } from '@mui/icons-material';
 import Big from 'big.js';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
-import { getRequiredFluxToBurn } from '../../../web3/helperElements';
+import { getRequiredFluxToBurn } from '../../../web3/helpers';
 import DetailedListItem from '../Fragments/DetailedListItem';
 
 /**

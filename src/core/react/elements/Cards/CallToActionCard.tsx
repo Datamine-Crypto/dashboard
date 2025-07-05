@@ -67,7 +67,7 @@ import {
 } from '../../../interfaces';
 import { formatMoney } from '../../../utils/formatMoney';
 import { getApy, TokenPair } from '../../../utils/getApy';
-import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '../../../web3/helperElements';
+import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '../../../web3/helpers';
 import {
 	BNToDecimal,
 	getBlocksRemaining,
