@@ -10,6 +10,12 @@ A standard ERC-777 smart contract token deployed on Ethereum with a **FIXED** su
 ## FLUX
 A **NON-FIXED** supply token that serves as the base currency of the Datamine DeFi ecosystem. FLUX features linear and predictable deflation through a burning mechanism.
 
+## ArbiFLUX
+Operating on Arbitrum (Layer 2), ArbiFLUX is created by locking FLUX. It offers lower transaction costs and faster processing, and can be burned to boost minting rewards on Layer 2, or locked to create LOCK.
+
+## LOCK
+Our newest token, LOCK enhances stability by contributing to a permanent liquidity pool. It is minted by locking ArbiFLUX. Burning LOCK redirects value to the liquidity pool, ensuring long-term stability.
+
 ## Validator (Mint Start/Stop)
 To generate FLUX tokens, you must start a validator by locking your Datamine (DAM) tokens. A validator generates approximately 0.00000001 FLUX per 1 DAM per Ethereum block (roughly every 13 seconds).
 

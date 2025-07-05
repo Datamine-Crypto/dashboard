@@ -29,3 +29,10 @@ Here you can check your FLUX balance with ease and calculate how much FLUX you h
 Visit this section to verify the current FLUX supply and determine what percentage of minted FLUX has been burned globally. Here you will also see the global value of active mints in USD.
 
 ![Dashboard](../../helpArticles/assets/images/pngs/dashboard/dashboard5.png)
+
+## New Features: Datamine Market & Datamine Gems
+
+The Datamine Dashboard is continuously evolving to provide cutting-edge features:
+
+*   **Datamine Market:** Explore the decentralized "Time-in-market" solution, where validators can incentivize others to burn LOCK tokens to their accounts, creating a dynamic and efficient market for token burning and rewards.
+*   **Datamine Gems #GameFi:** Engage with the real-time game that transforms token burning into an interactive experience. Collect "gems" representing unminted balances, utilize atomic batch burning, and optimize your reward collection with the new V2 Public Market smart contract and the "Collect all gems" feature.

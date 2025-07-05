@@ -135,6 +135,21 @@ const helpArticles: HelpArticle[] = [
 
 	// Advanced / Ecosystem In-Depth
 	{
+		id: 'ecosystem/lockquidity_token',
+		title: '💎 Understanding the LOCK (Lockquidity) Token',
+		category: SearchCategory.Advanced,
+	},
+	{
+		id: 'advanced/datamine_market',
+		title: '🛒 Datamine Market: Decentralized "Time-in-Market" Solution',
+		category: SearchCategory.Advanced,
+	},
+	{
+		id: 'advanced/datamine_gems_gamefi',
+		title: '🎮 Datamine Gems #GameFi: The Ultimate Real-Time Game',
+		category: SearchCategory.Advanced,
+	},
+	{
 		id: 'advanced/delegatedMinting',
 		title: '🤝 Delegated Minting Guide',
 		category: SearchCategory.Advanced,
