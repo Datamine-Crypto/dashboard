@@ -1,15 +1,8 @@
-import { Box, List, ListItemButton, ListSubheader, Typography } from '@mui/material';
+import { Box, List, ListItemButton } from '@mui/material';
 import React from 'react';
 
 import { theme as datamineTheme } from '../../../styles';
-import { NetworkType } from '../../../../configs/config.common';
-import {
-	HelpArticle,
-	helpArticles,
-	SearchCategory,
-	SearchCategoryText,
-	SearchCategoryTextL2,
-} from '../../../helpArticles';
+import { HelpArticle } from '../../../helpArticles';
 import { tss } from 'tss-react/mui';
 import { commonLanguage } from '../../../web3/web3Reducer';
 
@@ -22,37 +15,22 @@ const useStyles = tss.create(() => ({
 
 interface HelpArticleCategorySectionProps {
 	dispatch: React.Dispatch<any>;
-	helpArticlesNetworkType: NetworkType;
 	categoryKey: string;
+	filteredArticles: HelpArticle[];
 }
 
-const HelpArticleCategorySection: React.FC<HelpArticleCategorySectionProps> = ({
-	dispatch,
-	helpArticlesNetworkType,
-	categoryKey,
-}) => {
+const HelpArticleCategorySection: React.FC<HelpArticleCategorySectionProps> = ({ dispatch, filteredArticles }) => {
 	const { classes } = useStyles();
-	const isArbitrumMainnet = helpArticlesNetworkType === NetworkType.Arbitrum;
 
 	const getHelpListItems = () => {
-		const matchingHelpArticles = helpArticles.filter((helpArticle) => helpArticle.category === categoryKey);
-
-		return matchingHelpArticles.map((helpArticle: HelpArticle, index: number) => {
-			const getTitle = () => {
-				if (isArbitrumMainnet && !!helpArticle.titleL2) {
-					return helpArticle.titleL2;
-				}
-				return helpArticle.title;
-			};
-			const title = getTitle();
-
+		return filteredArticles.map((helpArticle: HelpArticle, index: number) => {
 			return (
 				<ListItemButton
 					component="a"
 					key={index}
 					onClick={() => dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle } })}
 				>
-					<Box pl={1}>• {title}</Box>
+					<Box pl={1}>• {helpArticle.title}</Box>
 				</ListItemButton>
 			);
 		});

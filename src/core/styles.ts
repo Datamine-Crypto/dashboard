@@ -103,6 +103,18 @@ const muiTheme = createTheme({
 				},
 			},
 		},
+		MuiChip: {
+			styleOverrides: {
+				colorPrimary: {
+					backgroundColor: '#FFF', // Teal background
+					color: '#000', // White text
+				},
+				colorDefault: {
+					backgroundColor: classes.palette.background, // Dark background
+					color: '#fff', // White text
+				},
+			},
+		},
 	},
 });
 export type DatamineTheme = typeof muiTheme;

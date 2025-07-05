@@ -19,8 +19,7 @@ import React, { Suspense, lazy, useContext } from 'react';
 
 import { Close, Launch } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
-import { NetworkType } from '../../../../configs/config.common';
-import { HelpArticle, SearchCategoryText, SearchCategoryTextL2 } from '../../../helpArticles';
+import { HelpArticle, SearchCategoryText } from '../../../helpArticles';
 import { useWeb3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import AddToFirefoxFragment from '../Fragments/AddToFirefoxFragment';
@@ -35,8 +34,6 @@ interface RenderParams {
 	dispatch: React.Dispatch<any>;
 	/** The help article to display. */
 	helpArticle: HelpArticle;
-	/** The network type for which the help articles are being displayed. */
-	helpArticlesNetworkType: NetworkType;
 }
 
 // Dynamically import ReactMarkdown
@@ -81,12 +78,14 @@ const useStyles = tss.create(({ theme }) => ({
 			color: theme.palette.secondary.main,
 		},
 		'& code': {
-			background: '#212438',
+			background: theme.palette.primary.main,
+			color: theme.palette.secondary.main,
 			fontSize: '0.8rem',
 			padding: theme.spacing(1),
 		},
 		'& pre': {
-			background: '#212438',
+			background: theme.palette.primary.main,
+			color: theme.palette.secondary.main,
 			padding: theme.spacing(2),
 			overflow: 'auto',
 		},
@@ -141,13 +140,11 @@ enum ComponentType {
  * This dialog displays help articles formatted with Markdown, including dynamic content and styling.
  * @param params - Object containing dispatch function, helpArticle, and helpArticlesNetworkType.
  */
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType }) => {
+const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) => {
 	const { classes } = useStyles();
 
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-	const isArbitrumMainnet = helpArticlesNetworkType === NetworkType.Arbitrum;
 
 	const onClose = () => {
 		//dispatch({ type: commonLanguage.commands.CloseDialog });
@@ -314,18 +311,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 	};
 
 	const getTitle = () => {
-		if (isArbitrumMainnet && !!helpArticle.titleL2) {
-			return helpArticle.titleL2;
-		}
-
 		return helpArticle.title;
 	};
 	const title = getTitle();
 
 	const getCategoryHeader = () => {
-		if (isArbitrumMainnet) {
-			return SearchCategoryTextL2[helpArticle.category as keyof typeof SearchCategoryTextL2];
-		}
 		return SearchCategoryText[helpArticle.category as keyof typeof SearchCategoryText];
 	};
 	const categoryHeader = getCategoryHeader();
@@ -406,12 +396,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 
 interface DialogProps {
 	helpArticle: HelpArticle;
-	helpArticlesNetworkType: NetworkType;
 }
-const HelpDialog: React.FC<DialogProps> = ({ helpArticle, helpArticlesNetworkType }) => {
+const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
-	return <Render helpArticle={helpArticle} dispatch={web3Dispatch} helpArticlesNetworkType={helpArticlesNetworkType} />;
+	return <Render helpArticle={helpArticle} dispatch={web3Dispatch} />;
 };
 
 export default HelpDialog;

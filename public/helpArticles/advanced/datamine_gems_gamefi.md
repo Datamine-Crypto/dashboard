@@ -1,4 +1,4 @@
-# Datamine Gems #GameFi: The Ultimate Real-Time Game
+# 💎 Datamine Gems #GameFi: The Ultimate Real-Time Game
 
 Datamine Gems #GameFi represents the ultimate fusion of gaming and finance, creating a real-time, decentralized, and highly engaging experience for users within the Datamine Network. It transforms the act of token burning and reward collection into an interactive game.
 

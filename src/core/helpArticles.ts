@@ -1,51 +1,74 @@
 export enum SearchCategory {
-	Onboarding = 'Onboarding',
-	//Use = 'Use',
-	Dashboard = 'Dashboard',
-	Learn = 'Learn',
-	Advanced = 'Advanced',
-	Uniswap = 'Uniswap',
+	GettingStarted = 'GettingStarted',
+	DashboardFeatures = 'DashboardFeatures',
+	EcosystemConcepts = 'EcosystemConcepts',
+	AdvancedOperations = 'AdvancedOperations',
+	TokenSwapping = 'TokenSwapping',
 }
+
+export enum UserTypeFilter {
+	All = 'All',
+	NewUser = 'NewUser',
+	ExistingUser = 'ExistingUser',
+}
+
 export enum SearchCategoryText {
-	Learn = '📚 Learning The Ecosystem (L1)',
-	Onboarding = '🚀 Getting Started',
-	//Use = 'Using The Ecosystem',
-	Dashboard = '📊 Using The Dashboard',
-	Advanced = '🧠 Ecosystem In-Depth (Advanced Topics)',
-	Uniswap = '🦄 Uniswap & Automated Liquidity',
+	GettingStarted = '🚀 Getting Started',
+	TokenSwapping = '🦄 Token Swapping & Liquidity',
+	DashboardFeatures = '📊 Using The Dashboard',
+	EcosystemConcepts = '📚 Understanding The Ecosystem',
+	AdvancedOperations = '🧠 Advanced Operations',
 }
-export enum SearchCategoryTextL2 {
-	Learn = '📚 Learning The Ecosystem (L2)',
-	Onboarding = '🚀 Getting Started',
-	//Use = 'Using The Ecosystem',
-	Dashboard = '📊 Using The Dashboard (Arbitrum L2)',
-	Advanced = '🧠 Ecosystem In-Depth (Advanced Topics)',
-	Uniswap = '🦄 Uniswap & Automated Liquidity',
-}
+
 /**
  * Interface for a help article.
  */
+export enum SearchTag {
+	MetaMask = 'MetaMask',
+	Validator = 'Validator',
+	L1 = 'L1',
+	L2 = 'L2',
+	Token = 'Token',
+	Minting = 'Minting',
+	Burning = 'Burning',
+	Uniswap = 'Uniswap',
+	LOCK = 'LOCK',
+	DAM = 'DAM',
+	FLUX = 'FLUX',
+	ArbiFLUX = 'ArbiFLUX',
+	GameFi = 'GameFi',
+	Security = 'Security',
+	Troubleshooting = 'Troubleshooting',
+	Wallet = 'Wallet',
+	Bridge = 'Bridge',
+	Analytics = 'Analytics',
+	GasFees = 'Gas Fees',
+	DelegatedMinting = 'Delegated Minting',
+	Market = 'Market',
+	Ecosystem = 'Ecosystem',
+}
+
 export interface HelpArticle {
 	/**
 	 * Unique identifier for the help article. This often corresponds to the markdown file name.
 	 */
 	id: string;
 	/**
-	 * The primary title of the help article (for L1 ecosystem).
+	 * The title of the help article.
 	 */
 	title: string;
-	/**
-	 * Optional: The title of the help article for the L2 ecosystem, if different from L1.
-	 */
-	titleL2?: string;
-	/**
-	 * Optional: The path to the L2 specific markdown article, if different from L1.
-	 */
-	articleL2Path?: string;
 	/**
 	 * The category the help article belongs to.
 	 */
 	category: SearchCategory;
+	/**
+	 * Optional: Specifies if the article is for new users, existing users, or both.
+	 */
+	userType?: UserTypeFilter;
+	/**
+	 * Optional: An array of tags associated with the article.
+	 */
+	tags?: SearchTag[];
 
 	/**
 	 * This is filled out after loading help article markdown
@@ -63,144 +86,179 @@ export interface HelpArticle {
  * The content of these articles is loaded from markdown files based on their 'id'.
  */
 const helpArticles: HelpArticle[] = [
-	// Learning Ecosystem
-	{
-		id: 'core_values',
-		title: '💡 Datamine Core Values',
-		className: 'rightImages',
-		category: SearchCategory.Learn,
-	},
-	{
-		id: 'whitepaper/whitepaper_technical',
-		title: '📄 Technical Whitepaper',
-		category: SearchCategory.Learn,
-	},
-
-	{
-		id: 'ecosystem/tokenSpecifications',
-		title: '📝 Token Specifications',
-		category: SearchCategory.Learn,
-	},
-	{
-		id: 'ecosystem/useCases',
-		title: '💡 Use Cases',
-		category: SearchCategory.Learn,
-	},
-	{
-		id: 'ecosystem/mintingBonusesExplained',
-		title: '💰 Minting Bonuses Explained',
-		category: SearchCategory.Learn,
-	},
-	{
-		id: 'ecosystem/datamineDashboardOverview',
-		title: '📊 Datamine Dashboard Overview',
-		category: SearchCategory.Learn,
-	},
-
-	// Onboarding
+	// Getting Started
 	{
 		id: 'onboarding/installingUsingMetamask',
 		title: '🦊 MetaMask: Installing & Using',
-		category: SearchCategory.Onboarding,
+		category: SearchCategory.GettingStarted,
+		userType: UserTypeFilter.NewUser,
+		tags: [SearchTag.MetaMask, SearchTag.Wallet],
 	},
 	{
 		id: 'onboarding/addTokensToMetamask',
-		title: '🦊 MetaMask: Adding DAM / FLUX Tokens',
-		titleL2: '🦊 MetaMask: Adding FLUX / ArbiFLUX Tokens',
-		category: SearchCategory.Onboarding,
+		title: '🦊 MetaMask: Adding DAM, FLUX, ArbiFLUX, & LOCK Tokens',
+		category: SearchCategory.GettingStarted,
+		userType: UserTypeFilter.NewUser,
+		tags: [SearchTag.MetaMask, SearchTag.Token, SearchTag.DAM, SearchTag.FLUX, SearchTag.ArbiFLUX, SearchTag.LOCK],
 	},
 	{
 		id: 'onboarding/connectingMetamask',
 		title: '🔗 MetaMask: Connecting To Dashboard',
-		category: SearchCategory.Onboarding,
+		category: SearchCategory.GettingStarted,
+		userType: UserTypeFilter.NewUser,
+		tags: [SearchTag.MetaMask, SearchTag.Wallet],
 	},
 	{
 		id: 'onboarding/hardwareWalletLedger',
 		title: '🔐 Hardware Wallet: Connecting to Ledger Nano S',
-		category: SearchCategory.Onboarding,
-	},
-
-	// Uniswap
-	{
-		id: 'uniswap/buyingDatamineTokens',
-		title: '📈 Uniswap: Buying Datamine (DAM)',
-		titleL2: '📈 Uniswap: Buying FLUX (L2)',
-		category: SearchCategory.Uniswap,
+		category: SearchCategory.GettingStarted,
+		userType: UserTypeFilter.NewUser,
+		tags: [SearchTag.Wallet, SearchTag.Security],
 	},
 	{
-		id: 'uniswap/addingLiquidity',
-		title: '💧 Uniswap: Adding Liquidity',
-		category: SearchCategory.Uniswap,
+		id: 'ecosystem/understanding_datamine_ecosystems',
+		title: '🌐 Understanding Datamine Ecosystems',
+		category: SearchCategory.EcosystemConcepts,
+		userType: UserTypeFilter.All,
+		tags: [
+			SearchTag.Ecosystem,
+			SearchTag.DAM,
+			SearchTag.FLUX,
+			SearchTag.ArbiFLUX,
+			SearchTag.LOCK,
+			SearchTag.L1,
+			SearchTag.L2,
+			SearchTag.Bridge,
+		],
 	},
 
-	// Advanced / Ecosystem In-Depth
+	// Dashboard Features
+	{
+		id: 'dashboard/startingDecentralizedMint',
+		title: '🚀 Starting Validator (All Ecosystems)',
+		category: SearchCategory.DashboardFeatures,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.Validator, SearchTag.Minting, SearchTag.L1, SearchTag.L2],
+	},
+	{
+		id: 'dashboard/mintFluxTokens',
+		title: '⛏️ Minting FLUX, ArbiFLUX & LOCK Tokens',
+		category: SearchCategory.DashboardFeatures,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.Minting, SearchTag.FLUX, SearchTag.ArbiFLUX, SearchTag.L1, SearchTag.L2],
+	},
+	{
+		id: 'dashboard/burningFluxTokens',
+		title: '🔥 Burning FLUX, ArbiFLUX & LOCK Tokens',
+		category: SearchCategory.DashboardFeatures,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.Burning, SearchTag.FLUX, SearchTag.ArbiFLUX, SearchTag.L1, SearchTag.L2],
+	},
+	{
+		id: 'ecosystem/datamineDashboardOverview',
+		title: '📊 Datamine Dashboard Overview',
+		category: SearchCategory.DashboardFeatures,
+		userType: UserTypeFilter.All,
+		tags: [SearchTag.Analytics],
+	},
+
+	// Understanding the Ecosystem
+	{
+		id: 'core_values',
+		title: '💡 Datamine Core Values',
+		className: 'rightImages',
+		category: SearchCategory.EcosystemConcepts,
+		userType: UserTypeFilter.All,
+		tags: [SearchTag.Ecosystem],
+	},
+	{
+		id: 'ecosystem/tokenSpecifications',
+		title: '📝 Token Specifications',
+		category: SearchCategory.EcosystemConcepts,
+		userType: UserTypeFilter.All,
+		tags: [SearchTag.Token, SearchTag.DAM, SearchTag.FLUX, SearchTag.ArbiFLUX, SearchTag.LOCK],
+	},
+	{
+		id: 'ecosystem/useCases',
+		title: '💡 Use Cases',
+		category: SearchCategory.EcosystemConcepts,
+		userType: UserTypeFilter.All,
+		tags: [SearchTag.Ecosystem],
+	},
+	{
+		id: 'ecosystem/mintingBonusesExplained',
+		title: '💰 Minting Bonuses Explained',
+		category: SearchCategory.EcosystemConcepts,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.Minting, SearchTag.Validator],
+	},
+
+	// Advanced Operations
+	{
+		id: 'whitepaper/whitepaper_technical',
+		title: '📄 Technical Whitepaper',
+		category: SearchCategory.AdvancedOperations,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.Ecosystem],
+	},
 	{
 		id: 'ecosystem/lockquidity_token',
 		title: '💎 Understanding the LOCK (Lockquidity) Token',
-		category: SearchCategory.Advanced,
+		category: SearchCategory.AdvancedOperations,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.LOCK, SearchTag.Token, SearchTag.L2],
 	},
 	{
 		id: 'advanced/datamine_market',
 		title: '🛒 Datamine Market: Decentralized "Time-in-Market" Solution',
-		category: SearchCategory.Advanced,
+		category: SearchCategory.AdvancedOperations,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.Market, SearchTag.GameFi],
 	},
 	{
 		id: 'advanced/datamine_gems_gamefi',
 		title: '🎮 Datamine Gems #GameFi: The Ultimate Real-Time Game',
-		category: SearchCategory.Advanced,
+		category: SearchCategory.AdvancedOperations,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.GameFi],
 	},
 	{
 		id: 'advanced/delegatedMinting',
 		title: '🤝 Delegated Minting Guide',
-		category: SearchCategory.Advanced,
+		category: SearchCategory.AdvancedOperations,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.DelegatedMinting, SearchTag.Minting],
 	},
 	{
 		id: 'advanced/lockinMoreDatamineTokens',
-		title: '📈 How to grow your validator (Add more DAM)',
-		titleL2: '📈 How to grow your validator ( Add more FLUX (L2) )',
-		category: SearchCategory.Advanced,
+		title: '📈 How to grow your validator (Add more tokens)',
+		category: SearchCategory.AdvancedOperations,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.Validator, SearchTag.DAM, SearchTag.FLUX, SearchTag.ArbiFLUX],
 	},
 	{
 		id: 'advanced/metamaskGas',
 		title: '⛽ MetaMask: Transaction Speed & GAS fees',
-		category: SearchCategory.Advanced,
+		category: SearchCategory.AdvancedOperations,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.MetaMask, SearchTag.GasFees, SearchTag.Troubleshooting],
 	},
 
-	// Dashboard
+	// Token Swapping & Liquidity
 	{
-		id: 'dashboard/startingDecentralizedMint',
-		title: '🚀 Starting Validator',
-		titleL2: '🚀 Starting Validator',
-		category: SearchCategory.Dashboard,
-		articleL2Path: 'dashboard/startingDecentralizedMintL2',
+		id: 'uniswap/buyingDatamineTokens',
+		title: '📈 Uniswap: Buying Datamine (DAM), FLUX, ArbiFLUX, LOCK',
+		category: SearchCategory.TokenSwapping,
+		userType: UserTypeFilter.All,
+		tags: [SearchTag.Uniswap, SearchTag.Token, SearchTag.DAM, SearchTag.FLUX, SearchTag.ArbiFLUX],
 	},
 	{
-		id: 'dashboard/mintFluxTokens',
-		title: '⛏️ Minting FLUX Tokens',
-		titleL2: '⛏️ Minting ArbiFLUX Tokens',
-		category: SearchCategory.Dashboard,
-		articleL2Path: 'dashboard/mintArbiFluxTokensL2',
+		id: 'uniswap/addingLiquidity',
+		title: '💧 Uniswap: Adding Liquidity',
+		category: SearchCategory.TokenSwapping,
+		userType: UserTypeFilter.ExistingUser,
+		tags: [SearchTag.Uniswap, SearchTag.Token],
 	},
-	{
-		id: 'dashboard/burningFluxTokens',
-		title: '🔥 Burning FLUX Tokens',
-		titleL2: '🔥 Burning ArbiFLUX Tokens',
-		category: SearchCategory.Dashboard,
-		articleL2Path: 'dashboard/burningArbiFluxTokensL2',
-	},
-
-	/*
-	{
-		id: 'minting_flux',
-		title: 'Minting FLUX Tokens',
-		category: SearchCategory.Use
-	},
-	{
-		id: 'burning_tokens',
-		title: 'Burning Tokens',
-		category: SearchCategory.Use
-	},
-	*/
 ];
 
 export { helpArticles };
