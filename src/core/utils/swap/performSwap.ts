@@ -1,3 +1,9 @@
+/**
+ * @file performSwap.ts
+ * @description This file serves as the main entry point for initiating token swaps.
+ * It abstracts the underlying swap platform (e.g., Uniswap, SushiSwap) and routes the request to the appropriate handler.
+ */
+
 import fluxAbi from '../../web3/abis/flux.json';
 import uniswapV2RouterABI from '../../web3/abis/uniswapv2router.json';
 import { performSwapUniswapV2, UniswapV2SwapPlatformOptions } from './performSwapUniswapV2';
@@ -9,9 +15,19 @@ import EthereumPurpleLogo from '../../../svgs/ethereumPurple.svg';
 import fluxLogo from '../../../svgs/fluxLogo.svg';
 import lockquidityLogo from '../../../svgs/lockquidity.svg';
 
+/**
+ * @interface SwapTokenDetailsUniswapV2
+ * @description Extends the base `SwapTokenDetails` with Uniswap V2 specific information.
+ */
 interface SwapTokenDetailsUniswapV2 extends SwapTokenDetails {
 	uniswapv2routerAddress: string;
 }
+
+/**
+ * @constant availableSwapTokens
+ * @description An array of objects defining the details of all tokens available for swapping in the application.
+ * This includes token addresses, ABIs, logos, and the specific Uniswap V2 router address for each token.
+ */
 export const availableSwapTokens: SwapTokenDetails[] = [
 	{
 		swapToken: SwapToken.LOCK,

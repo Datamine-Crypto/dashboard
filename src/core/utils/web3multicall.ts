@@ -3,16 +3,24 @@
 import Web3 from 'web3';
 
 /**
- * This file contains a very useful function to utilize multicall smart contract.
- * We've combined this together with some typescript magic to easily utilize this in a single call while retaining types
+ * @file web3multicall.ts
+ * @description This file provides functions to encode and decode multicall requests, a technique to batch multiple
+ * smart contract read calls into a single network request. This is highly efficient for fetching disparate data from the blockchain.
  */
 
+/**
+ * @interface MultiCallParams
+ * @description Defines the structure for a single call within a multicall batch.
+ */
 export interface MultiCallParams {
+	/** The address of the contract to call. */
 	address: string;
+	/** The function to call, including its signature and parameters. */
 	function: {
 		signature: any;
 		parameters: string[];
 	};
+	/** The expected return types and a callback to process the results. */
 	returns: {
 		params: string[];
 		callback: (...params: any[]) => any;
@@ -20,8 +28,10 @@ export interface MultiCallParams {
 }
 
 /**
- * Compress multiple smart calls into one using a key/value object
- * The value can be undefined (which would be excluded from the call)
+ * Encodes a set of contract calls into the format expected by the Multicall contract.
+ * @param web3 - The Web3 instance.
+ * @param multicallParams - A record of named calls, where each value is a `MultiCallParams` object.
+ * @returns An array of encoded call data, ready to be sent to the Multicall contract.
  */
 export const encodeMulticall = (web3: Web3, multicallParams: Record<string, MultiCallParams>) => {
 	const multicallEntries = Object.entries(multicallParams);
@@ -36,13 +46,22 @@ export const encodeMulticall = (web3: Web3, multicallParams: Record<string, Mult
 		]);
 };
 
+/**
+ * @interface EncodedMulticallResults
+ * @description Defines the structure of the results returned from a Multicall contract execution.
+ */
 interface EncodedMulticallResults {
 	blockNumber: string;
 	returnData: any[];
 }
 
 /**
- * Decode the result of a multicall contract call. These should be mapped directly against the called params (to exclude any calls that we didn't want to call )
+ * Decodes the aggregated results from a Multicall contract call.
+ * It maps the raw return data back to the original call definitions and applies the specified callbacks.
+ * @param web3 - The Web3 instance.
+ * @param encodedMulticallResults - The raw results from the Multicall contract.
+ * @param multicallParams - The original record of named calls used for encoding.
+ * @returns A record of named results, where each key corresponds to a call in the original `multicallParams`.
  */
 export const decodeMulticall = (
 	web3: Web3,

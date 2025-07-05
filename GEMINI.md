@@ -354,3 +354,32 @@ This map outlines the key concepts, components, and principles of the Datamine N
   - **💻 Local Development:** HTTPS via `vite-plugin-mkcert`
   - **🧹 Code Quality:** ESLint, Prettier, Husky, Lint-staged
   - **🚀 Deployment:** GitHub Pages (`.github/workflows/deploy.yml`, `package.json` homepage field)
+
+# 💡 Codebase Insights
+
+### Multicall Implementation
+
+- The application utilizes a multicall contract to batch multiple read-only blockchain calls into a single request. This is implemented in `src/core/utils/web3multicall.ts`.
+- The `encodeMulticall` function prepares the data for the multicall contract, and `decodeMulticall` parses the aggregated response.
+- This approach significantly improves performance by reducing the number of RPC calls to the blockchain.
+
+### Uniswap V2 Integration
+
+- The application integrates with Uniswap V2 for token swapping, with the core logic located in `src/core/utils/swap/`.
+- `performSwapUniswapV2.ts` handles the entire swap process, including:
+    - Fetching quotes using `getAmountsOut`.
+    - Calculating slippage tolerance.
+    - Checking and approving token allowances.
+    - Executing the swap transaction.
+- The `availableSwapTokens` array in `performSwap.ts` defines the tokens that can be swapped and their corresponding Uniswap V2 router addresses.
+
+### Gas Fee Estimation
+
+- The `getGasFees` function in `src/core/web3/helpers.ts` estimates gas fees for transactions.
+- It supports both legacy gas price and EIP-1559 `maxFeePerGas` and `maxPriorityFeePerGas` based on client settings.
+- This ensures that transactions are processed in a timely manner without overpaying for gas.
+
+### Development Logging
+
+- The `devLog` utility in `src/core/utils/devLog.ts` provides a conditional logging mechanism.
+- Logs are only displayed when the `devLog=1` query parameter is present in the URL, which is useful for debugging without affecting the production build.

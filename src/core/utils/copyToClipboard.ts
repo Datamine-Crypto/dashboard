@@ -1,4 +1,10 @@
 /**
+ * @file copyToClipboard.ts
+ * @description Provides a cross-browser utility to copy text to the user's clipboard.
+ * It uses the modern `navigator.clipboard` API with a fallback to a legacy `execCommand` method for older browsers.
+ */
+
+/**
  * Copies the given string to the clipboard using a fallback method involving a textarea element.
  * This method is used when the modern `navigator.clipboard.writeText` API is not available or fails.
  * @param str The string to copy to the clipboard.

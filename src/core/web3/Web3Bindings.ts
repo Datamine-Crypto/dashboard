@@ -24,10 +24,21 @@ import { performSwap } from '../utils/swap/performSwap';
 import { SwapOptions, SwapPlatform, SwapToken } from '../utils/swap/swapOptions';
 import { decodeMulticall, encodeMulticall, MultiCallParams } from '../utils/web3multicall';
 
+/**
+ * @var web3provider - Holds the current Web3 provider instance (e.g., MetaMask, WalletConnect).
+ */
 let web3provider: any = null;
 
+/**
+ * @var preselectedAddress - Stores the user's address before full initialization, useful for early UI updates.
+ */
 let preselectedAddress: string | null = null;
 
+/**
+ * Retrieves the currently selected Ethereum address from the provider.
+ * It checks multiple sources within the provider to ensure compatibility.
+ * @returns The selected Ethereum address or null if not available.
+ */
 const getSelectedAddress = () => {
 	if (!web3provider) {
 		return null;
@@ -49,6 +60,11 @@ const getSelectedAddress = () => {
 	return selectedAddress;
 };
 
+/**
+ * Prompts the user to connect their wallet and pre-selects the first available address.
+ * This function tries multiple methods to ensure wallet connection.
+ * @returns An array of available addresses.
+ */
 const preselectAddress = async () => {
 	try {
 		const addresses = await web3provider.enable();
@@ -83,6 +99,12 @@ const preselectAddress = async () => {
 	return [];
 };
 
+/**
+ * Initializes and returns contract instances based on the selected ecosystem.
+ * @param web3 - The Web3 instance.
+ * @param ecosystem - The currently selected ecosystem (e.g., DAM->FLUX L1).
+ * @returns An object containing all necessary contract instances.
+ */
 const getContracts = (web3: Web3, ecosystem: Ecosystem) => {
 	const config = getEcosystemConfig(ecosystem);
 	return {
@@ -108,6 +130,9 @@ const getContracts = (web3: Web3, ecosystem: Ecosystem) => {
 	};
 };
 
+/**
+ * Local configuration for Web3 bindings.
+ */
 const localConfig = {
 	/**
 	 * Always show connection buttons
@@ -128,7 +153,9 @@ const localConfig = {
 };
 
 /**
- * Every 12 seconds (when a new block comes in) refresh the state
+ * Subscribes to new block updates and dispatches a refresh command periodically.
+ * @param web3 - The Web3 instance.
+ * @param dispatch - The reducer's dispatch function.
  */
 const subscribeToBlockUpdates = (web3: Web3, dispatch: React.Dispatch<any>) => {
 	setInterval(() => {
@@ -136,6 +163,12 @@ const subscribeToBlockUpdates = (web3: Web3, dispatch: React.Dispatch<any>) => {
 	}, localConfig.blockUpdatesIntervalMs);
 };
 
+/**
+ * Signs a typed message to prove ownership of an address, used for accessing pro features.
+ * @param web3 - The Web3 instance.
+ * @param selectedAddress - The user's selected address.
+ * @returns The signature result.
+ */
 const getSignature = async (web3: any, selectedAddress: any) => {
 	const msgParams = [
 		{
@@ -177,7 +210,7 @@ const getSignature = async (web3: any, selectedAddress: any) => {
 };
 
 /**
- * We'll use this to clear setTimeout for commonLanguage.queries.Swap.ThrottleGetOutputQuote
+ * @var thottleGetOutputQuoteTimeout - Timeout ID for throttling swap quote requests.
  */
 let thottleGetOutputQuoteTimeout: any;
 
@@ -185,6 +218,10 @@ let thottleGetOutputQuoteTimeout: any;
 // Each function here corresponds to a specific blockchain interaction (e.g., minting, swapping, reading contract data).
 // It's crucial that these functions handle network errors and return results back to the reducer for state updates.
 const queryHandlers = {
+	/**
+	 * Finds and initializes the Web3 provider (MetaMask or WalletConnect).
+	 * It sets up listeners for account and network changes to keep the app state synced.
+	 */
 	[commonLanguage.queries.FindWeb3Instance]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
 		const useWalletConnect = query.payload?.useWalletConnect;
 
@@ -211,6 +248,9 @@ const queryHandlers = {
 			};
 			subscribeToAccountUpdates(dispatch);
 
+			/**
+			 * Subscribes to network changes and reinitializes Web3 if the network is switched.
+			 */
 			const subscribeToNetworkChanges = (dispatch: React.Dispatch<any>) => {
 				const reinitializeWeb3 = () => {
 					dispatch({
@@ -228,6 +268,9 @@ const queryHandlers = {
 			};
 			subscribeToNetworkChanges(dispatch);
 
+			/**
+			 * Retrieves the initial selected address and starts block update subscriptions if available.
+			 */
 			const getInitialSelectedAddress = () => {
 				if (localConfig.skipInitialConnection) {
 					return null;
@@ -269,6 +312,9 @@ const queryHandlers = {
 
 		throw commonLanguage.errors.Web3NotFound;
 	},
+	/**
+	 * Enables the Web3 provider, requesting account access from the user if necessary.
+	 */
 	[commonLanguage.queries.EnableWeb3]: async ({ state, dispatch }: QueryHandler<Web3State>) => {
 		// Reemove wlaletConnectionProvider to ensure getSelectedAddress() returns proper address
 		//walletConnectProvider = null;
@@ -343,12 +389,18 @@ const queryHandlers = {
 		}
 	},
 	*/
+	/**
+	 * Disconnects the WalletConnect session.
+	 */
 	[commonLanguage.queries.DisconnectWalletConnect]: async ({ state, dispatch }: QueryHandler<Web3State>) => {
 		if (web3provider) {
 			web3provider.disconnect();
 		}
 	},
 
+	/**
+	 * Fetches access links for pro features by sending a signed message to the backend.
+	 */
 	[commonLanguage.queries.FindAccessLinks]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3 } = state;
 		const selectedAddress = getSelectedAddress();
@@ -380,6 +432,10 @@ const queryHandlers = {
 			accessLinks,
 		};
 	},
+	/**
+	 * Fetches all relevant on-chain data for the current user account in a single batch request using multicall.
+	 * This includes balances, contract details, and Uniswap pool reserves.
+	 */
 	[commonLanguage.queries.FindAccountState]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3, address, ecosystem } = state;
 
@@ -1363,6 +1419,9 @@ const queryHandlers = {
 			}
 		}
 	},
+	/**
+	 * Authorizes the FLUX contract to spend the user's DAM tokens.
+	 */
 	[commonLanguage.queries.GetAuthorizeFluxOperatorResponse]: async ({ state }: QueryHandler<Web3State>) => {
 		const { web3 } = state;
 		if (!web3) {
@@ -1384,6 +1443,9 @@ const queryHandlers = {
 
 		return response && response.status;
 	},
+	/**
+	 * Locks a specified amount of DAM tokens to start minting FLUX.
+	 */
 	[commonLanguage.queries.GetLockInDamTokensResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3 } = state;
 		if (!web3) {
@@ -1407,6 +1469,9 @@ const queryHandlers = {
 
 		return response && response.status;
 	},
+	/**
+	 * Mints available FLUX tokens.
+	 */
 	[commonLanguage.queries.GetMintFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3 } = state;
 		if (!web3) {
@@ -1430,6 +1495,9 @@ const queryHandlers = {
 
 		return response && response.status;
 	},
+	/**
+	 * Burns a specified amount of FLUX tokens to increase the minting multiplier.
+	 */
 	[commonLanguage.queries.GetBurnFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3 } = state;
 		if (!web3) {
@@ -1450,6 +1518,9 @@ const queryHandlers = {
 
 		return response && response.status;
 	},
+	/**
+	 * Burns tokens through the Datamine Market to collect rewards from other validators.
+	 */
 	[commonLanguage.queries.Market.GetMarketBurnFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3, ecosystem } = state;
 		if (!web3) {
@@ -1492,6 +1563,9 @@ const queryHandlers = {
 			return { gems };
 		}
 	},
+	/**
+	 * Deposits tokens into the Datamine Market to be available for public burning.
+	 */
 	[commonLanguage.queries.Market.GetDepositMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3, ecosystem } = state;
 		if (!web3) {
@@ -1538,6 +1612,9 @@ const queryHandlers = {
 
 		return depositResponse;
 	},
+	/**
+	 * Refreshes the data for all addresses listed in the Datamine Gems GameFi market.
+	 */
 	[commonLanguage.queries.Market.GetRefreshMarketAddressesResponse]: async ({
 		state,
 		query,
@@ -1612,6 +1689,9 @@ const queryHandlers = {
 
 		return { marketAddresses };
 	},
+	/**
+	 * Withdraws all accumulated rewards from the Datamine Market.
+	 */
 	[commonLanguage.queries.Market.GetWithdrawMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3, ecosystem } = state;
 		if (!web3) {
@@ -1635,6 +1715,9 @@ const queryHandlers = {
 
 		return withdrawResponse;
 	},
+	/**
+	 * Unlocks all previously locked DAM tokens.
+	 */
 	[commonLanguage.queries.GetUnlockDamTokensResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { web3 } = state;
 		if (!web3) {
@@ -1654,6 +1737,9 @@ const queryHandlers = {
 		return response && response.status;
 	},
 
+	/**
+	 * Throttles requests for swap output quotes to prevent excessive calls while the user is typing.
+	 */
 	[commonLanguage.queries.Swap.ThrottleGetOutputQuote]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
 		if (!state.web3) {
 			return;
@@ -1665,6 +1751,9 @@ const queryHandlers = {
 			dispatch({ type: commonLanguage.commands.Swap.ResetThottleGetOutputQuote });
 		}, localConfig.thottleGetOutputQuoteMs);
 	},
+	/**
+	 * Fetches the expected output amount for a given token swap.
+	 */
 	[commonLanguage.queries.Swap.GetOutputQuote]: async ({ state, query }: QueryHandler<Web3State>) => {
 		if (!state.web3) {
 			return;
@@ -1701,6 +1790,9 @@ const queryHandlers = {
 			rethrowWeb3Error(err);
 		}
 	},
+	/**
+	 * Executes a token swap.
+	 */
 	[commonLanguage.queries.GetTradeResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
 		if (!state.web3) {
 			return;
@@ -1732,12 +1824,18 @@ const queryHandlers = {
 
 		return true;
 	},
+	/**
+	 * Resets the body of all help articles, forcing a refetch when the network changes.
+	 */
 	[commonLanguage.queries.ResetHelpArticleBodies]: async ({}: QueryHandler<Web3State>) => {
 		// After switching network betwen L1/L2 clear the body (so proper body loads)
 		for (const helpArticle of helpArticles) {
 			helpArticle.body = undefined;
 		}
 	},
+	/**
+	 * Fetches the full content of a specific help article from its Markdown file.
+	 */
 	[commonLanguage.queries.GetFullHelpArticle]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const helpArticle = query.payload.helpArticle as HelpArticle;
 		const helpArticlesNetworkType = query.payload.helpArticlesNetworkType as NetworkType;
@@ -1766,6 +1864,9 @@ const queryHandlers = {
 		return helpArticle;
 	},
 
+	/**
+	 * Performs a search on help articles using Fuse.js.
+	 */
 	[commonLanguage.queries.PerformSearch]: async ({ state, query }: QueryHandler<Web3State>) => {
 		const { searchQuery } = query.payload;
 		const options = {

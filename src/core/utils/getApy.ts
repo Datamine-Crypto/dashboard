@@ -1,7 +1,16 @@
+/**
+ * @file getApy.ts
+ * @description Contains the logic for calculating the Annual Percentage Yield (APY) for the Datamine Network.
+ * The calculation is based on token prices, liquidity pool data, and protocol-specific parameters like block rewards.
+ */
+
 import Big from 'big.js';
 import { getEcosystemConfig } from '../../configs/config';
 import { Ecosystem } from '../../configs/config.common';
 
+/**
+ * Enum for identifying different token pairs in liquidity pools.
+ */
 export enum TokenPair {
 	USDC_ETH = 'USDC_ETH',
 	FLUX_ETH = 'FLUX_ETH',

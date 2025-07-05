@@ -24,6 +24,9 @@ import { BNToDecimal, getPriceToggle, parseBN } from './helpers';
 type Commands = typeof commonLanguage.commands;
 type Queries = typeof commonLanguage.queries;
 
+/**
+ * A utility type to recursively get all possible dot-notation paths of an object's keys.
+ */
 type RecursiveKeyOf<TObj extends object> = {
 	[TKey in keyof TObj & (string | number)]: TObj[TKey] extends object
 		? `${TKey}` | `${TKey}.${RecursiveKeyOf<TObj[TKey]>}`
@@ -33,7 +36,7 @@ type RecursiveKeyOf<TObj extends object> = {
 type CommandType = RecursiveKeyOf<Commands>;
 type QueryType = RecursiveKeyOf<Queries>;
 
-// Augment the existing interfaces to be more specific
+// Augment the existing interfaces to be more specific for this reducer
 declare module '../sideEffectReducer' {
 	interface ReducerCommand {
 		type: CommandType;
@@ -43,11 +46,17 @@ declare module '../sideEffectReducer' {
 	}
 }
 
+/**
+ * Enum for wallet connection methods.
+ */
 export enum ConnectionMethod {
 	MetaMask = 'MetaMask',
 	WalletConnect = 'WalletConnect',
 }
 
+/**
+ * Interfaces for Uniswap reserve data.
+ */
 interface UniswapReservesDam {
 	dam: BN;
 	eth: BN;
@@ -64,10 +73,18 @@ interface UniswapReservesUsdcEth {
 	usdc: BN;
 	eth: BN;
 }
+
+/**
+ * Enum for forecasting multiplier types.
+ */
 export enum ForecastMultiplierType {
 	Burn = 'Burn',
 	LockIn = 'LockIn',
 }
+
+/**
+ * State for the forecasting calculator.
+ */
 export interface ForecastSettings {
 	enabled: boolean;
 	amount: BN;
@@ -86,6 +103,10 @@ export interface ForecastSettings {
 	forecastFluxPrice: string;
 	alreadyMintedBlocks: number;
 }
+
+/**
+ * State for user's on-chain balances.
+ */
 export interface Balances {
 	damToken: BN;
 	fluxToken: BN;
@@ -105,6 +126,10 @@ export interface Balances {
 	lockedLiquidtyUniTotalSupply: BN;
 	lockedLiquidityUniAmount: BN;
 }
+
+/**
+ * State for client-side settings, persisted in localStorage.
+ */
 export interface ClientSettings {
 	priceMultiplier: number;
 	priceMultiplierAmount: string;
@@ -112,10 +137,17 @@ export interface ClientSettings {
 	currency: string;
 }
 
+/**
+ * State for the token swap interface.
+ */
 export interface SwapState {
 	input: SwapTokenWithAmount;
 	output: SwapTokenWithAmount;
 }
+
+/**
+ * State for all swappable token balances across different layers.
+ */
 export interface SwapTokenBalances {
 	[Layer.Layer1]: {
 		[SwapToken.DAM]: BN;
@@ -129,6 +161,10 @@ export interface SwapTokenBalances {
 		[SwapToken.ETH]: BN;
 	};
 }
+
+/**
+ * State for an address in the Datamine Market.
+ */
 interface MarketAddress {
 	currentAddress: string;
 	mintAmount: BN;
@@ -149,10 +185,18 @@ interface MarketAddress {
 	minterAddress: string;
 	//prevBlockMintAmount: BN;
 }
+
+/**
+ * State for all market addresses.
+ */
 export interface MarketAddresses {
 	targetBlock: number;
 	addresses: MarketAddress[];
 }
+
+/**
+ * State for the Datamine Gems GameFi feature.
+ */
 export interface MarketDetails {
 	gemAddresses: {
 		[Ecosystem.Flux]: string[];
@@ -164,6 +208,10 @@ export interface MarketDetails {
 		sumDollarAmount: 0;
 	};
 }
+
+/**
+ * The main state shape for the entire Web3 context.
+ */
 export interface Web3State {
 	forecastSettings: ForecastSettings;
 	isInitialized: boolean;
@@ -238,6 +286,11 @@ export interface Web3State {
 	market: MarketDetails;
 }
 
+/**
+ * A factory function to create a `withQueries` helper, which simplifies adding new queries to the state.
+ * @param state - The current state.
+ * @returns A function that takes an array of queries and returns an object to be merged into the new state.
+ */
 const createWithWithQueries = (state: any) => {
 	const withQueries = (queries: ReducerQuery[]) => {
 		const queriesWithIds = queries.map((query) => {
@@ -264,6 +317,13 @@ const localConfig = {
 	throttleAccountRefreshMs: 2000,
 };
 
+/**
+ * Handles responses from asynchronous queries executed by Web3Bindings.
+ * It updates the state based on the success or failure of the query.
+ * @param state - The current state.
+ * @param payload - The query response payload, containing the original query, error (if any), and response data.
+ * @returns The new state.
+ */
 const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>) => {
 	const { query, err, response } = payload;
 
@@ -621,6 +681,14 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 	}
 	return state;
 };
+
+/**
+ * Handles synchronous commands dispatched by the UI or other parts of the application.
+ * It updates the state and can queue new queries to be executed by Web3Bindings.
+ * @param state - The current state.
+ * @param command - The command to be executed.
+ * @returns The new state.
+ */
 const handleCommand = (state: Web3State, command: ReducerCommand) => {
 	const withQueries = createWithWithQueries(state);
 

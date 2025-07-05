@@ -1,3 +1,9 @@
+/**
+ * @file sampleQuoteSingleSwap.ts
+ * @description This file provides a sample implementation for getting a swap quote from Uniswap V3.
+ * It is intended for demonstration and is not actively used in the application's main swap functionality.
+ */
+
 import BN from 'bn.js';
 import Web3 from 'web3';
 

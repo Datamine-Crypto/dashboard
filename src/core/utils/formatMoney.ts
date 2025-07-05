@@ -1,5 +1,12 @@
 /**
+ * @file formatMoney.ts
+ * @description Provides a utility function to format a numeric value into a currency string,
+ * supporting different currency codes and formatting options.
+ */
+
+/**
  * Formats a numeric amount into a currency string.
+ * It uses the `Intl.NumberFormat` API for locale-aware currency formatting.
  * @param params - An object containing the amount, currency code, and an optional flag to include the currency suffix.
  * @param params.amount - The numeric amount to format.
  * @param params.currency - The currency code (e.g., 'USD', 'EUR').
