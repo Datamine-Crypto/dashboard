@@ -172,6 +172,59 @@ Extra information help you understand the Datamine ecosystem better:
 - **Data Aggregation:** Helper functions like `getAddressDetails()` and `getAddressTokenDetails()` are provided to reduce network calls for dashboard data.
 - **Additional Security Considerations (ConsenSys):** Adherence to best practices like preparing for failure, careful rollout, keeping contracts simple, staying up to date, awareness of blockchain properties, and secure development recommendations (external calls, public data, integer handling, assert/require/revert usage, modifiers, rounding, fallback functions, visibility, pragma locking, events, `tx.origin`, timestamp dependence, EIP20 approve/transferFrom attack).
 
+#### 18. Help Article Conventions
+
+- **Location:** Help articles are Markdown files located in `public/helpArticles/`.
+- **Rendering:** These Markdown files are rendered by the `HelpDialog` component (`src/core/react/elements/Dialogs/HelpDialog.tsx`) and displayed on the `HelpPage` (`src/core/react/pages/help/HelpPage.tsx`).
+- **Styling:**
+    - Code blocks (`<code>`, `<pre>`) within help articles are styled in `src/core/react/elements/Dialogs/HelpDialog.tsx` to use `theme.palette.primary.main` (white) for background and `theme.palette.secondary.main` (teal) for text, improving readability.
+    - Help article category tags (Material-UI `Chip` components) on the `HelpPage` are styled in `src/core/styles.ts`.
+        - `primary` colored chips (selected) use a teal background (`#00FFFF`) with white text (`#fff`).
+        - `default` colored chips (unselected) use the `classes.palette.background` (dark) with white text (`#fff`).
+- **Titles:** All help article titles should include a unique emoji for better visual organization and engagement.
+
+# 🤝 Vibe Code Contribute
+
+We welcome contributions from the community, and we're excited to introduce a new way to contribute that aligns with the "vibe coding" philosophy, powered by the Gemini CLI. This approach aims to streamline the development process, reduce friction, and allow you to focus on the creative aspects of building.
+
+### What is "Vibe Coding"?
+
+"Vibe coding" is about staying in a creative flow state, where the technical details and tedious tasks are handled by intelligent tools, allowing you to concentrate on the core problem-solving and innovation. With the Gemini CLI, you can interact with the codebase in a more intuitive and efficient manner.
+
+### How to Contribute with Gemini CLI
+
+1.  **Install Gemini CLI:** If you haven't already, install the Gemini CLI on your system. (Instructions for installation can be found in the Gemini CLI documentation).
+2.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/Datamine-Crypto/dashboard.git
+    cd dashboard
+    ```
+3.  **Start Vibe Coding:** Launch the Gemini CLI within your cloned repository. The CLI will act as your intelligent co-pilot, understanding your intent and executing complex tasks with simple commands.
+    *   **Intent-Driven Development:** Instead of manually navigating files and performing repetitive tasks, you can express your intentions directly to the CLI. For example:
+        *   "Add a new feature to the dashboard."
+        *   "Refactor this component for better performance."
+        *   "Fix this bug in the smart contract interaction."
+        *   "Update all help articles to include information about the LOCK token."
+    *   **Automated Code Generation & Modification:** The Gemini CLI can read, search, and modify code across the entire project. It can help you:
+        *   Generate new components or modules based on existing patterns.
+        *   Apply consistent styling changes across multiple files.
+        *   Perform complex refactoring operations with precision.
+        *   Ensure adherence to project conventions and best practices.
+    *   **Contextual Awareness:** The CLI maintains a deep understanding of the project's structure, dependencies, and coding style, ensuring that your contributions seamlessly integrate with the existing codebase.
+4.  **Create a Pull Request:** Once you've completed your changes with the help of the Gemini CLI:
+    *   **Review Changes:** The CLI can help you review your changes and ensure everything is as expected.
+    *   **Commit with Clarity:** The CLI can assist in crafting clear and concise commit messages.
+    *   **Open a Pull Request:** Push your changes to your forked repository and open a pull request to the `main` branch.
+
+### Why Vibe Code?
+
+By leveraging the Gemini CLI, we aim to:
+
+*   **Reduce Friction:** Minimize the time spent on mundane tasks, allowing you to focus on innovation.
+*   **Accelerate Development:** Speed up the development cycle, bringing new features and improvements to the Datamine Network faster.
+*   **Improve Code Quality:** Ensure consistency and adherence to coding standards with automated assistance.
+*   **Foster Creativity:** Empower developers to stay in their creative flow, making contributions more enjoyable and impactful.
+
 ## src Folder Structure
 
 The `src` directory is organized into the following main subdirectories:

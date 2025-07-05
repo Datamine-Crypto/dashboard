@@ -249,6 +249,18 @@ Beyond core Web3.js and Material-UI, the project integrates with other third-par
 -   **Help Article Content**: All help article content is fetched dynamically from Markdown files located in [`public/helpArticles/`](public/helpArticles/) using standard browser `fetch` API calls.
 -   **Search Functionality**: The search capability for help articles is powered by `fuse.js`, a powerful fuzzy-searching library.
 
+### Help Article Conventions
+
+-   **Location:** Help articles are Markdown files located in [`public/helpArticles/`](public/helpArticles/).
+-   **Rendering:** These Markdown files are rendered by the `HelpDialog` component (`src/core/react/elements/Dialogs/HelpDialog.tsx`) and displayed on the `HelpPage` (`src/core/react/pages/help/HelpPage.tsx`).
+-   **Styling:**
+    -   Code blocks (`<code>`, `<pre>`) within help articles are styled in `src/core/react/elements/Dialogs/HelpDialog.tsx` to use `theme.palette.primary.main` (white) for background and `theme.palette.secondary.main` (teal) for text, improving readability.
+    -   Help article category tags (Material-UI `Chip` components) on the `HelpPage` are styled in `src/core/styles.ts`.
+        -   `primary` colored chips (selected) use a teal background (`#00FFFF`) with white text (`#fff`).
+        -   `default` colored chips (unselected) use the `classes.palette.background` (dark) with white text (`#fff`).
+-   **Titles:** All help article titles should include a unique emoji for better visual organization and engagement.
+-   **Content Updates:** Help articles now comprehensively include information about the LOCK token across relevant guides (e.g., burning, minting, growing validators, and Uniswap buying guides).
+
 ## ✨ Features
 
 *   **Realtime Analytics**: Instant access to Datamine (DAM), FLUX, and on-chain Uniswap USD pricing. 📈
@@ -307,20 +319,49 @@ The project's smart contracts are the backbone of the Datamine Network, built wi
 
 ![Dashboard Screenshot 2](ABOUT/images/screenshot2.png)
 
-## 🤝 Contributing
+## 🤝 Vibe Code Contribute
 
-We welcome contributions from the community! If you'd like to contribute, please follow these steps:
+We welcome contributions from the community, and we're excited to introduce a new way to contribute that aligns with the "vibe coding" philosophy, powered by the Gemini CLI. This approach aims to streamline the development process, reduce friction, and allow you to focus on the creative aspects of building.
 
-1.  **Fork** this repository.
-2.  **Clone** your forked repository.
-3.  **Create a new branch** for your feature or bug fix.
-4.  **Make your changes** and ensure they adhere to the existing code style.
-5.  **Test** your changes thoroughly.
-6.  **Commit** your changes with a clear and concise message.
-7.  **Push** your branch to your forked repository.
-8.  **Open a Pull Request** to the `main` branch of this repository.
+### What is "Vibe Coding"?
 
-Please ensure your pull requests are well-documented and address a specific issue or feature. For major changes, please open an issue first to discuss your ideas. Thank you for making the Datamine Network Dashboard better! 🙏
+"Vibe coding" is about staying in a creative flow state, where the technical details and tedious tasks are handled by intelligent tools, allowing you to concentrate on the core problem-solving and innovation. With the Gemini CLI, you can interact with the codebase in a more intuitive and efficient manner.
+
+### How to Contribute with Gemini CLI
+
+1.  **Install Gemini CLI:** If you haven't already, install the Gemini CLI on your system. (Instructions for installation can be found in the Gemini CLI documentation).
+2.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/Datamine-Crypto/dashboard.git
+    cd dashboard
+    ```
+3.  **Start Vibe Coding:** Launch the Gemini CLI within your cloned repository. The CLI will act as your intelligent co-pilot, understanding your intent and executing complex tasks with simple commands.
+    *   **Intent-Driven Development:** Instead of manually navigating files and performing repetitive tasks, you can express your intentions directly to the CLI. For example:
+        *   "Add a new feature to the dashboard."
+        *   "Refactor this component for better performance."
+        *   "Fix this bug in the smart contract interaction."
+        *   "Update all help articles to include information about the LOCK token."
+    *   **Automated Code Generation & Modification:** The Gemini CLI can read, search, and modify code across the entire project. It can help you:
+        *   Generate new components or modules based on existing patterns.
+        *   Apply consistent styling changes across multiple files.
+        *   Perform complex refactoring operations with precision.
+        *   Ensure adherence to project conventions and best practices.
+    *   **Contextual Awareness:** The CLI maintains a deep understanding of the project's structure, dependencies, and coding style, ensuring that your contributions seamlessly integrate with the existing codebase.
+4.  **Create a Pull Request:** Once you've completed your changes with the help of the Gemini CLI:
+    *   **Review Changes:** The CLI can help you review your changes and ensure everything is as expected.
+    *   **Commit with Clarity:** The CLI can assist in crafting clear and concise commit messages.
+    *   **Open a Pull Request:** Push your changes to your forked repository and open a pull request to the `main` branch.
+
+### Why Vibe Code?
+
+By leveraging the Gemini CLI, we aim to:
+
+*   **Reduce Friction:** Minimize the time spent on mundane tasks, allowing you to focus on innovation.
+*   **Accelerate Development:** Speed up the development cycle, bringing new features and improvements to the Datamine Network faster.
+*   **Improve Code Quality:** Ensure consistency and adherence to coding standards with automated assistance.
+*   **Foster Creativity:** Empower developers to stay in their creative flow, making contributions more enjoyable and impactful.
+
+Join us in building the future of DeFi with a truly modern and efficient development experience. We look forward to your "vibe coded" contributions! 🙏
 
 ## 🛠️ Development Workflow
 
