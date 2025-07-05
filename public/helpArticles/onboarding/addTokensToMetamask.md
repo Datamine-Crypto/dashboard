@@ -21,9 +21,9 @@ You're going to head over to "Custom Token" and enter the Token Contract Address
 
 **FLUX Contract Address**: [0x469eDA64aEd3A3Ad6f868c44564291aA415cB1d9](https://etherscan.io/token/0x469eda64aed3a3ad6f868c44564291aa415cb1d9)
 
-**ArbiFLUX Contract Address**: [ARBITRUM_FLUX_CONTRACT_ADDRESS_HERE]
+**ArbiFLUX Contract Address**: [0x64081252c497FCfeC247a664e9D10Ca8eD71b276](https://arbiscan.io/token/0x64081252c497fcfec247a664e9d10ca8ed71b276)]
 
-**LOCK Contract Address**: [LOCK_CONTRACT_ADDRESS_HERE]
+**LOCK Contract Address**: [0x454F676D44DF315EEf9B5425178d5a8B524CEa03](https://arbiscan.io/token/0x454f676d44df315eef9b5425178d5a8b524cea03)]
 
 ![Metamask](../../helpArticles/assets/images/pngs/addingTokensToMetamask/adding2.png#_maxWidth=346)
 

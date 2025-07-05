@@ -10,7 +10,7 @@ Be sure to make your own suggestions to update GEMINI.md as you learn of new con
 
 ### Context Map Instructions
 
-Whenever a new "Context Map" is provided, you *must* update both `GEMINI.md` and `README.md` with the new map. The "Context Map" represents a nested navigation of all the paths and concepts within the Datamine Network. In `README.md`, the "Context Map" should be placed right after the "Quick Start Guide" section.
+The "Context Map" has been added to `README.md` right after the "Quick Start Guide" section. The "Context Map" represents a nested navigation of all the paths and concepts within the Datamine Network.
 
 This project is a React-based web application for interacting with the Datamine Network. It uses Material-UI for components and styling and Web3.js for blockchain interactions. The project is configured to work with multiple blockchain
      ecosystems, as defined in the `src/configs/ecosystems` directory. The core logic is separated into three main directories: `react` for UI components, `utils` for utility functions, and `web3` for blockchain-related logic. The project uses
