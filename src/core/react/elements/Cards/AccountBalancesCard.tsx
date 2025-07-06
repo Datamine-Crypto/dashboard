@@ -2,20 +2,35 @@ import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/
 import Grid from '@mui/material/Grid';
 import React, { useContext } from 'react';
 
+// Web3 context for accessing blockchain state and dispatch functions
 import { useWeb3Context } from '../../../web3/Web3Context';
+// Balances and common language constants from the Web3 reducer
 import { Balances, commonLanguage } from '../../../web3/web3Reducer';
 
+// Material-UI icons for external links, stop, and whatshot
 import { OpenInNew, Stop, Whatshot } from '@mui/icons-material';
+// Interfaces for dialog types, Flux address details, lock, token details, and token enum
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from '../../../interfaces';
+// Helper functions for BN to decimal conversion, burn ratio calculation, and price toggling
 import { BNToDecimal, getBurnRatio, getPriceToggle } from '../../../web3/helpers';
 
+// BN.js library for handling large numbers
 import BN from 'bn.js';
+// Styling utility from tss-react
 import { tss } from 'tss-react/mui';
+// Ecosystem configuration getter
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+// Ecosystem enum for type safety
 import { Ecosystem } from '../../../../configs/config.common';
+// Custom detailed list item component
 import DetailedListItem from '../Fragments/DetailedListItem';
+// Custom light tooltip component
 import LightTooltip from '../LightTooltip';
 
+/**
+ * Styles for the AccountBalancesCard component.
+ * Defines styles for address display and detailed list items container.
+ */
 const useStyles = tss.create(({ theme }) => ({
 	address: {
 		fontSize: '0.7rem',
@@ -80,16 +95,22 @@ const Render: React.FC<RenderParams> = React.memo(
 		const { myRatio } = addressTokenDetails;
 		const { minterAddress } = addressLock;
 
-		const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase(); // Lowercase for WalletConnect
+		// Check if the selected address is the delegated minter (case-insensitive)
+		const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase();
+		// Check if the displayed address is the currently selected address
 		const isCurrentAddress = selectedAddress === displayedAddress;
 
 		/**
-		 * Displays the mint dialog.
+		 * Displays the mint dialog by dispatching a SHOW_DIALOG command.
 		 */
 		const showMintDialog = () => {
 			dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Mint } });
 		};
 
+		/**
+		 * Renders the delegated minter address and a tooltip explaining its role.
+		 * Returns null if no tokens are locked.
+		 */
 		const getDelegatedMinterAddress = () => {
 			if (new BN(addressLock.amount).isZero()) {
 				return null;
@@ -125,6 +146,9 @@ const Render: React.FC<RenderParams> = React.memo(
 			);
 		};
 
+		/**
+		 * Renders the FLUX/Mintable token balance and a burn button.
+		 */
 		const getFluxBalance = () => {
 			const getBurnButton = () => {
 				const showBurnDialog = () => {
@@ -195,6 +219,9 @@ const Render: React.FC<RenderParams> = React.memo(
 			);
 		};
 
+		/**
+		 * Renders the DAM/Lockable token balance.
+		 */
 		const getDamBalance = () => {
 			const getDamBalance = () => {
 				return (
@@ -216,6 +243,9 @@ const Render: React.FC<RenderParams> = React.memo(
 			);
 		};
 
+		/**
+		 * Renders the amount of DAM/Lockable tokens locked in and an unlock button.
+		 */
 		const getDamLockedIn = () => {
 			const getUnlockButton = () => {
 				const showUnlockDialog = () => {
@@ -279,12 +309,18 @@ const Render: React.FC<RenderParams> = React.memo(
 			);
 		};
 
+		/**
+		 * Renders the FLUX/Mintable token burn ratio.
+		 */
 		const getFluxBurnRatio = () => {
 			return (
 				<DetailedListItem title={`${mintableTokenShortName} Burn Ratio:`} main={getBurnRatio(myRatio, ecosystem)} />
 			);
 		};
 
+		/**
+		 * Renders the total amount of FLUX/Mintable tokens burned.
+		 */
 		const getFluxBurned = () => {
 			const getFluxBurnedBalance = () => {
 				return (
@@ -370,6 +406,7 @@ const AccountBalancesCard: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const { addressLock, selectedAddress, address, addressDetails, balances, addressTokenDetails, ecosystem } = web3State;
+	// Render nothing if essential data is not yet available
 	if (!addressLock || !selectedAddress || !addressDetails || !balances || !addressTokenDetails) {
 		return null;
 	}

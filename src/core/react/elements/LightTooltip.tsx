@@ -1,3 +1,9 @@
+/**
+ * @file LightTooltip.tsx
+ * @description This file defines a custom Material-UI Tooltip component with a light theme.
+ * It provides a consistent look and feel for tooltips across the application.
+ */
+
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 
@@ -7,10 +13,10 @@ import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
  */
 interface CustomTooltipProps extends TooltipProps {}
 
-// Create the styled Tooltip component
 /**
  * A custom styled Material-UI Tooltip component with a light theme.
  * It features a dark background, white text, a highlight border, and custom padding and font size.
+ * The arrow color and border are also styled to match the tooltip's background and border.
  * @param props - Props passed to the Material-UI Tooltip component.
  */
 const LightTooltip = styled(({ className, ...props }: CustomTooltipProps) => (

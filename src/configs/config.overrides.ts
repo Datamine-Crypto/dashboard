@@ -1,12 +1,9 @@
 import { getBaseConfig } from './config.base';
 
 /**
- * Your token can override these configs instead of overriding base values
- * These config values are seperate from the original config to avoid conflicts with version updates
- */
-/**
  * Provides a mechanism to override base configuration values without directly modifying the base config.
  * This is useful for custom token deployments or specific project requirements.
+ * Overrides are kept separate to prevent conflicts during version updates.
  * @param baseConfig The base configuration object to be overridden.
  * @returns A partial configuration object containing the overrides.
  */

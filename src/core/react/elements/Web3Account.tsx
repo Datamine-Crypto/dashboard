@@ -1,17 +1,27 @@
 import { Box } from '@mui/material';
 import React, { useContext } from 'react';
 
+// Web3 context for accessing blockchain state and dispatch functions
 import { useWeb3Context } from '../../web3/Web3Context';
+// Call to action card component
 import CallToActionCard from './Cards/CallToActionCard';
 
+// Global statistics card component
 import GlobalCard from './Cards/GlobalCard';
 
+// Styling utility from tss-react
 import { tss } from 'tss-react/mui';
+// Configuration for the current ecosystem
 import { getEcosystemConfig } from '../../../configs/config';
+// Ecosystem enum for type safety
 import { Ecosystem } from '../../../configs/config.common';
+// Account balances card component
 import AccountBalancesCard from './Cards/AccountBalancesCard';
+// Locked liquidity card component
 import LockedLiquidityCard from './Cards/LockedLiquidityCard';
+// Minting statistics card component
 import MintStatsCard from './Cards/MintStatsCard';
+// Real-time liquidity card component
 import RealtimeLiqudityCard from './Cards/RealtimeLiqudityCard';
 
 /**
@@ -24,6 +34,10 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 }
 
+/**
+ * Styles for the Web3Account component, specifically for the cards container.
+ * It defines typography and color styles for primary and secondary list item text.
+ */
 const useStyles = tss.create(({ theme }) => ({
 	cardsContainer: {
 		'& .MuiListItemText-primary': {
@@ -40,7 +54,8 @@ const useStyles = tss.create(({ theme }) => ({
 
 /**
  * A memoized functional component that renders various cards related to the Datamine Network dashboard.
- * It conditionally displays the RealtimeLiquidityCard based on the `isLiquidityPoolsEnabled` flag.
+ * It conditionally displays the RealtimeLiquidityCard based on the `isLiquidityPoolsEnabled` flag
+ * from the ecosystem configuration.
  * @param params - Object containing dispatch function and ecosystem.
  */
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
@@ -48,8 +63,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 	const { isLiquidityPoolsEnabled } = getEcosystemConfig(ecosystem);
 
 	/**
-	 * Conditionally renders the RealtimeLiquidityCard based on whether liquidity pools are enabled.
-	 * @returns The RealtimeLiquidityCard component or null.
+	 * Conditionally renders the RealtimeLiquidityCard based on whether liquidity pools are enabled
+	 * in the current ecosystem configuration.
+	 * @returns The RealtimeLiquidityCard component or null if disabled.
 	 */
 	const getRealtimeLiqudityCard = () => {
 		if (!isLiquidityPoolsEnabled) {
@@ -88,11 +104,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 /**
  * Web3Account component that displays various cards related to the user's Web3 account and the Datamine Network.
  * It consumes the Web3Context to get the current Web3 state and dispatch function.
+ * This component is responsible for managing and displaying the user's Web3 account connection status,
+ * handling wallet connection (e.g., MetaMask, WalletConnect), displaying the connected address,
+ * and providing options for disconnecting or switching networks.
  */
 const Web3Account: React.FC = () => {
-	// This component is responsible for managing and displaying the user's Web3 account connection status.
-	// It handles wallet connection (e.g., MetaMask, WalletConnect), displays the connected address,
-	// and provides options for disconnecting or switching networks.
 	const { state: web3State, dispatch } = useWeb3Context();
 
 	const { ecosystem } = web3State;

@@ -21,7 +21,7 @@ export enum SearchCategoryText {
 }
 
 /**
- * Interface for a help article.
+ * Defines various tags that can be associated with help articles for filtering and categorization.
  */
 export enum SearchTag {
 	MetaMask = 'MetaMask',
@@ -48,6 +48,9 @@ export enum SearchTag {
 	Ecosystem = 'Ecosystem',
 }
 
+/**
+ * Interface for a help article, defining its metadata and content structure.
+ */
 export interface HelpArticle {
 	/**
 	 * Unique identifier for the help article. This often corresponds to the markdown file name.

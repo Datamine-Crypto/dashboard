@@ -1,41 +1,63 @@
 import ecosystemLogoSvg from '../../svgs/lockquidity.svg';
 import { EcosystemConfig, Layer, LiquidityPoolType } from '../config.common';
 
+/**
+ * Provides the complete configuration for the Arbitrum L2 (ArbiFLUX/LOCK) ecosystem.
+ * This configuration includes network details, token addresses, smart contract ABIs, and feature flags
+ * specific to this blockchain, allowing the dashboard to dynamically adapt its functionality.
+ * @returns An `EcosystemConfig` object tailored for the ArbiFLUX/LOCK ecosystem.
+ */
 export const getArbiFluxLockquidityEcosystemConfig = () => {
-	// This file defines the complete configuration for the Arbitrum L2 (ArbiFLUX/LOCK) ecosystem.
-	// It includes network details, token addresses, smart contract ABIs, and feature flags specific to this chain.
-	// This allows the dashboard to dynamically adapt its functionality based on the connected network.
 	return {
+		// Full and short names for the lockable token (ArbiFLUX)
 		lockableTokenFullName: 'ArbiFLUX',
 		lockableTokenShortName: 'ArbiFLUX',
+		// Contract address for the lockable token
 		lockableTokenContractAddress: '0x64081252c497FCfeC247a664e9D10Ca8eD71b276',
+		// Sushiswap L2 ETH pair address for ArbiFLUX
 		lockableSushiSwapL2EthPair: '0xbF719D56c5f19ae0833ADC4080BEfC48A9B415b5',
+		// Indicates if the token pair is swapped (e.g., ETH/ArbiFLUX instead of ArbiFLUX/ETH)
 		lockableSushiSwapL2EthPairSwapPairs: true,
 
+		// Short name for the mintable token (LOCK)
 		mintableTokenShortName: 'LOCK',
+		// Contract address for the mintable token
 		mintableTokenContractAddress: '0x454F676D44DF315EEf9B5425178d5a8B524CEa03',
+		// Sushiswap L2 ETH pair address for LOCK
 		mintableSushiSwapL2EthPair: '0x0C93A1D3F68a0554d37F3e7AF3a1442a94405E7A',
 
+		// Market contract address for Time-in-Market (TIM)
 		marketAddress: '0xe948c8417DD2f8e7dfc88ac3F50b3F89Db7c29Dd',
 
+		// Block number at which the failsafe limit for token lock-up begins
 		failsafeStartBlockNumber: 20959397,
+		// Blockchain layer (Layer 2 for Arbitrum)
 		layer: Layer.Layer2,
 
+		// File names for token logos in the public/logos folder
 		lockableTokenLogoFileName: 'artbiFlux',
 		mintableTokenLogoFileName: 'lock',
+		// Genesis timestamp for minting
 		timestampGenesis: 1728946539,
+		// Primary liquidity pool type for this ecosystem
 		liquidityPoolType: LiquidityPoolType.Uniswap,
 
+		// Mint per block divisor from the smart contract
 		mintableTokenMintPerBlockDivisor: 8,
+		// Number of decimal places for displaying mintable token prices
 		mintableTokenPriceDecimals: 8,
 
+		// SVG asset for the ecosystem logo
 		ecosystemLogoSvg,
 
+		// Address holding locked liquidity in Uniswap
 		lockedLiquidityUniswapAddress: '0xE05E43eE517A6D2862f91Be27315318A8E991FCc',
 
+		// Minimum burn multiplier
 		minBurnMultiplier: 0.0001,
 
-		// Ordered by LOCK/Month
+		// Top burning addresses for this ecosystem, ordered by LOCK/Month
+		// These are used as default gems in Datamine Gems #GameFi
 		marketTopBurningaddresses: [
 			'0x199a2Fc79825a3a5843fEF0c38Ad92dd7E00e57e',
 			'0x66FC9b2c58ef14B95571B9F2FCD994Db66098EaB',

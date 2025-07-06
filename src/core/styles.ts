@@ -105,12 +105,14 @@ const muiTheme = createTheme({
 		},
 		MuiChip: {
 			styleOverrides: {
+				// Styles for primary colored chips (selected help article categories)
 				colorPrimary: {
-					backgroundColor: '#FFF', // Teal background
-					color: '#000', // White text
+					backgroundColor: '#FFF', // White background
+					color: '#000', // Black text
 				},
+				// Styles for default colored chips (unselected help article categories)
 				colorDefault: {
-					backgroundColor: classes.palette.background, // Dark background
+					backgroundColor: classes.palette.background, // Dark background from the palette
 					color: '#fff', // White text
 				},
 			},

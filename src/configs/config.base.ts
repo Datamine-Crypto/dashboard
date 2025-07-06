@@ -1,14 +1,20 @@
+// Imports for token swap options and SVG logos
 import { SwapToken } from '../core/utils/swap/swapOptions';
 import arbiFluxLogo from '../svgs/arbiFluxLogo.svg';
 import fluxLogo from '../svgs/fluxLogo.svg';
 import lockquidityLogo from '../svgs/lockquidity.svg';
 
 import logo from '../svgs/logo.svg';
+// Common configuration for ecosystems
 import { Ecosystem } from './config.common';
+// Ecosystem-specific configurations
 import { getArbiFluxLockquidityEcosystemConfig } from './ecosystems/config.ecosystem.arbiflux_lockquidity_l2';
 import { getDamFluxEcosystemConfig } from './ecosystems/config.ecosystem.dam_flux_l1';
 import { getFluxArbiFluxEcosystemConfig } from './ecosystems/config.ecosystem.flux_arbiflux_l2';
 
+/**
+ * Maps each ecosystem to its specific configuration function.
+ */
 export const ecosystemConfigs = {
 	[Ecosystem.Flux]: getDamFluxEcosystemConfig(),
 	[Ecosystem.ArbiFlux]: getFluxArbiFluxEcosystemConfig(),
@@ -27,12 +33,12 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 	const { layer } = ecosystemConfig;
 
 	/**
-	 * "Explore Liquidity Pools" dropdown
-	 * If isLiquidityPoolsEnabled is set to false you don't have to update this
+	 * Configuration for the "Explore Liquidity Pools" dropdown.
+	 * If `isLiquidityPoolsEnabled` is set to `false`, this section will not be displayed.
 	 */
 	const liquidityPoolGroups = [
 		[
-			// FLUX on L1 pool is hidden so we can focus more liquidity to L2
+			// FLUX on L1 pool is hidden to focus liquidity on L2
 			/*
 			{
 				name: 'FLUX',
