@@ -85,6 +85,7 @@ Github: https://github.com/datamine-crypto
 X: https://x.com/dataminenetwork
 Discord: https://discord.gg/2dQ7XAB22u
 Liquidity Pool: https://www.defined.fi/arb/0x0c93a1d3f68a0554d37f3e7af3a1442a94405e7a?cache=8bc52&quoteToken=token0
+LinkedIn: https://linkedin.com/company/datamine-network
 
 Here is some more explanation on how the ecosystem works, please remove any dollar signs when talking about tokens (EX: $DAM will beocome DAM)
 

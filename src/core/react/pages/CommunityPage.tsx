@@ -2,7 +2,7 @@ import { Box, Card, CardActionArea, Chip, Container, Link, Paper, Typography } f
 import Grid from '@mui/material/Grid';
 import React, { ReactNode, useContext } from 'react';
 
-import { Timeline, Twitter } from '@mui/icons-material';
+import { LinkedIn, Timeline, Twitter } from '@mui/icons-material';
 
 import discordLogo from '../../../svgs/discord.svg';
 import mediumLogo from '../../../svgs/medium.svg';
@@ -188,6 +188,24 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 								),
 								title: 'Twitter: @dataminenetwork',
 								content: `This Twitter community is moderated by Datamine Ecosystem Smart Contact &amp; Analytics Architects. Here you can find regular updates to Datamine Network & Analytics platform. Be sure to follow!`,
+							})}
+						</CardActionArea>
+					</Card>
+				</Link>
+				<Link href="https://linkedin.com/company/datamine-network" target="_blank" rel="noopener noreferrer">
+					<Card elevation={0}>
+						<CardActionArea>
+							{getPoint({
+								icon: (
+									<LinkedIn
+										style={{
+											fontSize: datamineTheme.muiTheme.typography.h3.fontSize,
+											color: datamineTheme.classes.palette.highlight,
+										}}
+									/>
+								),
+								title: 'LinkedIn: Datamine Network',
+								content: `Follow us on LinkedIn for company updates, news, and articles about the Datamine Network.`,
 							})}
 						</CardActionArea>
 					</Card>
