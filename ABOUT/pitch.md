@@ -14,7 +14,7 @@ We are not seeking traditional investment. Instead, we invite forward-thinking W
 
 *   **Launched & Operational:** Since June 8, 2020, with 100% uptime, proving the resilience of our model across multiple market cycles.
 *   **Vibrant Community:** A dedicated base of 158 active users who are the lifeblood of our decentralized ecosystem.
-*   **Substantial Liquidity:** Over $58,340 in decentralized liquidity, demonstrating the market's confidence in our system.
+*   **Substantial Liquidity:** Over $110,000 in decentralized liquidity, demonstrating the market's confidence in our system.
 *   **Continuous Innovation:** A five-year track record of consistent development, with hundreds of updates enhancing the platform's capabilities.
 *   **Radical Transparency:** Every metric is on-chain, real-time, and immutable, offering an unparalleled level of transparency.
 
