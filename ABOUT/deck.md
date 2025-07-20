@@ -66,7 +66,7 @@ Liquidity is king and that's why we've just launched Lockquidity token.
 
 In our ecosystem there are 4 tokens in total but they all serve very unique purposes.
 
-The one I want you to focus on is Lockquidity. It has a permanent liquidity pool where currently we have $27,000 in liquidity with a market cap of $27,000. That's right 100% of the supply is currently in liquidity, crazy numbers.
+The one I want you to focus on is Lockquidity. It has a permanent liquidity pool where currently we have $102,000 in liquidity with a market cap of $102,000. That's right 100% of the supply is currently in liquidity, crazy numbers.
 
 Look I don't really know how to explain everything to one person without it sounding like I am nuts. This is crazy. I have been working on this project for 5 years and I am talking to AI about funding.
 
