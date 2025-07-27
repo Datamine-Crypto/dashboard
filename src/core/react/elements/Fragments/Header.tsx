@@ -199,7 +199,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 						<Grid>
 							<Button
 								variant="text"
-								href="https://dataminenetwork.medium.com/on-chain-immutable-ai-powered-decentralized-venture-opportunity-73e5ef617b72"
+								href="https://github.com/Datamine-Crypto/dashboard/blob/main/ABOUT/Datamine%20Network%20Pitch%20Deck%20-%20July%202025.pdf"
 								rel="noopener noreferrer"
 								target="_blank"
 							>
