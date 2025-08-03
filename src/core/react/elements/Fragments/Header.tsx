@@ -199,7 +199,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 						<Grid>
 							<Button
 								variant="text"
-								href="pdfs/Datamine%20Network%20Pitch%20Deck%20-%20July%202025.pdf"
+								href="pdfs/Datamine%20Network%20Pitch%20Deck.pdf"
 								rel="noopener noreferrer"
 								target="_blank"
 							>
