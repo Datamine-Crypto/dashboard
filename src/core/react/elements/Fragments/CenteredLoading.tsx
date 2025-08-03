@@ -7,7 +7,7 @@ const CenteredLoading = () => (
 			justifyContent: 'center',
 			alignItems: 'center',
 			height: '100vh', // Full viewport height
-			width: '100vw', // Full viewport width
+			width: '100%', // Full viewport width
 		}}
 	>
 		<CircularProgress style={{ color: '#0ff' }} />
