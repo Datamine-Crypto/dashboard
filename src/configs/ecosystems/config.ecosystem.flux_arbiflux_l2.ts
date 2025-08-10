@@ -53,12 +53,11 @@ export const getFluxArbiFluxEcosystemConfig = () => {
 
 		// Top burning addresses for this ecosystem
 		marketTopBurningaddresses: [
-			'0x7Bf1CA964Cb69D7A8D3D9A80E26FBfb5cE96B113',
 			'0x66FC9b2c58ef14B95571B9F2FCD994Db66098EaB',
 			'0x618543F369fda50595b60FB98d1c4974E71b55e2',
-			'0x13970606b124AddC795CE116d41607adD20fFEBc',
 			'0x45009E579e3e088F8C776dD8873b437c18e2eaf4',
 			'0x29Df1Bd05dd83611E2F9DbFBfBAEADcC67C073f8',
+			'0x3c633795872589b460160d0661626bec057f2eED',
 			//@todo add more
 		],
 	} satisfies EcosystemConfig;
