@@ -842,7 +842,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			};
 		}
 
-		case commonLanguage.commands.RefreshAccountState:
+		case commonLanguage.commands.RefreshAccountState: {
 			const { updateEthBalance, closeDialog, forceRefresh = false } = command.payload ?? ({} as any);
 
 			// Apply throttling (only if we're not refreshing ETH balance. ETH balance updates usually happen at important times so think of it like "forced refresh")
@@ -879,6 +879,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} },
 				]),
 			};
+		}
 		case commonLanguage.commands.ConnectToWallet:
 			return {
 				...state,
@@ -1019,7 +1020,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				},
 			};
 		}
-		case commonLanguage.commands.ForecastSetBurn:
+		case commonLanguage.commands.ForecastSetBurn: {
 			const forecastBurn = command.payload as number;
 			const forecastBurnAmount = (forecastBurn / 10000).toFixed(4);
 			return {
@@ -1030,6 +1031,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					forecastBurnAmount,
 				},
 			};
+		}
 		case commonLanguage.commands.ForecastSetBurnAmount: {
 			const maxBurn = 10000 * config.maxBurnMultiplier;
 			const forecastBurnAmountNumberRaw = Math.round(
@@ -1055,7 +1057,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				},
 			};
 		}
-		case commonLanguage.commands.ForecastSetTime:
+		case commonLanguage.commands.ForecastSetTime: {
 			const forecastTime = command.payload as number;
 			const forecastTimeAmount = (forecastTime / 10000).toFixed(4);
 
@@ -1067,6 +1069,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 					forecastTimeAmount,
 				},
 			};
+		}
 
 		case commonLanguage.commands.ForecastSetTimeAmount: {
 			const forecastTimeAmountNumberRaw = Math.round(
@@ -1150,7 +1153,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			};
 		}
 
-		case commonLanguage.commands.Initialize:
+		case commonLanguage.commands.Initialize: {
 			const { address } = command.payload;
 			if (state.isInitialized) {
 				return state;
@@ -1162,6 +1165,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				address,
 				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance }]),
 			};
+		}
 		//This is how we can do RPC selection
 		/*case commonLanguage.commands.ShowWalletConnectRpc:
 			return {

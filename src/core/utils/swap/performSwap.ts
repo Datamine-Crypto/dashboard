@@ -84,7 +84,7 @@ export const performSwap = async (swapOptions: SwapOptions) => {
 	const { swapPlatform } = swapOptions;
 
 	switch (swapPlatform) {
-		case SwapPlatform.UniswapV2:
+		case SwapPlatform.UniswapV2: {
 			const getRouterAddress = () => {
 				const nonEthToken =
 					swapOptions.inputToken.swapToken !== SwapToken.ETH
@@ -103,5 +103,6 @@ export const performSwap = async (swapOptions: SwapOptions) => {
 			};
 
 			return await performSwapUniswapV2(swapOptions, uniswapV2SwapPlatformOptions);
+		}
 	}
 };

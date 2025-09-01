@@ -68,7 +68,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 	 */
 	const getAvailableLiquidity = (token: Token) => {
 		switch (token) {
-			case Token.Lockable:
+			case Token.Lockable: {
 				const damSupply = getBNPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false);
 				return (
 					<>
@@ -78,7 +78,8 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 						</Typography>
 					</>
 				);
-			case Token.Mintable:
+			}
+			case Token.Mintable: {
 				const fluxSupply = getBNPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false);
 				return (
 					<>
@@ -88,6 +89,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 						</Typography>
 					</>
 				);
+			}
 		}
 	};
 	/**

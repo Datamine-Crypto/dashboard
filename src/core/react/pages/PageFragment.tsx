@@ -167,7 +167,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 						},
 					});
 					break;
-				case Page.Help:
+				case Page.Help: {
 					const helpArticle = helpArticles.find(
 						(helpArticle) => helpArticle.id.toLowerCase() === pageDetails.helpArticleId
 					);
@@ -181,6 +181,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 						});
 					}
 					break;
+				}
 			}
 		};
 
@@ -304,7 +305,7 @@ const PageFragment: React.FC = () => {
 		const pageDetails = getPageDetails();
 		// When the app starts initialize special pages
 		switch (pageDetails.page) {
-			case Page.Help:
+			case Page.Help: {
 				const helpArticle = helpArticles.find(
 					(helpArticle) => helpArticle.id.toLowerCase() === pageDetails.helpArticleId
 				);
@@ -318,6 +319,7 @@ const PageFragment: React.FC = () => {
 					});
 				}
 				break;
+			}
 		}
 	}, [web3Dispatch]);
 

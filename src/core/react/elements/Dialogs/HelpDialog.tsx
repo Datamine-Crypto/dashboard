@@ -301,9 +301,10 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 
 		if (className) {
 			switch (className) {
-				case 'language-component':
+				case 'language-component': {
 					const componentParams = JSON.parse(children);
 					return getComponent(componentParams);
+				}
 			}
 		}
 
