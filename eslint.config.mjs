@@ -3,6 +3,7 @@
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
+import jsxRuntime from 'eslint-plugin-react/configs/jsx-runtime.js';
 import prettierConfig from 'eslint-config-prettier';
 
 export default tseslint.config(
@@ -28,24 +29,30 @@ export default tseslint.config(
     },
   },
 
+  // Disable react-in-jsx-scope for React 17+
+  jsxRuntime,
+
   // Custom rules
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
     rules: {
+        "@typescript-eslint/no-explicit-any": "off", // ~197 "any" usages
+        "@typescript-eslint/no-unused-vars": "off", // ~162 unused vars (ex: catch)
+        
+        "@typescript-eslint/no-empty-object-type": "off", // 13 errors, this can be an easy win 
+        "react/display-name": "off", // 42 errors becauase of anonymous FC names. Can be an easy win
+
+        "react/prop-types": "off", // 497 errors, this seems like false positives? Need to investigate more
+        
+        "react/no-unescaped-entities": "off",
+
         "no-empty-pattern": "off",
-        "@typescript-eslint/no-unused-vars": "off",
-        "react-hooks/exhaustive-deps": "off",
         "eqeqeq": "off",
         "no-mixed-operators": "off",
-        "jsx-a11y/alt-text": "off",
         "no-throw-literal": "off",
-        "@typescript-eslint/no-explicit-any": "off",
         "no-case-declarations": "off",
-        "react/prop-types": "off",
-        "react/display-name": "off",
-        "react/react-in-jsx-scope": "off",
-        "@typescript-eslint/no-empty-object-type": "off",
-        "react/no-unescaped-entities": "off",
+        
+        "jsx-a11y/alt-text": "off",
     },
   },
 
