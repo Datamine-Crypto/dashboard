@@ -46,7 +46,6 @@ export default tseslint.config(
         "react/react-in-jsx-scope": "off",
         "@typescript-eslint/no-empty-object-type": "off",
         "react/no-unescaped-entities": "off",
-        "no-constant-condition": "off",
     },
   },
 

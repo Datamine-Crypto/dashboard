@@ -728,9 +728,8 @@ const Render: React.FC<RenderParams> = React.memo(
 										0,
 										forecastSettings.blocks + (addressLock.lastMintBlockNumber - addressDetails.blockNumber)
 									); // This number comes from migration (28 days approx)
-									if (blocksDuration === 0 || true) {
-										return null;
-									}
+
+									return null;
 								};
 
 								return (
