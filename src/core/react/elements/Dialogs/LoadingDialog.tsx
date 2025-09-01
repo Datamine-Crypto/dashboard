@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Dialog, DialogContent } from '@mui/material';
 import React from 'react';
 
-const LoadingDialog: React.FC = React.memo(({}) => {
+const LoadingDialog: React.FC = React.memo(() => {
 	return (
 		<Dialog
 			open={true}

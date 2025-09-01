@@ -80,7 +80,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 
 interface Props {}
 
-const AddToFirefoxFragment: React.FC<Props> = ({}) => {
+const AddToFirefoxFragment: React.FC<Props> = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const { connectionMethod, ecosystem } = web3State;

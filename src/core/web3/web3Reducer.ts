@@ -1489,8 +1489,6 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			}
 		}
 		case commonLanguage.commands.Market.WithdrawTokens: {
-			const {} = command.payload;
-
 			try {
 				return {
 					...state,
@@ -1514,8 +1512,6 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			}
 		}
 		case commonLanguage.commands.Market.RefreshMarketAddresses: {
-			const {} = command.payload;
-
 			try {
 				if (!state.web3) {
 					return state;
@@ -1533,8 +1529,6 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			}
 		}
 		case commonLanguage.commands.Swap.Trade: {
-			const {} = command.payload;
-
 			try {
 				return {
 					...state,

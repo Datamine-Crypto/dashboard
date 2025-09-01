@@ -43,7 +43,7 @@ interface Params {}
 /**
  * This is a little dialog that shows up when something is loading (shows a little infinite loading progress to user)
  */
-const PendingQueryFragment: React.FC<Params> = ({}) => {
+const PendingQueryFragment: React.FC<Params> = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const { pendingQueries, queriesCount, lastDismissedPendingActionCount, connectionMethod, ecosystem } = web3State;

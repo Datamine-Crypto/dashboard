@@ -595,7 +595,7 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 interface Params {}
-const TradeDialog: React.FC<Params> = ({}) => {
+const TradeDialog: React.FC<Params> = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const {

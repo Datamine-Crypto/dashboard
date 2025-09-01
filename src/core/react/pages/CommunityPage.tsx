@@ -313,7 +313,7 @@ interface Props {}
  * It fetches the current ecosystem from Web3Context and passes it to the Render component.
  * @param props - Component props (currently empty).
  */
-const CommunityPage: React.FC<Props> = ({}) => {
+const CommunityPage: React.FC<Props> = () => {
 	const { state: web3State, dispatch } = useWeb3Context();
 	const { ecosystem } = web3State;
 

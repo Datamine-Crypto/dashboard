@@ -1843,7 +1843,7 @@ const queryHandlers = {
 	/**
 	 * Resets the body of all help articles, forcing a refetch when the network changes.
 	 */
-	[commonLanguage.queries.ResetHelpArticleBodies]: async ({}: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.ResetHelpArticleBodies]: async () => {
 		// After switching network betwen L1/L2 clear the body (so proper body loads)
 		for (const helpArticle of helpArticles) {
 			helpArticle.body = undefined;

@@ -69,7 +69,7 @@ interface Params {}
  * This fragment contains all the dialogs in one place
  * Help Dialog is excluded as it's a seperate system
  */
-const DialogsFragment: React.FC<Params> = ({}) => {
+const DialogsFragment: React.FC<Params> = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
 	const { dialog, dialogParams } = web3State;

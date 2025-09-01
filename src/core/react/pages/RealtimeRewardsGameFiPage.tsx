@@ -319,7 +319,7 @@ interface Props {}
  * It provides the necessary Web3 context (dispatch and ecosystem) to its child components.
  * @param props - Component props (currently empty).
  */
-const RealtimeRewardsGameFiPage: React.FC<Props> = ({}) => {
+const RealtimeRewardsGameFiPage: React.FC<Props> = () => {
 	const { state: web3State, dispatch } = useWeb3Context();
 	const { ecosystem } = web3State;
 

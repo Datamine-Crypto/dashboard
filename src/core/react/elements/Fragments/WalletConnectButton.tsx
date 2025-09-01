@@ -119,7 +119,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 
 interface Props {}
 
-const WalletConnectButton: React.FC<Props> = ({}) => {
+const WalletConnectButton: React.FC<Props> = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 	const { ecosystem } = web3State;
 
