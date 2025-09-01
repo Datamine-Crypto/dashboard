@@ -74,7 +74,9 @@ const preselectAddress = async () => {
 			preselectedAddress = addresses[0];
 			return addresses;
 		}
-	} catch (err) {}
+	} catch (err) {
+		// Silently fail if can't find any addresses or enable() fails
+	}
 
 	const selectedAddress = getSelectedAddress();
 
@@ -85,7 +87,9 @@ const preselectAddress = async () => {
 				preselectedAddress = accounts[0]; //@todo
 				return accounts;
 			}
-		} catch (err) {}
+		} catch (err) {
+			// Silently fail if can't find any accounts
+		}
 
 		try {
 			const accounts = await web3provider.send('eth_requestAccounts');
@@ -93,7 +97,9 @@ const preselectAddress = async () => {
 				preselectedAddress = accounts[0]; //@todo
 				return accounts;
 			}
-		} catch (err) {}
+		} catch (err) {
+			// Silently fail if can't find any accounts
+		}
 	}
 
 	return [];

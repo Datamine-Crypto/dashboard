@@ -40,7 +40,6 @@ export default tseslint.config(
         "jsx-a11y/alt-text": "off",
         "no-throw-literal": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "no-empty": "off",
         "no-case-declarations": "off",
         "react/prop-types": "off",
         "react/display-name": "off",

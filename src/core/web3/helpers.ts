@@ -434,7 +434,9 @@ export const getWeb3Provider = async ({
 		const detectEthereumProvider = (await import('@metamask/detect-provider')).default;
 		const provider = await detectEthereumProvider();
 		return provider;
-	} catch (err) {}
+	} catch (err) {
+		// Silently fail if can't detect provider
+	}
 
 	// Trustwallet provider
 	{
@@ -834,7 +836,9 @@ export const rethrowWeb3Error = (err: any) => {
 			let jsonData = null;
 			try {
 				jsonData = JSON.parse(splitError[1]);
-			} catch (err) {}
+			} catch (err) {
+				// Silently fail if can't parse the error (sometimes it's not a json)
+			}
 			tryThrowError(jsonData);
 		}
 

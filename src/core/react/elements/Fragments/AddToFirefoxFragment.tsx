@@ -53,7 +53,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 					},
 				},
 			});
-		} catch (err) {}
+		} catch (err) {
+			// Silently fail if adding tokens fails
+		}
 		return false;
 	};
 	const addTokensToMetamaskLink = isHelpPageEnabled ? '#help/onboarding/addTokensToMetamask' : '#';
