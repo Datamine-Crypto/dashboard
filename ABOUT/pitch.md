@@ -102,10 +102,12 @@ We offer a unique opportunity for Web3 venture partners to participate in a prov
 
 *   **Email:** dev@datamine.network
 *   **Website:** https://datamine.network
+*   **LinkedIn:** https://linkedin.com/company/datamine-network
+*   **Investor Pitch Deck:** https://datamine-crypto.github.io/realtime-decentralized-dashboard/pdfs/Datamine%20Network%20Pitch%20Deck.pdf
 *   **Github:** https://github.com/datamine-crypto
 *   **X:** https://x.com/dataminenetwork
 *   **Discord:** https://discord.gg/2dQ7XAB22u
-*   **Liquidity Pool:** https://www.defined.fi/arb/0x0c93a1d3f68a0554d37f3e7af3a1442a94405e7a?cache=8bc52&quoteToken=token0
+*   **Liquidity Pool:** https://www.defined.fi/arb/0x0c93a1d3f68a0554d37f3e7af3a1442a94405e7a
 
 ---
 
