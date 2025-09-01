@@ -16,7 +16,7 @@ export default defineConfig({
 				'@mui/icons-material'
 			]
 		}
-	} as any,
+	},
 	// To match homepage: "." from package.json for relative asset paths in the build.
 	base: './',
 	build: {

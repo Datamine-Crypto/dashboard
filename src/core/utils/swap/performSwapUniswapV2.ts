@@ -63,7 +63,7 @@ export const performSwapUniswapV2 = async (
 
 	// Create contract instance
 	// ETH doesn't have abi so we won't need it for ETH -> X swap
-	const inputTokenContract = !!inputTokenDetails.abi
+	const inputTokenContract = inputTokenDetails.abi
 		? new web3.eth.Contract(inputTokenDetails.abi, inputAddress)
 		: undefined;
 
@@ -72,7 +72,7 @@ export const performSwapUniswapV2 = async (
 	const slippageTolerance = localConfig.slippage; // 1% slippage tolerance
 
 	// Get the quote for swapping DAI to ETH
-	var path = [inputAddress, outputAddress];
+	const path = [inputAddress, outputAddress];
 
 	const amountsOut = (await uniswapV2RouterContract.methods.getAmountsOut(amountIn, path).call()) as any[];
 

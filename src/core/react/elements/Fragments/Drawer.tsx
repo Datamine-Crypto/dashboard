@@ -266,16 +266,16 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			return <ExpandMore />;
 		};
 
-		const drawerButtons = buttons.map((button: any) => {
+		const drawerButtons = buttons.map((button: any, index: number) => {
 			if (button.isDivider) {
 				return (
-					<Box my={2}>
+					<Box my={2} key={index}>
 						<Divider />
 					</Box>
 				);
 			}
 			if (button.isBasicDivider) {
-				return <Divider />;
+				return <Divider key={index} />;
 			}
 			const getListItemProps = () => {
 				if (button.href) {
@@ -303,7 +303,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				};
 			};
 			return (
-				<ListItemButton key={button.title} className={button.className} {...(getListItemProps() as any)}>
+				<ListItemButton key={button.title || index} className={button.className} {...(getListItemProps() as any)}>
 					<ListItemIcon style={{ minWidth: 40 }}>{button.icon}</ListItemIcon>
 					<ListItemText primary={button.title} />
 					{getExpandIcon(!!button.expandIcon)}

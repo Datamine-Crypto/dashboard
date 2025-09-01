@@ -394,7 +394,7 @@ export const getWeb3Provider = async ({
 		removeMetaTag('og:description');
 	};
 
-	if (!!useWalletConnect) {
+	if (useWalletConnect) {
 		removeMetaTags();
 
 		const config = getEcosystemConfig(ecosystem);
@@ -608,11 +608,11 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
  * @returns {Promise<any[]>} A Promise that resolves with an array of results from the batch calls, in the order they were added.
  */
 export const makeBatchRequest = (web3: Web3, calls: any) => {
-	let batch = new web3.BatchRequest();
+	const batch = new web3.BatchRequest();
 
-	let promises = calls.map(({ call, callback }: any) => {
+	const promises = calls.map(({ call, callback }: any) => {
 		return new Promise((res, rej) => {
-			let req = call.request({}, (err: any, data: any) => {
+			const req = call.request({}, (err: any, data: any) => {
 				if (err) rej(err);
 				else {
 					data = callback(data);
@@ -692,7 +692,7 @@ export const BNToDecimal = (
 	const finalAmount = getFinalAmount();
 	if (addCommas) {
 		const numberWithCommas = (numberToFormat: string) => {
-			var parts = numberToFormat.split('.');
+			const parts = numberToFormat.split('.');
 			parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			return parts.join('.');
 		};
@@ -1392,7 +1392,7 @@ export const getRequiredFluxToBurnDecimal = ({
  * @returns {string} The formatted number string.
  */
 export const numberWithCommas = (numberToFormat: string) => {
-	var parts = numberToFormat.split('.');
+	const parts = numberToFormat.split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	return parts.join('.');
 };

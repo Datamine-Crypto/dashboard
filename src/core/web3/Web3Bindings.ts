@@ -178,8 +178,8 @@ const getSignature = async (web3: any, selectedAddress: any) => {
 		},
 	];
 
-	var from = selectedAddress;
-	var params = [msgParams, from];
+	const from = selectedAddress;
+	const params = [msgParams, from];
 
 	const method = 'eth_signTypedData';
 
@@ -1619,7 +1619,12 @@ const queryHandlers = {
 		state,
 		query,
 	}: QueryHandler<Web3State>) => {
-		const { web3, ecosystem } = state;
+		const { ecosystem } = state;
+
+		const { default: Web3Constructor } = await import('web3');
+		const web3 = new Web3Constructor(web3provider);
+		web3.transactionBlockTimeout = 4 * 60 * 60; // (So users don't get timed out while selecting their transaction settings) 1 hour on L2
+
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
 		}
@@ -1682,8 +1687,13 @@ const queryHandlers = {
 			},
 		} as any;
 
+		// Bust caching by passing in latestBlock
+		const latestBlock = await web3.eth.getBlockNumber();
+		console.log('latestBlock:', latestBlock);
+
+		// Call multicall aggregate and parse the results
 		const calls = encodeMulticall(web3, multicallData);
-		const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call()) as any;
+		const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call({}, latestBlock)) as any;
 
 		const { marketAddresses } = decodeMulticall(web3, multicallEncodedResults, multicallData);
 
