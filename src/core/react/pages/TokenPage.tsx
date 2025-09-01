@@ -399,7 +399,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 												<Box component="span" sx={{ fontWeight: 'bold' }}>
 													Role:
 												</Box>{' '}
-												FLUX is minted when DAM is locked. It's used for rewards and transactions.
+												FLUX is minted when DAM is locked. It&apos;s used for rewards and transactions.
 											</Typography>
 										</Box>
 
@@ -705,7 +705,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 						<Typography
 							variant="h3"
 							sx={{
-								fontSize: '1.5rem',
+								fontSize: '1.5rem', // text-2xl
 								fontWeight: 'bold',
 								mb: 3,
 								textAlign: 'center',

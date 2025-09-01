@@ -220,9 +220,9 @@ const StepFour: React.FC<OnboardingProps> = ({ handleNext, handleBack, handleSel
 							LOCK you can burn based on your validator size.
 						</Typography>
 						<Typography variant="body2">
-							<strong>Recommendation:</strong> Start small if you're new to the platform, and you can always increase
-							your position as you become more familiar with how the system works. We recommend starting with $10 to get
-							familiar with the ecosystem and increasing it later on.
+							<strong>Recommendation:</strong> Start small if you&apos;re new to the platform, and you can always
+							increase your position as you become more familiar with how the system works. We recommend starting with
+							$10 to get familiar with the ecosystem and increasing it later on.
 						</Typography>
 
 						<Paper

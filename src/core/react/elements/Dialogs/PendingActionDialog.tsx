@@ -56,7 +56,7 @@ const PendingActionDialog: React.FC<Params> = React.memo(({ open, queries, conne
 						<Box fontWeight="bold" display="inline">
 							{transactionType}
 						</Box>{' '}
-						transaction is pending. Please wait while it's broadcasted to Ethereum network.
+						transaction is pending. Please wait while it&apos;s broadcasted to Ethereum network.
 					</Typography>
 					<Box mt={3} mb={4}>
 						<Typography component="div" gutterBottom={true}>

@@ -176,7 +176,7 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 			{/* Key Features Section */}
 			<Section>
 				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold', mb: 5 }}>
-					Why You'll Love Collecting Gems
+					Why You&apos;ll Love Collecting Gems
 				</Typography>
 				{/* Grid layout for features - using MUI v7.10 <Grid size={{...}}> syntax */}
 				<Grid container spacing={4} alignItems="stretch">
@@ -230,9 +230,9 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 								Boosting Monetary Velocity
 							</Typography>
 							<Typography variant="body1" color="text.secondary" paragraph>
-								Datamine Gems isn't just about fun; it's a catalyst for enhancing the entire Datamine Network. Our
-								efficiency updates, including a new smart contract for autonomous multi-address minting, are designed to
-								significantly increase monetary velocity.
+								Datamine Gems isn&apos;t just about fun; it&apos;s a catalyst for enhancing the entire Datamine Network.
+								Our efficiency updates, including a new smart contract for autonomous multi-address minting, are
+								designed to significantly increase monetary velocity.
 							</Typography>
 						</Box>
 					</Grid>

@@ -44,8 +44,6 @@ export default tseslint.config(
 
         "react/prop-types": "off", // 497 errors, this seems like false positives? Need to investigate more
         
-        "react/no-unescaped-entities": "off",
-
         "no-empty-pattern": "off",
         "eqeqeq": "off",
         "no-mixed-operators": "off",

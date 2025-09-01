@@ -226,8 +226,8 @@ const StepThree: React.FC<OnboardingProps> = ({ handleBack, handleNext }) => {
 						</Typography>
 
 						<Typography variant="body1" paragraph>
-							Before you can start a validator, you will need to allow access for Datamine Network to interact with it's
-							smart contract.
+							Before you can start a validator, you will need to allow access for Datamine Network to interact with
+							it&apos;s smart contract.
 						</Typography>
 
 						<Typography variant="body1" paragraph>
@@ -243,14 +243,14 @@ const StepThree: React.FC<OnboardingProps> = ({ handleBack, handleNext }) => {
 						</Typography>
 
 						<Typography variant="body1" paragraph>
-							When you click "Approve Access" below, MetaMask will open and ask you to confirm this permission. This
-							only gives access to the specific functions needed and never allows moving your tokens without your
-							explicit approval.
+							When you click &quot;Approve Access&quot; below, MetaMask will open and ask you to confirm this
+							permission. This only gives access to the specific functions needed and never allows moving your tokens
+							without your explicit approval.
 						</Typography>
 
 						<Typography variant="body2" paragraph sx={{ fontStyle: 'italic', mt: 2 }}>
-							Note: You'll only need to do this once per wallet. You are only granting permission to Datamine Ecosystem
-							tokens.
+							Note: You&apos;ll only need to do this once per wallet. You are only granting permission to Datamine
+							Ecosystem tokens.
 						</Typography>
 					</Box>
 				</Grid>

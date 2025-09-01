@@ -514,7 +514,7 @@ const Render: React.FC<RenderParams> = React.memo(
 								if (isTargetReached) {
 									return (
 										<>
-											You've burned enough {mintableTokenShortName} for x10 burn bonus.{' '}
+											You&apos;ve burned enough {mintableTokenShortName} for x10 burn bonus.{' '}
 											<Typography component="div" color="secondary" display="inline">
 												OVERBURNED
 											</Typography>{' '}
@@ -930,18 +930,18 @@ const Render: React.FC<RenderParams> = React.memo(
 									});
 									return (
 										<>
-											(~
+											{' (~'}
 											<strong style={{ color: '#0FF' }}>
 												{numberWithCommas(fluxRequiredToBurn.toFixed(4))} {mintableTokenShortName}
 											</strong>{' '}
-											/ <strong style={{ color: '#0FF' }}>${amountToBurnUsd}</strong> left to burn for x
-											{getTargetBurnMultiplierDecimal().toFixed(4)} burn multiplier)
+											/ <strong style={{ color: '#0FF' }}>${amountToBurnUsd}</strong> left to burn for x{' '}
+											{getTargetBurnMultiplierDecimal().toFixed(4)} burn multiplier{')'}
 										</>
 									);
 								}
 							}
 
-							return <>(Applied at time of mint, x{maxBurnMultiplier} max)</>;
+							return <>{`(Applied at time of mint, x${maxBurnMultiplier} max)`}</>;
 						};
 						const getDisabledText = () => {
 							if (!isLocked) {
@@ -1324,8 +1324,8 @@ const Render: React.FC<RenderParams> = React.memo(
 					body: (
 						<>
 							<Box mx={2} mt={3}>
-								{mintableTokenShortName} minting is enabled! You can now begin by clicking "Start Validator" button
-								below. After starting your validator you will instantly start generating {mintableTokenShortName}{' '}
+								{mintableTokenShortName} minting is enabled! You can now begin by clicking &quot;Start Validator&quot;
+								button below. After starting your validator you will instantly start generating {mintableTokenShortName}{' '}
 								tokens!
 							</Box>
 						</>
@@ -1341,9 +1341,9 @@ const Render: React.FC<RenderParams> = React.memo(
 
 			const getMintingText = () => {
 				if (isArbitrumMainnet) {
-					return `To run your own ${mintableTokenShortName} validator you must first enable minting on Arbitrum L2. Click the "Enable" button below to continue.`;
+					return `To run your own ${mintableTokenShortName} validator you must first enable minting on Arbitrum L2. Click the &quot;Enable&quot; button below to continue.`;
 				}
-				return `To run your own validator you must first enable ${mintableTokenShortName} minting. Click the "Enable" button below to continue.`;
+				return `To run your own validator you must first enable ${mintableTokenShortName} minting. Click the &quot;Enable&quot; button below to continue.`;
 			};
 
 			return {

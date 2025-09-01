@@ -32,7 +32,7 @@ const HelpPageFooterSection: React.FC<HelpPageFooterSectionProps> = ({ ecosystem
 			<Container>
 				<Typography component="div" variant="h6" align="left" color="textSecondary" paragraph>
 					<Typography component="div" display="inline" variant="h6" color="textPrimary">
-						Still can't find what you are looking for? {getAdditionalHelpText()}
+						Still can&apos;t find what you are looking for? {getAdditionalHelpText()}
 					</Typography>
 				</Typography>
 			</Container>

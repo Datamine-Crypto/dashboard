@@ -261,9 +261,9 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 							</Typography>
 							<Typography variant="h6" color="textPrimary" gutterBottom>
 								Datamine is a truly decentralized cryptocurrency.{' '}
-								<strong>There are no "Official Social Channels"</strong> and all marketing is done by different
-								communities around the world. All of the links listed here are different Datamine communities ran by
-								various groups.
+								<strong>There are no &quot;Official Social Channels&quot;</strong> and all marketing is done by
+								different communities around the world. All of the links listed here are different Datamine communities
+								ran by various groups.
 							</Typography>
 							<Typography variant="h6" color="textPrimary">
 								Most popular communities &amp; websites are listed first.{' '}

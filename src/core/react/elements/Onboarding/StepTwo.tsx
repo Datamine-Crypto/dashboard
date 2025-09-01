@@ -261,26 +261,26 @@ const StepTwo: React.FC<OnboardingProps> = ({ handleNext, handleBack }) => {
 						</Typography>
 
 						<Typography variant="body1" paragraph>
-							You'll need MetaMask to interact with the Datamine Network. MetaMask is a secure digital wallet that lets
-							you safely store your tokens and interact with websites.
+							You&apos;ll need MetaMask to interact with the Datamine Network. MetaMask is a secure digital wallet that
+							lets you safely store your tokens and interact with websites.
 						</Typography>
 
 						<Typography variant="body1" paragraph>
-							If you already have MetaMask installed, click "Connect" below. If not, you'll need to:
+							If you already have MetaMask installed, click &quot;Connect&quot; below. If not, you&apos;ll need to:
 						</Typography>
 
 						<Typography variant="body1" component="div" sx={{ mb: 2 }}>
 							<ol>
 								<li>Install the MetaMask browser extension from metamask.io</li>
 								<li>Create a new wallet or import an existing one</li>
-								<li>Make sure you're on Ethereum Mainnet network</li>
-								<li>Return to this page and click "Connect"</li>
+								<li>Make sure you&apos;re on Ethereum Mainnet network</li>
+								<li>Return to this page and click &quot;Connect&quot;</li>
 							</ol>
 						</Typography>
 
 						<Typography variant="body1" paragraph>
-							Don't worry — your wallet information stays secure and private. We only connect to perform actions you
-							approve.
+							Don&apos;t worry — your wallet information stays secure and private. We only connect to perform actions
+							you approve.
 						</Typography>
 					</Box>
 				</Grid>

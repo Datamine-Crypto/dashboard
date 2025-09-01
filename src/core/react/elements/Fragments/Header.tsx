@@ -267,7 +267,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 		);
 	};
 
-	const defiTitle = `DeFi is an abbreviation of the phrase decentralized finance which generally refers to the digital assets and financial smart contracts, protocols, and decentralized applications (DApps) built on Ethereum. In simpler terms, it's financial software built on the blockchain that can be pieced together like Money Legos.`;
+	const defiTitle = `DeFi is an abbreviation of the phrase decentralized finance which generally refers to the digital assets and financial smart contracts, protocols, and decentralized applications (DApps) built on Ethereum. In simpler terms, it&apos;s financial software built on the blockchain that can be pieced together like Money Legos.`;
 	const getHeader = () => {
 		return (
 			<>
@@ -289,7 +289,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 								</Typography>{' '}
 								is{' '}
 								<LightTooltip title={defiTitle}>
-									<Box display="inline-block">DeFi's</Box>
+									<Box display="inline-block">DeFi&apos;s</Box>
 								</LightTooltip>{' '}
 								first inflation-resistant cryptocurrency designed to lock-in liquidity through innovative Proof-of-Burn
 								mechanism.

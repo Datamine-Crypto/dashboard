@@ -105,7 +105,7 @@ const Render: React.FC<RenderParams> = React.memo(
 								This Subdomain of {ecosystemName} Dashboard only works on Ethereum Ropsten Testnet. Please change your
 								network provider to{' '}
 								<Box fontWeight="bold" display="inline">
-									"Ropsten Test Network"
+									&quot;Ropsten Test Network&quot;
 								</Box>
 							</>
 						),
