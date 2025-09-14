@@ -69,6 +69,11 @@ export interface EcosystemConfig {
 	marketAddress: string | null;
 
 	/**
+	 * The address of the Hodl Clicker: Rush game.
+	 */
+	gameHodlClickerAddress: string | null;
+
+	/**
 	 * On Layer 1 (L1), this is the Uniswap V3 pool address for the Lockable / ETH token pair.
 	 */
 	lockableUniswapV3L1EthTokenContractAddress?: string;

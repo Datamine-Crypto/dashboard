@@ -27,6 +27,9 @@ export const getDamFluxEcosystemConfig = () => {
 		// Market contract address for Time-in-Market (TIM) - currently null for L1
 		marketAddress: null, // @todo
 
+		// Hodl Clicker: Rush game address
+		gameHodlClickerAddress: null,
+
 		// Block number at which the failsafe limit for token lock-up begins
 		failsafeStartBlockNumber: 10224578,
 		// Blockchain layer (Layer 1 for Ethereum Mainnet)

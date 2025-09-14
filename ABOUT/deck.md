@@ -398,3 +398,37 @@ The Datamine ecosystem has evolved. Here's the new flow:
 **DAM (L1) -> FLUX (L1) -> ArbiFLUX (L2) -> LOCK (L2)**
 
 This new structure is designed to be more efficient, scalable, and resilient. It's the foundation for the next generation of DeFi applications.
+
+// 2025-09-12 updates.
+
+-- We wrote a new HODL Clicker: Rush game. This is a game based off Datamine Gems V2 and builds upon that with new monetary velocity ideas.
+
+1. Start Earning with Zero Tokens!
+
+This is the biggest change: anyone can play and earn rewards, even if you start 
+with a balance of 0 LOCK.
+
+Previously, you needed to have tokens to participate in burning. With Datamine
+Gems, when you click the "burn" button on a gem, the tokens are supplied from a
+collective rewards pool within the smart contract itself, not from your personal
+wallet.
+
+This means you can start playing immediately and generate your first LOCK tokens
+simply by participating in the game. It’s a true "play-to-earn" model that
+removes the initial financial barrier, inviting everyone to join the Datamine
+ecosystem.
+
+2. Increased Transactional Throughput for Validators
+
+This new system is built to maximize validator APY through increased
+participation. With more incentives for players to click the burn button, we
+expect a significant rise in transactional throughput.
+
+
+  * Dynamic Jackpots: Every click gives the player a "jackpot" reward, creating a
+    direct financial incentive to participate.
+This creates a powerful win-win scenario: players have a fun, no-cost way to              
+earn, and validators benefit from the constant stream of activity that boosts             
+their returns. The addition of atomic batch burning (the "Collect All Gems"               
+button) further amplifies this by allowing players to trigger multiple burns in           
+a single, efficient transaction.   

@@ -12,6 +12,7 @@ import CenteredLoading from '../elements/Fragments/CenteredLoading';
 import DialogsFragment from '../elements/Fragments/DialogsFragment';
 import PendingQueryFragment from '../elements/Fragments/PendingQueryFragment';
 import RealtimeRewardsGameFiPage from './RealtimeRewardsGameFiPage';
+import HodlClickerRushGameFiPage from './HodlClickerRushGameFiPage';
 const MainAppBar = lazy(() => import('../elements/Fragments/AppBar'));
 const HelpDialog = lazy(() => import('../elements/Dialogs/HelpDialog'));
 const CommunityPage = lazy(() => import('./CommunityPage'));
@@ -42,6 +43,7 @@ enum Page {
 	TokenPage,
 	Onboarding,
 	RealtimeRewardsGameFi,
+	HodlClickerRushGameFiPage,
 }
 const useStyles = tss.create(({ theme }) => ({
 	pageContainer: {
@@ -108,6 +110,11 @@ const getPageDetails = () => {
 	if (path === 'gamefi') {
 		return {
 			page: Page.RealtimeRewardsGameFi,
+		};
+	}
+	if (path === 'gamefi-hodlclicker') {
+		return {
+			page: Page.HodlClickerRushGameFiPage,
 		};
 	}
 
@@ -220,6 +227,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 			case Page.RealtimeRewardsGameFi:
 				document.title = `Get Started - ${ecosystemName}`;
 				return <RealtimeRewardsGameFiPage />;
+			case Page.HodlClickerRushGameFiPage:
+				document.title = `Get Started - ${ecosystemName}`;
+				return <HodlClickerRushGameFiPage />;
 		}
 
 		document.title = `${ecosystemSlogan} - ${ecosystemName}`;

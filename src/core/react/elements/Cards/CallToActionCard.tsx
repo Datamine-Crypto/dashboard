@@ -230,8 +230,9 @@ const Render: React.FC<RenderParams> = React.memo(
 
 		const isMarketLock =
 			addressLock &&
-			ecosystemConfig.marketAddress &&
-			ecosystemConfig.marketAddress.toLowerCase() === addressLock.minterAddress;
+			((ecosystemConfig.marketAddress && ecosystemConfig.marketAddress.toLowerCase() === addressLock.minterAddress) ||
+				(ecosystemConfig.gameHodlClickerAddress &&
+					ecosystemConfig.gameHodlClickerAddress.toLowerCase() === addressLock.minterAddress));
 
 		const [datePickerDeps, setDatePickerDeps] = useState<DatePickerDependencies>({
 			LocalizationProvider: null,

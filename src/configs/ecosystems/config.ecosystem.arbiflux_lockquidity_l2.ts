@@ -29,6 +29,9 @@ export const getArbiFluxLockquidityEcosystemConfig = () => {
 		// Market contract address for Time-in-Market (TIM)
 		marketAddress: '0xe948c8417DD2f8e7dfc88ac3F50b3F89Db7c29Dd',
 
+		// Hodl Clicker: Rush game address
+		gameHodlClickerAddress: '0x1476efff421d80aA070b526d4b012b02CA20f282',
+
 		// Block number at which the failsafe limit for token lock-up begins
 		failsafeStartBlockNumber: 20959397,
 		// Blockchain layer (Layer 2 for Arbitrum)

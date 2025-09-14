@@ -48,11 +48,14 @@ interface RenderParams {
  */
 const Render: React.FC<RenderParams> = React.memo(
 	({ selectedAddress, balances, dispatch, error, total, ecosystem }) => {
-		const { lockableTokenShortName, mintableTokenShortName, marketAddress } = getEcosystemConfig(ecosystem);
+		const { lockableTokenShortName, mintableTokenShortName, marketAddress, gameHodlClickerAddress } =
+			getEcosystemConfig(ecosystem);
 
 		const [amount, setAmount] = React.useState(total);
 		const [minterAddress, setMinterAddress] = React.useState(selectedAddress);
-		const [minterType, setMinterType] = React.useState(marketAddress ? 'market' : 'self');
+		const [minterType, setMinterType] = React.useState(
+			gameHodlClickerAddress ? 'hodlClicker' : marketAddress ? 'market' : 'self'
+		);
 
 		const onSubmit = async (e: any) => {
 			e.preventDefault();
@@ -61,7 +64,12 @@ const Render: React.FC<RenderParams> = React.memo(
 				type: commonLanguage.commands.LockInDamTokens,
 				payload: {
 					amount,
-					minterAddress: minterType === 'market' ? marketAddress : minterAddress,
+					minterAddress:
+						minterType === 'hodlClicker'
+							? gameHodlClickerAddress
+							: minterType === 'market'
+								? marketAddress
+								: minterAddress,
 				},
 			});
 		};
@@ -99,6 +107,20 @@ const Render: React.FC<RenderParams> = React.memo(
 				return null;
 			}
 
+			const getRecommendedText = () => {
+				if (gameHodlClickerAddress) {
+					return null;
+				}
+
+				return (
+					<>
+						<Typography component="div" color="secondary" display="inline" variant="body2">
+							(Recommended)
+						</Typography>
+					</>
+				);
+			};
+
 			return (
 				<FormControlLabel
 					value="market"
@@ -106,8 +128,27 @@ const Render: React.FC<RenderParams> = React.memo(
 					label={
 						<Box display="flex" alignItems="center">
 							<Diamond style={{ color: '#0FF' }} />
+							<Box ml={0.5}>Datamine Gems (V2): Automatic Recompounding {getRecommendedText()}</Box>
+						</Box>
+					}
+				/>
+			);
+		};
+
+		const getGameHodlClickerOption = () => {
+			if (!gameHodlClickerAddress) {
+				return null;
+			}
+
+			return (
+				<FormControlLabel
+					value="hodlClicker"
+					control={<Radio color="secondary" />}
+					label={
+						<Box display="flex" alignItems="center">
+							<Diamond style={{ color: '#0FF' }} />
 							<Box ml={0.5}>
-								Datamine Gems: Public market minting{' '}
+								HODL Clicker (V3): Automatic Recompounding{' '}
 								<Typography component="div" color="secondary" display="inline" variant="body2">
 									(Recommended)
 								</Typography>
@@ -169,6 +210,7 @@ const Render: React.FC<RenderParams> = React.memo(
 									value={minterType}
 									onChange={(event) => setMinterType((event.target as HTMLInputElement).value)}
 								>
+									{getGameHodlClickerOption()}
 									{getMarketOption()}
 									<FormControlLabel
 										value="self"
