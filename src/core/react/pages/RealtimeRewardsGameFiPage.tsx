@@ -17,7 +17,7 @@ import {
 	VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
 import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // Assuming MUI v7 imports are similar
-import { DialogType } from '../../interfaces';
+import { DialogType, Game } from '../../interfaces';
 import { commonLanguage } from '../../web3/web3Reducer';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 
@@ -299,8 +299,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 						<DatamineGemsLandingPage
 							onStartGameClick={() => {
 								dispatch({
-									type: commonLanguage.commands.ShowDialog,
-									payload: { dialog: DialogType.MarketCollectRewards },
+									type: commonLanguage.commands.Market.ShowGameDialog,
+									payload: { game: Game.DatamineGems },
 								});
 							}}
 						/>

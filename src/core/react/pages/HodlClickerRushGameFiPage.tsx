@@ -17,7 +17,7 @@ import {
 	VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
 import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // Assuming MUI v7 imports are similar
-import { DialogType } from '../../interfaces';
+import { DialogType, Game } from '../../interfaces';
 import { commonLanguage } from '../../web3/web3Reducer';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 
@@ -97,7 +97,7 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 			icon: <EmojiEventsIcon fontSize="large" />,
 			title: 'Dynamic Jackpots',
 			description:
-				'The first clicker every 12 seconds gets a jackpot reward, creating a direct financial incentive to participate.',
+				'Be the fastest to click! The first player to act within the 12-second window claims the entire jackpot.',
 		},
 		{
 			icon: <AutorenewIcon fontSize="large" />,
@@ -295,8 +295,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 						<HodlClickerRushLandingPage
 							onStartGameClick={() => {
 								dispatch({
-									type: commonLanguage.commands.ShowDialog,
-									payload: { dialog: DialogType.MarketCollectRewards },
+									type: commonLanguage.commands.Market.ShowGameDialog,
+									payload: { game: Game.HodlClicker },
 								});
 							}}
 						/>

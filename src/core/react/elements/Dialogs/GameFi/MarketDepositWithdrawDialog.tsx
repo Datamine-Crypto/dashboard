@@ -18,12 +18,12 @@ import React, { useContext } from 'react';
 
 import { ImportExport } from '@mui/icons-material';
 import BN from 'bn.js';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import { MarketAddressLock } from '../../../interfaces';
-import { BNToDecimal } from '../../../web3/helpers';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { Balances, commonLanguage } from '../../../web3/web3Reducer';
+import { getEcosystemConfig } from '../../../../../configs/config';
+import { Ecosystem } from '../../../../../configs/config.common';
+import { MarketAddressLock } from '../../../../interfaces';
+import { BNToDecimal } from '../../../../web3/helpers';
+import { useWeb3Context } from '../../../../web3/Web3Context';
+import { Balances, commonLanguage } from '../../../../web3/web3Reducer';
 
 enum Action {
 	Deposit = 'Deposit',

@@ -10,6 +10,7 @@ import {
 	FluxAddressDetails,
 	FluxAddressLock,
 	FluxAddressTokenDetails,
+	Game,
 	MarketAddressLock,
 	Token,
 } from '../interfaces';
@@ -284,6 +285,7 @@ export interface Web3State {
 	marketAddresses: MarketAddresses | null;
 
 	market: MarketDetails;
+	game: Game;
 }
 
 /**
@@ -1395,6 +1397,18 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				};
 			}
 		}
+
+		// We can specify which game to open and show a dilog in the same state change
+		case commonLanguage.commands.Market.ShowGameDialog: {
+			const { game } = command.payload;
+
+			return {
+				...state,
+				error: null,
+				game,
+				dialog: DialogType.MarketCollectRewards,
+			};
+		}
 		case commonLanguage.commands.Market.AddGemAddress: {
 			const { address } = command.payload;
 
@@ -1520,6 +1534,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				if (!state.web3) {
 					return state;
 				}
+
 				return {
 					...state,
 					error: null,
@@ -1936,6 +1951,9 @@ const initialState: Web3State = {
 		gemAddresses: getCustomMarketAddresses(),
 		gemsCollected: getMarketGemsCollected(),
 	},
+
+	// By default Datamine Gems will be selected as the game, the UI will change the game on selection and update this variable
+	game: Game.DatamineGems,
 } as const;
 
 // This reducer manages the core Web3 state and orchestrates interactions with the blockchain.
@@ -2012,6 +2030,7 @@ const commonLanguage = {
 			WithdrawTokens: 'MARKET_WITHDRAW_TOKENS',
 			RefreshMarketAddresses: 'MARKET_REFRESH_MARKET_ADDRESSES',
 			AddGemAddress: 'MARKET_ADD_GEM_ADDRESS',
+			ShowGameDialog: 'SHOW_GAME_DIALOG',
 		},
 	},
 	queries: {

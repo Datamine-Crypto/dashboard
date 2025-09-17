@@ -159,6 +159,11 @@ export enum DialogType {
 	MarketDepositWithdraw = 'MARKET_DEPOSIT_WITHDRAW',
 }
 
+export enum Game {
+	DatamineGems = 'DatamineGems',
+	HodlClicker = 'HodlClicker',
+}
+
 /**
  * @enum Token
  * @description Defines the primary types of tokens recognized and supported by the application.

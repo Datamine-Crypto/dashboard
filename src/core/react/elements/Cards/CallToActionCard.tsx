@@ -62,6 +62,7 @@ import {
 	FluxAddressDetails,
 	FluxAddressLock,
 	FluxAddressTokenDetails,
+	Game,
 	MarketAddressLock,
 	Token,
 } from '../../../interfaces';
@@ -228,11 +229,14 @@ const Render: React.FC<RenderParams> = React.memo(
 		const ecosystemConfig = getEcosystemConfig(ecosystem);
 		const isArbitrumMainnet = ecosystemConfig.layer === Layer.Layer2;
 
-		const isMarketLock =
-			addressLock &&
-			((ecosystemConfig.marketAddress && ecosystemConfig.marketAddress.toLowerCase() === addressLock.minterAddress) ||
-				(ecosystemConfig.gameHodlClickerAddress &&
-					ecosystemConfig.gameHodlClickerAddress.toLowerCase() === addressLock.minterAddress));
+		const isPlayingGameDatamineGems =
+			ecosystemConfig.marketAddress && ecosystemConfig.marketAddress.toLowerCase() === addressLock.minterAddress;
+
+		const isPlayingGameHoldClicker =
+			ecosystemConfig.gameHodlClickerAddress &&
+			ecosystemConfig.gameHodlClickerAddress.toLowerCase() === addressLock.minterAddress;
+
+		const isPlayingGame = addressLock && (isPlayingGameDatamineGems || isPlayingGameHoldClicker);
 
 		const [datePickerDeps, setDatePickerDeps] = useState<DatePickerDependencies>({
 			LocalizationProvider: null,
@@ -345,7 +349,7 @@ const Render: React.FC<RenderParams> = React.memo(
 
 						const isCurrentAddress = selectedAddress === displayedAddress;
 						const getBurnButton = () => {
-							if (isMarketLock) {
+							if (isPlayingGame) {
 								return;
 							}
 							const showBurnDialog = () => {
@@ -1126,7 +1130,7 @@ const Render: React.FC<RenderParams> = React.memo(
 								removeCommas: true,
 							});
 
-							if (isMarketLock && !forecastSettings.enabled) {
+							if (isPlayingGame && !forecastSettings.enabled) {
 								return (
 									<Chip
 										label={`Available Reward To Collect: +$ ${balanceInUsdc}`}
@@ -1136,7 +1140,7 @@ const Render: React.FC<RenderParams> = React.memo(
 							}
 						};
 						const getBottomRightText = () => {
-							if (isMarketLock && !forecastSettings.enabled) {
+							if (isPlayingGame && !forecastSettings.enabled) {
 								return;
 							}
 							return (
@@ -1306,10 +1310,10 @@ const Render: React.FC<RenderParams> = React.memo(
 							action: <>Mint {mintableTokenShortName}</>,
 							actionIcon: <RedeemIcon />,
 							onClick: () => {
-								if (isMarketLock) {
+								if (isPlayingGame) {
 									dispatch({
-										type: commonLanguage.commands.ShowDialog,
-										payload: { dialog: DialogType.MarketCollectRewards },
+										type: commonLanguage.commands.Market.ShowGameDialog,
+										payload: { game: isPlayingGameDatamineGems ? Game.DatamineGems : Game.HodlClicker },
 									});
 								} else {
 									dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Mint } });
@@ -1414,7 +1418,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		const getButton = () => {
 			const lockedInDamAmount = new BN(addressLock.amount);
 			const isLocked = !lockedInDamAmount.isZero();
-			if (isMarketLock && isLocked) {
+			if (isPlayingGame && isLocked) {
 				return (
 					<Button
 						color="secondary"

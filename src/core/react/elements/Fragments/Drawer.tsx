@@ -20,7 +20,7 @@ import Grid from '@mui/material/Grid';
 import clsx from 'clsx';
 import {
 	Diamond as DiamondIcon,
-	AutoGraph as AutoGraphIcon,
+	Mouse as MouseIcon,
 	Equalizer as EqualizerIcon,
 	ExpandMore,
 	HelpOutline as HelpIcon,
@@ -188,7 +188,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 						HODL Clicker <Chip size="small" label="#GameFi" variant="outlined" />
 					</Box>
 				),
-				icon: <AutoGraphIcon />,
+				icon: <MouseIcon />,
 				href: '#gamefi-hodlclicker',
 			},
 			{

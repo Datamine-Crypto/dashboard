@@ -4,14 +4,14 @@ import { useWeb3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';
 import BurnDialog from '../Dialogs/BurnDialog';
 import DamLockDialog from '../Dialogs/DamLockDialog';
-import MarketDepositWithdrawDialog from '../Dialogs/MarketDepositWithdrawDialog';
+import MarketDepositWithdrawDialog from '../Dialogs/GameFi/MarketDepositWithdrawDialog';
 import MessageDialog from '../Dialogs/MessageDialog';
 import MintDialog from '../Dialogs/MintDialog';
 import SettingsDialog from '../Dialogs/SettingsDialog';
 import TradeDialog from '../Dialogs/TradeDialog';
 import UnlockDialog from '../Dialogs/UnlockDialog';
 import WalletConnectRpcDialog from '../Dialogs/WalletConnectRpcDialog';
-const MarketCollectRewardsDialog = lazy(() => import('../Dialogs/MarketCollectRewardsDialog'));
+const MarketCollectRewardsDialog = lazy(() => import('../Dialogs/GameFi/MarketCollectRewardsDialog'));
 const ZeroBalanceDialog = lazy(() => import('../Dialogs/ZeroBalanceDialog'));
 
 interface Props {

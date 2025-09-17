@@ -1,42 +1,42 @@
 {
-  "search.exclude": {
-    "**/.yarn": true,
-    "**/.pnp.*": true
-  },
-  "files.exclude": {
-    "**/.husky": true,
-    "**/.yarn": true,
-    "**/.vscode": true,
-    "**/.github": true,
-    "**/.env": true,
-    "**/.eslintrc.json": true,
-    "**/.gitignore": true,
-    "**/.pnp.cjs": true,
-    "**/.pnp.loader.mjs": true,
-    "**/.prettierrc.json": true,
-    "**/index.html": true,
-    "**/LICENSE": true,
-    "**/tsconfig.json": true,
-    "**/tsconfig.node.json": true,
-    "**/vite.config.mts": true,
-    "**/yarn.lock": true,
-    "src/react-app-env.d.ts": true,
-    "src/service-worker.ts": true,
-    "src/serviceWorkerRegistration.ts": true,
-    "src/vite-env.d.ts": true,
-    "**/build": true,
-    "**/node_modules": true
-  },
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "typescript.updateImportsOnFileMove.enabled": true,
-  "typescript.preferences.quoteStyle": "single",
-  "javascript.preferences.quoteStyle": "single",
-  "eslint.nodePath": ".yarn/sdks",
-  "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
-  "typescript.tsdk": ".yarn/sdks/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+	"search.exclude": {
+		"**/.yarn": true,
+		"**/.pnp.*": true
+	},
+	"files.exclude": {
+		"**/.husky": true,
+		"**/.yarn": true,
+		"**/.vscode": true,
+		"**/.github": true,
+		"**/.env": true,
+		"**/.eslintrc.json": true,
+		"**/.gitignore": true,
+		"**/.pnp.cjs": true,
+		"**/.pnp.loader.mjs": true,
+		"**/.prettierrc.json": true,
+		"**/index.html": true,
+		"**/LICENSE": true,
+		"**/tsconfig.json": true,
+		"**/tsconfig.node.json": true,
+		"**/vite.config.mts": true,
+		"**/yarn.lock": true,
+		"src/react-app-env.d.ts": true,
+		"src/service-worker.ts": true,
+		"src/serviceWorkerRegistration.ts": true,
+		"src/vite-env.d.ts": true,
+		"**/build": true,
+		"**/node_modules": true
+	},
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"typescript.updateImportsOnFileMove.enabled": "always",
+	"typescript.preferences.quoteStyle": "single",
+	"javascript.preferences.quoteStyle": "single",
+	"eslint.nodePath": ".yarn/sdks",
+	"prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
+	"typescript.tsdk": ".yarn/sdks/typescript/lib",
+	"typescript.enablePromptUseWorkspaceTsdk": true
 }

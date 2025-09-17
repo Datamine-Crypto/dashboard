@@ -9,7 +9,7 @@ import prettierConfig from 'eslint-config-prettier';
 export default tseslint.config(
   // Global ignores
   {
-    ignores: ["**/build/"],
+    ignores: ["**/build/", ".yarn/"],
   },
 
   // Base ESLint recommended rules

@@ -13,16 +13,22 @@ import {
 } from '@mui/material';
 import React, { useContext, useEffect } from 'react';
 
-import { Diamond, ImportExport } from '@mui/icons-material';
+import { Diamond, ImportExport, Mouse } from '@mui/icons-material';
 import BN from 'bn.js';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import { DialogType, FluxAddressDetails, MarketAddressLock, Token } from '../../../interfaces';
-import { BNToDecimal, getPriceToggle } from '../../../web3/helpers';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { Balances, commonLanguage, ConnectionMethod, MarketAddresses, MarketDetails } from '../../../web3/web3Reducer';
-import DatamineGemsGame, { Gem } from '../Fragments/DatamineGemsGame';
-import { getNetworkDropdown } from '../Fragments/EcosystemDropdown';
+import { getEcosystemConfig } from '../../../../../configs/config';
+import { Ecosystem } from '../../../../../configs/config.common';
+import { DialogType, FluxAddressDetails, Game, MarketAddressLock, Token } from '../../../../interfaces';
+import { BNToDecimal, getPriceToggle } from '../../../../web3/helpers';
+import { useWeb3Context } from '../../../../web3/Web3Context';
+import {
+	Balances,
+	commonLanguage,
+	ConnectionMethod,
+	MarketAddresses,
+	MarketDetails,
+} from '../../../../web3/web3Reducer';
+import DatamineGemsGame, { Gem } from '../../Fragments/DatamineGemsGame';
+import { getNetworkDropdown } from '../../Fragments/EcosystemDropdown';
 
 interface RenderParams {
 	selectedAddress: string;
@@ -42,6 +48,7 @@ interface RenderParams {
 	marketAddresses: MarketAddresses | null;
 	hasWeb3: boolean | null;
 	market: MarketDetails;
+	game: Game;
 }
 interface AddressEligibility {
 	address: string;
@@ -69,9 +76,39 @@ const Render: React.FC<RenderParams> = React.memo(
 		marketAddresses,
 		hasWeb3,
 		market,
+		game,
 	}) => {
-		const { mintableTokenShortName, navigation, ecosystemName, marketAddress } = getEcosystemConfig(ecosystem);
+		const { mintableTokenShortName, navigation, ecosystemName, marketAddress, gameHodlClickerAddress } =
+			getEcosystemConfig(ecosystem);
 		const { isHelpPageEnabled } = navigation;
+
+		const getGameAddress = () => {
+			switch (game) {
+				case Game.DatamineGems:
+					return marketAddress;
+				case Game.HodlClicker:
+					return gameHodlClickerAddress;
+			}
+		};
+		const gameAddress = getGameAddress();
+
+		const getGameName = () => {
+			switch (game) {
+				case Game.DatamineGems:
+					return 'Datamine Gems';
+				case Game.HodlClicker:
+					return 'HODL Clicker';
+			}
+		};
+
+		const getGameIcon = () => {
+			switch (game) {
+				case Game.DatamineGems:
+					return <Diamond style={{ color: '#00ffff' }} />;
+				case Game.HodlClicker:
+					return <Mouse style={{ color: '#00ffff' }} />;
+			}
+		};
 
 		const onSubmit = async (e: any) => {
 			e.preventDefault();
@@ -147,10 +184,6 @@ const Render: React.FC<RenderParams> = React.memo(
 			);
 		};
 
-		const refreshAddresses = () => {
-			dispatch({ type: commonLanguage.commands.Market.RefreshMarketAddresses, payload: {} });
-		};
-
 		const getGems = (): Gem[] => {
 			const gems: Gem[] = [];
 
@@ -163,8 +196,8 @@ const Render: React.FC<RenderParams> = React.memo(
 					if (address.isPaused) {
 						return 'Error: Address is paused for gem minting (by the address). Please check back later!';
 					}
-					if (address.minterAddress !== marketAddress) {
-						return 'Error: This address is not paricipating in public minting.';
+					if (address.minterAddress !== gameAddress) {
+						return ': This address is not paricipating in public minting.';
 					}
 				};
 				const amountBN = address.mintAmount;
@@ -288,7 +321,7 @@ const Render: React.FC<RenderParams> = React.memo(
 					</Box>
 
 					<Box my={1}>
-						Gem Game Balance ({mintableTokenShortName}):{' '}
+						Game Balance ({mintableTokenShortName}):{' '}
 						<Typography variant="body2" display="inline" color="textSecondary">
 							{BNToDecimal(currentAddressMarketAddressLock.rewardsAmount, true)} {mintableTokenShortName}
 						</Typography>
@@ -318,7 +351,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			if (!marketAddress) {
 				return (
 					<Alert severity="info">
-						Datamine Gems is coming to this ecosystem soon! Please select another ecosystem to continue.
+						{getGameName()} is coming to this ecosystem soon! Please select another ecosystem to continue.
 					</Alert>
 				);
 			}
@@ -378,9 +411,9 @@ const Render: React.FC<RenderParams> = React.memo(
 					<DialogTitle id="form-dialog-title">
 						<Box display="flex" alignItems="center" alignContent="center">
 							<Box display="flex" pr={1}>
-								<Diamond style={{ color: '#00ffff' }} />
+								{getGameIcon()}
 							</Box>
-							Datamine Gems
+							{getGameName()}
 							<Chip size="small" label="#GameFi" />
 						</Box>
 					</DialogTitle>
@@ -439,10 +472,6 @@ const Render: React.FC<RenderParams> = React.memo(
 const MarketCollectRewardsDialog: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
 
-	useEffect(() => {
-		web3Dispatch({ type: commonLanguage.commands.Market.RefreshMarketAddresses, payload: {} });
-	}, []);
-
 	const {
 		balances,
 		address,
@@ -457,7 +486,17 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		error,
 		hasWeb3,
 		market,
+		dialogParams,
+		game,
 	} = web3State;
+
+	/*
+	const game = dialogParams && dialogParams.game ? dialogParams.game : Game.DatamineGems;
+
+	// On show fetch the latest market addresses
+	useEffect(() => {
+		web3Dispatch({ type: commonLanguage.commands.Market.RefreshMarketAddresses, payload: { game } });
+	}, []);*/
 
 	return (
 		<Render
@@ -474,6 +513,7 @@ const MarketCollectRewardsDialog: React.FC = () => {
 			marketAddresses={marketAddresses}
 			hasWeb3={hasWeb3}
 			market={market}
+			game={game}
 		/>
 	);
 };

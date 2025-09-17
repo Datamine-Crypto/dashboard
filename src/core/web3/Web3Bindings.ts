@@ -1,6 +1,6 @@
 import Big from 'big.js';
 import type { Web3 } from 'web3'; // Changed to type-only import
-import { FluxAddressDetails, FluxAddressTokenDetails } from '../interfaces';
+import { FluxAddressDetails, FluxAddressTokenDetails, Game } from '../interfaces';
 import { commonLanguage, Web3State } from './web3Reducer';
 
 import damTokenAbi from './abis/dam.json';
@@ -1625,7 +1625,7 @@ const queryHandlers = {
 		state,
 		query,
 	}: QueryHandler<Web3State>) => {
-		const { ecosystem } = state;
+		const { ecosystem, game } = state;
 
 		const { default: Web3Constructor } = await import('web3');
 		const web3 = new Web3Constructor(web3provider);
@@ -1638,7 +1638,9 @@ const queryHandlers = {
 		const contracts = getContracts(web3, state.ecosystem);
 		const config = getEcosystemConfig(state.ecosystem);
 
-		if (!config.marketAddress) {
+		const gameAddress = game === Game.DatamineGems ? config.marketAddress : config.gameHodlClickerAddress;
+
+		if (!gameAddress) {
 			return;
 		}
 
@@ -1650,12 +1652,15 @@ const queryHandlers = {
 			address.toLowerCase()
 		);
 
-		const uniqueAddressesToFetch = [...new Set(allAddressesToFetch)];
+		//const uniqueAddressesToFetch = [...new Set(allAddressesToFetch)];
+
+		//@todo  remove after testiong
+		const uniqueAddressesToFetch = ['0x62fC30839a188e58Cc127a859F2C305f562F464d'];
 
 		const multicallData = {
 			// ETH Balance
 			marketAddresses: {
-				address: config.marketAddress,
+				address: gameAddress,
 				function: {
 					signature: {
 						name: 'getAddressLockDetailsBatch',
@@ -1693,15 +1698,12 @@ const queryHandlers = {
 			},
 		} as any;
 
-		// Bust caching by passing in latestBlock
-		const latestBlock = await web3.eth.getBlockNumber();
-		console.log('latestBlock:', latestBlock);
-
 		// Call multicall aggregate and parse the results
 		const calls = encodeMulticall(web3, multicallData);
-		const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call({}, latestBlock)) as any;
+		const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call({})) as any;
 
 		const { marketAddresses } = decodeMulticall(web3, multicallEncodedResults, multicallData);
+		console.log('marketAddresses:', marketAddresses);
 
 		return { marketAddresses };
 	},
