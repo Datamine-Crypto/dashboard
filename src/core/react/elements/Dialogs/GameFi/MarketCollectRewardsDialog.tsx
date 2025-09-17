@@ -11,7 +11,7 @@ import {
 	Link,
 	Typography,
 } from '@mui/material';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Diamond, ImportExport, Mouse } from '@mui/icons-material';
 import BN from 'bn.js';
@@ -78,6 +78,33 @@ const Render: React.FC<RenderParams> = React.memo(
 		market,
 		game,
 	}) => {
+		const localConfig = {
+			/**
+			 * Metamask added some strange block caching to requests and the only current way to work around this
+			 * is to leave the Metamask window open. Then the latest block numbers are used for queries.
+			 *
+			 * So if we don't get a new block in ~36 seconds then show a warning (as a new block should be generated every 12 sec)
+			 */
+			blockLagWarningTimeout: 36 * 1000, // 3 blocks (12 sec each)
+		};
+
+		const [showBlockLagWarning, setShowBlockLagWarning] = useState(false);
+
+		useEffect(() => {
+			// Reset warning on a new block
+			setShowBlockLagWarning(false);
+
+			// Set a timer to show the warning if no new block arrives
+			const timer = setTimeout(() => {
+				setShowBlockLagWarning(true);
+			}, localConfig.blockLagWarningTimeout); // 36 seconds
+
+			// Cleanup timer on component unmount or when targetBlock changes
+			return () => {
+				clearTimeout(timer);
+			};
+		}, [marketAddresses?.targetBlock]);
+
 		const { mintableTokenShortName, navigation, ecosystemName, marketAddress, gameHodlClickerAddress } =
 			getEcosystemConfig(ecosystem);
 		const { isHelpPageEnabled } = navigation;
@@ -405,6 +432,20 @@ const Render: React.FC<RenderParams> = React.memo(
 			);
 		};
 
+		const getLagWarning = () => {
+			return (
+				showBlockLagWarning &&
+				marketAddresses?.targetBlock && (
+					<Box my={2}>
+						<Alert severity="warning">
+							<strong>Metamask Block Lag Detected:</strong> Click Metamask extension icon and leave the popup showing.
+							This will update the gem rewards in realtime.
+						</Alert>
+					</Box>
+				)
+			);
+		};
+
 		return (
 			<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 				<form onSubmit={onSubmit}>
@@ -430,6 +471,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						</Box>
 						<Box my={2}></Box>
 						{getBalances()}
+						{getLagWarning()}
 
 						<Box my={3}>
 							<Divider />
