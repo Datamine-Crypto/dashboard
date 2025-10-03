@@ -166,7 +166,7 @@ export interface SwapTokenBalances {
 /**
  * State for an address in the Datamine Market.
  */
-interface MarketAddress {
+export interface MarketAddress {
 	currentAddress: string;
 	mintAmount: BN;
 	rewardsAmount: BN;
@@ -278,10 +278,10 @@ export interface Web3State {
 
 	lastSwapThrottle: number | null;
 
-	marketAddressLock: MarketAddressLock | null;
-	currentAddressMarketAddressLock: MarketAddressLock | null;
+	//marketAddressLock: MarketAddressLock | null;
+	//currentAddressMarketAddressLock: MarketAddressLock | null;
 
-	currentAddresMintableBalance: BN | null;
+	//currentAddresMintableBalance: BN | null;
 	marketAddresses: MarketAddresses | null;
 
 	market: MarketDetails;
@@ -447,9 +447,9 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 				addressLock,
 				addressDetails,
 				addressTokenDetails,
-				marketAddressLock,
-				currentAddressMarketAddressLock,
-				currentAddresMintableBalance,
+				//marketAddressLock,
+				//currentAddressMarketAddressLock,
+				//currentAddresMintableBalance,
 			} = response;
 
 			const getBlancesWithForecasting = () => {
@@ -471,9 +471,9 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 				addressDetails,
 				addressTokenDetails,
 				swapTokenBalances,
-				marketAddressLock,
-				currentAddressMarketAddressLock,
-				currentAddresMintableBalance,
+				//marketAddressLock,
+				//currentAddressMarketAddressLock,
+				//currentAddresMintableBalance,
 			};
 		}
 		case commonLanguage.queries.GetLockInDamTokensResponse: {
@@ -1440,9 +1440,9 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			const { amountToBurn, gems } = command.payload;
 
 			try {
-				if (!state.marketAddressLock) {
+				/*if (!state.marketAddressLock) {
 					return state;
-				}
+				}*/
 
 				return {
 					...state,
@@ -1473,9 +1473,9 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 			try {
 				const amountBN = parseBN(amount);
 
-				if (!state.marketAddressLock) {
+				/*if (!state.marketAddressLock) {
 					return state;
-				}
+				}*/
 
 				if (amountBN.lte(new BN(0))) {
 					throw new Error(commonLanguage.errors.MustExceedZero);
@@ -1942,9 +1942,9 @@ const initialState: Web3State = {
 	lastSwapThrottle: null,
 
 	//@todo merge these into market: {}
-	marketAddressLock: null,
-	currentAddresMintableBalance: null,
-	currentAddressMarketAddressLock: null,
+	//marketAddressLock: null,
+	//currentAddresMintableBalance: null,
+	//urrentAddressMarketAddressLock: null,
 	marketAddresses: null,
 
 	market: {

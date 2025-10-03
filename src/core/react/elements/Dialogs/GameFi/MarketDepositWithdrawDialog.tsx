@@ -23,7 +23,7 @@ import { Ecosystem } from '../../../../../configs/config.common';
 import { MarketAddressLock } from '../../../../interfaces';
 import { BNToDecimal } from '../../../../web3/helpers';
 import { useWeb3Context } from '../../../../web3/Web3Context';
-import { Balances, commonLanguage } from '../../../../web3/web3Reducer';
+import { Balances, commonLanguage, MarketAddress } from '../../../../web3/web3Reducer';
 
 enum Action {
 	Deposit = 'Deposit',
@@ -38,21 +38,11 @@ interface RenderParams {
 
 	error: string | null;
 	total: string | null;
-	marketAddressLock: MarketAddressLock;
-	currentAddresMintableBalance: BN;
+	marketAddressLock: MarketAddress;
 }
 
 const Render: React.FC<RenderParams> = React.memo(
-	({
-		selectedAddress,
-		balances,
-		dispatch,
-		error,
-		total,
-		ecosystem,
-		marketAddressLock,
-		currentAddresMintableBalance,
-	}) => {
+	({ selectedAddress, balances, dispatch, error, total, ecosystem, marketAddressLock }) => {
 		const { lockableTokenShortName, mintableTokenShortName } = getEcosystemConfig(ecosystem);
 
 		const [amount, setAmount] = React.useState(total);
@@ -148,12 +138,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								{BNToDecimal(marketAddressLock.rewardsAmount, true)} {mintableTokenShortName}
 							</Box>
 						</Box>
-						<Box my={1}>
-							Available Address Balance:{' '}
-							<Box display="inline" fontWeight="fontWeightBold">
-								{BNToDecimal(currentAddresMintableBalance, true)} {mintableTokenShortName}
-							</Box>
-						</Box>
 
 						<Box my={2}>
 							<Divider />
@@ -219,19 +203,33 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 		selectedAddress,
 		error,
 		ecosystem,
-		marketAddressLock,
-		currentAddresMintableBalance,
-		currentAddressMarketAddressLock,
+		marketAddresses,
+
+		//marketAddressLock,
+		//currentAddresMintableBalance,
+		//currentAddressMarketAddressLock,
 	} = web3State;
+
 	if (
 		!balances ||
-		!selectedAddress ||
-		!marketAddressLock ||
-		!currentAddresMintableBalance ||
-		!currentAddressMarketAddressLock
+		!selectedAddress
+		//!marketAddressLock ||
+		//!currentAddresMintableBalance ||
+		//!currentAddressMarketAddressLock
 	) {
 		return null;
 	}
+
+	const currentAddressMarketAddress =
+		marketAddresses && marketAddresses.addresses.length > 0 ? marketAddresses.addresses[0] : null;
+
+	if (!currentAddressMarketAddress) {
+		return null;
+	}
+
+	const currentAddresMintableBalance = currentAddressMarketAddress
+		? currentAddressMarketAddress.rewardsAmount
+		: new BN(0);
 	const total = BNToDecimal(currentAddresMintableBalance);
 
 	return (
@@ -242,8 +240,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 			total={total}
 			dispatch={web3Dispatch}
 			ecosystem={ecosystem}
-			marketAddressLock={marketAddressLock}
-			currentAddresMintableBalance={currentAddresMintableBalance}
+			marketAddressLock={currentAddressMarketAddress}
 		/>
 	);
 };

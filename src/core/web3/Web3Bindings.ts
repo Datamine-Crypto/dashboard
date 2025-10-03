@@ -112,7 +112,7 @@ const preselectAddress = async () => {
  * @returns An object containing all necessary contract instances.
  */
 const getContracts = (web3: Web3, ecosystem: Ecosystem) => {
-	const config = getEcosystemConfig(ecosystem);
+	const config = getEcosystemConfig(ecosystem) as any;
 	return {
 		damToken: new web3.eth.Contract(damTokenAbi as any, config.lockableTokenContractAddress),
 		fluxToken: new web3.eth.Contract(fluxTokenAbi as any, config.mintableTokenContractAddress),
@@ -469,7 +469,7 @@ const queryHandlers = {
 			devLog('FindAccountState addressToFetch:', { addressToFetch, ecosystem });
 
 			const contracts = getContracts(web3, state.ecosystem);
-			const config = getEcosystemConfig(state.ecosystem);
+			const config = getEcosystemConfig(state.ecosystem) as any;
 			const isArbitrumMainnet = config.layer === Layer.Layer2;
 
 			devLog('FindAccountState Making batch request:');
@@ -727,6 +727,7 @@ const queryHandlers = {
 				}
 
 				return {
+					/*
 					currentAddresMintableBalance: {
 						address: config.mintableTokenContractAddress, //@change this
 						function: {
@@ -747,42 +748,6 @@ const queryHandlers = {
 							params: ['uint256'],
 							callback: (positions: string) => {
 								return new BN(positions);
-							},
-						},
-					},
-					marketAddressLock: {
-						address: config.marketAddress,
-						function: {
-							signature: {
-								name: 'addressLocks',
-								type: 'function',
-								inputs: [
-									{
-										type: 'address',
-										name: 'address',
-									},
-								],
-							},
-							parameters: [selectedAddress],
-						},
-
-						returns: {
-							params: ['uint256', 'uint256', 'uint256', 'bool', 'uint256'],
-							callback: (
-								rewardsAmount: string,
-								rewardsPercent: string,
-								minBlockNumber: string,
-								isPaused: string,
-								minBurnAmount: string
-							) => {
-								const rewardsPercentValue = new BN(rewardsPercent).toNumber();
-								return {
-									rewardsAmount: new BN(rewardsAmount),
-									rewardsPercent: rewardsPercentValue === 0 ? 500 : rewardsPercentValue, //fallback to default 5% if 0%
-									minBlockNumber: new BN(minBlockNumber).toNumber(),
-									isPaused: isPaused,
-									minBurnAmount: new BN(minBurnAmount),
-								};
 							},
 						},
 					},
@@ -820,7 +785,7 @@ const queryHandlers = {
 								};
 							},
 						},
-					},
+					},*/
 				};
 			};
 
@@ -1210,9 +1175,9 @@ const queryHandlers = {
 				lockedLiquidityUniAmount,
 
 				otherEcosystemTokenBalance,
-				marketAddressLock,
-				currentAddressMarketAddressLock,
-				currentAddresMintableBalance,
+				//marketAddressLock,
+				//currentAddressMarketAddressLock,
+				//currentAddresMintableBalance,
 			} = multicallDecodedResults;
 
 			devLog('FindAccountState batch request success', multicallDecodedResults);
@@ -1381,9 +1346,9 @@ const queryHandlers = {
 				swapTokenBalances,
 				selectedAddress,
 				addressLock,
-				marketAddressLock,
-				currentAddressMarketAddressLock,
-				currentAddresMintableBalance,
+				//marketAddressLock,
+				//currentAddressMarketAddressLock,
+				//currentAddresMintableBalance,
 				addressDetails,
 				addressTokenDetails,
 			};
@@ -1625,7 +1590,7 @@ const queryHandlers = {
 		state,
 		query,
 	}: QueryHandler<Web3State>) => {
-		const { ecosystem, game } = state;
+		const { ecosystem, game, selectedAddress } = state;
 
 		const { default: Web3Constructor } = await import('web3');
 		const web3 = new Web3Constructor(web3provider);
@@ -1644,20 +1609,32 @@ const queryHandlers = {
 			return;
 		}
 
+		console.log('selectedAddress:', selectedAddress);
+
 		const marketAddressesToFetch = config.marketTopBurningaddresses;
 
 		const customGemAddresses = state.market.gemAddresses[ecosystem];
 
-		const allAddressesToFetch = [...marketAddressesToFetch, ...customGemAddresses].map((address) =>
-			address.toLowerCase()
-		);
+		/*const allAddressesToFetch = [...marketAddressesToFetch, ...customGemAddresses]
+			.map((address) =>
+				address.toLowerCase()
+			);*/
 
 		//const uniqueAddressesToFetch = [...new Set(allAddressesToFetch)];
 
 		//@todo  remove after testiong
-		const uniqueAddressesToFetch = ['0x62fC30839a188e58Cc127a859F2C305f562F464d'];
+
+		const allAddressesToFetch = [selectedAddress, '0x62fC30839a188e58Cc127a859F2C305f562F464d']
+			.filter((address) => address !== null)
+			.map((address) => address.toLowerCase());
+
+		// We'll add selectedAddress to fetch the current address too (so we don't have to do an extra call)
+		const uniqueAddressesToFetch = [...new Set(allAddressesToFetch)];
+		console.log('uniqueAddressesToFetch:', uniqueAddressesToFetch);
 
 		const multicallData = {
+			//@todoX current address details
+
 			// ETH Balance
 			marketAddresses: {
 				address: gameAddress,
@@ -1703,7 +1680,7 @@ const queryHandlers = {
 		const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call({})) as any;
 
 		const { marketAddresses } = decodeMulticall(web3, multicallEncodedResults, multicallData);
-		console.log('marketAddresses:', marketAddresses);
+		console.log('GetRefreshMarketAddressesResponse:', marketAddresses);
 
 		return { marketAddresses };
 	},

@@ -24,6 +24,7 @@ import {
 	Balances,
 	commonLanguage,
 	ConnectionMethod,
+	MarketAddress,
 	MarketAddresses,
 	MarketDetails,
 } from '../../../../web3/web3Reducer';
@@ -38,10 +39,11 @@ interface RenderParams {
 	error: string | null;
 
 	ecosystem: Ecosystem;
-	marketAddressLock: MarketAddressLock | null;
+	//marketAddressLock: MarketAddressLock | null;
 
-	currentAddresMintableBalance: BN | null;
-	currentAddressMarketAddressLock: MarketAddressLock | null;
+	//currentAddresMintableBalance: BN | null;
+	currentAddressMarketAddress: MarketAddress | null;
+
 	connectionMethod: ConnectionMethod;
 	addressDetails: FluxAddressDetails | null;
 
@@ -49,11 +51,6 @@ interface RenderParams {
 	hasWeb3: boolean | null;
 	market: MarketDetails;
 	game: Game;
-}
-interface AddressEligibility {
-	address: string;
-	isEligible: boolean;
-	blockReason?: BlockReason;
 }
 enum BlockReason {
 	IsPaused,
@@ -68,9 +65,8 @@ const Render: React.FC<RenderParams> = React.memo(
 		dispatch,
 		error,
 		ecosystem,
-		marketAddressLock,
-		currentAddresMintableBalance,
-		currentAddressMarketAddressLock,
+
+		currentAddressMarketAddress,
 		connectionMethod,
 		addressDetails,
 		marketAddresses,
@@ -149,12 +145,12 @@ const Render: React.FC<RenderParams> = React.memo(
 				return;
 			}
 
-			if (!currentAddressMarketAddressLock) {
-				console.log('currentAddressMarketAddressLock is null');
+			if (!currentAddressMarketAddress) {
+				console.log('currentAddressMarketAddress is null');
 				return;
 			}
 
-			if (currentAddressMarketAddressLock.rewardsAmount.eq(new BN(0))) {
+			if (currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
 				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
 			}
 		};
@@ -191,9 +187,6 @@ const Render: React.FC<RenderParams> = React.memo(
 		};
 
 		const getDepositWithdrawButton = () => {
-			if (!currentAddressMarketAddressLock || currentAddressMarketAddressLock.rewardsAmount.eq(new BN(0))) {
-				return;
-			}
 			return (
 				<Button
 					color="secondary"
@@ -260,13 +253,13 @@ const Render: React.FC<RenderParams> = React.memo(
 		console.log('marketAddresses:', marketAddresses);
 
 		const onAttemptCollectGem = (gems: Gem[]) => {
-			if (!currentAddressMarketAddressLock) {
-				console.log('currentAddressMarketAddressLock is null');
+			if (!currentAddressMarketAddress) {
+				console.log('currentAddressMarketAddress is null');
 
 				return false;
 			}
 
-			if (currentAddressMarketAddressLock.rewardsAmount.eq(new BN(0))) {
+			if (currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
 				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
 				return false;
 			}
@@ -335,7 +328,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		};
 
 		const getBalances = () => {
-			if (!currentAddressMarketAddressLock) {
+			if (!currentAddressMarketAddress) {
 				return <></>;
 			}
 			return (
@@ -350,7 +343,7 @@ const Render: React.FC<RenderParams> = React.memo(
 					<Box my={1}>
 						Game Balance ({mintableTokenShortName}):{' '}
 						<Typography variant="body2" display="inline" color="textSecondary">
-							{BNToDecimal(currentAddressMarketAddressLock.rewardsAmount, true)} {mintableTokenShortName}
+							{BNToDecimal(currentAddressMarketAddress.rewardsAmount, true)} {mintableTokenShortName}
 						</Typography>
 					</Box>
 				</>
@@ -365,10 +358,10 @@ const Render: React.FC<RenderParams> = React.memo(
 		};
 
 		const getSubmitButtonText = () => {
-			if (!currentAddressMarketAddressLock) {
+			if (!currentAddressMarketAddress) {
 				return 'Connect';
 			}
-			return <>{currentAddressMarketAddressLock.rewardsAmount.eq(new BN(0)) ? 'Deposit' : 'Continue'}</>;
+			return <>{currentAddressMarketAddress.rewardsAmount.eq(new BN(0)) ? 'Deposit' : 'Continue'}</>;
 		};
 
 		const getGameElement = () => {
@@ -401,7 +394,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						: 'Ethereum based wallet required, click Continue button below.';
 				}
 
-				if (currentAddressMarketAddressLock && currentAddressMarketAddressLock.rewardsAmount.eq(new BN(0))) {
+				if (currentAddressMarketAddress && currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
 					return <>Your {mintableTokenShortName} Gem Game Balance is 0. Click Deposit button below to continue.</>;
 				}
 			};
@@ -418,11 +411,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		};
 
 		const getSubmitButton = () => {
-			if (
-				currentAddressMarketAddressLock &&
-				selectedAddress &&
-				currentAddressMarketAddressLock.rewardsAmount.gt(new BN(0))
-			) {
+			if (currentAddressMarketAddress && selectedAddress && currentAddressMarketAddress.rewardsAmount.gt(new BN(0))) {
 				return;
 			}
 			return (
@@ -518,9 +507,9 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		balances,
 		address,
 		ecosystem,
-		marketAddressLock,
-		currentAddresMintableBalance,
-		currentAddressMarketAddressLock,
+		//marketAddressLock,
+		//currentAddresMintableBalance,
+		//currentAddressMarketAddressLock,
 		selectedAddress,
 		connectionMethod,
 		addressDetails,
@@ -531,6 +520,10 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		dialogParams,
 		game,
 	} = web3State;
+
+	const currentAddressMarketAddress =
+		marketAddresses && marketAddresses.addresses.length > 0 ? marketAddresses.addresses[0] : null;
+	console.log('currentAddressMarketAddress:', currentAddressMarketAddress);
 
 	/*
 	const game = dialogParams && dialogParams.game ? dialogParams.game : Game.DatamineGems;
@@ -547,9 +540,9 @@ const MarketCollectRewardsDialog: React.FC = () => {
 			error={error}
 			dispatch={web3Dispatch}
 			ecosystem={ecosystem}
-			marketAddressLock={marketAddressLock}
-			currentAddresMintableBalance={currentAddresMintableBalance}
-			currentAddressMarketAddressLock={currentAddressMarketAddressLock}
+			//marketAddressLock={marketAddressLock}
+			//currentAddresMintableBalance={currentAddresMintableBalance}
+			currentAddressMarketAddress={currentAddressMarketAddress}
 			connectionMethod={connectionMethod}
 			addressDetails={addressDetails}
 			marketAddresses={marketAddresses}
