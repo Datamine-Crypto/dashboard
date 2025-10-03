@@ -17,14 +17,13 @@ import { Diamond, ImportExport, Mouse } from '@mui/icons-material';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '../../../../../configs/config';
 import { Ecosystem } from '../../../../../configs/config.common';
-import { DialogType, FluxAddressDetails, Game, MarketAddressLock, Token } from '../../../../interfaces';
+import { AddressLockDetailsViewModel, DialogType, FluxAddressDetails, Game, Token } from '../../../../interfaces';
 import { BNToDecimal, getPriceToggle } from '../../../../web3/helpers';
 import { useWeb3Context } from '../../../../web3/Web3Context';
 import {
 	Balances,
 	commonLanguage,
 	ConnectionMethod,
-	MarketAddress,
 	MarketAddresses,
 	MarketDetails,
 } from '../../../../web3/web3Reducer';
@@ -42,7 +41,7 @@ interface RenderParams {
 	//marketAddressLock: MarketAddressLock | null;
 
 	//currentAddresMintableBalance: BN | null;
-	currentAddressMarketAddress: MarketAddress | null;
+	currentAddressMarketAddress: AddressLockDetailsViewModel | null;
 
 	connectionMethod: ConnectionMethod;
 	addressDetails: FluxAddressDetails | null;

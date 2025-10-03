@@ -20,10 +20,10 @@ import { ImportExport } from '@mui/icons-material';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '../../../../../configs/config';
 import { Ecosystem } from '../../../../../configs/config.common';
-import { MarketAddressLock } from '../../../../interfaces';
 import { BNToDecimal } from '../../../../web3/helpers';
 import { useWeb3Context } from '../../../../web3/Web3Context';
-import { Balances, commonLanguage, MarketAddress } from '../../../../web3/web3Reducer';
+import { Balances, commonLanguage } from '../../../../web3/web3Reducer';
+import { AddressLockDetailsViewModel } from '../../../../interfaces';
 
 enum Action {
 	Deposit = 'Deposit',
@@ -38,7 +38,7 @@ interface RenderParams {
 
 	error: string | null;
 	total: string | null;
-	marketAddressLock: MarketAddress;
+	marketAddressLock: AddressLockDetailsViewModel;
 }
 
 const Render: React.FC<RenderParams> = React.memo(

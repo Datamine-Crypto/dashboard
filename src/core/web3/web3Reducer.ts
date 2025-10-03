@@ -6,12 +6,12 @@ import { getEcosystemConfig } from '../../configs/config';
 import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
 import { HelpArticle } from '../helpArticles';
 import {
+	AddressLockDetailsViewModel,
 	DialogType,
 	FluxAddressDetails,
 	FluxAddressLock,
 	FluxAddressTokenDetails,
 	Game,
-	MarketAddressLock,
 	Token,
 } from '../interfaces';
 import { Gem } from '../react/elements/Fragments/DatamineGemsGame';
@@ -164,35 +164,11 @@ export interface SwapTokenBalances {
 }
 
 /**
- * State for an address in the Datamine Market.
- */
-export interface MarketAddress {
-	currentAddress: string;
-	mintAmount: BN;
-	rewardsAmount: BN;
-
-	/**
-	 * This would need to be divided by 10000
-	 */
-	rewardsPercent: number;
-
-	minBlockNumber: number;
-	minBurnAmount: BN;
-	isPaused: boolean;
-
-	//lastMintBlockNumber: number;
-	//mintPerBlock: BN;
-
-	minterAddress: string;
-	//prevBlockMintAmount: BN;
-}
-
-/**
  * State for all market addresses.
  */
 export interface MarketAddresses {
 	targetBlock: number;
-	addresses: MarketAddress[];
+	addresses: AddressLockDetailsViewModel[];
 }
 
 /**

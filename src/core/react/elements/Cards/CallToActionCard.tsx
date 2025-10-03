@@ -63,7 +63,7 @@ import {
 	FluxAddressLock,
 	FluxAddressTokenDetails,
 	Game,
-	MarketAddressLock,
+	AddressLockDetailsViewModel,
 	Token,
 } from '../../../interfaces';
 import { formatMoney } from '../../../utils/formatMoney';
@@ -176,8 +176,6 @@ interface RenderParams {
 	ecosystem: Ecosystem;
 	/** The current connection method. */
 	connectionMethod: ConnectionMethod;
-	/** Market address lock details, if applicable. */
-	marketAddressLock: MarketAddressLock | null;
 }
 
 /**
@@ -208,7 +206,6 @@ const Render: React.FC<RenderParams> = React.memo(
 		clientSettings,
 		ecosystem,
 		connectionMethod,
-		marketAddressLock,
 	}) => {
 		const { classes } = useStyles();
 
@@ -1097,48 +1094,6 @@ const Render: React.FC<RenderParams> = React.memo(
 							);
 						};
 
-						const getMarketRewards = () => {
-							const getAmountReceived = (): BN | null => {
-								if (!marketAddressLock) {
-									return null;
-								}
-
-								const amountBN = getMintAmount();
-
-								try {
-									const rewardsAmount = amountBN.mul(new BN(marketAddressLock.rewardsPercent)).div(new BN(10000));
-									return rewardsAmount;
-								} catch {
-									return null;
-								}
-							};
-							const amountReceived = getAmountReceived();
-
-							if (!amountReceived) {
-								return;
-							}
-							if (amountReceived.eq(new BN(0))) {
-								return;
-							}
-
-							const balanceInUsdc = getPriceToggle({
-								value: amountReceived,
-								inputToken: Token.Mintable,
-								outputToken: Token.USDC,
-								balances,
-								round: 6,
-								removeCommas: true,
-							});
-
-							if (isPlayingGame && !forecastSettings.enabled) {
-								return (
-									<Chip
-										label={`Available Reward To Collect: +$ ${balanceInUsdc}`}
-										color={parseFloat(balanceInUsdc) >= 0.01 ? 'success' : 'warning'}
-									/>
-								);
-							}
-						};
 						const getBottomRightText = () => {
 							if (isPlayingGame && !forecastSettings.enabled) {
 								return;
@@ -1206,7 +1161,6 @@ const Render: React.FC<RenderParams> = React.memo(
 												</Typography>
 											</Box>
 											{getBottomRightText()}
-											{getMarketRewards()}
 										</Box>
 									</Box>
 								</Grid>
@@ -1670,7 +1624,6 @@ const CallToActionCard: React.FC = () => {
 		clientSettings,
 		ecosystem,
 		connectionMethod,
-		marketAddressLock,
 	} = web3State;
 
 	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances || !connectionMethod) {
@@ -1692,7 +1645,6 @@ const CallToActionCard: React.FC = () => {
 			clientSettings={clientSettings}
 			ecosystem={ecosystem}
 			connectionMethod={connectionMethod}
-			marketAddressLock={marketAddressLock}
 		/>
 	);
 };
