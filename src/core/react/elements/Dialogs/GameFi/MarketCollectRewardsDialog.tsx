@@ -132,6 +132,23 @@ const Render: React.FC<RenderParams> = React.memo(
 			}
 		};
 
+		/**
+		 * Is the current game requiring a balance to play (Ex: Datamine Gems uses your balance for rewards)
+		 */
+		const isGameRequiringBalance = () => {
+			switch (game) {
+				case Game.DatamineGems:
+					return true;
+				default:
+					return false;
+			}
+		};
+
+		const isDepositRequired =
+			isGameRequiringBalance() &&
+			currentAddressMarketAddress &&
+			currentAddressMarketAddress.rewardsAmount.eq(new BN(0));
+
 		const onSubmit = async (e: any) => {
 			e.preventDefault();
 
@@ -149,7 +166,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				return;
 			}
 
-			if (currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
+			if (isDepositRequired) {
 				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
 			}
 		};
@@ -258,7 +275,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				return false;
 			}
 
-			if (currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
+			if (isDepositRequired) {
 				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
 				return false;
 			}
@@ -360,7 +377,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			if (!currentAddressMarketAddress) {
 				return 'Connect';
 			}
-			return <>{currentAddressMarketAddress.rewardsAmount.eq(new BN(0)) ? 'Deposit' : 'Continue'}</>;
+			return <>{isDepositRequired ? 'Deposit' : 'Continue'}</>;
 		};
 
 		const getGameElement = () => {
@@ -393,8 +410,8 @@ const Render: React.FC<RenderParams> = React.memo(
 						: 'Ethereum based wallet required, click Continue button below.';
 				}
 
-				if (currentAddressMarketAddress && currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
-					return <>Your {mintableTokenShortName} Gem Game Balance is 0. Click Deposit button below to continue.</>;
+				if (isDepositRequired) {
+					return <>Your {mintableTokenShortName} Game Balance is 0. Click Deposit button below to continue.</>;
 				}
 			};
 			const infoText = getInfoText();

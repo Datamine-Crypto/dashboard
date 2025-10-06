@@ -39,10 +39,20 @@ interface RenderParams {
 	error: string | null;
 	total: string | null;
 	marketAddressLock: AddressLockDetailsViewModel;
+	currentAddresMintableBalance: BN | null;
 }
 
 const Render: React.FC<RenderParams> = React.memo(
-	({ selectedAddress, balances, dispatch, error, total, ecosystem, marketAddressLock }) => {
+	({
+		selectedAddress,
+		balances,
+		dispatch,
+		error,
+		total,
+		ecosystem,
+		marketAddressLock,
+		currentAddresMintableBalance,
+	}) => {
 		const { lockableTokenShortName, mintableTokenShortName } = getEcosystemConfig(ecosystem);
 
 		const [amount, setAmount] = React.useState(total);
@@ -109,7 +119,7 @@ const Render: React.FC<RenderParams> = React.memo(
 					disabled={marketAddressLock.rewardsAmount.eq(new BN(0))}
 					value={Action.Withdraw}
 					control={<Radio color="secondary" />}
-					label={<>I want to withdraw my entire {mintableTokenShortName} market balance</>}
+					label={<>I want to withdraw my entire {mintableTokenShortName} game balance</>}
 				/>
 			);
 		};
@@ -119,7 +129,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				<form onSubmit={onSubmit}>
 					<DialogTitle id="form-dialog-title">
 						<Box display="flex" alignItems="center" alignContent="center">
-							Deposit/Withdraw Market Balance
+							Deposit/Withdraw Game Balance
 							<Box display="flex" pl={1}>
 								<ImportExport style={{ color: '#00ffff' }} />
 							</Box>
@@ -133,7 +143,13 @@ const Render: React.FC<RenderParams> = React.memo(
 							</Box>
 						</Box>
 						<Box my={1}>
-							My Market Balance:{' '}
+							My Address Balance (Depositable):{' '}
+							<Box display="inline" fontWeight="fontWeightBold">
+								{BNToDecimal(currentAddresMintableBalance, true)} {mintableTokenShortName}
+							</Box>
+						</Box>
+						<Box my={1}>
+							My Game Balance (Withdrawable):{' '}
 							<Box display="inline" fontWeight="fontWeightBold">
 								{BNToDecimal(marketAddressLock.rewardsAmount, true)} {mintableTokenShortName}
 							</Box>
@@ -144,14 +160,14 @@ const Render: React.FC<RenderParams> = React.memo(
 						</Box>
 						<Box mb={4}>
 							<Typography component="div">
-								To continue select how many {mintableTokenShortName} tokens you wish to add to your market balance. You
-								can withdraw 100% of your market balance back to your address at any time.
+								To continue select how many {mintableTokenShortName} tokens you wish to add to your game balance. You
+								can withdraw 100% of your game balance back to your address at any time.
 							</Typography>
 						</Box>
 
 						<Box my={3}>
 							<FormControl component="fieldset">
-								<FormLabel component="legend">Market Action</FormLabel>
+								<FormLabel component="legend">Action To Perform:</FormLabel>
 								<RadioGroup
 									aria-label="action"
 									name="action"
@@ -164,7 +180,7 @@ const Render: React.FC<RenderParams> = React.memo(
 										label={
 											<>
 												I want to deposit <strong>{mintableTokenShortName}</strong> tokens increasing my{' '}
-												<strong>market balance</strong>
+												<strong>game balance</strong>
 											</>
 										}
 									/>
@@ -204,6 +220,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 		error,
 		ecosystem,
 		marketAddresses,
+		currentAddresMintableBalance,
 
 		//marketAddressLock,
 		//currentAddresMintableBalance,
@@ -226,10 +243,6 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 	if (!currentAddressMarketAddress) {
 		return null;
 	}
-
-	const currentAddresMintableBalance = currentAddressMarketAddress
-		? currentAddressMarketAddress.rewardsAmount
-		: new BN(0);
 	const total = BNToDecimal(currentAddresMintableBalance);
 
 	return (
@@ -241,6 +254,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 			dispatch={web3Dispatch}
 			ecosystem={ecosystem}
 			marketAddressLock={currentAddressMarketAddress}
+			currentAddresMintableBalance={currentAddresMintableBalance}
 		/>
 	);
 };

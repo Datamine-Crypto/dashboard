@@ -257,7 +257,14 @@ export interface Web3State {
 	//marketAddressLock: MarketAddressLock | null;
 	//currentAddressMarketAddressLock: MarketAddressLock | null;
 
-	//currentAddresMintableBalance: BN | null;
+	/**
+	 * What is unminted balance of currently selected address? (We use this in deposit dialog to prefill/see how much you can deposit)
+	 */
+	currentAddresMintableBalance: BN | null;
+
+	/**
+	 * All the addresses participating in the current game
+	 */
 	marketAddresses: MarketAddresses | null;
 
 	market: MarketDetails;
@@ -569,11 +576,12 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 				return state;
 			}
 
-			const { marketAddresses } = response;
+			const { marketAddresses, currentAddresMintableBalance } = response;
 
 			return {
 				...state,
 				marketAddresses,
+				currentAddresMintableBalance,
 			};
 		}
 		case commonLanguage.queries.GetTradeResponse: {
@@ -1919,7 +1927,7 @@ const initialState: Web3State = {
 
 	//@todo merge these into market: {}
 	//marketAddressLock: null,
-	//currentAddresMintableBalance: null,
+	currentAddresMintableBalance: null,
 	//urrentAddressMarketAddressLock: null,
 	marketAddresses: null,
 

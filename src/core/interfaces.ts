@@ -179,35 +179,23 @@ export enum Token {
 	USDC = 'USDC',
 }
 
-/**
- * @interface MarketAddressLock
- * @description Represents the details of a market address within the Datamine Market (GameFi) system.
- * This mirrors the data stored for public market validators.
- */
-export interface MarketAddressLock {
-	/**
-	 * @property {BN} rewardsAmount
-	 * @description The total amount of rewards accumulated for this market address.
-	 */
+export interface AddressLockDetailsViewModel {
+	currentAddress: string;
+	mintAmount: BN;
 	rewardsAmount: BN;
+
 	/**
-	 * @property {number} rewardsPercent
-	 * @description The percentage reward offered by this market address to burners.
+	 * This would need to be divided by 10000
 	 */
 	rewardsPercent: number;
-	/**
-	 * @property {BN} minBlockNumber
-	 * @description The minimum block number from which rewards can be collected.
-	 */
-	minBlockNumber: BN;
-	/**
-	 * @property {boolean} isPaused
-	 * @description Indicates whether this market address is currently paused (not accepting burns).
-	 */
-	isPaused: boolean;
-	/**
-	 * @property {BN} minBurnAmount
-	 * @description The minimum amount of tokens required to burn to this market address.
-	 */
+
+	minBlockNumber: number;
 	minBurnAmount: BN;
+	isPaused: boolean;
+
+	//lastMintBlockNumber: number;
+	//mintPerBlock: BN;
+
+	minterAddress: string;
+	//prevBlockMintAmount: BN;
 }

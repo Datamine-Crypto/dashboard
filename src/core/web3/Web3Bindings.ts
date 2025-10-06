@@ -6,6 +6,7 @@ import { commonLanguage, Web3State } from './web3Reducer';
 import damTokenAbi from './abis/dam.json';
 import fluxTokenAbi from './abis/flux.json';
 import marketAbi from './abis/market.json';
+import gameHodlClickerAbi from './abis/games/gameHodlClicker.json';
 import multicallAbi from './abis/multicall.json';
 import uniswapPairV3Abi from './abis/uniswapPairV3.json';
 
@@ -116,7 +117,14 @@ const getContracts = (web3: Web3, ecosystem: Ecosystem) => {
 	return {
 		damToken: new web3.eth.Contract(damTokenAbi as any, config.lockableTokenContractAddress),
 		fluxToken: new web3.eth.Contract(fluxTokenAbi as any, config.mintableTokenContractAddress),
+
+		// Datamine Gems
 		market: config.marketAddress ? new web3.eth.Contract(marketAbi as any, config.marketAddress) : null,
+
+		// HODL Clicker
+		gameHodlClicker: config.gameHodlClickerAddress
+			? new web3.eth.Contract(gameHodlClickerAbi as any, config.gameHodlClickerAddress)
+			: null,
 
 		//uniswapDamToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapEthDamTokenContractAddress), // For Legacy Uniswap V2 contract(we use V3 now)
 		//uniswapFluxToken: new web3.eth.Contract(uniswapPairAbi as any, config.uniswapFluxEthTokenContractAddress), // For Legacy Uniswap V2 contract(we use V3 now)
@@ -1493,7 +1501,7 @@ const queryHandlers = {
 	 * Burns tokens through the Datamine Market to collect rewards from other validators.
 	 */
 	[commonLanguage.queries.Market.GetMarketBurnFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
-		const { web3, ecosystem } = state;
+		const { web3, ecosystem, game } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
 		}
@@ -1509,9 +1517,7 @@ const queryHandlers = {
 			return;
 		}
 
-		const marketContract = withWeb3(web3, contracts.market);
-
-		const fluxToken = withWeb3(web3, contracts.fluxToken);
+		const marketContract = withWeb3(web3, game == Game.DatamineGems ? contracts.market : contracts.gameHodlClicker);
 
 		if (gems.length === 1) {
 			const gem = gems[0];
@@ -1635,6 +1641,30 @@ const queryHandlers = {
 		const multicallData = {
 			//@todoX current address details
 
+			currentAddresMintableBalance: {
+				address: config.mintableTokenContractAddress,
+				function: {
+					signature: {
+						name: 'balanceOf',
+						type: 'function',
+						inputs: [
+							{
+								type: 'address',
+								name: 'targetAddress',
+							},
+						],
+					},
+					parameters: [selectedAddress],
+				},
+
+				returns: {
+					params: ['uint256'],
+					callback: (positions: string) => {
+						return new BN(positions);
+					},
+				},
+			},
+
 			// ETH Balance
 			marketAddresses: {
 				address: gameAddress,
@@ -1679,10 +1709,14 @@ const queryHandlers = {
 		const calls = encodeMulticall(web3, multicallData);
 		const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call({})) as any;
 
-		const { marketAddresses } = decodeMulticall(web3, multicallEncodedResults, multicallData);
-		console.log('GetRefreshMarketAddressesResponse:', marketAddresses);
+		const { marketAddresses, currentAddresMintableBalance } = decodeMulticall(
+			web3,
+			multicallEncodedResults,
+			multicallData
+		);
+		console.log('GetRefreshMarketAddressesResponse:', marketAddresses, currentAddresMintableBalance);
 
-		return { marketAddresses };
+		return { marketAddresses, currentAddresMintableBalance };
 	},
 	/**
 	 * Withdraws all accumulated rewards from the Datamine Market.
