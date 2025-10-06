@@ -1716,7 +1716,7 @@ const queryHandlers = {
 		);
 		console.log('GetRefreshMarketAddressesResponse:', marketAddresses, currentAddresMintableBalance);
 
-		return { marketAddresses, currentAddresMintableBalance };
+		return { marketAddresses, currentAddresMintableBalance, game };
 	},
 	/**
 	 * Withdraws all accumulated rewards from the Datamine Market.

@@ -262,10 +262,20 @@ export interface Web3State {
 	 */
 	currentAddresMintableBalance: BN | null;
 
-	/**
-	 * All the addresses participating in the current game
-	 */
-	marketAddresses: MarketAddresses | null;
+	games: {
+		[Game.DatamineGems]: {
+			/**
+			 * All the addresses participating in the current game
+			 */
+			marketAddresses: MarketAddresses | null;
+		};
+		[Game.HodlClicker]: {
+			/**
+			 * All the addresses participating in the current game
+			 */
+			marketAddresses: MarketAddresses | null;
+		};
+	};
 
 	market: MarketDetails;
 	game: Game;
@@ -576,12 +586,18 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 				return state;
 			}
 
-			const { marketAddresses, currentAddresMintableBalance } = response;
+			const { marketAddresses, currentAddresMintableBalance, game } = response;
 
 			return {
 				...state,
-				marketAddresses,
 				currentAddresMintableBalance,
+
+				games: {
+					...state.games,
+					[game]: {
+						marketAddresses,
+					},
+				},
 			};
 		}
 		case commonLanguage.queries.GetTradeResponse: {
@@ -1929,7 +1945,15 @@ const initialState: Web3State = {
 	//marketAddressLock: null,
 	currentAddresMintableBalance: null,
 	//urrentAddressMarketAddressLock: null,
-	marketAddresses: null,
+
+	games: {
+		[Game.DatamineGems]: {
+			marketAddresses: null,
+		},
+		[Game.HodlClicker]: {
+			marketAddresses: null,
+		},
+	},
 
 	market: {
 		gemAddresses: getCustomMarketAddresses(),

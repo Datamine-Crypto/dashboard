@@ -219,13 +219,17 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 		selectedAddress,
 		error,
 		ecosystem,
-		marketAddresses,
+		games,
+		game,
+
 		currentAddresMintableBalance,
 
 		//marketAddressLock,
 		//currentAddresMintableBalance,
 		//currentAddressMarketAddressLock,
 	} = web3State;
+
+	const { marketAddresses } = games[game];
 
 	if (
 		!balances ||

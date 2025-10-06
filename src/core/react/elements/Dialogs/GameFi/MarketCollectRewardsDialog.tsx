@@ -529,13 +529,15 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		selectedAddress,
 		connectionMethod,
 		addressDetails,
-		marketAddresses,
+		games,
 		error,
 		hasWeb3,
 		market,
 		dialogParams,
 		game,
 	} = web3State;
+
+	const { marketAddresses } = games[game];
 
 	const currentAddressMarketAddress =
 		marketAddresses && marketAddresses.addresses.length > 0 ? marketAddresses.addresses[0] : null;
