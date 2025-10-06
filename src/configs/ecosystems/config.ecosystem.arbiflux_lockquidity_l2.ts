@@ -30,7 +30,7 @@ export const getArbiFluxLockquidityEcosystemConfig = () => {
 		marketAddress: '0xe948c8417DD2f8e7dfc88ac3F50b3F89Db7c29Dd',
 
 		// Hodl Clicker: Rush game address
-		gameHodlClickerAddress: '0x1476efff421d80aA070b526d4b012b02CA20f282',
+		gameHodlClickerAddress: '0x0D11195a1d58e21b389Ee34F887013ABF4212393',
 
 		// Block number at which the failsafe limit for token lock-up begins
 		failsafeStartBlockNumber: 20959397,
