@@ -268,12 +268,31 @@ export interface Web3State {
 			 * All the addresses participating in the current game
 			 */
 			marketAddresses: MarketAddresses | null;
+
+			/**
+			 * @todo remove Not used in this game
+			 */
+			totalContractRewardsAmount: BN | null;
+			/**
+			 * @todo remove Not used in this game
+			 */
+			totalContractLockedAmount: BN | null;
 		};
 		[Game.HodlClicker]: {
 			/**
 			 * All the addresses participating in the current game
 			 */
 			marketAddresses: MarketAddresses | null;
+
+			/**
+			 * @todo Keeps track of total balance (rewards + locked)
+			 */
+			totalContractRewardsAmount: BN | null;
+
+			/**
+			 * @todo Keeps track of locked balance (just locked)
+			 */
+			totalContractLockedAmount: BN | null;
 		};
 	};
 
@@ -586,7 +605,13 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 				return state;
 			}
 
-			const { marketAddresses, currentAddresMintableBalance, game } = response;
+			const {
+				marketAddresses,
+				currentAddresMintableBalance,
+				game,
+				totalContractRewardsAmount,
+				totalContractLockedAmount,
+			} = response;
 
 			return {
 				...state,
@@ -596,6 +621,8 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					...state.games,
 					[game]: {
 						marketAddresses,
+						totalContractRewardsAmount,
+						totalContractLockedAmount,
 					},
 				},
 			};
@@ -1952,9 +1979,13 @@ const initialState: Web3State = {
 	games: {
 		[Game.DatamineGems]: {
 			marketAddresses: null,
+			totalContractRewardsAmount: null,
+			totalContractLockedAmount: null,
 		},
 		[Game.HodlClicker]: {
 			marketAddresses: null,
+			totalContractRewardsAmount: null,
+			totalContractLockedAmount: null,
 		},
 	},
 

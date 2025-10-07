@@ -23,7 +23,7 @@ import { Ecosystem } from '../../../../../configs/config.common';
 import { BNToDecimal } from '../../../../web3/helpers';
 import { useWeb3Context } from '../../../../web3/Web3Context';
 import { Balances, commonLanguage } from '../../../../web3/web3Reducer';
-import { AddressLockDetailsViewModel } from '../../../../interfaces';
+import { AddressLockDetailsViewModel, Game } from '../../../../interfaces';
 
 enum Action {
 	Deposit = 'Deposit',
@@ -40,6 +40,7 @@ interface RenderParams {
 	total: string | null;
 	marketAddressLock: AddressLockDetailsViewModel;
 	currentAddresMintableBalance: BN | null;
+	game: Game;
 }
 
 const Render: React.FC<RenderParams> = React.memo(
@@ -52,6 +53,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		ecosystem,
 		marketAddressLock,
 		currentAddresMintableBalance,
+		game,
 	}) => {
 		const { lockableTokenShortName, mintableTokenShortName } = getEcosystemConfig(ecosystem);
 
@@ -100,7 +102,7 @@ const Render: React.FC<RenderParams> = React.memo(
 					<TextField
 						autoFocus
 						id="name"
-						label={`${mintableTokenShortName} Tokens To Deposit`}
+						label={`${mintableTokenShortName} Tokens To ${game === Game.DatamineGems ? 'Deposit' : 'Stake'}`}
 						type="text"
 						variant="outlined"
 						value={amount}
@@ -119,7 +121,12 @@ const Render: React.FC<RenderParams> = React.memo(
 					disabled={marketAddressLock.rewardsAmount.eq(new BN(0))}
 					value={Action.Withdraw}
 					control={<Radio color="secondary" />}
-					label={<>I want to withdraw my entire {mintableTokenShortName} game balance</>}
+					label={
+						<>
+							I want to {game === Game.DatamineGems ? 'withdraw' : 'unstake'} my entire {mintableTokenShortName} game
+							balance
+						</>
+					}
 				/>
 			);
 		};
@@ -129,7 +136,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				<form onSubmit={onSubmit}>
 					<DialogTitle id="form-dialog-title">
 						<Box display="flex" alignItems="center" alignContent="center">
-							Deposit/Withdraw Game Balance
+							{game === Game.DatamineGems ? 'Deposit/Withdraw' : 'Stake/Unstake'} Game Balance
 							<Box display="flex" pl={1}>
 								<ImportExport style={{ color: '#00ffff' }} />
 							</Box>
@@ -149,7 +156,7 @@ const Render: React.FC<RenderParams> = React.memo(
 							</Box>
 						</Box>
 						<Box my={1}>
-							My Game Balance (Withdrawable):{' '}
+							{game === Game.DatamineGems ? 'My' : 'Staked'} Game Balance (Withdrawable):{' '}
 							<Box display="inline" fontWeight="fontWeightBold">
 								{BNToDecimal(marketAddressLock.rewardsAmount, true)} {mintableTokenShortName}
 							</Box>
@@ -160,8 +167,9 @@ const Render: React.FC<RenderParams> = React.memo(
 						</Box>
 						<Box mb={4}>
 							<Typography component="div">
-								To continue select how many {mintableTokenShortName} tokens you wish to add to your game balance. You
-								can withdraw 100% of your game balance back to your address at any time.
+								To continue select how many {mintableTokenShortName} tokens you wish to{' '}
+								{game === Game.DatamineGems ? 'add to your game balance' : 'stake'}. You can withdraw 100%+ of your game
+								balance back to your address at any time.
 							</Typography>
 						</Box>
 
@@ -179,8 +187,8 @@ const Render: React.FC<RenderParams> = React.memo(
 										control={<Radio color="secondary" />}
 										label={
 											<>
-												I want to deposit <strong>{mintableTokenShortName}</strong> tokens increasing my{' '}
-												<strong>game balance</strong>
+												I want to {game === Game.DatamineGems ? 'deposit' : 'stake'}{' '}
+												<strong>{mintableTokenShortName}</strong> tokens increasing my <strong>game balance</strong>
 											</>
 										}
 									/>
@@ -259,6 +267,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 			ecosystem={ecosystem}
 			marketAddressLock={currentAddressMarketAddress}
 			currentAddresMintableBalance={currentAddresMintableBalance}
+			game={game}
 		/>
 	);
 };

@@ -178,52 +178,6 @@ const subscribeToBlockUpdates = (web3: Web3, dispatch: React.Dispatch<any>) => {
 };
 
 /**
- * Signs a typed message to prove ownership of an address, used for accessing pro features.
- * @param web3 - The Web3 instance.
- * @param selectedAddress - The user's selected address.
- * @returns The signature result.
- */
-const getSignature = async (web3: any, selectedAddress: any) => {
-	const msgParams = [
-		{
-			type: 'string',
-			name: 'Message',
-			value: 'DISPLAY_DATAMINE_PRO_ACCESS_LINKS',
-		},
-	];
-
-	const from = selectedAddress;
-	const params = [msgParams, from];
-
-	const method = 'eth_signTypedData';
-
-	const result = await new Promise((resolve, reject) => {
-		(web3.currentProvider as any).sendAsync(
-			{
-				method,
-				params,
-				from,
-			},
-			function (err: any, result: any) {
-				if (err) {
-					reject(err);
-					return;
-				}
-
-				if (!result.result) {
-					reject('Invalid return');
-					return;
-				}
-
-				resolve(result.result);
-			}
-		);
-	});
-
-	return result;
-};
-
-/**
  * @var thottleGetOutputQuoteTimeout - Timeout ID for throttling swap quote requests.
  */
 let thottleGetOutputQuoteTimeout: any;
@@ -1643,6 +1597,55 @@ const queryHandlers = {
 		const uniqueAddressesToFetch = [...new Set(allAddressesToFetch)];
 		console.log('uniqueAddressesToFetch:', uniqueAddressesToFetch);
 
+		/**
+		 * Some games might return more data that is required
+		 */
+		const getExtraData = () => {
+			switch (game) {
+				case Game.HodlClicker:
+					return {
+						totalContractRewardsAmount: {
+							address: gameAddress,
+							function: {
+								signature: {
+									name: 'totalContractRewardsAmount',
+									type: 'function',
+									inputs: [],
+								},
+								parameters: [],
+							},
+
+							returns: {
+								params: ['uint256'],
+								callback: (amount: string) => {
+									return new BN(amount);
+								},
+							},
+						},
+						totalContractLockedAmount: {
+							address: gameAddress,
+							function: {
+								signature: {
+									name: 'totalContractLockedAmount',
+									type: 'function',
+									inputs: [],
+								},
+								parameters: [],
+							},
+
+							returns: {
+								params: ['uint256'],
+								callback: (amount: string) => {
+									return new BN(amount);
+								},
+							},
+						},
+					};
+				default:
+					return {};
+			}
+		};
+
 		const multicallData = {
 			//@todoX current address details
 
@@ -1708,20 +1711,30 @@ const queryHandlers = {
 					},
 				},
 			},
+			...getExtraData(),
 		} as any;
 
 		// Call multicall aggregate and parse the results
 		const calls = encodeMulticall(web3, multicallData);
 		const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call({})) as any;
 
-		const { marketAddresses, currentAddresMintableBalance } = decodeMulticall(
-			web3,
-			multicallEncodedResults,
-			multicallData
+		const { marketAddresses, currentAddresMintableBalance, totalContractRewardsAmount, totalContractLockedAmount } =
+			decodeMulticall(web3, multicallEncodedResults, multicallData);
+		console.log(
+			'GetRefreshMarketAddressesResponse:',
+			marketAddresses,
+			currentAddresMintableBalance,
+			totalContractRewardsAmount,
+			totalContractLockedAmount
 		);
-		console.log('GetRefreshMarketAddressesResponse:', marketAddresses, currentAddresMintableBalance);
 
-		return { marketAddresses, currentAddresMintableBalance, game };
+		return {
+			marketAddresses,
+			currentAddresMintableBalance,
+			game,
+			totalContractRewardsAmount,
+			totalContractLockedAmount,
+		};
 	},
 	/**
 	 * Withdraws all accumulated rewards from the Datamine Market.

@@ -29,6 +29,7 @@ import {
 } from '../../../../web3/web3Reducer';
 import DatamineGemsGame, { Gem } from '../../Fragments/DatamineGemsGame';
 import { getNetworkDropdown } from '../../Fragments/EcosystemDropdown';
+import Big from 'big.js';
 
 interface RenderParams {
 	selectedAddress: string;
@@ -50,6 +51,9 @@ interface RenderParams {
 	hasWeb3: boolean | null;
 	market: MarketDetails;
 	game: Game;
+
+	totalContractLockedAmount: BN | null;
+	totalContractRewardsAmount: BN | null;
 }
 enum BlockReason {
 	IsPaused,
@@ -72,6 +76,8 @@ const Render: React.FC<RenderParams> = React.memo(
 		hasWeb3,
 		market,
 		game,
+		totalContractLockedAmount,
+		totalContractRewardsAmount,
 	}) => {
 		const localConfig = {
 			/**
@@ -219,7 +225,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						</Box>
 					}
 				>
-					Deposit/Withdraw
+					{game === Game.DatamineGems ? 'Deposit/Withdraw' : 'Stake/Unstake'}
 				</Button>
 			);
 		};
@@ -348,9 +354,17 @@ const Render: React.FC<RenderParams> = React.memo(
 		};
 
 		const getBalances = () => {
-			if (!currentAddressMarketAddress) {
+			if (!currentAddressMarketAddress || !balances) {
 				return <></>;
 			}
+			const balanceInUsdc = getPriceToggle({
+				value: currentAddressMarketAddress.rewardsAmount,
+				inputToken: Token.Mintable,
+				outputToken: Token.USDC,
+				balances,
+				round: 4,
+				removeCommas: true,
+			});
 			return (
 				<>
 					<Box>
@@ -361,11 +375,84 @@ const Render: React.FC<RenderParams> = React.memo(
 					</Box>
 
 					<Box my={1}>
-						Game Balance ({mintableTokenShortName}):{' '}
+						{game === Game.HodlClicker ? 'Staked Game' : 'Game'} Balance:{' '}
 						<Typography variant="body2" display="inline" color="textSecondary">
-							{BNToDecimal(currentAddressMarketAddress.rewardsAmount, true)} {mintableTokenShortName}
+							$ {balanceInUsdc} ( {BNToDecimal(currentAddressMarketAddress.rewardsAmount, true, 18, 6)}{' '}
+							{mintableTokenShortName} )
 						</Typography>
 					</Box>
+				</>
+			);
+		};
+
+		const getRewards = () => {
+			if (!currentAddressMarketAddress || !balances || !totalContractRewardsAmount || !totalContractLockedAmount) {
+				return <></>;
+			}
+			const getBalancePercentage = () => {
+				if (!totalContractLockedAmount) {
+					return 0;
+				}
+				const test = new Big(currentAddressMarketAddress.rewardsAmount.toString()).div(
+					new Big(totalContractLockedAmount.toString())
+				);
+				return test.toNumber() * 100;
+			};
+
+			const rewardsToWithdraw = currentAddressMarketAddress.rewardsAmount
+				.mul(totalContractRewardsAmount)
+				.div(totalContractLockedAmount)
+				.sub(totalContractLockedAmount);
+
+			const balanceInUsdc = getPriceToggle({
+				value: rewardsToWithdraw,
+				inputToken: Token.Mintable,
+				outputToken: Token.USDC,
+				balances,
+				round: 4,
+				removeCommas: true,
+			});
+
+			const balancePercentage = getBalancePercentage();
+
+			const getTierDetails = () => {
+				if (balancePercentage > 20) {
+					return { tier: 7, emoji: <>👀</> };
+				}
+				if (balancePercentage > 10) {
+					return { tier: 6, emoji: <>👑</> };
+				}
+				if (balancePercentage > 5) {
+					return { tier: 5, emoji: <>💎</> };
+				}
+				if (balancePercentage > 2) {
+					return { tier: 4, emoji: <>🏅</> };
+				}
+				if (balancePercentage > 1) {
+					return { tier: 3, emoji: <>🥈</> };
+				}
+				if (balancePercentage > 0.5) {
+					return { tier: 2, emoji: <>🥉</> };
+				}
+
+				return { tier: 1 };
+			};
+			const { emoji, tier } = getTierDetails();
+
+			return (
+				<>
+					<Alert severity="success">
+						Game Rewards :{' '}
+						<Typography variant="body2" display="inline" color="textSecondary">
+							$ {balanceInUsdc} ( {BNToDecimal(rewardsToWithdraw, true, 18, 6)} {mintableTokenShortName} )
+							<Box>
+								<strong>
+									[Tier {tier}] Passive Staking: + Earning {balancePercentage.toFixed(2)}% of all rewards collected{' '}
+									{emoji}
+								</strong>
+							</Box>
+						</Typography>
+					</Alert>
 				</>
 			);
 		};
@@ -480,6 +567,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						</Box>
 						<Box my={2}></Box>
 						{getBalances()}
+						{getRewards()}
 						{getLagWarning()}
 
 						<Box my={3}>
@@ -541,7 +629,7 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		game,
 	} = web3State;
 
-	const { marketAddresses } = games[game];
+	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];
 
 	const currentAddressMarketAddress =
 		marketAddresses && marketAddresses.addresses.length > 0 ? marketAddresses.addresses[0] : null;
@@ -571,6 +659,8 @@ const MarketCollectRewardsDialog: React.FC = () => {
 			hasWeb3={hasWeb3}
 			market={market}
 			game={game}
+			totalContractLockedAmount={totalContractLockedAmount}
+			totalContractRewardsAmount={totalContractRewardsAmount}
 		/>
 	);
 };
