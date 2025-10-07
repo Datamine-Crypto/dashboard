@@ -266,7 +266,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				gems.push({
 					ethereumAddress: address.currentAddress,
 					error: getError(),
-					dollarAmount: parseFloat(balanceInUsdc),
+					dollarAmount: parseFloat(balanceInUsdc) / (game === Game.DatamineGems ? 1 : 2),
 					id: address.currentAddress,
 				});
 			}
@@ -447,7 +447,7 @@ const Render: React.FC<RenderParams> = React.memo(
 							$ {balanceInUsdc} ( {BNToDecimal(rewardsToWithdraw, true, 18, 6)} {mintableTokenShortName} )
 							<Box>
 								<strong>
-									[Tier {tier}] Passive Staking: + Earning {balancePercentage.toFixed(2)}% of all rewards collected{' '}
+									[Tier {tier}] Passive Staking: + Earning {balancePercentage.toFixed(4)}% of all rewards collected{' '}
 									{emoji}
 								</strong>
 							</Box>

@@ -31,6 +31,7 @@ import {
 	PlayArrow as PlayArrowIcon,
 	Whatshot as WhatshotIcon,
 	SportsEsports as SportsEsportsIcon,
+	ExpandLess,
 } from '@mui/icons-material';
 
 import { tss } from 'tss-react/mui';
@@ -182,11 +183,14 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		}
 		return [
 			{
+				isBasicDivider: true,
+			},
+			{
 				title: 'Liquidity Games',
 
 				icon: <SportsEsportsIcon />,
 				className: classes.parent,
-				expandIcon: true,
+				expandedIcon: true,
 			},
 			{
 				title: (
@@ -255,7 +259,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 
 			icon: <WhatshotIcon />,
 			className: classes.parent,
-			expandIcon: true,
+			expandedIcon: true,
 		},
 		{
 			title: 'Homepage',
@@ -282,6 +286,13 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			}
 
 			return <ExpandMore />;
+		};
+		const getExpandedIcon = (shouldExpand: boolean) => {
+			if (!shouldExpand) {
+				return null;
+			}
+
+			return <ExpandLess />;
 		};
 
 		const drawerButtons = buttons.map((button: any, index: number) => {
@@ -316,6 +327,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 								cursor: 'default',
 							},
 						},
+						disableRipple: true,
 					};
 				}
 
@@ -341,6 +353,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 							<ListItemIcon style={{ minWidth: 40 }}>{button.icon}</ListItemIcon>
 							<ListItemText primary={button.title} />
 							{getExpandIcon(!!button.expandIcon)}
+							{getExpandedIcon(!!button.expandedIcon)}
 						</ListItemButton>
 					</ListItem>
 				</>

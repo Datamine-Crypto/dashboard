@@ -1,5 +1,5 @@
 import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import React from 'react';
 import { Ecosystem } from '../../../configs/config.common';
 
 import Grid from '@mui/system/Grid';
@@ -101,9 +101,8 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 		},
 		{
 			icon: <AutorenewIcon fontSize="large" />,
-			title: 'Tip Bonus Pool',
-			description:
-				'50% of the jackpot goes to a pool. Your click tip bonus is a percentage of the total pool. Extra ways to earn!',
+			title: 'LOCK Staking',
+			description: 'Earn extra rewards based on your LOCK staking ownership percentage.',
 		},
 		{
 			icon: <BoltIcon fontSize="large" />,
