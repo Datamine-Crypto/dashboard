@@ -66,7 +66,6 @@ export const getArbiFluxLockquidityEcosystemConfig = () => {
 		marketTopBurningaddresses: {
 			[Game.DatamineGems]: [
 				'0x26ad2CEb6Bcc4E9D07E0D1Ea737944B75Ae1450F',
-				'0x9c51CeaB11C88c267ead15E8bDc18cC515640Eae',
 				'0x30a3509FbD34d30C8581069F8Cdd6D9Db65EDa53',
 				'0x3655450CB4D6A09cAa3Adccb44f8B7de66D9a50c',
 				'0x3544Fa4F39a5D6586DE28EF029f885551e9884B4',
@@ -83,6 +82,7 @@ export const getArbiFluxLockquidityEcosystemConfig = () => {
 			[Game.HodlClicker]: [
 				'0x199a2Fc79825a3a5843fEF0c38Ad92dd7E00e57e',
 				'0x66FC9b2c58ef14B95571B9F2FCD994Db66098EaB',
+				'0x9c51CeaB11C88c267ead15E8bDc18cC515640Eae',
 				'0x618543F369fda50595b60FB98d1c4974E71b55e2',
 				'0x62fC30839a188e58Cc127a859F2C305f562F464d',
 			],
