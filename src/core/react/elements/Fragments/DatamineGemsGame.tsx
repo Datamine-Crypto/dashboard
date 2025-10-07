@@ -636,6 +636,13 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 		);
 	};
 
+	const getLoadingIndicator = () => {
+		if (grid && grid.length > 0) {
+			return null;
+		}
+		return <CircularProgress />;
+	};
+
 	return (
 		<Paper
 			elevation={3}
@@ -680,6 +687,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 				spacing={{ xs: 1, sm: 1.5 }}
 				sx={{ width: { xs: 190, sm: 330 }, justifyContent: 'center', mb: 3 }}
 			>
+				{getLoadingIndicator()}
 				{grid.map((gemInCell, index) => (
 					<Grid
 						size={{ xs: 3 }}

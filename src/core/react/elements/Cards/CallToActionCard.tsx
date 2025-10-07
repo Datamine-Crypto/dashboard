@@ -1095,7 +1095,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						};
 
 						const getBottomRightText = () => {
-							if (isPlayingGame && !forecastSettings.enabled) {
+							if (forecastSettings.enabled) {
 								return;
 							}
 							return (

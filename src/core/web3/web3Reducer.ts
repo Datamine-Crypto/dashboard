@@ -1407,6 +1407,9 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				error: null,
 				game,
 				dialog: DialogType.MarketCollectRewards,
+
+				// Ensure to get the latest addresses when showing
+				...withQueries([{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} }]),
 			};
 		}
 		case commonLanguage.commands.Market.AddGemAddress: {

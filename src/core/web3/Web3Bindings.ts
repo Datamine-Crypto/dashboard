@@ -1544,7 +1544,7 @@ const queryHandlers = {
 	 * Deposits tokens into the Datamine Market to be available for public burning.
 	 */
 	[commonLanguage.queries.Market.GetDepositMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
-		const { web3, ecosystem } = state;
+		const { web3, ecosystem, game } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
 		}
@@ -1556,11 +1556,13 @@ const queryHandlers = {
 
 		const config = getEcosystemConfig(ecosystem);
 
-		if (!config.marketAddress) {
+		const gameAddress = game === Game.DatamineGems ? config.marketAddress : config.gameHodlClickerAddress;
+
+		if (!gameAddress) {
 			return;
 		}
 
-		const marketContract = withWeb3(web3, contracts.market);
+		const marketContract = withWeb3(web3, game == Game.DatamineGems ? contracts.market : contracts.gameHodlClicker);
 
 		const fluxToken = withWeb3(web3, contracts.fluxToken);
 
@@ -1568,12 +1570,12 @@ const queryHandlers = {
 
 		//@todo check if already authorized
 
-		const isOperatorFor = await fluxToken.isOperatorFor(config.marketAddress, selectedAddress)();
+		const isOperatorFor = await fluxToken.isOperatorFor(gameAddress, selectedAddress)();
 		console.log('isOperatorFor:', isOperatorFor);
 
 		if (!isOperatorFor) {
 			const authorizeOperatorResponse = await fluxToken.authorizeOperator({
-				operator: config.marketAddress,
+				operator: gameAddress,
 				from: selectedAddress,
 			});
 			console.log('authorizeOperatorResponse:', authorizeOperatorResponse);
@@ -1616,6 +1618,9 @@ const queryHandlers = {
 		}
 
 		console.log('selectedAddress:', selectedAddress);
+		if (!selectedAddress) {
+			return;
+		}
 
 		const marketAddressesToFetch = config.marketTopBurningaddresses;
 
@@ -1722,7 +1727,7 @@ const queryHandlers = {
 	 * Withdraws all accumulated rewards from the Datamine Market.
 	 */
 	[commonLanguage.queries.Market.GetWithdrawMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
-		const { web3, ecosystem } = state;
+		const { web3, ecosystem, game } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
 		}
@@ -1736,7 +1741,7 @@ const queryHandlers = {
 			return;
 		}
 
-		const marketContract = withWeb3(web3, contracts.market);
+		const marketContract = withWeb3(web3, game == Game.DatamineGems ? contracts.market : contracts.gameHodlClicker);
 
 		const withdrawResponse = await marketContract.marketWithdrawAll({
 			from: selectedAddress,

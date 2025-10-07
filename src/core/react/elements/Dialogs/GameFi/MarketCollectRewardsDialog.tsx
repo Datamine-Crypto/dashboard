@@ -203,6 +203,10 @@ const Render: React.FC<RenderParams> = React.memo(
 		};
 
 		const getDepositWithdrawButton = () => {
+			if (!selectedAddress) {
+				return null;
+			}
+
 			return (
 				<Button
 					color="secondary"
