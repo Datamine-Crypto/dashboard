@@ -407,14 +407,14 @@ const Render: React.FC<RenderParams> = React.memo(
 				);
 				return test.toNumber() * 100;
 			};
-			if (totalContractLockedAmount.eq(new BN(0))) {
+			if (totalContractLockedAmount.eq(new BN(0)) || currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
 				return <></>;
 			}
 
 			const rewardsToWithdraw = currentAddressMarketAddress.rewardsAmount
 				.mul(totalContractRewardsAmount)
 				.div(totalContractLockedAmount)
-				.sub(totalContractLockedAmount);
+				.sub(currentAddressMarketAddress.rewardsAmount);
 
 			const balanceInUsdc = getPriceToggle({
 				value: rewardsToWithdraw,

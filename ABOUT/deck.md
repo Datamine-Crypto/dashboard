@@ -432,3 +432,17 @@ earn, and validators benefit from the constant stream of activity that boosts
 their returns. The addition of atomic batch burning (the "Collect All Gems"               
 button) further amplifies this by allowing players to trigger multiple burns in           
 a single, efficient transaction.   
+
+// 2025-10-07
+
+Here is the overview of our new HODL Clicker game:
+
+1. Everyone on Arbitrum (L2) can play instantly without needing to buy any tokens! All you need is a bit of Ethereum for gas fees.
+2. We introduce a new "jackpot" feature. If you are the first to click the gem you get all the rewards without having to deposit any tokens lowering barrier to entry.
+3. Collecting gems will automatically enter you into our new staking pool. Earn from your rewards even when you sleep!
+4. This is our second game built upon our unique innovative Liquidity Game Engine. With our second game we give validators choice of how they want to play.
+5. We've built a new Staking Game Layer. 100% of all the gem rewards are rewarded between all the players. If you hold 20% of the liquidity in the game, you will passively earn 20% of all gem rewards automatically re-compounding.
+6. The goal of the new game is to maximize rewards for validators. They will experience incresed burn throughput with increased player count.
+7. We now have 83 smart contract unit tests and new security features like re-entrancy guard making this the most tested and complex smart contract we wrote to date.
+
+Overall this is an evolution of Datamine Gems, a natural progression of GameFi to give players more choices.
