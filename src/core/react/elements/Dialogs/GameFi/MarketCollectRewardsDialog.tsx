@@ -239,6 +239,10 @@ const Render: React.FC<RenderParams> = React.memo(
 			}
 
 			for (const address of marketAddresses.addresses) {
+				if (address.isPaused || address.minterAddress !== gameAddress) {
+					continue;
+				}
+
 				const getError = () => {
 					if (address.isPaused) {
 						return 'Error: Address is paused for gem minting (by the address). Please check back later!';
@@ -640,16 +644,11 @@ const MarketCollectRewardsDialog: React.FC = () => {
 	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];
 
 	const currentAddressMarketAddress =
-		marketAddresses && marketAddresses.addresses.length > 0 ? marketAddresses.addresses[0] : null;
-	console.log('currentAddressMarketAddress:', currentAddressMarketAddress);
-
-	/*
-	const game = dialogParams && dialogParams.game ? dialogParams.game : Game.DatamineGems;
-
-	// On show fetch the latest market addresses
-	useEffect(() => {
-		web3Dispatch({ type: commonLanguage.commands.Market.RefreshMarketAddresses, payload: { game } });
-	}, []);*/
+		marketAddresses && marketAddresses.addresses.length > 0
+			? marketAddresses.addresses.find(
+					(address) => address.currentAddress.toLowerCase() === selectedAddress?.toLowerCase()
+				)
+			: null;
 
 	return (
 		<Render

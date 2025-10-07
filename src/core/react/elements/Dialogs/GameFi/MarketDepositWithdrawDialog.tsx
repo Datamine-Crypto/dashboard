@@ -130,7 +130,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				/>
 			);
 		};
-
 		return (
 			<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 				<form onSubmit={onSubmit}>
@@ -250,7 +249,11 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 	}
 
 	const currentAddressMarketAddress =
-		marketAddresses && marketAddresses.addresses.length > 0 ? marketAddresses.addresses[0] : null;
+		marketAddresses && marketAddresses.addresses.length > 0
+			? marketAddresses.addresses.find(
+					(address) => address.currentAddress.toLowerCase() === selectedAddress?.toLowerCase()
+				)
+			: null;
 
 	if (!currentAddressMarketAddress) {
 		return null;

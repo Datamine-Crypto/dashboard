@@ -1580,7 +1580,8 @@ const queryHandlers = {
 
 		const customGemAddresses = state.market.gemAddresses[ecosystem];
 
-		const allAddressesToFetch = [...marketAddressesToFetch, ...customGemAddresses]
+		// Always fetch selectedAddress so we can get details for it in UI (ex: total game balance)
+		const allAddressesToFetch = [selectedAddress, ...marketAddressesToFetch, ...customGemAddresses]
 			.filter((address) => address !== null)
 			.map((address) => address.toLowerCase());
 
