@@ -8,6 +8,7 @@ import {
 	Drawer,
 	Link,
 	List,
+	ListItem,
 	ListItemButton,
 	ListItemIcon,
 	ListItemText,
@@ -29,6 +30,7 @@ import {
 	People as PeopleIcon,
 	PlayArrow as PlayArrowIcon,
 	Whatshot as WhatshotIcon,
+	SportsEsports as SportsEsportsIcon,
 } from '@mui/icons-material';
 
 import { tss } from 'tss-react/mui';
@@ -180,7 +182,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		}
 		return [
 			{
-				isBasicDivider: true,
+				title: 'Liquidity Games',
+
+				icon: <SportsEsportsIcon />,
+				className: classes.parent,
+				expandIcon: true,
 			},
 			{
 				title: (
@@ -190,6 +196,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				),
 				icon: <MouseIcon />,
 				href: '#gamefi-hodlclicker',
+				className: classes.nested,
 			},
 			{
 				title: (
@@ -199,6 +206,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				),
 				icon: <DiamondIcon />,
 				href: '#gamefi',
+				className: classes.nested,
 			},
 			{
 				isBasicDivider: true,
@@ -287,7 +295,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			if (button.isBasicDivider) {
 				return <Divider key={index} />;
 			}
-			const getListItemProps = () => {
+			const getListButtonItemProps = () => {
 				if (button.href) {
 					return {
 						button: true,
@@ -301,7 +309,14 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				}
 
 				if (!button.onClick) {
-					return {};
+					return {
+						sx: {
+							'&:hover': {
+								backgroundColor: '#22242e',
+								cursor: 'default',
+							},
+						},
+					};
 				}
 
 				return {
@@ -312,12 +327,23 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 					},
 				};
 			};
+
 			return (
-				<ListItemButton key={button.title || index} className={button.className} {...(getListItemProps() as any)}>
-					<ListItemIcon style={{ minWidth: 40 }}>{button.icon}</ListItemIcon>
-					<ListItemText primary={button.title} />
-					{getExpandIcon(!!button.expandIcon)}
-				</ListItemButton>
+				<>
+					{/* This ListItemIcon is unclickable and has no hover effect */}
+
+					<ListItem disablePadding>
+						<ListItemButton
+							key={button.title || index}
+							className={button.className}
+							{...(getListButtonItemProps() as any)}
+						>
+							<ListItemIcon style={{ minWidth: 40 }}>{button.icon}</ListItemIcon>
+							<ListItemText primary={button.title} />
+							{getExpandIcon(!!button.expandIcon)}
+						</ListItemButton>
+					</ListItem>
+				</>
 			);
 		});
 
