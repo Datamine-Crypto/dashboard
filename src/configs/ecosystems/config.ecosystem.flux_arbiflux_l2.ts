@@ -58,11 +58,12 @@ export const getFluxArbiFluxEcosystemConfig = () => {
 		// Top burning addresses for this ecosystem
 		marketTopBurningaddresses: {
 			[Game.DatamineGems]: [
-				'0x66FC9b2c58ef14B95571B9F2FCD994Db66098EaB',
 				'0x618543F369fda50595b60FB98d1c4974E71b55e2',
+				'0x66FC9b2c58ef14B95571B9F2FCD994Db66098EaB',
 				'0x45009E579e3e088F8C776dD8873b437c18e2eaf4',
-				'0x29Df1Bd05dd83611E2F9DbFBfBAEADcC67C073f8',
+				'0xb07E5Fe7A056bEa4be1c952E3A6669A6544acA3E',
 				'0x3c633795872589b460160d0661626bec057f2eED',
+				'0x7274E2614F910B5B2850e0DC3D2e8e60069234F7',
 			],
 			[Game.HodlClicker]: [],
 		},
