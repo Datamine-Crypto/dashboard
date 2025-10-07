@@ -1576,26 +1576,16 @@ const queryHandlers = {
 			return;
 		}
 
-		const marketAddressesToFetch = config.marketTopBurningaddresses;
+		const marketAddressesToFetch = config.marketTopBurningaddresses[game];
 
 		const customGemAddresses = state.market.gemAddresses[ecosystem];
 
-		/*const allAddressesToFetch = [...marketAddressesToFetch, ...customGemAddresses]
-			.map((address) =>
-				address.toLowerCase()
-			);*/
-
-		//const uniqueAddressesToFetch = [...new Set(allAddressesToFetch)];
-
-		//@todo  remove after testiong
-
-		const allAddressesToFetch = [selectedAddress, '0x62fC30839a188e58Cc127a859F2C305f562F464d']
+		const allAddressesToFetch = [...marketAddressesToFetch, ...customGemAddresses]
 			.filter((address) => address !== null)
 			.map((address) => address.toLowerCase());
 
 		// We'll add selectedAddress to fetch the current address too (so we don't have to do an extra call)
 		const uniqueAddressesToFetch = [...new Set(allAddressesToFetch)];
-		console.log('uniqueAddressesToFetch:', uniqueAddressesToFetch);
 
 		/**
 		 * Some games might return more data that is required

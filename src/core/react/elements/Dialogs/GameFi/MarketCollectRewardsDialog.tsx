@@ -108,6 +108,7 @@ const Render: React.FC<RenderParams> = React.memo(
 
 		const { mintableTokenShortName, navigation, ecosystemName, marketAddress, gameHodlClickerAddress } =
 			getEcosystemConfig(ecosystem);
+
 		const { isHelpPageEnabled } = navigation;
 
 		const getGameAddress = () => {
@@ -385,10 +386,14 @@ const Render: React.FC<RenderParams> = React.memo(
 			);
 		};
 
-		const getRewards = () => {
+		const getRewardsAlert = () => {
 			if (!currentAddressMarketAddress || !balances || !totalContractRewardsAmount || !totalContractLockedAmount) {
-				return <></>;
+				return null;
 			}
+			if (!gameAddress) {
+				return null;
+			}
+
 			const getBalancePercentage = () => {
 				if (!totalContractLockedAmount) {
 					return 0;
@@ -398,6 +403,9 @@ const Render: React.FC<RenderParams> = React.memo(
 				);
 				return test.toNumber() * 100;
 			};
+			if (totalContractLockedAmount.eq(new BN(0))) {
+				return <></>;
+			}
 
 			const rewardsToWithdraw = currentAddressMarketAddress.rewardsAmount
 				.mul(totalContractRewardsAmount)
@@ -475,7 +483,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			if (!hasWeb3 || !selectedAddress) {
 				return;
 			}
-			if (!marketAddress) {
+			if (!gameAddress) {
 				return (
 					<Alert severity="info">
 						{getGameName()} is coming to this ecosystem soon! Please select another ecosystem to continue.
@@ -567,7 +575,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						</Box>
 						<Box my={2}></Box>
 						{getBalances()}
-						{getRewards()}
+						{getRewardsAlert()}
 						{getLagWarning()}
 
 						<Box my={3}>

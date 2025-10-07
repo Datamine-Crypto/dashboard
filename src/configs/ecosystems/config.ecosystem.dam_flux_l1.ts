@@ -1,3 +1,4 @@
+import { Game } from '../../core/interfaces';
 import ecosystemLogoSvg from '../../svgs/logo.svg';
 import { EcosystemConfig, Layer, LiquidityPoolType } from '../config.common';
 
@@ -55,6 +56,9 @@ export const getDamFluxEcosystemConfig = () => {
 		minBurnMultiplier: 1,
 
 		// Top burning addresses for this ecosystem - currently empty for L1
-		marketTopBurningaddresses: [], //@todo
+		marketTopBurningaddresses: {
+			[Game.DatamineGems]: [],
+			[Game.HodlClicker]: [],
+		},
 	} satisfies EcosystemConfig;
 };

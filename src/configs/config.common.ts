@@ -1,3 +1,5 @@
+import { Game } from '../core/interfaces';
+
 /**
  * This file defines common enums and interfaces used across the application,
  * particularly for configuring different blockchain ecosystems and their properties.
@@ -158,5 +160,8 @@ export interface EcosystemConfig {
 	 * A list of top burning addresses for this ecosystem, updated frequently based on activity.
 	 * These are used as default gems in the Datamine Gems #GameFi.
 	 */
-	marketTopBurningaddresses: string[];
+	marketTopBurningaddresses: {
+		[Game.DatamineGems]: string[];
+		[Game.HodlClicker]: string[];
+	};
 }
