@@ -41,6 +41,9 @@ interface RenderParams {
 	marketAddressLock: AddressLockDetailsViewModel;
 	currentAddresMintableBalance: BN | null;
 	game: Game;
+
+	totalContractLockedAmount: BN | null;
+	totalContractRewardsAmount: BN | null;
 }
 
 const Render: React.FC<RenderParams> = React.memo(
@@ -54,6 +57,8 @@ const Render: React.FC<RenderParams> = React.memo(
 		marketAddressLock,
 		currentAddresMintableBalance,
 		game,
+		totalContractLockedAmount,
+		totalContractRewardsAmount,
 	}) => {
 		const { lockableTokenShortName, mintableTokenShortName } = getEcosystemConfig(ecosystem);
 
@@ -130,6 +135,24 @@ const Render: React.FC<RenderParams> = React.memo(
 				/>
 			);
 		};
+		const getRewardsAmount = () => {
+			if (game === Game.DatamineGems) {
+				return marketAddressLock.rewardsAmount;
+			}
+
+			if (!totalContractRewardsAmount || !totalContractLockedAmount) {
+				return new BN(0);
+			}
+
+			const rewardsToWithdraw = marketAddressLock.rewardsAmount
+				.mul(totalContractRewardsAmount)
+				.div(totalContractLockedAmount);
+
+			return rewardsToWithdraw;
+		};
+
+		const rewardsAmount = getRewardsAmount();
+
 		return (
 			<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 				<form onSubmit={onSubmit}>
@@ -149,15 +172,23 @@ const Render: React.FC<RenderParams> = React.memo(
 							</Box>
 						</Box>
 						<Box my={1}>
-							My Address Balance (Depositable):{' '}
+							My Address Balance{' '}
+							<Typography variant="body2" color="textSecondary" component="span">
+								(Depositable)
+							</Typography>
+							:{' '}
 							<Box display="inline" fontWeight="fontWeightBold">
 								{BNToDecimal(currentAddresMintableBalance, true)} {mintableTokenShortName}
 							</Box>
 						</Box>
 						<Box my={1}>
-							{game === Game.DatamineGems ? 'My' : 'Staked'} Game Balance (Withdrawable):{' '}
+							{game === Game.DatamineGems ? 'My' : 'Staked'} Game Balance{' '}
+							<Typography variant="body2" color="textSecondary" component="span">
+								(Withdrawable)
+							</Typography>
+							:{' '}
 							<Box display="inline" fontWeight="fontWeightBold">
-								{BNToDecimal(marketAddressLock.rewardsAmount, true)} {mintableTokenShortName}
+								{BNToDecimal(rewardsAmount, true)} {mintableTokenShortName}
 							</Box>
 						</Box>
 
@@ -236,7 +267,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 		//currentAddressMarketAddressLock,
 	} = web3State;
 
-	const { marketAddresses } = games[game];
+	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];
 
 	if (
 		!balances ||
@@ -271,6 +302,8 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 			marketAddressLock={currentAddressMarketAddress}
 			currentAddresMintableBalance={currentAddresMintableBalance}
 			game={game}
+			totalContractLockedAmount={totalContractLockedAmount}
+			totalContractRewardsAmount={totalContractRewardsAmount}
 		/>
 	);
 };

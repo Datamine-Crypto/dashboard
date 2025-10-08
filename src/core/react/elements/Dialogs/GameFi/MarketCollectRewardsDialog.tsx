@@ -84,9 +84,9 @@ const Render: React.FC<RenderParams> = React.memo(
 			 * Metamask added some strange block caching to requests and the only current way to work around this
 			 * is to leave the Metamask window open. Then the latest block numbers are used for queries.
 			 *
-			 * So if we don't get a new block in ~36 seconds then show a warning (as a new block should be generated every 12 sec)
+			 * So if we don't get a new block in ~60 seconds then show a warning (as a new block should be generated every 12 sec)
 			 */
-			blockLagWarningTimeout: 36 * 1000, // 3 blocks (12 sec each)
+			blockLagWarningTimeout: 60 * 1000, // 5 blocks (12 sec each)
 		};
 
 		const [showBlockLagWarning, setShowBlockLagWarning] = useState(false);
@@ -362,8 +362,25 @@ const Render: React.FC<RenderParams> = React.memo(
 			if (!currentAddressMarketAddress || !balances) {
 				return <></>;
 			}
+			const getRewardsAmount = () => {
+				if (game === Game.DatamineGems) {
+					return currentAddressMarketAddress.rewardsAmount;
+				}
+
+				if (!totalContractRewardsAmount || !totalContractLockedAmount) {
+					return new BN(0);
+				}
+
+				const rewardsToWithdraw = currentAddressMarketAddress.rewardsAmount
+					.mul(totalContractRewardsAmount)
+					.div(totalContractLockedAmount);
+
+				return rewardsToWithdraw;
+			};
+			const rewardsAmount = getRewardsAmount();
+
 			const balanceInUsdc = getPriceToggle({
-				value: currentAddressMarketAddress.rewardsAmount,
+				value: rewardsAmount,
 				inputToken: Token.Mintable,
 				outputToken: Token.USDC,
 				balances,
@@ -382,8 +399,7 @@ const Render: React.FC<RenderParams> = React.memo(
 					<Box my={1}>
 						{game === Game.HodlClicker ? 'Staked Game' : 'Game'} Balance:{' '}
 						<Typography variant="body2" display="inline" color="textSecondary">
-							$ {balanceInUsdc} ( {BNToDecimal(currentAddressMarketAddress.rewardsAmount, true, 18, 6)}{' '}
-							{mintableTokenShortName} )
+							$ {balanceInUsdc} ( {BNToDecimal(rewardsAmount, true, 18, 6)} {mintableTokenShortName} )
 						</Typography>
 					</Box>
 				</>
@@ -410,20 +426,6 @@ const Render: React.FC<RenderParams> = React.memo(
 			if (totalContractLockedAmount.eq(new BN(0)) || currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
 				return <></>;
 			}
-
-			const rewardsToWithdraw = currentAddressMarketAddress.rewardsAmount
-				.mul(totalContractRewardsAmount)
-				.div(totalContractLockedAmount)
-				.sub(currentAddressMarketAddress.rewardsAmount);
-
-			const balanceInUsdc = getPriceToggle({
-				value: rewardsToWithdraw,
-				inputToken: Token.Mintable,
-				outputToken: Token.USDC,
-				balances,
-				round: 4,
-				removeCommas: true,
-			});
 
 			const balancePercentage = getBalancePercentage();
 
@@ -454,15 +456,11 @@ const Render: React.FC<RenderParams> = React.memo(
 			return (
 				<>
 					<Alert severity="success">
-						Game Rewards :{' '}
+						[Tier {tier}] Passive Staking:{' '}
 						<Typography variant="body2" display="inline" color="textSecondary">
-							$ {balanceInUsdc} ( {BNToDecimal(rewardsToWithdraw, true, 18, 6)} {mintableTokenShortName} )
-							<Box>
-								<strong>
-									[Tier {tier}] Passive Staking: + Earning {balancePercentage.toFixed(4)}% of all rewards collected{' '}
-									{emoji}
-								</strong>
-							</Box>
+							<strong>
+								Earning {balancePercentage.toFixed(4)}% of all rewards collected {emoji}
+							</strong>
 						</Typography>
 					</Alert>
 				</>
