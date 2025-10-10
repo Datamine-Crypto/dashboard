@@ -4,7 +4,6 @@ import {
 	Card,
 	CardActions,
 	CardContent,
-	Chip,
 	Divider,
 	FormControlLabel,
 	Grid,
@@ -23,7 +22,7 @@ import {
 import type { AdapterMoment as AdapterMomentType } from '@mui/x-date-pickers/AdapterMoment';
 import type { LocalizationProviderProps } from '@mui/x-date-pickers/LocalizationProvider';
 import type { MobileDatePickerProps } from '@mui/x-date-pickers/MobileDatePicker';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Big from 'big.js';
 import BN from 'bn.js';
@@ -63,7 +62,6 @@ import {
 	FluxAddressLock,
 	FluxAddressTokenDetails,
 	Game,
-	AddressLockDetailsViewModel,
 	Token,
 } from '../../../interfaces';
 import { formatMoney } from '../../../utils/formatMoney';

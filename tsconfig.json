@@ -1,24 +1,24 @@
 {
-  "compilerOptions": {
-    "target": "ESNext", // Or your desired ECMAScript target
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler", // Recommended for Vite
-    "resolveJsonModule": true,
-    "isolatedModules": true,     // Required by Vite
-    "noEmit": true,              // Vite handles transpilation and bundling
-    "jsx": "react-jsx",          // Or "react-jsxdev" for development specific transforms
-    // Add Vite client types and SVGR types
-    "types": ["vite/client"]
-  },
-  "include": ["src", "vite.config.ts"], // Include vite.config.ts if it's a .ts file
-  // Optional: reference a tsconfig.node.json for your Vite config file
-  "references": [{ "path": "./tsconfig.node.json" }]
+	"compilerOptions": {
+		"target": "ESNext", // Or your desired ECMAScript target
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch": true,
+		"module": "ESNext",
+		"moduleResolution": "bundler", // Recommended for Vite
+		"resolveJsonModule": true,
+		"isolatedModules": true, // Required by Vite
+		"noEmit": true, // Vite handles transpilation and bundling
+		"jsx": "react-jsx", // Or "react-jsxdev" for development specific transforms
+		// Add Vite client types and SVGR types
+		"types": ["vite/client"]
+	},
+	"include": ["src", "vite.config.ts"], // Include vite.config.ts if it's a .ts file
+	// Optional: reference a tsconfig.node.json for your Vite config file
+	"references": [{ "path": "./tsconfig.node.json" }]
 }

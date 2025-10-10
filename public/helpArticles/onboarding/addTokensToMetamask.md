@@ -9,13 +9,14 @@ This guide provides instructions on how to add Datamine (DAM), FLUX, ArbiFLUX, a
 If the button does not work, follow these manual steps:
 
 ## Step 1: Add Token in MetaMask
+
 Open your MetaMask wallet, navigate to the menu, and click on "Add Token" at the bottom.
 
 ![Metamask](../../helpArticles/assets/images/pngs/addingTokensToMetamask/adding1.png#_maxWidth=350)
 
 ## Step 2
 
-You're going to head over to "Custom Token" and enter the Token Contract Address one at a time. The Token Symbol and Decimals of Precision will AUTO populate. 
+You're going to head over to "Custom Token" and enter the Token Contract Address one at a time. The Token Symbol and Decimals of Precision will AUTO populate.
 
 **DAM Contract Address**: [0xF80D589b3Dbe130c270a69F1a69D050f268786Df](https://etherscan.io/token/0xF80D589b3Dbe130c270a69F1a69D050f268786Df)
 

@@ -20,14 +20,14 @@ import logo from '../../svgs/logo.svg'; // Tell webpack this JS file uses this i
 /**
  * Defines the shape of the state for the ErrorBoundary component.
  */
-type ErrorState = {
+interface ErrorState {
 	/** Indicates whether an error has occurred. */
 	hasError: boolean;
 	/** The error object caught by the boundary. */
 	error?: Error;
 	/** Information about the error, including the component stack. */
 	errorInfo?: ErrorInfo;
-};
+}
 
 /**
  * ErrorBoundary component that catches JavaScript errors anywhere in its child component tree,

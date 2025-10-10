@@ -9,7 +9,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { useWeb3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';

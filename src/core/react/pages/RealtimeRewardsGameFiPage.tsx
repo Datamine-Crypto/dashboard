@@ -1,5 +1,5 @@
 import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import React from 'react';
 import { Ecosystem } from '../../../configs/config.common';
 
 import Grid from '@mui/system/Grid';
@@ -17,7 +17,7 @@ import {
 	VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
 import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // Assuming MUI v7 imports are similar
-import { DialogType, Game } from '../../interfaces';
+import { Game } from '../../interfaces';
 import { commonLanguage } from '../../web3/web3Reducer';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 

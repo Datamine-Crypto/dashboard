@@ -13,9 +13,8 @@ Be sure to make your own suggestions to update GEMINI.md as you learn of new con
 The "Context Map" has been added to `README.md` right after the "Quick Start Guide" section. The "Context Map" represents a nested navigation of all the paths and concepts within the Datamine Network.
 
 This project is a React-based web application for interacting with the Datamine Network. It uses Material-UI for components and styling and Web3.js for blockchain interactions. The project is configured to work with multiple blockchain
-     ecosystems, as defined in the `src/configs/ecosystems` directory. The core logic is separated into three main directories: `react` for UI components, `utils` for utility functions, and `web3` for blockchain-related logic. The project uses
-     Vite for building and development, with scripts defined in `package.json`.
-
+ecosystems, as defined in the `src/configs/ecosystems` directory. The core logic is separated into three main directories: `react` for UI components, `utils` for utility functions, and `web3` for blockchain-related logic. The project uses
+Vite for building and development, with scripts defined in `package.json`.
 
 When making Material UI updates please use <Grid size={{}}> which is new in MUI v7.1 (Do not use <Grid item xs=...> style)
 
@@ -24,9 +23,11 @@ When making Material UI updates please use <Grid size={{}}> which is new in MUI 
 # Gemini Project Context: Datamine Network Dashboard
 
 ## Project Overview
+
 This project is a web-based dashboard for the Datamine Network, built with React and TypeScript. It provides users with tools to interact with Datamine smart contracts, view analytics, and manage their assets across different blockchain layers.
 
 ## Core Technologies
+
 - **Framework:** React v19.0.0
 - **UI Library:** Material-UI (MUI) v7.1.2
 - **Blockchain Interaction:** Web3.js v4.16.0, @walletconnect/ethereum-provider
@@ -35,6 +36,7 @@ This project is a web-based dashboard for the Datamine Network, built with React
 - **Package Manager:** Yarn v4.9.2
 
 ## Key Architectural Patterns
+
 The `src` directory is organized with a clear separation of concerns:
 
 - **`src/core/`**: Contains the application's core logic.
@@ -45,6 +47,7 @@ The `src` directory is organized with a clear separation of concerns:
   - **`src/configs/ecosystems/`**: Defines specific configurations for different blockchain environments the dashboard can connect to, such as Ethereum Mainnet (L1) and Arbitrum (L2). This is a critical directory for understanding multi-chain functionality.
 
 ## Development Workflow
+
 The following commands are used for development:
 
 - `yarn start`: Runs the application in development mode using Vite.
@@ -76,14 +79,17 @@ Extra information help you understand the Datamine ecosystem better:
 - L2 here means Arbitrum Layer 2.
 
 #### 4. Build & Development (`vite.config.mts`)
+
 - **Build Output:** The project builds to a `build` directory with hashed asset filenames.
 - **Development Server:** Runs on port `3000` and opens the browser on start. HTTPS is enabled via `vite-plugin-mkcert` for secure local development.
 - **Optimizations:** Includes experimental optimizations for `@mui/material` and `@mui/icons-material`.
 
 #### 5. Linting (`.eslintrc.json`)
+
 - The `.eslintrc.json` file has been configured to exclude the `build` directory from linting and to recognize `BigInt` and `globalThis` by setting the `browser`, `es2021`, and `node` environments.
 
 #### 5. Application Structure (`src/App.tsx`)
+
 - **Root Component:** `App.tsx` is the main entry point.
 - **Core Providers:** It sets up `ThemeProvider` (MUI), `ErrorBoundary`, and `Web3ContextProvider`.
 - **Code Splitting:** Uses `React.lazy` and `Suspense` to lazy-load major components, improving initial load times.
@@ -108,13 +114,16 @@ Extra information help you understand the Datamine ecosystem better:
 - Search functionality for help articles uses `fuse.js`.
 
 #### 9. Testing Strategy
+
 - No tests are currently implemented.
 
 #### 10. GitHub Pages Deployment
+
 - The `homepage` field in `package.json` is set to `.`, which is crucial for GitHub Pages deployments when the site is hosted in a subfolder (e.g., `your-username.github.io/your-repo-name/`). This ensures that relative paths for assets are correctly resolved.
 - The GitHub Actions workflow (`.github/workflows/deploy.yml`) now explicitly sets `yarn-version: 4.9.2` in the `setup-node` step, ensuring the correct Yarn version is used during the build process.
 
 #### 11. Additional Development Setup & Tools
+
 - **HTTPS for Localhost**: Implemented using `vite-plugin-mkcert` in `vite.config.mts` for secure local development.
 - **ESLint Configuration**: The `.eslintrc.json` file has been updated to exclude the `build` directory from linting and to correctly recognize `BigInt` and `globalThis` by setting the `browser`, `es2021`, and `node` environments.
 - **Pre-commit Hooks**: `husky` and `lint-staged` are configured to automatically run ESLint and Prettier on staged files before committing, ensuring code quality and consistency.
@@ -162,11 +171,11 @@ Extra information help you understand the Datamine ecosystem better:
 
 - **Technology Stack:** Smart contracts are written in Solidity (v0.6.9) and are ERC-777 compatible, built upon OpenZeppelin secure libraries.
 - **Security Features:**
-    - **SafeMath:** Used for all arithmetic operations to prevent integer overflow and underflow.
-    - **Mutex & Checks-Effects-Interactions Pattern:** Over-used for re-entrancy attack protection and ensuring state changes occur after checks and before external interactions.
-    - **Modifiers:** Custom modifiers like `preventSameBlock()` and `requireLocked()` enhance security and prevent user errors.
-    - **Immutable State Variables:** Key variables are set at contract creation and cannot be changed, improving security.
-    - **ERC-1820 ERC777TokensRecipient Implementation:** Unique implementation to control which tokens can be sent to the FLUX smart contract.
+  - **SafeMath:** Used for all arithmetic operations to prevent integer overflow and underflow.
+  - **Mutex & Checks-Effects-Interactions Pattern:** Over-used for re-entrancy attack protection and ensuring state changes occur after checks and before external interactions.
+  - **Modifiers:** Custom modifiers like `preventSameBlock()` and `requireLocked()` enhance security and prevent user errors.
+  - **Immutable State Variables:** Key variables are set at contract creation and cannot be changed, improving security.
+  - **ERC-1820 ERC777TokensRecipient Implementation:** Unique implementation to control which tokens can be sent to the FLUX smart contract.
 - **Core Functions:** Detailed explanation of `lock()`, `unlock()`, `burnToAddress()`, and `mintToAddress()` functions, including their security considerations and how they modify the contract's state.
 - **View-Only Functions:** Explanation of `getMintAmount()`, `getAddressTimeMultiplier()`, `getAddressBurnMultiplier()`, `getAddressRatio()`, and `getGlobalRatio()` functions, which provide real-time analytics without modifying state.
 - **Data Aggregation:** Helper functions like `getAddressDetails()` and `getAddressTokenDetails()` are provided to reduce network calls for dashboard data.
@@ -177,10 +186,10 @@ Extra information help you understand the Datamine ecosystem better:
 - **Location:** Help articles are Markdown files located in `public/helpArticles/`.
 - **Rendering:** These Markdown files are rendered by the `HelpDialog` component (`src/core/react/elements/Dialogs/HelpDialog.tsx`) and displayed on the `HelpPage` (`src/core/react/pages/help/HelpPage.tsx`).
 - **Styling:**
-    - Code blocks (`<code>`, `<pre>`) within help articles are styled in `src/core/react/elements/Dialogs/HelpDialog.tsx` to use `theme.palette.primary.main` (white) for background and `theme.palette.secondary.main` (teal) for text, improving readability.
-    - Help article category tags (Material-UI `Chip` components) on the `HelpPage` are styled in `src/core/styles.ts`.
-        - `primary` colored chips (selected) use a teal background (`#00FFFF`) with white text (`#fff`).
-        - `default` colored chips (unselected) use the `classes.palette.background` (dark) with white text (`#fff`).
+  - Code blocks (`<code>`, `<pre>`) within help articles are styled in `src/core/react/elements/Dialogs/HelpDialog.tsx` to use `theme.palette.primary.main` (white) for background and `theme.palette.secondary.main` (teal) for text, improving readability.
+  - Help article category tags (Material-UI `Chip` components) on the `HelpPage` are styled in `src/core/styles.ts`.
+    - `primary` colored chips (selected) use a teal background (`#00FFFF`) with white text (`#fff`).
+    - `default` colored chips (unselected) use the `classes.palette.background` (dark) with white text (`#fff`).
 - **Titles:** All help article titles should include a unique emoji for better visual organization and engagement.
 
 # 🤝 Vibe Code Contribute
@@ -200,30 +209,30 @@ We welcome contributions from the community, and we're excited to introduce a ne
     cd dashboard
     ```
 3.  **Start Vibe Coding:** Launch the Gemini CLI within your cloned repository. The CLI will act as your intelligent co-pilot, understanding your intent and executing complex tasks with simple commands.
-    *   **Intent-Driven Development:** Instead of manually navigating files and performing repetitive tasks, you can express your intentions directly to the CLI. For example:
-        *   "Add a new feature to the dashboard."
-        *   "Refactor this component for better performance."
-        *   "Fix this bug in the smart contract interaction."
-        *   "Update all help articles to include information about the LOCK token."
-    *   **Automated Code Generation & Modification:** The Gemini CLI can read, search, and modify code across the entire project. It can help you:
-        *   Generate new components or modules based on existing patterns.
-        *   Apply consistent styling changes across multiple files.
-        *   Perform complex refactoring operations with precision.
-        *   Ensure adherence to project conventions and best practices.
-    *   **Contextual Awareness:** The CLI maintains a deep understanding of the project's structure, dependencies, and coding style, ensuring that your contributions seamlessly integrate with the existing codebase.
+    - **Intent-Driven Development:** Instead of manually navigating files and performing repetitive tasks, you can express your intentions directly to the CLI. For example:
+      - "Add a new feature to the dashboard."
+      - "Refactor this component for better performance."
+      - "Fix this bug in the smart contract interaction."
+      - "Update all help articles to include information about the LOCK token."
+    - **Automated Code Generation & Modification:** The Gemini CLI can read, search, and modify code across the entire project. It can help you:
+      - Generate new components or modules based on existing patterns.
+      - Apply consistent styling changes across multiple files.
+      - Perform complex refactoring operations with precision.
+      - Ensure adherence to project conventions and best practices.
+    - **Contextual Awareness:** The CLI maintains a deep understanding of the project's structure, dependencies, and coding style, ensuring that your contributions seamlessly integrate with the existing codebase.
 4.  **Create a Pull Request:** Once you've completed your changes with the help of the Gemini CLI:
-    *   **Review Changes:** The CLI can help you review your changes and ensure everything is as expected.
-    *   **Commit with Clarity:** The CLI can assist in crafting clear and concise commit messages.
-    *   **Open a Pull Request:** Push your changes to your forked repository and open a pull request to the `main` branch.
+    - **Review Changes:** The CLI can help you review your changes and ensure everything is as expected.
+    - **Commit with Clarity:** The CLI can assist in crafting clear and concise commit messages.
+    - **Open a Pull Request:** Push your changes to your forked repository and open a pull request to the `main` branch.
 
 ### Why Vibe Code?
 
 By leveraging the Gemini CLI, we aim to:
 
-*   **Reduce Friction:** Minimize the time spent on mundane tasks, allowing you to focus on innovation.
-*   **Accelerate Development:** Speed up the development cycle, bringing new features and improvements to the Datamine Network faster.
-*   **Improve Code Quality:** Ensure consistency and adherence to coding standards with automated assistance.
-*   **Foster Creativity:** Empower developers to stay in their creative flow, making contributions more enjoyable and impactful.
+- **Reduce Friction:** Minimize the time spent on mundane tasks, allowing you to focus on innovation.
+- **Accelerate Development:** Speed up the development cycle, bringing new features and improvements to the Datamine Network faster.
+- **Improve Code Quality:** Ensure consistency and adherence to coding standards with automated assistance.
+- **Foster Creativity:** Empower developers to stay in their creative flow, making contributions more enjoyable and impactful.
 
 ## src Folder Structure
 
@@ -367,10 +376,10 @@ This map outlines the key concepts, components, and principles of the Datamine N
 
 - The application integrates with Uniswap V2 for token swapping, with the core logic located in `src/core/utils/swap/`.
 - `performSwapUniswapV2.ts` handles the entire swap process, including:
-    - Fetching quotes using `getAmountsOut`.
-    - Calculating slippage tolerance.
-    - Checking and approving token allowances.
-    - Executing the swap transaction.
+  - Fetching quotes using `getAmountsOut`.
+  - Calculating slippage tolerance.
+  - Checking and approving token allowances.
+  - Executing the swap transaction.
 - The `availableSwapTokens` array in `performSwap.ts` defines the tokens that can be swapped and their corresponding Uniswap V2 router addresses.
 
 ### Gas Fee Estimation
@@ -390,13 +399,13 @@ This map outlines the key concepts, components, and principles of the Datamine N
 - **A:** `sideEffectReducer.ts` is a pattern where a reducer can append queries to its state. These queries are then picked up and handled by a separate module (`Web3Bindings.ts`), decoupling asynchronous logic from the synchronous state updates. This ensures that state updates are always instantaneous and predictable, as they are not waiting for asynchronous operations to complete. The `sideEffectReducer` listens for changes in the `pendingQueries` array in the state and executes the corresponding asynchronous logic.
 - **Q: Are there any plans to integrate with other DEXs besides Uniswap V2, and if so, which ones are being considered?**
 - **A:** We're already using a number of DEXes:
-DAM (L1) is using Uniswap V3 (1% pool)
-FLUX (L1) is using Uniswap V3 (1% pool)
-FLUX (L2) is using Sushiswap (which is a fork of Uniswap V2) (0.3% pool)
-ArbiFLUX (L2) is using Sushiswap (which is a fork of Uniswap V2) (0.3% pool)
-LOCK (L2) is using Uniswap V2 (0.3% pool). The Lockquidity pool is hardcoded into the smart contract and can never be changed again
+  DAM (L1) is using Uniswap V3 (1% pool)
+  FLUX (L1) is using Uniswap V3 (1% pool)
+  FLUX (L2) is using Sushiswap (which is a fork of Uniswap V2) (0.3% pool)
+  ArbiFLUX (L2) is using Sushiswap (which is a fork of Uniswap V2) (0.3% pool)
+  LOCK (L2) is using Uniswap V2 (0.3% pool). The Lockquidity pool is hardcoded into the smart contract and can never be changed again
 - **Q: What is the role of `Web3Context.tsx` in the application's architecture, and how does it facilitate blockchain interactions across different components?**
 - **A:** `Web3Context.tsx` simply provides a `React.createContext` for `Web3State`. There is also a `useWeb3Context` hook so you can access global state (we only have `Web3State` that is global across the entire app).
 - **Q: Could you elaborate on the "forecasting calculator" feature? What is its purpose, and how does it work from a user's perspective?**
 - The forecasting tool allows a user to toggle a "forecasting mode" that shows a forecasted amount that they would mint over a certain time. Here they can drag sliders for burn & time multipliers, enter prediced price and also pick start/end times for their unminted time. This way they can calculate potential amount that can be minted in the future.
-The forecasting tool is available for all ecosystems.
+  The forecasting tool is available for all ecosystems.

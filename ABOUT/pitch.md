@@ -12,11 +12,11 @@ We are not seeking traditional investment. Instead, we invite forward-thinking W
 
 ## The Datamine Difference: 5 Years of Proven Resilience
 
-*   **Launched & Operational:** Since June 8, 2020, with 100% uptime, proving the resilience of our model across multiple market cycles.
-*   **Vibrant Community:** A dedicated base of 158 active users who are the lifeblood of our decentralized ecosystem.
-*   **Substantial Liquidity:** Over $110,000 in decentralized liquidity, demonstrating the market's confidence in our system.
-*   **Continuous Innovation:** A five-year track record of consistent development, with hundreds of updates enhancing the platform's capabilities.
-*   **Radical Transparency:** Every metric is on-chain, real-time, and immutable, offering an unparalleled level of transparency.
+- **Launched & Operational:** Since June 8, 2020, with 100% uptime, proving the resilience of our model across multiple market cycles.
+- **Vibrant Community:** A dedicated base of 158 active users who are the lifeblood of our decentralized ecosystem.
+- **Substantial Liquidity:** Over $110,000 in decentralized liquidity, demonstrating the market's confidence in our system.
+- **Continuous Innovation:** A five-year track record of consistent development, with hundreds of updates enhancing the platform's capabilities.
+- **Radical Transparency:** Every metric is on-chain, real-time, and immutable, offering an unparalleled level of transparency.
 
 ---
 
@@ -37,10 +37,10 @@ Our ecosystem is a sophisticated, multi-layered monetary system designed for eff
 
 LOCK is not just another token; it's a revolutionary approach to liquidity management:
 
-*   **Permanent Liquidity:** With over $72,361 in a permanent liquidity pool, LOCK provides a stable foundation for the entire ecosystem.
-*   **Unprecedented Stability:** 100% of the LOCK supply is in the liquidity pool, a testament to its robust design.
-*   **Innovative Burn Mechanics:** Burning LOCK doesn't reduce its supply; it redirects value to the liquidity pool, creating a self-sustaining cycle of stability.
-*   **Market Efficiency Metric:** We've introduced a new metric, "Market Efficiency," which tracks the percentage of LOCK outside the liquidity pool. At a healthy 0.93%, it's a clear indicator of market activity and trading volatility.
+- **Permanent Liquidity:** With over $72,361 in a permanent liquidity pool, LOCK provides a stable foundation for the entire ecosystem.
+- **Unprecedented Stability:** 100% of the LOCK supply is in the liquidity pool, a testament to its robust design.
+- **Innovative Burn Mechanics:** Burning LOCK doesn't reduce its supply; it redirects value to the liquidity pool, creating a self-sustaining cycle of stability.
+- **Market Efficiency Metric:** We've introduced a new metric, "Market Efficiency," which tracks the percentage of LOCK outside the liquidity pool. At a healthy 0.93%, it's a clear indicator of market activity and trading volatility.
 
 ---
 
@@ -60,10 +60,10 @@ Datamine Gems is a real-time, mobile-friendly game that transforms yield generat
 
 Our commitment to transparency is absolute. All our data is on-chain, real-time, and verifiable:
 
-*   **Validator Activity:** With 159 active FLUX validators and 82 active ArbiFLUX validators, our network is robust and secure.
-*   **Token Distribution:** We provide a granular view of token distribution and usage across the ecosystem.
-*   **Economic Impact:** Our proprietary Decentralized Consumer Price Index (DCPI) demonstrates the deflationary nature of our system.
-*   **Market Performance:** Five years of verifiable data on price, liquidity, and market capitalization provide a comprehensive view of our performance.
+- **Validator Activity:** With 159 active FLUX validators and 82 active ArbiFLUX validators, our network is robust and secure.
+- **Token Distribution:** We provide a granular view of token distribution and usage across the ecosystem.
+- **Economic Impact:** Our proprietary Decentralized Consumer Price Index (DCPI) demonstrates the deflationary nature of our system.
+- **Market Performance:** Five years of verifiable data on price, liquidity, and market capitalization provide a comprehensive view of our performance.
 
 ---
 
@@ -71,11 +71,11 @@ Our commitment to transparency is absolute. All our data is on-chain, real-time,
 
 We offer a unique opportunity for Web3 venture partners to participate in a proven, decentralized ecosystem:
 
-*   **No Equity Dilution:** As a decentralized protocol, there is no company and no equity to dilute.
-*   **Direct Participation:** Become an integral part of our ecosystem by providing liquidity.
-*   **Sustainable Yield:** Our transaction-incentivized liquidity pools generate a natural and sustainable yield.
-*   **Proven Resilience:** Five years of flawless operation through multiple market cycles is a testament to our model's resilience.
-*   **True Decentralization:** We are a truly decentralized protocol, not a token sale in disguise.
+- **No Equity Dilution:** As a decentralized protocol, there is no company and no equity to dilute.
+- **Direct Participation:** Become an integral part of our ecosystem by providing liquidity.
+- **Sustainable Yield:** Our transaction-incentivized liquidity pools generate a natural and sustainable yield.
+- **Proven Resilience:** Five years of flawless operation through multiple market cycles is a testament to our model's resilience.
+- **True Decentralization:** We are a truly decentralized protocol, not a token sale in disguise.
 
 ---
 
@@ -100,15 +100,15 @@ We offer a unique opportunity for Web3 venture partners to participate in a prov
 
 ## Contact Information
 
-*   **Email:** dev@datamine.network
-*   **Website:** https://datamine.network
-*   **LinkedIn:** https://linkedin.com/company/datamine-network
-*   **Investor Pitch Deck:** https://datamine-crypto.github.io/realtime-decentralized-dashboard/pdfs/Datamine%20Network%20Pitch%20Deck.pdf
-*   **Github:** https://github.com/datamine-crypto
-*   **X:** https://x.com/dataminenetwork
-*   **Discord:** https://discord.gg/2dQ7XAB22u
-*   **Liquidity Pool:** https://www.defined.fi/arb/0x0c93a1d3f68a0554d37f3e7af3a1442a94405e7a
+- **Email:** dev@datamine.network
+- **Website:** https://datamine.network
+- **LinkedIn:** https://linkedin.com/company/datamine-network
+- **Investor Pitch Deck:** https://datamine-crypto.github.io/realtime-decentralized-dashboard/pdfs/Datamine%20Network%20Pitch%20Deck.pdf
+- **Github:** https://github.com/datamine-crypto
+- **X:** https://x.com/dataminenetwork
+- **Discord:** https://discord.gg/2dQ7XAB22u
+- **Liquidity Pool:** https://www.defined.fi/arb/0x0c93a1d3f68a0554d37f3e7af3a1442a94405e7a
 
 ---
 
-*All data presented in this pitch is on-chain, immutable, and represents verifiable metrics as of July 2025.*
+_All data presented in this pitch is on-chain, immutable, and represents verifiable metrics as of July 2025._

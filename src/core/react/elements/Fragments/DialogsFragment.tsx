@@ -1,4 +1,4 @@
-import React, { lazy, useContext } from 'react';
+import React, { lazy } from 'react';
 import { DialogType } from '../../../interfaces';
 import { useWeb3Context } from '../../../web3/Web3Context';
 import { commonLanguage } from '../../../web3/web3Reducer';

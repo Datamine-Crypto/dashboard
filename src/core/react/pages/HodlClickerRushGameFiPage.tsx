@@ -9,15 +9,12 @@ import {
 	Autorenew as AutorenewIcon,
 	Bolt as BoltIcon,
 	EmojiEvents as EmojiEventsIcon,
-	LocalGasStation as LocalGasStationIcon,
 	PhoneAndroid as PhoneAndroidIcon,
 	Public as PublicIcon,
 	RocketLaunch as RocketLaunchIcon,
-	Speed as SpeedIcon,
-	VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
 import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // Assuming MUI v7 imports are similar
-import { DialogType, Game } from '../../interfaces';
+import { Game } from '../../interfaces';
 import { commonLanguage } from '../../web3/web3Reducer';
 import FooterFragment from '../elements/Fragments/FooterFragment';
 

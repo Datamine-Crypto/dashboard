@@ -15,7 +15,7 @@ import {
 	useMediaQuery,
 	useTheme,
 } from '@mui/material';
-import React, { Suspense, lazy, useContext } from 'react';
+import React, { Suspense, lazy } from 'react';
 
 import { Close, Launch } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';

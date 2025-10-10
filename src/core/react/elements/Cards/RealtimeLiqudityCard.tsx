@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { useWeb3Context } from '../../../web3/Web3Context';
 

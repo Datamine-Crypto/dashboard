@@ -1,64 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="./favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-	<meta name="description"
-		content="Datamine Ecosystem is DeFi's first inflation-resistant cryptocurrency designed to lock-in liquidity through innovative Proof-of-Burn mechanism." />
-    <link rel="apple-touch-icon" href="./logo192.png" />
-	<link rel="manifest" href="./manifest.json" />
-	<title>Currency backed by Proof of Burn - Datamine Network</title>
-	
-	<style>
-		#old-version-container {
-			color: #fff;
-			display: none;
-			height: 100vh;
-			text-align: center;
-			justify-content: center;
-			align-items: center;
-			flex-direction: column;
-		}
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="./favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#000000" />
+		<meta
+			name="description"
+			content="Datamine Ecosystem is DeFi's first inflation-resistant cryptocurrency designed to lock-in liquidity through innovative Proof-of-Burn mechanism."
+		/>
+		<link rel="apple-touch-icon" href="./logo192.png" />
+		<link rel="manifest" href="./manifest.json" />
+		<title>Currency backed by Proof of Burn - Datamine Network</title>
 
-		#old-version-container.old-version-display {
-			display: flex;
-		}
+		<style>
+			#old-version-container {
+				color: #fff;
+				display: none;
+				height: 100vh;
+				text-align: center;
+				justify-content: center;
+				align-items: center;
+				flex-direction: column;
+			}
 
-		#old-version-button {
-			margin: 32px;
-			padding: 8px 32px
-		}
-	</style>
-  </head>
-<body style="background:#212435;">
-	<noscript>You need to enable JavaScript to run this app.</noscript>
-	<div id="root">
-		<div id="old-version-container">
-			<div>This dashboard version is out of date ...</div>
-			<div>
-				<button id="old-version-button">Reload New Version</button>
+			#old-version-container.old-version-display {
+				display: flex;
+			}
+
+			#old-version-button {
+				margin: 32px;
+				padding: 8px 32px;
+			}
+		</style>
+	</head>
+	<body style="background: #212435">
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+		<div id="root">
+			<div id="old-version-container">
+				<div>This dashboard version is out of date ...</div>
+				<div>
+					<button id="old-version-button">Reload New Version</button>
+				</div>
 			</div>
 		</div>
-	</div>
-	<script type="text/javascript">
-		setTimeout(function () {
-			var oldVersionContainer = document.getElementById('old-version-container');
-			if (oldVersionContainer) {
-				oldVersionContainer.className = 'old-version-display';
-			}
-
-			var oldVersionButton = document.getElementById('old-version-button');
-			if (oldVersionButton) {
-				oldVersionButton.onclick = function () {
-					window.location.href = '?' + (new Date()).getTime();
+		<script type="text/javascript">
+			setTimeout(function () {
+				var oldVersionContainer = document.getElementById('old-version-container');
+				if (oldVersionContainer) {
+					oldVersionContainer.className = 'old-version-display';
 				}
-			}
-		}, 2000);
-	</script>
-    <!-- Add this script tag for Vite -->
-    <script type="module" src="/src/index.tsx"></script>
-</body>
 
+				var oldVersionButton = document.getElementById('old-version-button');
+				if (oldVersionButton) {
+					oldVersionButton.onclick = function () {
+						window.location.href = '?' + new Date().getTime();
+					};
+				}
+			}, 2000);
+		</script>
+		<!-- Add this script tag for Vite -->
+		<script type="module" src="/src/index.tsx"></script>
+	</body>
 </html>

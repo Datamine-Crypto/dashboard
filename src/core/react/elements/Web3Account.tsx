@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { useContext } from 'react';
+import React from 'react';
 
 // Web3 context for accessing blockchain state and dispatch functions
 import { useWeb3Context } from '../../web3/Web3Context';

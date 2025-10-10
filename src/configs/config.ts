@@ -1,5 +1,5 @@
 import { getConfigOverrides } from './config.overrides';
-import { Ecosystem, Layer, NetworkType } from './config.common';
+import { Ecosystem } from './config.common';
 import { getBaseConfig } from './config.base';
 import { getNetworkConfig } from './config.network';
 

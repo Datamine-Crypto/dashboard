@@ -18,10 +18,10 @@ const isLocalhost = Boolean(
 		window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
 );
 
-type Config = {
+interface Config {
 	onSuccess?: (registration: ServiceWorkerRegistration) => void;
 	onUpdate?: (registration: ServiceWorkerRegistration) => void;
-};
+}
 
 /**
  * Registers a service worker to enable offline capabilities and faster loading on subsequent visits.

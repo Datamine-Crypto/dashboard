@@ -1,4 +1,4 @@
-*Preface: For true decentralization and openness we've decided to open source 6 years of work for Datamine Network dApp. We believe this will close another gap of centralization and bring us closer to true vision of DeFi.* 🔮
+_Preface: For true decentralization and openness we've decided to open source 6 years of work for Datamine Network dApp. We believe this will close another gap of centralization and bring us closer to true vision of DeFi._ 🔮
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-v19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
@@ -48,8 +48,8 @@ This guide will help you get the Datamine Realtime Decentralized Dashboard up an
 
 To run this project locally, you will need to have Node.js and Yarn installed.
 
-*   **Node.js**: We recommend using Node.js v18 or higher. You can download it from [nodejs.org](https://nodejs.org/en/).
-*   **Yarn**: This project uses Yarn v4. You can install it globally via npm: `npm install -g yarn@^4.0.0`
+- **Node.js**: We recommend using Node.js v18 or higher. You can download it from [nodejs.org](https://nodejs.org/en/).
+- **Yarn**: This project uses Yarn v4. You can install it globally via npm: `npm install -g yarn@^4.0.0`
 
 ### Installation
 
@@ -80,11 +80,11 @@ This will open the application in your browser at `https://localhost:3000`. The 
 
 In the project directory, you can run the following scripts:
 
-*   `yarn start`: Runs the app in development mode.
-*   `yarn build`: Builds the app for production to the `build` folder.
-*   `yarn deploy`: Creates a production build with a specific base path for deployment.
-*   `yarn format`: Formats code using Prettier.
-*   `yarn lint`: Lints the project using ESLint.
+- `yarn start`: Runs the app in development mode.
+- `yarn build`: Builds the app for production to the `build` folder.
+- `yarn deploy`: Creates a production build with a specific base path for deployment.
+- `yarn format`: Formats code using Prettier.
+- `yarn lint`: Lints the project using ESLint.
 
 Welcome to the Datamine Network Dashboard! This project is a web-based dashboard for the Datamine Network, built with React and TypeScript. It provides users with tools to interact with Datamine smart contracts, view analytics, and manage their assets across different blockchain layers.
 
@@ -101,12 +101,12 @@ Welcome to the Datamine Network Dashboard! This project is a web-based dashboard
 
 The `src` directory is meticulously organized to ensure a clear separation of concerns and maintainability. Here's a breakdown of its core structure:
 
--   **`src/core/`**: This directory serves as the heart of the application, encapsulating its fundamental logic and shared functionalities.
-    -   **`src/core/react/`**: Dedicated to the user interface, this sub-directory houses all React components, pages, and UI-related elements. Styling is primarily handled using `tss-react` and `useStyles` from `tss.create()`, with Material-UI themes defined in `src/core/styles.ts`. Think of it as where the visual magic happens! ✨
-    -   **`src/core/web3/`**: This is where all blockchain interactions are managed. It includes Web3 provider setup, smart contract bindings, and ABI definitions (found in `src/core/web3/abis/`). State management for Web3 interactions is handled by `src/core/web3/web3Reducer.ts` and `src/core/web3/web3Bindings.ts` in tandem, utilizing a "Commands & Queries" pattern. `Web3Reducer` controls state and updates `pendingQueries`, which are then converted into asynchronous calls to `Web3Bindings`. It's the bridge to the decentralized world. 🌉
-    -   **`src/core/utils/`**: A versatile collection of helper functions for common tasks such as data formatting, complex calculations, and clipboard interaction. These are the handy tools that keep the application running smoothly. 🔧
--   **`src/configs/`**: This directory is responsible for managing all environment-specific and application-wide configurations.
-    -   **`src/configs/ecosystems/`**: A crucial part of the multi-chain functionality, this sub-directory defines specific configurations for each blockchain environment the dashboard can connect to (e.g., Ethereum Mainnet L1 and Arbitrum L2). This enables seamless operation across different networks. 🔗
+- **`src/core/`**: This directory serves as the heart of the application, encapsulating its fundamental logic and shared functionalities.
+  - **`src/core/react/`**: Dedicated to the user interface, this sub-directory houses all React components, pages, and UI-related elements. Styling is primarily handled using `tss-react` and `useStyles` from `tss.create()`, with Material-UI themes defined in `src/core/styles.ts`. Think of it as where the visual magic happens! ✨
+  - **`src/core/web3/`**: This is where all blockchain interactions are managed. It includes Web3 provider setup, smart contract bindings, and ABI definitions (found in `src/core/web3/abis/`). State management for Web3 interactions is handled by `src/core/web3/web3Reducer.ts` and `src/core/web3/web3Bindings.ts` in tandem, utilizing a "Commands & Queries" pattern. `Web3Reducer` controls state and updates `pendingQueries`, which are then converted into asynchronous calls to `Web3Bindings`. It's the bridge to the decentralized world. 🌉
+  - **`src/core/utils/`**: A versatile collection of helper functions for common tasks such as data formatting, complex calculations, and clipboard interaction. These are the handy tools that keep the application running smoothly. 🔧
+- **`src/configs/`**: This directory is responsible for managing all environment-specific and application-wide configurations.
+  - **`src/configs/ecosystems/`**: A crucial part of the multi-chain functionality, this sub-directory defines specific configurations for each blockchain environment the dashboard can connect to (e.g., Ethereum Mainnet L1 and Arbitrum L2). This enables seamless operation across different networks. 🔗
 
 This structured approach ensures that the codebase remains modular, scalable, and easy to navigate for developers.
 
@@ -114,8 +114,8 @@ This structured approach ensures that the codebase remains modular, scalable, an
 
 The Datamine Network Dashboard is highly configurable to adapt to different blockchain environments and user preferences. Key configuration files are located in the `src/configs/` directory:
 
--   **`src/configs/config.ts`**: The main configuration file, where you can adjust general application settings.
--   **`src/configs/ecosystems/`**: This directory contains specific configurations for each supported blockchain ecosystem (e.g., `config.ecosystem.dam_flux_l1.ts` for Ethereum Mainnet, `config.ecosystem.arbiflux_lockquidity_l2.ts` for Arbitrum L2). These files define network details, contract addresses, and other ecosystem-specific parameters.
+- **`src/configs/config.ts`**: The main configuration file, where you can adjust general application settings.
+- **`src/configs/ecosystems/`**: This directory contains specific configurations for each supported blockchain ecosystem (e.g., `config.ecosystem.dam_flux_l1.ts` for Ethereum Mainnet, `config.ecosystem.arbiflux_lockquidity_l2.ts` for Arbitrum L2). These files define network details, contract addresses, and other ecosystem-specific parameters.
 
 To switch between ecosystems or customize settings, you can modify these files directly. For development, you might also leverage environment variables if your setup supports them.
 
@@ -137,38 +137,38 @@ These concepts work together to create a robust and decentralized ecosystem for 
 
 The project interacts with several key smart contracts, whose Application Binary Interfaces (ABIs) are located in `src/core/web3/abis/`. Understanding these contracts is essential for comprehending the blockchain interactions:
 
--   **`dam.json`**: ABI for the Datamine (DAM) token contract, used for token transfers, approvals, and other DAM-specific operations.
--   **`flux.json`**: ABI for the Flux (FLUX) token contract, enabling minting, burning, and other FLUX-related functionalities.
--   **`market.json`**: ABI for the core Datamine Network market contract, which handles the primary logic for decentralized minting, burning, and staking within the ecosystem.
--   **`uniswapv2router.json`**: ABI for the Uniswap V2 Router contract, crucial for facilitating token swaps and managing liquidity on Uniswap V2 compatible decentralized exchanges.
--   **`uniswapPair.json`**: ABI for Uniswap V2 Pair contracts, used for direct interactions with liquidity pools.
--   **`uniswapPairV3.json`**: ABI for Uniswap V3 Pair contracts, used for interactions with Uniswap V3 liquidity pools.
--   **`multicall.json`**: ABI for the Multicall contract, which allows for aggregating multiple read-only contract calls into a single blockchain transaction, significantly improving data fetching efficiency.
+- **`dam.json`**: ABI for the Datamine (DAM) token contract, used for token transfers, approvals, and other DAM-specific operations.
+- **`flux.json`**: ABI for the Flux (FLUX) token contract, enabling minting, burning, and other FLUX-related functionalities.
+- **`market.json`**: ABI for the core Datamine Network market contract, which handles the primary logic for decentralized minting, burning, and staking within the ecosystem.
+- **`uniswapv2router.json`**: ABI for the Uniswap V2 Router contract, crucial for facilitating token swaps and managing liquidity on Uniswap V2 compatible decentralized exchanges.
+- **`uniswapPair.json`**: ABI for Uniswap V2 Pair contracts, used for direct interactions with liquidity pools.
+- **`uniswapPairV3.json`**: ABI for Uniswap V3 Pair contracts, used for interactions with Uniswap V3 liquidity pools.
+- **`multicall.json`**: ABI for the Multicall contract, which allows for aggregating multiple read-only contract calls into a single blockchain transaction, significantly improving data fetching efficiency.
 
 ## 🚨 Error Handling Strategy
 
 Robust error handling is implemented to provide a smooth user experience, especially during blockchain interactions:
 
--   Global error handling for Web3 transactions is managed via `src/core/web3/helpers.ts` (specifically the `rethrowWeb3Error` function). This function attempts to extract human-readable error messages from raw Web3 errors.
--   Errors are then propagated to `src/core/web3/web3Reducer.ts` to update the application's central `error` state.
--   User-facing error messages are typically displayed through Material-UI Snackbars or custom dialogs, triggered by changes in the `dialog` state within `web3Reducer`.
+- Global error handling for Web3 transactions is managed via `src/core/web3/helpers.ts` (specifically the `rethrowWeb3Error` function). This function attempts to extract human-readable error messages from raw Web3 errors.
+- Errors are then propagated to `src/core/web3/web3Reducer.ts` to update the application's central `error` state.
+- User-facing error messages are typically displayed through Material-UI Snackbars or custom dialogs, triggered by changes in the `dialog` state within `web3Reducer`.
 
 ## 🔌 Third-Party Integrations
 
 Beyond core Web3.js and Material-UI, the project integrates with other third-party libraries and APIs to enhance functionality:
 
--   **Help Article Content**: All help article content is fetched dynamically from Markdown files located in `public/helpArticles/` using standard browser `fetch` API calls.
--   **Search Functionality**: The search capability for help articles is powered by `fuse.js`, a powerful fuzzy-searching library.
+- **Help Article Content**: All help article content is fetched dynamically from Markdown files located in `public/helpArticles/` using standard browser `fetch` API calls.
+- **Search Functionality**: The search capability for help articles is powered by `fuse.js`, a powerful fuzzy-searching library.
 
 ## ✨ Features
 
-*   **Realtime Analytics**: Instant access to Datamine (DAM), FLUX, and on-chain Uniswap USD pricing. 📈
-*   **Multi-Ecosystem Support**: Seamlessly interact with different blockchain environments like Ethereum Mainnet (L1) and Arbitrum (L2). 🌐
-*   **Full Privacy Mode**: No analytics, tracking, cookies, external resources, or 3rd parties utilized. Your data stays yours! 🔒
-*   **No Installation Required**: Just drag & drop onto any local or remote web server. 🚀
-*   **IPFS, SWARM & TOR Compatible**: Move one step closer to true decentralization by hosting on Distributed Web. 🕸️
-*   **Decentralized Minting & Burning**: Tools to manage your DAM and FLUX tokens directly from the dashboard. 🔥
-*   **Comprehensive Help & Knowledgebase**: Integrated instant help desk for common questions. 📖
+- **Realtime Analytics**: Instant access to Datamine (DAM), FLUX, and on-chain Uniswap USD pricing. 📈
+- **Multi-Ecosystem Support**: Seamlessly interact with different blockchain environments like Ethereum Mainnet (L1) and Arbitrum (L2). 🌐
+- **Full Privacy Mode**: No analytics, tracking, cookies, external resources, or 3rd parties utilized. Your data stays yours! 🔒
+- **No Installation Required**: Just drag & drop onto any local or remote web server. 🚀
+- **IPFS, SWARM & TOR Compatible**: Move one step closer to true decentralization by hosting on Distributed Web. 🕸️
+- **Decentralized Minting & Burning**: Tools to manage your DAM and FLUX tokens directly from the dashboard. 🔥
+- **Comprehensive Help & Knowledgebase**: Integrated instant help desk for common questions. 📖
 
 ## 📸 Screenshots
 
@@ -232,8 +232,8 @@ This project was bootstrapped with [Vite](https://vite.dev/).
 
 While comprehensive UI testing is valuable, our current focus prioritizes rapid UI experimentation. This approach is informed by:
 
--   **Audited Smart Contracts**: Our core smart contracts have undergone thorough audits (see [audits folder](https://github.com/Datamine-Crypto/white-paper/tree/master/audits)), ensuring their reliability and security. This mitigates concerns about the underlying blockchain logic.
--   **Direct MetaMask Communication**: The UI primarily communicates directly with MetaMask, acting as a thin client to immutable smart contracts. This reduces the complexity and risk typically associated with backend integrations.
+- **Audited Smart Contracts**: Our core smart contracts have undergone thorough audits (see [audits folder](https://github.com/Datamine-Crypto/white-paper/tree/master/audits)), ensuring their reliability and security. This mitigates concerns about the underlying blockchain logic.
+- **Direct MetaMask Communication**: The UI primarily communicates directly with MetaMask, acting as a thin client to immutable smart contracts. This reduces the complexity and risk typically associated with backend integrations.
 
 Given these factors, we find it more efficient to iterate quickly on the UI, leveraging the stability of the audited contracts and the direct, secure wallet interaction. Future development may include UI tests as the project matures and UI stability becomes a higher priority.
 
@@ -247,8 +247,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 If you have any questions, issues, or just want to connect with the community, please reach out through our:
 
--   **Discord**: Join our [Discord server](https://discord.gg/2dQ7XAB22u) for real-time discussions and support. 💬
--   **GitHub Issues**: For bug reports or feature requests, please open an issue on our [GitHub repository](https://github.com/Datamine-Crypto/dashboard/issues). 🐛
+- **Discord**: Join our [Discord server](https://discord.gg/2dQ7XAB22u) for real-time discussions and support. 💬
+- **GitHub Issues**: For bug reports or feature requests, please open an issue on our [GitHub repository](https://github.com/Datamine-Crypto/dashboard/issues). 🐛
 
 ## 📄 License
 

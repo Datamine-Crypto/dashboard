@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import React, { useContext } from 'react';
+import React from 'react';
 
 // Web3 context for accessing blockchain state and dispatch functions
 import { useWeb3Context } from '../../../web3/Web3Context';

@@ -1,4 +1,4 @@
-*Preface: For true decentralization and openness we've decided to open source 6 years of work for Datamine Network dApp. We believe this will close another gap of centralization and bring us closer to true vision of DeFi.* 🔮
+_Preface: For true decentralization and openness we've decided to open source 6 years of work for Datamine Network dApp. We believe this will close another gap of centralization and bring us closer to true vision of DeFi._ 🔮
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-v19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
@@ -39,8 +39,8 @@ This guide will help you get the Datamine Realtime Decentralized Dashboard up an
 
 To run this project locally, you will need to have Node.js and Yarn installed.
 
-*   **Node.js**: We recommend using Node.js v18 or higher. You can download it from [nodejs.org](https://nodejs.org/en/).
-*   **Yarn**: This project uses Yarn v4. You can install it globally via npm: `npm install -g yarn@^4.0.0`
+- **Node.js**: We recommend using Node.js v18 or higher. You can download it from [nodejs.org](https://nodejs.org/en/).
+- **Yarn**: This project uses Yarn v4. You can install it globally via npm: `npm install -g yarn@^4.0.0`
 
 ### Installation
 
@@ -160,51 +160,60 @@ This map outlines the key concepts, components, and principles of the Datamine N
 
 ## ✨ Features
 
-*   **Realtime Analytics**: Instant access to Datamine (DAM), FLUX, and on-chain Uniswap USD pricing. 📈
-*   **Multi-Ecosystem Support**: Seamlessly interact with different blockchain environments like Ethereum Mainnet (L1) and Arbitrum (L2). 🌐
-*   **Full Privacy Mode**: No analytics, tracking, cookies, external resources, or 3rd parties utilized. Your data stays yours! 🔒
-*   **No Installation Required**: Just drag & drop onto any local or remote web server. 🚀
-*   **IPFS, SWARM & TOR Compatible**: Move one step closer to true decentralization by hosting on Distributed Web. 🕸️
-*   **Decentralized Minting & Burning**: Tools to manage your DAM and FLUX tokens directly from the dashboard. 🔥
-*   **Comprehensive Help & Knowledgebase**: Integrated instant help desk for common questions. 📖
+- **Realtime Analytics**: Instant access to Datamine (DAM), FLUX, and on-chain Uniswap USD pricing. 📈
+- **Multi-Ecosystem Support**: Seamlessly interact with different blockchain environments like Ethereum Mainnet (L1) and Arbitrum (L2). 🌐
+- **Full Privacy Mode**: No analytics, tracking, cookies, external resources, or 3rd parties utilized. Your data stays yours! 🔒
+- **No Installation Required**: Just drag & drop onto any local or remote web server. 🚀
+- **IPFS, SWARM & TOR Compatible**: Move one step closer to true decentralization by hosting on Distributed Web. 🕸️
+- **Decentralized Minting & Burning**: Tools to manage your DAM and FLUX tokens directly from the dashboard. 🔥
+- **Comprehensive Help & Knowledgebase**: Integrated instant help desk for common questions. 📖
 
 ### Datamine Market (Decentralized "Time-in-market" solution)
+
 A revolutionary approach to decentralize "Time-in-market" and create true decentralized demand. Validators can offer a percentage reward for others to burn LOCK to their account, effectively decentralizing demand and increasing market efficiency. This process is seamlessly executed in a single Ethereum transaction.
 
 ### Datamine Gems #GameFi
+
 A real-time game where users collect "gems" (public market addresses with unminted balances) by burning tokens. It features a new V2 Public Market smart contract for even greater throughput, atomic batch burning from multiple addresses, and optimized reward distribution. A "Collect all gems" button allows for single-transaction collection from multiple addresses, aiming to increase monetary velocity and transactional throughput.
 
 ### LOCK (Lockquidity) Token
+
 Our newest token, LOCK, is designed to enhance stability by contributing to a permanent liquidity pool. It is minted by locking ArbiFLUX. Uniquely, burning LOCK redirects value to the liquidity pool instead of reducing supply, ensuring long-term stability. A new metric, "Market Efficiency," is introduced, defined as 100% minus the percentage of LOCK inside the market. Higher market efficiency indicates more trading volatility and benefits validators.
 
 ### Core Values & Ecosystem Principles
+
 The Datamine Network is built on core values that drive its unique approach to DeFi:
-*   **Transaction-incentivized Liquidity Pools:** DAM and FLUX offer unique incentives for providing liquidity on Uniswap & Balancer pools, ensuring constant token movement.
-*   **On-Chain Linear Deflation:** FLUX supply is non-fixed and features predictable deflation through a burning mechanism, with its generation tied to DAM staking.
-*   **Realtime Multi-Smart Contract Analytics:** The dashboard provides real-time on-chain market sentiment, balances in USD, and analytics through deep Uniswap integration.
-*   **Secure By Design & Professionally Audited:** All business logic is executed via audited smart contracts, ensuring fund safety and security without third-party involvement.
-*   **Built For The Community:** Utilizes serverless, web3, and mobile technologies for a seamless and secure user experience.
-*   **Global Problem Solved:** The Datamine Ecosystem aims to solve inflation through its deflationary tokenomics and on-chain demand generation.
+
+- **Transaction-incentivized Liquidity Pools:** DAM and FLUX offer unique incentives for providing liquidity on Uniswap & Balancer pools, ensuring constant token movement.
+- **On-Chain Linear Deflation:** FLUX supply is non-fixed and features predictable deflation through a burning mechanism, with its generation tied to DAM staking.
+- **Realtime Multi-Smart Contract Analytics:** The dashboard provides real-time on-chain market sentiment, balances in USD, and analytics through deep Uniswap integration.
+- **Secure By Design & Professionally Audited:** All business logic is executed via audited smart contracts, ensuring fund safety and security without third-party involvement.
+- **Built For The Community:** Utilizes serverless, web3, and mobile technologies for a seamless and secure user experience.
+- **Global Problem Solved:** The Datamine Ecosystem aims to solve inflation through its deflationary tokenomics and on-chain demand generation.
 
 ### Token Specifications & Mechanics
+
 The ecosystem comprises several tokens with distinct roles and mechanics:
-*   **DAM (Datamine Token):** Fixed supply (16,876,778 tokens), ERC-777 standard, primarily used for staking to power validators.
-*   **FLUX (Flux Token):** Non-fixed supply, base currency of the ecosystem, features linear and predictable deflation through burning.
-*   **Validator (Mint Start/Stop):** The process of locking DAM tokens to generate FLUX.
-*   **Delegated Minting:** Allows a different Ethereum address to mint FLUX tokens on behalf of a validator.
-*   **Remote Minting/Burning:** Features for minting FLUX from a phone to any Ethereum address, and burning FLUX to any address with an active mint.
-*   **Partial Minting:** Ability to specify a percentage of minting (0-100%) and mint smaller amounts to other addresses.
-*   **Mint Age Multiplier:** Increases over time (up to 3x after 28 days) for continuous validator operation.
-*   **Burn Multiplier:** Variable multiplier (up to 10x) based on FLUX burned relative to global averages.
+
+- **DAM (Datamine Token):** Fixed supply (16,876,778 tokens), ERC-777 standard, primarily used for staking to power validators.
+- **FLUX (Flux Token):** Non-fixed supply, base currency of the ecosystem, features linear and predictable deflation through burning.
+- **Validator (Mint Start/Stop):** The process of locking DAM tokens to generate FLUX.
+- **Delegated Minting:** Allows a different Ethereum address to mint FLUX tokens on behalf of a validator.
+- **Remote Minting/Burning:** Features for minting FLUX from a phone to any Ethereum address, and burning FLUX to any address with an active mint.
+- **Partial Minting:** Ability to specify a percentage of minting (0-100%) and mint smaller amounts to other addresses.
+- **Mint Age Multiplier:** Increases over time (up to 3x after 28 days) for continuous validator operation.
+- **Burn Multiplier:** Variable multiplier (up to 10x) based on FLUX burned relative to global averages.
 
 ### Smart Contracts - In-Depth Breakdown
+
 The project's smart contracts are the backbone of the Datamine Network, built with a strong emphasis on security and transparency:
-*   **Technology Stack:** Smart contracts are written in Solidity (v0.6.9) and are ERC-777 compatible, built upon OpenZeppelin secure libraries.
-*   **Security Features:** Includes SafeMath for arithmetic operations, Mutex and Checks-Effects-Interactions Pattern for re-entrancy protection, custom modifiers (`preventSameBlock()`, `requireLocked()`), immutable state variables, and a unique ERC-1820 ERC777TokensRecipient implementation.
-*   **Core Functions:** Detailed explanation of `lock()`, `unlock()`, `burnToAddress()`, and `mintToAddress()` functions, including their security considerations and how they modify the contract's state.
-*   **View-Only Functions:** Functions like `getMintAmount()`, `getAddressTimeMultiplier()`, `getAddressBurnMultiplier()`, `getAddressRatio()`, and `getGlobalRatio()` provide real-time analytics without modifying state.
-*   **Data Aggregation:** Helper functions (`getAddressDetails()`, `getAddressTokenDetails()`) are provided to reduce network calls for dashboard data.
-*   **Additional Security Considerations (ConsenSys):** Adherence to best practices like preparing for failure, careful rollout, keeping contracts simple, staying up to date, awareness of blockchain properties, and secure development recommendations (external calls, public data, integer handling, assert/require/revert usage, modifiers, rounding, fallback functions, visibility, pragma locking, events, `tx.origin`, timestamp dependence, EIP20 approve/transferFrom attack).
+
+- **Technology Stack:** Smart contracts are written in Solidity (v0.6.9) and are ERC-777 compatible, built upon OpenZeppelin secure libraries.
+- **Security Features:** Includes SafeMath for arithmetic operations, Mutex and Checks-Effects-Interactions Pattern for re-entrancy protection, custom modifiers (`preventSameBlock()`, `requireLocked()`), immutable state variables, and a unique ERC-1820 ERC777TokensRecipient implementation.
+- **Core Functions:** Detailed explanation of `lock()`, `unlock()`, `burnToAddress()`, and `mintToAddress()` functions, including their security considerations and how they modify the contract's state.
+- **View-Only Functions:** Functions like `getMintAmount()`, `getAddressTimeMultiplier()`, `getAddressBurnMultiplier()`, `getAddressRatio()`, and `getGlobalRatio()` provide real-time analytics without modifying state.
+- **Data Aggregation:** Helper functions (`getAddressDetails()`, `getAddressTokenDetails()`) are provided to reduce network calls for dashboard data.
+- **Additional Security Considerations (ConsenSys):** Adherence to best practices like preparing for failure, careful rollout, keeping contracts simple, staying up to date, awareness of blockchain properties, and secure development recommendations (external calls, public data, integer handling, assert/require/revert usage, modifiers, rounding, fallback functions, visibility, pragma locking, events, `tx.origin`, timestamp dependence, EIP20 approve/transferFrom attack).
 
 ## 🛠️ Development
 
@@ -212,15 +221,16 @@ The project's smart contracts are the backbone of the Datamine Network, built wi
 
 In the project directory, you can run the following scripts:
 
-*   `yarn start`: Runs the app in development mode.
-Open [https://localhost:3000](https://localhost:3000) to view it in the browser.
+- `yarn start`: Runs the app in development mode.
+  Open [https://localhost:3000](https://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.
 You will also see any lint errors in the console.
-*   `yarn build`: Builds the app for production to the `build` folder.
-*   `yarn deploy`: Creates a production build with a specific base path for deployment.
-*   `yarn format`: Formats code using Prettier.
-*   `yarn lint`: Lints the project using ESLint.
+
+- `yarn build`: Builds the app for production to the `build` folder.
+- `yarn deploy`: Creates a production build with a specific base path for deployment.
+- `yarn format`: Formats code using Prettier.
+- `yarn lint`: Lints the project using ESLint.
 
 ### To Deploy
 
@@ -256,30 +266,30 @@ We welcome contributions from the community, and we're excited to introduce a ne
     git clone https://github.com/Datamine-Crypto/dashboard.git
     ```
 3.  **Start Vibe Coding:** Launch the Gemini CLI within your cloned repository. The CLI will act as your intelligent co-pilot, understanding your intent and executing complex tasks with simple commands.
-    *   **Intent-Driven Development:** Instead of manually navigating files and performing repetitive tasks, you can express your intentions directly to the CLI. For example:
-        *   "Add a new feature to the dashboard."
-        *   "Refactor this component for better performance."
-        *   "Fix this bug in the smart contract interaction."
-        *   "Update all help articles to include information about the LOCK token."
-    *   **Automated Code Generation & Modification:** The Gemini CLI can read, search, and modify code across the entire project. It can help you:
-        *   Generate new components or modules based on existing patterns.
-        *   Apply consistent styling changes across multiple files.
-        *   Perform complex refactoring operations with precision.
-        *   Ensure adherence to project conventions and best practices.
-    *   **Contextual Awareness:** The CLI maintains a deep understanding of the project's structure, dependencies, and coding style, ensuring that your contributions seamlessly integrate with the existing codebase.
+    - **Intent-Driven Development:** Instead of manually navigating files and performing repetitive tasks, you can express your intentions directly to the CLI. For example:
+      - "Add a new feature to the dashboard."
+      - "Refactor this component for better performance."
+      - "Fix this bug in the smart contract interaction."
+      - "Update all help articles to include information about the LOCK token."
+    - **Automated Code Generation & Modification:** The Gemini CLI can read, search, and modify code across the entire project. It can help you:
+      - Generate new components or modules based on existing patterns.
+      - Apply consistent styling changes across multiple files.
+      - Perform complex refactoring operations with precision.
+      - Ensure adherence to project conventions and best practices.
+    - **Contextual Awareness:** The CLI maintains a deep understanding of the project's structure, dependencies, and coding style, ensuring that your contributions seamlessly integrate with the existing codebase.
 4.  **Create a Pull Request:** Once you've completed your changes with the help of the Gemini CLI:
-    *   **Review Changes:** The CLI can help you review your changes and ensure everything is as expected.
-    *   **Commit with Clarity:** The CLI can assist in crafting clear and concise commit messages.
-    *   **Open a Pull Request:** Push your changes to your forked repository and open a pull request to the `main` branch.
+    - **Review Changes:** The CLI can help you review your changes and ensure everything is as expected.
+    - **Commit with Clarity:** The CLI can assist in crafting clear and concise commit messages.
+    - **Open a Pull Request:** Push your changes to your forked repository and open a pull request to the `main` branch.
 
 ### Why Vibe Code?
 
 By leveraging the Gemini CLI, we aim to:
 
-*   **Reduce Friction:** Minimize the time spent on mundane tasks, allowing you to focus on innovation.
-*   **Accelerate Development:** Speed up the development cycle, bringing new features and improvements to the Datamine Network faster.
-*   **Improve Code Quality:** Ensure consistency and adherence to coding standards with automated assistance.
-*   **Foster Creativity:** Empower developers to stay in their creative flow, making contributions more enjoyable and impactful.
+- **Reduce Friction:** Minimize the time spent on mundane tasks, allowing you to focus on innovation.
+- **Accelerate Development:** Speed up the development cycle, bringing new features and improvements to the Datamine Network faster.
+- **Improve Code Quality:** Ensure consistency and adherence to coding standards with automated assistance.
+- **Foster Creativity:** Empower developers to stay in their creative flow, making contributions more enjoyable and impactful.
 
 Join us in building the future of DeFi with a truly modern and efficient development experience. We look forward to your "vibe coded" contributions! 🙏
 
@@ -287,8 +297,8 @@ Join us in building the future of DeFi with a truly modern and efficient develop
 
 While comprehensive UI testing is valuable, our current focus prioritizes rapid UI experimentation. This approach is informed by:
 
--   **Audited Smart Contracts**: Our core smart contracts have undergone thorough audits (see [`audits folder`](https://github.com/Datamine-Crypto/white-paper/tree/master/audits)), ensuring their reliability and security. This mitigates concerns about the underlying blockchain logic.
--   **Direct MetaMask Communication**: The UI primarily communicates directly with MetaMask, acting as a thin client to immutable smart contracts. This reduces the complexity and risk typically associated with backend integrations.
+- **Audited Smart Contracts**: Our core smart contracts have undergone thorough audits (see [`audits folder`](https://github.com/Datamine-Crypto/white-paper/tree/master/audits)), ensuring their reliability and security. This mitigates concerns about the underlying blockchain logic.
+- **Direct MetaMask Communication**: The UI primarily communicates directly with MetaMask, acting as a thin client to immutable smart contracts. This reduces the complexity and risk typically associated with backend integrations.
 
 Given these factors, we find it more efficient to iterate quickly on the UI, leveraging the stability of the audited contracts and the direct, secure wallet interaction. Future development may include UI tests as the project matures and UI stability becomes a higher priority.
 
@@ -302,8 +312,8 @@ To learn React, check out the [React documentation](https://react.dev/).
 
 If you have any questions, issues, or just want to connect with the community, please reach out through our:
 
-*   **Discord**: Join our [Discord server](https://discord.gg/2dQ7XAB22u) for real-time discussions and support. 💬
-*   **GitHub Issues**: For bug reports or feature requests, please open an issue on our [GitHub repository](https://github.com/Datamine-Crypto/dashboard/issues). 🐛
+- **Discord**: Join our [Discord server](https://discord.gg/2dQ7XAB22u) for real-time discussions and support. 💬
+- **GitHub Issues**: For bug reports or feature requests, please open an issue on our [GitHub repository](https://github.com/Datamine-Crypto/dashboard/issues). 🐛
 
 ## 📄 License
 

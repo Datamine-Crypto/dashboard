@@ -2,7 +2,7 @@ import { Build, Menu } from '@mui/icons-material';
 import { AppBar, Box, Card, CardActionArea, IconButton, Link, Toolbar, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
-import React, { useContext } from 'react';
+import React from 'react';
 import DamLogo from '../../../../svgs/logo.svg';
 
 import Grid from '@mui/system/Grid';

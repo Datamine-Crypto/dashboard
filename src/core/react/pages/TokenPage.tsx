@@ -8,7 +8,7 @@ import {
 	PlayArrow as PlayArrowIcon,
 } from '@mui/icons-material';
 import { Box, Button, Card, CardContent, Divider, Paper, Typography } from '@mui/material';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Ecosystem } from '../../../configs/config.common';
 import arbiFluxLogo from '../../../svgs/arbiFluxLogo.svg';
 import fluxLogo from '../../../svgs/fluxLogo.svg';

@@ -11,7 +11,7 @@ import {
 	Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import React, { ReactNode, useContext, useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 
 import { DialogType, FluxAddressDetails } from '../../interfaces';
 import { useWeb3Context } from '../../web3/Web3Context';

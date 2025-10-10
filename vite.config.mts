@@ -11,11 +11,8 @@ export default defineConfig({
 	experimental: {
 		// This targets the MUI libraries for optimization
 		optimizePackageImports: {
-			include: [
-				'@mui/material',
-				'@mui/icons-material'
-			]
-		}
+			include: ['@mui/material', '@mui/icons-material'],
+		},
 	},
 	// To match homepage: "." from package.json for relative asset paths in the build.
 	base: './',
@@ -28,7 +25,6 @@ export default defineConfig({
 
 		rollupOptions: {
 			output: {
-
 				// Not used for now but something to consider:
 				/*
 				manualChunks(id, { getModuleInfo }) {
@@ -61,7 +57,7 @@ export default defineConfig({
 	},
 	server: {
 		port: 3000, // Optional: CRA's default port.
-		open: true    // Optional: Open browser on start.
+		open: true, // Optional: Open browser on start.
 	},
 	// Vite handles process.env.NODE_ENV via import.meta.env.MODE
 	// If you have other global constants defined via process.env in CRA,
@@ -69,4 +65,4 @@ export default defineConfig({
 	// define: {
 	//   'process.env.SOME_VARIABLE': JSON.stringify('some_value')
 	// }
-})
+});

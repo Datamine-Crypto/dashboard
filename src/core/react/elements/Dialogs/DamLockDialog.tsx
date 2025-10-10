@@ -14,7 +14,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { Diamond } from '@mui/icons-material';
 import { getEcosystemConfig } from '../../../../configs/config';

@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Menu, MenuItem } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import Arbitrum from '../../../../svgs/arbitrum.svg';
 import EthereumPurple from '../../../../svgs/ethereumPurple.svg';

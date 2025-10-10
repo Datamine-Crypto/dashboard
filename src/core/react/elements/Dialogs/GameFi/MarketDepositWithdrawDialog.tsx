@@ -14,7 +14,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { ImportExport } from '@mui/icons-material';
 import BN from 'bn.js';

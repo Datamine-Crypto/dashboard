@@ -639,7 +639,7 @@ export const makeBatchRequest = (web3: Web3, calls: any) => {
  * @param {boolean} [shouldAdd=true] - If true, calculates percentage of `bnA / (bnA + bnB)`; otherwise, `bnA / bnB`.
  * @returns {string} The calculated percentage as a string, formatted to two decimal places.
  */
-export const getBNPercent = (bnA: BN, bnB: BN, shouldAdd: boolean = true) => {
+export const getBNPercent = (bnA: BN, bnB: BN, shouldAdd = true) => {
 	if (bnB.isZero() || bnA.isZero()) {
 		return '0.00';
 	}
@@ -673,12 +673,7 @@ export const parseBN = (unformattedInput: string) => {
  * @param {number} [round=0] - The number of decimal places to round the final output to.
  * @returns {string | null} The converted decimal string, or null if the input number is null.
  */
-export const BNToDecimal = (
-	number: BN | null,
-	addCommas: boolean = false,
-	decimals: number = 18,
-	round: number = 0
-) => {
+export const BNToDecimal = (number: BN | null, addCommas = false, decimals = 18, round = 0) => {
 	if (!number) {
 		return null;
 	}
@@ -733,8 +728,8 @@ export const getBlocksRemaining = (
 	blockDuration: number,
 	currentBlock: number,
 	defaultText: string,
-	showBlocks: boolean = true,
-	showDuration: boolean = true
+	showBlocks = true,
+	showDuration = true
 ) => {
 	if (startBlockNumber === 0) {
 		return defaultText;

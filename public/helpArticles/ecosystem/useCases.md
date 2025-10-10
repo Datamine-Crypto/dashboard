@@ -28,6 +28,5 @@ Our newest token, LOCK, directly addresses the challenge of liquidity. By contri
 
 ### Enhancing Ecosystem Dynamics with Datamine Market and Gems
 
-*   **Datamine Market:** This decentralized "Time-in-market" solution further drives on-chain demand by incentivizing token burning. Validators can offer rewards for others to burn LOCK to their accounts, creating a dynamic and efficient market that boosts transactional throughput and market efficiency.
-*   **Datamine Gems #GameFi:** By gamifying the token burning and reward collection process, Datamine Gems increases monetary velocity and engagement. It transforms essential ecosystem activities into an interactive experience, further strengthening the network's decentralized demand generation.
-
+- **Datamine Market:** This decentralized "Time-in-market" solution further drives on-chain demand by incentivizing token burning. Validators can offer rewards for others to burn LOCK to their accounts, creating a dynamic and efficient market that boosts transactional throughput and market efficiency.
+- **Datamine Gems #GameFi:** By gamifying the token burning and reward collection process, Datamine Gems increases monetary velocity and engagement. It transforms essential ecosystem activities into an interactive experience, further strengthening the network's decentralized demand generation.

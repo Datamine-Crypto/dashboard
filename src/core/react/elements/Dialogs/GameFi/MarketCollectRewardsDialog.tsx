@@ -11,7 +11,7 @@ import {
 	Link,
 	Typography,
 } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Diamond, ImportExport, Mouse } from '@mui/icons-material';
 import BN from 'bn.js';

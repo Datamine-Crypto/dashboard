@@ -11,16 +11,19 @@ Burning LOCK tokens has a unique effect: it redirects value to the liquidity poo
 ![Burning](../../helpArticles/assets/images/pngs/burningFlux/burningFlux1.png)
 
 ## Step 1: Initiate Burn
+
 Click the "BURN" button.
 
 ![Burning](../../helpArticles/assets/images/pngs/burningFlux/burningFlux2.png#_maxWidth=512)
 
 ## Step 2: Enter Quantity
+
 Enter the quantity of FLUX or ArbiFLUX tokens you wish to burn. Your burn bonus will update after your transaction is confirmed.
 
 ![Burning](../../helpArticles/assets/images/pngs/burningFlux/burningFlux3.png#_maxWidth=512)
 
 ## Step 3: Confirm in MetaMask
+
 Follow the instructions in your MetaMask window to finalize the transaction. Remember to set the gas fee to "Fast."
 
 ![Burning](../../helpArticles/assets/images/pngs/burningFlux/burningFlux4.png)

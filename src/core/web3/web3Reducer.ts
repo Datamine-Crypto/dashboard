@@ -723,7 +723,7 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 
 	const config = getEcosystemConfig(state.ecosystem);
 
-	const getForecastAmount = (payload: string, defaultAmount: string, removePeriod: boolean = false) => {
+	const getForecastAmount = (payload: string, defaultAmount: string, removePeriod = false) => {
 		const getAmount = () => {
 			const getTrimmedZerosAmount = () => {
 				const amount = payload as string;

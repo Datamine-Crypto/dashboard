@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Ecosystem } from '../../../configs/config.common';
 import { useWeb3Context } from '../../web3/Web3Context';
 import OnboardingFragment from '../elements/Onboarding/OnboardingFragment';

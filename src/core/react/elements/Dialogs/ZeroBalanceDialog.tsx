@@ -1,5 +1,5 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { Web3 } from 'web3';
 import { getEcosystemConfig as getConfig } from '../../../../configs/config';

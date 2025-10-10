@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { lazy, Suspense, useContext, useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { tss } from 'tss-react/mui';
 
 import { getEcosystemConfig } from '../../../configs/config';

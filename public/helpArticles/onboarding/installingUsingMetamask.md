@@ -1,6 +1,6 @@
 # Installing and Using MetaMask
 
-This guide provides a comprehensive walkthrough on how to install and set up MetaMask, an Ethereum wallet, in your browser. It also covers basic operations like sending and receiving cryptocurrency.  
+This guide provides a comprehensive walkthrough on how to install and set up MetaMask, an Ethereum wallet, in your browser. It also covers basic operations like sending and receiving cryptocurrency.
 
 ## Step 1
 
@@ -66,7 +66,7 @@ Once you’ve written down the seed keywords, click on ‘Next’ button to proc
 
 ## Step 9
 
-Read the tips on the next page and click ‘All done’. 
+Read the tips on the next page and click ‘All done’.
 
 ![Metamask](../../helpArticles/assets/images/pngs/metamask/metamask10.png#_maxWidth=512)
 
