@@ -31,6 +31,9 @@ export const getDamFluxEcosystemConfig = () => {
 		// Hodl Clicker: Rush game address
 		gameHodlClickerAddress: null,
 
+		// Batch Minter Address
+		batchMinterAddress: null, // @todo
+
 		// Block number at which the failsafe limit for token lock-up begins
 		failsafeStartBlockNumber: 10224578,
 		// Blockchain layer (Layer 1 for Ethereum Mainnet)

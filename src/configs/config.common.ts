@@ -76,6 +76,11 @@ export interface EcosystemConfig {
 	gameHodlClickerAddress: string | null;
 
 	/**
+	 * Batch Minter Address
+	 */
+	batchMinterAddress: string | null;
+
+	/**
 	 * On Layer 1 (L1), this is the Uniswap V3 pool address for the Lockable / ETH token pair.
 	 */
 	lockableUniswapV3L1EthTokenContractAddress?: string;

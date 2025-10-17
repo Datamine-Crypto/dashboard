@@ -31,6 +31,9 @@ export const getFluxArbiFluxEcosystemConfig = () => {
 		// Hodl Clicker: Rush game address
 		gameHodlClickerAddress: null,
 
+		// Batch Minter Address
+		batchMinterAddress: null, // @todo
+
 		// Block number at which the failsafe limit for token lock-up begins
 		failsafeStartBlockNumber: 13463591,
 		// Blockchain layer (Layer 2 for Arbitrum)

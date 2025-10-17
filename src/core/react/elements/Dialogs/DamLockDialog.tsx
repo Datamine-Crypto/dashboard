@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-import { Diamond } from '@mui/icons-material';
+import { Diamond, Mouse as MouseIcon } from '@mui/icons-material';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';
 import { BNToDecimal } from '../../../web3/helpers';
@@ -41,6 +41,13 @@ interface RenderParams {
 	total: string | null;
 }
 
+enum MintingAddressType {
+	SelfMinter = 'SelfMinter',
+	DelegatedMinter = 'DelegatedMinter',
+	GameHodlClicker = 'GameHodlClicker',
+	GameDatamineGems = 'GameDatamineGems',
+}
+
 /**
  * A memoized functional component that renders the DamLockDialog.
  * This dialog allows users to lock in DAM tokens to start a validator and choose a minter address.
@@ -48,28 +55,56 @@ interface RenderParams {
  */
 const Render: React.FC<RenderParams> = React.memo(
 	({ selectedAddress, balances, dispatch, error, total, ecosystem }) => {
-		const { lockableTokenShortName, mintableTokenShortName, marketAddress, gameHodlClickerAddress } =
-			getEcosystemConfig(ecosystem);
+		const {
+			lockableTokenShortName,
+			mintableTokenShortName,
+			marketAddress,
+			gameHodlClickerAddress,
+			batchMinterAddress,
+		} = getEcosystemConfig(ecosystem);
+
+		const getDefaultMinterType = () => {
+			if (gameHodlClickerAddress) {
+				return MintingAddressType.GameHodlClicker;
+			}
+			if (marketAddress) {
+				return MintingAddressType.GameDatamineGems;
+			}
+			return MintingAddressType.SelfMinter;
+		};
 
 		const [amount, setAmount] = React.useState(total);
 		const [minterAddress, setMinterAddress] = React.useState(selectedAddress);
-		const [minterType, setMinterType] = React.useState(
-			gameHodlClickerAddress ? 'hodlClicker' : marketAddress ? 'market' : 'self'
-		);
+		const [minterType, setMinterType] = React.useState(getDefaultMinterType());
 
 		const onSubmit = async (e: any) => {
 			e.preventDefault();
+
+			const getMinterAddress = () => {
+				switch (minterType) {
+					case MintingAddressType.GameHodlClicker:
+						return gameHodlClickerAddress;
+					case MintingAddressType.GameDatamineGems:
+						return marketAddress;
+					case MintingAddressType.SelfMinter: {
+						if (batchMinterAddress) {
+							// Use batch minting for self-minter (This new contract allows for Smart Accounts minting)
+							return batchMinterAddress;
+						}
+						break;
+					}
+				}
+
+				// Self-minter default
+				return minterAddress;
+			};
+			const computedMinterAddress = getMinterAddress();
 
 			dispatch({
 				type: commonLanguage.commands.LockInDamTokens,
 				payload: {
 					amount,
-					minterAddress:
-						minterType === 'hodlClicker'
-							? gameHodlClickerAddress
-							: minterType === 'market'
-								? marketAddress
-								: minterAddress,
+					minterAddress: computedMinterAddress,
 				},
 			});
 		};
@@ -82,7 +117,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		};
 
 		const getDelegatedMinterBox = () => {
-			if (minterType !== 'delegated') {
+			if (minterType !== MintingAddressType.DelegatedMinter) {
 				return;
 			}
 			return (
@@ -123,12 +158,12 @@ const Render: React.FC<RenderParams> = React.memo(
 
 			return (
 				<FormControlLabel
-					value="market"
+					value={MintingAddressType.GameDatamineGems}
 					control={<Radio color="secondary" />}
 					label={
 						<Box display="flex" alignItems="center">
 							<Diamond style={{ color: '#0FF' }} />
-							<Box ml={0.5}>Datamine Gems (V2): Automatic Recompounding {getRecommendedText()}</Box>
+							<Box ml={0.5}>Datamine Gems (V2): Legacy Recompounding {getRecommendedText()}</Box>
 						</Box>
 					}
 				/>
@@ -142,11 +177,11 @@ const Render: React.FC<RenderParams> = React.memo(
 
 			return (
 				<FormControlLabel
-					value="hodlClicker"
+					value={MintingAddressType.GameHodlClicker}
 					control={<Radio color="secondary" />}
 					label={
 						<Box display="flex" alignItems="center">
-							<Diamond style={{ color: '#0FF' }} />
+							<MouseIcon style={{ color: '#0FF' }} />
 							<Box ml={0.5}>
 								HODL Clicker (V3): Automatic Recompounding{' '}
 								<Typography component="div" color="secondary" display="inline" variant="body2">
@@ -156,6 +191,43 @@ const Render: React.FC<RenderParams> = React.memo(
 						</Box>
 					}
 				/>
+			);
+		};
+
+		const getSelfMinterOption = () => {
+			return (
+				<>
+					<FormControlLabel
+						value={MintingAddressType.SelfMinter}
+						control={<Radio color="secondary" />}
+						label={`I want to mint my own ${mintableTokenShortName} tokens`}
+					/>
+				</>
+			);
+		};
+
+		const getDelegatedMinterOption = () => {
+			//@todo re-enable this for batch minting when new batch mint dialog is done
+
+			if (batchMinterAddress) {
+				return null;
+			}
+
+			return (
+				<>
+					<FormControlLabel
+						value="delegated"
+						control={<Radio color="secondary" />}
+						label={
+							<>
+								Another address mints {mintableTokenShortName} on my behalf{' '}
+								<Typography component="div" color="textSecondary" display="inline" variant="body2">
+									(Delegated Minter)
+								</Typography>
+							</>
+						}
+					/>
+				</>
 			);
 		};
 
@@ -212,23 +284,8 @@ const Render: React.FC<RenderParams> = React.memo(
 								>
 									{getGameHodlClickerOption()}
 									{getMarketOption()}
-									<FormControlLabel
-										value="self"
-										control={<Radio color="secondary" />}
-										label={`I want to mint my own ${mintableTokenShortName} tokens`}
-									/>
-									<FormControlLabel
-										value="delegated"
-										control={<Radio color="secondary" />}
-										label={
-											<>
-												Another address mints {mintableTokenShortName} on my behalf{' '}
-												<Typography component="div" color="textSecondary" display="inline" variant="body2">
-													(Delegated Minter)
-												</Typography>
-											</>
-										}
-									/>
+									{getSelfMinterOption()}
+									{getDelegatedMinterOption()}
 								</RadioGroup>
 							</FormControl>
 						</Box>

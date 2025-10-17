@@ -33,6 +33,9 @@ export const getArbiFluxLockquidityEcosystemConfig = () => {
 		// Hodl Clicker: Rush game address
 		gameHodlClickerAddress: '0x012C2a83f854Bd016074195d06611785eF8D27E0',
 
+		// Batch Minter Address
+		batchMinterAddress: '0x352c8A363eF1C9e730b8A2EE14Bab90545fd189C',
+
 		// Block number at which the failsafe limit for token lock-up begins
 		failsafeStartBlockNumber: 20959397,
 		// Blockchain layer (Layer 2 for Arbitrum)
