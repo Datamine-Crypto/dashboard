@@ -5,6 +5,7 @@ import { commonLanguage, Web3State } from './web3Reducer';
 
 import damTokenAbi from './abis/dam.json';
 import fluxTokenAbi from './abis/flux.json';
+import batchMinterAbi from './abis/batchMinter.json';
 import marketAbi from './abis/market.json';
 import gameHodlClickerAbi from './abis/games/gameHodlClicker.json';
 import multicallAbi from './abis/multicall.json';
@@ -117,6 +118,7 @@ const getContracts = (web3: Web3, ecosystem: Ecosystem) => {
 	return {
 		damToken: new web3.eth.Contract(damTokenAbi as any, config.lockableTokenContractAddress),
 		fluxToken: new web3.eth.Contract(fluxTokenAbi as any, config.mintableTokenContractAddress),
+		batchMinter: new web3.eth.Contract(batchMinterAbi as any, config.batchMinterAddress),
 
 		// Datamine Gems
 		market: config.marketAddress ? new web3.eth.Contract(marketAbi as any, config.marketAddress) : null,
@@ -1415,14 +1417,30 @@ const queryHandlers = {
 		const { sourceAddress, targetAddress, blockNumber } = query.payload;
 
 		const contracts = getContracts(web3, state.ecosystem);
+		const config = getEcosystemConfig(state.ecosystem);
+		const getResponse = async () => {
+			if (config.batchMinterAddress) {
+				const batchMinter = withWeb3(web3, contracts.batchMinter);
 
-		const fluxToken = withWeb3(web3, contracts.fluxToken);
-		const response = await fluxToken.mintToAddress({
-			sourceAddress,
-			targetAddress,
-			blockNumber,
-			from: selectedAddress,
-		});
+				return await batchMinter.batchNormalMintTo({
+					sourceAddress,
+					targetAddress,
+					blockNumber,
+					from: selectedAddress,
+				});
+			} else {
+				const fluxToken = withWeb3(web3, contracts.fluxToken);
+
+				return await fluxToken.mintToAddress({
+					sourceAddress,
+					targetAddress,
+					blockNumber,
+					from: selectedAddress,
+				});
+			}
+		};
+
+		const response = await getResponse();
 
 		console.log('GetMintFluxResponse:', response);
 

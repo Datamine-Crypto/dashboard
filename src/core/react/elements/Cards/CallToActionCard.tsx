@@ -218,6 +218,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			mintableTokenMintPerBlockDivisor,
 			mintableTokenPriceDecimals,
 			mintableTokenContractAddress,
+			batchMinterAddress,
 		} = getConfig(ecosystem);
 		const { isHelpPageEnabled } = navigation;
 
@@ -307,6 +308,8 @@ const Render: React.FC<RenderParams> = React.memo(
 					if (isLocked || isForecastingModeEnabled) {
 						const { minterAddress } = addressLock;
 						const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase(); // Lowercase for WalletConnect
+						const isBatchMinter =
+							batchMinterAddress && minterAddress?.toLowerCase() === batchMinterAddress.toLowerCase();
 
 						const getLockedInAmountArea = () => {
 							const getAmount = () => {
@@ -947,7 +950,7 @@ const Render: React.FC<RenderParams> = React.memo(
 							if (!isLocked) {
 								return <>This option will be available once you start your validator in this address.</>;
 							}
-							if (!isDelegatedMinter) {
+							if (!isDelegatedMinter && !isBatchMinter) {
 								return (
 									<>
 										Select the{' '}
@@ -1093,9 +1096,9 @@ const Render: React.FC<RenderParams> = React.memo(
 						};
 
 						const getBottomRightText = () => {
-							if (forecastSettings.enabled) {
+							/*if (forecastSettings.enabled) {
 								return;
-							}
+							}*/
 							return (
 								<>
 									<Typography component="div" variant="h4">

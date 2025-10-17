@@ -1258,6 +1258,25 @@ const withWeb3 = (web3: Web3, contract: any) => {
 		}
 	};
 
+	const batchNormalMintTo = async ({ sourceAddress, targetAddress, blockNumber, from }: any) => {
+		try {
+			// Attempt to call the method first to check if there are any errors
+			await contract.methods.normalMintTo(sourceAddress, blockNumber, targetAddress).call({ from });
+
+			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3);
+
+			const mintTx = await contract.methods.normalMintTo(sourceAddress, blockNumber, targetAddress).send({
+				from,
+				maxFeePerGas,
+				maxPriorityFeePerGas,
+				gasPrice,
+			});
+
+			return mintTx;
+		} catch (err) {
+			rethrowWeb3Error(err);
+		}
+	};
 	return {
 		getTotalSupply,
 		getBalanceOf,
@@ -1283,6 +1302,9 @@ const withWeb3 = (web3: Web3, contract: any) => {
 		marketDeposit,
 		marketWithdrawAll,
 		marketBatchBurnTokens,
+
+		// Batch minter
+		batchNormalMintTo,
 	};
 };
 
