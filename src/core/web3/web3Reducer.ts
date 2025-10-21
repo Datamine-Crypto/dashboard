@@ -517,6 +517,7 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 			};
 		}
 		case commonLanguage.queries.GetBurnFluxResponse:
+		case commonLanguage.queries.GetSetMintSettingsResponse:
 		case commonLanguage.queries.Market.GetDepositMarketResponse:
 		case commonLanguage.queries.Market.GetWithdrawMarketResponse: {
 			if (err) {
@@ -1424,6 +1425,22 @@ const handleCommand = (state: Web3State, command: ReducerCommand) => {
 				};
 			}
 		}
+		case commonLanguage.commands.SetMinterSettings: {
+			const { address } = command.payload;
+
+			try {
+				return {
+					...state,
+					error: null,
+					...withQueries([{ type: commonLanguage.queries.GetSetMintSettingsResponse, payload: { address } }]),
+				};
+			} catch (err) {
+				return {
+					...state,
+					error: commonLanguage.errors.InvalidNumber,
+				};
+			}
+		}
 
 		// We can specify which game to open and show a dilog in the same state change
 		case commonLanguage.commands.Market.ShowGameDialog: {
@@ -2057,6 +2074,8 @@ const commonLanguage = {
 		 */
 		ReinitializeWeb3: 'REINITILIZE_WEB3',
 
+		SetMinterSettings: 'SET_MINTER_SETTINGS',
+
 		Swap: {
 			Trade: 'SWAP:TRADE',
 			SetAmount: 'SWAP:SET_AMOUNT',
@@ -2086,6 +2105,7 @@ const commonLanguage = {
 		GetLockInDamTokensResponse: 'GET_LOCK_IN_DAM_TOKENS_RESPONSE',
 		GetMintFluxResponse: 'GET_MINT_FLUX_RESPONSE',
 		GetBurnFluxResponse: 'GET_BURN_FLUX_RESPONSE',
+		GetSetMintSettingsResponse: 'GET_SET_MINT_SETTINGS_RESPONSE',
 		GetUnlockDamTokensResponse: 'GET_UNLOCK_DAM_TOKENS_RESPONSE',
 		GetTradeResponse: 'GET_TRADE_RESPONSE',
 

@@ -157,6 +157,8 @@ export enum DialogType {
 	MarketCollectRewards = 'MARKET_COLLECT_REWARDS',
 	/** Dialog for depositing or withdrawing tokens from the Datamine Market. */
 	MarketDepositWithdraw = 'MARKET_DEPOSIT_WITHDRAW',
+	/** Dialog for managing things like delegated minter */
+	MintSettings = 'MINT_SETTINGS',
 }
 
 export enum Game {

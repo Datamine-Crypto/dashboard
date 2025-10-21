@@ -1446,6 +1446,26 @@ const queryHandlers = {
 
 		return response && response.status;
 	},
+
+	[commonLanguage.queries.GetSetMintSettingsResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+		const { web3 } = state;
+		if (!web3) {
+			throw commonLanguage.errors.Web3NotFound;
+		}
+		const selectedAddress = getSelectedAddress();
+
+		const { address } = query.payload;
+
+		const contracts = getContracts(web3, state.ecosystem);
+
+		const fluxToken = withWeb3(web3, contracts.batchMinter);
+		const response = await fluxToken.setDelegatedMinter({
+			delegatedMinterAddress: address,
+			from: selectedAddress,
+		});
+
+		return response && response.status;
+	},
 	/**
 	 * Burns a specified amount of FLUX tokens to increase the minting multiplier.
 	 */

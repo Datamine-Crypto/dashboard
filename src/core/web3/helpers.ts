@@ -258,6 +258,15 @@ interface BurnToAddressParams {
 	from: string;
 }
 
+interface SetDelegatedMinterParams {
+	delegatedMinterAddress: string;
+	/**
+	 * @property {string} from
+	 * @description The address initiating the unlock transaction.
+	 */
+	from: string;
+}
+
 /**
  * @interface UnlockParams
  * @description Parameters for unlocking previously locked tokens.
@@ -1136,6 +1145,30 @@ const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
+	 * BatchMinter.sol -> setDelegatedMinter
+	 * Allows batch minter to specify delegated minter for a specific address
+	 */
+	const setDelegatedMinter = async ({ delegatedMinterAddress, from }: SetDelegatedMinterParams) => {
+		try {
+			// Attempt to call the method first to check if there are any errors
+			await contract.methods.setDelegatedMinter(delegatedMinterAddress).call({ from });
+
+			const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(web3);
+
+			const transaction = await contract.methods.setDelegatedMinter(delegatedMinterAddress).send({
+				from,
+				maxFeePerGas,
+				maxPriorityFeePerGas,
+				gasPrice,
+			});
+
+			return transaction;
+		} catch (err) {
+			rethrowWeb3Error(err);
+		}
+	};
+
+	/**
 	 * @function marketBurnTokens
 	 * @description Burns tokens within the Datamine Market contract, typically for GameFi interactions.
 	 * This function handles the transaction submission and error rethrowing.
@@ -1291,6 +1324,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 		getAddressDetails,
 		mintToAddress,
 		burnToAddress,
+		setDelegatedMinter,
 		unlockDamTokens,
 		getAddressTokenDetails,
 		slot0,

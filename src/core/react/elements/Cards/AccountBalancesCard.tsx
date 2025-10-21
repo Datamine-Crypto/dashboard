@@ -8,7 +8,7 @@ import { useWeb3Context } from '../../../web3/Web3Context';
 import { Balances, commonLanguage } from '../../../web3/web3Reducer';
 
 // Material-UI icons for external links, stop, and whatshot
-import { OpenInNew, Stop, Whatshot } from '@mui/icons-material';
+import { OpenInNew, Stop, Whatshot, Settings } from '@mui/icons-material';
 // Interfaces for dialog types, Flux address details, lock, token details, and token enum
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from '../../../interfaces';
 // Helper functions for BN to decimal conversion, burn ratio calculation, and price toggling
@@ -88,6 +88,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			mintableTokenPriceDecimals,
 			isLiquidityPoolAdditionalButtonsEnabled,
 			liquidityPoolType,
+			batchMinterAddress,
 		} = config;
 
 		const { classes } = useStyles();
@@ -99,6 +100,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase();
 		// Check if the displayed address is the currently selected address
 		const isCurrentAddress = selectedAddress === displayedAddress;
+		const isSelfMinter = addressLock.minterAddress === displayedAddress;
 
 		/**
 		 * Displays the mint dialog by dispatching a SHOW_DIALOG command.
@@ -116,7 +118,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				return null;
 			}
 
-			const isSelfMinter = addressLock.minterAddress === displayedAddress;
 			const getSuffix = () => {
 				return (
 					<LightTooltip
@@ -251,13 +252,16 @@ const Render: React.FC<RenderParams> = React.memo(
 				const showUnlockDialog = () => {
 					dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Unlock } });
 				};
+				const showMintSettingsDialog = () => {
+					dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MintSettings } });
+				};
 
 				if (new BN(addressLock.amount).isZero()) {
 					return;
 				}
 
-				const getButton = () => {
-					const button = (
+				const getStopMintButton = () => {
+					const stopMintButton = (
 						<Button
 							disabled={!isCurrentAddress}
 							size="small"
@@ -272,17 +276,45 @@ const Render: React.FC<RenderParams> = React.memo(
 					if (!isCurrentAddress) {
 						return (
 							<LightTooltip title="You must select this account in your wallet to stop a validator for this address.">
-								<Box display="inline-block">{button}</Box>
+								<Box display="inline-block">{stopMintButton}</Box>
 							</LightTooltip>
 						);
 					}
 
-					return button;
+					return stopMintButton;
+				};
+
+				const getMintSettingsButton = () => {
+					if (minterAddress?.toLowerCase() !== batchMinterAddress?.toLowerCase()) {
+						return;
+					}
+
+					const stopMintButton = (
+						<Button
+							disabled={!isCurrentAddress}
+							size="small"
+							variant="outlined"
+							onClick={() => showMintSettingsDialog()}
+							startIcon={<Settings style={{ color: '#0FF' }} />}
+						>
+							Mint Settings
+						</Button>
+					);
+
+					if (!isCurrentAddress) {
+						return (
+							<LightTooltip title="You must select this account in your wallet to stop a validator for this address.">
+								<Box display="inline-block">{stopMintButton}</Box>
+							</LightTooltip>
+						);
+					}
+
+					return stopMintButton;
 				};
 
 				return (
 					<Box mx={1} display="inline-block">
-						{getButton()}
+						{getStopMintButton()} {getMintSettingsButton()}
 					</Box>
 				);
 			};

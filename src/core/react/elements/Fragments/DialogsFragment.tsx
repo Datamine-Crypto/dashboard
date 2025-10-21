@@ -11,6 +11,7 @@ import SettingsDialog from '../Dialogs/SettingsDialog';
 import TradeDialog from '../Dialogs/TradeDialog';
 import UnlockDialog from '../Dialogs/UnlockDialog';
 import WalletConnectRpcDialog from '../Dialogs/WalletConnectRpcDialog';
+import MintSettingsDialog from '../Dialogs/MinterSettingsDialog';
 const MarketCollectRewardsDialog = lazy(() => import('../Dialogs/GameFi/MarketCollectRewardsDialog'));
 const ZeroBalanceDialog = lazy(() => import('../Dialogs/ZeroBalanceDialog'));
 
@@ -37,6 +38,9 @@ const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
 				return <BurnDialog />;
 			case DialogType.Unlock:
 				return <UnlockDialog />;
+			case DialogType.MintSettings:
+				return <MintSettingsDialog />;
+
 			case DialogType.Trade:
 				return <TradeDialog />;
 			case DialogType.ZeroEth:
