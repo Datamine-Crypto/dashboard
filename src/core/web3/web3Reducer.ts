@@ -495,10 +495,14 @@ const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>)
 					error: err,
 				};
 			}
+			const { minterAddress } = response;
+
+			const dialog =
+				minterAddress.toLowerCase() === config.batchMinterAddress?.toLowerCase() ? DialogType.MintSettings : null;
 
 			return {
 				...state,
-				dialog: null,
+				dialog,
 				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
 			};
 		}

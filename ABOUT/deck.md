@@ -398,7 +398,7 @@ The Datamine ecosystem has evolved. Here's the new flow:
 
 This new structure is designed to be more efficient, scalable, and resilient. It's the foundation for the next generation of DeFi applications.
 
-// 2025-09-12 updates.
+// 2025-09-12 updates:
 
 -- We wrote a new HODL Clicker: Rush game. This is a game based off Datamine Gems V2 and builds upon that with new monetary velocity ideas.
 
@@ -444,3 +444,47 @@ Here is the overview of our new HODL Clicker game:
 7. We now have 83 smart contract unit tests and new security features like re-entrancy guard making this the most tested and complex smart contract we wrote to date.
 
 Overall this is an evolution of Datamine Gems, a natural progression of GameFi to give players more choices.
+
+
+// 2025-10-23 updates:
+We wrote a new smart contract to fix minting to Smart Accounts (Externally Owned Account (EOA)). MetaMask recently launched an update where Smart Accounts are now default.
+
+Unfortunately due to ERC777 it is not possible to mint to these accounts. 
+
+To solve this, when starting a mint we will point your deligated address to a new smart contract. This smart contract is pretty simplistic in tnature, it simply mints from your validator and uses a different transfer mechanism to transfer tokens to the intended recepient.
+
+This allows us to bypass ERC1820 registration requirement on the recepient, allowing our existing contracts to be compatible with ERC777.
+
+
+// 2025-10-25 updates, recorded a video and extracted the following key insights:
+
+- The project has been in development for approximately 2,000 days.
+- The total permanent, decentralized liquidity has reached $125,000.
+- The core idea for the project was formulated during a 4-hour session on a balcony 5 years ago.
+- The token minting interval was originally every second but was changed to every 15 seconds to match Ethereum's block time.
+- All core metrics and charts on the project's dashboard were built from scratch.
+- The developer's two most important metrics are available liquidity and yearly supply inflation.
+- The developer believes raising the $120,000 for the community-funded audit would be "impossible" in today's market climate.
+- The ecosystem consists of approximately six different smart contracts.
+- The whitepaper contains line-by-line code explanations and a section with "secure development recommendations."
+- A core philosophical point is that liquidity is the ultimate differentiator for a token, even more so than tokenomics.
+- The project's current, single most important strategic goal is increasing liquidity.
+- A key part of the passive growth strategy is the project's ETH-backed liquidity, which will increase in value proportionally as Ethereum's price increases.
+
+- The $120,000 security audit was fully funded by the community.
+- The initial 4-hour design session for the project focused on three core problems:
+- Preventing users from "gaming the system."
+  1. Ensuring fundamental security.
+  2. Refining the token emission formula.
+  3. The project's definition of decentralization is absolute, meaning there are "no keys, no DAO, no person that can make a change."
+- This decentralized architecture means the system does not rely on any servers, removing the need for monitoring or restarting services.
+- The project's core philosophy is that in a future with "billions of tokens," the only true differentiator is liquidity.
+
+// 2025-10-29 new video:
+
+- The project's price chart (e.g., for FLUX) shows a drop from approximately $100 to near $0.03 on a linear scale, which is cited as misleading without viewing it on a logarithmic scale or analyzing the market cap.
+- The project's FLUX ecosystem started with zero tokens; all circulating supply was minted by the community over time.
+- The FLUX ecosystem's total market cap reached a peak of $1.25 million.
+- Approximately 50% of the total FLUX token supply is available in liquidity pools.
+- Currently, 95% of the Lockquidity (LOCK) token supply is in its liquidity pool (implying a 5% "Market Efficiency").
+- This low liquidity ratio for DAM is the cause of its extreme volatility, which can result in 100% price swings in a single day.

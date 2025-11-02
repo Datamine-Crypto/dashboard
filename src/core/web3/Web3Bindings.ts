@@ -1402,7 +1402,7 @@ const queryHandlers = {
 
 		console.log('GetLockInDamTokensResponse:', response);
 
-		return response && response.status;
+		return { minterAddress };
 	},
 	/**
 	 * Mints available FLUX tokens.

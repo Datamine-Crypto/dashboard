@@ -200,7 +200,14 @@ const Render: React.FC<RenderParams> = React.memo(
 					<FormControlLabel
 						value={MintingAddressType.SelfMinter}
 						control={<Radio color="secondary" />}
-						label={`I want to mint my own ${mintableTokenShortName} tokens`}
+						label={
+							<>
+								I want to mint my own ${mintableTokenShortName} tokens{' '}
+								<Typography component="div" color="textSecondary" display="inline" variant="body2">
+									(Or delegate other address)
+								</Typography>
+							</>
+						}
 					/>
 				</>
 			);
