@@ -1301,9 +1301,9 @@ const Render: React.FC<RenderParams> = React.memo(
 
 			const getMintingText = () => {
 				if (isArbitrumMainnet) {
-					return `To run your own ${mintableTokenShortName} validator you must first enable minting on Arbitrum L2. Click the &quot;Enable&quot; button below to continue.`;
+					return `To run your own ${mintableTokenShortName} validator you must first enable minting on Arbitrum L2. Click the "Enable" button below to continue.`;
 				}
-				return `To run your own validator you must first enable ${mintableTokenShortName} minting. Click the &quot;Enable&quot; button below to continue.`;
+				return `To run your own validator you must first enable ${mintableTokenShortName} minting. Click the "Enable" button below to continue.`;
 			};
 
 			return {

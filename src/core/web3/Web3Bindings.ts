@@ -1419,7 +1419,9 @@ const queryHandlers = {
 		const contracts = getContracts(web3, state.ecosystem);
 		const config = getEcosystemConfig(state.ecosystem);
 		const getResponse = async () => {
-			if (config.batchMinterAddress) {
+			const minterAddress = state.addressLock?.minterAddress;
+
+			if (config.batchMinterAddress?.toLowerCase() === minterAddress?.toLowerCase()) {
 				const batchMinter = withWeb3(web3, contracts.batchMinter);
 
 				return await batchMinter.batchNormalMintTo({
