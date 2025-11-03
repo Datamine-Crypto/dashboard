@@ -32,7 +32,7 @@ export const getFluxArbiFluxEcosystemConfig = () => {
 		gameHodlClickerAddress: null,
 
 		// Batch Minter Address
-		batchMinterAddress: null, // @todo
+		batchMinterAddress: '0x64081252c497FCfeC247a664e9D10Ca8eD71b276', // @todo
 
 		// Block number at which the failsafe limit for token lock-up begins
 		failsafeStartBlockNumber: 13463591,
