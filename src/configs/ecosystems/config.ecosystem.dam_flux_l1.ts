@@ -32,7 +32,7 @@ export const getDamFluxEcosystemConfig = () => {
 		gameHodlClickerAddress: null,
 
 		// Batch Minter Address
-		batchMinterAddress: null, // @todo
+		batchMinterAddress: '0x5B4A0d18eBE4f0d2929c5B4D56b555990d62707B',
 
 		// Block number at which the failsafe limit for token lock-up begins
 		failsafeStartBlockNumber: 10224578,
