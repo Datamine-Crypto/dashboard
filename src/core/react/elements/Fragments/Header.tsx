@@ -126,7 +126,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 				display="block"
 				className={classes.title}
 			>
-				Cryptocurrency with <span className={classes.proofOfBurn}>Permanent Liquidity</span> {/*getArrow()*/}
+				The Yield-Bearing <span className={classes.proofOfBurn}>Cryptocurrency</span> {/*getArrow()*/}
 			</Typography>
 		);
 	};
@@ -255,7 +255,7 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 						<Box display="inline-block">
 							<Card elevation={3}>
 								<LightTooltip title={`Watch How ${ecosystemName} Works`} placement="top">
-									<CardActionArea href="https://youtu.be/dsqz3XGx7RY" target="_blank" rel="noopener noreferrer">
+									<CardActionArea href="https://youtu.be/VBiLrx8Nkl4" target="_blank" rel="noopener noreferrer">
 										<CardMedia component="img" image="./images/videoSplash.png" style={{ maxWidth: 600 }} />
 									</CardActionArea>
 								</LightTooltip>
@@ -285,14 +285,14 @@ const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosyst
 								className={classes.titleSlogan}
 							>
 								<Typography component="div" display="inline" variant="h5" color="textPrimary">
-									Datamine Ecosystem
+									Datamine Ecosystem:
 								</Typography>{' '}
-								is{' '}
+								Pioneering{' '}
 								<LightTooltip title={defiTitle}>
 									<Box display="inline-block">DeFi&apos;s</Box>
 								</LightTooltip>{' '}
-								first inflation-resistant cryptocurrency designed to lock-in liquidity through innovative Proof-of-Burn
-								mechanism.
+								with inflation-resistant cryptocurrency, leveraging the secondary functionality of money to generate
+								sustainable yield and permanent liquidity.
 								<br />
 							</Typography>
 						</Box>
