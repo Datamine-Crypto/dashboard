@@ -62,7 +62,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				<form onSubmit={onSubmit}>
 					<DialogTitle id="form-dialog-title">
 						<Box display="flex" alignItems="center" alignContent="center">
-							Mint {mintableTokenShortName} tokens
+							Collect {mintableTokenShortName} Yield
 							<Box display="flex" pl={1}>
 								<Redeem style={{ color: '#0ff' }} />
 							</Box>
@@ -76,7 +76,7 @@ const Render: React.FC<RenderParams> = React.memo(
 							</Box>
 						</Box>
 						<Box my={1}>
-							Total Mintable: ~
+							Total Yield: ~
 							<Box display="inline" fontWeight="fontWeightBold">
 								{BNToDecimal(addressDetails.mintAmount, true)} {mintableTokenShortName}
 							</Box>
@@ -86,13 +86,13 @@ const Render: React.FC<RenderParams> = React.memo(
 						</Box>
 
 						<Typography component="div" gutterBottom={true}>
-							To continue specify where you want to mint these {mintableTokenShortName} tokens. You can specify any
+							To continue specify where you want to collect these {mintableTokenShortName} tokens. You can specify any
 							Ethereum-based address.
 						</Typography>
 
 						<Box my={3}>
 							<Typography component="div">
-								Your unminted {mintableTokenShortName} balance will be sent to the following address:
+								Your generated {mintableTokenShortName} yield will be sent to the following address:
 							</Typography>
 						</Box>
 

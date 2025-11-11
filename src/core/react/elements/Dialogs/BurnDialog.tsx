@@ -66,7 +66,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				<Box mt={1} mb={3}>
 					<TextField
 						id="name"
-						label="Ethereum Address (Target address of the burn)"
+						label="Ethereum Address (Target address of the burn for yield)"
 						type="text"
 						variant="outlined"
 						value={targetAddress}
@@ -86,15 +86,10 @@ const Render: React.FC<RenderParams> = React.memo(
 			return (
 				<>
 					{' '}
-					<Link
-						color="textSecondary"
-						href="#help/dashboard/burningFluxTokens"
-						rel="noopener noreferrer"
-						target="_blank"
-					>
+					<Link color="textSecondary" href="#help/dashboard/fluxTokenYield" rel="noopener noreferrer" target="_blank">
 						Click here
 					</Link>{' '}
-					to learn more about {mintableTokenShortName} burning.
+					to learn more about {mintableTokenShortName} burning for yield.
 				</>
 			);
 		};
@@ -104,7 +99,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				<form onSubmit={onSubmit}>
 					<DialogTitle id="form-dialog-title">
 						<Box display="flex" alignItems="center" alignContent="center">
-							Burn {mintableTokenShortName} tokens
+							Burn {mintableTokenShortName} tokens for Yield
 							<Box display="flex" pl={1}>
 								<Whatshot style={{ color: '#ff9b00' }} />
 							</Box>
@@ -128,20 +123,20 @@ const Render: React.FC<RenderParams> = React.memo(
 						</Box>
 
 						<Typography component="div" gutterBottom={true}>
-							To continue select how many {mintableTokenShortName} tokens you wish to burn. You can target any Ethereum
-							based address that current is an active {ecosystemName} Validator.
+							To continue select how many {mintableTokenShortName} tokens you wish to burn to generate yield. You can
+							target any Ethereum based address that current is an active {ecosystemName} Validator.
 						</Typography>
 						<Box my={4}>
 							<Typography component="div">
-								Burning {mintableTokenShortName} permanently increases your {mintableTokenShortName} minting rate on the
-								destination address. {getLearnMoreBurningLink()}
+								Burning {mintableTokenShortName} (as a secondary function of money) permanently increases your{' '}
+								{mintableTokenShortName} yield generation rate on the destination address. {getLearnMoreBurningLink()}
 							</Typography>
 						</Box>
 						<Box mt={3} mb={3}>
 							<TextField
 								autoFocus
 								id="name"
-								label={`Total ${mintableTokenShortName} Tokens to burn`}
+								label={`Total ${mintableTokenShortName} Tokens to burn for yield`}
 								type="text"
 								variant="outlined"
 								value={amount}
@@ -173,9 +168,9 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 /**
- * BurnDialog component for burning Flux tokens.
+ * BurnDialog component for burning Flux tokens for yield.
  * This dialog allows users to specify an amount of Flux tokens to burn and a target Ethereum address.
- * Burning tokens permanently increases the minting rate on the destination address.
+ * Burning tokens (as a secondary function of money) permanently increases the yield generation rate on the destination address.
  */
 const BurnDialog: React.FC = () => {
 	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();

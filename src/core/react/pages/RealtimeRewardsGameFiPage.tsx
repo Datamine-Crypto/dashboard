@@ -231,8 +231,8 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 							</Typography>
 							<Typography variant="body1" color="text.secondary" paragraph>
 								Datamine Gems isn&apos;t just about fun; it&apos;s a catalyst for enhancing the entire Datamine Network.
-								Our efficiency updates, including a new smart contract for autonomous multi-address minting, are
-								designed to significantly increase monetary velocity.
+								Our efficiency updates, including a new smart contract for autonomous multi-address yield collection,
+								are designed to significantly increase monetary velocity.
 							</Typography>
 						</Box>
 					</Grid>
