@@ -4,7 +4,7 @@ This guide explains what gas fees are in MetaMask, why they are necessary for Da
 
 ## Setting Your Gas Fee
 
-Datamine's Ethereum-based smart contracts have actions such as: locking, minting, burning, all of which require GAS. We recommend setting your GAS Fee to **Fast** so that your transaction processes quickly.
+Datamine's Ethereum-based smart contracts have actions such as: locking, minting, and burning (utilizing the secondary function of money for yield), all of which require GAS. We recommend setting your GAS Fee to **Fast** so that your transaction processes quickly.
 
 You can access your MetaMask extension through your browser:
 

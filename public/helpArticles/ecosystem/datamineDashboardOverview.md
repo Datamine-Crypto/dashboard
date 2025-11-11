@@ -26,13 +26,13 @@ This is where you can check when you last Minted FLUX tokens. Easily calculate t
 
 ## Realtime portfolio valuation of your validator and FLUX address balances in USD
 
-Here you can check your FLUX balance with ease and calculate how much FLUX you have burned. You will also appreciate the displayed value of your validator size in USD.
+Here you can check your FLUX balance with ease and calculate how much FLUX you have burned (as a secondary function for yield). You will also appreciate the displayed value of your validator size in USD.
 
 ![Dashboard](../../helpArticles/assets/images/pngs/dashboard/dashboard4.png)
 
 ## Global value of active mints in USD.
 
-Visit this section to verify the current FLUX supply and determine what percentage of minted FLUX has been burned globally. Here you will also see the global value of active mints in USD.
+Visit this section to verify the current FLUX supply and determine what percentage of minted FLUX has been burned globally (as a secondary function for yield). Here you will also see the global value of active mints in USD.
 
 ![Dashboard](../../helpArticles/assets/images/pngs/dashboard/dashboard5.png)
 
@@ -40,5 +40,5 @@ Visit this section to verify the current FLUX supply and determine what percenta
 
 The Datamine Dashboard is continuously evolving to provide cutting-edge features:
 
-- **Datamine Market:** Explore the decentralized "Time-in-market" solution, where validators can incentivize others to burn LOCK tokens to their accounts, creating a dynamic and efficient market for token burning and rewards.
-- **Datamine Gems #GameFi:** Engage with the real-time game that transforms token burning into an interactive experience. Collect "gems" representing unminted balances, utilize atomic batch burning, and optimize your reward collection with the new V2 Public Market smart contract and the "Collect all gems" feature.
+- **Datamine Market:** Explore the decentralized "Time-in-market" solution, where validators can incentivize others to burn LOCK tokens to their accounts (utilizing their secondary function for yield), creating a dynamic and efficient market for token burning and rewards.
+- **Datamine Gems #GameFi:** Engage with the real-time game that transforms token burning (as a secondary function for yield) into an interactive experience. Collect "gems" representing unminted balances, utilize atomic batch burning, and optimize your reward collection with the new V2 Public Market smart contract and the "Collect all gems" feature.

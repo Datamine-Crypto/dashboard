@@ -488,3 +488,46 @@ This allows us to bypass ERC1820 registration requirement on the recepient, allo
 - Approximately 50% of the total FLUX token supply is available in liquidity pools.
 - Currently, 95% of the Lockquidity (LOCK) token supply is in its liquidity pool (implying a 5% "Market Efficiency").
 - This low liquidity ratio for DAM is the cause of its extreme volatility, which can result in 100% price swings in a single day.
+
+// 2025-11-10 explainer video:
+
+- The yield mechanism from "proof-of-burn" is directly proportional: burning 10x more tokens results in 10x more yield compared to another user.
+
+Specific token metrics (as of the video):
+- Total Minted (5 years): ~10 million tokens.
+- Total Burned: 5.4 million tokens (54% of minted).
+- Current Supply: 4.8 million tokens.
+- FLUX (L1) Minting Cost: Can be around 10 cents per mint on Layer 1.
+
+Specifics of the LOCK (L2) tokenomics:
+- The "burn" mechanism for LOCK involves sending tokens to a smart contract that sells half for Ethereum and adds both back into a permanent, decentralized liquidity pool.
+- Approximately 95% of the LOCK market cap is backed by liquidity in this permanent pool.
+- LOCK Liquidity: $115,000.
+- LOCK Market Cap: $122,000.
+- LOCK Inflation: Dropped from ~700% to 122% within a year while maintaining its liquidity.
+- Forward-looking Inflation: Projected to be ~50% next year and ~30% the year after.
+
+- There are two whitepapers: one is a highly complex mathematical breakdown commissioned from a mathematician, and the other is the developer's original technical whitepaper explaining the smart contract.
+- The $120,000 audit cost more than the token's market cap at the time.
+- A key market dynamic the project aims for is a "Price vs. Supply" chart crossover, where the market cap becomes sufficient to sustain the price and liquidity, allowing the supply to grow.
+- At one point, the "percentage burned" metric for a token reached almost 300%.
+- There are large validators (core community members) who have burned significant amounts, with examples cited like $60k, $100k, $111k for FLUX, and $50k, $70k for LOCK.
+
+- The developer's dream isn't for people to just buy the token, but to trade it.
+- A trading-based mechanism is designed to capture a "very small percentage" fee from slow dilution (supply slowly increases which slowly dilutes you)
+- The developer is willing to wait 10 years for the token to gain trading volume.
+- FLUX (L1) has seen $1.8 million burned over its lifetime based on historic pricing, though the current value of those burned tokens is $181,000.
+- The developer views the project as a "pattern" (a secondary burn function for money) that could be applied to any token generation system, including Bitcoin or Ethereum.
+- A new analogy for the project: "If Bitcoin is gold, then this would be cash" because it acts like a decentralized central bank controlled by the people.
+- The game's reward mechanism is progressive: if no one clicks the 5-cent reward, it will keep increasing to 10, 20, 30 cents, etc., until someone claims it.
+
+// 2025-11-11 new directive:
+We will now shift to "secondary functionality of money" instead of "proof of burn". What if money had the second function to be burned to earn yield (passive generation of money based on your total burn).
+
+So this project that we created is all about this new pattern that can be applied to any inflationary asset. So you it's a market for "yield" in that sense.
+
+Let's update the code to reflect this new messanging.
+
+Let's update frontend-only components (also include help articles) but don't update code/variable names with the changes. It's just UI updates.
+
+However you can still change titles and string etc.

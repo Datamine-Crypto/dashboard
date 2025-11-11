@@ -10,15 +10,15 @@ A standard ERC-777 smart contract token deployed on Ethereum with a **FIXED** su
 
 ## FLUX
 
-A **NON-FIXED** supply token that serves as the base currency of the Datamine DeFi ecosystem. FLUX features linear and predictable deflation through a burning mechanism.
+A **NON-FIXED** supply token that serves as the base currency of the Datamine DeFi ecosystem. FLUX features linear and predictable deflation through a burning mechanism, which acts as a secondary function of money for yield.
 
 ## ArbiFLUX
 
-Operating on Arbitrum (Layer 2), ArbiFLUX is created by locking FLUX. It offers lower transaction costs and faster processing, and can be burned to boost minting rewards on Layer 2, or locked to create LOCK.
+Operating on Arbitrum (Layer 2), ArbiFLUX is created by locking FLUX. It offers lower transaction costs and faster processing, and can be burned (as a secondary function for yield) to boost minting rewards on Layer 2, or locked to create LOCK.
 
 ## LOCK
 
-Our newest token, LOCK enhances stability by contributing to a permanent liquidity pool. It is minted by locking ArbiFLUX. Burning LOCK redirects value to the liquidity pool, ensuring long-term stability.
+Our newest token, LOCK enhances stability by contributing to a permanent liquidity pool. It is minted by locking ArbiFLUX. Burning LOCK redirects value to the liquidity pool, ensuring long-term stability while generating yield.
 
 ## Validator (Mint Start/Stop)
 
@@ -32,9 +32,9 @@ This feature allows you to designate another Ethereum address to mint FLUX token
 
 This feature enables you to Mint FLUX from your phone to any Ethereum address, even though the DAM may stored on your hardware wallet (e.g. Ledger)
 
-## Remote Burning
+## Remote Burning for Yield
 
-You can Burn your FLUX to any other address that has an active Mint
+You can Burn your FLUX to any other address that has an active Mint to generate yield.
 
 ## Partial Minting
 
@@ -44,13 +44,13 @@ You can specify a percentage of Minting (0-100%). This allows you to Mint smalle
 
 Once your validator is active for at least 24 hours, this multiplier will begin to increase every 12 seconds for 28 days, after which you receive a permanent 3x multiplier. You will lose this Multiplier each time you stop your validator
 
-## Burn Multiplier
+## Burn Multiplier (Secondary Function for Yield)
 
-This is a variable multiplier, capped at 10x. If you burn 9x the global average of burned FLUX, you receive the maximal 10x multiplier. The ratio is described as follows
+This is a variable multiplier, capped at 10x. If you burn 9x the global average of burned FLUX (utilizing its secondary function for yield), you receive the maximal 10x multiplier. The ratio is described as follows
 
-- `(My Burned FLUX divided by DAM powering Validator)` must be 9 times greater than `(Total Burned FLUX of active Mints divided total DAM powering Validator)`
+- `(My Burned FLUX (as a secondary function for yield) divided by DAM powering Validator)` must be 9 times greater than `(Total Burned FLUX (as a secondary function for yield) of active Mints divided total DAM powering Validator)`
 
-- **The most efficient way to Mint at any time is**: Get the 3x Mint Age Multiplier (28 days after starting your validator). Before Minting, make sure you Burned FLUX to get the max 10x Burn Multiplier
+- **The most efficient way to Mint at any time is**: Get the 3x Mint Age Multiplier (28 days after starting your validator). Before Minting, make sure you Burned FLUX (as a secondary function for yield) to get the max 10x Burn Multiplier.
 
 - DAM smart contract: [https://etherscan.io/token/0xF80D589b3Dbe130c270a69F1a69D050f268786Df](https://etherscan.io/token/0xF80D589b3Dbe130c270a69F1a69D050f268786Df)
 

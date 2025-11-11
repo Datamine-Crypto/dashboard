@@ -12,9 +12,9 @@ LOCK is our newest token, minted by locking ArbiFLUX tokens. Its primary role is
 
 LOCK tokens are designed to reside predominantly within liquidity pools. A significant percentage of the LOCK supply is intended to be in these pools, creating a robust and stable base for trading. Currently, a remarkable 100% of the LOCK supply is in liquidity, demonstrating its unique design.
 
-### Unique Burning Mechanism
+### Secondary Function: Burning for Yield
 
-Unlike traditional tokens where burning reduces supply, burning LOCK tokens has a distinct effect: **it redirects value to the liquidity pool.** This mechanism ensures that burning LOCK actively strengthens the liquidity foundation rather than simply decreasing the token count. This contributes to long-term stability and resilience.
+Unlike traditional tokens where burning reduces supply, burning LOCK tokens has a distinct effect, acting as a secondary function of money: **it redirects value to the liquidity pool.** This mechanism ensures that burning LOCK actively strengthens the liquidity foundation while generating yield, rather than simply decreasing the token count. This contributes to long-term stability and resilience.
 
 ### Market Efficiency
 
@@ -27,14 +27,14 @@ For example, if 97.93% of LOCK is inside the market, the Market Efficiency is 2.
 **Why is Market Efficiency important?**
 
 - **Indicates Fresh Liquidity:** As the percentage of LOCK outside the liquidity pool increases, it signifies that fresh, new liquidity for validators is entering the markets.
-- **Burning Incentives:** The higher the percentage of LOCK outside the liquidity pool, the better the incentives for burning LOCK become. This encourages participation and reinforces the token's deflationary mechanics.
+- **Burning Incentives:** The higher the percentage of LOCK outside the liquidity pool, the better the incentives for burning LOCK become, as it enhances the yield generation. This encourages participation and reinforces the token's deflationary mechanics.
 - **Trading Volatility & Validator Benefits:** As Market Efficiency approaches 100%, more trading volatility is expected. This benefits validators as trader liquidity is recycled back into permanent liquidity, strengthening the ecosystem.
 
 ### LOCK as a "Yield and Growth" Asset
 
 LOCK is unique in that it offers both yield and growth potential:
 
-- **Yield:** Comes from the burning and generation of LOCK tokens, incentivizing active participation.
+- **Yield:** Comes from the burning (as a secondary function for yield) and generation of LOCK tokens, incentivizing active participation.
 - **Growth:** Derived from ETH volatility (as the liquidity pool is 100% ETH, mirroring ETH's performance) and trading fees within the liquidity pool. As more traders engage with LOCK, its value and interest are expected to grow.
 
 ### Dollar-Cost Averaging with LOCK

@@ -4,7 +4,7 @@ Datamine Ecosystem aims to solve one of the biggest economic problems: **Inflati
 
 Due to advancements in Smart Contract technnology we've created a currency that can be used as it's own product to create 24/7 global market demand.
 
-In essense we're trying to create on-chain demand through a FLUX burning mechanism. When more than 50% of FLUX supply is burned the demand outweights supply indicating excess market demand.
+In essence, we're trying to create on-chain demand through a FLUX burning mechanism, which acts as a secondary function of money for yield. When more than 50% of FLUX supply is burned, the demand outweighs supply, indicating excess market demand.
 
 Our Ecosystem offers two incentivized liquidity pools both of which incentivize transaction throughput (instead of monetary incentives).
 
@@ -20,13 +20,13 @@ Due to the fixed-supply nature of Datamine (DAM) tokens the FLUX minting is capp
 
 Demand for Datamine (DAM) tokens is visible in realtime on our analytics dashboard in form of "DAM Powring Mints". If this number is ABOVE 50% that means the majority of the market is not willing to sell at the current prices.
 
-Common visible pattern of market demand includes restarting a validator with a higher amount of DAM. FLUX liquidity pool promotes **Burn Cycles** where FLUX is bought, burned and then re-sold in the liquidity pool.
+FLUX liquidity pool promotes **Burn Cycles** where FLUX is bought, burned (as a secondary function for yield) and then re-sold in the liquidity pool.
 
 ### The Role of LOCK in Solving Liquidity
 
-Our newest token, LOCK, directly addresses the challenge of liquidity. By contributing to a permanent liquidity pool and featuring a unique burning mechanism that redirects value back into the pool, LOCK ensures long-term stability and depth for the ecosystem. This innovative approach mitigates price swings and supports sustainable growth, making the Datamine Network more robust.
+Our newest token, LOCK, directly addresses the challenge of liquidity. By contributing to a permanent liquidity pool and featuring a unique burning mechanism that acts as a secondary function of money, redirecting value back into the pool, LOCK ensures long-term stability and depth for the ecosystem. This innovative approach mitigates price swings and supports sustainable growth, making the Datamine Network more robust.
 
 ### Enhancing Ecosystem Dynamics with Datamine Market and Gems
 
-- **Datamine Market:** This decentralized "Time-in-market" solution further drives on-chain demand by incentivizing token burning. Validators can offer rewards for others to burn LOCK to their accounts, creating a dynamic and efficient market that boosts transactional throughput and market efficiency.
-- **Datamine Gems #GameFi:** By gamifying the token burning and reward collection process, Datamine Gems increases monetary velocity and engagement. It transforms essential ecosystem activities into an interactive experience, further strengthening the network's decentralized demand generation.
+- **Datamine Market:** This decentralized "Time-in-market" solution further drives on-chain demand by incentivizing token burning (as a secondary function for yield). Validators can offer rewards for others to burn LOCK to their accounts, creating a dynamic and efficient market that boosts transactional throughput and market efficiency.
+- **Datamine Gems #GameFi:** By gamifying the token burning (as a secondary function for yield) and reward collection process, Datamine Gems increases monetary velocity and engagement. It transforms essential ecosystem activities into an interactive experience, further strengthening the network's decentralized demand generation.

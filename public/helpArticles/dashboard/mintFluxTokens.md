@@ -19,7 +19,7 @@ To receive your generated tokens from your validator, you need to click the "MIN
 For optimal efficiency, consider minting your tokens when:
 
 1.  You have achieved the 3x time bonus (typically 28 days after starting a validator).
-2.  Before minting, ensure you have the 10x burn multiplier. If not, consider acquiring and burning FLUX/ArbiFLUX to reach this bonus.
+2.  Before minting, ensure you have the 10x burn multiplier, which is achieved by utilizing the secondary function of money (burning for yield). If not, consider acquiring and burning FLUX/ArbiFLUX to reach this bonus.
 
 Remember, all bonuses are calculated at the time of minting tokens.
 
