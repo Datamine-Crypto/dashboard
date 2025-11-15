@@ -1,20 +1,15 @@
 [
-This is an AI prompt that we use to generate this pitch. It's also probably the greatest pitch you will ever read in your life.
-We keep updating this prompt with frequently asked questions and send you back a new pitch.
-Why play the whole "hey can you add this section? Or what about these numbers? You can see exactly how this prompt was generated:
+This is an AI prompt that we use to explain hour ecosystem works.
+We keep updating this prompt frequently as the ecosytem evolves to help AI understand all the contexts.
 ]
 
 // 2025-03-04 start:
 
-Datamine Nework: On-Chain Immutable AI-Powered Decentralized Venture Firm Funding Pitch v1.1:
+This is a prompt to explain Datamine Nework ecosytem.
 
-I want you to create a pitch in PDF format for venture capital firm regarding Datamine Network's newest token: Lockquidity
+We're very professional at Datamine Network and believe in a secure and civil community.
 
-This pitch will go out to blockchain venture capital companies so please make it sound very professional. We're very professional at Datamine Network and believe in a secure and civil community.
-
-Make the deck visually appealing using the color palette from Datamine Network. Make it super fancy, we want to be cutting-edge Web3
-
-I want there to be something very unique to this pitch, our target is decentralized venture companies. We are not looking for any venture firm, we want someone that understands blockchain technologies and Web3.
+We're currently raising funds: We are not looking for any venture firm, we want someone that understands blockchain technologies and Web3.
 
 We're not looking for funding just to give venture firms a "slice of the pie". There is no pie here, everything is decentralized. That's why it's so hard to get funding for our project is because "there is no company".
 
@@ -22,21 +17,17 @@ It's a decentralized smart contract system meaning there is no single point of f
 
 We love our community members, they've stuck around with us for so long and honestly decentralization of our level is impossible without them, honestly thank you guys. We probably posted hundreds of development updates and announcements over the years.
 
-So we are looking for funding? Yeah, how much do you need? Hmmm at time of writing this, we currently have $58,340 in decentralized liquidity. So you can imagine we're looking for some fairly small liquidity providers.
+So we are looking for funding? Yeah, how much do you need? Hmmm at time of writing this, we currently have $115,000 in decentralized liquidity. So you can imagine we're looking for some fairly small liquidity providers.
 
 We haven't had an investor in the past 5 years but I believe it's a good time to look for one to showcase how far we've come.
 
 Oh there is so much to talk about here, look we've launched back in June 08, 2020. One of the most stressful days in my life.
 
-Also it's kind of crazy that I have to explain this to AI. "Hello Mr. AI, please write this crazy pitch for me". And the crazy part is that the pitch is probably the best pitch in the world.
-
-Before imagine you need a team of marketing and design guys and I can just ask AI to replace all of that in just this one long text.
-
 Where do we start? We've been working on our DeFi project for over 5 years now so there is so much to talk about.
 
 Datamine FLUX is one of the tokens we've launched back in June 08, 2020. It's a really cool idea on solving inflation. So yeah we believe to have solved one of the toughest problems in the world and are trying to prove it.
 
-And we have all the data, numbers, metrics, analytics you could ever dream of. I've attached over 30 real-time data points in this pitch.
+And we have all the data, numbers, metrics, analytics you could ever dream of. I've attached over 30 real-time data points (as image files) to explain the contexts further. Be sure to analyze all the iamges attached.
 
 If your venture capital firm is interested please inquire to dev@datamine.network. We can discuss how liquidity could be supplied to our decentralized smart contract such as Uniswap liquidity providers to generate yield off our unique transaction-incentivized liquidity pools.
 
@@ -531,3 +522,15 @@ Let's update the code to reflect this new messanging.
 Let's update frontend-only components (also include help articles) but don't update code/variable names with the changes. It's just UI updates.
 
 However you can still change titles and string etc.
+
+// 2025-11-15 new video about yield:
+- The project's core concept is being reframed as adding a missing seventh property to money: "Yield".
+- This "Yield" property is contrasted with traditional investment. Instead of risking $100 to potentially get $80 back, the model is to destroy $100 to guarantee a permanent, dynamic "drip" of yield in return.
+- This yield is described as permanent and can be passed down to future generations ("to your kids").
+- A new analogy illustrates this trade-off: Traditional spending is like buying "10 sandwiches now," while this model is like destroying $100 to get "one sandwich every year for the rest of your life."
+- Another new analogy illustrates the compounding effect: The yield can grow from covering "a cup of coffee for life" to a "Netflix subscription," then "a portion of my rent," and eventually "my car payments."
+- The project's inflation model is contrasted with traditional "sticky" inflation. The project's inflation is high at the start but only trends down, whereas traditional inflation tends to only go up.
+- A new critique of standard PoS staking (e.g., Ethereum) was introduced: A 5% APY is "meaningless" if the supply inflation is also 5%, as "in reality, nothing has happened."
+- The model aims to remove the cognitive load of investing (e.g., choosing between real estate, tech, etc.) by offering a single, simple alternative: "destroy this money and I will yield instead long term."
+- A key reason this "Yield" property is missing from centralized money (like USD) is that it's impossible to solve for counterfeiting, database manipulation, or provable destruction in a centralized system.
+- A "triple system" effect is the ultimate goal: 1) You receive yield, 2) You re-compound that yield to get more yield, and 3) The token price increases, making the value of your compounding yield also increase.
