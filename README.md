@@ -246,9 +246,9 @@ This project was bootstrapped with [Vite](https://vitejs.dev/).
 
 ## 📸 Screenshots
 
-![Dashboard Screenshot 1](ABOUT/images/screenshot.png)
+![Dashboard Screenshot 1](docs/images/screenshot.png)
 
-![Dashboard Screenshot 2](ABOUT/images/screenshot2.png)
+![Dashboard Screenshot 2](docs/images/screenshot2.png)
 
 ## 🤝 Vibe Code Contribute
 

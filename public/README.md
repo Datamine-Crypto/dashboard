@@ -172,9 +172,9 @@ Beyond core Web3.js and Material-UI, the project integrates with other third-par
 
 ## 📸 Screenshots
 
-![Dashboard Screenshot 1](ABOUT/images/screenshot.png)
+![Dashboard Screenshot 1](docs/images/screenshot.png)
 
-![Dashboard Screenshot 2](ABOUT/images/screenshot2.png)
+![Dashboard Screenshot 2](docs/images/screenshot2.png)
 
 ## 🤝 Contributing
 

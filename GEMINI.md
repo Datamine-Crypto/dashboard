@@ -1,4 +1,4 @@
-Read the information about this project in ABOUT/deck.md and README.md files
+Read the information about this project in docs/aiContext.md and README.md files
 
 Source is located in `/src` folder. Read that folder as it contains a lot of comments which explain many concepts
 
