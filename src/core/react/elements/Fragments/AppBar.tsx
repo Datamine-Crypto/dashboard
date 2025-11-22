@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import React from 'react';
 import DamLogo from '../../../../svgs/logo.svg';
 
-import Grid from '@mui/system/Grid';
+import Grid from '@mui/material/Grid';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '../../../../configs/config';
 import { Ecosystem } from '../../../../configs/config.common';

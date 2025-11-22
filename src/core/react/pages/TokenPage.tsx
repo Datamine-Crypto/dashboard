@@ -15,7 +15,7 @@ import fluxLogo from '../../../svgs/fluxLogo.svg';
 import lockquidityLogo from '../../../svgs/lockquidity.svg';
 import damLogo from '../../../svgs/logo.svg';
 
-import Grid from '@mui/system/Grid';
+import Grid from '@mui/material/Grid';
 import { useWeb3Context } from '../../web3/Web3Context';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '../elements/Fragments/FooterFragment';

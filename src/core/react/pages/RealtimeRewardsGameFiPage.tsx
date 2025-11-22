@@ -2,7 +2,7 @@ import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { Ecosystem } from '../../../configs/config.common';
 
-import Grid from '@mui/system/Grid';
+import Grid from '@mui/material/Grid';
 import { useWeb3Context } from '../../web3/Web3Context';
 
 import {

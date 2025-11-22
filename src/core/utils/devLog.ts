@@ -19,10 +19,10 @@ export const isDevLogEnabled = () => {
  * @param args - The arguments to log.
  */
 export const devLog = (...args: any) => {
+	console.log(args);
 	if (!isDevLogEnabled()) {
 		return;
 	}
 
-	console.log('devLog:', args);
 	window.dispatchEvent(new CustomEvent('devLog', { detail: args }));
 };

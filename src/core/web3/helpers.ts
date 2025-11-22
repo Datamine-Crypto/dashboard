@@ -806,7 +806,7 @@ export const getFormattedMultiplier = (multiplier: number) => {
  * @throws {string} A new error with a more descriptive message if one can be extracted, otherwise the original error message.
  */
 export const rethrowWeb3Error = (err: any) => {
-	console.log(err);
+	devLog(err);
 	if (err.message) {
 		// This works on mainnet and arbitrum
 		const extractedError = err.message.match(/"message":[ ]{0,1}"(.+)"/);
@@ -1176,7 +1176,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 	 * @returns {Promise<any>} A Promise that resolves with the transaction receipt.
 	 */
 	const marketBurnTokens = async ({ amountToBurn, burnToAddress, from }: MarketBurnTokensParams) => {
-		console.log('burn:', { amountToBurn, burnToAddress, from });
+		devLog('burn:', { amountToBurn, burnToAddress, from });
 		try {
 			// Attempt to call the method first to check if there are any errors
 			await contract.methods.burnTokens(amountToBurn.toString(), burnToAddress).call({ from });
@@ -1204,7 +1204,7 @@ const withWeb3 = (web3: Web3, contract: any) => {
 	 * @returns {Promise<any>} A Promise that resolves with the transaction receipt.
 	 */
 	const marketBatchBurnTokens = async ({ amountToBurn, addresses, from }: MarketBatchBurnTokensParams) => {
-		console.log('batch burn:', { amountToBurn, addresses, from });
+		devLog('batch burn:', { amountToBurn, addresses, from });
 		try {
 			const burnRequest = addresses.map((address: string) => [amountToBurn.toString(), address]);
 

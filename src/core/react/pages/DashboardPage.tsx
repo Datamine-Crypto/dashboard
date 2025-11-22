@@ -234,7 +234,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			 * @returns True if MetaMask is detected, false otherwise.
 			 */
 			const isMetaMask = () => {
-				const web3 = (window as any).web3;
+				const web3 = window.web3;
 				if (!web3 || !web3.currentProvider || !web3.currentProvider.isMetaMask) {
 					return false;
 				}

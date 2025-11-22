@@ -281,7 +281,7 @@ const Render: React.FC<RenderParams> = React.memo(
 
 		const gems: Gem[] = getGems();
 
-		console.log('marketAddresses:', marketAddresses);
+		devLog('marketAddresses:', marketAddresses);
 
 		const onAttemptCollectGem = (gems: Gem[]) => {
 			if (!currentAddressMarketAddress) {

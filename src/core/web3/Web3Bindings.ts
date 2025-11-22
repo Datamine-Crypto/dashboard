@@ -71,7 +71,7 @@ const preselectAddress = async () => {
 	try {
 		const addresses = await web3provider.enable();
 
-		console.log('enable:', addresses);
+		devLog('enable:', addresses);
 		if (addresses && addresses.length > 0) {
 			preselectedAddress = addresses[0];
 			return addresses;
@@ -391,11 +391,11 @@ const queryHandlers = {
 										
 							  console.log('generate:x',signature,response)*/
 			} catch (err) {
-				console.log('err:', err);
+				devLog('err:', err);
 			}
 		}
 
-		console.log('FindAccessLinks!');
+		devLog('FindAccessLinks!');
 		const accessLinks: any[] = [];
 
 		return {
@@ -1374,7 +1374,7 @@ const queryHandlers = {
 			from: selectedAddress,
 		});
 
-		console.log('GetAuthorizeFluxOperatorResponse:', response);
+		devLog('GetAuthorizeFluxOperatorResponse:', response);
 
 		return response && response.status;
 	},
@@ -1400,7 +1400,7 @@ const queryHandlers = {
 			from: selectedAddress,
 		});
 
-		console.log('GetLockInDamTokensResponse:', response);
+		devLog('GetLockInDamTokensResponse:', response);
 
 		return { minterAddress };
 	},
@@ -1444,7 +1444,7 @@ const queryHandlers = {
 
 		const response = await getResponse();
 
-		console.log('GetMintFluxResponse:', response);
+		devLog('GetMintFluxResponse:', response);
 
 		return response && response.status;
 	},
@@ -1521,7 +1521,7 @@ const queryHandlers = {
 
 				from: selectedAddress,
 			});
-			console.log(burnResponse);
+			devLog(burnResponse);
 			return { gems };
 		} else {
 			const addresses = gems.map((gem) => gem.ethereumAddress);
@@ -1530,7 +1530,7 @@ const queryHandlers = {
 				addresses,
 				from: selectedAddress,
 			});
-			console.log(burnBatchResponse);
+			devLog(burnBatchResponse);
 			return { gems };
 		}
 	},
@@ -1565,14 +1565,14 @@ const queryHandlers = {
 		//@todo check if already authorized
 
 		const isOperatorFor = await fluxToken.isOperatorFor(gameAddress, selectedAddress)();
-		console.log('isOperatorFor:', isOperatorFor);
+		devLog('isOperatorFor:', isOperatorFor);
 
 		if (!isOperatorFor) {
 			const authorizeOperatorResponse = await fluxToken.authorizeOperator({
 				operator: gameAddress,
 				from: selectedAddress,
 			});
-			console.log('authorizeOperatorResponse:', authorizeOperatorResponse);
+			devLog('authorizeOperatorResponse:', authorizeOperatorResponse);
 		}
 
 		const depositResponse = await marketContract.marketDeposit({
@@ -1611,7 +1611,7 @@ const queryHandlers = {
 			return;
 		}
 
-		console.log('selectedAddress:', selectedAddress);
+		devLog('selectedAddress:', selectedAddress);
 		if (!selectedAddress) {
 			return;
 		}
@@ -1751,7 +1751,7 @@ const queryHandlers = {
 
 		const { marketAddresses, currentAddresMintableBalance, totalContractRewardsAmount, totalContractLockedAmount } =
 			decodeMulticall(web3, multicallEncodedResults, multicallData);
-		console.log(
+		devLog(
 			'GetRefreshMarketAddressesResponse:',
 			marketAddresses,
 			currentAddresMintableBalance,
@@ -1810,7 +1810,7 @@ const queryHandlers = {
 			from: selectedAddress,
 		});
 
-		console.log('GetUnlockDamTokensResponse:', response);
+		devLog('GetUnlockDamTokensResponse:', response);
 
 		return response && response.status;
 	},

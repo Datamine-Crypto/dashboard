@@ -11,3 +11,8 @@
 // interface ImportMeta {
 //   readonly env: ImportMetaEnv
 // }
+
+interface Window {
+	web3?: any;
+	ethereum?: any;
+}

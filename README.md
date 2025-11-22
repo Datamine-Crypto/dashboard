@@ -242,8 +242,6 @@ The `homepage` field in `package.json` is set to `.`, which is crucial for GitHu
 
 The builds can be hosted in subfolders and do not perform external http calls for security & decentralization.
 
-This project was bootstrapped with [Vite](https://vitejs.dev/).
-
 ## 📸 Screenshots
 
 ![Dashboard Screenshot 1](docs/images/screenshot.png)

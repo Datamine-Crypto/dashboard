@@ -534,3 +534,10 @@ However you can still change titles and string etc.
 - The model aims to remove the cognitive load of investing (e.g., choosing between real estate, tech, etc.) by offering a single, simple alternative: "destroy this money and I will yield instead long term."
 - A key reason this "Yield" property is missing from centralized money (like USD) is that it's impossible to solve for counterfeiting, database manipulation, or provable destruction in a centralized system.
 - A "triple system" effect is the ultimate goal: 1) You receive yield, 2) You re-compound that yield to get more yield, and 3) The token price increases, making the value of your compounding yield also increase.
+
+// 2025-11-18 new video about Escape Velocity:
+- "Escape Velocity" Definition: The project defines "Escape Velocity" as the financial state where passive income fully covers all mandatory monthly expenses (resulting in $0 active income needed for survival).
+- Origin of Token Philosophy: The specific motivation for creating the Datamine token arose from the founder's 7-year personal finance practice of tracking "Escape Velocity" and finding a lack of suitable investment vehicles.
+- Critique of Existing Crypto Yields: The project was designed specifically because traditional crypto yield mechanisms (Masternodes and Staking) were viewed by the founder as unscalable and unsustainable due to inflation issues.
+- Negative Monetary Velocity: The ecosystem philosophy classifies personal debt as "Negative Monetary Velocity," acting as a direct counter-force to the ecosystem's goal of wealth accumulation.
+- The "Yield Trap" Solution: The protocol aims to solve the dilemma where high yield typically equals unsustainable risk; it is positioned as an alternative to low-yield traditional assets (ETFs) and high-maintenance assets (Real Estate) to bridge the gap to financial independence.

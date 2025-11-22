@@ -65,10 +65,11 @@ Extra information help you understand the Datamine ecosystem better:
 
 #### 2. State Management
 
-- `src/core/web3/web3Reducer.ts` and `src/core/web3/web3Bindings.ts` work in tandem. We use `commonLanguage` (in `web3Reducer`) as "Commands & Queries" pattern.
+- **Modular Reducer:** The `Web3Reducer` logic has been refactored into modules within `src/core/web3/reducer/`. `src/core/web3/web3Reducer.ts` now acts as a barrel file exporting these modules.
+- `src/core/web3/web3Reducer.ts` and `src/core/web3/Web3Bindings.ts` work in tandem. We use `commonLanguage` (in `src/core/web3/reducer/common.ts`) as "Commands & Queries" pattern.
 - `sideEffectReducer.ts` contains the logic for handling queries
-- `Web3Reducer` controls sate and updates `pendingQueries`. `pendingQueries` are converted into async calls to `Web3Bindings`. This is a creative way to manage state & seperate out async logic.
-- The `Web3State` interface in `web3Reducer.ts` defines the complete application state.
+- `Web3Reducer` (via `commandHandler.ts` and `queryHandler.ts`) controls state and updates `pendingQueries`. `pendingQueries` are converted into async calls to `Web3Bindings`. This is a creative way to manage state & separate out async logic.
+- The `Web3State` interface (in `src/core/web3/reducer/interfaces.ts`) defines the complete application state.
 - The reducer persists user settings (e.g., selected ecosystem, currency) in `localStorage`.
 
 #### 3. Ecosystem Configuration Details
