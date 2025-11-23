@@ -66,6 +66,8 @@ Extra information help you understand the Datamine ecosystem better:
 #### 2. State Management
 
 - **Modular Reducer:** The `Web3Reducer` logic has been refactored into modules within `src/core/web3/reducer/`. `src/core/web3/web3Reducer.ts` now acts as a barrel file exporting these modules.
+- **Zustand Store:** We now use `zustand` for state management instead of React Context. The store is defined in `src/core/web3/web3Store.ts`.
+- `src/core/web3/web3Store.ts` wraps the `sideEffectReducer` and handles the execution of side effects (queries).
 - `src/core/web3/web3Reducer.ts` and `src/core/web3/Web3Bindings.ts` work in tandem. We use `commonLanguage` (in `src/core/web3/reducer/common.ts`) as "Commands & Queries" pattern.
 - `sideEffectReducer.ts` contains the logic for handling queries
 - `Web3Reducer` (via `commandHandler.ts` and `queryHandler.ts`) controls state and updates `pendingQueries`. `pendingQueries` are converted into async calls to `Web3Bindings`. This is a creative way to manage state & separate out async logic.
@@ -406,7 +408,7 @@ This map outlines the key concepts, components, and principles of the Datamine N
   ArbiFLUX (L2) is using Sushiswap (which is a fork of Uniswap V2) (0.3% pool)
   LOCK (L2) is using Uniswap V2 (0.3% pool). The Lockquidity pool is hardcoded into the smart contract and can never be changed again
 - **Q: What is the role of `Web3Context.tsx` in the application's architecture, and how does it facilitate blockchain interactions across different components?**
-- **A:** `Web3Context.tsx` simply provides a `React.createContext` for `Web3State`. There is also a `useWeb3Context` hook so you can access global state (we only have `Web3State` that is global across the entire app).
+- **A:** `Web3Context.tsx` now acts as a wrapper around the `useWeb3Store` hook from `zustand`. It provides a `useWeb3Context` hook so you can access global state (we only have `Web3State` that is global across the entire app) and the `emitter`. It no longer uses `React.createContext`.
 - **Q: Could you elaborate on the "forecasting calculator" feature? What is its purpose, and how does it work from a user's perspective?**
 - The forecasting tool allows a user to toggle a "forecasting mode" that shows a forecasted amount that they would mint over a certain time. Here they can drag sliders for burn & time multipliers, enter prediced price and also pick start/end times for their unminted time. This way they can calculate potential amount that can be minted in the future.
   The forecasting tool is available for all ecosystems.

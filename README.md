@@ -140,7 +140,7 @@ This map outlines the key concepts, components, and principles of the Datamine N
 - **🏗️ Application Architecture (High-Level)**
   - **🖥️ UI:** React components (`src/core/react/`)
   - **🔗 Blockchain Interaction:** Web3.js, Web3Bindings, Web3Context, web3Reducer (`src/core/web3/`)
-  - **🧠 State Management:** `web3Reducer.ts` and `Web3Bindings.ts` (Commands & Queries pattern), `sideEffectReducer.ts`
+  - **🧠 State Management:** `web3Store.ts` (Zustand), `web3Reducer.ts` and `Web3Bindings.ts` (Commands & Queries pattern), `sideEffectReducer.ts`
   - **🔧 Utilities:** Helper functions (`src/core/utils/`)
   - **⚙️ Configuration:** `src/configs/`
   - **🎨 Styling:** `tss-react`, `useStyles`, Material-UI themes (`src/core/styles.ts`)

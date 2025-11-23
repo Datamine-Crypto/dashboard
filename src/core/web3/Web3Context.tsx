@@ -1,18 +1,14 @@
-import { EventEmitter } from 'events';
-import { Web3State } from './web3Reducer';
 import { useWeb3Store } from './web3Store';
+import { Web3State } from './reducer/interfaces';
 
 export interface Web3ContextValue {
 	state: Web3State;
 	dispatch: any;
-	emitter: EventEmitter;
 }
-
-const emitter = new EventEmitter();
 
 const useWeb3Context = () => {
 	const { state, dispatch } = useWeb3Store();
-	return { state, dispatch, emitter };
+	return { state, dispatch };
 };
 
 export { useWeb3Context };
