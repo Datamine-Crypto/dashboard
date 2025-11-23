@@ -14,7 +14,7 @@ import Grid from '@mui/material/Grid';
 import React, { ReactNode, useEffect } from 'react';
 
 import { DialogType, FluxAddressDetails } from '@/core/interfaces';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage, ConnectionMethod, commonLanguage as web3CommonLanguage } from '@/core/web3/web3Reducer';
 import Web3Account from '@/core/react/elements/Web3Account';
 
@@ -509,7 +509,7 @@ interface Props {
 	address: string | null;
 }
 const DashboardPage: React.FC<Props> = ({ address }) => {
-	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
+	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
 
 	useEffect(() => {
 		// When the app starts initialize web3 connection

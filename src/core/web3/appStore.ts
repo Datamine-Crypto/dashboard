@@ -1,9 +1,6 @@
 import { create } from 'zustand';
-import { initialState } from '@/core/web3/reducer/initialState';
-import { Web3State } from '@/core/web3/reducer/interfaces';
+import { handleCommand, handleQueryResponse, initialState, Web3State } from '@/core/web3/web3Reducer';
 import { sideEffectReducer, commonLanguage, handleQueries } from '@/core/sideEffectReducer';
-import { handleCommand } from '@/core/web3/reducer/commandHandler';
-import { handleQueryResponse } from '@/core/web3/reducer/queryHandler';
 import { queryHandlers } from '@/core/web3/Web3Bindings';
 
 // Recreate the reducer
@@ -17,7 +14,7 @@ interface Web3Store {
 	dispatch: (action: any) => void;
 }
 
-export const useWeb3Store = create<Web3Store>((set, get) => ({
+export const useAppStore = create<Web3Store>((set, get) => ({
 	state: initialState,
 	dispatch: (action: any) => {
 		const currentState = get().state;

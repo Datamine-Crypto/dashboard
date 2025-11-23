@@ -21,7 +21,7 @@ import BN from 'bn.js';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { BNToDecimal } from '@/core/web3/helpers';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import { Balances, commonLanguage } from '@/core/web3/web3Reducer';
 import { AddressLockDetailsViewModel, Game } from '@/core/interfaces';
 
@@ -250,7 +250,7 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const MarketDepositWithdrawDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
+	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
 
 	const {
 		balances,

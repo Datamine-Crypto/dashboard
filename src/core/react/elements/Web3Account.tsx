@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 
 // Web3 context for accessing blockchain state and dispatch functions
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 // Call to action card component
 import CallToActionCard from '@/core/react/elements/Cards/CallToActionCard';
 
@@ -109,7 +109,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
  * and providing options for disconnecting or switching networks.
  */
 const Web3Account: React.FC = () => {
-	const { state: web3State, dispatch } = useWeb3Context();
+	const { state: web3State, dispatch } = useAppStore();
 
 	const { ecosystem } = web3State;
 

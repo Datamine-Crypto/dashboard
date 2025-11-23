@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { DialogType } from '@/core/interfaces';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/web3Reducer';
 import BurnDialog from '@/core/react/elements/Dialogs/BurnDialog';
 import DamLockDialog from '@/core/react/elements/Dialogs/DamLockDialog';
@@ -76,7 +76,7 @@ interface Params {}
  * Help Dialog is excluded as it's a seperate system
  */
 const DialogsFragment: React.FC<Params> = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
+	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
 
 	const { dialog, dialogParams } = web3State;
 

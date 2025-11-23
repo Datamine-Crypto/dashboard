@@ -20,7 +20,7 @@ import React, { Suspense, lazy } from 'react';
 import { Close, Launch } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
 import { HelpArticle, SearchCategoryText } from '@/core/helpArticles';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/web3Reducer';
 import AddToFirefoxFragment from '@/core/react/elements/Fragments/AddToFirefoxFragment';
 import CenteredLoading from '@/core/react/elements/Fragments/CenteredLoading'; // Assuming you have a loading component
@@ -399,7 +399,7 @@ interface DialogProps {
 	helpArticle: HelpArticle;
 }
 const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
-	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
+	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
 
 	return <Render helpArticle={helpArticle} dispatch={web3Dispatch} />;
 };

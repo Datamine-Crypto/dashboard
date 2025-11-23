@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 
 // Web3 context for accessing blockchain state and dispatch functions
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 // Balances and common language constants from the Web3 reducer
 import { Balances, commonLanguage } from '@/core/web3/web3Reducer';
 
@@ -435,7 +435,7 @@ const Render: React.FC<RenderParams> = React.memo(
  * It fetches data from the Web3Context and renders various sub-components to show token balances, locked amounts, and actions like burning or unlocking tokens.
  */
 const AccountBalancesCard: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
+	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
 
 	const { addressLock, selectedAddress, address, addressDetails, balances, addressTokenDetails, ecosystem } = web3State;
 	// Render nothing if essential data is not yet available

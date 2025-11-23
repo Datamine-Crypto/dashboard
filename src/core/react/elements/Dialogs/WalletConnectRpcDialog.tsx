@@ -14,7 +14,7 @@ import {
 import Grid from '@mui/material/Grid';
 import React from 'react';
 
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/web3Reducer';
 
 import { SettingsInputAntenna } from '@mui/icons-material';
@@ -135,7 +135,7 @@ const getWalletConnectRpc = () => {
 };
 
 const WalletConnectRpcDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
+	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
 	const [rpcAddress, setRpcAddress] = React.useState(getWalletConnectRpc());
 
 	const { error, ecosystem } = web3State;

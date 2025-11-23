@@ -3,7 +3,7 @@ import React from 'react';
 import { Ecosystem } from '@/configs/config.common';
 
 import Grid from '@mui/material/Grid';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 
 import {
 	Autorenew as AutorenewIcon,
@@ -320,7 +320,7 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const RealtimeRewardsGameFiPage: React.FC<Props> = () => {
-	const { state: web3State, dispatch } = useWeb3Context();
+	const { state: web3State, dispatch } = useAppStore();
 	const { ecosystem } = web3State;
 
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;

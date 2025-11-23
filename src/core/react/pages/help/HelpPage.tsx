@@ -21,7 +21,7 @@ import React, { useState } from 'react';
 import { theme as datamineTheme } from '@/core/styles';
 
 import { SearchCategory, SearchCategoryText, UserTypeFilter, helpArticles, SearchTag } from '@/core/helpArticles';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import HelpComboboxFragment from '@/core/react/elements/Fragments/HelpComboboxFragment';
 
@@ -46,7 +46,7 @@ interface Props {}
  */
 const HelpPage: React.FC<Props> = () => {
 	const { classes } = useStyles();
-	const { state: web3State, dispatch } = useWeb3Context();
+	const { state: web3State, dispatch } = useAppStore();
 	const { ecosystem } = web3State;
 
 	const [selectedUserType, setSelectedUserType] = useState<UserTypeFilter>(UserTypeFilter.All);

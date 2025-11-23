@@ -10,7 +10,7 @@ import mediumLogo from '@/svgs/medium.svg';
 import { theme as datamineTheme } from '@/core/styles';
 
 import { Ecosystem } from '@/configs/config.common';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 
 import { tss } from 'tss-react/mui';
@@ -314,7 +314,7 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const CommunityPage: React.FC<Props> = () => {
-	const { state: web3State, dispatch } = useWeb3Context();
+	const { state: web3State, dispatch } = useAppStore();
 	const { ecosystem } = web3State;
 
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;

@@ -32,7 +32,7 @@ import { Token } from '@/core/interfaces';
 import { availableSwapTokens } from '@/core/utils/swap/performSwap';
 import { SwapOperation, SwapToken, SwapTokenDetails, SwapTokenWithAmount } from '@/core/utils/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN, switchNetwork } from '@/core/web3/helpers';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import { Balances, commonLanguage, ConnectionMethod, SwapState, SwapTokenBalances } from '@/core/web3/web3Reducer';
 
 interface RenderParams {
@@ -596,7 +596,7 @@ const Render: React.FC<RenderParams> = React.memo(
 
 interface Params {}
 const TradeDialog: React.FC<Params> = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
+	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
 
 	const {
 		balances,

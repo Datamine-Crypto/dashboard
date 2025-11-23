@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/web3Reducer';
 import HelpComboboxFragment from '@/core/react/elements/Fragments/HelpComboboxFragment';
 
@@ -153,7 +153,7 @@ interface AppBarProps {
 	sidebar: boolean;
 }
 const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
-	const { state: web3State, dispatch } = useWeb3Context();
+	const { state: web3State, dispatch } = useAppStore();
 
 	const { ecosystem, selectedAddress } = web3State;
 

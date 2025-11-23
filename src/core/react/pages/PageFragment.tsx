@@ -5,7 +5,7 @@ import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem, NetworkType } from '@/configs/config.common';
 import { HelpArticle, helpArticles } from '@/core/helpArticles';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/web3Reducer';
 import LoadingDialog from '@/core/react/elements/Dialogs/LoadingDialog';
 import CenteredLoading from '@/core/react/elements/Fragments/CenteredLoading';
@@ -305,7 +305,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
  * - Pending queries fragment
  */
 const PageFragment: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
+	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
 
 	/**
 	 * Effect hook to initialize special pages based on the URL hash when the component mounts.

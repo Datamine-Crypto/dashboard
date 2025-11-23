@@ -39,7 +39,7 @@ import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import discordWhiteLogo from '@/svgs/discordWhite.svg';
 import Logo from '@/svgs/logo.svg';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/web3Reducer';
 
 const drawerWidth = 280;
@@ -464,7 +464,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 });
 
 export const MainDrawer: React.FC = () => {
-	const { state: web3State, dispatch } = useWeb3Context();
+	const { state: web3State, dispatch } = useAppStore();
 	const { ecosystem } = web3State;
 
 	return <Render isMobileDrawerOpen={web3State.isMobileDrawerOpen} dispatch={dispatch} ecosystem={ecosystem} />;

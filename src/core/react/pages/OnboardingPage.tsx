@@ -1,6 +1,6 @@
 import React from 'react';
 import { Ecosystem } from '@/configs/config.common';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import OnboardingFragment from '@/core/react/elements/Onboarding/OnboardingFragment';
 
 interface RenderProps {
@@ -27,7 +27,7 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const OnboardingPage: React.FC<Props> = () => {
-	const { state: web3State, dispatch } = useWeb3Context();
+	const { state: web3State, dispatch } = useAppStore();
 	const { ecosystem } = web3State;
 
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;

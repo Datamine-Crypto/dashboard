@@ -2,7 +2,7 @@ import { Box, Card, CardContent, Divider, Link, Typography } from '@mui/material
 import Grid from '@mui/material/Grid';
 import React from 'react';
 
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 
 import { OpenInNew } from '@mui/icons-material';
 import BN from 'bn.js';
@@ -190,7 +190,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
  * It fetches liquidity data from the Web3Context and renders it using the Render component.
  */
 const LockedLiquidityCard: React.FC = () => {
-	const { state: web3State } = useWeb3Context();
+	const { state: web3State } = useAppStore();
 
 	const { balances, ecosystem } = web3State;
 	if (!balances || !balances.lockedLiquidityUniAmount || !balances.lockedLiquidtyUniTotalSupply) {

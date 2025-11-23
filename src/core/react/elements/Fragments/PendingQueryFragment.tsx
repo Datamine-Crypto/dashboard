@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Ecosystem } from '@/configs/config.common';
 import { ReducerQuery } from '@/core/sideEffectReducer';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage, ConnectionMethod } from '@/core/web3/web3Reducer';
 import PendingActionDialog from '@/core/react/elements/Dialogs/PendingActionDialog';
 
@@ -44,7 +44,7 @@ interface Params {}
  * This is a little dialog that shows up when something is loading (shows a little infinite loading progress to user)
  */
 const PendingQueryFragment: React.FC<Params> = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useWeb3Context();
+	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
 
 	const { pendingQueries, queriesCount, lastDismissedPendingActionCount, connectionMethod, ecosystem } = web3State;
 

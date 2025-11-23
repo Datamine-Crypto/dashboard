@@ -16,7 +16,7 @@ import lockquidityLogo from '@/svgs/lockquidity.svg';
 import damLogo from '@/svgs/logo.svg';
 
 import Grid from '@mui/material/Grid';
-import { useWeb3Context } from '@/core/web3/Web3Context';
+import { useAppStore } from '@/core/web3/appStore';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 
@@ -1153,7 +1153,7 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const TokenPage: React.FC<Props> = () => {
-	const { state: web3State, dispatch } = useWeb3Context();
+	const { state: web3State, dispatch } = useAppStore();
 	const { ecosystem } = web3State;
 
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
