@@ -464,8 +464,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 });
 
 export const MainDrawer: React.FC = () => {
-	const { state: web3State, dispatch } = useAppStore();
-	const { ecosystem } = web3State;
+	const { state: appState, dispatch } = useAppStore();
+	const { ecosystem } = appState;
 
-	return <Render isMobileDrawerOpen={web3State.isMobileDrawerOpen} dispatch={dispatch} ecosystem={ecosystem} />;
+	return <Render isMobileDrawerOpen={appState.isMobileDrawerOpen} dispatch={dispatch} ecosystem={ecosystem} />;
 };

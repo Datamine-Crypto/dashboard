@@ -615,7 +615,7 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const MarketCollectRewardsDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
 	const {
 		balances,
@@ -633,7 +633,7 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		market,
 		dialogParams,
 		game,
-	} = web3State;
+	} = appState;
 
 	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];
 
@@ -649,7 +649,7 @@ const MarketCollectRewardsDialog: React.FC = () => {
 			balances={balances}
 			selectedAddress={(address ?? selectedAddress) as string}
 			error={error}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 			//marketAddressLock={marketAddressLock}
 			//currentAddresMintableBalance={currentAddresMintableBalance}

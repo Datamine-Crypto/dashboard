@@ -1607,7 +1607,7 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const CallToActionCard: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
 	const {
 		addressLock,
@@ -1620,7 +1620,7 @@ const CallToActionCard: React.FC = () => {
 		clientSettings,
 		ecosystem,
 		connectionMethod,
-	} = web3State;
+	} = appState;
 
 	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances || !connectionMethod) {
 		return null;
@@ -1636,7 +1636,7 @@ const CallToActionCard: React.FC = () => {
 			addressTokenDetails={addressTokenDetails}
 			displayedAddress={displayedAddress}
 			balances={balances}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			forecastSettings={forecastSettings}
 			clientSettings={clientSettings}
 			ecosystem={ecosystem}

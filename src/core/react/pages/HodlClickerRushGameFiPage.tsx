@@ -308,8 +308,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 interface Props {}
 
 const HodlClickerRushGameFiPage: React.FC<Props> = () => {
-	const { state: web3State, dispatch } = useAppStore();
-	const { ecosystem } = web3State;
+	const { state: appState, dispatch } = useAppStore();
+	const { ecosystem } = appState;
 
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
 };

@@ -510,11 +510,11 @@ interface Props {
 	address: string | null;
 }
 const DashboardPage: React.FC<Props> = ({ address }) => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
 	useEffect(() => {
 		// When the app starts initialize web3 connection
-		web3Dispatch({ type: web3CommonLanguage.commands.Initialize, payload: { address } });
+		appDispatch({ type: web3CommonLanguage.commands.Initialize, payload: { address } });
 
 		if (isDevLogEnabled()) {
 			import('vconsole').then((VConsoleModule) => {
@@ -522,12 +522,11 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 				new VConsole();
 			});
 		}
-	}, [web3Dispatch]);
+	}, [appDispatch]);
 
-	const { addressDetails } = web3State;
+	const { addressDetails } = appState;
 
-	const { isLate, isInitialized, hasWeb3, selectedAddress, isIncorrectNetwork, connectionMethod, ecosystem } =
-		web3State;
+	const { isLate, isInitialized, hasWeb3, selectedAddress, isIncorrectNetwork, connectionMethod, ecosystem } = appState;
 
 	return (
 		<Render
@@ -536,7 +535,7 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 			hasWeb3={hasWeb3}
 			selectedAddress={selectedAddress}
 			isIncorrectNetwork={isIncorrectNetwork}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			addressDetails={addressDetails}
 			connectionMethod={connectionMethod}
 			ecosystem={ecosystem}

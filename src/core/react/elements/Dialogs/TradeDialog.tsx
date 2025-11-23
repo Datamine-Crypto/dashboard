@@ -597,7 +597,7 @@ const Render: React.FC<RenderParams> = React.memo(
 
 interface Params {}
 const TradeDialog: React.FC<Params> = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
 	const {
 		balances,
@@ -609,14 +609,14 @@ const TradeDialog: React.FC<Params> = () => {
 		swapState,
 		connectionMethod,
 		lastSwapThrottle,
-	} = web3State;
+	} = appState;
 
 	return (
 		<Render
 			balances={balances}
 			swapTokenBalances={swapTokenBalances}
 			error={error}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 			selectedAddress={selectedAddress}
 			hasWeb3={hasWeb3}

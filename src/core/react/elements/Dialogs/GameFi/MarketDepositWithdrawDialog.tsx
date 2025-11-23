@@ -251,7 +251,7 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const MarketDepositWithdrawDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
 	const {
 		balances,
@@ -266,7 +266,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 		//marketAddressLock,
 		//currentAddresMintableBalance,
 		//currentAddressMarketAddressLock,
-	} = web3State;
+	} = appState;
 
 	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];
 
@@ -298,7 +298,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 			selectedAddress={selectedAddress}
 			error={error}
 			total={total}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 			marketAddressLock={currentAddressMarketAddress}
 			currentAddresMintableBalance={currentAddresMintableBalance}

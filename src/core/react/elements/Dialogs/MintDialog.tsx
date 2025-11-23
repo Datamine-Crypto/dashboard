@@ -131,15 +131,15 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const MintDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
-	const [address, setAddress] = React.useState(web3State.selectedAddress);
+	const { state: appState, dispatch: appDispatch } = useAppStore();
+	const [address, setAddress] = React.useState(appState.selectedAddress);
 
-	const { selectedAddress, addressDetails, error, ecosystem } = web3State;
+	const { selectedAddress, addressDetails, error, ecosystem } = appState;
 	if (!selectedAddress || !addressDetails) {
 		return null;
 	}
 
-	const displayedAddress = web3State.address ?? selectedAddress;
+	const displayedAddress = appState.address ?? selectedAddress;
 
 	return (
 		<Render
@@ -149,7 +149,7 @@ const MintDialog: React.FC = () => {
 			address={address}
 			displayedAddress={displayedAddress}
 			setAddress={setAddress}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 		/>
 	);

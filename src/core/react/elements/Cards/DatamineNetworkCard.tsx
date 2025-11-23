@@ -111,9 +111,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 });
 
 const DatamineNetworkCard: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	const { addressLock, address, selectedAddress } = web3State;
+	const { addressLock, address, selectedAddress } = appState;
 	if (!addressLock || !selectedAddress) {
 		return null;
 	}
@@ -125,7 +125,7 @@ const DatamineNetworkCard: React.FC = () => {
 			addressLock={addressLock}
 			selectedAddress={selectedAddress}
 			displayedAddress={displayedAddress}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 		/>
 	);
 };

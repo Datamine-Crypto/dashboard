@@ -436,9 +436,9 @@ const Render: React.FC<RenderParams> = React.memo(
  * It fetches data from the Web3Context and renders various sub-components to show token balances, locked amounts, and actions like burning or unlocking tokens.
  */
 const AccountBalancesCard: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	const { addressLock, selectedAddress, address, addressDetails, balances, addressTokenDetails, ecosystem } = web3State;
+	const { addressLock, selectedAddress, address, addressDetails, balances, addressTokenDetails, ecosystem } = appState;
 	// Render nothing if essential data is not yet available
 	if (!addressLock || !selectedAddress || !addressDetails || !balances || !addressTokenDetails) {
 		return null;
@@ -452,7 +452,7 @@ const AccountBalancesCard: React.FC = () => {
 			addressDetails={addressDetails}
 			addressTokenDetails={addressTokenDetails}
 			balances={balances}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 		/>
 	);

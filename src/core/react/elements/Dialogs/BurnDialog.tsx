@@ -174,13 +174,13 @@ const Render: React.FC<RenderParams> = React.memo(
  * Burning tokens (as a secondary function of money) permanently increases the yield generation rate on the destination address.
  */
 const BurnDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	const total = BNToDecimal(web3State.balances?.fluxToken ?? null);
+	const total = BNToDecimal(appState.balances?.fluxToken ?? null);
 
 	const [amount, setAmount] = React.useState(total);
 
-	const { balances, selectedAddress, error, ecosystem } = web3State;
+	const { balances, selectedAddress, error, ecosystem } = appState;
 	if (!balances || !selectedAddress) {
 		return null;
 	}
@@ -192,7 +192,7 @@ const BurnDialog: React.FC = () => {
 			error={error}
 			amount={amount}
 			setAmount={setAmount}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 		/>
 	);

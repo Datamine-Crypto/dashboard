@@ -82,11 +82,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 interface Props {}
 
 const AddToFirefoxFragment: React.FC<Props> = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	const { connectionMethod, ecosystem } = web3State;
+	const { connectionMethod, ecosystem } = appState;
 
-	return <Render dispatch={web3Dispatch} connectionMethod={connectionMethod} ecosystem={ecosystem} />;
+	return <Render dispatch={appDispatch} connectionMethod={connectionMethod} ecosystem={ecosystem} />;
 };
 
 export default AddToFirefoxFragment;

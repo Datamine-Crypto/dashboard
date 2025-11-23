@@ -305,7 +305,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
  * - Pending queries fragment
  */
 const PageFragment: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
 	/**
 	 * Effect hook to initialize special pages based on the URL hash when the component mounts.
@@ -321,7 +321,7 @@ const PageFragment: React.FC = () => {
 				);
 
 				if (helpArticle) {
-					web3Dispatch({
+					appDispatch({
 						type: commonLanguage.commands.ShowHelpArticle,
 						payload: {
 							helpArticle,
@@ -331,15 +331,15 @@ const PageFragment: React.FC = () => {
 				break;
 			}
 		}
-	}, [web3Dispatch]);
+	}, [appDispatch]);
 
-	const { helpArticle, helpArticlesNetworkType, ecosystem } = web3State;
+	const { helpArticle, helpArticlesNetworkType, ecosystem } = appState;
 
 	return (
 		<Render
 			helpArticle={helpArticle}
 			helpArticlesNetworkType={helpArticlesNetworkType}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 		/>
 	);

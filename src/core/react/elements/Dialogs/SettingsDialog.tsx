@@ -359,10 +359,10 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 });
 
 const SettingsDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
-	const { clientSettings, ecosystem } = web3State;
+	const { state: appState, dispatch: appDispatch } = useAppStore();
+	const { clientSettings, ecosystem } = appState;
 
-	return <Render clientSettings={clientSettings} dispatch={web3Dispatch} ecosystem={ecosystem} />;
+	return <Render clientSettings={clientSettings} dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 
 export default SettingsDialog;

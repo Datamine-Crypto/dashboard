@@ -46,8 +46,8 @@ interface Props {}
  */
 const HelpPage: React.FC<Props> = () => {
 	const { classes } = useStyles();
-	const { state: web3State, dispatch } = useAppStore();
-	const { ecosystem } = web3State;
+	const { state: appState, dispatch } = useAppStore();
+	const { ecosystem } = appState;
 
 	const [selectedUserType, setSelectedUserType] = useState<UserTypeFilter>(UserTypeFilter.All);
 	const [selectedTags, setSelectedTags] = useState<string[]>(['All']); // Changed to array

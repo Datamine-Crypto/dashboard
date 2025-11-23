@@ -173,9 +173,9 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
  * It fetches global data from the Web3Context and renders it using the Render component.
  */
 const GlobalCard: React.FC = () => {
-	const { state: web3State } = useAppStore();
+	const { state: appState } = useAppStore();
 
-	const { addressDetails, addressTokenDetails, balances, ecosystem } = web3State;
+	const { addressDetails, addressTokenDetails, balances, ecosystem } = appState;
 	if (!addressDetails || !addressTokenDetails || !balances) {
 		return null;
 	}

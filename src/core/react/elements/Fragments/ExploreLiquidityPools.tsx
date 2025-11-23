@@ -346,7 +346,7 @@ interface Params {
 	ecosystem: Ecosystem;
 }
 const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, hideIcon, contents, ecosystem }) => {
-	const { dispatch: web3Dispatch } = useAppStore();
+	const { dispatch: appDispatch } = useAppStore();
 
 	return (
 		<Render
@@ -354,7 +354,7 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, hideIcon, content
 			hideIcon={hideIcon}
 			contents={contents}
 			ecosystem={ecosystem}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 		/>
 	);
 };

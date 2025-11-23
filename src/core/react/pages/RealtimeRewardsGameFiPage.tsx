@@ -320,8 +320,8 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const RealtimeRewardsGameFiPage: React.FC<Props> = () => {
-	const { state: web3State, dispatch } = useAppStore();
-	const { ecosystem } = web3State;
+	const { state: appState, dispatch } = useAppStore();
+	const { ecosystem } = appState;
 
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
 };

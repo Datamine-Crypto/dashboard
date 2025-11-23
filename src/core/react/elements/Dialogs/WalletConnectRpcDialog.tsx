@@ -135,17 +135,17 @@ const getWalletConnectRpc = () => {
 };
 
 const WalletConnectRpcDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 	const [rpcAddress, setRpcAddress] = React.useState(getWalletConnectRpc());
 
-	const { error, ecosystem } = web3State;
+	const { error, ecosystem } = appState;
 
 	return (
 		<Render
 			rpcAddress={rpcAddress}
 			error={error}
 			setRpcAddress={setRpcAddress}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 		/>
 	);

@@ -154,9 +154,9 @@ interface DialogParams {
 	dialogType: DialogType;
 }
 const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	const { pendingQueries, selectedAddress, balances, ecosystem } = web3State;
+	const { pendingQueries, selectedAddress, balances, ecosystem } = appState;
 	if (!pendingQueries || !selectedAddress || !balances) {
 		return null;
 	}
@@ -166,7 +166,7 @@ const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
 			pendingQueries={pendingQueries}
 			selectedAddress={selectedAddress}
 			balances={balances}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			dialogType={dialogType}
 			ecosystem={ecosystem}
 		/>

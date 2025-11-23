@@ -45,9 +45,9 @@ interface Params {}
  * This is a little dialog that shows up when something is loading (shows a little infinite loading progress to user)
  */
 const PendingQueryFragment: React.FC<Params> = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	const { pendingQueries, queriesCount, lastDismissedPendingActionCount, connectionMethod, ecosystem } = web3State;
+	const { pendingQueries, queriesCount, lastDismissedPendingActionCount, connectionMethod, ecosystem } = appState;
 
 	return (
 		<Render
@@ -56,7 +56,7 @@ const PendingQueryFragment: React.FC<Params> = () => {
 			lastDismissedPendingActionCount={lastDismissedPendingActionCount}
 			connectionMethod={connectionMethod}
 			ecosystem={ecosystem}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 		/>
 	);
 };

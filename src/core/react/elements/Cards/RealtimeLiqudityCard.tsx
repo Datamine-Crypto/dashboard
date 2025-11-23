@@ -345,9 +345,9 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 });
 
 const RealtimeLiqudityCard: React.FC = () => {
-	const { state: web3State } = useAppStore();
+	const { state: appState } = useAppStore();
 
-	const { balances, addressTokenDetails, addressDetails, ecosystem } = web3State;
+	const { balances, addressTokenDetails, addressDetails, ecosystem } = appState;
 	if (!balances || !addressTokenDetails || !addressDetails) {
 		return null;
 	}

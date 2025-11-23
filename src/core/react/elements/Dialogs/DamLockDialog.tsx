@@ -321,11 +321,11 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const DamLockDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	const total = BNToDecimal(web3State.balances?.damToken ?? null);
+	const total = BNToDecimal(appState.balances?.damToken ?? null);
 
-	const { balances, selectedAddress, error, ecosystem } = web3State;
+	const { balances, selectedAddress, error, ecosystem } = appState;
 	if (!balances || !selectedAddress) {
 		return null;
 	}
@@ -336,7 +336,7 @@ const DamLockDialog: React.FC = () => {
 			selectedAddress={selectedAddress}
 			error={error}
 			total={total}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 		/>
 	);

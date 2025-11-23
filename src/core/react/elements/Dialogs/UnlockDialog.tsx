@@ -157,11 +157,11 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const UnlockDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	const amount = BNToDecimal(web3State.addressLock?.amount ?? null);
+	const amount = BNToDecimal(appState.addressLock?.amount ?? null);
 
-	const { addressDetails, error, ecosystem, balances, clientSettings } = web3State;
+	const { addressDetails, error, ecosystem, balances, clientSettings } = appState;
 	if (!addressDetails) {
 		return null;
 	}
@@ -171,7 +171,7 @@ const UnlockDialog: React.FC = () => {
 			addressDetails={addressDetails}
 			error={error}
 			amount={amount}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 			balances={balances}
 			clientSettings={clientSettings}

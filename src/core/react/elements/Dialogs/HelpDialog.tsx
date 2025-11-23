@@ -399,9 +399,9 @@ interface DialogProps {
 	helpArticle: HelpArticle;
 }
 const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	return <Render helpArticle={helpArticle} dispatch={web3Dispatch} />;
+	return <Render helpArticle={helpArticle} dispatch={appDispatch} />;
 };
 
 export default HelpDialog;

@@ -153,9 +153,9 @@ interface AppBarProps {
 	sidebar: boolean;
 }
 const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
-	const { state: web3State, dispatch } = useAppStore();
+	const { state: appState, dispatch } = useAppStore();
 
-	const { ecosystem, selectedAddress } = web3State;
+	const { ecosystem, selectedAddress } = appState;
 
 	return <Render sidebar={sidebar} dispatch={dispatch} selectedAddress={selectedAddress} ecosystem={ecosystem} />;
 };

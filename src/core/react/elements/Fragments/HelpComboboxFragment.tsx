@@ -68,9 +68,9 @@ interface Props {
 	isBigSearch?: boolean;
 }
 const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
-	const { state: web3State, dispatch } = useAppStore();
+	const { state: appState, dispatch } = useAppStore();
 
-	const { searchQuery, helpArticles } = web3State;
+	const { searchQuery, helpArticles } = appState;
 
 	return (
 		<Render

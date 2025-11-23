@@ -190,9 +190,9 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
  * It fetches liquidity data from the Web3Context and renders it using the Render component.
  */
 const LockedLiquidityCard: React.FC = () => {
-	const { state: web3State } = useAppStore();
+	const { state: appState } = useAppStore();
 
-	const { balances, ecosystem } = web3State;
+	const { balances, ecosystem } = appState;
 	if (!balances || !balances.lockedLiquidityUniAmount || !balances.lockedLiquidtyUniTotalSupply) {
 		return null;
 	}

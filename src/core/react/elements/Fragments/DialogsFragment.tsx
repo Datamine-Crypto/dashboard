@@ -76,10 +76,10 @@ interface Params {}
  * Help Dialog is excluded as it's a seperate system
  */
 const DialogsFragment: React.FC<Params> = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	const { dialog, dialogParams } = web3State;
+	const { dialog, dialogParams } = appState;
 
-	return <Render dialog={dialog} dialogParams={dialogParams} dispatch={web3Dispatch} />;
+	return <Render dialog={dialog} dialogParams={dialogParams} dispatch={appDispatch} />;
 };
 export default DialogsFragment;

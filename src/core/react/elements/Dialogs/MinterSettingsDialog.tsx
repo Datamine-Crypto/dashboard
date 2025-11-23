@@ -154,11 +154,11 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
  * Burning tokens permanently increases the minting rate on the destination address.
  */
 const MintSettingsDialog: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	const total = BNToDecimal(web3State.balances?.fluxToken ?? null);
+	const total = BNToDecimal(appState.balances?.fluxToken ?? null);
 
-	const { balances, selectedAddress, error, ecosystem } = web3State;
+	const { balances, selectedAddress, error, ecosystem } = appState;
 	if (!balances || !selectedAddress) {
 		return null;
 	}
@@ -168,7 +168,7 @@ const MintSettingsDialog: React.FC = () => {
 			balances={balances}
 			selectedAddress={selectedAddress}
 			error={error}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 		/>
 	);

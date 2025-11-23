@@ -284,9 +284,9 @@ const Render: React.FC<RenderParams> = React.memo(
 );
 
 const MintStatsCard: React.FC = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore();
 
-	const { address, selectedAddress, addressLock, addressDetails, addressTokenDetails, balances, ecosystem } = web3State;
+	const { address, selectedAddress, addressLock, addressDetails, addressTokenDetails, balances, ecosystem } = appState;
 	if (!addressLock || !addressDetails || !addressTokenDetails || !selectedAddress || !balances) {
 		return null;
 	}
@@ -299,7 +299,7 @@ const MintStatsCard: React.FC = () => {
 			selectedAddress={selectedAddress}
 			displayedAddress={address ?? selectedAddress}
 			balances={balances}
-			dispatch={web3Dispatch}
+			dispatch={appDispatch}
 			ecosystem={ecosystem}
 		/>
 	);

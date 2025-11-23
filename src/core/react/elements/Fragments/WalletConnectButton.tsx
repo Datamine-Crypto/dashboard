@@ -119,10 +119,10 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 interface Props {}
 
 const WalletConnectButton: React.FC<Props> = () => {
-	const { state: web3State, dispatch: web3Dispatch } = useAppStore();
-	const { ecosystem } = web3State;
+	const { state: appState, dispatch: appDispatch } = useAppStore();
+	const { ecosystem } = appState;
 
-	return <Render dispatch={web3Dispatch} ecosystem={ecosystem} />;
+	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 
 export default WalletConnectButton;
