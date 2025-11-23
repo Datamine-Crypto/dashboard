@@ -30,6 +30,7 @@ import {
 import DatamineGemsGame, { Gem } from '../../Fragments/DatamineGemsGame';
 import { getNetworkDropdown } from '../../Fragments/EcosystemDropdown';
 import Big from 'big.js';
+import { devLog } from '../../../../utils/devLog';
 
 interface RenderParams {
 	selectedAddress: string;

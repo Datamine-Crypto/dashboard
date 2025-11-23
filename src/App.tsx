@@ -14,9 +14,6 @@ import '@fontsource/roboto/700.css';
 
 // Lazy-loaded components for code splitting
 const CssBaseline = lazy(() => import('@mui/material/CssBaseline'));
-const Web3ContextProvider = lazy(() =>
-	import('./core/web3/Web3Context').then((module) => ({ default: module.Web3ContextProvider }))
-);
 const PageFragment = lazy(() => import('./core/react/pages/PageFragment'));
 const CenteredLoading = lazy(() => import('./core/react/elements/Fragments/CenteredLoading'));
 
@@ -36,11 +33,7 @@ function App() {
 				<ErrorBoundary>
 					{/* Suspense displays a fallback UI while waiting for lazy-loaded components to load */}
 					<Suspense fallback={<CenteredLoading />}>
-						{/* Web3ContextProvider provides Web3.js functionalities and state to its children */}
-						<Web3ContextProvider>
-							{/* PageFragment is the main container for different application pages */}
-							<PageFragment />
-						</Web3ContextProvider>
+						<PageFragment />
 					</Suspense>
 				</ErrorBoundary>
 			</ThemeProvider>
