@@ -6,7 +6,7 @@ import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/configs/c
 import { Ecosystem } from '@/configs/config.common';
 import { FluxAddressDetails, FluxAddressLock, Token } from '@/core/interfaces';
 import { devLog } from '@/core/utils/devLog';
-import { Balances, ConnectionMethod } from '@/core/web3/web3Reducer';
+import { Balances, ConnectionMethod } from '@/core/web3/reducer/interfaces';
 
 /**
  * @file helpers.ts

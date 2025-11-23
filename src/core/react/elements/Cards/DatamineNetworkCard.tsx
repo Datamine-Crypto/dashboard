@@ -6,7 +6,7 @@ import { useAppStore } from '@/core/web3/appStore';
 
 import { Visibility, Whatshot } from '@mui/icons-material';
 import { FluxAddressLock } from '@/core/interfaces';
-import { commonLanguage } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 
 /**

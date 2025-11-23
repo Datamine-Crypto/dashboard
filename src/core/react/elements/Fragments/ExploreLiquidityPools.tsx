@@ -10,7 +10,7 @@ import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
 
 const useStyles = tss.create(({ theme }) => ({
 	chip: {

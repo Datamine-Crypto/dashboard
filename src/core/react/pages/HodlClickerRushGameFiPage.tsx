@@ -15,7 +15,7 @@ import {
 } from '@mui/icons-material';
 import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // Assuming MUI v7 imports are similar
 import { Game } from '@/core/interfaces';
-import { commonLanguage } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 
 // Color palette

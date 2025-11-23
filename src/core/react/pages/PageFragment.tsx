@@ -6,7 +6,7 @@ import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem, NetworkType } from '@/configs/config.common';
 import { HelpArticle, helpArticles } from '@/core/helpArticles';
 import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
 import LoadingDialog from '@/core/react/elements/Dialogs/LoadingDialog';
 import CenteredLoading from '@/core/react/elements/Fragments/CenteredLoading';
 import DialogsFragment from '@/core/react/elements/Fragments/DialogsFragment';

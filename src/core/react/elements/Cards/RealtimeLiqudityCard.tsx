@@ -11,7 +11,7 @@ import sushiSwapLogo from '@/svgs/sushiSwap.svg';
 import uniswap from '@/svgs/uniswap.svg';
 import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/interfaces';
 import { BNToDecimal, getBNPercent, getPriceToggle } from '@/core/web3/helpers';
-import { Balances } from '@/core/web3/web3Reducer';
+import { Balances } from '@/core/web3/reducer/interfaces';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import LightTooltip from '@/core/react/elements/LightTooltip';

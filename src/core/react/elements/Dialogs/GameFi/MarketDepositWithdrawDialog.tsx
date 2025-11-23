@@ -22,7 +22,8 @@ import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { BNToDecimal } from '@/core/web3/helpers';
 import { useAppStore } from '@/core/web3/appStore';
-import { Balances, commonLanguage } from '@/core/web3/web3Reducer';
+import { Balances } from '@/core/web3/reducer/interfaces';
+import { commonLanguage } from '@/core/web3/reducer/common';
 import { AddressLockDetailsViewModel, Game } from '@/core/interfaces';
 
 enum Action {

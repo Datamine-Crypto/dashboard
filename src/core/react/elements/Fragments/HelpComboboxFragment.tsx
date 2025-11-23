@@ -2,7 +2,7 @@ import { Autocomplete, TextField } from '@mui/material';
 import React from 'react';
 import { HelpArticle, SearchCategoryText } from '@/core/helpArticles';
 import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
 
 import { tss } from 'tss-react/mui';
 

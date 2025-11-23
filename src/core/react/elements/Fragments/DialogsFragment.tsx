@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { DialogType } from '@/core/interfaces';
 import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
 import BurnDialog from '@/core/react/elements/Dialogs/BurnDialog';
 import DamLockDialog from '@/core/react/elements/Dialogs/DamLockDialog';
 import MarketDepositWithdrawDialog from '@/core/react/elements/Dialogs/GameFi/MarketDepositWithdrawDialog';

@@ -40,7 +40,7 @@ import { Ecosystem } from '@/configs/config.common';
 import discordWhiteLogo from '@/svgs/discordWhite.svg';
 import Logo from '@/svgs/logo.svg';
 import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
 
 const drawerWidth = 280;
 

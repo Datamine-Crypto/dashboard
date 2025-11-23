@@ -1,7 +1,8 @@
 import Big from 'big.js';
 import type { Web3 } from 'web3'; // Changed to type-only import
 import { FluxAddressDetails, FluxAddressTokenDetails, Game } from '@/core/interfaces';
-import { commonLanguage, Web3State } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
+import { Web3State } from '@/core/web3/reducer/interfaces';
 
 import damTokenAbi from '@/core/web3/abis/dam.json';
 import fluxTokenAbi from '@/core/web3/abis/flux.json';

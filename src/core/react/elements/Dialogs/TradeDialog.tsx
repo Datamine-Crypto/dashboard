@@ -33,7 +33,8 @@ import { availableSwapTokens } from '@/core/utils/swap/performSwap';
 import { SwapOperation, SwapToken, SwapTokenDetails, SwapTokenWithAmount } from '@/core/utils/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN, switchNetwork } from '@/core/web3/helpers';
 import { useAppStore } from '@/core/web3/appStore';
-import { Balances, commonLanguage, ConnectionMethod, SwapState, SwapTokenBalances } from '@/core/web3/web3Reducer';
+import { Balances, ConnectionMethod, SwapState, SwapTokenBalances } from '@/core/web3/reducer/interfaces';
+import { commonLanguage } from '@/core/web3/reducer/common';
 
 interface RenderParams {
 	balances: Balances | null;

@@ -8,7 +8,8 @@ import metamaskIcon from '@/svgs/metamask.svg';
 import { DialogType } from '@/core/interfaces';
 import { addToMetamask } from '@/core/web3/helpers';
 import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage, ConnectionMethod } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
+import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 
 interface RenderParams {

@@ -10,7 +10,8 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-import { commonLanguage, ConnectionMethod } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
+import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
 
 import { HourglassEmpty } from '@mui/icons-material';
 

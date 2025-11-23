@@ -8,7 +8,7 @@ import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem, Layer } from '@/configs/config.common';
 import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/interfaces';
 import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '@/core/web3/helpers';
-import { Balances } from '@/core/web3/web3Reducer';
+import { Balances } from '@/core/web3/reducer/interfaces';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 
 /**

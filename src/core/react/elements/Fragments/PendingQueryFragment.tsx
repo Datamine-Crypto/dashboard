@@ -3,7 +3,8 @@ import React from 'react';
 import { Ecosystem } from '@/configs/config.common';
 import { ReducerQuery } from '@/core/sideEffectReducer';
 import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage, ConnectionMethod } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
+import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
 import PendingActionDialog from '@/core/react/elements/Dialogs/PendingActionDialog';
 
 interface RenderProps {

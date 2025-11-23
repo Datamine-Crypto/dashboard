@@ -5,7 +5,8 @@ import { getEcosystemConfig } from '@/configs/config';
 import { ecosystemConfigs } from '@/configs/config.base';
 import { Ecosystem, Layer } from '@/configs/config.common';
 import { switchNetwork } from '@/core/web3/helpers';
-import { commonLanguage, ConnectionMethod } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
+import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
 
 interface Props {
 	ecosystem: Ecosystem;

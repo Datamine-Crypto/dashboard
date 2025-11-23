@@ -12,7 +12,8 @@ import {
 import React from 'react';
 
 import { useAppStore } from '@/core/web3/appStore';
-import { Balances, ClientSettings, commonLanguage } from '@/core/web3/web3Reducer';
+import { Balances, ClientSettings } from '@/core/web3/reducer/interfaces';
+import { commonLanguage } from '@/core/web3/reducer/common';
 
 import { getEcosystemConfig as getConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';

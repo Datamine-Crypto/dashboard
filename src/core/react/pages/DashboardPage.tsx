@@ -15,7 +15,8 @@ import React, { ReactNode, useEffect } from 'react';
 
 import { DialogType, FluxAddressDetails } from '@/core/interfaces';
 import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage, ConnectionMethod, commonLanguage as web3CommonLanguage } from '@/core/web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/reducer/common';
+import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
 import Web3Account from '@/core/react/elements/Web3Account';
 
 import logo from '@/svgs/logo.svg'; // Tell webpack this JS file uses this image

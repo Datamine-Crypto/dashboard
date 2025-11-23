@@ -9,7 +9,6 @@ import walletconnectIcon from '@/svgs/walletconnect.svg';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage as web3CommonLanguage } from '@/core/web3/web3Reducer';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
