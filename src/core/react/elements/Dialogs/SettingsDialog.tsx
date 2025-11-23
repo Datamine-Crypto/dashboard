@@ -18,7 +18,7 @@ import {
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import { useAppStore } from '@/core/web3/appStore';
-import { ClientSettings } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch, ClientSettings } from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import { AccessTime, Settings } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/configs/config';

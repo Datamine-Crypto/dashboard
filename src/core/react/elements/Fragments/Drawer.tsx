@@ -39,6 +39,7 @@ import Logo from '@/svgs/logo.svg';
 import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 const drawerWidth = 280;
 const useStyles = tss.create(({ theme }) => ({
 	root: {

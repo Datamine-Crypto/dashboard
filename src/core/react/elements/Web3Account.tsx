@@ -21,6 +21,7 @@ import MintStatsCard from '@/core/react/elements/Cards/MintStatsCard';
 // Real-time liquidity card component
 import RealtimeLiqudityCard from '@/core/react/elements/Cards/RealtimeLiqudityCard';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 /**
  * Props for the Render component.
  */

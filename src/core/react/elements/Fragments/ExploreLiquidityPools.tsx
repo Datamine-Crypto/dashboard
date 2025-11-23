@@ -11,6 +11,7 @@ import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 
 const useStyles = tss.create(({ theme }) => ({
 	chip: {

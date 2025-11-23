@@ -13,6 +13,7 @@ import PendingQueryFragment from '@/core/react/elements/Fragments/PendingQueryFr
 import RealtimeRewardsGameFiPage from '@/core/react/pages/RealtimeRewardsGameFiPage';
 import HodlClickerRushGameFiPage from '@/core/react/pages/HodlClickerRushGameFiPage';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 const MainAppBar = lazy(() => import('@/core/react/elements/Fragments/AppBar'));
 const HelpDialog = lazy(() => import('@/core/react/elements/Dialogs/HelpDialog'));
 const CommunityPage = lazy(() => import('@/core/react/pages/CommunityPage'));

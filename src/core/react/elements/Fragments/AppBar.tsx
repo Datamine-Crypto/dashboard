@@ -12,6 +12,7 @@ import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import HelpComboboxFragment from '@/core/react/elements/Fragments/HelpComboboxFragment';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 const useStyles = tss.create(({ theme }) => ({
 	toolbar: {
 		paddingRight: 24, // keep right padding when drawer closed

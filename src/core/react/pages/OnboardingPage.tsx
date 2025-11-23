@@ -3,6 +3,7 @@ import { Ecosystem } from '@/configs/config.common';
 import { useAppStore } from '@/core/web3/appStore';
 import OnboardingFragment from '@/core/react/elements/Onboarding/OnboardingFragment';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 interface RenderProps {
 	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;

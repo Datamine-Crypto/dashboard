@@ -38,6 +38,7 @@ interface RenderParams {
 
 // Dynamically import ReactMarkdown
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 const ReactMarkdown = lazy(() => import('react-markdown'));
 
 enum ImageOption {

@@ -5,6 +5,7 @@ import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 const useStyles = tss.create(({ theme }) => ({
 	big: {
 		width: '100%',

@@ -5,6 +5,7 @@ import { theme as datamineTheme } from '@/core/styles';
 import { HelpArticle } from '@/core/helpArticles';
 import { tss } from 'tss-react/mui';
 import { commonLanguage } from '@/core/web3/reducer/common';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 
 const useStyles = tss.create(() => ({
 	helpCategoryHeader: {

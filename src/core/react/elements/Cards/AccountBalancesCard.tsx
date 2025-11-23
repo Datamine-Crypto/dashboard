@@ -4,7 +4,7 @@ import React from 'react';
 // Web3 context for accessing blockchain state and dispatch functions
 import { useAppStore } from '@/core/web3/appStore';
 // Balances and common language constants from the Web3 reducer
-import { Balances } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch, Balances } from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
 // Material-UI icons for external links, stop, and whatshot
 import { OpenInNew, Stop, Whatshot, Settings } from '@mui/icons-material';

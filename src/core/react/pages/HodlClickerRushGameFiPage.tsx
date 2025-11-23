@@ -16,6 +16,7 @@ import { Game } from '@/core/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 // Color palette
 const palette = {
 	highlight: '#0FF',

@@ -7,6 +7,7 @@ import { FluxAddressLock } from '@/core/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 /**
  * Props for the Render component within DatamineNetworkCard.
  */

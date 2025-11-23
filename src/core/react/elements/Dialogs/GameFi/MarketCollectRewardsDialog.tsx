@@ -19,7 +19,13 @@ import { Ecosystem } from '@/configs/config.common';
 import { AddressLockDetailsViewModel, DialogType, FluxAddressDetails, Game, Token } from '@/core/interfaces';
 import { BNToDecimal, getPriceToggle } from '@/core/web3/helpers';
 import { useAppStore } from '@/core/web3/appStore';
-import { Balances, ConnectionMethod, MarketAddresses, MarketDetails } from '@/core/web3/reducer/interfaces';
+import {
+	ReducerDispatch,
+	Balances,
+	ConnectionMethod,
+	MarketAddresses,
+	MarketDetails,
+} from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import DatamineGemsGame, { Gem } from '@/core/react/elements/Fragments/DatamineGemsGame';
 import { getNetworkDropdown } from '@/core/react/elements/Fragments/EcosystemDropdown';

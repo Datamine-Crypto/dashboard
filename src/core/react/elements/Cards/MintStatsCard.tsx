@@ -5,7 +5,7 @@ import { useAppStore } from '@/core/web3/appStore';
 import { BNToDecimal, getBlocksRemaining } from '@/core/web3/helpers';
 import BN from 'bn.js';
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '@/core/interfaces';
-import { Balances } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch, Balances } from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import { LockOpen } from '@mui/icons-material';
 import Big from 'big.js';

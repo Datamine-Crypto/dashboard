@@ -19,6 +19,7 @@ import { SettingsInputAntenna } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 interface RenderParams {
 	dispatch: ReducerDispatch;
 	error: string | null;

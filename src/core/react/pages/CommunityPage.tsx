@@ -10,6 +10,7 @@ import { useAppStore } from '@/core/web3/appStore';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
 		[theme.breakpoints.down('sm')]: {

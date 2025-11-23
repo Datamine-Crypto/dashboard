@@ -19,6 +19,7 @@ import { useAppStore } from '@/core/web3/appStore';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 // Color palette
 const palette = {
 	highlight: '#0FF',

@@ -26,7 +26,13 @@ import React, { useEffect, useState } from 'react';
 import Big from 'big.js';
 import BN from 'bn.js';
 import { useAppStore } from '@/core/web3/appStore';
-import { Balances, ClientSettings, ConnectionMethod, ForecastSettings } from '@/core/web3/reducer/interfaces';
+import {
+	ReducerDispatch,
+	Balances,
+	ClientSettings,
+	ConnectionMethod,
+	ForecastSettings,
+} from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import {
 	Alarm as AlarmIcon,

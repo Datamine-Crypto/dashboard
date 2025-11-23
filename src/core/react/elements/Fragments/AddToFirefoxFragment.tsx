@@ -8,7 +8,7 @@ import { DialogType } from '@/core/interfaces';
 import { addToMetamask } from '@/core/web3/helpers';
 import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
-import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch, ConnectionMethod } from '@/core/web3/reducer/interfaces';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {

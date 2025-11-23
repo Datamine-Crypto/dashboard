@@ -13,6 +13,7 @@ import UnlockDialog from '@/core/react/elements/Dialogs/UnlockDialog';
 import WalletConnectRpcDialog from '@/core/react/elements/Dialogs/WalletConnectRpcDialog';
 import MintSettingsDialog from '@/core/react/elements/Dialogs/MinterSettingsDialog';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 const MarketCollectRewardsDialog = lazy(
 	() => import('@/core/react/elements/Dialogs/GameFi/MarketCollectRewardsDialog')
 );

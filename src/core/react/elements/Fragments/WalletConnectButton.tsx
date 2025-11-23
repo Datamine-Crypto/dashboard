@@ -9,6 +9,7 @@ import { Ecosystem } from '@/configs/config.common';
 import { useAppStore } from '@/core/web3/appStore';
 import { useShallow } from 'zustand/react/shallow';
 import { commonLanguage } from '@/core/web3/reducer/common';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 interface RenderParams {
 	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;

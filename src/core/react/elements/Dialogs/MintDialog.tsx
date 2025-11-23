@@ -18,6 +18,7 @@ import { Ecosystem } from '@/configs/config.common';
 import { FluxAddressDetails } from '@/core/interfaces';
 import { BNToDecimal } from '@/core/web3/helpers';
 import { useShallow } from 'zustand/react/shallow';
+import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
 interface RenderParams {
 	selectedAddress: string;
 	addressDetails: FluxAddressDetails;
