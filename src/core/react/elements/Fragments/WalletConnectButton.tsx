@@ -10,7 +10,7 @@ import { useAppStore } from '@/core/web3/appStore';
 import { useShallow } from 'zustand/react/shallow';
 import { commonLanguage } from '@/core/web3/reducer/common';
 interface RenderParams {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;
 }
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {

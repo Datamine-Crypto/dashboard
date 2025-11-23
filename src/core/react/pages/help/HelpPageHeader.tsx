@@ -13,7 +13,7 @@ const useStyles = tss.create(({ theme }) => ({
 }));
 
 interface HelpPageHeaderProps {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;
 }
 

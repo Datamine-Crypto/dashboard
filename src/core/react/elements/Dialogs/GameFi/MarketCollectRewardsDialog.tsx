@@ -29,7 +29,7 @@ import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	selectedAddress: string;
 	balances: Balances | null;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	error: string | null;
 	ecosystem: Ecosystem;
 	//marketAddressLock: MarketAddressLock | null;
@@ -576,7 +576,7 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		marketAddresses && marketAddresses.addresses.length > 0
 			? marketAddresses.addresses.find(
 					(address) => address.currentAddress.toLowerCase() === selectedAddress?.toLowerCase()
-				)
+				) || null
 			: null;
 	return (
 		<Render

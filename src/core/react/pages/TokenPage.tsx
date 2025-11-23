@@ -27,7 +27,7 @@ const palette = {
 };
 // Main component
 interface RenderParams {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;
 }
 // Main component

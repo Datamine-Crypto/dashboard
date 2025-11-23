@@ -21,11 +21,11 @@ import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	selectedAddress: string;
 	addressDetails: FluxAddressDetails;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	error: string | null;
 	address: string | null;
 	displayedAddress: string;
-	setAddress: React.Dispatch<any>;
+	setAddress: ReducerDispatch;
 	ecosystem: Ecosystem;
 }
 const Render: React.FC<RenderParams> = React.memo(

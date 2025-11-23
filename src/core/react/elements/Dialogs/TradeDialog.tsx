@@ -38,7 +38,7 @@ import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	balances: Balances | null;
 	swapTokenBalances: SwapTokenBalances | null;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	error: string | null;
 	ecosystem: Ecosystem;
 	selectedAddress: string | null;

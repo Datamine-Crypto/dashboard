@@ -27,7 +27,7 @@ import { formatMoney } from '@/core/utils/formatMoney';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	clientSettings: ClientSettings;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;
 }
 const currencyCodes = [

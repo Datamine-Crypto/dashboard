@@ -28,7 +28,7 @@ interface RenderParams {
 	/** Balances of various tokens. */
 	balances: Balances;
 	/** The dispatch function from the Web3Context. */
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	/** Any error message to display. */
 	error: string | null;
 	/** The current ecosystem. */

@@ -12,7 +12,7 @@ import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	connectionMethod: ConnectionMethod;
 	ecosystem: Ecosystem;
 }

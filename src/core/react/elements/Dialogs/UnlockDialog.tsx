@@ -23,7 +23,7 @@ import MessageDialog from '@/core/react/elements/Dialogs/MessageDialog';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	addressDetails: FluxAddressDetails;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	error: string | null;
 	amount: string | null;
 	balances: Balances | null;

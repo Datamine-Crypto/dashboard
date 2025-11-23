@@ -1,6 +1,5 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import React from 'react';
 import { getEcosystemConfig } from '@/configs/config';
 import { ecosystemConfigs } from '@/configs/config.base';
 import { Ecosystem, Layer } from '@/configs/config.common';
@@ -11,7 +10,7 @@ import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
 interface Props {
 	ecosystem: Ecosystem;
 	connectionMethod: ConnectionMethod;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	width?: number;
 	hideEcosystems?: Ecosystem[];
 }

@@ -30,11 +30,11 @@ interface SideEffectReducerParams {
  */
 interface HandlerQueriesParams {
 	/**
-	 * @property {React.Dispatch<any>} dispatch
+	 * @property {ReducerDispatch} dispatch
 	 * @description The dispatch function from React's `useReducer`, used to dispatch actions
 	 * (e.g., `HANDLE_QUERY` for query responses).
 	 */
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	/**
 	 * @property {any} state
 	 * @description The current state of the application, from which pending queries are read.
@@ -47,6 +47,12 @@ interface HandlerQueriesParams {
 	 */
 	queryHandlers: any;
 }
+
+/**
+ * @type {ReducerDispatch}
+ * @description A function that dispatches an action to the reducer.
+ */
+export type ReducerDispatch = (action: any) => void;
 
 /**
  * @interface ReducerCommand
@@ -145,11 +151,11 @@ export interface QueryHandler<T> {
 	 */
 	query: ReducerQuery;
 	/**
-	 * @property {React.Dispatch<any>} dispatch
+	 * @property {ReducerDispatch} dispatch
 	 * @description The dispatch function, allowing query handlers to dispatch further actions
 	 * (e.g., to update loading states or show notifications).
 	 */
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 }
 
 /**

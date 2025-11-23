@@ -15,7 +15,7 @@ interface Params {
 	pendingQueries: ReducerQuery[];
 	selectedAddress: string;
 	balances: Balances;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	dialogType: DialogType;
 	ecosystem: Ecosystem;
 }

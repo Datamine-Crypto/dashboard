@@ -12,7 +12,7 @@ interface RenderProps {
 	lastDismissedPendingActionCount: number;
 	connectionMethod: ConnectionMethod;
 	ecosystem: Ecosystem;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 }
 const Render: React.FC<RenderProps> = React.memo(
 	({ pendingQueries, queriesCount, lastDismissedPendingActionCount, connectionMethod, ecosystem, dispatch }) => {

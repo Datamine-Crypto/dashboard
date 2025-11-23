@@ -18,7 +18,7 @@ const MarketCollectRewardsDialog = lazy(
 );
 const ZeroBalanceDialog = lazy(() => import('@/core/react/elements/Dialogs/ZeroBalanceDialog'));
 interface Props {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	dialog: DialogType | null;
 	dialogParams: any;
 }

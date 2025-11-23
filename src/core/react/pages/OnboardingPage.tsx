@@ -4,7 +4,7 @@ import { useAppStore } from '@/core/web3/appStore';
 import OnboardingFragment from '@/core/react/elements/Onboarding/OnboardingFragment';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderProps {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;
 }
 /**

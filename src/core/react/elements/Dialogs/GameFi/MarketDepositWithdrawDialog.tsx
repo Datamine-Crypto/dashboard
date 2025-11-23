@@ -32,7 +32,7 @@ enum Action {
 interface RenderParams {
 	selectedAddress: string;
 	balances: Balances;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;
 	error: string | null;
 	total: string | null;

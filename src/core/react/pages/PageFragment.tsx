@@ -26,7 +26,7 @@ const MainDrawer = lazy(() =>
 const DashboardPage = lazy(() => import('@/core/react/pages/DashboardPage'));
 const HomePage = lazy(() => import('@/core/react/pages/HomePage'));
 interface RenderParams {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	helpArticle: HelpArticle | null;
 	helpArticlesNetworkType: NetworkType;
 	ecosystem: Ecosystem;

@@ -158,7 +158,7 @@ interface RenderParams {
 	/** Current client settings. */
 	clientSettings: ClientSettings;
 	/** The dispatch function from the Web3Context. */
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 	/** The current connection method. */

@@ -20,10 +20,10 @@ import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	error: string | null;
 	rpcAddress: string | null;
-	setRpcAddress: React.Dispatch<any>;
+	setRpcAddress: ReducerDispatch;
 	ecosystem: Ecosystem;
 }
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress, setRpcAddress, ecosystem }) => {

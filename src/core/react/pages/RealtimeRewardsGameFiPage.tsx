@@ -251,7 +251,7 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 };
 // Main component
 interface RenderParams {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;
 }
 // Main component

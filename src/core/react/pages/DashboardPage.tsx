@@ -38,7 +38,7 @@ interface RenderParams {
 	isIncorrectNetwork: boolean;
 	addressDetails: FluxAddressDetails | null;
 	connectionMethod: ConnectionMethod;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;
 }
 interface CenterContent {

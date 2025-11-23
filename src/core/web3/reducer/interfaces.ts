@@ -1,8 +1,8 @@
 import Big from 'big.js';
 import BN from 'bn.js';
 import Web3 from 'web3';
-import { Ecosystem, Layer, NetworkType } from '@/core/configs/config.common';
-import { HelpArticle } from '@/core/web3/helpArticles';
+import { Ecosystem, Layer, NetworkType } from '@/configs/config.common';
+import { HelpArticle } from '@/core/helpArticles';
 import {
 	AddressLockDetailsViewModel,
 	DialogType,
@@ -12,8 +12,8 @@ import {
 	Game,
 	Token,
 } from '@/core/interfaces';
-import { ReducerQuery } from '@/core/web3/sideEffectReducer';
-import { SwapToken, SwapTokenWithAmount } from '@/core/web3/utils/swap/swapOptions';
+import { ReducerQuery, ReducerDispatch } from '@/core/sideEffectReducer';
+import { SwapToken, SwapTokenWithAmount } from '@/core/utils/swap/swapOptions';
 import { commonLanguage } from '@/core/web3/reducer/common';
 
 export {
@@ -24,6 +24,7 @@ export {
 	type FluxAddressDetails,
 	type FluxAddressLock,
 	type FluxAddressTokenDetails,
+	type ReducerDispatch,
 };
 
 type Commands = typeof commonLanguage.commands;
@@ -42,13 +43,9 @@ type CommandType = RecursiveKeyOf<Commands>;
 type QueryType = RecursiveKeyOf<Queries>;
 
 // Augment the existing interfaces to be more specific for this reducer
-declare module '../sideEffectReducer' {
-	interface ReducerCommand {
-		type: CommandType;
-	}
-	interface ReducerQuery {
-		type: QueryType;
-	}
+declare module '../../sideEffectReducer' {
+	// We can't easily augment the type property here because it conflicts with the original definition.
+	// For now, we accept that type is string.
 }
 
 /**

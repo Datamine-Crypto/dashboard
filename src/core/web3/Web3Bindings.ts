@@ -174,7 +174,7 @@ const localConfig = {
  * @param web3 - The Web3 instance.
  * @param dispatch - The reducer's dispatch function.
  */
-const subscribeToBlockUpdates = (web3: Web3, dispatch: React.Dispatch<any>) => {
+const subscribeToBlockUpdates = (web3: Web3, dispatch: ReducerDispatch) => {
 	setInterval(() => {
 		dispatch({ type: commonLanguage.commands.RefreshAccountState });
 	}, localConfig.blockUpdatesIntervalMs);
@@ -209,7 +209,7 @@ const queryHandlers = {
 			/**
 			 * Listen for any account changes to refresh data
 			 */
-			const subscribeToAccountUpdates = (dispatch: React.Dispatch<any>) => {
+			const subscribeToAccountUpdates = (dispatch: ReducerDispatch) => {
 				provider.on('accountsChanged', () => {
 					dispatch({
 						type: commonLanguage.commands.RefreshAccountState,
@@ -222,7 +222,7 @@ const queryHandlers = {
 			/**
 			 * Subscribes to network changes and reinitializes Web3 if the network is switched.
 			 */
-			const subscribeToNetworkChanges = (dispatch: React.Dispatch<any>) => {
+			const subscribeToNetworkChanges = (dispatch: ReducerDispatch) => {
 				const reinitializeWeb3 = () => {
 					dispatch({
 						type: commonLanguage.commands.ReinitializeWeb3,
@@ -328,7 +328,7 @@ const queryHandlers = {
 		//  Enable session (triggers QR Code modal)
 		await walletConnectProvider.enable();
 
-		const subscribeToAccountUpdates = (dispatch: React.Dispatch<any>) => {
+		const subscribeToAccountUpdates = (dispatch: ReducerDispatch) => {
 			if (!walletConnectProvider) {
 				return;
 			}

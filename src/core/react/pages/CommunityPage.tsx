@@ -99,7 +99,7 @@ interface PointParams {
 	mb?: number;
 }
 interface RenderProps {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;
 }
 /**

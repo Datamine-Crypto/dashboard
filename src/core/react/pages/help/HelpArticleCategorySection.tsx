@@ -14,7 +14,7 @@ const useStyles = tss.create(() => ({
 }));
 
 interface HelpArticleCategorySectionProps {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	categoryKey: string;
 	filteredArticles: HelpArticle[];
 }

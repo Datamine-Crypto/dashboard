@@ -28,13 +28,13 @@ interface RenderParams {
 	/** Balances of various tokens. */
 	balances: Balances;
 	/** The dispatch function from the Web3Context. */
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	/** Any error message to display. */
 	error: string | null;
 	/** The amount of tokens to burn. */
 	amount: string | null;
 	/** Setter for the amount of tokens to burn. */
-	setAmount: React.Dispatch<any>;
+	setAmount: ReducerDispatch;
 	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }

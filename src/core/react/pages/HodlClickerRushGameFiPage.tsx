@@ -248,7 +248,7 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 	);
 };
 interface RenderParams {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;
 }
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {

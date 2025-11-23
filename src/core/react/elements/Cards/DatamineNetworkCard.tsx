@@ -18,7 +18,7 @@ interface RenderParams {
 	/** The currently selected address in the wallet. */
 	selectedAddress: string;
 	/** The dispatch function from the Web3Context. */
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 }
 /**
  * A memoized functional component that renders the Datamine Network Pro card.

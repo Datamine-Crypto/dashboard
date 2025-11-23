@@ -31,7 +31,7 @@ import LightTooltip from '@/core/react/elements/LightTooltip';
  */
 interface RenderParams {
 	/** The dispatch function from the Web3Context. */
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	/** The help article to display. */
 	helpArticle: HelpArticle;
 }

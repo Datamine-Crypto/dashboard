@@ -127,7 +127,7 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 }));
 interface RenderParams {
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	isMobileDrawerOpen: boolean;
 	ecosystem: Ecosystem;
 }

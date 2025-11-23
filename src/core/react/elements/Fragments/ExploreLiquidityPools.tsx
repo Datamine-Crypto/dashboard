@@ -83,7 +83,7 @@ interface RenderProps {
 
 	contents?: React.ReactElement;
 	ecosystem: Ecosystem;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 }
 const Render: React.FC<RenderProps> = React.memo(({ buttonType, contents, ecosystem, dispatch }) => {
 	const { liquidityPoolGroups } = getEcosystemConfig(ecosystem);

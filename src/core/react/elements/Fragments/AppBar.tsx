@@ -56,7 +56,7 @@ const useStyles = tss.create(({ theme }) => ({
 }));
 interface INavProps {
 	sidebar: boolean;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	selectedAddress: string | null;
 	ecosystem: Ecosystem;
 }

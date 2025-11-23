@@ -17,7 +17,7 @@ interface RenderProps {
 	isBigSearch?: boolean;
 	id: string;
 	searchQuery: string;
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	helpArticles: HelpArticle[];
 }
 const Render: React.FC<RenderProps> = React.memo(({ id, isBigSearch, searchQuery, dispatch, helpArticles }) => {

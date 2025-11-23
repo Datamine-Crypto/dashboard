@@ -26,7 +26,7 @@ import { useShallow } from 'zustand/react/shallow';
  */
 interface RenderParams {
 	/** The dispatch function from the Web3Context. */
-	dispatch: React.Dispatch<any>;
+	dispatch: ReducerDispatch;
 	/** The current ecosystem being used. */
 	ecosystem: Ecosystem;
 }
