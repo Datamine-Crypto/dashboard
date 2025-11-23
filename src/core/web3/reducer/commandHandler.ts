@@ -10,7 +10,7 @@ import { SwapOperation, SwapToken } from '@/core/utils/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN } from '@/core/web3/helpers';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import { createWithWithQueries, localConfig } from '@/core/web3/reducer/helpers';
-import { ConnectionMethod, DialogType, Token, Web3State } from '@/core/web3/reducer/interfaces';
+import { ConnectionMethod, DialogType, Token, AppState } from '@/core/web3/reducer/interfaces';
 
 /**
  * Handles synchronous commands dispatched by the UI or other parts of the application.
@@ -19,7 +19,7 @@ import { ConnectionMethod, DialogType, Token, Web3State } from '@/core/web3/redu
  * @param command - The command to be executed.
  * @returns The new state.
  */
-export const handleCommand = (state: Web3State, command: ReducerCommand) => {
+export const handleCommand = (state: AppState, command: ReducerCommand) => {
 	const withQueries = createWithWithQueries(state);
 
 	const config = getEcosystemConfig(state.ecosystem);

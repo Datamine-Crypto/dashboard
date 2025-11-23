@@ -8,7 +8,7 @@ import { SwapQuote } from '@/core/utils/swap/swapOptions';
 import { BNToDecimal } from '@/core/web3/helpers';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import { createWithWithQueries } from '@/core/web3/reducer/helpers';
-import { ConnectionMethod, DialogType, Web3State } from '@/core/web3/reducer/interfaces';
+import { ConnectionMethod, DialogType, AppState } from '@/core/web3/reducer/interfaces';
 
 /**
  * Handles responses from asynchronous queries executed by Web3Bindings.
@@ -17,7 +17,7 @@ import { ConnectionMethod, DialogType, Web3State } from '@/core/web3/reducer/int
  * @param payload - The query response payload, containing the original query, error (if any), and response data.
  * @returns The new state.
  */
-export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<Web3State>) => {
+export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppState>) => {
 	const { query, err, response } = payload;
 
 	const config = getEcosystemConfig(state.ecosystem);

@@ -2,7 +2,7 @@ import Big from 'big.js';
 import type { Web3 } from 'web3'; // Changed to type-only import
 import { FluxAddressDetails, FluxAddressTokenDetails, Game } from '@/core/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
-import { Web3State } from '@/core/web3/reducer/interfaces';
+import { AppState } from '@/core/web3/reducer/interfaces';
 
 import damTokenAbi from '@/core/web3/abis/dam.json';
 import fluxTokenAbi from '@/core/web3/abis/flux.json';
@@ -193,7 +193,7 @@ const queryHandlers = {
 	 * Finds and initializes the Web3 provider (MetaMask or WalletConnect).
 	 * It sets up listeners for account and network changes to keep the app state synced.
 	 */
-	[commonLanguage.queries.FindWeb3Instance]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.FindWeb3Instance]: async ({ state, query, dispatch }: QueryHandler<AppState>) => {
 		const useWalletConnect = query.payload?.useWalletConnect;
 
 		const provider = await getWeb3Provider({ useWalletConnect, ecosystem: state.ecosystem });
@@ -286,7 +286,7 @@ const queryHandlers = {
 	/**
 	 * Enables the Web3 provider, requesting account access from the user if necessary.
 	 */
-	[commonLanguage.queries.EnableWeb3]: async ({ state, dispatch }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.EnableWeb3]: async ({ state, dispatch }: QueryHandler<AppState>) => {
 		// Reemove wlaletConnectionProvider to ensure getSelectedAddress() returns proper address
 		//walletConnectProvider = null;
 
@@ -312,7 +312,7 @@ const queryHandlers = {
 		};
 	},
 	/*
-	[commonLanguage.queries.EnableWalletConnect]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.EnableWalletConnect]: async ({ state, query, dispatch }: QueryHandler<AppState>) => {
 		const { isArbitrumMainnet } = query.payload
 
 		removeMetaTags();
@@ -363,7 +363,7 @@ const queryHandlers = {
 	/**
 	 * Disconnects the WalletConnect session.
 	 */
-	[commonLanguage.queries.DisconnectWalletConnect]: async ({ state, dispatch }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.DisconnectWalletConnect]: async ({ state, dispatch }: QueryHandler<AppState>) => {
 		if (web3provider) {
 			web3provider.disconnect();
 		}
@@ -372,7 +372,7 @@ const queryHandlers = {
 	/**
 	 * Fetches access links for pro features by sending a signed message to the backend.
 	 */
-	[commonLanguage.queries.FindAccessLinks]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.FindAccessLinks]: async ({ state, query }: QueryHandler<AppState>) => {
 		const { web3 } = state;
 		const selectedAddress = getSelectedAddress();
 
@@ -407,7 +407,7 @@ const queryHandlers = {
 	 * Fetches all relevant on-chain data for the current user account in a single batch request using multicall.
 	 * This includes balances, contract details, and Uniswap pool reserves.
 	 */
-	[commonLanguage.queries.FindAccountState]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.FindAccountState]: async ({ state, query }: QueryHandler<AppState>) => {
 		const { web3, address, ecosystem } = state;
 
 		devLog('FindAccountState:', { address, ecosystem });
@@ -1358,7 +1358,7 @@ const queryHandlers = {
 	/**
 	 * Authorizes the FLUX contract to spend the user's DAM tokens.
 	 */
-	[commonLanguage.queries.GetAuthorizeFluxOperatorResponse]: async ({ state }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.GetAuthorizeFluxOperatorResponse]: async ({ state }: QueryHandler<AppState>) => {
 		const { web3 } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
@@ -1382,7 +1382,7 @@ const queryHandlers = {
 	/**
 	 * Locks a specified amount of DAM tokens to start minting FLUX.
 	 */
-	[commonLanguage.queries.GetLockInDamTokensResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.GetLockInDamTokensResponse]: async ({ state, query }: QueryHandler<AppState>) => {
 		const { web3 } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
@@ -1408,7 +1408,7 @@ const queryHandlers = {
 	/**
 	 * Mints available FLUX tokens.
 	 */
-	[commonLanguage.queries.GetMintFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.GetMintFluxResponse]: async ({ state, query }: QueryHandler<AppState>) => {
 		const { web3 } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
@@ -1450,7 +1450,7 @@ const queryHandlers = {
 		return response && response.status;
 	},
 
-	[commonLanguage.queries.GetSetMintSettingsResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.GetSetMintSettingsResponse]: async ({ state, query }: QueryHandler<AppState>) => {
 		const { web3 } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
@@ -1472,7 +1472,7 @@ const queryHandlers = {
 	/**
 	 * Burns a specified amount of FLUX tokens to increase the minting multiplier.
 	 */
-	[commonLanguage.queries.GetBurnFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.GetBurnFluxResponse]: async ({ state, query }: QueryHandler<AppState>) => {
 		const { web3 } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
@@ -1495,7 +1495,7 @@ const queryHandlers = {
 	/**
 	 * Burns tokens through the Datamine Market to collect rewards from other validators.
 	 */
-	[commonLanguage.queries.Market.GetMarketBurnFluxResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.Market.GetMarketBurnFluxResponse]: async ({ state, query }: QueryHandler<AppState>) => {
 		const { web3, ecosystem, game } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
@@ -1538,7 +1538,7 @@ const queryHandlers = {
 	/**
 	 * Deposits tokens into the Datamine Market to be available for public burning.
 	 */
-	[commonLanguage.queries.Market.GetDepositMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.Market.GetDepositMarketResponse]: async ({ state, query }: QueryHandler<AppState>) => {
 		const { web3, ecosystem, game } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
@@ -1592,7 +1592,7 @@ const queryHandlers = {
 	[commonLanguage.queries.Market.GetRefreshMarketAddressesResponse]: async ({
 		state,
 		query,
-	}: QueryHandler<Web3State>) => {
+	}: QueryHandler<AppState>) => {
 		const { ecosystem, game, selectedAddress } = state;
 
 		const { default: Web3Constructor } = await import('web3');
@@ -1771,7 +1771,7 @@ const queryHandlers = {
 	/**
 	 * Withdraws all accumulated rewards from the Datamine Market.
 	 */
-	[commonLanguage.queries.Market.GetWithdrawMarketResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.Market.GetWithdrawMarketResponse]: async ({ state, query }: QueryHandler<AppState>) => {
 		const { web3, ecosystem, game } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
@@ -1797,7 +1797,7 @@ const queryHandlers = {
 	/**
 	 * Unlocks all previously locked DAM tokens.
 	 */
-	[commonLanguage.queries.GetUnlockDamTokensResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.GetUnlockDamTokensResponse]: async ({ state, query }: QueryHandler<AppState>) => {
 		const { web3 } = state;
 		if (!web3) {
 			throw commonLanguage.errors.Web3NotFound;
@@ -1819,7 +1819,7 @@ const queryHandlers = {
 	/**
 	 * Throttles requests for swap output quotes to prevent excessive calls while the user is typing.
 	 */
-	[commonLanguage.queries.Swap.ThrottleGetOutputQuote]: async ({ state, query, dispatch }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.Swap.ThrottleGetOutputQuote]: async ({ state, query, dispatch }: QueryHandler<AppState>) => {
 		if (!state.web3) {
 			return;
 		}
@@ -1833,7 +1833,7 @@ const queryHandlers = {
 	/**
 	 * Fetches the expected output amount for a given token swap.
 	 */
-	[commonLanguage.queries.Swap.GetOutputQuote]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.Swap.GetOutputQuote]: async ({ state, query }: QueryHandler<AppState>) => {
 		if (!state.web3) {
 			return;
 		}
@@ -1872,7 +1872,7 @@ const queryHandlers = {
 	/**
 	 * Executes a token swap.
 	 */
-	[commonLanguage.queries.GetTradeResponse]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.GetTradeResponse]: async ({ state, query }: QueryHandler<AppState>) => {
 		if (!state.web3) {
 			return;
 		}
@@ -1915,7 +1915,7 @@ const queryHandlers = {
 	/**
 	 * Fetches the full content of a specific help article from its Markdown file.
 	 */
-	[commonLanguage.queries.GetFullHelpArticle]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.GetFullHelpArticle]: async ({ state, query }: QueryHandler<AppState>) => {
 		const helpArticle = query.payload.helpArticle as HelpArticle;
 		const helpArticlesNetworkType = query.payload.helpArticlesNetworkType as NetworkType;
 
@@ -1946,7 +1946,7 @@ const queryHandlers = {
 	/**
 	 * Performs a search on help articles using Fuse.js.
 	 */
-	[commonLanguage.queries.PerformSearch]: async ({ state, query }: QueryHandler<Web3State>) => {
+	[commonLanguage.queries.PerformSearch]: async ({ state, query }: QueryHandler<AppState>) => {
 		const { searchQuery } = query.payload;
 		const options = {
 			// isCaseSensitive: false,

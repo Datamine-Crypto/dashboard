@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { handleCommand } from '@/core/web3/reducer/commandHandler';
 import { handleQueryResponse } from '@/core/web3/reducer/queryHandler';
 import { initialState } from '@/core/web3/reducer/initialState';
-import { Web3State } from '@/core/web3/reducer/interfaces';
+import { AppState } from '@/core/web3/reducer/interfaces';
 import { sideEffectReducer, commonLanguage, handleQueries } from '@/core/sideEffectReducer';
 import { queryHandlers } from '@/core/web3/Web3Bindings';
 
@@ -13,7 +13,7 @@ const reducer = sideEffectReducer({
 });
 
 interface Web3Store {
-	state: Web3State;
+	state: AppState;
 	dispatch: (action: any) => void;
 }
 

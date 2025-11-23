@@ -3,7 +3,7 @@ import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem, NetworkType } from '@/configs/config.common';
 import { HelpArticle } from '@/core/helpArticles';
 import { devLog } from '@/core/utils/devLog';
-import { ConnectionMethod, Game, Web3State } from '@/core/web3/reducer/interfaces';
+import { ConnectionMethod, Game, AppState } from '@/core/web3/reducer/interfaces';
 
 const getDefaultEcosystem = () => {
 	const targetEcosystem = localStorage.getItem('targetEcosystem');
@@ -80,7 +80,7 @@ const getMarketGemsCollected = () => {
 	}
 };
 
-export const initialState: Web3State = {
+export const initialState: AppState = {
 	pendingQueries: [],
 	forecastSettings: {
 		amount: new BN(0),

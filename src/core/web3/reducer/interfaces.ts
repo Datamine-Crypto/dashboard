@@ -193,7 +193,7 @@ export interface MarketDetails {
 /**
  * The main state shape for the entire Web3 context.
  */
-export interface Web3State {
+export interface AppState {
 	forecastSettings: ForecastSettings;
 	isInitialized: boolean;
 	isDisplayingLinks: boolean;
