@@ -13,30 +13,23 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-
 import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
-
 import { SettingsInputAntenna } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
-
+import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
-
 	error: string | null;
-
 	rpcAddress: string | null;
 	setRpcAddress: React.Dispatch<any>;
 	ecosystem: Ecosystem;
 }
-
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress, setRpcAddress, ecosystem }) => {
 	const { ecosystemName } = getEcosystemConfig(ecosystem);
-
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
-
 		dispatch({
 			type: commonLanguage.commands.InitializeWalletConnect,
 			payload: {
@@ -44,11 +37,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress
 			},
 		});
 	};
-
 	const onClose = () => {
 		dispatch({ type: commonLanguage.commands.CloseDialog });
 	};
-
 	return (
 		<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 			<form onSubmit={onSubmit}>
@@ -65,7 +56,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress
 					<Box my={3}>
 						<Divider />
 					</Box>
-
 					<Typography component="div" gutterBottom={true}>
 						{ecosystemName} uses an advanced real-time dashboard. To connect to our decentralized dashboard you will
 						need to provide a valid Ethereum Mainnet RPC Endpoint.
@@ -77,7 +67,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress
 						</Link>{' '}
 						account to generate a personal RPC endpoint. To ensure fair use we do not provide a public RPC endpoint.
 					</Typography>
-
 					<Box my={3}>
 						<Grid container alignItems="center" justifyContent="center" alignContent="center">
 							<Grid>
@@ -85,7 +74,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress
 							</Grid>
 						</Grid>
 					</Box>
-
 					<Box mt={3} mb={6}>
 						<TextField
 							autoFocus
@@ -119,27 +107,26 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, error, rpcAddress
 		</Dialog>
 	);
 });
-
 const getWalletConnectRpc = () => {
 	if (!localStorage) {
 		return '';
 	}
 	const walletConnectRpc = localStorage.getItem('walletConnectRpc');
-
 	// Generate new private key on connecting (but store it so same user gets same privateKey)
 	if (!walletConnectRpc) {
 		return '';
 	}
-
 	return walletConnectRpc;
 };
-
 const WalletConnectRpcDialog: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
+	const {
+		error,
+		ecosystem,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({ error: state.state.error, ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
+	);
 	const [rpcAddress, setRpcAddress] = React.useState(getWalletConnectRpc());
-
-	const { error, ecosystem } = appState;
-
 	return (
 		<Render
 			rpcAddress={rpcAddress}
@@ -150,5 +137,4 @@ const WalletConnectRpcDialog: React.FC = () => {
 		/>
 	);
 };
-
 export default WalletConnectRpcDialog;

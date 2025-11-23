@@ -11,7 +11,6 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-
 import { Settings } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
@@ -19,7 +18,7 @@ import { BNToDecimal } from '@/core/web3/helpers';
 import { useAppStore } from '@/core/web3/appStore';
 import { Balances } from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
-
+import { useShallow } from 'zustand/react/shallow';
 /**
  * Props for the Render component within BurnDialog.
  */
@@ -35,16 +34,12 @@ interface RenderParams {
 	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }
-
 const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, ecosystem }) => {
 	const { mintableTokenShortName, navigation, ecosystemName } = getEcosystemConfig(ecosystem);
 	const { isHelpPageEnabled } = navigation;
-
 	const [targetAddress, setTargetAddress] = React.useState(selectedAddress);
-
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
-
 		dispatch({
 			type: commonLanguage.commands.SetMinterSettings,
 			payload: { address: targetAddress },
@@ -73,12 +68,10 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 			</Box>
 		);
 	};
-
 	const getLearnMoreBurningLink = () => {
 		if (!isHelpPageEnabled) {
 			return null;
 		}
-
 		return (
 			<>
 				{' '}
@@ -89,7 +82,6 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 			</>
 		);
 	};
-
 	return (
 		<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 			<form onSubmit={onSubmit}>
@@ -117,7 +109,6 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 					<Box my={3}>
 						<Divider />
 					</Box>
-
 					<Typography component="div" gutterBottom={true}>
 						Below you can specify who can mint from your account. By default the address that locks-in the{' '}
 						{mintableTokenShortName} gets to mint from that address.
@@ -147,22 +138,33 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 		</Dialog>
 	);
 });
-
 /**
  * BurnDialog component for burning Flux tokens.
  * This dialog allows users to specify an amount of Flux tokens to burn and a target Ethereum address.
  * Burning tokens permanently increases the minting rate on the destination address.
  */
 const MintSettingsDialog: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
+	const {
+		balances,
+		selectedAddress,
+		error,
+		ecosystem,
+		state: appState,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			balances: state.state.balances,
+			selectedAddress: state.state.selectedAddress,
+			error: state.state.error,
+			ecosystem: state.state.ecosystem,
+			state: state.state,
+			dispatch: state.dispatch,
+		}))
+	);
 	const total = BNToDecimal(appState.balances?.fluxToken ?? null);
-
-	const { balances, selectedAddress, error, ecosystem } = appState;
 	if (!balances || !selectedAddress) {
 		return null;
 	}
-
 	return (
 		<Render
 			balances={balances}
@@ -173,5 +175,4 @@ const MintSettingsDialog: React.FC = () => {
 		/>
 	);
 };
-
 export default MintSettingsDialog;

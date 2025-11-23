@@ -1,14 +1,11 @@
 import { Box } from '@mui/material';
 import React from 'react';
-
 // Web3 context for accessing blockchain state and dispatch functions
 import { useAppStore } from '@/core/web3/appStore';
 // Call to action card component
 import CallToActionCard from '@/core/react/elements/Cards/CallToActionCard';
-
 // Global statistics card component
 import GlobalCard from '@/core/react/elements/Cards/GlobalCard';
-
 // Styling utility from tss-react
 import { tss } from 'tss-react/mui';
 // Configuration for the current ecosystem
@@ -23,7 +20,7 @@ import LockedLiquidityCard from '@/core/react/elements/Cards/LockedLiquidityCard
 import MintStatsCard from '@/core/react/elements/Cards/MintStatsCard';
 // Real-time liquidity card component
 import RealtimeLiqudityCard from '@/core/react/elements/Cards/RealtimeLiqudityCard';
-
+import { useShallow } from 'zustand/react/shallow';
 /**
  * Props for the Render component.
  */
@@ -33,7 +30,6 @@ interface RenderParams {
 	/** The current ecosystem being used. */
 	ecosystem: Ecosystem;
 }
-
 /**
  * Styles for the Web3Account component, specifically for the cards container.
  * It defines typography and color styles for primary and secondary list item text.
@@ -51,7 +47,6 @@ const useStyles = tss.create(({ theme }) => ({
 		},
 	},
 }));
-
 /**
  * A memoized functional component that renders various cards related to the Datamine Network dashboard.
  * It conditionally displays the RealtimeLiquidityCard based on the `isLiquidityPoolsEnabled` flag
@@ -61,7 +56,6 @@ const useStyles = tss.create(({ theme }) => ({
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 	const { classes } = useStyles();
 	const { isLiquidityPoolsEnabled } = getEcosystemConfig(ecosystem);
-
 	/**
 	 * Conditionally renders the RealtimeLiquidityCard based on whether liquidity pools are enabled
 	 * in the current ecosystem configuration.
@@ -100,7 +94,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 		</>
 	);
 });
-
 /**
  * Web3Account component that displays various cards related to the user's Web3 account and the Datamine Network.
  * It consumes the Web3Context to get the current Web3 state and dispatch function.
@@ -109,11 +102,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
  * and providing options for disconnecting or switching networks.
  */
 const Web3Account: React.FC = () => {
-	const { state: appState, dispatch } = useAppStore();
-
-	const { ecosystem } = appState;
-
+	const { ecosystem, dispatch } = useAppStore(
+		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
+	);
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
 };
-
 export default Web3Account;

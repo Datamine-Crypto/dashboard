@@ -1,14 +1,12 @@
 import { Alert, Box, Button, Card, CardContent, Chip, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-
 import { useAppStore } from '@/core/web3/appStore';
-
 import { Visibility, Whatshot } from '@mui/icons-material';
 import { FluxAddressLock } from '@/core/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import LightTooltip from '@/core/react/elements/LightTooltip';
-
+import { useShallow } from 'zustand/react/shallow';
 /**
  * Props for the Render component within DatamineNetworkCard.
  */
@@ -22,7 +20,6 @@ interface RenderParams {
 	/** The dispatch function from the Web3Context. */
 	dispatch: React.Dispatch<any>;
 }
-
 /**
  * A memoized functional component that renders the Datamine Network Pro card.
  * This card provides information about the Datamine Network's burn-as-a-service concept
@@ -32,7 +29,6 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 	const getButton = () => {
 		const disabledText = false; //!isCurrentAddress ? <>Select the <Box fontWeight="bold" display="inline">Delegated Minter Address</Box> account in your wallet to mint for this address.</> : null;
-
 		const button = (
 			<Button
 				color="secondary"
@@ -49,7 +45,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 				Display Access Links
 			</Button>
 		);
-
 		if (disabledText) {
 			return (
 				<LightTooltip title={disabledText}>
@@ -57,14 +52,12 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 				</LightTooltip>
 			);
 		}
-
 		return (
 			<LightTooltip title="Gain instant access to Datamine Network Pro and gain 2 additional 'Buddy' passes to share with your friends.">
 				<Box display="inline-block">{button}</Box>
 			</LightTooltip>
 		);
 	};
-
 	return (
 		<Card>
 			<CardContent>
@@ -78,11 +71,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 				<Box mt={1} mb={2}>
 					<Divider />
 				</Box>
-
 				<Alert severity="info">
 					Every Ethereum Address can generate up to 3 Access Codes to Datamine Network Pro for FREE!
 				</Alert>
-
 				<Box mx={2} mt={3}>
 					In 2019 we&apos;ve showed the world our take on creating monetary velocity through burn incentives. As one of
 					the first deflation-resistant tokens in cryptocurrency space we&apos;ve paved the way for others to follow.
@@ -109,17 +100,24 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 		</Card>
 	);
 });
-
 const DatamineNetworkCard: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
-	const { addressLock, address, selectedAddress } = appState;
+	const {
+		addressLock,
+		address,
+		selectedAddress,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			addressLock: state.state.addressLock,
+			address: state.state.address,
+			selectedAddress: state.state.selectedAddress,
+			dispatch: state.dispatch,
+		}))
+	);
 	if (!addressLock || !selectedAddress) {
 		return null;
 	}
-
 	const displayedAddress = address ?? selectedAddress;
-
 	return (
 		<Render
 			addressLock={addressLock}
@@ -129,5 +127,4 @@ const DatamineNetworkCard: React.FC = () => {
 		/>
 	);
 };
-
 export default DatamineNetworkCard;

@@ -23,13 +23,11 @@ import type { AdapterMoment as AdapterMomentType } from '@mui/x-date-pickers/Ada
 import type { LocalizationProviderProps } from '@mui/x-date-pickers/LocalizationProvider';
 import type { MobileDatePickerProps } from '@mui/x-date-pickers/MobileDatePicker';
 import React, { useEffect, useState } from 'react';
-
 import Big from 'big.js';
 import BN from 'bn.js';
 import { useAppStore } from '@/core/web3/appStore';
 import { Balances, ClientSettings, ConnectionMethod, ForecastSettings } from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
-
 import {
 	Alarm as AlarmIcon,
 	Apps as AppsIcon,
@@ -42,7 +40,6 @@ import {
 	Whatshot as WhatshotIcon,
 	InsertInvitation,
 } from '@mui/icons-material';
-
 import moment, { Moment } from 'moment';
 import { Ecosystem, Layer } from '@/configs/config.common';
 import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
@@ -70,11 +67,10 @@ import {
 	getPriceToggleBig,
 } from '@/core/web3/helpers';
 import LightTooltip from '@/core/react/elements/LightTooltip';
-
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/configs/config';
 import { getNetworkDropdown } from '@/core/react/elements/Fragments/EcosystemDropdown';
-
+import { useShallow } from 'zustand/react/shallow';
 const useStyles = tss.create(({ theme }) => ({
 	progressBarLeft: {
 		height: '15px',
@@ -112,7 +108,6 @@ const useStyles = tss.create(({ theme }) => ({
 		'& .MuiPickersYear-yearSelected': {
 			color: '#0FF',
 		},
-
 		'& .MuiPickersDay-daySelected': {
 			backgroundColor: '#303030',
 		},
@@ -142,7 +137,6 @@ const useStyles = tss.create(({ theme }) => ({
 		},
 	},
 }));
-
 /**
  * Props for the Render component.
  */
@@ -170,7 +164,6 @@ interface RenderParams {
 	/** The current connection method. */
 	connectionMethod: ConnectionMethod;
 }
-
 /**
  * Dependencies for the date picker, dynamically loaded.
  */
@@ -179,7 +172,6 @@ interface DatePickerDependencies {
 	MobileDatePicker: React.ElementType<MobileDatePickerProps<any>> | null;
 	AdapterMoment: typeof AdapterMomentType | null;
 }
-
 /**
  * A memoized functional component that renders the Call To Action card on the dashboard.
  * This card dynamically displays different actions and information based on the user's Web3 state,
@@ -201,7 +193,6 @@ const Render: React.FC<RenderParams> = React.memo(
 		connectionMethod,
 	}) => {
 		const { classes } = useStyles();
-
 		const {
 			navigation,
 			isArbitrumOnlyToken,
@@ -216,25 +207,19 @@ const Render: React.FC<RenderParams> = React.memo(
 			batchMinterAddress,
 		} = getConfig(ecosystem);
 		const { isHelpPageEnabled } = navigation;
-
 		const ecosystemConfig = getEcosystemConfig(ecosystem);
 		const isArbitrumMainnet = ecosystemConfig.layer === Layer.Layer2;
-
 		const isPlayingGameDatamineGems =
 			ecosystemConfig.marketAddress && ecosystemConfig.marketAddress.toLowerCase() === addressLock.minterAddress;
-
 		const isPlayingGameHoldClicker =
 			ecosystemConfig.gameHodlClickerAddress &&
 			ecosystemConfig.gameHodlClickerAddress.toLowerCase() === addressLock.minterAddress;
-
 		const isPlayingGame = addressLock && (isPlayingGameDatamineGems || isPlayingGameHoldClicker);
-
 		const [datePickerDeps, setDatePickerDeps] = useState<DatePickerDependencies>({
 			LocalizationProvider: null,
 			MobileDatePicker: null,
 			AdapterMoment: null,
 		});
-
 		/**
 		 * Effect hook to dynamically load date picker dependencies when the forecasting mode is enabled.
 		 * This optimizes bundle size by only loading these components when needed.
@@ -267,24 +252,20 @@ const Render: React.FC<RenderParams> = React.memo(
 				isMounted = false;
 			};
 		}, [forecastSettings.enabled, datePickerDeps.AdapterMoment]);
-
 		// Prevent inputs from autofills
 		const removeAutocompleteProps = {
 			'data-lpignore': 'true',
 			'data-form-type': 'other',
 			autocomplete: 'off',
 		};
-
 		// Only show CTA once account is loaded
 		if (addressDetails === null || selectedAddress === null) {
 			return null;
 		}
-
 		const getMintHeaderLabel = () => {
 			if (!isArbitrumMainnet || isArbitrumOnlyToken) {
 				return null;
 			}
-
 			return (
 				<>
 					<Typography component="div" color="textSecondary" display="inline">
@@ -299,19 +280,16 @@ const Render: React.FC<RenderParams> = React.memo(
 				if (addressLock && addressDetails) {
 					const lockedInDamAmount = new BN(addressLock.amount);
 					const isLocked = !lockedInDamAmount.isZero();
-
 					if (isLocked || isForecastingModeEnabled) {
 						const { minterAddress } = addressLock;
 						const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase(); // Lowercase for WalletConnect
 						const isBatchMinter =
 							batchMinterAddress && minterAddress?.toLowerCase() === batchMinterAddress.toLowerCase();
-
 						const getLockedInAmountArea = () => {
 							const getAmount = () => {
 								return addressLock.amount;
 							};
 							const amount = getAmount();
-
 							if (forecastSettings.enabled) {
 								return (
 									<>
@@ -329,17 +307,14 @@ const Render: React.FC<RenderParams> = React.memo(
 									</>
 								);
 							}
-
 							return `${BNToDecimal(amount, true)}`;
 						};
-
 						const getUnmintedBlocks = () => {
 							if (forecastSettings.enabled) {
 								return forecastSettings.blocks;
 							}
 							return addressDetails.blockNumber - addressLock.lastMintBlockNumber;
 						};
-
 						const isCurrentAddress = selectedAddress === displayedAddress;
 						const getBurnButton = () => {
 							if (isPlayingGame) {
@@ -348,7 +323,6 @@ const Render: React.FC<RenderParams> = React.memo(
 							const showBurnDialog = () => {
 								dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Burn } });
 							};
-
 							const getButton = () => {
 								const isDisabled = !isCurrentAddress || addressDetails.fluxBalance.isZero();
 								const button = (
@@ -362,7 +336,6 @@ const Render: React.FC<RenderParams> = React.memo(
 										Burn {mintableTokenShortName}
 									</Button>
 								);
-
 								if (addressDetails.fluxBalance.isZero()) {
 									return (
 										<LightTooltip title={`This address must have ${mintableTokenShortName} tokens to burn.`}>
@@ -379,32 +352,25 @@ const Render: React.FC<RenderParams> = React.memo(
 										</LightTooltip>
 									);
 								}
-
 								return button;
 							};
-
 							return (
 								<Box mx={1} display="inline-block">
 									{getButton()}
 								</Box>
 							);
 						};
-
 						const unmintedBlocks = getUnmintedBlocks();
-
 						const getLockedInAmount = () => {
 							if (forecastSettings.enabled) {
 								return forecastSettings.amount;
 							}
 							return addressLock.amount;
 						};
-
 						const rawAmount = getLockedInAmount()
 							.div(new BN(10).pow(new BN(mintableTokenMintPerBlockDivisor)))
 							.mul(new BN(unmintedBlocks));
-
 						const rawAmountBig = new Big(rawAmount.toString(10));
-
 						const blanceWithoutBonusesInUsdc = getPriceToggleBig({
 							valueBig: rawAmountBig.mul(minBurnMultiplier),
 							inputToken: Token.Mintable,
@@ -412,7 +378,6 @@ const Render: React.FC<RenderParams> = React.memo(
 							balances,
 							round: 6,
 						});
-
 						const blanceWitMaxBonusesInUsdc = getPriceToggle({
 							value: rawAmount.mul(new BN(3 * maxBurnMultiplier)),
 							inputToken: Token.Mintable,
@@ -420,7 +385,6 @@ const Render: React.FC<RenderParams> = React.memo(
 							balances,
 							round: 6,
 						});
-
 						const getMintAmount = () => {
 							if (forecastSettings.enabled) {
 								const percentMultiplier = new BN('10000');
@@ -432,10 +396,8 @@ const Render: React.FC<RenderParams> = React.memo(
 							}
 							return addressDetails.mintAmount;
 						};
-
 						const getUsdcMint = () => {
 							const mintAmount = getMintAmount();
-
 							const balanceInUsdc = getPriceToggle({
 								value: mintAmount,
 								inputToken: Token.Mintable,
@@ -444,7 +406,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								round: 6,
 								removeCommas: true,
 							});
-
 							const getMintTooltip = () => {
 								const getMaxMultipliers = () => {
 									if (blanceWitMaxBonusesInUsdc === blanceWithoutBonusesInUsdc) {
@@ -471,10 +432,8 @@ const Render: React.FC<RenderParams> = React.memo(
 									</>
 								);
 							};
-
 							const amount = parseFloat(balanceInUsdc) * clientSettings.priceMultiplier;
 							const moneyAmount = formatMoney({ amount, currency: clientSettings.currency });
-
 							return (
 								<>
 									<LightTooltip title={getMintTooltip()}>
@@ -488,7 +447,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								</>
 							);
 						};
-
 						const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({
 							addressDetails,
 							addressLock,
@@ -496,7 +454,6 @@ const Render: React.FC<RenderParams> = React.memo(
 							ecosystem,
 							targetMultiplier: new Big(maxBurnMultiplier - minBurnMultiplier),
 						});
-
 						const getFluxBurnTooltip = () => {
 							const getBurnTooltip = () => {
 								return (
@@ -537,7 +494,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								</>
 							);
 						};
-
 						const getStartDateArea = () => {
 							if (!forecastSettings.enabled) {
 								return null;
@@ -546,7 +502,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								const value = moment()
 									.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
 									.add(parseFloat(forecastSettings.forecastStartBlocks) / (60 / 12), 'minutes');
-
 								const getBlocksDropdown = () => {
 									if (
 										!datePickerDeps.LocalizationProvider ||
@@ -560,7 +515,6 @@ const Render: React.FC<RenderParams> = React.memo(
 										);
 									}
 									const { LocalizationProvider, MobileDatePicker, AdapterMoment } = datePickerDeps;
-
 									return (
 										<LocalizationProvider dateAdapter={AdapterMoment}>
 											<MobileDatePicker
@@ -620,7 +574,6 @@ const Render: React.FC<RenderParams> = React.memo(
 									</>
 								);
 							};
-
 							return (
 								<TableRow>
 									<TableCell align="left">
@@ -637,16 +590,13 @@ const Render: React.FC<RenderParams> = React.memo(
 								</TableRow>
 							);
 						};
-
 						const getUnmintedBlocksArea = () => {
 							const blocksDiff = addressDetails.blockNumber - addressLock.lastMintBlockNumber;
-
 							if (forecastSettings.enabled) {
 								//const additionalBlocks = forecastSettings.forecastStartBlocks
 								const value = moment()
 									.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
 									.add(parseFloat(forecastSettings.forecastBlocks) / (60 / 12), 'minutes');
-
 								const getBlocksDropdown = () => {
 									if (
 										!datePickerDeps.LocalizationProvider ||
@@ -660,7 +610,6 @@ const Render: React.FC<RenderParams> = React.memo(
 										);
 									}
 									const { LocalizationProvider, MobileDatePicker, AdapterMoment } = datePickerDeps;
-
 									return (
 										<LocalizationProvider dateAdapter={AdapterMoment}>
 											<MobileDatePicker
@@ -713,23 +662,18 @@ const Render: React.FC<RenderParams> = React.memo(
 									</>
 								);
 							}
-
 							return <>x {blocksDiff}</>;
 						};
-
 						const getUnmintedBlocksDuration = () => {
 							if (forecastSettings.enabled) {
 								const blocksRemaining = getBlocksRemaining(forecastSettings.blocks, 0, 0, 'None', false);
-
 								const getForecastedDate = () => {
 									const blocksDuration = Math.max(
 										0,
 										forecastSettings.blocks + (addressLock.lastMintBlockNumber - addressDetails.blockNumber)
 									); // This number comes from migration (28 days approx)
-
 									return null;
 								};
-
 								return (
 									<>
 										{blocksRemaining}
@@ -739,7 +683,6 @@ const Render: React.FC<RenderParams> = React.memo(
 							}
 							return getBlocksRemaining(addressDetails.blockNumber, 0, addressLock.lastMintBlockNumber, 'None', false);
 						};
-
 						const getBurnSlider = () => {
 							if (forecastSettings.enabled) {
 								return (
@@ -757,7 +700,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								);
 							}
 							const maxBurnBarWidth = 10000 * maxBurnMultiplier;
-
 							return (
 								<Box mt={0.5}>
 									<Grid container>
@@ -793,7 +735,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								</Box>
 							);
 						};
-
 						const getTimeSlider = () => {
 							if (forecastSettings.enabled) {
 								return (
@@ -810,7 +751,6 @@ const Render: React.FC<RenderParams> = React.memo(
 									/>
 								);
 							}
-
 							return (
 								<Box mt={0.5}>
 									<Grid container>
@@ -842,7 +782,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								</Box>
 							);
 						};
-
 						const getBurnMultiplierText = () => {
 							if (forecastSettings.enabled) {
 								return (
@@ -863,7 +802,6 @@ const Render: React.FC<RenderParams> = React.memo(
 									</>
 								);
 							}
-
 							return getFormattedMultiplier(addressDetails.addressBurnMultiplier);
 						};
 						const getTimeMultiplierText = () => {
@@ -886,27 +824,21 @@ const Render: React.FC<RenderParams> = React.memo(
 									</>
 								);
 							}
-
 							return getFormattedMultiplier(addressDetails.addressTimeMultiplier);
 						};
-
 						const getBurnBonusDescription = () => {
 							const getTargetBurnMultiplier = () => {
 								if (forecastSettings.enabled) {
 									return Math.floor(forecastSettings.forecastBurn / 10000);
 								}
-
 								return 1;
 							};
-
 							const getTargetBurnMultiplierDecimal = () => {
 								if (forecastSettings.enabled) {
 									return forecastSettings.forecastBurn / 10000;
 								}
-
 								return 1;
 							};
-
 							if (forecastSettings.enabled) {
 								const fluxRequiredToBurn = getRequiredFluxToBurnDecimal({
 									ecosystem,
@@ -916,7 +848,6 @@ const Render: React.FC<RenderParams> = React.memo(
 									myFluxBurned: new Big(addressLock.burnedAmount.toString()),
 									myDamLockedIn: new Big(forecastSettings.amount.toString()),
 								});
-
 								if (fluxRequiredToBurn.gt(new Big(0))) {
 									const actualFluxRequiredToBurn = fluxRequiredToBurn.mul(new Big(10).pow(18)).round(0).toFixed();
 									const amountToBurnUsd = getPriceToggle({
@@ -938,7 +869,6 @@ const Render: React.FC<RenderParams> = React.memo(
 									);
 								}
 							}
-
 							return <>{`(Applied at time of mint, x${maxBurnMultiplier} max)`}</>;
 						};
 						const getDisabledText = () => {
@@ -959,10 +889,8 @@ const Render: React.FC<RenderParams> = React.memo(
 							if (isForecastingModeEnabled) {
 								return <>You must disable forecasting mode to mint.</>;
 							}
-
 							return null;
 						};
-
 						const getFluxPriceRow = () => {
 							if (!isForecastingModeEnabled) {
 								return null;
@@ -970,7 +898,6 @@ const Render: React.FC<RenderParams> = React.memo(
 							//return null //@todo
 							const getPriceArea = () => {
 								const blocksDiff = addressDetails.blockNumber - addressLock.lastMintBlockNumber;
-
 								if (forecastSettings.enabled) {
 									return (
 										<>
@@ -988,7 +915,6 @@ const Render: React.FC<RenderParams> = React.memo(
 										</>
 									);
 								}
-
 								return <>x {blocksDiff}</>;
 							};
 							return (
@@ -1007,7 +933,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								</TableRow>
 							);
 						};
-
 						const getUnmintedBlocksText = () => {
 							if (forecastSettings.enabled) {
 								return (
@@ -1019,7 +944,6 @@ const Render: React.FC<RenderParams> = React.memo(
 									</>
 								);
 							}
-
 							return (
 								<>
 									Unminted Blocks{' '}
@@ -1029,7 +953,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								</>
 							);
 						};
-
 						const getDamLockedUsdc = () => {
 							const lockedAmount = forecastSettings.enabled
 								? new Big(forecastSettings.forecastAmount).mul(new Big(10).pow(18))
@@ -1037,7 +960,6 @@ const Render: React.FC<RenderParams> = React.memo(
 							if (lockedAmount.toString() === '0') {
 								return null;
 							}
-
 							const usdcAmount = getPriceToggle({
 								value: new BN(lockedAmount.toFixed(0)),
 								inputToken: Token.Lockable,
@@ -1047,12 +969,10 @@ const Render: React.FC<RenderParams> = React.memo(
 							});
 							return `($ ${usdcAmount} USD)`;
 						};
-
 						const getApyHeader = () => {
 							if (!balances) {
 								return null;
 							}
-
 							const apyPools = new Map<TokenPair, any>();
 							apyPools.set(TokenPair.DAM_ETH, {
 								Reserve0: balances.uniswapDamTokenReserves.eth.toString(),
@@ -1066,12 +986,10 @@ const Render: React.FC<RenderParams> = React.memo(
 								Reserve0: balances.uniswapUsdcEthTokenReserves.usdc.toString(),
 								Reserve1: balances.uniswapUsdcEthTokenReserves.eth.toString(),
 							});
-
 							const getBurnMultiplier = () => {
 								return minBurnMultiplier;
 							};
 							const burnMultiplier = getBurnMultiplier();
-
 							const apy = getApy(ecosystem, apyPools);
 							if (!apy) {
 								return null;
@@ -1080,7 +998,6 @@ const Render: React.FC<RenderParams> = React.memo(
 							if (!actualApy) {
 								return null;
 							}
-
 							return (
 								<>
 									<Typography component="div" color="textSecondary" display="inline">
@@ -1089,7 +1006,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								</>
 							);
 						};
-
 						const getBottomRightText = () => {
 							/*if (forecastSettings.enabled) {
 								return;
@@ -1222,7 +1138,6 @@ const Render: React.FC<RenderParams> = React.memo(
 																</Typography>
 																{getBurnButton()}
 															</Typography>
-
 															{getBurnSlider()}
 														</TableCell>
 														<TableCell align="left">
@@ -1240,7 +1155,6 @@ const Render: React.FC<RenderParams> = React.memo(
 																	(Applied at time of mint, x3 max)
 																</Typography>
 															</Typography>
-
 															{getTimeSlider()}
 														</TableCell>
 														<TableCell align="left">
@@ -1273,7 +1187,6 @@ const Render: React.FC<RenderParams> = React.memo(
 						};
 					}
 				}
-
 				return {
 					title: <>Start Validator</>,
 					body: (
@@ -1293,14 +1206,12 @@ const Render: React.FC<RenderParams> = React.memo(
 					learnMoreHref: isHelpPageEnabled ? '#help/dashboard/startingDecentralizedMint' : undefined,
 				};
 			}
-
 			const getMintingText = () => {
 				if (isArbitrumMainnet) {
 					return `To run your own ${mintableTokenShortName} validator you must first enable minting on Arbitrum L2. Click the "Enable" button below to continue.`;
 				}
 				return `To run your own validator you must first enable ${mintableTokenShortName} minting. Click the "Enable" button below to continue.`;
 			};
-
 			return {
 				title: (
 					<>
@@ -1357,14 +1268,11 @@ const Render: React.FC<RenderParams> = React.memo(
 				learnMoreHref: isHelpPageEnabled ? '#help/onboarding/connectingMetamask' : undefined,
 			};
 		};
-
 		const ctaDetails = getCtaDetails();
 		if (!ctaDetails) {
 			return null;
 		}
-
 		const { disabledText } = ctaDetails;
-
 		const getButton = () => {
 			const lockedInDamAmount = new BN(addressLock.amount);
 			const isLocked = !lockedInDamAmount.isZero();
@@ -1385,7 +1293,6 @@ const Render: React.FC<RenderParams> = React.memo(
 					</Button>
 				);
 			}
-
 			const button = (
 				<Button
 					color="secondary"
@@ -1402,7 +1309,6 @@ const Render: React.FC<RenderParams> = React.memo(
 					{ctaDetails.action}
 				</Button>
 			);
-
 			if (disabledText) {
 				return (
 					<LightTooltip title={disabledText}>
@@ -1410,10 +1316,8 @@ const Render: React.FC<RenderParams> = React.memo(
 					</LightTooltip>
 				);
 			}
-
 			return button;
 		};
-
 		const getBridgeButton = () => {
 			if (isArbitrumOnlyToken) {
 				return null;
@@ -1421,12 +1325,9 @@ const Render: React.FC<RenderParams> = React.memo(
 			if (ecosystem === Ecosystem.Lockquidity) {
 				return;
 			}
-
 			const startIcon = !isArbitrumMainnet ? ArbitrumLogo : EthereumPurpleLogo;
-
 			// The link to Arbitrum bridge must be based on "L1" mintable token address
 			const { mintableTokenContractAddress } = ecosystemConfig;
-
 			return (
 				<Box mr={1}>
 					<LightTooltip title="Click to open Arbitrum L2 Bridge">
@@ -1445,7 +1346,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Box>
 			);
 		};
-
 		const getRealtimePrices = () => {
 			const getIcon = (type: Token) => {
 				const getIconPath = () => {
@@ -1458,7 +1358,6 @@ const Render: React.FC<RenderParams> = React.memo(
 							return type === Token.Lockable ? arbiFluxLogo : lockquidityLogo;
 					}
 				};
-
 				switch (type) {
 					case Token.ETH:
 						return <img src={EthereumPurpleLogo} width={24} height={24} style={{ verticalAlign: 'middle' }} />;
@@ -1466,11 +1365,9 @@ const Render: React.FC<RenderParams> = React.memo(
 						return <img src={getIconPath()} width={24} height={24} style={{ verticalAlign: 'middle' }} />;
 				}
 			};
-
 			const getFluxPrice = () => {
 				const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: mintableTokenPriceDecimals })}`;
 				const actualFluxPrice = `$ ${shortFluxPrice}`;
-
 				return (
 					<>
 						<Box display="inline" className={classes.topLeftPrices}>
@@ -1486,7 +1383,6 @@ const Render: React.FC<RenderParams> = React.memo(
 			const getDamPrice = () => {
 				const shortDamPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 4 })}`;
 				const actualDamPrice = `$ ${shortDamPrice}`;
-
 				return (
 					<>
 						<Box display="inline" className={classes.topLeftPrices}>
@@ -1502,7 +1398,6 @@ const Render: React.FC<RenderParams> = React.memo(
 			const getEthPrice = () => {
 				const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })}`;
 				const actualFluxPrice = `$ ${shortFluxPrice}`;
-
 				return (
 					<>
 						<Box display="inline" className={classes.topLeftPrices}>
@@ -1531,7 +1426,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</>
 			);
 		};
-
 		const getLearnMoreButton = () => {
 			if (!isHelpPageEnabled) {
 				return null;
@@ -1544,7 +1438,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Box>
 			);
 		};
-
 		return (
 			<>
 				<Box mb={1.5}>
@@ -1605,10 +1498,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		);
 	}
 );
-
 const CallToActionCard: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
 	const {
 		addressLock,
 		address,
@@ -1620,14 +1510,26 @@ const CallToActionCard: React.FC = () => {
 		clientSettings,
 		ecosystem,
 		connectionMethod,
-	} = appState;
-
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			addressLock: state.state.addressLock,
+			address: state.state.address,
+			selectedAddress: state.state.selectedAddress,
+			addressDetails: state.state.addressDetails,
+			addressTokenDetails: state.state.addressTokenDetails,
+			balances: state.state.balances,
+			forecastSettings: state.state.forecastSettings,
+			clientSettings: state.state.clientSettings,
+			ecosystem: state.state.ecosystem,
+			connectionMethod: state.state.connectionMethod,
+			dispatch: state.dispatch,
+		}))
+	);
 	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances || !connectionMethod) {
 		return null;
 	}
-
 	const displayedAddress = address ?? selectedAddress;
-
 	return (
 		<Render
 			addressLock={addressLock}
@@ -1644,5 +1546,4 @@ const CallToActionCard: React.FC = () => {
 		/>
 	);
 };
-
 export default CallToActionCard;

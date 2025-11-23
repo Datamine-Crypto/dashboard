@@ -10,35 +10,29 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-
 import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
-
 import { Redeem } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { FluxAddressDetails } from '@/core/interfaces';
 import { BNToDecimal } from '@/core/web3/helpers';
-
+import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	selectedAddress: string;
 	addressDetails: FluxAddressDetails;
 	dispatch: React.Dispatch<any>;
-
 	error: string | null;
 	address: string | null;
 	displayedAddress: string;
 	setAddress: React.Dispatch<any>;
 	ecosystem: Ecosystem;
 }
-
 const Render: React.FC<RenderParams> = React.memo(
 	({ selectedAddress, addressDetails, error, dispatch, address, displayedAddress, setAddress, ecosystem }) => {
 		const { mintableTokenShortName } = getEcosystemConfig(ecosystem);
-
 		const onSubmit = async (e: any) => {
 			e.preventDefault();
-
 			dispatch({
 				type: commonLanguage.commands.MintFluxTokens,
 				payload: {
@@ -48,7 +42,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				},
 			});
 		};
-
 		const onClose = (event: any = undefined, reason: any = undefined) => {
 			// Prevent closing by clicking outside dialog
 			if (reason === 'backdropClick') {
@@ -56,7 +49,6 @@ const Render: React.FC<RenderParams> = React.memo(
 			}
 			dispatch({ type: commonLanguage.commands.CloseDialog });
 		};
-
 		return (
 			<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 				<form onSubmit={onSubmit}>
@@ -84,18 +76,15 @@ const Render: React.FC<RenderParams> = React.memo(
 						<Box my={3}>
 							<Divider />
 						</Box>
-
 						<Typography component="div" gutterBottom={true}>
 							To continue specify where you want to collect these {mintableTokenShortName} tokens. You can specify any
 							Ethereum-based address.
 						</Typography>
-
 						<Box my={3}>
 							<Typography component="div">
 								Your generated {mintableTokenShortName} yield will be sent to the following address:
 							</Typography>
 						</Box>
-
 						<Box mt={3} mb={6}>
 							<TextField
 								autoFocus
@@ -129,18 +118,29 @@ const Render: React.FC<RenderParams> = React.memo(
 		);
 	}
 );
-
 const MintDialog: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
+	const {
+		selectedAddress,
+		addressDetails,
+		error,
+		ecosystem,
+		state: appState,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			selectedAddress: state.state.selectedAddress,
+			addressDetails: state.state.addressDetails,
+			error: state.state.error,
+			ecosystem: state.state.ecosystem,
+			state: state.state,
+			dispatch: state.dispatch,
+		}))
+	);
 	const [address, setAddress] = React.useState(appState.selectedAddress);
-
-	const { selectedAddress, addressDetails, error, ecosystem } = appState;
 	if (!selectedAddress || !addressDetails) {
 		return null;
 	}
-
 	const displayedAddress = appState.address ?? selectedAddress;
-
 	return (
 		<Render
 			selectedAddress={selectedAddress}
@@ -154,5 +154,4 @@ const MintDialog: React.FC = () => {
 		/>
 	);
 };
-
 export default MintDialog;

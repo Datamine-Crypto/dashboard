@@ -10,11 +10,9 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-
 import { useAppStore } from '@/core/web3/appStore';
 import { Balances, ClientSettings } from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
-
 import { getEcosystemConfig as getConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { FluxAddressDetails, Token } from '@/core/interfaces';
@@ -22,11 +20,10 @@ import { theme } from '@/core/styles';
 import { formatMoney } from '@/core/utils/formatMoney';
 import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '@/core/web3/helpers';
 import MessageDialog from '@/core/react/elements/Dialogs/MessageDialog';
-
+import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	addressDetails: FluxAddressDetails;
 	dispatch: React.Dispatch<any>;
-
 	error: string | null;
 	amount: string | null;
 	balances: Balances | null;
@@ -39,27 +36,21 @@ const localConfig = {
 	 */
 	amountToLoseWarningThreshold: 5,
 };
-
 const Render: React.FC<RenderParams> = React.memo(
 	({ addressDetails, dispatch, error, amount, ecosystem, balances, clientSettings }) => {
 		const { mintableTokenShortName, lockableTokenShortName } = getConfig(ecosystem);
-
 		const onSubmit = async (e: any) => {
 			e.preventDefault();
-
 			dispatch({
 				type: commonLanguage.commands.UnlockDamTokens,
 			});
 		};
-
 		const onClose = () => {
 			dispatch({ type: commonLanguage.commands.CloseDialog });
 		};
-
 		const onCloseError = () => {
 			dispatch({ type: commonLanguage.commands.DismissError });
 		};
-
 		const getAmountLostAlert = () => {
 			if (!balances) {
 				return null;
@@ -68,7 +59,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				return addressDetails.mintAmount;
 			};
 			const mintAmount = getMintAmount();
-
 			const balanceInUsdc = getPriceToggle({
 				value: mintAmount,
 				inputToken: Token.Mintable,
@@ -77,14 +67,12 @@ const Render: React.FC<RenderParams> = React.memo(
 				round: 6,
 				removeCommas: true,
 			});
-
 			const unmintedUsdAmount = parseFloat(balanceInUsdc);
 			if (unmintedUsdAmount < localConfig.amountToLoseWarningThreshold) {
 				return null;
 			}
 			const amount = unmintedUsdAmount * clientSettings.priceMultiplier;
 			const moneyAmount = formatMoney({ amount, currency: clientSettings.currency });
-
 			return (
 				<Box mt={3}>
 					<Alert severity="error">
@@ -101,7 +89,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Box>
 			);
 		};
-
 		return (
 			<Dialog open={true} onClose={onClose} aria-labelledby="alert-dialog-title">
 				{error ? <MessageDialog open={true} title="Error" message={error} onClose={onCloseError} /> : null}
@@ -136,7 +123,6 @@ const Render: React.FC<RenderParams> = React.memo(
 									Any unminted {mintableTokenShortName} tokens will be lost.
 								</Box>
 							</Typography>
-
 							{getAmountLostAlert()}
 						</Box>
 					</DialogContent>
@@ -155,17 +141,30 @@ const Render: React.FC<RenderParams> = React.memo(
 		);
 	}
 );
-
 const UnlockDialog: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
+	const {
+		addressDetails,
+		error,
+		ecosystem,
+		balances,
+		clientSettings,
+		state: appState,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			addressDetails: state.state.addressDetails,
+			error: state.state.error,
+			ecosystem: state.state.ecosystem,
+			balances: state.state.balances,
+			clientSettings: state.state.clientSettings,
+			state: state.state,
+			dispatch: state.dispatch,
+		}))
+	);
 	const amount = BNToDecimal(appState.addressLock?.amount ?? null);
-
-	const { addressDetails, error, ecosystem, balances, clientSettings } = appState;
 	if (!addressDetails) {
 		return null;
 	}
-
 	return (
 		<Render
 			addressDetails={addressDetails}
@@ -178,5 +177,4 @@ const UnlockDialog: React.FC = () => {
 		/>
 	);
 };
-
 export default UnlockDialog;

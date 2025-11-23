@@ -15,7 +15,6 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-
 import { ImportExport } from '@mui/icons-material';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '@/configs/config';
@@ -25,28 +24,24 @@ import { useAppStore } from '@/core/web3/appStore';
 import { Balances } from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import { AddressLockDetailsViewModel, Game } from '@/core/interfaces';
-
+import { useShallow } from 'zustand/react/shallow';
 enum Action {
 	Deposit = 'Deposit',
 	Withdraw = 'Withdraw',
 }
-
 interface RenderParams {
 	selectedAddress: string;
 	balances: Balances;
 	dispatch: React.Dispatch<any>;
 	ecosystem: Ecosystem;
-
 	error: string | null;
 	total: string | null;
 	marketAddressLock: AddressLockDetailsViewModel;
 	currentAddresMintableBalance: BN | null;
 	game: Game;
-
 	totalContractLockedAmount: BN | null;
 	totalContractRewardsAmount: BN | null;
 }
-
 const Render: React.FC<RenderParams> = React.memo(
 	({
 		selectedAddress,
@@ -62,14 +57,11 @@ const Render: React.FC<RenderParams> = React.memo(
 		totalContractRewardsAmount,
 	}) => {
 		const { lockableTokenShortName, mintableTokenShortName } = getEcosystemConfig(ecosystem);
-
 		const [amount, setAmount] = React.useState(total);
 		const [minterAddress, setMinterAddress] = React.useState(selectedAddress);
 		const [action, setAction] = React.useState(Action.Deposit);
-
 		const onSubmit = async (e: any) => {
 			e.preventDefault();
-
 			switch (action) {
 				case Action.Deposit:
 					dispatch({
@@ -98,7 +90,6 @@ const Render: React.FC<RenderParams> = React.memo(
 			}
 			dispatch({ type: commonLanguage.commands.CloseDialog });
 		};
-
 		const getTokensToDepositField = () => {
 			if (action !== Action.Deposit) {
 				return;
@@ -120,7 +111,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Box>
 			);
 		};
-
 		const getWithdrawOption = () => {
 			return (
 				<FormControlLabel
@@ -140,20 +130,15 @@ const Render: React.FC<RenderParams> = React.memo(
 			if (game === Game.DatamineGems) {
 				return marketAddressLock.rewardsAmount;
 			}
-
 			if (!totalContractRewardsAmount || !totalContractLockedAmount) {
 				return new BN(0);
 			}
-
 			const rewardsToWithdraw = marketAddressLock.rewardsAmount
 				.mul(totalContractRewardsAmount)
 				.div(totalContractLockedAmount);
-
 			return rewardsToWithdraw;
 		};
-
 		const rewardsAmount = getRewardsAmount();
-
 		return (
 			<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 				<form onSubmit={onSubmit}>
@@ -192,7 +177,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								{BNToDecimal(rewardsAmount, true)} {mintableTokenShortName}
 							</Box>
 						</Box>
-
 						<Box my={2}>
 							<Divider />
 						</Box>
@@ -203,7 +187,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								balance back to your address at any time.
 							</Typography>
 						</Box>
-
 						<Box my={3}>
 							<FormControl component="fieldset">
 								<FormLabel component="legend">Action To Perform:</FormLabel>
@@ -227,9 +210,7 @@ const Render: React.FC<RenderParams> = React.memo(
 								</RadioGroup>
 							</FormControl>
 						</Box>
-
 						{getTokensToDepositField()}
-
 						<Box mt={2}>
 							<Divider />
 						</Box>
@@ -249,10 +230,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		);
 	}
 );
-
 const MarketDepositWithdrawDialog: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
 	const {
 		balances,
 		selectedAddress,
@@ -260,16 +238,21 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 		ecosystem,
 		games,
 		game,
-
 		currentAddresMintableBalance,
-
-		//marketAddressLock,
-		//currentAddresMintableBalance,
-		//currentAddressMarketAddressLock,
-	} = appState;
-
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			balances: state.state.balances,
+			selectedAddress: state.state.selectedAddress,
+			error: state.state.error,
+			ecosystem: state.state.ecosystem,
+			games: state.state.games,
+			game: state.state.game,
+			currentAddresMintableBalance: state.state.currentAddresMintableBalance,
+			dispatch: state.dispatch,
+		}))
+	);
 	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];
-
 	if (
 		!balances ||
 		!selectedAddress
@@ -279,19 +262,16 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 	) {
 		return null;
 	}
-
 	const currentAddressMarketAddress =
 		marketAddresses && marketAddresses.addresses.length > 0
 			? marketAddresses.addresses.find(
 					(address) => address.currentAddress.toLowerCase() === selectedAddress?.toLowerCase()
 				)
 			: null;
-
 	if (!currentAddressMarketAddress) {
 		return null;
 	}
 	const total = BNToDecimal(currentAddresMintableBalance);
-
 	return (
 		<Render
 			balances={balances}
@@ -308,5 +288,4 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 		/>
 	);
 };
-
 export default MarketDepositWithdrawDialog;

@@ -12,11 +12,11 @@ import TradeDialog from '@/core/react/elements/Dialogs/TradeDialog';
 import UnlockDialog from '@/core/react/elements/Dialogs/UnlockDialog';
 import WalletConnectRpcDialog from '@/core/react/elements/Dialogs/WalletConnectRpcDialog';
 import MintSettingsDialog from '@/core/react/elements/Dialogs/MinterSettingsDialog';
+import { useShallow } from 'zustand/react/shallow';
 const MarketCollectRewardsDialog = lazy(
 	() => import('@/core/react/elements/Dialogs/GameFi/MarketCollectRewardsDialog')
 );
 const ZeroBalanceDialog = lazy(() => import('@/core/react/elements/Dialogs/ZeroBalanceDialog'));
-
 interface Props {
 	dispatch: React.Dispatch<any>;
 	dialog: DialogType | null;
@@ -30,7 +30,6 @@ const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
 		if (!dialog) {
 			return null;
 		}
-
 		switch (dialog) {
 			case DialogType.Mint:
 				return <MintDialog />;
@@ -42,7 +41,6 @@ const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
 				return <UnlockDialog />;
 			case DialogType.MintSettings:
 				return <MintSettingsDialog />;
-
 			case DialogType.Trade:
 				return <TradeDialog />;
 			case DialogType.ZeroEth:
@@ -57,7 +55,6 @@ const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
 			}
 			case DialogType.WalletConnectRpc:
 				return <WalletConnectRpcDialog />;
-
 			// Market dialogs
 			case DialogType.MarketCollectRewards:
 				return <MarketCollectRewardsDialog />;
@@ -65,21 +62,25 @@ const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
 				return <MarketDepositWithdrawDialog />;
 		}
 	};
-
 	return getDialog();
 };
-
 interface Params {}
-
 /**
  * This fragment contains all the dialogs in one place
  * Help Dialog is excluded as it's a seperate system
  */
 const DialogsFragment: React.FC<Params> = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
-	const { dialog, dialogParams } = appState;
-
+	const {
+		dialog,
+		dialogParams,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			dialog: state.state.dialog,
+			dialogParams: state.state.dialogParams,
+			dispatch: state.dispatch,
+		}))
+	);
 	return <Render dialog={dialog} dialogParams={dialogParams} dispatch={appDispatch} />;
 };
 export default DialogsFragment;

@@ -11,7 +11,6 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-
 import { Whatshot } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
@@ -19,7 +18,7 @@ import { BNToDecimal } from '@/core/web3/helpers';
 import { useAppStore } from '@/core/web3/appStore';
 import { Balances } from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
-
+import { useShallow } from 'zustand/react/shallow';
 /**
  * Props for the Render component within BurnDialog.
  */
@@ -39,17 +38,13 @@ interface RenderParams {
 	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }
-
 const Render: React.FC<RenderParams> = React.memo(
 	({ selectedAddress, balances, dispatch, error, amount, setAmount, ecosystem }) => {
 		const { mintableTokenShortName, navigation, ecosystemName } = getEcosystemConfig(ecosystem);
 		const { isHelpPageEnabled } = navigation;
-
 		const [targetAddress, setTargetAddress] = React.useState(selectedAddress);
-
 		const onSubmit = async (e: any) => {
 			e.preventDefault();
-
 			dispatch({
 				type: commonLanguage.commands.BurnFluxTokens,
 				payload: { amount, address: targetAddress },
@@ -78,12 +73,10 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Box>
 			);
 		};
-
 		const getLearnMoreBurningLink = () => {
 			if (!isHelpPageEnabled) {
 				return null;
 			}
-
 			return (
 				<>
 					{' '}
@@ -94,7 +87,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</>
 			);
 		};
-
 		return (
 			<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 				<form onSubmit={onSubmit}>
@@ -122,7 +114,6 @@ const Render: React.FC<RenderParams> = React.memo(
 						<Box my={3}>
 							<Divider />
 						</Box>
-
 						<Typography component="div" gutterBottom={true}>
 							To continue select how many {mintableTokenShortName} tokens you wish to burn to generate yield. You can
 							target any Ethereum based address that current is an active {ecosystemName} Validator.
@@ -167,24 +158,34 @@ const Render: React.FC<RenderParams> = React.memo(
 		);
 	}
 );
-
 /**
  * BurnDialog component for burning Flux tokens for yield.
  * This dialog allows users to specify an amount of Flux tokens to burn and a target Ethereum address.
  * Burning tokens (as a secondary function of money) permanently increases the yield generation rate on the destination address.
  */
 const BurnDialog: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
+	const {
+		balances,
+		selectedAddress,
+		error,
+		ecosystem,
+		state: appState,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			balances: state.state.balances,
+			selectedAddress: state.state.selectedAddress,
+			error: state.state.error,
+			ecosystem: state.state.ecosystem,
+			state: state.state,
+			dispatch: state.dispatch,
+		}))
+	);
 	const total = BNToDecimal(appState.balances?.fluxToken ?? null);
-
 	const [amount, setAmount] = React.useState(total);
-
-	const { balances, selectedAddress, error, ecosystem } = appState;
 	if (!balances || !selectedAddress) {
 		return null;
 	}
-
 	return (
 		<Render
 			balances={balances}
@@ -197,5 +198,4 @@ const BurnDialog: React.FC = () => {
 		/>
 	);
 };
-
 export default BurnDialog;

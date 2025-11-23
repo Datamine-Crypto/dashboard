@@ -17,28 +17,23 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useState } from 'react';
-
 import { theme as datamineTheme } from '@/core/styles';
-
 import { SearchCategory, SearchCategoryText, UserTypeFilter, helpArticles, SearchTag } from '@/core/helpArticles';
 import { useAppStore } from '@/core/web3/appStore';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import HelpComboboxFragment from '@/core/react/elements/Fragments/HelpComboboxFragment';
-
 import { tss } from 'tss-react/mui';
 import HelpArticleCategorySection from '@/core/react/pages/help/HelpArticleCategorySection';
 import HelpPageFooterSection from '@/core/react/pages/help/HelpPageFooterSection';
 import HelpPageHeader from '@/core/react/pages/help/HelpPageHeader';
-
+import { useShallow } from 'zustand/react/shallow';
 const useStyles = tss.create(() => ({
 	paperBorders: {
 		borderTop: `1px solid ${datamineTheme.classes.palette.highlight}`,
 		borderBottom: `1px solid ${datamineTheme.classes.palette.highlight}`,
 	},
 }));
-
 interface Props {}
-
 /**
  * HelpPage component that displays a knowledge base of help articles.
  * It allows users to browse articles by category and filter by user type and tags.
@@ -46,12 +41,11 @@ interface Props {}
  */
 const HelpPage: React.FC<Props> = () => {
 	const { classes } = useStyles();
-	const { state: appState, dispatch } = useAppStore();
-	const { ecosystem } = appState;
-
+	const { ecosystem, dispatch } = useAppStore(
+		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
+	);
 	const [selectedUserType, setSelectedUserType] = useState<UserTypeFilter>(UserTypeFilter.All);
 	const [selectedTags, setSelectedTags] = useState<string[]>(['All']); // Changed to array
-
 	const filteredHelpArticles = helpArticles.filter((article) => {
 		const matchesUserType =
 			selectedUserType === UserTypeFilter.All ||
@@ -62,20 +56,15 @@ const HelpPage: React.FC<Props> = () => {
 			(article.tags && selectedTags.some((tag) => article.tags.includes(tag as SearchTag)));
 		return matchesUserType && matchesTag;
 	});
-
 	const categories = Object.keys(SearchCategory).filter((key) =>
 		filteredHelpArticles.some((article) => article.category === key)
 	);
-
 	const allTags = Array.from(new Set(helpArticles.flatMap((article) => article.tags || [])));
-
 	const firstHalfCategories = categories.slice(0, Math.ceil(categories.length / 2));
 	const secondHalfCategories = categories.slice(Math.ceil(categories.length / 2));
-
 	return (
 		<>
 			<HelpPageHeader dispatch={dispatch} ecosystem={ecosystem} />
-
 			<Paper className={classes.paperBorders}>
 				<Box py={6}>
 					<Container>
@@ -134,7 +123,6 @@ const HelpPage: React.FC<Props> = () => {
 											const newSelectedTags = selectedTags.includes(tag)
 												? selectedTags.filter((t) => t !== tag)
 												: [...selectedTags.filter((t) => t !== 'All'), tag]; // Remove 'All' if a specific tag is selected
-
 											if (newSelectedTags.length === 0) {
 												setSelectedTags(['All']); // If no tags are selected, default to "All Tags"
 											} else {
@@ -187,12 +175,9 @@ const HelpPage: React.FC<Props> = () => {
 					</Container>
 				</Box>
 			</Paper>
-
 			<HelpPageFooterSection ecosystem={ecosystem} />
-
 			<FooterFragment ecosystem={ecosystem} />
 		</>
 	);
 };
-
 export default HelpPage;

@@ -2,12 +2,11 @@ import React from 'react';
 import { Ecosystem } from '@/configs/config.common';
 import { useAppStore } from '@/core/web3/appStore';
 import OnboardingFragment from '@/core/react/elements/Onboarding/OnboardingFragment';
-
+import { useShallow } from 'zustand/react/shallow';
 interface RenderProps {
 	dispatch: React.Dispatch<any>;
 	ecosystem: Ecosystem;
 }
-
 /**
  * A memoized functional component that renders the OnboardingFragment.
  * @param params - Object containing dispatch function and ecosystem.
@@ -19,7 +18,6 @@ const Render: React.FC<RenderProps> = React.memo(({ dispatch, ecosystem }) => {
 		</>
 	);
 });
-
 interface Props {}
 /**
  * OnboardingPage component that serves as a container for the OnboardingFragment.
@@ -27,10 +25,9 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const OnboardingPage: React.FC<Props> = () => {
-	const { state: appState, dispatch } = useAppStore();
-	const { ecosystem } = appState;
-
+	const { ecosystem, dispatch } = useAppStore(
+		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
+	);
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
 };
-
 export default OnboardingPage;

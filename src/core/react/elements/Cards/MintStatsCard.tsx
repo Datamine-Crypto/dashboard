@@ -1,23 +1,19 @@
 import { Box, Button, Card, CardContent, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-
 import { useAppStore } from '@/core/web3/appStore';
-
 import { BNToDecimal, getBlocksRemaining } from '@/core/web3/helpers';
-
 import BN from 'bn.js';
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '@/core/interfaces';
 import { Balances } from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
-
 import { LockOpen } from '@mui/icons-material';
 import Big from 'big.js';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { getRequiredFluxToBurn } from '@/core/web3/helpers';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
-
+import { useShallow } from 'zustand/react/shallow';
 /**
  * Props for the Render component within MintStatsCard.
  */
@@ -39,7 +35,6 @@ interface RenderParams {
 	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }
-
 /**
  * A memoized functional component that renders the Minting Statistics card.
  * It displays various statistics related to token minting, such as locked amounts, burn ratios, and time until bonuses.
@@ -57,21 +52,17 @@ const Render: React.FC<RenderParams> = React.memo(
 		ecosystem,
 	}) => {
 		const { mintableTokenShortName, maxBurnMultiplier, minBurnMultiplier } = getEcosystemConfig(ecosystem);
-
 		const getBlockDuration = (startBlockNumber: number) => {
 			const blocksDuration = addressDetails.blockNumber - startBlockNumber;
 			const hoursDuration = (blocksDuration * 15) / (60 * 60);
-
 			return {
 				hours: `~${hoursDuration.toFixed(2)} hours`,
 				blocks: `(${blocksDuration} block${blocksDuration > 1 ? 's' : ''})`,
 			};
 		};
-
 		const showUnlockDialog = () => {
 			dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Unlock } });
 		};
-
 		const getLockedInAmount = () => {
 			return `${BNToDecimal(addressLock.amount, true)} DAM`;
 		};
@@ -80,11 +71,9 @@ const Render: React.FC<RenderParams> = React.memo(
 				if (new BN(addressLock.amount).isZero()) {
 					return;
 				}
-
 				if (displayedAddress !== selectedAddress) {
 					return;
 				}
-
 				return (
 					<Box px={2} display="inline-block">
 						<Button
@@ -116,7 +105,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				return getBlockDuration(addressLock.lastMintBlockNumber);
 			};
 			const duration = getDuration();
-
 			return (
 				<DetailedListItem
 					title="Last Mint:"
@@ -129,12 +117,10 @@ const Render: React.FC<RenderParams> = React.memo(
 				/>
 			);
 		};
-
 		if (addressLock.amount.isZero()) {
 			return null;
 		}
 		const { myRatio } = addressTokenDetails;
-
 		const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({
 			addressDetails,
 			addressLock,
@@ -142,10 +128,8 @@ const Render: React.FC<RenderParams> = React.memo(
 			ecosystem,
 			targetMultiplier: new Big(maxBurnMultiplier - minBurnMultiplier),
 		});
-
 		const getDamLockinDuration = () => {
 			const duration = getBlockDuration(addressLock.blockNumber);
-
 			return (
 				<DetailedListItem
 					title="Started Mint Age:"
@@ -158,7 +142,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				/>
 			);
 		};
-
 		const getFluxToBurnFor2x = () => {
 			if (isTargetReached || addressDetails.addressBurnMultiplier >= 20000) {
 				return null;
@@ -170,7 +153,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				ecosystem,
 				targetMultiplier: new Big('1'),
 			});
-
 			return (
 				<Box my={2}>
 					<DetailedListItem
@@ -197,7 +179,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Box>
 			);
 		};
-
 		const getFluxToBurnForMaxBurn = () => {
 			return (
 				<DetailedListItem
@@ -252,7 +233,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				/>
 			);
 		};
-
 		return (
 			<Card>
 				<CardContent>
@@ -282,15 +262,31 @@ const Render: React.FC<RenderParams> = React.memo(
 		);
 	}
 );
-
 const MintStatsCard: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
-	const { address, selectedAddress, addressLock, addressDetails, addressTokenDetails, balances, ecosystem } = appState;
+	const {
+		address,
+		selectedAddress,
+		addressLock,
+		addressDetails,
+		addressTokenDetails,
+		balances,
+		ecosystem,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			address: state.state.address,
+			selectedAddress: state.state.selectedAddress,
+			addressLock: state.state.addressLock,
+			addressDetails: state.state.addressDetails,
+			addressTokenDetails: state.state.addressTokenDetails,
+			balances: state.state.balances,
+			ecosystem: state.state.ecosystem,
+			dispatch: state.dispatch,
+		}))
+	);
 	if (!addressLock || !addressDetails || !addressTokenDetails || !selectedAddress || !balances) {
 		return null;
 	}
-
 	return (
 		<Render
 			addressDetails={addressDetails}
@@ -304,5 +300,4 @@ const MintStatsCard: React.FC = () => {
 		/>
 	);
 };
-
 export default MintStatsCard;

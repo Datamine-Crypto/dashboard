@@ -1,10 +1,8 @@
 import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { Ecosystem } from '@/configs/config.common';
-
 import Grid from '@mui/material/Grid';
 import { useAppStore } from '@/core/web3/appStore';
-
 import {
 	Autorenew as AutorenewIcon,
 	Bolt as BoltIcon,
@@ -20,25 +18,22 @@ import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // A
 import { Game } from '@/core/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
-
+import { useShallow } from 'zustand/react/shallow';
 // Color palette
 const palette = {
 	highlight: '#0FF',
 	background: '#272936',
 	secondaryBackground: '#202336',
 }; // For constant APY stream
-
 // Define Props for the component, including the new onClick handler
 interface DatamineGemsLandingPageProps {
 	onStartGameClick?: () => void; // Optional onClick handler for the Start Game button
 }
-
 // Styled component for consistent section padding
 const Section = styled(Box)(({ theme }) => ({
 	paddingTop: theme.spacing(6),
 	paddingBottom: theme.spacing(6),
 }));
-
 // Styled component for feature cards with glassmorphism effect
 const FeatureCard = styled(Paper)(({ theme }) => ({
 	padding: theme.spacing(3),
@@ -58,7 +53,6 @@ const FeatureCard = styled(Paper)(({ theme }) => ({
 		boxShadow: `0 10px 20px ${alpha(theme.palette.primary.main, 0.2)}`, // Enhanced shadow on hover
 	},
 }));
-
 // Styled component for the icons within feature cards
 const FeatureIconWrapper = styled(Avatar)(({ theme }) => ({
 	backgroundColor: theme.palette.background.default,
@@ -68,7 +62,6 @@ const FeatureIconWrapper = styled(Avatar)(({ theme }) => ({
 	marginBottom: theme.spacing(2),
 	boxShadow: `0 4px 10px ${alpha(theme.palette.primary.main, 0.4)}`, // Shadow for depth
 }));
-
 // Styled Typography for gradient text effect
 const GradientText = styled(Typography)(({ theme }) => ({
 	background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.secondary.main || theme.palette.primary.light} 90%)`,
@@ -76,7 +69,6 @@ const GradientText = styled(Typography)(({ theme }) => ({
 	WebkitTextFillColor: 'transparent',
 	fontWeight: 700, // Bold gradient text
 }));
-
 /**
  * Renders the landing page for Datamine Gems, a GameFi experience.
  * It showcases features and the impact of the game on the ecosystem.
@@ -84,7 +76,6 @@ const GradientText = styled(Typography)(({ theme }) => ({
  */
 const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onStartGameClick }) => {
 	const theme = useTheme(); // Hook to access theme properties
-
 	// Array of features for the landing page
 	const features = [
 		{
@@ -118,7 +109,6 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 			description: 'It’s not just about speed! Click strategically to maximize your gem rewards and climb the ranks.',
 		},
 	];
-
 	return (
 		<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 			<CardMedia component="img" height="194" image="./images/datamineGems.png" alt="Paella dish" />
@@ -151,7 +141,6 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 					Start Game {/* Changed button text */}
 				</Button>
 			</Box>
-
 			{/* Introduction Section: "What is Datamine Gems?" */}
 			<Section>
 				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold' }}>
@@ -172,7 +161,6 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 					and rewarding – get ready to click your way to success!
 				</Typography>
 			</Section>
-
 			{/* Key Features Section */}
 			<Section>
 				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold', mb: 5 }}>
@@ -206,7 +194,6 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 					))}
 				</Grid>
 			</Section>
-
 			{/* Ecosystem Impact Section */}
 			<Section>
 				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold', mb: 1 }}>
@@ -262,7 +249,6 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 		</Container>
 	);
 };
-
 // Main component
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
@@ -312,7 +298,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 		</Box>
 	);
 });
-
 interface Props {}
 /**
  * RealtimeRewardsGameFiPage component that serves as the entry point for the Datamine Gems GameFi experience.
@@ -320,10 +305,9 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const RealtimeRewardsGameFiPage: React.FC<Props> = () => {
-	const { state: appState, dispatch } = useAppStore();
-	const { ecosystem } = appState;
-
+	const { ecosystem, dispatch } = useAppStore(
+		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
+	);
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
 };
-
 export default RealtimeRewardsGameFiPage;

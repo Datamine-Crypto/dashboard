@@ -12,16 +12,13 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React, { ReactNode, useEffect } from 'react';
-
 import { DialogType, FluxAddressDetails } from '@/core/interfaces';
 import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
 import Web3Account from '@/core/react/elements/Web3Account';
-
 import logo from '@/svgs/logo.svg'; // Tell webpack this JS file uses this image
 import LightTooltip from '@/core/react/elements/LightTooltip';
-
 import { Settings } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/configs/config';
@@ -32,7 +29,7 @@ import { isDevLogEnabled } from '@/core/utils/devLog';
 import AddToFirefoxFragment from '@/core/react/elements/Fragments/AddToFirefoxFragment';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import WalletConnectButton from '@/core/react/elements/Fragments/WalletConnectButton';
-
+import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	isLate: boolean;
 	isInitialized: boolean;
@@ -41,17 +38,14 @@ interface RenderParams {
 	isIncorrectNetwork: boolean;
 	addressDetails: FluxAddressDetails | null;
 	connectionMethod: ConnectionMethod;
-
 	dispatch: React.Dispatch<any>;
 	ecosystem: Ecosystem;
 }
-
 interface CenterContent {
 	title: ReactNode;
 	message: ReactNode;
 	content?: ReactNode;
 }
-
 const useStyles = tss.create(({ theme }) => ({
 	fullScreenSplash: {
 		minHeight: '100vh',
@@ -60,7 +54,6 @@ const useStyles = tss.create(({ theme }) => ({
 		justifyContent: 'center',
 	},
 }));
-
 /**
  * A memoized functional component that renders the main dashboard content.
  * It handles various states like loading, network errors, wallet connection, and displays account information.
@@ -79,7 +72,6 @@ const Render: React.FC<RenderParams> = React.memo(
 		ecosystem,
 	}) => {
 		const { classes } = useStyles();
-
 		const config = getEcosystemConfig(ecosystem);
 		const {
 			ecosystemName,
@@ -88,9 +80,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			mintableTokenShortName,
 			isLiquidityPoolsEnabled,
 		} = config;
-
 		const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
 		// Add loading to middle of the page
 		/**
 		 * Conditionally renders a loading indicator or network error messages.
@@ -113,9 +103,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						content: <img src="./images/network.png" />,
 					});
 				}
-
 				const errorTitle = config.isArbitrumOnlyToken ? 'Arbitrum' : 'Ethereum Mainnet & Arbitrum';
-
 				return getCenterContent({
 					title: `Looks like you are not on ${errorTitle} Network...`,
 					message: (
@@ -129,18 +117,15 @@ const Render: React.FC<RenderParams> = React.memo(
 					content: <img src="./images/network2.png" />,
 				});
 			}
-
 			if (isInitialized && hasWeb3 !== null) {
 				return null;
 			}
-
 			return (
 				<Box alignItems="center" justifyContent="center" display="flex" style={{ height: '100vh' }}>
 					<CircularProgress color="secondary" />
 				</Box>
 			);
 		};
-
 		/**
 		 * Renders the main logo of the application.
 		 * @returns An img element displaying the logo.
@@ -148,7 +133,6 @@ const Render: React.FC<RenderParams> = React.memo(
 		const getLogo = () => {
 			return <img src={logo} alt="Logo" style={{ width: '128px' }} />;
 		};
-
 		/**
 		 * Renders a centered content splash screen with a title, message, and optional content.
 		 * Used for displaying initial loading, network errors, or wallet connection prompts.
@@ -175,7 +159,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Box>
 			);
 		};
-
 		/**
 		 * Renders the splash screen prompting the user to install an Ethereum-based wallet.
 		 * @returns A React element for the wallet installation splash screen.
@@ -224,7 +207,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Box>
 			);
 		};
-
 		/**
 		 * Renders the connect wallet button, adapting to whether MetaMask is detected.
 		 * @returns A React element for the connect wallet button.
@@ -239,7 +221,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				if (!web3 || !web3.currentProvider || !web3.currentProvider.isMetaMask) {
 					return false;
 				}
-
 				return true;
 			};
 			/**
@@ -271,14 +252,13 @@ const Render: React.FC<RenderParams> = React.memo(
 								wallet and select an address.
 							</Typography>
 						</Box>
-
 						<Box>
 							<Box display="inline-block" mr={3}>
 								<Button
 									variant="outlined"
 									color="secondary"
 									size="large"
-									onClick={() => dispatch({ type: web3CommonLanguage.commands.ConnectToWallet })}
+									onClick={() => dispatch({ type: commonLanguage.commands.ConnectToWallet })}
 								>
 									{getWalletIcon()}
 									{isMetaMask() ? 'Connect Using MetaMask' : 'Connect To Wallet'}
@@ -290,20 +270,16 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Box>
 			);
 		};
-
 		const getApp = () => {
 			if (!isInitialized || hasWeb3 === null) {
 				return null;
 			}
-
 			if (hasWeb3 === false) {
 				return <>{getConnectWalletSplash()}</>;
 			}
-
 			if (!selectedAddress) {
 				return <>{getConnectWalletButton()}</>;
 			}
-
 			const getBlock = () => {
 				if (!addressDetails) {
 					return;
@@ -389,7 +365,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				if (connectionMethod !== ConnectionMethod.WalletConnect) {
 					return null;
 				}
-
 				return (
 					<Button
 						size="small"
@@ -415,7 +390,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				if (!isSettingsValidatorDashboardButtonEnabled) {
 					return null;
 				}
-
 				return (
 					<Grid>
 						<Box mr={3}>
@@ -443,7 +417,6 @@ const Render: React.FC<RenderParams> = React.memo(
 					</Grid>
 				);
 			};
-
 			/**
 			 * Conditionally renders a button to explore liquidity pools if enabled.
 			 * @returns An ExploreLiquidityPools component or null.
@@ -460,7 +433,6 @@ const Render: React.FC<RenderParams> = React.memo(
 					</Grid>
 				);
 			};
-
 			const getFooter = () => {
 				return (
 					<Box mt={6} pb={6} mx={4} display="flex" justifyContent="space-between">
@@ -496,7 +468,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</>
 			);
 		};
-
 		return (
 			<Container style={{ height: '100vh' }}>
 				{getLoadingIndicator()}
@@ -505,17 +476,36 @@ const Render: React.FC<RenderParams> = React.memo(
 		);
 	}
 );
-
 interface Props {
 	address: string | null;
 }
 const DashboardPage: React.FC<Props> = ({ address }) => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
+	const {
+		addressDetails,
+		isLate,
+		isInitialized,
+		hasWeb3,
+		selectedAddress,
+		isIncorrectNetwork,
+		connectionMethod,
+		ecosystem,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			addressDetails: state.state.addressDetails,
+			isLate: state.state.isLate,
+			isInitialized: state.state.isInitialized,
+			hasWeb3: state.state.hasWeb3,
+			selectedAddress: state.state.selectedAddress,
+			isIncorrectNetwork: state.state.isIncorrectNetwork,
+			connectionMethod: state.state.connectionMethod,
+			ecosystem: state.state.ecosystem,
+			dispatch: state.dispatch,
+		}))
+	);
 	useEffect(() => {
 		// When the app starts initialize web3 connection
-		appDispatch({ type: web3CommonLanguage.commands.Initialize, payload: { address } });
-
+		appDispatch({ type: commonLanguage.commands.Initialize, payload: { address } });
 		if (isDevLogEnabled()) {
 			import('vconsole').then((VConsoleModule) => {
 				const VConsole = VConsoleModule.default;
@@ -523,11 +513,6 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 			});
 		}
 	}, [appDispatch]);
-
-	const { addressDetails } = appState;
-
-	const { isLate, isInitialized, hasWeb3, selectedAddress, isIncorrectNetwork, connectionMethod, ecosystem } = appState;
-
 	return (
 		<Render
 			isLate={isLate}
@@ -542,5 +527,4 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 		/>
 	);
 };
-
 export default DashboardPage;

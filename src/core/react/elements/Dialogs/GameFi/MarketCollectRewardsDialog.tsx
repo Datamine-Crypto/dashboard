@@ -12,7 +12,6 @@ import {
 	Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-
 import { Diamond, ImportExport, Mouse } from '@mui/icons-material';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '@/configs/config';
@@ -26,28 +25,22 @@ import DatamineGemsGame, { Gem } from '@/core/react/elements/Fragments/DatamineG
 import { getNetworkDropdown } from '@/core/react/elements/Fragments/EcosystemDropdown';
 import Big from 'big.js';
 import { devLog } from '@/core/utils/devLog';
-
+import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	selectedAddress: string;
 	balances: Balances | null;
 	dispatch: React.Dispatch<any>;
-
 	error: string | null;
-
 	ecosystem: Ecosystem;
 	//marketAddressLock: MarketAddressLock | null;
-
 	//currentAddresMintableBalance: BN | null;
 	currentAddressMarketAddress: AddressLockDetailsViewModel | null;
-
 	connectionMethod: ConnectionMethod;
 	addressDetails: FluxAddressDetails | null;
-
 	marketAddresses: MarketAddresses | null;
 	hasWeb3: boolean | null;
 	market: MarketDetails;
 	game: Game;
-
 	totalContractLockedAmount: BN | null;
 	totalContractRewardsAmount: BN | null;
 }
@@ -64,7 +57,6 @@ const Render: React.FC<RenderParams> = React.memo(
 		dispatch,
 		error,
 		ecosystem,
-
 		currentAddressMarketAddress,
 		connectionMethod,
 		addressDetails,
@@ -84,29 +76,22 @@ const Render: React.FC<RenderParams> = React.memo(
 			 */
 			blockLagWarningTimeout: 60 * 1000, // 5 blocks (12 sec each)
 		};
-
 		const [showBlockLagWarning, setShowBlockLagWarning] = useState(false);
-
 		useEffect(() => {
 			// Reset warning on a new block
 			setShowBlockLagWarning(false);
-
 			// Set a timer to show the warning if no new block arrives
 			const timer = setTimeout(() => {
 				setShowBlockLagWarning(true);
 			}, localConfig.blockLagWarningTimeout); // 36 seconds
-
 			// Cleanup timer on component unmount or when targetBlock changes
 			return () => {
 				clearTimeout(timer);
 			};
 		}, [marketAddresses?.targetBlock]);
-
 		const { mintableTokenShortName, navigation, ecosystemName, marketAddress, gameHodlClickerAddress } =
 			getEcosystemConfig(ecosystem);
-
 		const { isHelpPageEnabled } = navigation;
-
 		const getGameAddress = () => {
 			switch (game) {
 				case Game.DatamineGems:
@@ -116,7 +101,6 @@ const Render: React.FC<RenderParams> = React.memo(
 			}
 		};
 		const gameAddress = getGameAddress();
-
 		const getGameName = () => {
 			switch (game) {
 				case Game.DatamineGems:
@@ -125,7 +109,6 @@ const Render: React.FC<RenderParams> = React.memo(
 					return 'HODL Clicker';
 			}
 		};
-
 		const getGameIcon = () => {
 			switch (game) {
 				case Game.DatamineGems:
@@ -134,7 +117,6 @@ const Render: React.FC<RenderParams> = React.memo(
 					return <Mouse style={{ color: '#00ffff' }} />;
 			}
 		};
-
 		/**
 		 * Is the current game requiring a balance to play (Ex: Datamine Gems uses your balance for rewards)
 		 */
@@ -146,15 +128,12 @@ const Render: React.FC<RenderParams> = React.memo(
 					return false;
 			}
 		};
-
 		const isDepositRequired =
 			isGameRequiringBalance() &&
 			currentAddressMarketAddress &&
 			currentAddressMarketAddress.rewardsAmount.eq(new BN(0));
-
 		const onSubmit = async (e: any) => {
 			e.preventDefault();
-
 			if (!selectedAddress) {
 				if (hasWeb3 === null) {
 					dispatch({ type: commonLanguage.commands.Initialize, payload: { address: null } });
@@ -163,12 +142,10 @@ const Render: React.FC<RenderParams> = React.memo(
 				}
 				return;
 			}
-
 			if (!currentAddressMarketAddress) {
 				console.log('currentAddressMarketAddress is null');
 				return;
 			}
-
 			if (isDepositRequired) {
 				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
 			}
@@ -183,12 +160,10 @@ const Render: React.FC<RenderParams> = React.memo(
 			}
 			dispatch({ type: commonLanguage.commands.CloseDialog });
 		};
-
 		const getLearnMoreBurningLink = () => {
 			if (!isHelpPageEnabled) {
 				return null;
 			}
-
 			return (
 				<>
 					{' '}
@@ -204,12 +179,10 @@ const Render: React.FC<RenderParams> = React.memo(
 				</>
 			);
 		};
-
 		const getDepositWithdrawButton = () => {
 			if (!selectedAddress) {
 				return null;
 			}
-
 			return (
 				<Button
 					color="secondary"
@@ -226,19 +199,15 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Button>
 			);
 		};
-
 		const getGems = (): Gem[] => {
 			const gems: Gem[] = [];
-
 			if (!marketAddresses || !balances) {
 				return gems;
 			}
-
 			for (const address of marketAddresses.addresses) {
 				if (address.isPaused || address.minterAddress !== gameAddress) {
 					continue;
 				}
-
 				const getError = () => {
 					if (address.isPaused) {
 						return 'Error: Address is paused for gem minting (by the address). Please check back later!';
@@ -248,7 +217,6 @@ const Render: React.FC<RenderParams> = React.memo(
 					}
 				};
 				const amountBN = address.mintAmount;
-
 				const getAmountReceived = (): BN => {
 					const rewardsPercent = address.rewardsPercent === 0 ? 500 : address.rewardsPercent;
 					const rewardsAmount = amountBN.add(amountBN.mul(new BN(rewardsPercent)).div(new BN(10000)));
@@ -263,7 +231,6 @@ const Render: React.FC<RenderParams> = React.memo(
 					round: 6,
 					removeCommas: true,
 				});
-
 				gems.push({
 					ethereumAddress: address.currentAddress,
 					error: getError(),
@@ -271,26 +238,19 @@ const Render: React.FC<RenderParams> = React.memo(
 					id: address.currentAddress,
 				});
 			}
-
 			return gems;
 		};
-
 		const gems: Gem[] = getGems();
-
 		devLog('marketAddresses:', marketAddresses);
-
 		const onAttemptCollectGem = (gems: Gem[]) => {
 			if (!currentAddressMarketAddress) {
 				console.log('currentAddressMarketAddress is null');
-
 				return false;
 			}
-
 			if (isDepositRequired) {
 				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
 				return false;
 			}
-
 			dispatch({
 				type: commonLanguage.commands.Market.MarketBurnFluxTokens,
 				payload: {
@@ -298,7 +258,6 @@ const Render: React.FC<RenderParams> = React.memo(
 					gems,
 				},
 			});
-
 			return true;
 		};
 		const onAddNewGem = (ethereumAddress: string) => {
@@ -307,14 +266,12 @@ const Render: React.FC<RenderParams> = React.memo(
 				// but typically represented in lowercase or mixed case with a checksum.
 				// This regex specifically targets lowercase valid characters.
 				const lowercasedString = addressString.toLowerCase();
-
 				// The regex [^a-f0-9x] matches any character that is NOT:
 				// - a lowercase letter from 'a' to 'f'
 				// - a digit from '0' to '9'
 				// - the lowercase letter 'x' (for the "0x" prefix)
 				// The 'g' flag ensures all occurrences are replaced, not just the first.
 				const strippedString = lowercasedString.replace(/[^a-f0-9x]/g, '');
-
 				return strippedString;
 			};
 			if (!ethereumAddress) {
@@ -327,22 +284,18 @@ const Render: React.FC<RenderParams> = React.memo(
 			if (ethereumAddress.length !== 42) {
 				return;
 			}
-
 			// ensure ethereumAddress starts with 0x
 			if (!ethereumAddress.startsWith('0x')) {
 				return;
 			}
-
 			dispatch({
 				type: commonLanguage.commands.Market.AddGemAddress,
 				payload: {
 					address: ethereumAddress,
 				},
 			});
-
 			return true;
 		};
-
 		const getError = () => {
 			if (!error) {
 				return;
@@ -353,7 +306,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Alert>
 			);
 		};
-
 		const getBalances = () => {
 			if (!currentAddressMarketAddress || !balances) {
 				return <></>;
@@ -362,19 +314,15 @@ const Render: React.FC<RenderParams> = React.memo(
 				if (game === Game.DatamineGems) {
 					return currentAddressMarketAddress.rewardsAmount;
 				}
-
 				if (!totalContractRewardsAmount || !totalContractLockedAmount) {
 					return new BN(0);
 				}
-
 				const rewardsToWithdraw = currentAddressMarketAddress.rewardsAmount
 					.mul(totalContractRewardsAmount)
 					.div(totalContractLockedAmount);
-
 				return rewardsToWithdraw;
 			};
 			const rewardsAmount = getRewardsAmount();
-
 			const balanceInUsdc = getPriceToggle({
 				value: rewardsAmount,
 				inputToken: Token.Mintable,
@@ -391,7 +339,6 @@ const Render: React.FC<RenderParams> = React.memo(
 							{selectedAddress}
 						</Typography>
 					</Box>
-
 					<Box my={1}>
 						{game === Game.HodlClicker ? 'Staked Game' : 'Game'} Balance:{' '}
 						<Typography variant="body2" display="inline" color="textSecondary">
@@ -401,7 +348,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</>
 			);
 		};
-
 		const getRewardsAlert = () => {
 			if (!currentAddressMarketAddress || !balances || !totalContractRewardsAmount || !totalContractLockedAmount) {
 				return null;
@@ -409,7 +355,6 @@ const Render: React.FC<RenderParams> = React.memo(
 			if (!gameAddress) {
 				return null;
 			}
-
 			const getBalancePercentage = () => {
 				if (!totalContractLockedAmount) {
 					return 0;
@@ -422,9 +367,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			if (totalContractLockedAmount.eq(new BN(0)) || currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
 				return <></>;
 			}
-
 			const balancePercentage = getBalancePercentage();
-
 			const getTierDetails = () => {
 				if (balancePercentage > 20) {
 					return { tier: 7, emoji: <>👀</> };
@@ -444,11 +387,9 @@ const Render: React.FC<RenderParams> = React.memo(
 				if (balancePercentage > 0.5) {
 					return { tier: 2, emoji: <>🥉</> };
 				}
-
 				return { tier: 1 };
 			};
 			const { emoji, tier } = getTierDetails();
-
 			return (
 				<>
 					<Alert severity="success">
@@ -462,21 +403,18 @@ const Render: React.FC<RenderParams> = React.memo(
 				</>
 			);
 		};
-
 		const getEthereumBlockNumber = () => {
 			if (!addressDetails) {
 				return;
 			}
 			return <>Ethereum Block #{addressDetails.blockNumber.toLocaleString()}</>;
 		};
-
 		const getSubmitButtonText = () => {
 			if (!currentAddressMarketAddress) {
 				return 'Connect';
 			}
 			return <>{isDepositRequired ? 'Deposit' : 'Continue'}</>;
 		};
-
 		const getGameElement = () => {
 			if (!hasWeb3 || !selectedAddress) {
 				return;
@@ -498,7 +436,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				/>
 			);
 		};
-
 		const getInfoAlertElement = () => {
 			const getInfoText = () => {
 				if (!selectedAddress) {
@@ -506,7 +443,6 @@ const Render: React.FC<RenderParams> = React.memo(
 						? 'Web3 connection required, click Connect button below'
 						: 'Ethereum based wallet required, click Continue button below.';
 				}
-
 				if (isDepositRequired) {
 					return <>Your {mintableTokenShortName} Game Balance is 0. Click Deposit button below to continue.</>;
 				}
@@ -515,14 +451,12 @@ const Render: React.FC<RenderParams> = React.memo(
 			if (!infoText) {
 				return;
 			}
-
 			return (
 				<Box mb={3}>
 					<Alert severity="info">{infoText}</Alert>
 				</Box>
 			);
 		};
-
 		const getSubmitButton = () => {
 			if (currentAddressMarketAddress && selectedAddress && currentAddressMarketAddress.rewardsAmount.gt(new BN(0))) {
 				return;
@@ -533,7 +467,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Button>
 			);
 		};
-
 		const getLagWarning = () => {
 			return (
 				showBlockLagWarning &&
@@ -547,7 +480,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				)
 			);
 		};
-
 		return (
 			<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 				<form onSubmit={onSubmit}>
@@ -575,16 +507,12 @@ const Render: React.FC<RenderParams> = React.memo(
 						{getBalances()}
 						{getRewardsAlert()}
 						{getLagWarning()}
-
 						<Box my={3}>
 							<Divider />
 						</Box>
-
 						{getError()}
 						{getInfoAlertElement()}
-
 						{getGameElement()}
-
 						<Box mt={2}>
 							<Divider />
 						</Box>
@@ -613,17 +541,11 @@ const Render: React.FC<RenderParams> = React.memo(
 		);
 	}
 );
-
 const MarketCollectRewardsDialog: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
 	const {
 		balances,
 		address,
 		ecosystem,
-		//marketAddressLock,
-		//currentAddresMintableBalance,
-		//currentAddressMarketAddressLock,
 		selectedAddress,
 		connectionMethod,
 		addressDetails,
@@ -631,19 +553,31 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		error,
 		hasWeb3,
 		market,
-		dialogParams,
 		game,
-	} = appState;
-
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			balances: state.state.balances,
+			address: state.state.address,
+			ecosystem: state.state.ecosystem,
+			selectedAddress: state.state.selectedAddress,
+			connectionMethod: state.state.connectionMethod,
+			addressDetails: state.state.addressDetails,
+			games: state.state.games,
+			error: state.state.error,
+			hasWeb3: state.state.hasWeb3,
+			market: state.state.market,
+			game: state.state.game,
+			dispatch: state.dispatch,
+		}))
+	);
 	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];
-
 	const currentAddressMarketAddress =
 		marketAddresses && marketAddresses.addresses.length > 0
 			? marketAddresses.addresses.find(
 					(address) => address.currentAddress.toLowerCase() === selectedAddress?.toLowerCase()
 				)
 			: null;
-
 	return (
 		<Render
 			balances={balances}
@@ -665,5 +599,4 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		/>
 	);
 };
-
 export default MarketCollectRewardsDialog;

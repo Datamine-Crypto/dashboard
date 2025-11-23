@@ -1,33 +1,28 @@
 import { Box, Button, Divider, Menu, MenuItem } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-
 import Arbitrum from '@/svgs/arbitrum.svg';
 import EthereumPurple from '@/svgs/ethereumPurple.svg';
 import walletconnectIcon from '@/svgs/walletconnect.svg';
-
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { useAppStore } from '@/core/web3/appStore';
-
+import { useShallow } from 'zustand/react/shallow';
+import { commonLanguage } from '@/core/web3/reducer/common';
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
 	ecosystem: Ecosystem;
 }
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 	const { isArbitrumOnlyToken } = getEcosystemConfig(ecosystem);
-
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
 	const handleClick = (event: React.MouseEvent<any>) => {
 		event.preventDefault();
 		setAnchorEl(event.currentTarget);
 	};
-
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-
 	const getButton = () => {
 		// We can show L1/L2 dropdowns with onClick={handleClick}
 		// This used to be necessary for WalletConnect v1
@@ -37,7 +32,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 				color="secondary"
 				size="large"
 				onClick={() =>
-					dispatch({ type: web3CommonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: true } })
+					dispatch({ type: commonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: true } })
 				}
 			>
 				<Box mr={1} display="inline">
@@ -47,17 +42,15 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 			</Button>
 		);
 	};
-
 	const getMenuItems = () => {
 		const getL1MenuItem = () => {
 			if (isArbitrumOnlyToken) {
 				return null;
 			}
-
 			return (
 				<MenuItem
 					onClick={() =>
-						dispatch({ type: web3CommonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: false } })
+						dispatch({ type: commonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: false } })
 					}
 				>
 					<Grid container>
@@ -76,7 +69,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 				{getL1MenuItem()}
 				<MenuItem
 					onClick={() =>
-						dispatch({ type: web3CommonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: true } })
+						dispatch({ type: commonLanguage.commands.ShowWalletConnectRpc, payload: { isArbitrumMainnet: true } })
 					}
 				>
 					<Grid container>
@@ -91,7 +84,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 			</>
 		);
 	};
-
 	return (
 		<>
 			{getButton()}
@@ -115,14 +107,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 		</>
 	);
 });
-
 interface Props {}
-
 const WalletConnectButton: React.FC<Props> = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-	const { ecosystem } = appState;
-
+	const { ecosystem, dispatch: appDispatch } = useAppStore(
+		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
+	);
 	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
-
 export default WalletConnectButton;

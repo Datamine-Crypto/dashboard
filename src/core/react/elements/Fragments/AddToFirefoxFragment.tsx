@@ -2,7 +2,6 @@ import { Box, CardMedia, Link } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import { getEcosystemConfig } from '@/configs/config';
-
 import { Ecosystem } from '@/configs/config.common';
 import metamaskIcon from '@/svgs/metamask.svg';
 import { DialogType } from '@/core/interfaces';
@@ -11,7 +10,7 @@ import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
 import LightTooltip from '@/core/react/elements/LightTooltip';
-
+import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
 	connectionMethod: ConnectionMethod;
@@ -19,17 +18,13 @@ interface RenderParams {
 }
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod, ecosystem }) => {
 	const { mintableTokenShortName, lockableTokenShortName, navigation } = getEcosystemConfig(ecosystem);
-
 	const { isHelpPageEnabled } = navigation;
-
 	// Hide "Add To Metamask" button if we're not connected to MetaMask
 	if (connectionMethod === ConnectionMethod.WalletConnect) {
 		return null;
 	}
-
 	const handleAddToMetamask = (e: React.MouseEvent) => {
 		e.preventDefault();
-
 		try {
 			addToMetamask(ecosystem);
 			dispatch({
@@ -60,7 +55,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 		return false;
 	};
 	const addTokensToMetamaskLink = isHelpPageEnabled ? '#help/onboarding/addTokensToMetamask' : '#';
-
 	return (
 		<LightTooltip
 			title={`Click to display ${lockableTokenShortName} & ${mintableTokenShortName} token balances in Metamask assets list.`}
@@ -78,15 +72,19 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 		</LightTooltip>
 	);
 });
-
 interface Props {}
-
 const AddToFirefoxFragment: React.FC<Props> = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
-	const { connectionMethod, ecosystem } = appState;
-
+	const {
+		connectionMethod,
+		ecosystem,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			connectionMethod: state.state.connectionMethod,
+			ecosystem: state.state.ecosystem,
+			dispatch: state.dispatch,
+		}))
+	);
 	return <Render dispatch={appDispatch} connectionMethod={connectionMethod} ecosystem={ecosystem} />;
 };
-
 export default AddToFirefoxFragment;

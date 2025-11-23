@@ -37,6 +37,7 @@ interface RenderParams {
 }
 
 // Dynamically import ReactMarkdown
+import { useShallow } from 'zustand/react/shallow';
 const ReactMarkdown = lazy(() => import('react-markdown'));
 
 enum ImageOption {
@@ -399,7 +400,9 @@ interface DialogProps {
 	helpArticle: HelpArticle;
 }
 const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
+	const { state: appState, dispatch: appDispatch } = useAppStore(
+		useShallow((state) => ({ state: state.state, dispatch: state.dispatch }))
+	);
 
 	return <Render helpArticle={helpArticle} dispatch={appDispatch} />;
 };

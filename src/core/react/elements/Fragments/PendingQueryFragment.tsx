@@ -1,12 +1,11 @@
 import React from 'react';
-
 import { Ecosystem } from '@/configs/config.common';
 import { ReducerQuery } from '@/core/sideEffectReducer';
 import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
 import PendingActionDialog from '@/core/react/elements/Dialogs/PendingActionDialog';
-
+import { useShallow } from 'zustand/react/shallow';
 interface RenderProps {
 	pendingQueries: ReducerQuery[];
 	queriesCount: number;
@@ -21,9 +20,7 @@ const Render: React.FC<RenderProps> = React.memo(
 			if (pendingQueries.length === 0 || lastDismissedPendingActionCount == queriesCount) {
 				return null;
 			}
-
 			const onClose = () => [dispatch({ type: commonLanguage.commands.DismissPendingAction })];
-
 			return (
 				<PendingActionDialog
 					open={true}
@@ -34,21 +31,31 @@ const Render: React.FC<RenderProps> = React.memo(
 				/>
 			);
 		};
-
 		return getPendingQueryIndicator();
 	}
 );
-
 interface Params {}
-
 /**
  * This is a little dialog that shows up when something is loading (shows a little infinite loading progress to user)
  */
 const PendingQueryFragment: React.FC<Params> = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
-	const { pendingQueries, queriesCount, lastDismissedPendingActionCount, connectionMethod, ecosystem } = appState;
-
+	const {
+		pendingQueries,
+		queriesCount,
+		lastDismissedPendingActionCount,
+		connectionMethod,
+		ecosystem,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			pendingQueries: state.state.pendingQueries,
+			queriesCount: state.state.queriesCount,
+			lastDismissedPendingActionCount: state.state.lastDismissedPendingActionCount,
+			connectionMethod: state.state.connectionMethod,
+			ecosystem: state.state.ecosystem,
+			dispatch: state.dispatch,
+		}))
+	);
 	return (
 		<Render
 			pendingQueries={pendingQueries}
@@ -60,5 +67,4 @@ const PendingQueryFragment: React.FC<Params> = () => {
 		/>
 	);
 };
-
 export default PendingQueryFragment;

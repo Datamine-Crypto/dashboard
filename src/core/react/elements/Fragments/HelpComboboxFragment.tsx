@@ -3,9 +3,8 @@ import React from 'react';
 import { HelpArticle, SearchCategoryText } from '@/core/helpArticles';
 import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
-
 import { tss } from 'tss-react/mui';
-
+import { useShallow } from 'zustand/react/shallow';
 const useStyles = tss.create(({ theme }) => ({
 	big: {
 		width: '100%',
@@ -14,7 +13,6 @@ const useStyles = tss.create(({ theme }) => ({
 		width: '100%',
 	},
 }));
-
 interface RenderProps {
 	isBigSearch?: boolean;
 	id: string;
@@ -22,15 +20,12 @@ interface RenderProps {
 	dispatch: React.Dispatch<any>;
 	helpArticles: HelpArticle[];
 }
-
 const Render: React.FC<RenderProps> = React.memo(({ id, isBigSearch, searchQuery, dispatch, helpArticles }) => {
 	const { classes } = useStyles();
-
 	const filterOptions = (options: any, { inputValue }: any) => options;
 	const onChange = (event: any, helpArticle: HelpArticle) => {
 		dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle } });
 	};
-
 	return (
 		<Autocomplete
 			id={id}
@@ -62,16 +57,18 @@ const Render: React.FC<RenderProps> = React.memo(({ id, isBigSearch, searchQuery
 		/>
 	);
 });
-
 interface Props {
 	id: string;
 	isBigSearch?: boolean;
 }
 const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
-	const { state: appState, dispatch } = useAppStore();
-
-	const { searchQuery, helpArticles } = appState;
-
+	const { searchQuery, helpArticles, dispatch } = useAppStore(
+		useShallow((state) => ({
+			searchQuery: state.state.searchQuery,
+			helpArticles: state.state.helpArticles,
+			dispatch: state.dispatch,
+		}))
+	);
 	return (
 		<Render
 			id={id}
@@ -82,5 +79,4 @@ const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
 		/>
 	);
 };
-
 export default HelpComboboxFragment;

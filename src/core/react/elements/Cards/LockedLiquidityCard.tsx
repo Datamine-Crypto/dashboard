@@ -1,9 +1,7 @@
 import { Box, Card, CardContent, Divider, Link, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-
 import { useAppStore } from '@/core/web3/appStore';
-
 import { OpenInNew } from '@mui/icons-material';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '@/configs/config';
@@ -13,9 +11,8 @@ import { BNToDecimal, getBNPercent, getPriceToggle } from '@/core/web3/helpers';
 import { Balances } from '@/core/web3/reducer/interfaces';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import LightTooltip from '@/core/react/elements/LightTooltip';
-
 import { tss } from 'tss-react/mui';
-
+import { useShallow } from 'zustand/react/shallow';
 /**
  * Props for the Render component within LockedLiquidityCard.
  */
@@ -25,14 +22,12 @@ interface RenderParams {
 	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }
-
 const useStyles = tss.create(({ theme }) => ({
 	address: {
 		fontSize: '0.7rem',
 		letterSpacing: 0,
 	},
 }));
-
 /**
  * A memoized functional component that renders the Locked Liquidity Card.
  * It displays information about the permanently locked liquidity in Uniswap pools.
@@ -40,14 +35,10 @@ const useStyles = tss.create(({ theme }) => ({
  */
 const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 	const { classes } = useStyles();
-
 	const { mintableTokenShortName, layer, mintableSushiSwapL2EthPair } = getEcosystemConfig(ecosystem);
-
 	const { lockedLiquidityUniAmount, lockedLiquidtyUniTotalSupply, uniswapFluxTokenReserves } = balances;
-
 	const percentLockedLiquidity =
 		lockedLiquidityUniAmount.mul(new BN(1000000)).div(lockedLiquidtyUniTotalSupply).toNumber() / 10000;
-
 	/**
 	 * Calculates and displays the percentage of the mintable token's liquidity that is permanently locked.
 	 * @returns A DetailedListItem component showing the locked percentage.
@@ -60,7 +51,6 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 			/>
 		);
 	};
-
 	/**
 	 * Calculates and returns the percentage of a token's supply that is available in Uniswap liquidity pools.
 	 * @param token The token (Lockable or Mintable) for which to calculate the available liquidity.
@@ -100,7 +90,6 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 		const permaLockedMintableToken = uniswapFluxTokenReserves.flux
 			.mul(new BN(percentLockedLiquidity * 100))
 			.div(new BN(10000));
-
 		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: permaLockedMintableToken, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return (
 			<DetailedListItem
@@ -116,16 +105,13 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 			/>
 		);
 	};
-
 	/**
 	 * Renders a DetailedListItem component for the permanently locked ETH liquidity.
 	 * @returns A DetailedListItem component.
 	 */
 	const getFluxAvailableLiquidityEth = () => {
 		const permaLockedEth = uniswapFluxTokenReserves.eth.mul(new BN(percentLockedLiquidity * 100)).div(new BN(10000));
-
 		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: permaLockedEth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD`;
-
 		return (
 			<DetailedListItem
 				title={`Perma-Locked ETH:`}
@@ -135,7 +121,6 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 			/>
 		);
 	};
-
 	return (
 		<Card>
 			<CardContent>
@@ -183,21 +168,22 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 		</Card>
 	);
 });
-
 /**
  * LockedLiquidityCard component that displays information about the permanently locked liquidity
  * in Uniswap pools for the current ecosystem.
  * It fetches liquidity data from the Web3Context and renders it using the Render component.
  */
 const LockedLiquidityCard: React.FC = () => {
-	const { state: appState } = useAppStore();
-
-	const { balances, ecosystem } = appState;
+	const { balances, ecosystem, dispatch } = useAppStore(
+		useShallow((state) => ({
+			balances: state.state.balances,
+			ecosystem: state.state.ecosystem,
+			dispatch: state.dispatch,
+		}))
+	);
 	if (!balances || !balances.lockedLiquidityUniAmount || !balances.lockedLiquidtyUniTotalSupply) {
 		return null;
 	}
-
 	return <Render balances={balances} ecosystem={ecosystem} />;
 };
-
 export default LockedLiquidityCard;

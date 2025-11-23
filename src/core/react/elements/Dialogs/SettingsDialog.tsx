@@ -16,26 +16,20 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-
 import Grid from '@mui/material/Grid';
-
 import { useAppStore } from '@/core/web3/appStore';
 import { ClientSettings } from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
-
 import { AccessTime, Settings } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
 import { formatMoney } from '@/core/utils/formatMoney';
-
+import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	clientSettings: ClientSettings;
-
 	dispatch: React.Dispatch<any>;
-
 	ecosystem: Ecosystem;
 }
-
 const currencyCodes = [
 	'AED',
 	'AFN',
@@ -214,14 +208,11 @@ const currencyCodes = [
 	'ZAR',
 	'ZMW',
 ];
-
 const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, ecosystem }) => {
 	const { ecosystemName } = getEcosystemConfig(ecosystem);
-
 	const onClose = () => {
 		dispatch({ type: commonLanguage.commands.CloseDialog });
 	};
-
 	const getCurrencyDropdown = () => {
 		const menuItems = currencyCodes.map((currency, currencyInded) => {
 			return (
@@ -230,7 +221,6 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 				</MenuItem>
 			);
 		});
-
 		return (
 			<FormControl variant="outlined" fullWidth>
 				<InputLabel id="currency-label">Currency</InputLabel>
@@ -248,14 +238,12 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 			</FormControl>
 		);
 	};
-
 	const getExchangeRateDetails = () => {
 		const exchangedAmount = formatMoney({
 			amount: clientSettings.priceMultiplier,
 			currency: clientSettings.currency,
 			includeCurrencySuffix: true,
 		});
-
 		return (
 			<Box textAlign="center">
 				<Typography component="div" variant="h6">
@@ -264,7 +252,6 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 			</Box>
 		);
 	};
-
 	const getTransactionTypeToggle = () => {
 		return (
 			<FormControlLabel
@@ -302,7 +289,6 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 			/>
 		);
 	};
-
 	return (
 		<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 			<DialogTitle id="form-dialog-title">
@@ -357,12 +343,18 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 		</Dialog>
 	);
 });
-
 const SettingsDialog: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-	const { clientSettings, ecosystem } = appState;
-
+	const {
+		clientSettings,
+		ecosystem,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			clientSettings: state.state.clientSettings,
+			ecosystem: state.state.ecosystem,
+			dispatch: state.dispatch,
+		}))
+	);
 	return <Render clientSettings={clientSettings} dispatch={appDispatch} ecosystem={ecosystem} />;
 };
-
 export default SettingsDialog;

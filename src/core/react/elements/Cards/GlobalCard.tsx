@@ -1,16 +1,14 @@
 import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-
 import { useAppStore } from '@/core/web3/appStore';
-
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem, Layer } from '@/configs/config.common';
 import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/interfaces';
 import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '@/core/web3/helpers';
 import { Balances } from '@/core/web3/reducer/interfaces';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
-
+import { useShallow } from 'zustand/react/shallow';
 /**
  * Props for the Render component within GlobalCard.
  */
@@ -24,7 +22,6 @@ interface RenderParams {
 	/** The current ecosystem. */
 	ecosystem: Ecosystem;
 }
-
 /**
  * A memoized functional component that renders the Global Statistics card.
  * It displays global data such as token supply, burned amounts, locked amounts, and burn ratios.
@@ -33,9 +30,7 @@ interface RenderParams {
 const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressTokenDetails, balances, ecosystem }) => {
 	const { lockableTokenShortName, mintableTokenShortName, mintableTokenPriceDecimals, layer } =
 		getEcosystemConfig(ecosystem);
-
 	const { globalRatio, blockNumber } = addressTokenDetails;
-
 	/**
 	 * Calculates and returns the USD value of the globally burned mintable tokens.
 	 * @returns A React element displaying the USD value.
@@ -56,7 +51,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			</>
 		);
 	};
-
 	/**
 	 * Renders a DetailedListItem component for the current supply of the mintable token.
 	 * @returns A DetailedListItem component.
@@ -75,7 +69,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			/>
 		);
 	};
-
 	/**
 	 * Renders a DetailedListItem component for the globally burned mintable tokens.
 	 * @returns A DetailedListItem component.
@@ -109,7 +102,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			const balanceInUsdc = `$ ${getPriceToggle({ value: addressDetails.globalLockedAmount, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 			return <>{balanceInUsdc}</>;
 		};
-
 		return (
 			<DetailedListItem
 				title={`${lockableTokenShortName} Powering Validators:`}
@@ -128,7 +120,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			/>
 		);
 	};
-
 	/**
 	 * Renders a DetailedListItem component for the global burn ratio of mintable tokens.
 	 * @returns A DetailedListItem component.
@@ -138,7 +129,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			<DetailedListItem title={`${mintableTokenShortName} Burn Ratio:`} main={getBurnRatio(globalRatio, ecosystem)} />
 		);
 	};
-
 	return (
 		<Card>
 			<CardContent>
@@ -167,19 +157,23 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 		</Card>
 	);
 });
-
 /**
  * GlobalCard component that displays global statistics for the Datamine Network.
  * It fetches global data from the Web3Context and renders it using the Render component.
  */
 const GlobalCard: React.FC = () => {
-	const { state: appState } = useAppStore();
-
-	const { addressDetails, addressTokenDetails, balances, ecosystem } = appState;
+	const { addressDetails, addressTokenDetails, balances, ecosystem, dispatch } = useAppStore(
+		useShallow((state) => ({
+			addressDetails: state.state.addressDetails,
+			addressTokenDetails: state.state.addressTokenDetails,
+			balances: state.state.balances,
+			ecosystem: state.state.ecosystem,
+			dispatch: state.dispatch,
+		}))
+	);
 	if (!addressDetails || !addressTokenDetails || !balances) {
 		return null;
 	}
-
 	return (
 		<Render
 			addressDetails={addressDetails}
@@ -189,5 +183,4 @@ const GlobalCard: React.FC = () => {
 		/>
 	);
 };
-
 export default GlobalCard;

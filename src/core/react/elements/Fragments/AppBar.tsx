@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 import React from 'react';
 import DamLogo from '@/svgs/logo.svg';
-
 import Grid from '@mui/material/Grid';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/configs/config';
@@ -12,7 +11,7 @@ import { Ecosystem } from '@/configs/config.common';
 import { useAppStore } from '@/core/web3/appStore';
 import { commonLanguage } from '@/core/web3/reducer/common';
 import HelpComboboxFragment from '@/core/react/elements/Fragments/HelpComboboxFragment';
-
+import { useShallow } from 'zustand/react/shallow';
 const useStyles = tss.create(({ theme }) => ({
 	toolbar: {
 		paddingRight: 24, // keep right padding when drawer closed
@@ -41,7 +40,6 @@ const useStyles = tss.create(({ theme }) => ({
 	title: {
 		flexGrow: 1,
 	},
-
 	link: {
 		marginLeft: theme.spacing(2),
 	},
@@ -56,22 +54,17 @@ const useStyles = tss.create(({ theme }) => ({
 		alignItems: 'center',
 	},
 }));
-
 interface INavProps {
 	sidebar: boolean;
-
 	dispatch: React.Dispatch<any>;
 	selectedAddress: string | null;
 	ecosystem: Ecosystem;
 }
-
 const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }) => {
 	//const { state: socketState, dispatch: socketDispatch } = useContext(SocketContext)
 	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem);
 	const { isHelpPageEnabled } = navigation;
-
 	const { cx, classes } = useStyles();
-
 	const userSessionState = {
 		isDrawerOpen: false,
 		isLoggedIn: false,
@@ -80,15 +73,12 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 		theme: 'ThemeDark',
 	};
 	const isToggleEnabled = false;
-
 	const getSearchTextField = () => {
 		if (!isHelpPageEnabled) {
 			return null;
 		}
-
 		return <HelpComboboxFragment id={'nav-search'} />;
 	};
-
 	return (
 		<AppBar className={clsx(classes.appBar)}>
 			<Toolbar className={classes.toolbar}>
@@ -103,7 +93,6 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 						<Menu />
 					</IconButton>
 				)}
-
 				<Link href="#">
 					<Card elevation={0}>
 						<CardActionArea className={classes.logoArea}>
@@ -122,7 +111,6 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 						</CardActionArea>
 					</Card>
 				</Link>
-
 				{isToggleEnabled && (
 					<Tooltip title="Settings (Coming Soon)">
 						<IconButton color="inherit" /*onClick={userSessionActions.toggleTheme}*/>
@@ -130,10 +118,8 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 						</IconButton>
 					</Tooltip>
 				)}
-
 				<nav className={classes.nav}>
 					{getSearchTextField()}
-
 					<Box sx={{ display: { xs: 'block', lg: 'none' } /*lgUp*/ }}>
 						<Box ml={1}>
 							<Tooltip title="Open Menu">
@@ -148,16 +134,17 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 		</AppBar>
 	);
 });
-
 interface AppBarProps {
 	sidebar: boolean;
 }
 const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
-	const { state: appState, dispatch } = useAppStore();
-
-	const { ecosystem, selectedAddress } = appState;
-
+	const { ecosystem, selectedAddress, dispatch } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.state.ecosystem,
+			selectedAddress: state.state.selectedAddress,
+			dispatch: state.dispatch,
+		}))
+	);
 	return <Render sidebar={sidebar} dispatch={dispatch} selectedAddress={selectedAddress} ecosystem={ecosystem} />;
 };
-
 export default MainAppBar;

@@ -1,19 +1,15 @@
 import { Box, Card, CardActionArea, Chip, Container, Link, Paper, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React, { ReactNode } from 'react';
-
 import { LinkedIn, Timeline, Twitter } from '@mui/icons-material';
-
 import discordLogo from '@/svgs/discord.svg';
 import mediumLogo from '@/svgs/medium.svg';
-
 import { theme as datamineTheme } from '@/core/styles';
-
 import { Ecosystem } from '@/configs/config.common';
 import { useAppStore } from '@/core/web3/appStore';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
-
 import { tss } from 'tss-react/mui';
+import { useShallow } from 'zustand/react/shallow';
 const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
 		[theme.breakpoints.down('sm')]: {
@@ -27,7 +23,6 @@ const useStyles = tss.create(({ theme }) => ({
 			display: 'flex',
 			alignItems: 'center',
 		},
-
 		[theme.breakpoints.down('md')]: {
 			fontSize: '2rem',
 		},
@@ -96,7 +91,6 @@ const useStyles = tss.create(({ theme }) => ({
 		marginBottom: 0,
 	},
 }));
-
 interface PointParams {
 	title: ReactNode;
 	content: ReactNode;
@@ -104,12 +98,10 @@ interface PointParams {
 	mt?: number;
 	mb?: number;
 }
-
 interface RenderProps {
 	dispatch: React.Dispatch<any>;
 	ecosystem: Ecosystem;
 }
-
 /**
  * A memoized functional component that renders the main content of the Community Page.
  * It displays various social and community links for the Datamine Network.
@@ -117,7 +109,6 @@ interface RenderProps {
  */
 const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 	const { classes } = useStyles();
-
 	/**
 	 * Generates a styled point element for displaying information with an icon, title, and content.
 	 * @param params - Object containing title, content, icon, and optional margin top/bottom.
@@ -142,7 +133,6 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 			</Box>
 		);
 	};
-
 	/**
 	 * Renders a collection of social media and community links as styled points.
 	 * Each link is wrapped in a CardActionArea for interactive behavior.
@@ -242,7 +232,6 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 			</>
 		);
 	};
-
 	return (
 		<>
 			<Box mt={8}>
@@ -272,7 +261,6 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 						</Typography>
 					</Container>
 				</Box>
-
 				<Box mb={6}>
 					<Paper className={classes.paperBorders}>
 						<Box py={3}>
@@ -300,24 +288,20 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 					</Container>
 				</Box>
 			</Box>
-
 			<FooterFragment ecosystem={ecosystem} />
 		</>
 	);
 });
-
 interface Props {}
-
 /**
  * CommunityPage component that displays information about the Datamine Network community.
  * It fetches the current ecosystem from Web3Context and passes it to the Render component.
  * @param props - Component props (currently empty).
  */
 const CommunityPage: React.FC<Props> = () => {
-	const { state: appState, dispatch } = useAppStore();
-	const { ecosystem } = appState;
-
+	const { ecosystem, dispatch } = useAppStore(
+		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
+	);
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
 };
-
 export default CommunityPage;

@@ -15,7 +15,6 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-
 import { Diamond, Mouse as MouseIcon } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem } from '@/configs/config.common';
@@ -23,7 +22,7 @@ import { BNToDecimal } from '@/core/web3/helpers';
 import { useAppStore } from '@/core/web3/appStore';
 import { Balances } from '@/core/web3/reducer/interfaces';
 import { commonLanguage } from '@/core/web3/reducer/common';
-
+import { useShallow } from 'zustand/react/shallow';
 /**
  * Props for the Render component within DamLockDialog.
  */
@@ -41,14 +40,12 @@ interface RenderParams {
 	/** The total amount of tokens available. */
 	total: string | null;
 }
-
 enum MintingAddressType {
 	SelfMinter = 'SelfMinter',
 	DelegatedMinter = 'DelegatedMinter',
 	GameHodlClicker = 'GameHodlClicker',
 	GameDatamineGems = 'GameDatamineGems',
 }
-
 /**
  * A memoized functional component that renders the DamLockDialog.
  * This dialog allows users to lock in DAM tokens to start a validator and choose a minter address.
@@ -63,7 +60,6 @@ const Render: React.FC<RenderParams> = React.memo(
 			gameHodlClickerAddress,
 			batchMinterAddress,
 		} = getEcosystemConfig(ecosystem);
-
 		const getDefaultMinterType = () => {
 			if (gameHodlClickerAddress) {
 				return MintingAddressType.GameHodlClicker;
@@ -73,14 +69,11 @@ const Render: React.FC<RenderParams> = React.memo(
 			}
 			return MintingAddressType.SelfMinter;
 		};
-
 		const [amount, setAmount] = React.useState(total);
 		const [minterAddress, setMinterAddress] = React.useState(selectedAddress);
 		const [minterType, setMinterType] = React.useState(getDefaultMinterType());
-
 		const onSubmit = async (e: any) => {
 			e.preventDefault();
-
 			const getMinterAddress = () => {
 				switch (minterType) {
 					case MintingAddressType.GameHodlClicker:
@@ -95,12 +88,10 @@ const Render: React.FC<RenderParams> = React.memo(
 						break;
 					}
 				}
-
 				// Self-minter default
 				return minterAddress;
 			};
 			const computedMinterAddress = getMinterAddress();
-
 			dispatch({
 				type: commonLanguage.commands.LockInDamTokens,
 				payload: {
@@ -116,7 +107,6 @@ const Render: React.FC<RenderParams> = React.memo(
 			}
 			dispatch({ type: commonLanguage.commands.CloseDialog });
 		};
-
 		const getDelegatedMinterBox = () => {
 			if (minterType !== MintingAddressType.DelegatedMinter) {
 				return;
@@ -137,17 +127,14 @@ const Render: React.FC<RenderParams> = React.memo(
 				</Box>
 			);
 		};
-
 		const getMarketOption = () => {
 			if (!marketAddress) {
 				return null;
 			}
-
 			const getRecommendedText = () => {
 				if (gameHodlClickerAddress) {
 					return null;
 				}
-
 				return (
 					<>
 						<Typography component="div" color="secondary" display="inline" variant="body2">
@@ -156,7 +143,6 @@ const Render: React.FC<RenderParams> = React.memo(
 					</>
 				);
 			};
-
 			return (
 				<FormControlLabel
 					value={MintingAddressType.GameDatamineGems}
@@ -170,12 +156,10 @@ const Render: React.FC<RenderParams> = React.memo(
 				/>
 			);
 		};
-
 		const getGameHodlClickerOption = () => {
 			if (!gameHodlClickerAddress) {
 				return null;
 			}
-
 			return (
 				<FormControlLabel
 					value={MintingAddressType.GameHodlClicker}
@@ -194,7 +178,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				/>
 			);
 		};
-
 		const getSelfMinterOption = () => {
 			return (
 				<>
@@ -213,14 +196,11 @@ const Render: React.FC<RenderParams> = React.memo(
 				</>
 			);
 		};
-
 		const getDelegatedMinterOption = () => {
 			//@todo re-enable this for batch minting when new batch mint dialog is done
-
 			if (batchMinterAddress) {
 				return null;
 			}
-
 			return (
 				<>
 					<FormControlLabel
@@ -238,7 +218,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				</>
 			);
 		};
-
 		return (
 			<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 				<form onSubmit={onSubmit}>
@@ -265,7 +244,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								can stop your validator to get 100% of {lockableTokenShortName} tokens back at any time.
 							</Typography>
 						</Box>
-
 						<Box my={1}>
 							<TextField
 								autoFocus
@@ -280,7 +258,6 @@ const Render: React.FC<RenderParams> = React.memo(
 								fullWidth
 							/>
 						</Box>
-
 						<Box my={3}>
 							<FormControl component="fieldset">
 								<FormLabel component="legend">Minting Address</FormLabel>
@@ -297,9 +274,7 @@ const Render: React.FC<RenderParams> = React.memo(
 								</RadioGroup>
 							</FormControl>
 						</Box>
-
 						{getDelegatedMinterBox()}
-
 						<Box mt={2}>
 							<Divider />
 						</Box>
@@ -319,17 +294,28 @@ const Render: React.FC<RenderParams> = React.memo(
 		);
 	}
 );
-
 const DamLockDialog: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
+	const {
+		balances,
+		selectedAddress,
+		error,
+		ecosystem,
+		state: appState,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			balances: state.state.balances,
+			selectedAddress: state.state.selectedAddress,
+			error: state.state.error,
+			ecosystem: state.state.ecosystem,
+			state: state.state,
+			dispatch: state.dispatch,
+		}))
+	);
 	const total = BNToDecimal(appState.balances?.damToken ?? null);
-
-	const { balances, selectedAddress, error, ecosystem } = appState;
 	if (!balances || !selectedAddress) {
 		return null;
 	}
-
 	return (
 		<Render
 			balances={balances}
@@ -341,5 +327,4 @@ const DamLockDialog: React.FC = () => {
 		/>
 	);
 };
-
 export default DamLockDialog;

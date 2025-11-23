@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { tss } from 'tss-react/mui';
-
 import { getEcosystemConfig } from '@/configs/config';
 import { Ecosystem, NetworkType } from '@/configs/config.common';
 import { HelpArticle, helpArticles } from '@/core/helpArticles';
@@ -13,6 +12,7 @@ import DialogsFragment from '@/core/react/elements/Fragments/DialogsFragment';
 import PendingQueryFragment from '@/core/react/elements/Fragments/PendingQueryFragment';
 import RealtimeRewardsGameFiPage from '@/core/react/pages/RealtimeRewardsGameFiPage';
 import HodlClickerRushGameFiPage from '@/core/react/pages/HodlClickerRushGameFiPage';
+import { useShallow } from 'zustand/react/shallow';
 const MainAppBar = lazy(() => import('@/core/react/elements/Fragments/AppBar'));
 const HelpDialog = lazy(() => import('@/core/react/elements/Dialogs/HelpDialog'));
 const CommunityPage = lazy(() => import('@/core/react/pages/CommunityPage'));
@@ -23,17 +23,14 @@ const TokenPage = lazy(() => import('@/core/react/pages/TokenPage'));
 const MainDrawer = lazy(() =>
 	import('@/core/react/elements/Fragments/Drawer').then((module) => ({ default: module.MainDrawer }))
 );
-
 const DashboardPage = lazy(() => import('@/core/react/pages/DashboardPage'));
 const HomePage = lazy(() => import('@/core/react/pages/HomePage'));
-
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
 	helpArticle: HelpArticle | null;
 	helpArticlesNetworkType: NetworkType;
 	ecosystem: Ecosystem;
 }
-
 enum Page {
 	Dashboard,
 	Terms,
@@ -60,7 +57,6 @@ const useStyles = tss.create(({ theme }) => ({
 		justifyContent: 'space-between',
 	},
 }));
-
 /**
  * Determines the current page and any associated parameters based on the URL hash.
  * @returns An object containing the current page enum and any relevant parameters (e.g., address, helpArticleId).
@@ -68,18 +64,15 @@ const useStyles = tss.create(({ theme }) => ({
 const getPageDetails = () => {
 	const path = window.location.hash.toLowerCase().replace('#', '');
 	//const path = window.location.pathname.toLowerCase().replace(/^\//, '');
-
 	if (path === 'dashboard' || path.indexOf('dashboard/') === 0) {
 		const getAddress = () => {
 			const route = path.split('/');
 			if (route.length === 2 && !!route[1]) {
 				return route[1];
 			}
-
 			return null;
 		};
 		const address = getAddress();
-
 		return {
 			page: Page.Dashboard,
 			address,
@@ -117,20 +110,16 @@ const getPageDetails = () => {
 			page: Page.HodlClickerRushGameFiPage,
 		};
 	}
-
 	if (path === 'help' || path.indexOf('help/') === 0) {
 		const getHelpArticleId = () => {
 			if (path.indexOf('help/') === 0) {
 				const helpPath = path.split('/');
 				helpPath.shift();
-
 				return helpPath.join('/');
 			}
-
 			return null;
 		};
 		const helpArticleId = getHelpArticleId();
-
 		return {
 			page: Page.Help,
 			helpArticleId,
@@ -141,12 +130,10 @@ const getPageDetails = () => {
 			page: Page.Community,
 		};
 	}
-
 	return {
 		page: Page.HomePage,
 	};
 };
-
 /**
  * A memoized functional component that renders the main page content based on the current route.
  * It also manages global dialogs and pending queries.
@@ -154,17 +141,13 @@ const getPageDetails = () => {
  */
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType, ecosystem }) => {
 	const { classes } = useStyles();
-
 	const { ecosystemName, mintableTokenShortName, ecosystemSlogan } = getEcosystemConfig(ecosystem);
-
 	const [count, setCount] = useState(0);
 	useEffect(() => {
 		const onHashChanged = () => {
 			window.scrollTo(0, 0);
 			setCount((count) => count + 1); // Allows to refresh element when hash changes
-
 			const pageDetails = getPageDetails();
-
 			switch (pageDetails.page) {
 				case Page.Dashboard:
 					dispatch({
@@ -178,7 +161,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 					const helpArticle = helpArticles.find(
 						(helpArticle) => helpArticle.id.toLowerCase() === pageDetails.helpArticleId
 					);
-
 					if (helpArticle) {
 						dispatch({
 							type: commonLanguage.commands.ShowHelpArticle,
@@ -191,11 +173,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				}
 			}
 		};
-
 		window.addEventListener('hashchange', onHashChanged);
 		return () => window.removeEventListener('hashchange', onHashChanged);
 	}, []);
-
 	/**
 	 * Renders the appropriate page component based on the current route.
 	 * Sets the document title dynamically based on the current page.
@@ -203,11 +183,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 	 */
 	const getPage = () => {
 		const pageDetails = getPageDetails();
-
 		switch (pageDetails.page) {
 			case Page.Dashboard:
 				document.title = `${pageDetails.address ? pageDetails.address : 'Dashboard'} - ${ecosystemSlogan} - ${ecosystemName}`;
-
 				return <DashboardPage address={pageDetails.address as string | null} />;
 			case Page.Help:
 				document.title = `Help & Knowledgebase - ${ecosystemName}`;
@@ -231,11 +209,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				document.title = `Get Started - ${ecosystemName}`;
 				return <HodlClickerRushGameFiPage />;
 		}
-
 		document.title = `${ecosystemSlogan} - ${ecosystemName}`;
 		return <HomePage ecosystem={ecosystem} />;
 	};
-
 	/**
 	 * Renders the main application bar.
 	 * @returns The MainAppBar component.
@@ -247,7 +223,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 			</Box>
 		);
 	};
-
 	/**
 	 * Conditionally renders the HelpDialog component if a help article is selected.
 	 * @returns The HelpDialog component or null.
@@ -256,7 +231,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 		if (!helpArticle) {
 			return null;
 		}
-
 		//@todo helpArticle/helpArticlesNetworkType should be contained inside HelpDialog and get it's own state (instead of doing it here)
 		//Check out TradeDialog for an example
 		return <HelpDialog helpArticle={helpArticle} helpArticlesNetworkType={helpArticlesNetworkType} />;
@@ -287,7 +261,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 							{getDialog()}
 							{getPendingQueries()}
 						</Suspense>
-
 						{getPage()}
 					</Suspense>
 				</Box>
@@ -295,7 +268,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 		</>
 	);
 });
-
 /**
  * This fragment contains all the pages (such as dashboard, help, homepage)
  * It is always rendered at <App /> level
@@ -305,8 +277,19 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
  * - Pending queries fragment
  */
 const PageFragment: React.FC = () => {
-	const { state: appState, dispatch: appDispatch } = useAppStore();
-
+	const {
+		helpArticle,
+		helpArticlesNetworkType,
+		ecosystem,
+		dispatch: appDispatch,
+	} = useAppStore(
+		useShallow((state) => ({
+			helpArticle: state.state.helpArticle,
+			helpArticlesNetworkType: state.state.helpArticlesNetworkType,
+			ecosystem: state.state.ecosystem,
+			dispatch: state.dispatch,
+		}))
+	);
 	/**
 	 * Effect hook to initialize special pages based on the URL hash when the component mounts.
 	 * It dispatches actions to update the application state for pages like Dashboard and Help.
@@ -319,7 +302,6 @@ const PageFragment: React.FC = () => {
 				const helpArticle = helpArticles.find(
 					(helpArticle) => helpArticle.id.toLowerCase() === pageDetails.helpArticleId
 				);
-
 				if (helpArticle) {
 					appDispatch({
 						type: commonLanguage.commands.ShowHelpArticle,
@@ -332,9 +314,6 @@ const PageFragment: React.FC = () => {
 			}
 		}
 	}, [appDispatch]);
-
-	const { helpArticle, helpArticlesNetworkType, ecosystem } = appState;
-
 	return (
 		<Render
 			helpArticle={helpArticle}
@@ -344,5 +323,4 @@ const PageFragment: React.FC = () => {
 		/>
 	);
 };
-
 export default PageFragment;

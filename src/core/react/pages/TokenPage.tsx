@@ -14,19 +14,17 @@ import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
 import fluxLogo from '@/svgs/fluxLogo.svg';
 import lockquidityLogo from '@/svgs/lockquidity.svg';
 import damLogo from '@/svgs/logo.svg';
-
 import Grid from '@mui/material/Grid';
 import { useAppStore } from '@/core/web3/appStore';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
-
+import { useShallow } from 'zustand/react/shallow';
 // Color palette
 const palette = {
 	highlight: '#0FF',
 	background: '#272936',
 	secondaryBackground: '#202336',
 };
-
 // Main component
 interface RenderParams {
 	dispatch: React.Dispatch<any>;
@@ -45,7 +43,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 	const [animateFLUX, setAnimateFLUX] = useState(false);
 	const [animateArbiFLUX, setAnimateArbiFLUX] = useState(false);
 	const [animateLOCK, setAnimateLOCK] = useState(false);
-
 	/**
 	 * Navigates the user to the dashboard page.
 	 */
@@ -91,7 +88,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 							</Grid>
 						</Grid>
 					</Box>
-
 					{/* Introduction Card */}
 					<Paper
 						sx={{
@@ -106,7 +102,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 						<Typography sx={{ fontSize: '1.25rem', mb: 2 }}>
 							Datamine Network is a decentralized system designed to:
 						</Typography>
-
 						<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 3 }}>
 							<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 								<ShieldIcon sx={{ color: palette.highlight, mr: 2, mt: 0.5 }} />
@@ -117,7 +112,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									Keeps token supply balanced to maintain value.
 								</Typography>
 							</Box>
-
 							<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 								<BarChartIcon sx={{ color: palette.highlight, mr: 2, mt: 0.5 }} />
 								<Typography>
@@ -127,7 +121,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									Reduces market swings and increases liquidity.
 								</Typography>
 							</Box>
-
 							<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 								<TrendingUpIcon sx={{ color: palette.highlight, mr: 2, mt: 0.5 }} />
 								<Typography>
@@ -138,12 +131,10 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 								</Typography>
 							</Box>
 						</Box>
-
 						<Typography sx={{ fontSize: '1.125rem' }}>
 							Our ecosystem revolves around four tokens—DAM, FLUX, ArbiFLUX, and LOCK—each playing a unique role.
 						</Typography>
 					</Paper>
-
 					{/* Token Flow Diagram */}
 					<Box
 						sx={{
@@ -166,7 +157,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 						>
 							Datamine Ecosystem Flow
 						</Typography>
-
 						<svg viewBox="0 0 800 200" width="100%" height="200">
 							{/* DAM */}
 							<g transform="translate(62, 106)">
@@ -175,7 +165,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									DAM
 								</text>
 							</g>
-
 							{/* Arrow 1 */}
 							<g transform="translate(100, 100)">
 								<line x1="0" y1="0" x2="120" y2="0" stroke="#4b5563" strokeWidth="2" strokeDasharray="5,5" />
@@ -188,7 +177,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									Lock
 								</text>
 							</g>
-
 							{/* FLUX */}
 							<g transform="translate(266, 106)">
 								<image href={fluxLogo} x="-44" y="-44" width="76" height="76" />
@@ -196,7 +184,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									FLUX
 								</text>
 							</g>
-
 							{/* Arrow 2 */}
 							<g transform="translate(300, 100)">
 								<line x1="0" y1="0" x2="120" y2="0" stroke="#4b5563" strokeWidth="2" strokeDasharray="5,5" />
@@ -209,7 +196,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									Bridge & Lock
 								</text>
 							</g>
-
 							{/* ArbiFLUX */}
 							<g transform="translate(464, 106)">
 								<image href={arbiFluxLogo} x="-44" y="-44" width="76" height="76" />
@@ -217,7 +203,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									ArbiFLUX
 								</text>
 							</g>
-
 							{/* Arrow 3 */}
 							<g transform="translate(500, 100)">
 								<line x1="0" y1="0" x2="120" y2="0" stroke="#4b5563" strokeWidth="2" strokeDasharray="5,5" />
@@ -230,7 +215,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									Lock
 								</text>
 							</g>
-
 							{/* LOCK */}
 							<g transform="translate(666, 106)">
 								<image href={lockquidityLogo} x="-44" y="-44" width="76" height="76" />
@@ -240,7 +224,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 							</g>
 						</svg>
 					</Box>
-
 					{/* Token Sections */}
 					<Grid container spacing={4} sx={{ maxWidth: '1152px', mx: 'auto' }}>
 						{/* DAM Section */}
@@ -295,7 +278,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 												DAM anchors the system and has a capped supply of 16,876,779 tokens.
 											</Typography>
 										</Box>
-
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 											<ArrowForwardIcon sx={{ color: '#60a5fa', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
 											<Typography sx={{ color: '#e5e7eb' }}>
@@ -320,7 +302,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 											<Typography sx={{ color: '#9ca3af' }}>Supply Cap</Typography> {/* text-gray-400 */}
 											<Typography sx={{ fontWeight: 'bold' }}>16,876,779 DAM</Typography>
 										</Box>
-
 										<Box sx={{ mt: 1, pt: 0.5, position: 'relative' }}>
 											<Box
 												sx={{
@@ -349,7 +330,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 								</CardContent>
 							</Card>
 						</Grid>
-
 						{/* FLUX Section */}
 						<Grid size={{ xs: 12, md: 6 }}>
 							<Card
@@ -402,7 +382,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 												FLUX is minted when DAM is locked. It&apos;s used for rewards and transactions.
 											</Typography>
 										</Box>
-
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 											<ArrowForwardIcon sx={{ color: '#a855f7', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
 											<Typography sx={{ color: '#e5e7eb' }}>
@@ -430,7 +409,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 											<ArrowForwardIcon sx={{ color: '#6b7280', mx: 1 }} fontSize="small" />
 											<Typography sx={{ color: palette.highlight, fontWeight: 'bold' }}>Mint FLUX</Typography>
 										</Box>
-
 										<Box sx={{ display: 'flex', alignItems: 'center' }}>
 											<SyncIcon sx={{ color: palette.highlight, mr: 1 }} fontSize="small" />
 											<Typography sx={{ color: '#e5e7eb' }}>Burn FLUX</Typography>
@@ -441,7 +419,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 								</CardContent>
 							</Card>
 						</Grid>
-
 						{/* ArbiFLUX Section */}
 						<Grid size={{ xs: 12, md: 6 }}>
 							<Card
@@ -494,7 +471,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 												ArbiFLUX operates on Arbitrum (Layer 2) and is created by locking FLUX.
 											</Typography>
 										</Box>
-
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 											<ArrowForwardIcon sx={{ color: '#f472b6', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
 											<Typography sx={{ color: '#e5e7eb' }}>
@@ -548,7 +524,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 												</Box>
 											</Box>
 										</Box>
-
 										<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 											<Typography sx={{ color: '#9ca3af' }}>Transaction Speed</Typography>
 											<Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -585,7 +560,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 								</CardContent>
 							</Card>
 						</Grid>
-
 						{/* LOCK Section */}
 						<Grid size={{ xs: 12, md: 6 }}>
 							<Card
@@ -638,7 +612,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 												LOCK enhances stability by contributing to a permanent liquidity pool.
 											</Typography>
 										</Box>
-
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 											<ArrowForwardIcon sx={{ color: '#4ade80', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
 											<Typography sx={{ color: '#e5e7eb' }}>
@@ -665,7 +638,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 												Permanent Liquidity Pool
 											</Box>
 										</Typography>
-
 										<svg viewBox="0 0 200 60" width="100%" height="60">
 											<rect
 												x="10"
@@ -689,7 +661,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 							</Card>
 						</Grid>
 					</Grid>
-
 					{/* Security Section */}
 					<Paper
 						sx={{
@@ -722,7 +693,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 							</svg>
 							Security Audits
 						</Typography>
-
 						<Box
 							sx={{
 								display: 'flex',
@@ -745,7 +715,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 2, textAlign: 'center' }}>
 										DAM Token Audit
 									</Typography>
-
 									<Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
 										<svg width="80" height="80" viewBox="480 480 1040 1040">
 											<circle cx="1000" cy="1000" r="500" fill="#202336" />
@@ -764,11 +733,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 											/>
 										</svg>
 									</Box>
-
 									<Typography sx={{ color: '#e5e7eb', mb: 2, textAlign: 'center' }}>
 										The DAM token contract has been audited by SlowMist, a leading blockchain security firm.
 									</Typography>
-
 									<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 										<Button
 											component="a"
@@ -788,7 +755,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									</Box>
 								</CardContent>
 							</Card>
-
 							<Card
 								sx={{
 									flex: 1,
@@ -801,7 +767,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 2, textAlign: 'center' }}>
 										FLUX Token Audit
 									</Typography>
-
 									<Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
 										<svg width="80" height="80" viewBox="480 480 1040 1040">
 											<path
@@ -830,11 +795,9 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 											/>
 										</svg>
 									</Box>
-
 									<Typography sx={{ color: '#e5e7eb', mb: 2, textAlign: 'center' }}>
 										The FLUX token contract has been thoroughly audited by SlowMist to ensure security and reliability.
 									</Typography>
-
 									<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 										<Button
 											component="a"
@@ -855,12 +818,10 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 								</CardContent>
 							</Card>
 						</Box>
-
 						<Typography sx={{ color: '#e5e7eb', textAlign: 'center' }}>
 							Security is a priority in the Datamine ecosystem, with audited contracts for the foundation tokens.
 						</Typography>
 					</Paper>
-
 					{/* Integration Flow */}
 					<Paper
 						sx={{
@@ -888,7 +849,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 							<SyncIcon sx={{ mr: 1, mb: 0.5 }} />
 							Integration Flow
 						</Typography>
-
 						<Grid container spacing={4} sx={{ height: '100%' }}>
 							<Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', flexDirection: 'column' }}>
 								<Box
@@ -911,7 +871,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 										<Typography sx={{ color: '#d1d5db' }}>• Lock ArbiFLUX to mint LOCK.</Typography>
 									</Box>
 								</Box>
-
 								<Box
 									sx={{
 										bgcolor: palette.background,
@@ -929,7 +888,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									</Typography>
 								</Box>
 							</Grid>
-
 							<Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', flexDirection: 'column' }}>
 								<Box
 									sx={{
@@ -948,7 +906,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 										and increasing depth.
 									</Typography>
 								</Box>
-
 								<Box
 									sx={{
 										bgcolor: palette.background,
@@ -967,7 +924,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 							</Grid>
 						</Grid>
 					</Paper>
-
 					{/* Why Join */}
 					<Paper
 						sx={{
@@ -991,7 +947,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 						>
 							💪 Why Join Datamine?
 						</Typography>
-
 						<Grid container spacing={4}>
 							<Grid size={{ xs: 12, md: 4 }}>
 								<Card
@@ -1040,7 +995,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									</CardContent>
 								</Card>
 							</Grid>
-
 							<Grid size={{ xs: 12, md: 4 }}>
 								<Card
 									sx={{
@@ -1088,7 +1042,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 									</CardContent>
 								</Card>
 							</Grid>
-
 							<Grid size={{ xs: 12, md: 4 }}>
 								<Card
 									sx={{
@@ -1145,7 +1098,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 		</Box>
 	);
 });
-
 interface Props {}
 /**
  * TokenPage component that serves as the entry point for displaying token-related information.
@@ -1153,10 +1105,9 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const TokenPage: React.FC<Props> = () => {
-	const { state: appState, dispatch } = useAppStore();
-	const { ecosystem } = appState;
-
+	const { ecosystem, dispatch } = useAppStore(
+		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
+	);
 	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
 };
-
 export default TokenPage;
