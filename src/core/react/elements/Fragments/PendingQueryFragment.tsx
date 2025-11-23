@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Ecosystem } from '../../../../configs/config.common';
-import { ReducerQuery } from '../../../sideEffectReducer';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { commonLanguage, ConnectionMethod } from '../../../web3/web3Reducer';
-import PendingActionDialog from '../Dialogs/PendingActionDialog';
+import { Ecosystem } from '@/configs/config.common';
+import { ReducerQuery } from '@/core/sideEffectReducer';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { commonLanguage, ConnectionMethod } from '@/core/web3/web3Reducer';
+import PendingActionDialog from '@/core/react/elements/Dialogs/PendingActionDialog';
 
 interface RenderProps {
 	pendingQueries: ReducerQuery[];

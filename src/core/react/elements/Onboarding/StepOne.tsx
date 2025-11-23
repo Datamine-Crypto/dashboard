@@ -12,10 +12,10 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-import arbiFluxLogo from '../../../../svgs/arbiFluxLogo.svg';
-import lockquidityLogo from '../../../../svgs/lockquidity.svg';
-import fluxLogo from '../../../../svgs/logo.svg';
-import { OnboardingProps } from './types';
+import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
+import lockquidityLogo from '@/svgs/lockquidity.svg';
+import fluxLogo from '@/svgs/logo.svg';
+import { OnboardingProps } from '@/core/react/elements/Onboarding/types';
 
 // Corporate Memphis style illustration
 const CorporateMemphisSvg = ({ width = '100%', height = '100%', className = '' }) => {

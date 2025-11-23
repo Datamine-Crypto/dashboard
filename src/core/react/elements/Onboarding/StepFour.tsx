@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Paper, Slider, Stack, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { OnboardingProps } from './types';
+import { OnboardingProps } from '@/core/react/elements/Onboarding/types';
 
 // Token SVGs
 const ShrimpSvg = () => (

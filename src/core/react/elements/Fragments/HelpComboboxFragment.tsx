@@ -1,8 +1,8 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React from 'react';
-import { HelpArticle, SearchCategoryText } from '../../../helpArticles';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { commonLanguage } from '../../../web3/web3Reducer';
+import { HelpArticle, SearchCategoryText } from '@/core/helpArticles';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { commonLanguage } from '@/core/web3/web3Reducer';
 
 import { tss } from 'tss-react/mui';
 

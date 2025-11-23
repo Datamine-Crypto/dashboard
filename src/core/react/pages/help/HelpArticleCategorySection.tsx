@@ -1,10 +1,10 @@
 import { Box, List, ListItemButton } from '@mui/material';
 import React from 'react';
 
-import { theme as datamineTheme } from '../../../styles';
-import { HelpArticle } from '../../../helpArticles';
+import { theme as datamineTheme } from '@/core/styles';
+import { HelpArticle } from '@/core/helpArticles';
 import { tss } from 'tss-react/mui';
-import { commonLanguage } from '../../../web3/web3Reducer';
+import { commonLanguage } from '@/core/web3/web3Reducer';
 
 const useStyles = tss.create(() => ({
 	helpCategoryHeader: {

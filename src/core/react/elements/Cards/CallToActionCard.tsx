@@ -26,14 +26,8 @@ import React, { useEffect, useState } from 'react';
 
 import Big from 'big.js';
 import BN from 'bn.js';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import {
-	Balances,
-	ClientSettings,
-	commonLanguage,
-	ConnectionMethod,
-	ForecastSettings,
-} from '../../../web3/web3Reducer';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { Balances, ClientSettings, commonLanguage, ConnectionMethod, ForecastSettings } from '@/core/web3/web3Reducer';
 
 import {
 	Alarm as AlarmIcon,
@@ -49,13 +43,13 @@ import {
 } from '@mui/icons-material';
 
 import moment, { Moment } from 'moment';
-import { Ecosystem, Layer } from '../../../../configs/config.common';
-import arbiFluxLogo from '../../../../svgs/arbiFluxLogo.svg';
-import ArbitrumLogo from '../../../../svgs/arbitrum.svg';
-import EthereumPurpleLogo from '../../../../svgs/ethereumPurple.svg';
-import fluxLogo from '../../../../svgs/fluxLogo.svg';
-import lockquidityLogo from '../../../../svgs/lockquidity.svg';
-import damLogo from '../../../../svgs/logo.svg';
+import { Ecosystem, Layer } from '@/configs/config.common';
+import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
+import ArbitrumLogo from '@/svgs/arbitrum.svg';
+import EthereumPurpleLogo from '@/svgs/ethereumPurple.svg';
+import fluxLogo from '@/svgs/fluxLogo.svg';
+import lockquidityLogo from '@/svgs/lockquidity.svg';
+import damLogo from '@/svgs/logo.svg';
 import {
 	DialogType,
 	FluxAddressDetails,
@@ -63,22 +57,22 @@ import {
 	FluxAddressTokenDetails,
 	Game,
 	Token,
-} from '../../../interfaces';
-import { formatMoney } from '../../../utils/formatMoney';
-import { getApy, TokenPair } from '../../../utils/getApy';
-import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '../../../web3/helpers';
+} from '@/core/interfaces';
+import { formatMoney } from '@/core/utils/formatMoney';
+import { getApy, TokenPair } from '@/core/utils/getApy';
+import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '@/core/web3/helpers';
 import {
 	BNToDecimal,
 	getBlocksRemaining,
 	getFormattedMultiplier,
 	getPriceToggle,
 	getPriceToggleBig,
-} from '../../../web3/helpers';
-import LightTooltip from '../LightTooltip';
+} from '@/core/web3/helpers';
+import LightTooltip from '@/core/react/elements/LightTooltip';
 
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../../../configs/config';
-import { getNetworkDropdown } from '../Fragments/EcosystemDropdown';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/configs/config';
+import { getNetworkDropdown } from '@/core/react/elements/Fragments/EcosystemDropdown';
 
 const useStyles = tss.create(({ theme }) => ({
 	progressBarLeft: {

@@ -4,14 +4,14 @@ import React, { ReactNode } from 'react';
 
 import { LinkedIn, Timeline, Twitter } from '@mui/icons-material';
 
-import discordLogo from '../../../svgs/discord.svg';
-import mediumLogo from '../../../svgs/medium.svg';
+import discordLogo from '@/svgs/discord.svg';
+import mediumLogo from '@/svgs/medium.svg';
 
-import { theme as datamineTheme } from '../../styles';
+import { theme as datamineTheme } from '@/core/styles';
 
-import { Ecosystem } from '../../../configs/config.common';
-import { useWeb3Context } from '../../web3/Web3Context';
-import FooterFragment from '../elements/Fragments/FooterFragment';
+import { Ecosystem } from '@/configs/config.common';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 
 import { tss } from 'tss-react/mui';
 const useStyles = tss.create(({ theme }) => ({

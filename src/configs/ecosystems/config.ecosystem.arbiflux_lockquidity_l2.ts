@@ -1,6 +1,6 @@
-import { Game } from '../../core/interfaces';
-import ecosystemLogoSvg from '../../svgs/lockquidity.svg';
-import { EcosystemConfig, Layer, LiquidityPoolType } from '../config.common';
+import { Game } from '@/core/interfaces';
+import ecosystemLogoSvg from '@/svgs/lockquidity.svg';
+import { EcosystemConfig, Layer, LiquidityPoolType } from '@/configs/config.common';
 
 /**
  * Provides the complete configuration for the Arbitrum L2 (ArbiFLUX/LOCK) ecosystem.

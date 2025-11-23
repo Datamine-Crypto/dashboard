@@ -5,8 +5,8 @@
  */
 
 import Big from 'big.js';
-import { getEcosystemConfig } from '../../configs/config';
-import { Ecosystem } from '../../configs/config.common';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
 
 /**
  * Enum for identifying different token pairs in liquidity pools.

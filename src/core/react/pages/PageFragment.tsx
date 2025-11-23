@@ -2,30 +2,30 @@ import { Box } from '@mui/material';
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { tss } from 'tss-react/mui';
 
-import { getEcosystemConfig } from '../../../configs/config';
-import { Ecosystem, NetworkType } from '../../../configs/config.common';
-import { HelpArticle, helpArticles } from '../../helpArticles';
-import { useWeb3Context } from '../../web3/Web3Context';
-import { commonLanguage } from '../../web3/web3Reducer';
-import LoadingDialog from '../elements/Dialogs/LoadingDialog';
-import CenteredLoading from '../elements/Fragments/CenteredLoading';
-import DialogsFragment from '../elements/Fragments/DialogsFragment';
-import PendingQueryFragment from '../elements/Fragments/PendingQueryFragment';
-import RealtimeRewardsGameFiPage from './RealtimeRewardsGameFiPage';
-import HodlClickerRushGameFiPage from './HodlClickerRushGameFiPage';
-const MainAppBar = lazy(() => import('../elements/Fragments/AppBar'));
-const HelpDialog = lazy(() => import('../elements/Dialogs/HelpDialog'));
-const CommunityPage = lazy(() => import('./CommunityPage'));
-const HelpPage = lazy(() => import('./help/HelpPage'));
-const OnboardingPage = lazy(() => import('./OnboardingPage'));
-const Terms = lazy(() => import('./Terms'));
-const TokenPage = lazy(() => import('./TokenPage'));
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem, NetworkType } from '@/configs/config.common';
+import { HelpArticle, helpArticles } from '@/core/helpArticles';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { commonLanguage } from '@/core/web3/web3Reducer';
+import LoadingDialog from '@/core/react/elements/Dialogs/LoadingDialog';
+import CenteredLoading from '@/core/react/elements/Fragments/CenteredLoading';
+import DialogsFragment from '@/core/react/elements/Fragments/DialogsFragment';
+import PendingQueryFragment from '@/core/react/elements/Fragments/PendingQueryFragment';
+import RealtimeRewardsGameFiPage from '@/core/react/pages/RealtimeRewardsGameFiPage';
+import HodlClickerRushGameFiPage from '@/core/react/pages/HodlClickerRushGameFiPage';
+const MainAppBar = lazy(() => import('@/core/react/elements/Fragments/AppBar'));
+const HelpDialog = lazy(() => import('@/core/react/elements/Dialogs/HelpDialog'));
+const CommunityPage = lazy(() => import('@/core/react/pages/CommunityPage'));
+const HelpPage = lazy(() => import('@/core/react/pages/help/HelpPage'));
+const OnboardingPage = lazy(() => import('@/core/react/pages/OnboardingPage'));
+const Terms = lazy(() => import('@/core/react/pages/Terms'));
+const TokenPage = lazy(() => import('@/core/react/pages/TokenPage'));
 const MainDrawer = lazy(() =>
-	import('../elements/Fragments/Drawer').then((module) => ({ default: module.MainDrawer }))
+	import('@/core/react/elements/Fragments/Drawer').then((module) => ({ default: module.MainDrawer }))
 );
 
-const DashboardPage = lazy(() => import('./DashboardPage'));
-const HomePage = lazy(() => import('./HomePage'));
+const DashboardPage = lazy(() => import('@/core/react/pages/DashboardPage'));
+const HomePage = lazy(() => import('@/core/react/pages/HomePage'));
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;

@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React, { ErrorInfo } from 'react';
-import logo from '../../svgs/logo.svg'; // Tell webpack this JS file uses this image
+import logo from '@/svgs/logo.svg'; // Tell webpack this JS file uses this image
 
 /**
  * Defines the shape of the state for the ErrorBoundary component.

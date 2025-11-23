@@ -2,20 +2,20 @@ import { Box, Button, Card, CardContent, Divider, Typography } from '@mui/materi
 import Grid from '@mui/material/Grid';
 import React from 'react';
 
-import { useWeb3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '@/core/web3/Web3Context';
 
-import { BNToDecimal, getBlocksRemaining } from '../../../web3/helpers';
+import { BNToDecimal, getBlocksRemaining } from '@/core/web3/helpers';
 
 import BN from 'bn.js';
-import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '../../../interfaces';
-import { Balances, commonLanguage } from '../../../web3/web3Reducer';
+import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '@/core/interfaces';
+import { Balances, commonLanguage } from '@/core/web3/web3Reducer';
 
 import { LockOpen } from '@mui/icons-material';
 import Big from 'big.js';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import { getRequiredFluxToBurn } from '../../../web3/helpers';
-import DetailedListItem from '../Fragments/DetailedListItem';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import { getRequiredFluxToBurn } from '@/core/web3/helpers';
+import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 
 /**
  * Props for the Render component within MintStatsCard.

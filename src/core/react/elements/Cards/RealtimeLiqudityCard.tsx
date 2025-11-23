@@ -2,19 +2,19 @@ import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/
 import Grid from '@mui/material/Grid';
 import React from 'react';
 
-import { useWeb3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '@/core/web3/Web3Context';
 
 import BN from 'bn.js';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem, Layer, LiquidityPoolType } from '../../../../configs/config.common';
-import sushiSwapLogo from '../../../../svgs/sushiSwap.svg';
-import uniswap from '../../../../svgs/uniswap.svg';
-import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '../../../interfaces';
-import { BNToDecimal, getBNPercent, getPriceToggle } from '../../../web3/helpers';
-import { Balances } from '../../../web3/web3Reducer';
-import DetailedListItem from '../Fragments/DetailedListItem';
-import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
-import LightTooltip from '../LightTooltip';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem, Layer, LiquidityPoolType } from '@/configs/config.common';
+import sushiSwapLogo from '@/svgs/sushiSwap.svg';
+import uniswap from '@/svgs/uniswap.svg';
+import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/interfaces';
+import { BNToDecimal, getBNPercent, getPriceToggle } from '@/core/web3/helpers';
+import { Balances } from '@/core/web3/web3Reducer';
+import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
+import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
+import LightTooltip from '@/core/react/elements/LightTooltip';
 
 /**
  * Props for the Render component within RealtimeLiqudityCard.

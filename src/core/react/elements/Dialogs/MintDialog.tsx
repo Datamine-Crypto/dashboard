@@ -11,14 +11,14 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { commonLanguage } from '../../../web3/web3Reducer';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { commonLanguage } from '@/core/web3/web3Reducer';
 
 import { Redeem } from '@mui/icons-material';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import { FluxAddressDetails } from '../../../interfaces';
-import { BNToDecimal } from '../../../web3/helpers';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import { FluxAddressDetails } from '@/core/interfaces';
+import { BNToDecimal } from '@/core/web3/helpers';
 
 interface RenderParams {
 	selectedAddress: string;

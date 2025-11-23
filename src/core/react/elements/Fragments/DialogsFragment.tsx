@@ -1,19 +1,21 @@
 import React, { lazy } from 'react';
-import { DialogType } from '../../../interfaces';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { commonLanguage } from '../../../web3/web3Reducer';
-import BurnDialog from '../Dialogs/BurnDialog';
-import DamLockDialog from '../Dialogs/DamLockDialog';
-import MarketDepositWithdrawDialog from '../Dialogs/GameFi/MarketDepositWithdrawDialog';
-import MessageDialog from '../Dialogs/MessageDialog';
-import MintDialog from '../Dialogs/MintDialog';
-import SettingsDialog from '../Dialogs/SettingsDialog';
-import TradeDialog from '../Dialogs/TradeDialog';
-import UnlockDialog from '../Dialogs/UnlockDialog';
-import WalletConnectRpcDialog from '../Dialogs/WalletConnectRpcDialog';
-import MintSettingsDialog from '../Dialogs/MinterSettingsDialog';
-const MarketCollectRewardsDialog = lazy(() => import('../Dialogs/GameFi/MarketCollectRewardsDialog'));
-const ZeroBalanceDialog = lazy(() => import('../Dialogs/ZeroBalanceDialog'));
+import { DialogType } from '@/core/interfaces';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { commonLanguage } from '@/core/web3/web3Reducer';
+import BurnDialog from '@/core/react/elements/Dialogs/BurnDialog';
+import DamLockDialog from '@/core/react/elements/Dialogs/DamLockDialog';
+import MarketDepositWithdrawDialog from '@/core/react/elements/Dialogs/GameFi/MarketDepositWithdrawDialog';
+import MessageDialog from '@/core/react/elements/Dialogs/MessageDialog';
+import MintDialog from '@/core/react/elements/Dialogs/MintDialog';
+import SettingsDialog from '@/core/react/elements/Dialogs/SettingsDialog';
+import TradeDialog from '@/core/react/elements/Dialogs/TradeDialog';
+import UnlockDialog from '@/core/react/elements/Dialogs/UnlockDialog';
+import WalletConnectRpcDialog from '@/core/react/elements/Dialogs/WalletConnectRpcDialog';
+import MintSettingsDialog from '@/core/react/elements/Dialogs/MinterSettingsDialog';
+const MarketCollectRewardsDialog = lazy(
+	() => import('@/core/react/elements/Dialogs/GameFi/MarketCollectRewardsDialog')
+);
+const ZeroBalanceDialog = lazy(() => import('@/core/react/elements/Dialogs/ZeroBalanceDialog'));
 
 interface Props {
 	dispatch: React.Dispatch<any>;

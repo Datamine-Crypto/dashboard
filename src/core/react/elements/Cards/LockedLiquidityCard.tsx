@@ -2,17 +2,17 @@ import { Box, Card, CardContent, Divider, Link, Typography } from '@mui/material
 import Grid from '@mui/material/Grid';
 import React from 'react';
 
-import { useWeb3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '@/core/web3/Web3Context';
 
 import { OpenInNew } from '@mui/icons-material';
 import BN from 'bn.js';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem, Layer } from '../../../../configs/config.common';
-import { Token } from '../../../interfaces';
-import { BNToDecimal, getBNPercent, getPriceToggle } from '../../../web3/helpers';
-import { Balances } from '../../../web3/web3Reducer';
-import DetailedListItem from '../Fragments/DetailedListItem';
-import LightTooltip from '../LightTooltip';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem, Layer } from '@/configs/config.common';
+import { Token } from '@/core/interfaces';
+import { BNToDecimal, getBNPercent, getPriceToggle } from '@/core/web3/helpers';
+import { Balances } from '@/core/web3/web3Reducer';
+import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
+import LightTooltip from '@/core/react/elements/LightTooltip';
 
 import { tss } from 'tss-react/mui';
 

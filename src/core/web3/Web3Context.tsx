@@ -1,10 +1,4 @@
-import { useWeb3Store } from './web3Store';
-import { Web3State } from './reducer/interfaces';
-
-export interface Web3ContextValue {
-	state: Web3State;
-	dispatch: any;
-}
+import { useWeb3Store } from '@/core/web3/web3Store';
 
 const useWeb3Context = () => {
 	const { state, dispatch } = useWeb3Store();

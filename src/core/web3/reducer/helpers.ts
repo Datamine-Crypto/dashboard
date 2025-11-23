@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ReducerQuery } from '../sideEffectReducer';
+import { ReducerQuery } from '@/core/web3/sideEffectReducer';
 
 /**
  * A factory function to create a `withQueries` helper, which simplifies adding new queries to the state.

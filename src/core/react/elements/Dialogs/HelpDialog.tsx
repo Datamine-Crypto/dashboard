@@ -19,12 +19,12 @@ import React, { Suspense, lazy } from 'react';
 
 import { Close, Launch } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
-import { HelpArticle, SearchCategoryText } from '../../../helpArticles';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { commonLanguage } from '../../../web3/web3Reducer';
-import AddToFirefoxFragment from '../Fragments/AddToFirefoxFragment';
-import CenteredLoading from '../Fragments/CenteredLoading'; // Assuming you have a loading component
-import LightTooltip from '../LightTooltip';
+import { HelpArticle, SearchCategoryText } from '@/core/helpArticles';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { commonLanguage } from '@/core/web3/web3Reducer';
+import AddToFirefoxFragment from '@/core/react/elements/Fragments/AddToFirefoxFragment';
+import CenteredLoading from '@/core/react/elements/Fragments/CenteredLoading'; // Assuming you have a loading component
+import LightTooltip from '@/core/react/elements/LightTooltip';
 
 /**
  * Props for the Render component within HelpDialog.

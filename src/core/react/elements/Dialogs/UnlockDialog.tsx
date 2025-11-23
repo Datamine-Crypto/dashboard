@@ -11,16 +11,16 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { Balances, ClientSettings, commonLanguage } from '../../../web3/web3Reducer';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { Balances, ClientSettings, commonLanguage } from '@/core/web3/web3Reducer';
 
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import { FluxAddressDetails, Token } from '../../../interfaces';
-import { theme } from '../../../styles';
-import { formatMoney } from '../../../utils/formatMoney';
-import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '../../../web3/helpers';
-import MessageDialog from './MessageDialog';
+import { getEcosystemConfig as getConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import { FluxAddressDetails, Token } from '@/core/interfaces';
+import { theme } from '@/core/styles';
+import { formatMoney } from '@/core/utils/formatMoney';
+import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '@/core/web3/helpers';
+import MessageDialog from '@/core/react/elements/Dialogs/MessageDialog';
 
 interface RenderParams {
 	addressDetails: FluxAddressDetails;

@@ -9,16 +9,16 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Card, CardContent, Divider, Paper, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { Ecosystem } from '../../../configs/config.common';
-import arbiFluxLogo from '../../../svgs/arbiFluxLogo.svg';
-import fluxLogo from '../../../svgs/fluxLogo.svg';
-import lockquidityLogo from '../../../svgs/lockquidity.svg';
-import damLogo from '../../../svgs/logo.svg';
+import { Ecosystem } from '@/configs/config.common';
+import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
+import fluxLogo from '@/svgs/fluxLogo.svg';
+import lockquidityLogo from '@/svgs/lockquidity.svg';
+import damLogo from '@/svgs/logo.svg';
 
 import Grid from '@mui/material/Grid';
-import { useWeb3Context } from '../../web3/Web3Context';
-import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../elements/Fragments/ExploreLiquidityPools';
-import FooterFragment from '../elements/Fragments/FooterFragment';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
+import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 
 // Color palette
 const palette = {

@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import LightTooltip from '../LightTooltip';
+import LightTooltip from '@/core/react/elements/LightTooltip';
 
 // --- Types and Game Data ---
 export enum GemColor {

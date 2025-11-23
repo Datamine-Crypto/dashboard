@@ -2,12 +2,12 @@ import { Alert, Box, Button, Card, CardContent, Chip, Divider, Typography } from
 import Grid from '@mui/material/Grid';
 import React from 'react';
 
-import { useWeb3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '@/core/web3/Web3Context';
 
 import { Visibility, Whatshot } from '@mui/icons-material';
-import { FluxAddressLock } from '../../../interfaces';
-import { commonLanguage } from '../../../web3/web3Reducer';
-import LightTooltip from '../LightTooltip';
+import { FluxAddressLock } from '@/core/interfaces';
+import { commonLanguage } from '@/core/web3/web3Reducer';
+import LightTooltip from '@/core/react/elements/LightTooltip';
 
 /**
  * Props for the Render component within DatamineNetworkCard.

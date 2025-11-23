@@ -2,14 +2,14 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typogra
 import React from 'react';
 
 import { Web3 } from 'web3';
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
-import { Ecosystem, Layer } from '../../../../configs/config.common';
-import { DialogType } from '../../../interfaces';
-import { ReducerQuery } from '../../../sideEffectReducer';
-import { BNToDecimal } from '../../../web3/helpers';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { Balances, commonLanguage } from '../../../web3/web3Reducer';
-import ExploreLiquidityPools, { LiquidityPoolButtonType } from '../Fragments/ExploreLiquidityPools';
+import { getEcosystemConfig as getConfig } from '@/configs/config';
+import { Ecosystem, Layer } from '@/configs/config.common';
+import { DialogType } from '@/core/interfaces';
+import { ReducerQuery } from '@/core/sideEffectReducer';
+import { BNToDecimal } from '@/core/web3/helpers';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { Balances, commonLanguage } from '@/core/web3/web3Reducer';
+import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 
 interface Params {
 	pendingQueries: ReducerQuery[];

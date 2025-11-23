@@ -1,30 +1,30 @@
 import Big from 'big.js';
 import type { Web3 } from 'web3'; // Changed to type-only import
-import { FluxAddressDetails, FluxAddressTokenDetails, Game } from '../interfaces';
-import { commonLanguage, Web3State } from './web3Reducer';
+import { FluxAddressDetails, FluxAddressTokenDetails, Game } from '@/core/interfaces';
+import { commonLanguage, Web3State } from '@/core/web3/web3Reducer';
 
-import damTokenAbi from './abis/dam.json';
-import fluxTokenAbi from './abis/flux.json';
-import batchMinterAbi from './abis/batchMinter.json';
-import marketAbi from './abis/market.json';
-import gameHodlClickerAbi from './abis/games/gameHodlClicker.json';
-import multicallAbi from './abis/multicall.json';
-import uniswapPairV3Abi from './abis/uniswapPairV3.json';
+import damTokenAbi from '@/core/web3/abis/dam.json';
+import fluxTokenAbi from '@/core/web3/abis/flux.json';
+import batchMinterAbi from '@/core/web3/abis/batchMinter.json';
+import marketAbi from '@/core/web3/abis/market.json';
+import gameHodlClickerAbi from '@/core/web3/abis/games/gameHodlClicker.json';
+import multicallAbi from '@/core/web3/abis/multicall.json';
+import uniswapPairV3Abi from '@/core/web3/abis/uniswapPairV3.json';
 
-import { getWeb3Provider, rethrowWeb3Error, withWeb3 } from './helpers';
+import { getWeb3Provider, rethrowWeb3Error, withWeb3 } from '@/core/web3/helpers';
 
 import BN from 'bn.js';
 
-import { HelpArticle, helpArticles } from '../helpArticles';
-import { QueryHandler } from '../sideEffectReducer';
+import { HelpArticle, helpArticles } from '@/core/helpArticles';
+import { QueryHandler } from '@/core/sideEffectReducer';
 
-import { getEcosystemConfig } from '../../configs/config';
-import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
-import { Gem } from '../react/elements/Fragments/DatamineGemsGame';
-import { devLog } from '../utils/devLog';
-import { performSwap } from '../utils/swap/performSwap';
-import { SwapOptions, SwapPlatform, SwapToken } from '../utils/swap/swapOptions';
-import { decodeMulticall, encodeMulticall, MultiCallParams } from '../utils/web3multicall';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem, Layer, NetworkType } from '@/configs/config.common';
+import { Gem } from '@/core/react/elements/Fragments/DatamineGemsGame';
+import { devLog } from '@/core/utils/devLog';
+import { performSwap } from '@/core/utils/swap/performSwap';
+import { SwapOptions, SwapPlatform, SwapToken } from '@/core/utils/swap/swapOptions';
+import { decodeMulticall, encodeMulticall, MultiCallParams } from '@/core/utils/web3multicall';
 
 /**
  * @var web3provider - Holds the current Web3 provider instance (e.g., MetaMask, WalletConnect).

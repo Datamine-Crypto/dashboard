@@ -10,14 +10,14 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-import { commonLanguage, ConnectionMethod } from '../../../web3/web3Reducer';
+import { commonLanguage, ConnectionMethod } from '@/core/web3/web3Reducer';
 
 import { HourglassEmpty } from '@mui/icons-material';
 
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import { ReducerQuery } from '../../../sideEffectReducer';
-import { theme as datamineTheme } from '../../../styles';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import { ReducerQuery } from '@/core/sideEffectReducer';
+import { theme as datamineTheme } from '@/core/styles';
 
 import { tss } from 'tss-react/mui';
 interface Params {

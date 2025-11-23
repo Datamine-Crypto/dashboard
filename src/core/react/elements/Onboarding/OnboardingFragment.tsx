@@ -1,10 +1,10 @@
 import { Box, Paper } from '@mui/material';
 import React, { useState } from 'react';
-import ProgressStepper from './ProgressStepper';
-import StepFour from './StepFour';
-import StepOne from './StepOne';
-import StepThree from './StepThree';
-import StepTwo from './StepTwo';
+import ProgressStepper from '@/core/react/elements/Onboarding/ProgressStepper';
+import StepFour from '@/core/react/elements/Onboarding/StepFour';
+import StepOne from '@/core/react/elements/Onboarding/StepOne';
+import StepThree from '@/core/react/elements/Onboarding/StepThree';
+import StepTwo from '@/core/react/elements/Onboarding/StepTwo';
 
 const OnboardingFragment: React.FC = () => {
 	const [activeStep, setActiveStep] = useState(0);

@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { OnboardingProps } from './types';
+import { OnboardingProps } from '@/core/react/elements/Onboarding/types';
 
 const MetamaskSvg = ({ width = '100%', height = '100%', className = '' }) => {
 	return (

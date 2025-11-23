@@ -18,17 +18,17 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useState } from 'react';
 
-import { theme as datamineTheme } from '../../../styles';
+import { theme as datamineTheme } from '@/core/styles';
 
-import { SearchCategory, SearchCategoryText, UserTypeFilter, helpArticles, SearchTag } from '../../../helpArticles';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import FooterFragment from '../../elements/Fragments/FooterFragment';
-import HelpComboboxFragment from '../../elements/Fragments/HelpComboboxFragment';
+import { SearchCategory, SearchCategoryText, UserTypeFilter, helpArticles, SearchTag } from '@/core/helpArticles';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
+import HelpComboboxFragment from '@/core/react/elements/Fragments/HelpComboboxFragment';
 
 import { tss } from 'tss-react/mui';
-import HelpArticleCategorySection from './HelpArticleCategorySection';
-import HelpPageFooterSection from './HelpPageFooterSection';
-import HelpPageHeader from './HelpPageHeader';
+import HelpArticleCategorySection from '@/core/react/pages/help/HelpArticleCategorySection';
+import HelpPageFooterSection from '@/core/react/pages/help/HelpPageFooterSection';
+import HelpPageHeader from '@/core/react/pages/help/HelpPageHeader';
 
 const useStyles = tss.create(() => ({
 	paperBorders: {

@@ -2,9 +2,9 @@ import { ThemeProvider } from '@mui/material';
 import React, { Suspense, lazy } from 'react';
 
 // Error boundary for catching and displaying UI errors
-import ErrorBoundary from './core/react/ErrorBoundary';
+import ErrorBoundary from '@/core/react/ErrorBoundary';
 // Application-wide Material-UI theme
-import { theme } from './core/styles';
+import { theme } from '@/core/styles';
 
 // Font imports for Roboto typeface
 import '@fontsource/roboto/300.css';
@@ -14,8 +14,8 @@ import '@fontsource/roboto/700.css';
 
 // Lazy-loaded components for code splitting
 const CssBaseline = lazy(() => import('@mui/material/CssBaseline'));
-const PageFragment = lazy(() => import('./core/react/pages/PageFragment'));
-const CenteredLoading = lazy(() => import('./core/react/elements/Fragments/CenteredLoading'));
+const PageFragment = lazy(() => import('@/core/react/pages/PageFragment'));
+const CenteredLoading = lazy(() => import('@/core/react/elements/Fragments/CenteredLoading'));
 
 /**
  * The main application component.

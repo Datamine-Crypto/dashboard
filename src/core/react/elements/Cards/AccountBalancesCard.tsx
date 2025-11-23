@@ -3,29 +3,29 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 
 // Web3 context for accessing blockchain state and dispatch functions
-import { useWeb3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '@/core/web3/Web3Context';
 // Balances and common language constants from the Web3 reducer
-import { Balances, commonLanguage } from '../../../web3/web3Reducer';
+import { Balances, commonLanguage } from '@/core/web3/web3Reducer';
 
 // Material-UI icons for external links, stop, and whatshot
 import { OpenInNew, Stop, Whatshot, Settings } from '@mui/icons-material';
 // Interfaces for dialog types, Flux address details, lock, token details, and token enum
-import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from '../../../interfaces';
+import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from '@/core/interfaces';
 // Helper functions for BN to decimal conversion, burn ratio calculation, and price toggling
-import { BNToDecimal, getBurnRatio, getPriceToggle } from '../../../web3/helpers';
+import { BNToDecimal, getBurnRatio, getPriceToggle } from '@/core/web3/helpers';
 
 // BN.js library for handling large numbers
 import BN from 'bn.js';
 // Styling utility from tss-react
 import { tss } from 'tss-react/mui';
 // Ecosystem configuration getter
-import { getEcosystemConfig as getConfig } from '../../../../configs/config';
+import { getEcosystemConfig as getConfig } from '@/configs/config';
 // Ecosystem enum for type safety
-import { Ecosystem } from '../../../../configs/config.common';
+import { Ecosystem } from '@/configs/config.common';
 // Custom detailed list item component
-import DetailedListItem from '../Fragments/DetailedListItem';
+import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 // Custom light tooltip component
-import LightTooltip from '../LightTooltip';
+import LightTooltip from '@/core/react/elements/LightTooltip';
 
 /**
  * Styles for the AccountBalancesCard component.

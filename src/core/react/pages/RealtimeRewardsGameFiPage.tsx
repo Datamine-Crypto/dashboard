@@ -1,9 +1,9 @@
 import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
 import React from 'react';
-import { Ecosystem } from '../../../configs/config.common';
+import { Ecosystem } from '@/configs/config.common';
 
 import Grid from '@mui/material/Grid';
-import { useWeb3Context } from '../../web3/Web3Context';
+import { useWeb3Context } from '@/core/web3/Web3Context';
 
 import {
 	Autorenew as AutorenewIcon,
@@ -17,9 +17,9 @@ import {
 	VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
 import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // Assuming MUI v7 imports are similar
-import { Game } from '../../interfaces';
-import { commonLanguage } from '../../web3/web3Reducer';
-import FooterFragment from '../elements/Fragments/FooterFragment';
+import { Game } from '@/core/interfaces';
+import { commonLanguage } from '@/core/web3/web3Reducer';
+import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 
 // Color palette
 const palette = {

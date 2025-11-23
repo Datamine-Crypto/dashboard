@@ -3,10 +3,10 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import { theme as datamineTheme } from '../../../styles';
-import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import { theme as datamineTheme } from '@/core/styles';
+import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 
 const useStyles = tss.create(({ theme }) => ({
 	paperBottom: {

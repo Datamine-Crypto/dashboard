@@ -1,16 +1,16 @@
 import Big from 'big.js';
 import BN from 'bn.js';
-import { getEcosystemConfig } from '../../../configs/config';
-import { Layer } from '../../../configs/config.common';
-import { ReducerCommand } from '../../sideEffectReducer';
-import copyToClipBoard from '../../utils/copyToClipboard';
-import { devLog } from '../../utils/devLog';
-import { availableSwapTokens } from '../../utils/swap/performSwap';
-import { SwapOperation, SwapToken } from '../../utils/swap/swapOptions';
-import { BNToDecimal, getPriceToggle, parseBN } from '../helpers';
-import { commonLanguage } from './common';
-import { createWithWithQueries, localConfig } from './helpers';
-import { ConnectionMethod, DialogType, Token, Web3State } from './interfaces';
+import { getEcosystemConfig } from '@/configs/config';
+import { Layer } from '@/configs/config.common';
+import { ReducerCommand } from '@/core/sideEffectReducer';
+import copyToClipBoard from '@/core/utils/copyToClipboard';
+import { devLog } from '@/core/utils/devLog';
+import { availableSwapTokens } from '@/core/utils/swap/performSwap';
+import { SwapOperation, SwapToken } from '@/core/utils/swap/swapOptions';
+import { BNToDecimal, getPriceToggle, parseBN } from '@/core/web3/helpers';
+import { commonLanguage } from '@/core/web3/reducer/common';
+import { createWithWithQueries, localConfig } from '@/core/web3/reducer/helpers';
+import { ConnectionMethod, DialogType, Token, Web3State } from '@/core/web3/reducer/interfaces';
 
 /**
  * Handles synchronous commands dispatched by the UI or other parts of the application.

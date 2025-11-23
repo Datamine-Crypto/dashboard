@@ -1,4 +1,4 @@
-import { getBaseConfig } from './config.base';
+import { getBaseConfig } from '@/configs/config.base';
 
 /**
  * Provides a mechanism to override base configuration values without directly modifying the base config.

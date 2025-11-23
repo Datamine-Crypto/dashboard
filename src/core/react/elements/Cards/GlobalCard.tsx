@@ -2,14 +2,14 @@ import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 
-import { useWeb3Context } from '../../../web3/Web3Context';
+import { useWeb3Context } from '@/core/web3/Web3Context';
 
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem, Layer } from '../../../../configs/config.common';
-import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '../../../interfaces';
-import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '../../../web3/helpers';
-import { Balances } from '../../../web3/web3Reducer';
-import DetailedListItem from '../Fragments/DetailedListItem';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem, Layer } from '@/configs/config.common';
+import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/interfaces';
+import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '@/core/web3/helpers';
+import { Balances } from '@/core/web3/web3Reducer';
+import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 
 /**
  * Props for the Render component within GlobalCard.

@@ -4,13 +4,13 @@ import React from 'react';
 
 import { ArrowRight, PlayArrow } from '@mui/icons-material';
 
-import logo from '../../../../svgs/logo.svg';
+import logo from '@/svgs/logo.svg';
 
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import LightTooltip from '../../elements/LightTooltip';
-import ExploreLiquidityPools, { LiquidityPoolButtonType } from './ExploreLiquidityPools';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import LightTooltip from '@/core/react/elements/LightTooltip';
+import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 
 const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {

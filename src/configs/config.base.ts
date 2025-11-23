@@ -1,16 +1,16 @@
 // Imports for token swap options and SVG logos
-import { SwapToken } from '../core/utils/swap/swapOptions';
-import arbiFluxLogo from '../svgs/arbiFluxLogo.svg';
-import fluxLogo from '../svgs/fluxLogo.svg';
-import lockquidityLogo from '../svgs/lockquidity.svg';
+import { SwapToken } from '@/core/utils/swap/swapOptions';
+import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
+import fluxLogo from '@/svgs/fluxLogo.svg';
+import lockquidityLogo from '@/svgs/lockquidity.svg';
 
-import logo from '../svgs/logo.svg';
+import logo from '@/svgs/logo.svg';
 // Common configuration for ecosystems
-import { Ecosystem } from './config.common';
+import { Ecosystem } from '@/configs/config.common';
 // Ecosystem-specific configurations
-import { getArbiFluxLockquidityEcosystemConfig } from './ecosystems/config.ecosystem.arbiflux_lockquidity_l2';
-import { getDamFluxEcosystemConfig } from './ecosystems/config.ecosystem.dam_flux_l1';
-import { getFluxArbiFluxEcosystemConfig } from './ecosystems/config.ecosystem.flux_arbiflux_l2';
+import { getArbiFluxLockquidityEcosystemConfig } from '@/configs/ecosystems/config.ecosystem.arbiflux_lockquidity_l2';
+import { getDamFluxEcosystemConfig } from '@/configs/ecosystems/config.ecosystem.dam_flux_l1';
+import { getFluxArbiFluxEcosystemConfig } from '@/configs/ecosystems/config.ecosystem.flux_arbiflux_l2';
 
 /**
  * Maps each ecosystem to its specific configuration function.

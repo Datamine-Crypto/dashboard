@@ -19,13 +19,13 @@ import React from 'react';
 
 import Grid from '@mui/material/Grid';
 
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { ClientSettings, commonLanguage } from '../../../web3/web3Reducer';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { ClientSettings, commonLanguage } from '@/core/web3/web3Reducer';
 
 import { AccessTime, Settings } from '@mui/icons-material';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import { formatMoney } from '../../../utils/formatMoney';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import { formatMoney } from '@/core/utils/formatMoney';
 
 interface RenderParams {
 	clientSettings: ClientSettings;

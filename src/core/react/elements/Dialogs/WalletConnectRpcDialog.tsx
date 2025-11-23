@@ -14,12 +14,12 @@ import {
 import Grid from '@mui/material/Grid';
 import React from 'react';
 
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { commonLanguage } from '../../../web3/web3Reducer';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { commonLanguage } from '@/core/web3/web3Reducer';
 
 import { SettingsInputAntenna } from '@mui/icons-material';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;

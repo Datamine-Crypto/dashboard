@@ -1,7 +1,7 @@
 import React from 'react';
-import { Ecosystem } from '../../../configs/config.common';
-import { useWeb3Context } from '../../web3/Web3Context';
-import OnboardingFragment from '../elements/Onboarding/OnboardingFragment';
+import { Ecosystem } from '@/configs/config.common';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import OnboardingFragment from '@/core/react/elements/Onboarding/OnboardingFragment';
 
 interface RenderProps {
 	dispatch: React.Dispatch<any>;

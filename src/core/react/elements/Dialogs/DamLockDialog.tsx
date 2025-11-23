@@ -17,11 +17,11 @@ import {
 import React from 'react';
 
 import { Diamond, Mouse as MouseIcon } from '@mui/icons-material';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import { BNToDecimal } from '../../../web3/helpers';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { Balances, commonLanguage } from '../../../web3/web3Reducer';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import { BNToDecimal } from '@/core/web3/helpers';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { Balances, commonLanguage } from '@/core/web3/web3Reducer';
 
 /**
  * Props for the Render component within DamLockDialog.

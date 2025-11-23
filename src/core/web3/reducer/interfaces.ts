@@ -1,8 +1,8 @@
 import Big from 'big.js';
 import BN from 'bn.js';
 import Web3 from 'web3';
-import { Ecosystem, Layer, NetworkType } from '../../configs/config.common';
-import { HelpArticle } from '../helpArticles';
+import { Ecosystem, Layer, NetworkType } from '@/core/configs/config.common';
+import { HelpArticle } from '@/core/web3/helpArticles';
 import {
 	AddressLockDetailsViewModel,
 	DialogType,
@@ -11,10 +11,10 @@ import {
 	FluxAddressTokenDetails,
 	Game,
 	Token,
-} from '../../interfaces';
-import { ReducerQuery } from '../sideEffectReducer';
-import { SwapToken, SwapTokenWithAmount } from '../utils/swap/swapOptions';
-import { commonLanguage } from './common';
+} from '@/core/interfaces';
+import { ReducerQuery } from '@/core/web3/sideEffectReducer';
+import { SwapToken, SwapTokenWithAmount } from '@/core/web3/utils/swap/swapOptions';
+import { commonLanguage } from '@/core/web3/reducer/common';
 
 export {
 	DialogType,

@@ -2,14 +2,14 @@ import { Box, Button, Divider, Menu, MenuItem } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 
-import Arbitrum from '../../../../svgs/arbitrum.svg';
-import EthereumPurple from '../../../../svgs/ethereumPurple.svg';
-import walletconnectIcon from '../../../../svgs/walletconnect.svg';
+import Arbitrum from '@/svgs/arbitrum.svg';
+import EthereumPurple from '@/svgs/ethereumPurple.svg';
+import walletconnectIcon from '@/svgs/walletconnect.svg';
 
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { commonLanguage as web3CommonLanguage } from '../../../web3/web3Reducer';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { commonLanguage as web3CommonLanguage } from '@/core/web3/web3Reducer';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;

@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import React from 'react';
-import { OnboardingProps } from './types';
+import { OnboardingProps } from '@/core/react/elements/Onboarding/types';
 
 const OperatorSvg = ({ width = '100%', height = '100%', className = '' }) => {
 	return (

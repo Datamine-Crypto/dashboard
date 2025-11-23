@@ -1,7 +1,7 @@
 import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
 
-import { Ecosystem } from '../../../../configs/config.common';
+import { Ecosystem } from '@/configs/config.common';
 
 import { tss } from 'tss-react/mui';
 const useStyles = tss.create(({ theme }) => ({

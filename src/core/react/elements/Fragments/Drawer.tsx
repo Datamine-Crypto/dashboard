@@ -35,12 +35,12 @@ import {
 } from '@mui/icons-material';
 
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import discordWhiteLogo from '../../../../svgs/discordWhite.svg';
-import Logo from '../../../../svgs/logo.svg';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { commonLanguage } from '../../../web3/web3Reducer';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import discordWhiteLogo from '@/svgs/discordWhite.svg';
+import Logo from '@/svgs/logo.svg';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { commonLanguage } from '@/core/web3/web3Reducer';
 
 const drawerWidth = 280;
 

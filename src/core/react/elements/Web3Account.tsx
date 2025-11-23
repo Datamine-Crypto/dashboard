@@ -2,27 +2,27 @@ import { Box } from '@mui/material';
 import React from 'react';
 
 // Web3 context for accessing blockchain state and dispatch functions
-import { useWeb3Context } from '../../web3/Web3Context';
+import { useWeb3Context } from '@/core/web3/Web3Context';
 // Call to action card component
-import CallToActionCard from './Cards/CallToActionCard';
+import CallToActionCard from '@/core/react/elements/Cards/CallToActionCard';
 
 // Global statistics card component
-import GlobalCard from './Cards/GlobalCard';
+import GlobalCard from '@/core/react/elements/Cards/GlobalCard';
 
 // Styling utility from tss-react
 import { tss } from 'tss-react/mui';
 // Configuration for the current ecosystem
-import { getEcosystemConfig } from '../../../configs/config';
+import { getEcosystemConfig } from '@/configs/config';
 // Ecosystem enum for type safety
-import { Ecosystem } from '../../../configs/config.common';
+import { Ecosystem } from '@/configs/config.common';
 // Account balances card component
-import AccountBalancesCard from './Cards/AccountBalancesCard';
+import AccountBalancesCard from '@/core/react/elements/Cards/AccountBalancesCard';
 // Locked liquidity card component
-import LockedLiquidityCard from './Cards/LockedLiquidityCard';
+import LockedLiquidityCard from '@/core/react/elements/Cards/LockedLiquidityCard';
 // Minting statistics card component
-import MintStatsCard from './Cards/MintStatsCard';
+import MintStatsCard from '@/core/react/elements/Cards/MintStatsCard';
 // Real-time liquidity card component
-import RealtimeLiqudityCard from './Cards/RealtimeLiqudityCard';
+import RealtimeLiqudityCard from '@/core/react/elements/Cards/RealtimeLiqudityCard';
 
 /**
  * Props for the Render component.

@@ -1,7 +1,7 @@
 // This file is now a barrel file for the reducer logic, which has been split into multiple files for better maintainability.
-export { commonLanguage } from './reducer/common';
-export { handleCommand } from './reducer/commandHandler';
-export { initialState } from './reducer/initialState';
+export { commonLanguage } from '@/core/web3/reducer/common';
+export { handleCommand } from '@/core/web3/reducer/commandHandler';
+export { initialState } from '@/core/web3/reducer/initialState';
 export {
 	ConnectionMethod,
 	ForecastMultiplierType,
@@ -13,5 +13,5 @@ export {
 	type SwapState,
 	type SwapTokenBalances,
 	type Web3State,
-} from './reducer/interfaces';
-export { handleQueryResponse } from './reducer/queryHandler';
+} from '@/core/web3/reducer/interfaces';
+export { handleQueryResponse } from '@/core/web3/reducer/queryHandler';

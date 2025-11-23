@@ -2,11 +2,11 @@ import Big from 'big.js';
 import BN from 'bn.js';
 import moment from 'moment';
 import Web3 from 'web3';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '../../configs/config';
-import { Ecosystem } from '../../configs/config.common';
-import { FluxAddressDetails, FluxAddressLock, Token } from '../interfaces';
-import { devLog } from '../utils/devLog';
-import { Balances, ConnectionMethod } from './web3Reducer';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import { FluxAddressDetails, FluxAddressLock, Token } from '@/core/interfaces';
+import { devLog } from '@/core/utils/devLog';
+import { Balances, ConnectionMethod } from '@/core/web3/web3Reducer';
 
 /**
  * @file helpers.ts

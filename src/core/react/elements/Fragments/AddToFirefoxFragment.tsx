@@ -1,15 +1,15 @@
 import { Box, CardMedia, Link } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { getEcosystemConfig } from '../../../../configs/config';
+import { getEcosystemConfig } from '@/configs/config';
 
-import { Ecosystem } from '../../../../configs/config.common';
-import metamaskIcon from '../../../../svgs/metamask.svg';
-import { DialogType } from '../../../interfaces';
-import { addToMetamask } from '../../../web3/helpers';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { commonLanguage, ConnectionMethod } from '../../../web3/web3Reducer';
-import LightTooltip from '../LightTooltip';
+import { Ecosystem } from '@/configs/config.common';
+import metamaskIcon from '@/svgs/metamask.svg';
+import { DialogType } from '@/core/interfaces';
+import { addToMetamask } from '@/core/web3/helpers';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { commonLanguage, ConnectionMethod } from '@/core/web3/web3Reducer';
+import LightTooltip from '@/core/react/elements/LightTooltip';
 
 interface RenderParams {
 	dispatch: React.Dispatch<any>;

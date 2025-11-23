@@ -3,15 +3,15 @@ import { AppBar, Box, Card, CardActionArea, IconButton, Link, Toolbar, Tooltip }
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 import React from 'react';
-import DamLogo from '../../../../svgs/logo.svg';
+import DamLogo from '@/svgs/logo.svg';
 
 import Grid from '@mui/material/Grid';
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '../../../../configs/config';
-import { Ecosystem } from '../../../../configs/config.common';
-import { useWeb3Context } from '../../../web3/Web3Context';
-import { commonLanguage } from '../../../web3/web3Reducer';
-import HelpComboboxFragment from './HelpComboboxFragment';
+import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/configs/config.common';
+import { useWeb3Context } from '@/core/web3/Web3Context';
+import { commonLanguage } from '@/core/web3/web3Reducer';
+import HelpComboboxFragment from '@/core/react/elements/Fragments/HelpComboboxFragment';
 
 const useStyles = tss.create(({ theme }) => ({
 	toolbar: {
