@@ -3,7 +3,7 @@ import { AppBar, Box, Card, CardActionArea, IconButton, Link, Toolbar, Tooltip }
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 import React from 'react';
-import DamLogo from '@/svgs/logo.svg';
+import DamLogo from '@/core/react/svgs/logo.svg';
 import Grid from '@mui/material/Grid';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/core/app/configs/config';

@@ -2,8 +2,8 @@ import { Box, Card, CardActionArea, Chip, Container, Link, Paper, Typography } f
 import Grid from '@mui/material/Grid';
 import React, { ReactNode } from 'react';
 import { LinkedIn, Timeline, Twitter } from '@mui/icons-material';
-import discordLogo from '@/svgs/discord.svg';
-import mediumLogo from '@/svgs/medium.svg';
+import discordLogo from '@/core/react/svgs/discord.svg';
+import mediumLogo from '@/core/react/svgs/medium.svg';
 import { theme as datamineTheme } from '@/core/react/styles';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import { useAppStore } from '@/core/react/appStore';

@@ -12,9 +12,9 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
-import lockquidityLogo from '@/svgs/lockquidity.svg';
-import fluxLogo from '@/svgs/logo.svg';
+import arbiFluxLogo from '@/core/react/svgs/arbiFluxLogo.svg';
+import lockquidityLogo from '@/core/react/svgs/lockquidity.svg';
+import fluxLogo from '@/core/react/svgs/logo.svg';
 import { OnboardingProps } from '@/core/react/elements/Onboarding/types';
 
 // Corporate Memphis style illustration

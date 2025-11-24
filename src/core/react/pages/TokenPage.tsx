@@ -10,10 +10,10 @@ import {
 import { Box, Button, Card, CardContent, Divider, Paper, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
-import fluxLogo from '@/svgs/fluxLogo.svg';
-import lockquidityLogo from '@/svgs/lockquidity.svg';
-import damLogo from '@/svgs/logo.svg';
+import arbiFluxLogo from '@/core/react/svgs/arbiFluxLogo.svg';
+import fluxLogo from '@/core/react/svgs/fluxLogo.svg';
+import lockquidityLogo from '@/core/react/svgs/lockquidity.svg';
+import damLogo from '@/core/react/svgs/logo.svg';
 import Grid from '@mui/material/Grid';
 import { useAppStore } from '@/core/react/appStore';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';

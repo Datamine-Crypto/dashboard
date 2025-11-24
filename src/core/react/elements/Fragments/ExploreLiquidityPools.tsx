@@ -3,8 +3,8 @@ import React from 'react';
 import { Box, Button, Chip, Divider, Link, Menu, MenuItem, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
-import sushiSwapLogo from '@/svgs/sushiSwap.svg';
-import uniswapLogo from '@/svgs/uniswap.svg';
+import sushiSwapLogo from '@/core/react/svgs/sushiSwap.svg';
+import uniswapLogo from '@/core/react/svgs/uniswap.svg';
 
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/core/app/configs/config';

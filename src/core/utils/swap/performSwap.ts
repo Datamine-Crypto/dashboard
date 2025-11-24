@@ -10,10 +10,10 @@ import { performSwapUniswapV2, UniswapV2SwapPlatformOptions } from '@/core/utils
 import { SwapOptions, SwapPlatform, SwapToken, SwapTokenDetails } from '@/core/utils/swap/swapOptions';
 
 import { Ecosystem, Layer } from '@/core/app/configs/config.common';
-import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
-import EthereumPurpleLogo from '@/svgs/ethereumPurple.svg';
-import fluxLogo from '@/svgs/fluxLogo.svg';
-import lockquidityLogo from '@/svgs/lockquidity.svg';
+import arbiFluxLogo from '@/core/react/svgs/arbiFluxLogo.svg';
+import EthereumPurpleLogo from '@/core/react/svgs/ethereumPurple.svg';
+import fluxLogo from '@/core/react/svgs/fluxLogo.svg';
+import lockquidityLogo from '@/core/react/svgs/lockquidity.svg';
 
 /**
  * @interface SwapTokenDetailsUniswapV2

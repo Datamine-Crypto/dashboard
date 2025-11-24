@@ -1,5 +1,5 @@
 import { Game } from '@/core/app/interfaces';
-import ecosystemLogoSvg from '@/svgs/logo.svg';
+import ecosystemLogoSvg from '@/core/react/svgs/logo.svg';
 import { EcosystemConfig, Layer, LiquidityPoolType } from '@/core/app/configs/config.common';
 
 /**

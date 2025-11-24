@@ -1,10 +1,10 @@
 // Imports for token swap options and SVG logos
 import { SwapToken } from '@/core/utils/swap/swapOptions';
-import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
-import fluxLogo from '@/svgs/fluxLogo.svg';
-import lockquidityLogo from '@/svgs/lockquidity.svg';
+import arbiFluxLogo from '@/core/react/svgs/arbiFluxLogo.svg';
+import fluxLogo from '@/core/react/svgs/fluxLogo.svg';
+import lockquidityLogo from '@/core/react/svgs/lockquidity.svg';
 
-import logo from '@/svgs/logo.svg';
+import logo from '@/core/react/svgs/logo.svg';
 // Common configuration for ecosystems
 import { Ecosystem } from '@/core/app/configs/config.common';
 // Ecosystem-specific configurations

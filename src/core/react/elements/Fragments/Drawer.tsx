@@ -34,8 +34,8 @@ import {
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import discordWhiteLogo from '@/svgs/discordWhite.svg';
-import Logo from '@/svgs/logo.svg';
+import discordWhiteLogo from '@/core/react/svgs/discordWhite.svg';
+import Logo from '@/core/react/svgs/logo.svg';
 import { useAppStore } from '@/core/react/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';

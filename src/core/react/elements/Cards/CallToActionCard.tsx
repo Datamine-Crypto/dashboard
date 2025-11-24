@@ -48,12 +48,12 @@ import {
 } from '@mui/icons-material';
 import moment, { Moment } from 'moment';
 import { Ecosystem, Layer } from '@/core/app/configs/config.common';
-import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
-import ArbitrumLogo from '@/svgs/arbitrum.svg';
-import EthereumPurpleLogo from '@/svgs/ethereumPurple.svg';
-import fluxLogo from '@/svgs/fluxLogo.svg';
-import lockquidityLogo from '@/svgs/lockquidity.svg';
-import damLogo from '@/svgs/logo.svg';
+import arbiFluxLogo from '@/core/react/svgs/arbiFluxLogo.svg';
+import ArbitrumLogo from '@/core/react/svgs/arbitrum.svg';
+import EthereumPurpleLogo from '@/core/react/svgs/ethereumPurple.svg';
+import fluxLogo from '@/core/react/svgs/fluxLogo.svg';
+import lockquidityLogo from '@/core/react/svgs/lockquidity.svg';
+import damLogo from '@/core/react/svgs/logo.svg';
 import {
 	DialogType,
 	FluxAddressDetails,

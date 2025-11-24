@@ -17,14 +17,14 @@ import { useAppStore } from '@/core/react/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';
 import Web3Account from '@/core/react/elements/Web3Account';
-import logo from '@/svgs/logo.svg'; // Tell webpack this JS file uses this image
+import logo from '@/core/react/svgs/logo.svg'; // Tell webpack this JS file uses this image
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { Settings } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import metamaskIcon from '@/svgs/metamask.svg';
-import walletconnectIcon from '@/svgs/walletconnect.svg';
+import metamaskIcon from '@/core/react/svgs/metamask.svg';
+import walletconnectIcon from '@/core/react/svgs/walletconnect.svg';
 import { isDevLogEnabled } from '@/core/utils/devLog';
 import AddToFirefoxFragment from '@/core/react/elements/Fragments/AddToFirefoxFragment';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';

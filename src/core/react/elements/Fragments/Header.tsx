@@ -4,7 +4,7 @@ import React from 'react';
 
 import { ArrowRight, PlayArrow } from '@mui/icons-material';
 
-import logo from '@/svgs/logo.svg';
+import logo from '@/core/react/svgs/logo.svg';
 
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/core/app/configs/config';

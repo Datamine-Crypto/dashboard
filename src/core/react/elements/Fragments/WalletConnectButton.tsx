@@ -1,15 +1,15 @@
 import { Box, Button, Divider, Menu, MenuItem } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import Arbitrum from '@/svgs/arbitrum.svg';
-import EthereumPurple from '@/svgs/ethereumPurple.svg';
-import walletconnectIcon from '@/svgs/walletconnect.svg';
+import Arbitrum from '@/core/react/svgs/arbitrum.svg';
+import EthereumPurple from '@/core/react/svgs/ethereumPurple.svg';
+import walletconnectIcon from '@/core/react/svgs/walletconnect.svg';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import { useAppStore } from '@/core/react/appStore';
 import { useShallow } from 'zustand/react/shallow';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
-import { ReducerDispatch } from '@/core/state/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 interface RenderParams {
 	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;

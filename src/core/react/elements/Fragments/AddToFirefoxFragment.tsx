@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import metamaskIcon from '@/svgs/metamask.svg';
+import metamaskIcon from '@/core/react/svgs/metamask.svg';
 import { DialogType } from '@/core/app/interfaces';
 import { addToMetamask } from '@/core/utils/helperFunctions';
 import { useAppStore } from '@/core/react/appStore';
