@@ -1,6 +1,5 @@
 /**
- * @file devLog.ts
- * @description Provides a conditional logging utility that is active only when a specific query parameter is present in the URL.
+ * Provides a conditional logging utility that is active only when a specific query parameter is present in the URL.
  * This is useful for enabling detailed logging during development without cluttering the console in production.
  */
 

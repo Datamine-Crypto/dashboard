@@ -7,50 +7,41 @@ import { FluxAddressDetails, FluxAddressLock, Token } from '@/core/app/interface
 import { Balances } from '@/core/app/interfaces';
 
 /**
- * @interface PriceToggle
- * @description Defines the parameters for functions that toggle or format prices.
+ * Defines the parameters for functions that toggle or format prices.
  */
 interface PriceToggle {
 	/**
-	 * @property {BN} [value]
-	 * @description The numeric value as a BN (BigNumber) to be formatted or used in price calculation.
+	 * The numeric value as a BN (BigNumber) to be formatted or used in price calculation.
 	 */
 	value?: BN;
 	/**
-	 * @property {Big.Big} [valueBig]
-	 * @description The numeric value as a Big.js object to be formatted or used in price calculation.
+	 * The numeric value as a Big.js object to be formatted or used in price calculation.
 	 */
 	valueBig?: Big.Big;
 	/**
-	 * @property {Token} inputToken
-	 * @description The type of the input token (e.g., ETH, Mintable, Lockable).
+	 * The type of the input token (e.g., ETH, Mintable, Lockable).
 	 */
 	inputToken: Token;
 	/**
-	 * @property {Token} outputToken
-	 * @description The type of the output token (e.g., USDC).
+	 * The type of the output token (e.g., USDC).
 	 */
 	outputToken: Token;
 	/**
-	 * @property {Balances} balances
-	 * @description The current token balances and Uniswap reserves, used for price lookups.
+	 * The current token balances and Uniswap reserves, used for price lookups.
 	 */
 	balances: Balances;
 	/**
-	 * @property {number} [round]
-	 * @description Optional: The number of decimal places to round the final price to.
+	 * Optional: The number of decimal places to round the final price to.
 	 */
 	round?: number;
 	/**
-	 * @property {boolean} [removeCommas]
-	 * @description Optional: If true, commas will not be added as thousands separators.
+	 * Optional: If true, commas will not be added as thousands separators.
 	 */
 	removeCommas?: boolean;
 }
 
 /**
- * @function getPriceToggle
- * @description Formats a numeric value (BN) into a price string based on input and output tokens and current balances.
+ * Formats a numeric value (BN) into a price string based on input and output tokens and current balances.
  * It calculates the price using Uniswap reserves and applies formatting options.
  * @param {PriceToggle} params - Object containing value, inputToken, outputToken, balances, optional rounding, and comma removal.
  * @returns {string} The formatted price string.
@@ -73,8 +64,7 @@ export const getPriceToggle = ({ value, inputToken, outputToken, balances, round
 };
 
 /**
- * @function getPriceToggleBig
- * @description Formats a Big.js numeric value into a price string based on input and output tokens and current balances.
+ * Formats a Big.js numeric value into a price string based on input and output tokens and current balances.
  * It calculates the price using Uniswap reserves and applies formatting options.
  * @param {PriceToggle} params - Object containing valueBig, inputToken, outputToken, balances, optional rounding, and comma removal.
  * @returns {string} The formatted price string.
@@ -155,15 +145,13 @@ export const getPriceToggleBig = ({
 };
 
 /**
- * @constant bigDecimalDividor
- * @description A Big.js constant representing 10^18, commonly used for converting raw token amounts
+ * A Big.js constant representing 10^18, commonly used for converting raw token amounts
  * (which are typically 18 decimal places) to human-readable decimal values.
  */
 const bigDecimalDividor = new Big(10).pow(18);
 
 /**
- * @function getBNPercent
- * @description Calculates the percentage of `bnA` relative to `bnB` or `bnA + bnB`.
+ * Calculates the percentage of `bnA` relative to `bnB` or `bnA + bnB`.
  * Useful for displaying proportions or progress.
  * @param {BN} bnA - The first BN (BigNumber) value.
  * @param {BN} bnB - The second BN (BigNumber) value.
@@ -182,8 +170,7 @@ export const getBNPercent = (bnA: BN, bnB: BN, shouldAdd = true) => {
 };
 
 /**
- * @function parseBN
- * @description Converts a decimal string representation of a number into a BN (BigNumber) instance,
+ * Converts a decimal string representation of a number into a BN (BigNumber) instance,
  * scaling it by 10^18 (common for ERC-20 tokens).
  * @param {string} unformattedInput - The decimal string to convert (e.g., "1.3").
  * @returns {BN} The converted BigNumber.
@@ -196,8 +183,7 @@ export const parseBN = (unformattedInput: string) => {
 };
 
 /**
- * @function BNToDecimal
- * @description Converts a BN (BigNumber) to a human-readable decimal string, with optional formatting.
+ * Converts a BN (BigNumber) to a human-readable decimal string, with optional formatting.
  * @param {BN | null} number - The BN to convert. Can be null.
  * @param {boolean} [addCommas=false] - Whether to add comma separators for thousands.
  * @param {number} [decimals=18] - The number of decimal places to consider for the conversion (e.g., 18 for ETH).
@@ -231,8 +217,7 @@ export const BNToDecimal = (number: BN | null, addCommas = false, decimals = 18,
 };
 
 /**
- * @function getBurnRatio
- * @description Formats a burn ratio into a human-readable string (e.g., "X FLUX / 1 DAM").
+ * Formats a burn ratio into a human-readable string (e.g., "X FLUX / 1 DAM").
  * @param {BN} ratio - The BN (BigNumber) representing the burn ratio.
  * @param {Ecosystem} ecosystem - The current ecosystem to retrieve token short names for display.
  * @returns {string} A formatted string showing the burn ratio between mintable and lockable tokens.
@@ -244,8 +229,7 @@ export const getBurnRatio = (ratio: BN, ecosystem: Ecosystem) => {
 };
 
 /**
- * @function getBlocksRemaining
- * @description Calculates and formats the remaining time or blocks until a specific event.
+ * Calculates and formats the remaining time or blocks until a specific event.
  * @param {number} startBlockNumber - The Ethereum block number when the event started.
  * @param {number} blockDuration - The total duration of the event in blocks.
  * @param {number} currentBlock - The current Ethereum block number.
@@ -298,8 +282,7 @@ export const getBlocksRemaining = (
 };
 
 /**
- * @function getBlocksDateFromNow
- * @description Calculates a future date and time based on a given number of blocks from the current moment.
+ * Calculates a future date and time based on a given number of blocks from the current moment.
  * Assumes an average Ethereum block time of 12 seconds.
  * @param {number} blocksDuration - The number of blocks from the current time.
  * @returns {moment.Moment} A Moment.js object representing the calculated future date and time.
@@ -309,8 +292,7 @@ export const getBlocksDateFromNow = (blocksDuration: number) => {
 };
 
 /**
- * @function getFormattedMultiplier
- * @description Formats a raw multiplier value (typically from smart contracts) into a human-readable string
+ * Formats a raw multiplier value (typically from smart contracts) into a human-readable string
  * with a leading "x" (e.g., "x 1.2345").
  * @param {number} multiplier - The raw multiplier value (e.g., 10000 for 1x, 30000 for 3x).
  * @returns {string} A formatted string representing the multiplier.
@@ -320,8 +302,7 @@ export const getFormattedMultiplier = (multiplier: number) => {
 };
 
 /**
- * @function getRequiredFluxToBurnDecimal
- * @description Calculates the required amount of FLUX to burn to reach a specific burn multiplier.
+ * Calculates the required amount of FLUX to burn to reach a specific burn multiplier.
  * This function performs complex arithmetic based on global and personal burn statistics.
  * @param {object} params - The parameters for the calculation.
  * @param {Ecosystem} params.ecosystem - The current blockchain ecosystem.
@@ -366,8 +347,7 @@ export const getRequiredFluxToBurnDecimal = ({
 };
 
 /**
- * @function numberWithCommas
- * @description Formats a number string by adding commas as thousands separators.
+ * Formats a number string by adding commas as thousands separators.
  * @param {string} numberToFormat - The number string to format.
  * @returns {string} The formatted number string.
  */
@@ -378,8 +358,7 @@ export const numberWithCommas = (numberToFormat: string) => {
 };
 
 /**
- * @function getRequiredFluxToBurn
- * @description Calculates the required amount of FLUX to burn to achieve a target burn multiplier.
+ * Calculates the required amount of FLUX to burn to achieve a target burn multiplier.
  * This function integrates with the application's state (address details, balances) and ecosystem configuration.
  * @param {object} params - The parameters for the calculation.
  * @param {FluxAddressDetails} params.addressDetails - Detailed information about the user's Flux address.

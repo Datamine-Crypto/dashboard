@@ -1,6 +1,5 @@
 /**
- * @file LightTooltip.tsx
- * @description This file defines a custom Material-UI Tooltip component with a light theme.
+ * This file defines a custom Material-UI Tooltip component with a light theme.
  * It provides a consistent look and feel for tooltips across the application.
  */
 

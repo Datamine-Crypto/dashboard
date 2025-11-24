@@ -1,6 +1,5 @@
 /**
- * @file swapOptions.ts
- * @description This file defines the core interfaces and enums used throughout the swap feature.
+ * This file defines the core interfaces and enums used throughout the swap feature.
  * It provides a standardized structure for handling swap operations, tokens, and platform-specific details.
  */
 
@@ -8,14 +7,12 @@ import Web3 from 'web3';
 import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 
 /**
- * @interface SwapPlatformOptions
- * @description A base interface for platform-specific swap options. It can be extended for different DEXs.
+ * A base interface for platform-specific swap options. It can be extended for different DEXs.
  */
 export interface SwapPlatformOptions {}
 
 /**
- * @enum SwapToken
- * @description An enumeration of all tokens that can be used in a swap.
+ * An enumeration of all tokens that can be used in a swap.
  */
 export enum SwapToken {
 	ETH = 'ETH',
@@ -26,8 +23,7 @@ export enum SwapToken {
 }
 
 /**
- * @enum SwapOperation
- * @description Specifies whether a token is being used as the input or output of a swap.
+ * Specifies whether a token is being used as the input or output of a swap.
  * This is used to determine which field is being updated in the UI.
  */
 export enum SwapOperation {
@@ -36,16 +32,14 @@ export enum SwapOperation {
 }
 
 /**
- * @enum SwapPlatform
- * @description An enumeration of the supported decentralized exchange platforms.
+ * An enumeration of the supported decentralized exchange platforms.
  */
 export enum SwapPlatform {
 	UniswapV2 = 'UniswapV2',
 }
 
 /**
- * @interface SwapTokenDetails
- * @description Defines the detailed information for a swappable token, including its metadata and on-chain details.
+ * Defines the detailed information for a swappable token, including its metadata and on-chain details.
  */
 export interface SwapTokenDetails {
 	swapToken: SwapToken;
@@ -64,8 +58,7 @@ export interface SwapTokenDetails {
 }
 
 /**
- * @interface SwapOptions
- * @description Defines the complete set of options for executing a token swap.
+ * Defines the complete set of options for executing a token swap.
  * This includes the platform, Web3 instances, and details about the input and output tokens.
  */
 export interface SwapOptions {
@@ -90,8 +83,7 @@ export interface SwapOptions {
 }
 
 /**
- * @interface SwapTokenWithAmount
- * @description Represents a token involved in a swap, including the amount to be swapped.
+ * Represents a token involved in a swap, including the amount to be swapped.
  */
 export interface SwapTokenWithAmount {
 	amount: string;
@@ -99,8 +91,7 @@ export interface SwapTokenWithAmount {
 }
 
 /**
- * @interface SwapQuote
- * @description Defines the structure for a swap quote, including the minimum and maximum expected output amounts.
+ * Defines the structure for a swap quote, including the minimum and maximum expected output amounts.
  */
 export interface SwapQuote {
 	out: {

@@ -1,6 +1,5 @@
 /**
- * @file getApy.ts
- * @description Contains the logic for calculating the Annual Percentage Yield (APY) for the Datamine Network.
+ * Contains the logic for calculating the Annual Percentage Yield (APY) for the Datamine Network.
  * The calculation is based on token prices, liquidity pool data, and protocol-specific parameters like block rewards.
  */
 

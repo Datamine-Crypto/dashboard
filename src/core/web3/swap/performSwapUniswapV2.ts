@@ -1,6 +1,5 @@
 /**
- * @file performSwapUniswapV2.ts
- * @description This file contains the core logic for executing token swaps on Uniswap V2-compatible routers.
+ * This file contains the core logic for executing token swaps on Uniswap V2-compatible routers.
  * It handles everything from fetching quotes and checking allowances to sending the final transaction.
  */
 
@@ -11,8 +10,7 @@ import { availableSwapTokens } from '@/core/web3/swap/performSwap';
 import { SwapOptions, SwapPlatformOptions, SwapQuote, SwapToken, SwapTokenDetails } from '@/core/web3/swap/swapOptions';
 
 /**
- * @interface UniswapV2SwapPlatformOptions
- * @description Defines the platform-specific options required for a Uniswap V2 swap.
+ * Defines the platform-specific options required for a Uniswap V2 swap.
  */
 export interface UniswapV2SwapPlatformOptions extends SwapPlatformOptions {
 	uniswapV2RouterABI: any;

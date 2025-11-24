@@ -6,89 +6,73 @@ import { devLog } from '@/core/utils/devLog';
 import { ConnectionMethod } from '@/core/app/interfaces';
 
 /**
- * @interface AuthorizeOperatorParams
- * @description Parameters for authorizing an operator to spend tokens on behalf of an address.
+ * Parameters for authorizing an operator to spend tokens on behalf of an address.
  */
 export interface AuthorizeOperatorParams {
 	/**
-	 * @property {string} operator
-	 * @description The address of the operator to be authorized.
+	 * The address of the operator to be authorized.
 	 */
 	operator: string;
 	/**
-	 * @property {string} from
-	 * @description The address initiating the authorization.
+	 * The address initiating the authorization.
 	 */
 	from: string;
 }
 
 /**
- * @interface LockParams
- * @description Parameters for locking tokens (e.g., DAM) to start a validator.
+ * Parameters for locking tokens (e.g., DAM) to start a validator.
  */
 export interface LockParams {
 	/**
-	 * @property {string} minterAddress
-	 * @description The address designated to mint FLUX on behalf of the validator.
+	 * The address designated to mint FLUX on behalf of the validator.
 	 */
 	minterAddress: string;
 	/**
-	 * @property {string} from
-	 * @description The address initiating the lock transaction.
+	 * The address initiating the lock transaction.
 	 */
 	from: string;
 	/**
-	 * @property {BN} amount
-	 * @description The amount of tokens to lock.
+	 * The amount of tokens to lock.
 	 */
 	amount: BN;
 }
 
 /**
- * @interface MintToAddressParams
- * @description Parameters for minting (claiming) tokens to a specified address.
+ * Parameters for minting (claiming) tokens to a specified address.
  */
 export interface MintToAddressParams {
 	/**
-	 * @property {string} sourceAddress
-	 * @description The address from which tokens are being minted (the validator address).
+	 * The address from which tokens are being minted (the validator address).
 	 */
 	sourceAddress: string;
 	/**
-	 * @property {string} targetAddress
-	 * @description The address to which the minted tokens will be sent.
+	 * The address to which the minted tokens will be sent.
 	 */
 	targetAddress: string;
 	/**
-	 * @property {string} blockNumber
-	 * @description The target block number up to which tokens should be minted.
+	 * The target block number up to which tokens should be minted.
 	 */
 	blockNumber: string;
 	/**
-	 * @property {string} from
-	 * @description The address initiating the mint transaction.
+	 * The address initiating the mint transaction.
 	 */
 	from: string;
 }
 
 /**
- * @interface BurnToAddressParams
- * @description Parameters for burning tokens to a specified address.
+ * Parameters for burning tokens to a specified address.
  */
 export interface BurnToAddressParams {
 	/**
-	 * @property {string} targetAddress
-	 * @description The address to which the tokens are being burned (for burn multiplier).
+	 * The address to which the tokens are being burned (for burn multiplier).
 	 */
 	targetAddress: string;
 	/**
-	 * @property {BN} amount
-	 * @description The amount of tokens to burn.
+	 * The amount of tokens to burn.
 	 */
 	amount: BN;
 	/**
-	 * @property {string} from
-	 * @description The address initiating the burn transaction.
+	 * The address initiating the burn transaction.
 	 */
 	from: string;
 }
@@ -96,116 +80,96 @@ export interface BurnToAddressParams {
 export interface SetDelegatedMinterParams {
 	delegatedMinterAddress: string;
 	/**
-	 * @property {string} from
-	 * @description The address initiating the unlock transaction.
+	 * The address initiating the unlock transaction.
 	 */
 	from: string;
 }
 
 /**
- * @interface UnlockParams
- * @description Parameters for unlocking previously locked tokens.
+ * Parameters for unlocking previously locked tokens.
  */
 export interface UnlockParams {
 	/**
-	 * @property {string} from
-	 * @description The address initiating the unlock transaction.
+	 * The address initiating the unlock transaction.
 	 */
 	from: string;
 }
 
 /**
- * @interface MarketBurnTokensParams
- * @description Parameters for burning tokens within the Datamine Market contract.
+ * Parameters for burning tokens within the Datamine Market contract.
  */
 export interface MarketBurnTokensParams {
 	/**
-	 * @property {BN} amountToBurn
-	 * @description The amount of tokens to burn.
+	 * The amount of tokens to burn.
 	 */
 	amountToBurn: BN;
 	/**
-	 * @property {string} burnToAddress
-	 * @description The address to which the tokens are being burned (validator's address).
+	 * The address to which the tokens are being burned (validator's address).
 	 */
 	burnToAddress: string;
 	/**
-	 * @property {string} from
-	 * @description The address initiating the market burn transaction.
+	 * The address initiating the market burn transaction.
 	 */
 	from: string;
 }
 
 /**
- * @interface MarketBatchBurnTokensParams
- * @description Parameters for burning tokens from multiple addresses in a batch operation
+ * Parameters for burning tokens from multiple addresses in a batch operation
  * within the Datamine Market contract.
  */
 export interface MarketBatchBurnTokensParams {
 	/**
-	 * @property {BN} amountToBurn
-	 * @description The amount of tokens to burn for each address in the batch.
+	 * The amount of tokens to burn for each address in the batch.
 	 */
 	amountToBurn: BN;
 	/**
-	 * @property {string[]} addresses
-	 * @description An array of validator addresses to which tokens will be burned.
+	 * An array of validator addresses to which tokens will be burned.
 	 */
 	addresses: string[];
 	/**
-	 * @property {string} from
-	 * @description The address initiating the batch burn transaction.
+	 * The address initiating the batch burn transaction.
 	 */
 	from: string;
 }
 
 /**
- * @interface MarketDepositParams
- * @description Parameters for depositing tokens into the Datamine Market contract.
+ * Parameters for depositing tokens into the Datamine Market contract.
  */
 export interface MarketDepositParams {
 	/**
-	 * @property {BN} amountToDeposit
-	 * @description The amount of tokens to deposit into the market.
+	 * The amount of tokens to deposit into the market.
 	 */
 	amountToDeposit: BN;
 	/**
-	 * @property {number} rewardsPercent
-	 * @description The percentage of rewards offered by the depositor to burners.
+	 * The percentage of rewards offered by the depositor to burners.
 	 */
 	rewardsPercent: number;
 	/**
-	 * @property {string} from
-	 * @description The address initiating the deposit transaction.
+	 * The address initiating the deposit transaction.
 	 */
 	from: string;
 	/**
-	 * @property {BN} minBlockNumber
-	 * @description The minimum block number for the market entry.
+	 * The minimum block number for the market entry.
 	 */
 	minBlockNumber: BN;
 	/**
-	 * @property {BN} minBurnAmount
-	 * @description The minimum amount of tokens that can be burned to this market entry.
+	 * The minimum amount of tokens that can be burned to this market entry.
 	 */
 	minBurnAmount: BN;
 }
 
 /**
- * @interface MarketWithdrawAllParams
- * @description Parameters for withdrawing all tokens from the Datamine Market contract.
+ * Parameters for withdrawing all tokens from the Datamine Market contract.
  */
 export interface MarketWithdrawAllParams {
 	/**
-	 * @property {string} from
-	 * @description The address initiating the withdrawal transaction.
+	 * The address initiating the withdrawal transaction.
 	 */
 	from: string;
 }
 
 /**
- * @function getWeb3Provider
- * @description Retrieves a Web3 provider instance, prioritizing WalletConnect if specified.
+ * Retrieves a Web3 provider instance, prioritizing WalletConnect if specified.
  * It attempts to detect common providers like MetaMask, Trust Wallet, or a generic Web3 provider.
  * @param {object} params - Object containing `useWalletConnect` flag and `ecosystem`.
  * @param {boolean} params.useWalletConnect - If true, attempts to use WalletConnect as the provider.
@@ -220,8 +184,7 @@ export const getWeb3Provider = async ({
 	ecosystem: Ecosystem;
 }) => {
 	/**
-	 * @function removeMetaTags
-	 * @description Helper function to remove specific meta tags that might cause issues with WalletConnect
+	 * Helper function to remove specific meta tags that might cause issues with WalletConnect
 	 * in certain environments (e.g., Coinomi wallet).
 	 */
 	const removeMetaTags = () => {
@@ -302,8 +265,7 @@ export const getWeb3Provider = async ({
 };
 
 /**
- * @function switchNetwork
- * @description Switches the connected network in the user's Web3 provider (e.g., MetaMask).
+ * Switches the connected network in the user's Web3 provider (e.g., MetaMask).
  * If the target chain is not already added to the wallet, it attempts to add it first.
  * @param {Ecosystem} ecosystem - The target ecosystem for the network switch.
  * @param {ConnectionMethod} connectionMethod - The current connection method (e.g., MetaMask, WalletConnect).
@@ -355,8 +317,7 @@ export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: Conn
 };
 
 /**
- * @function addToMetamask
- * @description Adds the project's main tokens (DAM and FLUX) to the user's MetaMask wallet.
+ * Adds the project's main tokens (DAM and FLUX) to the user's MetaMask wallet.
  * This function dynamically retrieves token details from the ecosystem configuration.
  * @param {Ecosystem} ecosystem - The current ecosystem to determine which token addresses and details to add.
  */
@@ -446,8 +407,7 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 };
 
 /**
- * @function makeBatchRequest
- * @description Creates a batch request for multiple Web3 calls and executes them simultaneously.
+ * Creates a batch request for multiple Web3 calls and executes them simultaneously.
  * This is useful for optimizing performance by reducing the number of network requests.
  * @param {Web3} web3 - The Web3 instance.
  * @param {any[]} calls - An array of call objects, each with a `call` method (from `contract.methods.someMethod.call`) and a `callback` function to process the result.
@@ -475,8 +435,7 @@ export const makeBatchRequest = (web3: Web3, calls: any) => {
 };
 
 /**
- * @constant commonLanguage
- * @description Defines common error messages used within the Web3 helper functions.
+ * Defines common error messages used within the Web3 helper functions.
  */
 const commonLanguage = {
 	errors: {
@@ -487,8 +446,7 @@ const commonLanguage = {
 };
 
 /**
- * @function rethrowWeb3Error
- * @description Attempts to extract a more human-readable error message from a raw Web3 error object
+ * Attempts to extract a more human-readable error message from a raw Web3 error object
  * and then rethrows it. This function is crucial for providing user-friendly error feedback.
  * It parses various error formats from MetaMask or other Web3 providers.
  * @param {any} err - The error object caught from a Web3 interaction.
@@ -504,12 +462,6 @@ export const rethrowWeb3Error = (err: any) => {
 		}
 
 		// Convert web3 error into human-readable exception (ex: not enough to lock-in)
-		/**
-		 * @function tryThrowError
-		 * @description Attempts to extract a human-readable error reason from a JSON error object.
-		 * @param {any} jsonData - The JSON data from the error message.
-		 * @throws {string} The extracted error reason or message if found.
-		 */
 		const tryThrowError = (jsonData: any) => {
 			if (jsonData && jsonData.data) {
 				for (const [, errorDetails] of Object.entries(jsonData.data) as any) {
@@ -548,8 +500,7 @@ export const rethrowWeb3Error = (err: any) => {
 };
 
 /**
- * @function getGasFees
- * @description Retrieves the estimated gas fees (maxFeePerGas, maxPriorityFeePerGas, or gasPrice) for a transaction.
+ * Retrieves the estimated gas fees (maxFeePerGas, maxPriorityFeePerGas, or gasPrice) for a transaction.
  * It considers EIP-1559 if enabled in client settings, providing a more accurate gas estimation for modern Ethereum transactions.
  * @param {Web3} web3 - The Web3 instance.
  * @returns {Promise<object>} An object containing gas fee estimates (`maxFeePerGas`, `maxPriorityFeePerGas`, or `gasPrice`).
@@ -579,8 +530,7 @@ export const getGasFees = async (web3: Web3) => {
 };
 
 /**
- * @function withWeb3
- * @description A higher-order function that wraps a Web3 contract instance with helper functions
+ * A higher-order function that wraps a Web3 contract instance with helper functions
  * for common contract interactions. This provides a more convenient and centralized way to call
  * contract methods, handle gas fees, and manage transaction errors.
  * @param {Web3} web3 - The Web3 instance.
@@ -603,8 +553,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	 */
 
 	/**
-	 * @function getBalanceOf
-	 * @description Calls the `balanceOf` method on the contract to get the token balance of an address.
+	 * Calls the `balanceOf` method on the contract to get the token balance of an address.
 	 * @param {string} tokenHolderAddress - The address of the token holder.
 	 * @returns {any} The call object for the `balanceOf` method.
 	 */
@@ -613,8 +562,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function authorizeOperator
-	 * @description Authorizes an operator to spend tokens on behalf of the caller.
+	 * Authorizes an operator to spend tokens on behalf of the caller.
 	 * This is typically used for ERC-777 token approvals.
 	 * @param {AuthorizeOperatorParams} params - Object containing the operator address and the sender's address.
 	 * @returns {Promise<any>} A Promise that resolves with the transaction receipt.
@@ -631,8 +579,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function getAddressLock
-	 * @description Calls the `addressLocks` method on the contract to get the lock details for a specific address.
+	 * Calls the `addressLocks` method on the contract to get the lock details for a specific address.
 	 * This provides information about locked DAM, burned FLUX, and minter address.
 	 * @param {string} address - The address to query.
 	 * @returns {any} The call object for the `addressLocks` method.
@@ -642,8 +589,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function getAddressDetails
-	 * @description Calls the `getAddressDetails` method on the contract to get comprehensive details
+	 * Calls the `getAddressDetails` method on the contract to get comprehensive details
 	 * about an address, including FLUX balance, mintable amount, and multipliers.
 	 * @param {string} address - The address to query.
 	 * @returns {any} The call object for the `getAddressDetails` method.
@@ -653,8 +599,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function getAddressTokenDetails
-	 * @description Calls the `getAddressTokenDetails` method on the contract to get token-specific details
+	 * Calls the `getAddressTokenDetails` method on the contract to get token-specific details
 	 * for an address, such as DAM balance and burn ratios.
 	 * @param {string} address - The address to query.
 	 * @returns {any} The call object for the `getAddressTokenDetails` method.
@@ -664,21 +609,18 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-     * @function getMintAmount
-     * @description Calls the `getMintAmount` method on the contract to get the calculated mintable amount
-     * for a target address up to a specific block number.
-     * @param {string} targetAddress - The target address for which to calculate the mintable amount.
-     * @param {number} targetBlock - The target block number up to which to calculate the mint.
-     * @returns {any} The call object for the `getMintAmount` method.
-
-     */
+	 * Calls the `getMintAmount` method on the contract to get the calculated mintable amount
+	 * for a target address up to a specific block number.
+	 * @param {string} targetAddress - The target address for which to calculate the mintable amount.
+	 * @param {number} targetBlock - The target block number up to which to calculate the mint.
+	 * @returns {any} The call object for the `getMintAmount` method.
+	 */
 	const getMintAmount = (targetAddress: string, targetBlock: number) => {
 		return contract.methods.getMintAmount(targetAddress, targetBlock).call;
 	};
 
 	/**
-	 * @function getTotalSupply
-	 * @description Calls the `totalSupply` method on the contract to get the total supply of the token.
+	 * Calls the `totalSupply` method on the contract to get the total supply of the token.
 	 * @returns {any} The call object for the `totalSupply` method.
 	 */
 	const getTotalSupply = () => {
@@ -686,8 +628,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function getReserves
-	 * @description Calls the `getReserves` method on a Uniswap V2 pair contract to get the reserves of both tokens.
+	 * Calls the `getReserves` method on a Uniswap V2 pair contract to get the reserves of both tokens.
 	 * @returns {any} The call object for the `getReserves` method.
 	 */
 	const getReserves = () => {
@@ -695,8 +636,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function isOperatorFor
-	 * @description Calls the `isOperatorFor` method on the contract to check if an address is an operator
+	 * Calls the `isOperatorFor` method on the contract to check if an address is an operator
 	 * for another address (e.g., if the Flux contract is an operator for a user's DAM tokens).
 	 * @param {string} operatorAddress - The address of the potential operator.
 	 * @param {string} tokenHolderAddress - The address of the token holder.
@@ -707,8 +647,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function slot0
-	 * @description Calls the `slot0` method on a Uniswap V3 pool contract to get the current state of the pool,
+	 * Calls the `slot0` method on a Uniswap V3 pool contract to get the current state of the pool,
 	 * including the square root of the price ratio and tick information.
 	 * @returns {any} The call object for the `slot0` method.
 	 */
@@ -717,8 +656,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function liquidity
-	 * @description Calls the `liquidity` method on a Uniswap V3 pool contract to get the current liquidity.
+	 * Calls the `liquidity` method on a Uniswap V3 pool contract to get the current liquidity.
 	 * @returns {any} The call object for the `liquidity` method.
 	 */
 	const liquidity = () => {
@@ -726,8 +664,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function lock
-	 * @description Locks DAM tokens to start a validator and begin minting FLUX.
+	 * Locks DAM tokens to start a validator and begin minting FLUX.
 	 * This function handles the transaction submission and error rethrowing.
 	 * @param {LockParams} params - Object containing the minter address, amount to lock, and sender's address.
 	 * @returns {Promise<any>} A Promise that resolves with the transaction receipt.
@@ -753,8 +690,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function unlockDamTokens
-	 * @description Unlocks previously locked DAM tokens, returning them to the sender's wallet.
+	 * Unlocks previously locked DAM tokens, returning them to the sender's wallet.
 	 * This function handles the transaction submission and error rethrowing.
 	 * @param {UnlockParams} params - Object containing the sender's address.
 	 * @returns {Promise<any>} A Promise that resolves with the transaction receipt.
@@ -780,8 +716,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function mintToAddress
-	 * @description Mints (claims) generated FLUX tokens to a specified target address.
+	 * Mints (claims) generated FLUX tokens to a specified target address.
 	 * This function handles the transaction submission and error rethrowing.
 	 * @param {MintToAddressParams} params - Object containing source address, target address, block number, and sender's address.
 	 * @returns {Promise<any>} A Promise that resolves with the transaction receipt.
@@ -807,8 +742,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function burnToAddress
-	 * @description Burns FLUX tokens from a specified address to increase the burn multiplier.
+	 * Burns FLUX tokens from a specified address to increase the burn multiplier.
 	 * This function handles the transaction submission and error rethrowing.
 	 * @param {BurnToAddressParams} params - Object containing target address, amount to burn, and sender's address.
 	 * @returns {Promise<any>} A Promise that resolves with the transaction receipt.
@@ -858,8 +792,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function marketBurnTokens
-	 * @description Burns tokens within the Datamine Market contract, typically for GameFi interactions.
+	 * Burns tokens within the Datamine Market contract, typically for GameFi interactions.
 	 * This function handles the transaction submission and error rethrowing.
 	 * @param {MarketBurnTokensParams} params - Object containing amount to burn, address to burn to, and sender's address.
 	 * @returns {Promise<any>} A Promise that resolves with the transaction receipt.
@@ -886,8 +819,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function marketBatchBurnTokens
-	 * @description Burns tokens from multiple addresses in a batch operation within the Datamine Market contract.
+	 * Burns tokens from multiple addresses in a batch operation within the Datamine Market contract.
 	 * This is used for the "Collect all gems" feature in Datamine Gems #GameFi.
 	 * @param {MarketBatchBurnTokensParams} params - Object containing amount to burn, an array of addresses, and sender's address.
 	 * @returns {Promise<any>} A Promise that resolves with the transaction receipt.
@@ -916,8 +848,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function marketDeposit
-	 * @description Deposits tokens into the Datamine Market contract, allowing a validator to offer rewards
+	 * Deposits tokens into the Datamine Market contract, allowing a validator to offer rewards
 	 * for others to burn to their account.
 	 * This function handles the transaction submission and error rethrowing.
 	 * @param {MarketDepositParams} params - Object containing amount to deposit, rewards percentage, minimum block number, minimum burn amount, and sender's address.
@@ -954,8 +885,7 @@ export const withWeb3 = (web3: Web3, contract: any) => {
 	};
 
 	/**
-	 * @function marketWithdrawAll
-	 * @description Withdraws all tokens (deposited and accumulated rewards) from the Datamine Market contract.
+	 * Withdraws all tokens (deposited and accumulated rewards) from the Datamine Market contract.
 	 * This function handles the transaction submission and error rethrowing.
 	 * @param {MarketWithdrawAllParams} params - Object containing the sender's address.
 	 * @returns {Promise<any>} A Promise that resolves with the transaction receipt.

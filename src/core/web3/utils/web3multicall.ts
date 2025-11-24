@@ -3,14 +3,12 @@
 import Web3 from 'web3';
 
 /**
- * @file web3multicall.ts
- * @description This file provides functions to encode and decode multicall requests, a technique to batch multiple
+ * This file provides functions to encode and decode multicall requests, a technique to batch multiple
  * smart contract read calls into a single network request. This is highly efficient for fetching disparate data from the blockchain.
  */
 
 /**
- * @interface MultiCallParams
- * @description Defines the structure for a single call within a multicall batch.
+ * Defines the structure for a single call within a multicall batch.
  */
 export interface MultiCallParams {
 	/** The address of the contract to call. */
@@ -47,8 +45,7 @@ export const encodeMulticall = (web3: Web3, multicallParams: Record<string, Mult
 };
 
 /**
- * @interface EncodedMulticallResults
- * @description Defines the structure of the results returned from a Multicall contract execution.
+ * Defines the structure of the results returned from a Multicall contract execution.
  */
 interface EncodedMulticallResults {
 	blockNumber: string;

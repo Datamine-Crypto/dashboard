@@ -1,6 +1,5 @@
 /**
- * @file formatMoney.ts
- * @description Provides a utility function to format a numeric value into a currency string,
+ * Provides a utility function to format a numeric value into a currency string,
  * supporting different currency codes and formatting options.
  */
 

@@ -1,15 +1,13 @@
 import { createTheme } from '@mui/material/styles';
 
 /**
- * @file styles.ts
- * @description This file defines the Material-UI theme and custom styles for the Datamine Network Dashboard.
+ * This file defines the Material-UI theme and custom styles for the Datamine Network Dashboard.
  * It centralizes color palettes, typography, and component overrides to ensure a consistent look and feel
  * across the application.
  */
 
 /**
- * @constant palette
- * @description Defines the core color palette used across the application.
+ * Defines the core color palette used across the application.
  * These colors are then integrated into the Material-UI theme.
  */
 const palette = {
@@ -19,8 +17,7 @@ const palette = {
 };
 
 /**
- * @constant classes
- * @description A utility object that exposes the defined `palette` for direct use in JSS styles
+ * A utility object that exposes the defined `palette` for direct use in JSS styles
  * or other styling mechanisms that might need direct access to color values.
  */
 const classes = {
@@ -28,8 +25,7 @@ const classes = {
 };
 
 /**
- * @constant muiTheme
- * @description Creates a Material-UI theme instance. This theme is configured with:
+ * Creates a Material-UI theme instance. This theme is configured with:
  * - A dark mode palette, setting primary, secondary, and text colors.
  * - Custom component style overrides for `MuiButton`, `MuiBackdrop`, `MuiPaper`,
  *   `MuiFormLabel`, and `MuiOutlinedInput` to match the application's design system.
@@ -122,8 +118,7 @@ const muiTheme = createTheme({
 export type DatamineTheme = typeof muiTheme;
 
 /**
- * @constant theme
- * @description The main theme object to be exported and used throughout the application.
+ * The main theme object to be exported and used throughout the application.
  * It bundles the Material-UI theme (`muiTheme`) and custom classes (`classes`).
  */
 const theme = {
