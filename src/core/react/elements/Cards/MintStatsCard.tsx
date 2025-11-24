@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import { BNToDecimal, getBlocksRemaining } from '@/core/utils/mathHelpers';
 import BN from 'bn.js';
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '@/core/app/interfaces';

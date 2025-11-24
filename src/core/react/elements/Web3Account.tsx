@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react';
 // Web3 context for accessing blockchain state and dispatch functions
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 // Call to action card component
 import CallToActionCard from '@/core/react/elements/Cards/CallToActionCard';
 // Global statistics card component

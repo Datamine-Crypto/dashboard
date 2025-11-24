@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React from 'react';
 import { HelpArticle, SearchCategoryText } from '@/core/app/helpArticles';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';

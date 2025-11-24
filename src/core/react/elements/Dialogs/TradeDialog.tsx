@@ -32,7 +32,7 @@ import { availableSwapTokens } from '@/core/web3/swap/performSwap';
 import { SwapOperation, SwapToken, SwapTokenDetails, SwapTokenWithAmount } from '@/core/web3/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN } from '@/core/utils/mathHelpers';
 import { switchNetwork } from '@/core/web3/utils/web3Helpers';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import {
 	ReducerDispatch,
 	Balances,

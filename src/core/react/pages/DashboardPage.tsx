@@ -13,7 +13,7 @@ import {
 import Grid from '@mui/material/Grid';
 import React, { ReactNode, useEffect } from 'react';
 import { DialogType, FluxAddressDetails } from '@/core/app/interfaces';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';
 import Web3Account from '@/core/react/elements/Web3Account';

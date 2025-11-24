@@ -15,7 +15,7 @@ import fluxLogo from '@/core/react/svgs/fluxLogo.svg';
 import lockquidityLogo from '@/core/react/svgs/lockquidity.svg';
 import damLogo from '@/core/react/svgs/logo.svg';
 import Grid from '@mui/material/Grid';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';

@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/
 import Grid from '@mui/material/Grid';
 import React from 'react';
 // Web3 context for accessing blockchain state and dispatch functions
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 // Balances and common language constants from the Web3 reducer
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 // Material-UI icons for external links, stop, and whatshot

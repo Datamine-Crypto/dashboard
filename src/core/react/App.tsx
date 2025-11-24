@@ -2,7 +2,7 @@ import { ThemeProvider } from '@mui/material';
 import React, { Suspense, lazy } from 'react';
 
 // Error boundary for catching and displaying UI errors
-import ErrorBoundary from '@/core/react/ErrorBoundary';
+import ErrorBoundary from '@/core/react/utils/ErrorBoundary';
 // Application-wide Material-UI theme
 import { theme } from '@/core/react/styles';
 

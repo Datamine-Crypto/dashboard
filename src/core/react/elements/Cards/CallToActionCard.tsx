@@ -25,7 +25,7 @@ import type { MobileDatePickerProps } from '@mui/x-date-pickers/MobileDatePicker
 import React, { useEffect, useState } from 'react';
 import Big from 'big.js';
 import BN from 'bn.js';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import {
 	ReducerDispatch,
 	Balances,

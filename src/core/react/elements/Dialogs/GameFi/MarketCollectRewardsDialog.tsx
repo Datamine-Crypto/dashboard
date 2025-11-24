@@ -18,7 +18,7 @@ import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import { AddressLockDetailsViewModel, DialogType, FluxAddressDetails, Game, Token } from '@/core/app/interfaces';
 import { BNToDecimal, getPriceToggle } from '@/core/utils/mathHelpers';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import {
 	ReducerDispatch,
 	Balances,

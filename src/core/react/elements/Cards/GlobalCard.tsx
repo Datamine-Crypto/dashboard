@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/app/interfaces';

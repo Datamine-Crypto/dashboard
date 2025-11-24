@@ -1,6 +1,6 @@
 import React from 'react';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import OnboardingFragment from '@/core/react/elements/Onboarding/OnboardingFragment';
 import { useShallow } from 'zustand/react/shallow';
 import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';

@@ -1,7 +1,7 @@
 import { Alert, Box, Button, Card, CardContent, Chip, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import { Visibility, Whatshot } from '@mui/icons-material';
 import { FluxAddressLock } from '@/core/app/interfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';

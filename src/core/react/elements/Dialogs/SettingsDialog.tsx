@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import Grid from '@mui/material/Grid';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import { ReducerDispatch, ClientSettings } from '@/core/app/state/stateInterfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { AccessTime, Settings } from '@mui/icons-material';

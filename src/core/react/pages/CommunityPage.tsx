@@ -6,7 +6,7 @@ import discordLogo from '@/core/react/svgs/discord.svg';
 import mediumLogo from '@/core/react/svgs/medium.svg';
 import { theme as datamineTheme } from '@/core/react/styles';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';

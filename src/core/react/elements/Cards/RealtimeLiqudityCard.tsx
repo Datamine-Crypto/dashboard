@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem, Layer, LiquidityPoolType } from '@/core/app/configs/config.common';

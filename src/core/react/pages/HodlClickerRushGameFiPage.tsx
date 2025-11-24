@@ -2,7 +2,7 @@ import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import Grid from '@mui/material/Grid';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import {
 	Autorenew as AutorenewIcon,
 	Bolt as BoltIcon,

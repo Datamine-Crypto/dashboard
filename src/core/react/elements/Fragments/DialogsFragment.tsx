@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { DialogType } from '@/core/app/interfaces';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import BurnDialog from '@/core/react/elements/Dialogs/BurnDialog';
 import DamLockDialog from '@/core/react/elements/Dialogs/DamLockDialog';

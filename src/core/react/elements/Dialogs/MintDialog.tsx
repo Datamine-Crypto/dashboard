@@ -10,7 +10,7 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-import { useAppStore } from '@/core/react/appStore';
+import { useAppStore } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { Redeem } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/core/app/configs/config';
