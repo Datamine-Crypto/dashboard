@@ -5,7 +5,7 @@ import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import metamaskIcon from '@/core/react/svgs/metamask.svg';
 import { DialogType } from '@/core/app/interfaces';
-import { addToMetamask } from '@/core/utils/helperFunctions';
+import { addToMetamask } from '@/core/web3/utils/web3Helpers';
 import { useAppStore } from '@/core/react/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';

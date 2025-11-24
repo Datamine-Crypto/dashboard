@@ -18,7 +18,7 @@ import { Ecosystem } from '@/core/app/configs/config.common';
 import { FluxAddressDetails, Token } from '@/core/app/interfaces';
 import { theme } from '@/core/react/styles';
 import { formatMoney } from '@/core/utils/formatMoney';
-import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '@/core/utils/helperFunctions';
+import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '@/core/utils/mathHelpers';
 import MessageDialog from '@/core/react/elements/Dialogs/MessageDialog';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {

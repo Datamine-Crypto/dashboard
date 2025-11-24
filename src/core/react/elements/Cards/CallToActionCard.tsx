@@ -64,14 +64,14 @@ import {
 } from '@/core/app/interfaces';
 import { formatMoney } from '@/core/utils/formatMoney';
 import { getApy, TokenPair } from '@/core/utils/getApy';
-import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '@/core/utils/helperFunctions';
+import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '@/core/utils/mathHelpers';
 import {
 	BNToDecimal,
 	getBlocksRemaining,
 	getFormattedMultiplier,
 	getPriceToggle,
 	getPriceToggleBig,
-} from '@/core/utils/helperFunctions';
+} from '@/core/utils/mathHelpers';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/core/app/configs/config';

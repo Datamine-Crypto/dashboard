@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, Divider, Typography } from '@mui/materi
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useAppStore } from '@/core/react/appStore';
-import { BNToDecimal, getBlocksRemaining } from '@/core/utils/helperFunctions';
+import { BNToDecimal, getBlocksRemaining } from '@/core/utils/mathHelpers';
 import BN from 'bn.js';
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '@/core/app/interfaces';
 import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
@@ -11,7 +11,7 @@ import { LockOpen } from '@mui/icons-material';
 import Big from 'big.js';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import { getRequiredFluxToBurn } from '@/core/utils/helperFunctions';
+import { getRequiredFluxToBurn } from '@/core/utils/mathHelpers';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import { useShallow } from 'zustand/react/shallow';
 /**

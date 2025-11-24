@@ -10,7 +10,7 @@ import { OpenInNew, Stop, Whatshot, Settings } from '@mui/icons-material';
 // Interfaces for dialog types, Flux address details, lock, token details, and token enum
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails, Token } from '@/core/app/interfaces';
 // Helper functions for BN to decimal conversion, burn ratio calculation, and price toggling
-import { BNToDecimal, getBurnRatio, getPriceToggle } from '@/core/utils/helperFunctions';
+import { BNToDecimal, getBurnRatio, getPriceToggle } from '@/core/utils/mathHelpers';
 // BN.js library for handling large numbers
 import BN from 'bn.js';
 // Styling utility from tss-react

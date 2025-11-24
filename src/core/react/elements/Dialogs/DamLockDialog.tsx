@@ -18,7 +18,7 @@ import React from 'react';
 import { Diamond, Mouse as MouseIcon } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import { BNToDecimal } from '@/core/utils/helperFunctions';
+import { BNToDecimal } from '@/core/utils/mathHelpers';
 import { useAppStore } from '@/core/react/appStore';
 import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
@@ -265,7 +265,7 @@ const Render: React.FC<RenderParams> = React.memo(
 									aria-label="gender"
 									name="gender1"
 									value={minterType}
-									onChange={(event) => setMinterType((event.target as HTMLInputElement).value)}
+									onChange={(event) => setMinterType((event.target as any).value)}
 								>
 									{getGameHodlClickerOption()}
 									{getMarketOption()}

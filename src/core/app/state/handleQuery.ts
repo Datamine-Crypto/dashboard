@@ -1,7 +1,7 @@
 import { Game } from '@/core/app/interfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { ReducerDispatch, AppState } from '@/core/app/state/stateInterfaces';
-import { getWeb3Provider, rethrowWeb3Error, withWeb3 } from '@/core/utils/helperFunctions';
+import { getWeb3Provider, rethrowWeb3Error, withWeb3 } from '@/core/web3/utils/web3Helpers';
 import BN from 'bn.js';
 import { HelpArticle, helpArticles } from '@/core/app/helpArticles';
 import { QueryHandler } from '@/core/utils/reducer/sideEffectReducer';

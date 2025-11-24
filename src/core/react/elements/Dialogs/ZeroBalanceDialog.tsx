@@ -5,7 +5,7 @@ import { getEcosystemConfig as getConfig } from '@/core/app/configs/config';
 import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 import { DialogType } from '@/core/app/interfaces';
 import { ReducerQuery } from '@/core/utils/reducer/sideEffectReducer';
-import { BNToDecimal } from '@/core/utils/helperFunctions';
+import { BNToDecimal } from '@/core/utils/mathHelpers';
 import { useAppStore } from '@/core/react/appStore';
 import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';

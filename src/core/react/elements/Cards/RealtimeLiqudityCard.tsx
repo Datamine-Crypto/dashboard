@@ -8,7 +8,7 @@ import { Ecosystem, Layer, LiquidityPoolType } from '@/core/app/configs/config.c
 import sushiSwapLogo from '@/core/react/svgs/sushiSwap.svg';
 import uniswap from '@/core/react/svgs/uniswap.svg';
 import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/app/interfaces';
-import { BNToDecimal, getBNPercent, getPriceToggle } from '@/core/utils/helperFunctions';
+import { BNToDecimal, getBNPercent, getPriceToggle } from '@/core/utils/mathHelpers';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import LightTooltip from '@/core/react/elements/LightTooltip';

@@ -5,7 +5,7 @@ import { useAppStore } from '@/core/react/appStore';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/app/interfaces';
-import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '@/core/utils/helperFunctions';
+import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '@/core/utils/mathHelpers';
 import { Balances } from '@/core/app/state/stateInterfaces';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import { useShallow } from 'zustand/react/shallow';

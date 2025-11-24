@@ -16,7 +16,7 @@ import { Redeem } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import { FluxAddressDetails } from '@/core/app/interfaces';
-import { BNToDecimal } from '@/core/utils/helperFunctions';
+import { BNToDecimal } from '@/core/utils/mathHelpers';
 import { useShallow } from 'zustand/react/shallow';
 import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 interface RenderParams {

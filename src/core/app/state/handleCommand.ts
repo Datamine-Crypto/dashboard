@@ -7,7 +7,7 @@ import copyToClipBoard from '@/core/utils/copyToClipboard';
 import { devLog } from '@/core/utils/devLog';
 import { availableSwapTokens } from '@/core/web3/swap/performSwap';
 import { SwapOperation, SwapToken } from '@/core/web3/swap/swapOptions';
-import { BNToDecimal, getPriceToggle, parseBN } from '@/core/utils/helperFunctions';
+import { BNToDecimal, getPriceToggle, parseBN } from '@/core/utils/mathHelpers';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { createWithWithQueries, localConfig } from '@/core/utils/reducer/reducerHelpers';
 import { ConnectionMethod, DialogType, Token, AppState } from '@/core/app/state/stateInterfaces';

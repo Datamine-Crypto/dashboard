@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 import { Token } from '@/core/app/interfaces';
-import { BNToDecimal, getBNPercent, getPriceToggle } from '@/core/utils/helperFunctions';
+import { BNToDecimal, getBNPercent, getPriceToggle } from '@/core/utils/mathHelpers';
 import { Balances } from '@/core/app/state/stateInterfaces';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import LightTooltip from '@/core/react/elements/LightTooltip';

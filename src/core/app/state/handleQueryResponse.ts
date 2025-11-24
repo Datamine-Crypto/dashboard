@@ -5,7 +5,7 @@ import { Gem } from '@/core/react/elements/Fragments/DatamineGemsGame';
 import { ReducerQueryHandler } from '@/core/utils/reducer/sideEffectReducer';
 import { devLog } from '@/core/utils/devLog';
 import { SwapQuote } from '@/core/web3/swap/swapOptions';
-import { BNToDecimal } from '@/core/utils/helperFunctions';
+import { BNToDecimal } from '@/core/utils/mathHelpers';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { createWithWithQueries } from '@/core/utils/reducer/reducerHelpers';
 import { ConnectionMethod, DialogType, AppState } from '@/core/app/state/stateInterfaces';

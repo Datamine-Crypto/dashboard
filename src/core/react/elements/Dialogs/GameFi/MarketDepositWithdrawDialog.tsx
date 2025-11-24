@@ -19,7 +19,7 @@ import { ImportExport } from '@mui/icons-material';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import { BNToDecimal } from '@/core/utils/helperFunctions';
+import { BNToDecimal } from '@/core/utils/mathHelpers';
 import { useAppStore } from '@/core/react/appStore';
 import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
