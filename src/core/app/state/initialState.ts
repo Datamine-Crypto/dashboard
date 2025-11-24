@@ -3,7 +3,21 @@ import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem, NetworkType } from '@/core/app/configs/config.common';
 import { HelpArticle } from '@/core/app/helpArticles';
 import { devLog } from '@/core/utils/devLog';
-import { ConnectionMethod, Game, AppState } from '@/core/app/state/stateInterfaces';
+import { ReducerQuery } from '@/core/utils/reducer/sideEffectReducer';
+import Web3 from 'web3';
+import {
+	ConnectionMethod,
+	Game,
+	Balances,
+	FluxAddressLock,
+	FluxAddressDetails,
+	FluxAddressTokenDetails,
+	DialogType,
+	SwapState,
+	SwapTokenBalances,
+	MarketAddresses,
+	MarketDetails,
+} from '@/core/app/state/stateInterfaces';
 
 const getDefaultEcosystem = () => {
 	const targetEcosystem = localStorage.getItem('targetEcosystem');
@@ -80,8 +94,8 @@ const getMarketGemsCollected = () => {
 	}
 };
 
-export const initialState: AppState = {
-	pendingQueries: [],
+export const initialState = {
+	pendingQueries: [] as ReducerQuery[],
 	forecastSettings: {
 		amount: new BN(0),
 		enabled: false,
@@ -101,17 +115,19 @@ export const initialState: AppState = {
 	},
 	isInitialized: false,
 	isDisplayingLinks: false,
-	hasWeb3: null,
-	balances: null,
-	selectedAddress: null,
-	address: null,
-	error: null,
+	hasWeb3: null as boolean | null,
+	balances: null as Balances | null,
+	selectedAddress: null as string | null,
+	address: null as string | null,
+	error: null as string | null,
 
-	addressLock: null,
-	addressDetails: null,
-	addressTokenDetails: null,
-	dialog: null,
+	addressLock: null as FluxAddressLock | null,
+	addressDetails: null as FluxAddressDetails | null,
+	addressTokenDetails: null as FluxAddressTokenDetails | null,
+	dialog: null as DialogType | null,
+	dialogParams: undefined as any,
 
+	query: undefined as ReducerQuery[] | undefined,
 	queriesCount: 0,
 	lastDismissedPendingActionCount: 0,
 
@@ -124,15 +140,15 @@ export const initialState: AppState = {
 	 * These will come from fuse.js search
 	 */
 	helpArticles: [] as HelpArticle[],
-	helpArticle: null,
+	helpArticle: null as HelpArticle | null,
 	helpArticlesNetworkType,
 
 	isMobileDrawerOpen: false,
 	connectionMethod: ConnectionMethod.MetaMask,
 	ecosystem: defaultEcosystem,
-	targetEcosystem: null,
+	targetEcosystem: null as Ecosystem | null,
 
-	walletConnectRpc: null,
+	walletConnectRpc: null as string | null,
 	clientSettings: {
 		priceMultiplier: parseFloat(priceMultiplierAmount),
 		priceMultiplierAmount,
@@ -151,33 +167,36 @@ export const initialState: AppState = {
 			swapToken: null,
 			amount: '',
 		},
-	},
-	swapTokenBalances: null,
-	lastSwapThrottle: null,
+	} as SwapState,
+	swapTokenBalances: null as SwapTokenBalances | null,
+	lastSwapThrottle: null as number | null,
 
 	//@todo merge these into market: {}
 	//marketAddressLock: null,
-	currentAddresMintableBalance: null,
+	currentAddresMintableBalance: null as BN | null,
 	//urrentAddressMarketAddressLock: null,
 
 	games: {
 		[Game.DatamineGems]: {
-			marketAddresses: null,
-			totalContractRewardsAmount: null,
-			totalContractLockedAmount: null,
+			marketAddresses: null as MarketAddresses | null,
+			totalContractRewardsAmount: null as BN | null,
+			totalContractLockedAmount: null as BN | null,
 		},
 		[Game.HodlClicker]: {
-			marketAddresses: null,
-			totalContractRewardsAmount: null,
-			totalContractLockedAmount: null,
+			marketAddresses: null as MarketAddresses | null,
+			totalContractRewardsAmount: null as BN | null,
+			totalContractLockedAmount: null as BN | null,
 		},
 	},
 
 	market: {
 		gemAddresses: getCustomMarketAddresses(),
 		gemsCollected: getMarketGemsCollected(),
-	},
+	} as MarketDetails,
 
 	// By default Datamine Gems will be selected as the game, the UI will change the game on selection and update this variable
 	game: Game.DatamineGems,
+	web3: undefined as Web3 | undefined,
 };
+
+export type AppState = typeof initialState;

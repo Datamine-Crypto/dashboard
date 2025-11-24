@@ -1,8 +1,6 @@
 import Big from 'big.js';
 import BN from 'bn.js';
-import Web3 from 'web3';
-import { Ecosystem, Layer, NetworkType } from '@/core/app/configs/config.common';
-import { HelpArticle } from '@/core/app/helpArticles';
+import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 import {
 	AddressLockDetailsViewModel,
 	DialogType,
@@ -12,9 +10,8 @@ import {
 	Game,
 	Token,
 } from '@/core/app/interfaces';
-import { ReducerQuery, ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 import { SwapToken, SwapTokenWithAmount } from '@/core/web3/swap/swapOptions';
-import { commonLanguage } from '@/core/app/state/commonLanguage';
 
 export {
 	DialogType,
@@ -26,27 +23,6 @@ export {
 	type FluxAddressTokenDetails,
 	type ReducerDispatch,
 };
-
-type Commands = typeof commonLanguage.commands;
-type Queries = typeof commonLanguage.queries;
-
-/**
- * A utility type to recursively get all possible dot-notation paths of an object's keys.
- */
-type RecursiveKeyOf<TObj extends object> = {
-	[TKey in keyof TObj & (string | number)]: TObj[TKey] extends object
-		? `${TKey}` | `${TKey}.${RecursiveKeyOf<TObj[TKey]>}`
-		: `${TKey}`;
-}[keyof TObj & (string | number)];
-
-type CommandType = RecursiveKeyOf<Commands>;
-type QueryType = RecursiveKeyOf<Queries>;
-
-// Augment the existing interfaces to be more specific for this reducer
-declare module '@/core/utils/reducer/sideEffectReducer' {
-	// We can't easily augment the type property here because it conflicts with the original definition.
-	// For now, we accept that type is string.
-}
 
 /**
  * Enum for wallet connection methods.
@@ -185,119 +161,4 @@ export interface MarketDetails {
 		count: 0;
 		sumDollarAmount: 0;
 	};
-}
-
-/**
- * The main state shape for the entire Web3 context.
- */
-export interface AppState {
-	forecastSettings: ForecastSettings;
-	isInitialized: boolean;
-	isDisplayingLinks: boolean;
-	hasWeb3: boolean | null;
-	web3?: Web3;
-
-	error: string | null;
-
-	selectedAddress: string | null;
-	balances: Balances | null;
-	addressLock: FluxAddressLock | null;
-	addressDetails: FluxAddressDetails | null;
-	addressTokenDetails: FluxAddressTokenDetails | null;
-
-	dialog: DialogType | null;
-	dialogParams?: any;
-
-	pendingQueries: ReducerQuery[];
-	query?: ReducerQuery[];
-	queriesCount: number;
-	lastDismissedPendingActionCount: number;
-
-	address: string | null;
-
-	isIncorrectNetwork: boolean;
-	isLate: boolean;
-
-	searchQuery: string;
-
-	/**
-	 * Currently opened help article
-	 */
-	helpArticle: HelpArticle | null;
-	helpArticles: HelpArticle[];
-	helpArticlesNetworkType: NetworkType;
-
-	isMobileDrawerOpen: boolean;
-	connectionMethod: ConnectionMethod;
-
-	walletConnectRpc: string | null;
-
-	clientSettings: ClientSettings;
-
-	/**
-	 * Keeps track of last time we called account refresh (we'll rate limit this to ensure we don't call refreshing multiple times in a row)
-	 */
-	lastAccountRefreshTimestampMs: number;
-
-	ecosystem: Ecosystem;
-
-	/**
-	 * What is the ecosystem the user is trying to target? (Usually with ecosystem dropdown)
-	 */
-	targetEcosystem: Ecosystem | null;
-
-	swapState: SwapState;
-
-	/**
-	 * All swap token balances are kept separate from balances
-	 * This allows us to keep track of them separately. For example you might switch layers but remember the balances from the old layer
-	 */
-	swapTokenBalances: SwapTokenBalances | null;
-
-	lastSwapThrottle: number | null;
-
-	//marketAddressLock: MarketAddressLock | null;
-	//currentAddressMarketAddressLock: MarketAddressLock | null;
-
-	/**
-	 * What is unminted balance of currently selected address? (We use this in deposit dialog to prefill/see how much you can deposit)
-	 */
-	currentAddresMintableBalance: BN | null;
-
-	games: {
-		[Game.DatamineGems]: {
-			/**
-			 * All the addresses participating in the current game
-			 */
-			marketAddresses: MarketAddresses | null;
-
-			/**
-			 * @todo remove Not used in this game
-			 */
-			totalContractRewardsAmount: BN | null;
-			/**
-			 * @todo remove Not used in this game
-			 */
-			totalContractLockedAmount: BN | null;
-		};
-		[Game.HodlClicker]: {
-			/**
-			 * All the addresses participating in the current game
-			 */
-			marketAddresses: MarketAddresses | null;
-
-			/**
-			 * @todo Keeps track of total balance (rewards + locked)
-			 */
-			totalContractRewardsAmount: BN | null;
-
-			/**
-			 * @todo Keeps track of locked balance (just locked)
-			 */
-			totalContractLockedAmount: BN | null;
-		};
-	};
-
-	market: MarketDetails;
-	game: Game;
 }

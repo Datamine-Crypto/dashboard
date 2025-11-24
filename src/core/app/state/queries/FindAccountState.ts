@@ -2,7 +2,7 @@ import Big from 'big.js';
 import BN from 'bn.js';
 import { FluxAddressDetails, FluxAddressTokenDetails } from '@/core/app/interfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
-import { AppState } from '@/core/app/state/stateInterfaces';
+import { AppState } from '@/core/app/state/initialState';
 import { QueryHandler } from '@/core/utils/reducer/sideEffectReducer';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem, Layer } from '@/core/app/configs/config.common';
@@ -301,64 +301,64 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 			return {
 				/*
-                currentAddresMintableBalance: {
-                    address: config.mintableTokenContractAddress, //@change this
-                    function: {
-                        signature: {
-                            name: 'balanceOf',
-                            type: 'function',
-                            inputs: [
-                                {
-                                    type: 'address',
-                                    name: 'targetAddress',
-                                },
-                            ],
-                        },
-                        parameters: [selectedAddress],
-                    },
+				currentAddresMintableBalance: {
+					address: config.mintableTokenContractAddress, //@change this
+					function: {
+						signature: {
+							name: 'balanceOf',
+							type: 'function',
+							inputs: [
+								{
+									type: 'address',
+									name: 'targetAddress',
+								},
+							],
+						},
+						parameters: [selectedAddress],
+					},
 
-                    returns: {
-                        params: ['uint256'],
-                        callback: (positions: string) => {
-                            return new BN(positions);
-                        },
-                    },
-                },
-                currentAddressMarketAddressLock: {
-                    address: config.marketAddress,
-                    function: {
-                        signature: {
-                            name: 'addressLocks',
-                            type: 'function',
-                            inputs: [
-                                {
-                                    type: 'address',
-                                    name: 'address',
-                                },
-                            ],
-                        },
-                        parameters: [selectedAddress],
-                    },
+					returns: {
+						params: ['uint256'],
+						callback: (positions: string) => {
+							return new BN(positions);
+						},
+					},
+				},
+				currentAddressMarketAddressLock: {
+					address: config.marketAddress,
+					function: {
+						signature: {
+							name: 'addressLocks',
+							type: 'function',
+							inputs: [
+								{
+									type: 'address',
+									name: 'address',
+								},
+							],
+						},
+						parameters: [selectedAddress],
+					},
 
-                    returns: {
-                        params: ['uint256', 'uint256', 'uint256', 'bool', 'uint256'],
-                        callback: (
-                            rewardsAmount: string,
-                            rewardsPercent: string,
-                            minBlockNumber: string,
-                            isPaused: string,
-                            minBurnAmount: string
-                        ) => {
-                            return {
-                                rewardsAmount: new BN(rewardsAmount),
-                                rewardsPercent: new BN(rewardsPercent).toNumber(),
-                                minBlockNumber: new BN(minBlockNumber).toNumber(),
-                                isPaused: isPaused,
-                                minBurnAmount: new BN(minBurnAmount),
-                            };
-                        },
-                    },
-                },*/
+					returns: {
+						params: ['uint256', 'uint256', 'uint256', 'bool', 'uint256'],
+						callback: (
+							rewardsAmount: string,
+							rewardsPercent: string,
+							minBlockNumber: string,
+							isPaused: string,
+							minBurnAmount: string
+						) => {
+							return {
+								rewardsAmount: new BN(rewardsAmount),
+								rewardsPercent: new BN(rewardsPercent).toNumber(),
+								minBlockNumber: new BN(minBlockNumber).toNumber(),
+								isPaused: isPaused,
+								minBurnAmount: new BN(minBurnAmount),
+							};
+						},
+					},
+				},*/
 			};
 		};
 

@@ -9,8 +9,9 @@ import { availableSwapTokens } from '@/core/web3/swap/performSwap';
 import { SwapOperation, SwapToken } from '@/core/web3/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN } from '@/core/utils/mathHelpers';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { AppState } from '@/core/app/state/initialState';
+import { ConnectionMethod, DialogType, Token } from '@/core/app/state/stateInterfaces';
 import { createWithWithQueries, localConfig } from '@/core/utils/reducer/reducerHelpers';
-import { ConnectionMethod, DialogType, Token, AppState } from '@/core/app/state/stateInterfaces';
 
 /**
  * Handles synchronous commands dispatched by the UI or other parts of the application.
