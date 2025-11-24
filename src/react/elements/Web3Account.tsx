@@ -13,7 +13,7 @@ import { getEcosystemConfig } from '@/app/configs/config';
 // Ecosystem enum for type safety
 import { Ecosystem } from '@/app/configs/config.common';
 // Account balances card component
-import AccountBalancesCard from '@/react/elements/Cards/AccountBalancesCard';
+import { AccountBalancesCard } from '@/react/elements/Cards/AccountBalancesCard';
 // Locked liquidity card component
 import LockedLiquidityCard from '@/react/elements/Cards/LockedLiquidityCard';
 // Minting statistics card component
