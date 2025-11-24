@@ -1,7 +1,7 @@
 import Big from 'big.js';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '@/core/app/configs/config';
-import { Layer } from '@/core/app/configs/config.common';
+import { Layer, NetworkType } from '@/core/app/configs/config.common';
 import { ReducerCommand } from '@/core/utils/reducer/sideEffectReducer';
 import copyToClipBoard from '@/core/utils/copyToClipboard';
 import { devLog } from '@/core/utils/devLog';

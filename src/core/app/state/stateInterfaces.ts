@@ -1,7 +1,7 @@
 import Big from 'big.js';
 import BN from 'bn.js';
 import Web3 from 'web3';
-import { Ecosystem, Layer, NetworkType } from '@/configs/config.common';
+import { Ecosystem, Layer, NetworkType } from '@/core/app/configs/config.common';
 import { HelpArticle } from '@/core/app/helpArticles';
 import {
 	AddressLockDetailsViewModel,
@@ -14,7 +14,7 @@ import {
 } from '@/core/app/interfaces';
 import { ReducerQuery, ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 import { SwapToken, SwapTokenWithAmount } from '@/core/utils/swap/swapOptions';
-import { commonLanguage } from '@/core/state/commonLanguage';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 
 export {
 	DialogType,
@@ -43,7 +43,7 @@ type CommandType = RecursiveKeyOf<Commands>;
 type QueryType = RecursiveKeyOf<Queries>;
 
 // Augment the existing interfaces to be more specific for this reducer
-declare module '../../sideEffectReducer' {
+declare module '@/core/utils/reducer/sideEffectReducer' {
 	// We can't easily augment the type property here because it conflicts with the original definition.
 	// For now, we accept that type is string.
 }
