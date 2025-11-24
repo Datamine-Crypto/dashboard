@@ -9,6 +9,7 @@
 		"**/.vscode": true,
 		"**/.github": true,
 		"**/.env": true,
+		"**/.gitattributes": true,
 		"**/.eslintrc.json": true,
 		"**/.gitignore": true,
 		"**/.pnp.cjs": true,
