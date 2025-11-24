@@ -7,10 +7,7 @@ import ErrorBoundary from '@/core/react/utils/ErrorBoundary';
 import { theme } from '@/core/react/styles';
 
 // Font imports for Roboto typeface
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import '@fontsource-variable/roboto';
 
 // Lazy-loaded components for code splitting
 const CssBaseline = lazy(() => import('@mui/material/CssBaseline'));
