@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React, { lazy, Suspense, useEffect } from 'react';
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '@/core/app/configs/config';
+
 import { Ecosystem, NetworkType } from '@/core/app/configs/config.common';
 import { HelpArticle, helpArticles } from '@/core/app/helpArticles';
 import { useAppStore } from '@/core/react/utils/appStore';
@@ -57,43 +57,32 @@ const useStyles = tss.create(({ theme }) => ({
  */
 const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType, ecosystem }) => {
 	const { classes } = useStyles();
-	const { ecosystemName, mintableTokenShortName, ecosystemSlogan } = getEcosystemConfig(ecosystem);
 
-	useRouter(dispatch);
+	const count = useRouter(dispatch, ecosystem);
 	/**
 	 * Renders the appropriate page component based on the current route.
-	 * Sets the document title dynamically based on the current page.
 	 * @returns The React component for the current page.
 	 */
 	const getPage = () => {
 		const pageDetails = getPageDetails();
 		switch (pageDetails.page) {
 			case Page.Dashboard:
-				document.title = `${pageDetails.address ? pageDetails.address : 'Dashboard'} - ${ecosystemSlogan} - ${ecosystemName}`;
 				return <DashboardPage address={pageDetails.address as string | null} />;
 			case Page.Help:
-				document.title = `Help & Knowledgebase - ${ecosystemName}`;
 				return <HelpPage />;
 			case Page.Community:
-				document.title = `Community - ${ecosystemName}`;
 				return <CommunityPage />;
 			case Page.Terms:
-				document.title = `MIT License - ${ecosystemSlogan} - ${ecosystemName}`;
 				return <Terms ecosystem={ecosystem} />;
 			case Page.TokenPage:
-				document.title = `${mintableTokenShortName} Ecosystem - ${ecosystemName}`;
 				return <TokenPage />;
 			case Page.Onboarding:
-				document.title = `Get Started - ${ecosystemName}`;
 				return <OnboardingPage />;
 			case Page.RealtimeRewardsGameFi:
-				document.title = `Get Started - ${ecosystemName}`;
 				return <RealtimeRewardsGameFiPage />;
 			case Page.HodlClickerRushGameFiPage:
-				document.title = `Get Started - ${ecosystemName}`;
 				return <HodlClickerRushGameFiPage />;
 		}
-		document.title = `${ecosystemSlogan} - ${ecosystemName}`;
 		return <HomePage ecosystem={ecosystem} />;
 	};
 	/**

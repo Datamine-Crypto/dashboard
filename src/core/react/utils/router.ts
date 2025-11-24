@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { helpArticles } from '@/core/app/helpArticles';
 import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
 
 export enum Page {
 	Dashboard,
@@ -106,15 +108,49 @@ export const getPageDetails = () => {
 /**
  * Custom hook to handle routing based on URL hash changes.
  * @param dispatch - The reducer dispatch function to update application state.
+ * @param ecosystem - The current ecosystem to determine title settings.
  */
-export const useRouter = (dispatch: ReducerDispatch) => {
+export const useRouter = (dispatch: ReducerDispatch, ecosystem: Ecosystem) => {
 	const [count, setCount] = useState(0);
+	const { ecosystemName, mintableTokenShortName, ecosystemSlogan } = getEcosystemConfig(ecosystem);
 
 	useEffect(() => {
 		const onHashChanged = () => {
 			window.scrollTo(0, 0);
 			setCount((count) => count + 1); // Allows to refresh element when hash changes
 			const pageDetails = getPageDetails();
+
+			// Set document title
+			switch (pageDetails.page) {
+				case Page.Dashboard:
+					document.title = `${pageDetails.address ? pageDetails.address : 'Dashboard'} - ${ecosystemSlogan} - ${ecosystemName}`;
+					break;
+				case Page.Help:
+					document.title = `Help & Knowledgebase - ${ecosystemName}`;
+					break;
+				case Page.Community:
+					document.title = `Community - ${ecosystemName}`;
+					break;
+				case Page.Terms:
+					document.title = `MIT License - ${ecosystemSlogan} - ${ecosystemName}`;
+					break;
+				case Page.TokenPage:
+					document.title = `${mintableTokenShortName} Ecosystem - ${ecosystemName}`;
+					break;
+				case Page.Onboarding:
+					document.title = `Get Started - ${ecosystemName}`;
+					break;
+				case Page.RealtimeRewardsGameFi:
+					document.title = `Get Started - ${ecosystemName}`;
+					break;
+				case Page.HodlClickerRushGameFiPage:
+					document.title = `Get Started - ${ecosystemName}`;
+					break;
+				default:
+					document.title = `${ecosystemSlogan} - ${ecosystemName}`;
+					break;
+			}
+
 			switch (pageDetails.page) {
 				case Page.Dashboard:
 					dispatch({
@@ -146,7 +182,7 @@ export const useRouter = (dispatch: ReducerDispatch) => {
 		onHashChanged();
 
 		return () => window.removeEventListener('hashchange', onHashChanged);
-	}, [dispatch]);
+	}, [dispatch, ecosystem, ecosystemName, mintableTokenShortName, ecosystemSlogan]);
 
 	return count;
 };
