@@ -1,7 +1,7 @@
 import { Box, Container, Link, Paper } from '@mui/material';
 import React from 'react';
 
-import { theme as datamineTheme } from '@/react/styles';
+import { theme as datamineTheme } from '@/react/utils/theme';
 
 import { getEcosystemConfig as getConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';

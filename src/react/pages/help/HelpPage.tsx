@@ -17,7 +17,7 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useState } from 'react';
-import { theme as datamineTheme } from '@/react/styles';
+import { theme as datamineTheme } from '@/react/utils/theme';
 import { SearchCategory, SearchCategoryText, UserTypeFilter, helpArticles, SearchTag } from '@/app/helpArticles';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';

@@ -18,7 +18,7 @@ import { HourglassEmpty } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { ReducerQuery } from '@/utils/reducer/sideEffectReducer';
-import { theme as datamineTheme } from '@/react/styles';
+import { theme as datamineTheme } from '@/react/utils/theme';
 
 import { tss } from 'tss-react/mui';
 interface Params {

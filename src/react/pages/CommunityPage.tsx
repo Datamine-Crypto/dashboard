@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react';
 import { LinkedIn, Timeline, Twitter } from '@mui/icons-material';
 import discordLogo from '@/react/svgs/discord.svg';
 import mediumLogo from '@/react/svgs/medium.svg';
-import { theme as datamineTheme } from '@/react/styles';
+import { theme as datamineTheme } from '@/react/utils/theme';
 import { Ecosystem } from '@/app/configs/config.common';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';

@@ -16,7 +16,7 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import { getEcosystemConfig as getConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { FluxAddressDetails, Token } from '@/app/interfaces';
-import { theme } from '@/react/styles';
+import { theme } from '@/react/utils/theme';
 import { formatMoney } from '@/utils/formatMoney';
 import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '@/utils/mathHelpers';
 import MessageDialog from '@/react/elements/Dialogs/MessageDialog';

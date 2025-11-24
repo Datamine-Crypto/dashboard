@@ -1,7 +1,7 @@
 import { Box, List, ListItemButton } from '@mui/material';
 import React from 'react';
 
-import { theme as datamineTheme } from '@/react/styles';
+import { theme as datamineTheme } from '@/react/utils/theme';
 import { HelpArticle } from '@/app/helpArticles';
 import { tss } from 'tss-react/mui';
 import { commonLanguage } from '@/app/state/commonLanguage';
