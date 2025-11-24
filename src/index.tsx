@@ -1,6 +1,6 @@
 import '@fontsource-variable/roboto';
 import ReactDOM from 'react-dom/client';
-import App from '@/core/react/App';
+import App from '@/react/App';
 import * as serviceWorkerRegistration from '@/serviceWorkerRegistration';
 
 /**

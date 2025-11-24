@@ -306,22 +306,22 @@ Here is some more structured information about the project that might be useful 
 
 The `src` directory is organized with a clear separation of concerns:
 
-- **`src/core/`**: Contains the application's core logic.
-  - **`src/core/react/`**: Houses all React components, pages, and UI-related elements.
-  - **`src/core/web3/`**: Manages all blockchain interactions, including Web3 provider setup, contract bindings, and ABI definitions (located in `src/core/web3/abis/`).
-  - **`src/core/utils/`**: A collection of helper functions for tasks like formatting, calculations, and clipboard interaction.
+- **`src/`**: Contains the application's core logic.
+  - **`src/react/`**: Houses all React components, pages, and UI-related elements.
+  - **`src/web3/`**: Manages all blockchain interactions, including Web3 provider setup, contract bindings, and ABI definitions (located in `src/web3/abis/`).
+  - **`src/utils/`**: A collection of helper functions for tasks like formatting, calculations, and clipboard interaction.
 - **`src/configs/`**: Manages all environment and application configurations.
   - **`src/configs/ecosystems/`**: Defines specific configurations for different blockchain environments the dashboard can connect to, such as Ethereum Mainnet (L1) and Arbitrum (L2). This is a critical directory for understanding multi-chain functionality.
 
 ### Key Smart Contracts and ABIs
 
-- `src/core/web3/abis/dam.json`: ABI for the Datamine (DAM) token contract.
-- `src/core/web3/abis/flux.json`: ABI for the Flux (FLUX) token contract.
-- `src/core/web3/abis/market.json`: ABI for the core Datamine Network market contract (minting, burning, staking).
-- `src/core/web3/abis/uniswapv2router.json`: ABI for the Uniswap V2 Router.
-- `src/core/web3/abis/uniswapPair.json`: ABI for Uniswap V2 Pair contracts.
-- `src/core/web3/abis/uniswapPairV3.json`: ABI for Uniswap V3 Pair contracts.
-- `src/core/web3/abis/multicall.json`: ABI for the Multicall contract.
+- `src/web3/abis/dam.json`: ABI for the Datamine (DAM) token contract.
+- `src/web3/abis/flux.json`: ABI for the Flux (FLUX) token contract.
+- `src/web3/abis/market.json`: ABI for the core Datamine Network market contract (minting, burning, staking).
+- `src/web3/abis/uniswapv2router.json`: ABI for the Uniswap V2 Router.
+- `src/web3/abis/uniswapPair.json`: ABI for Uniswap V2 Pair contracts.
+- `src/web3/abis/uniswapPairV3.json`: ABI for Uniswap V3 Pair contracts.
+- `src/web3/abis/multicall.json`: ABI for the Multicall contract.
 
 ### Smart Contracts - In-Depth Breakdown
 

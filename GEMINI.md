@@ -39,13 +39,13 @@ This project is a web-based dashboard for the Datamine Network, built with React
 
 The `src` directory is organized with a clear separation of concerns:
 
-- **`src/core/`**: Contains the application's core logic.
-  - **`src/core/react/`**: Houses all React components, pages, and UI-related elements.
-  - **`src/core/web3/`**: Manages all blockchain interactions, including ABI definitions (located in `src/core/web3/abis/`).
-  - **`src/core/utils/`**: A collection of helper functions for tasks like formatting, calculations, and clipboard interaction.
-  - **`src/core/app/`**: Contains application configuration and state management logic.
-    - **`src/core/app/configs/`**: Manages all environment and application configurations.
-    - **`src/core/app/state/`**: Contains the reducer logic and state interfaces.
+- **`src/`**: Contains the application's core logic.
+  - **`src/react/`**: Houses all React components, pages, and UI-related elements.
+  - **`src/web3/`**: Manages all blockchain interactions, including ABI definitions (located in `src/web3/abis/`).
+  - **`src/utils/`**: A collection of helper functions for tasks like formatting, calculations, and clipboard interaction.
+  - **`src/app/`**: Contains application configuration and state management logic.
+    - **`src/app/configs/`**: Manages all environment and application configurations.
+    - **`src/app/state/`**: Contains the reducer logic and state interfaces.
 
 ## Development Workflow
 
@@ -62,24 +62,24 @@ Extra information help you understand the Datamine ecosystem better:
 #### 1. Styling Conventions & Theming
 
 - For styling we're using `tss-react` and `useStyles` from `tss.create()`
-- `src/core/react/styles.ts` contains our MUI themes
+- `src/react/styles.ts` contains our MUI themes
 
 #### 2. State Management
 
-- **Modular Reducer:** The `Web3Reducer` logic has been refactored into modules within `src/core/app/state/`.
-- **Zustand Store:** We now use `zustand` for state management instead of React Context. The store is defined in `src/core/react/appStore.ts`.
-- `src/core/react/appStore.ts` wraps the `sideEffectReducer` and handles the execution of side effects (queries).
-- `src/core/app/state/` contains the reducer logic. We use `commonLanguage` (in `src/core/app/state/commonLanguage.ts`) as "Commands & Queries" pattern.
+- **Modular Reducer:** The `Web3Reducer` logic has been refactored into modules within `src/app/state/`.
+- **Zustand Store:** We now use `zustand` for state management instead of React Context. The store is defined in `src/react/appStore.ts`.
+- `src/react/appStore.ts` wraps the `sideEffectReducer` and handles the execution of side effects (queries).
+- `src/app/state/` contains the reducer logic. We use `commonLanguage` (in `src/app/state/commonLanguage.ts`) as "Commands & Queries" pattern.
 - `sideEffectReducer.ts` contains the logic for handling queries
 - `handleCommand.ts` and `handleQuery.ts` control state and update `pendingQueries`. `pendingQueries` are converted into async calls. This is a creative way to manage state & separate out async logic.
-- The `AppState` interface (in `src/core/app/state/initialState.ts`) defines the complete application state.
+- The `AppState` interface (in `src/app/state/initialState.ts`) defines the complete application state.
 - The reducer persists user settings (e.g., selected ecosystem, currency) in `localStorage`.
 
 #### 3. Ecosystem Configuration Details
 
 - There are 3 ecosystems in Datamine Network: DAM->FLUX(L1), FLUX(L2)->ArbiFLUX(L2), ArbiFLUX(L2)->LOCK(L2)
 - You can toggle between any ecosystem in the decentralized dashboard.
-- Settings for each of these ecosystems are located in `/src/core/app/configs/ecosystems`. Each file (e.g., `config.ecosystem.dam_flux_l1.ts`) contains all necessary parameters for a specific chain.
+- Settings for each of these ecosystems are located in `/src/app/configs/ecosystems`. Each file (e.g., `config.ecosystem.dam_flux_l1.ts`) contains all necessary parameters for a specific chain.
 - L2 here means Arbitrum Layer 2.
 
 #### 4. Build & Development (`vite.config.mts`)
@@ -100,17 +100,17 @@ Extra information help you understand the Datamine ecosystem better:
 
 #### 6. Key Smart Contracts and ABIs
 
-- `src/core/web3/abis/dam.json`: ABI for the Datamine (DAM) token contract.
-- `src/core/web3/abis/flux.json`: ABI for the Flux (FLUX) token contract.
-- `src/core/web3/abis/market.json`: ABI for the core Datamine Network market contract (minting, burning, staking).
-- `src/core/web3/abis/uniswapv2router.json`: ABI for the Uniswap V2 Router.
-- `src/core/web3/abis/uniswapPair.json`: ABI for Uniswap V2 Pair contracts.
-- `src/core/web3/abis/uniswapPairV3.json`: ABI for Uniswap V3 Pair contracts.
-- `src/core/web3/abis/multicall.json`: ABI for the Multicall contract.
+- `src/web3/abis/dam.json`: ABI for the Datamine (DAM) token contract.
+- `src/web3/abis/flux.json`: ABI for the Flux (FLUX) token contract.
+- `src/web3/abis/market.json`: ABI for the core Datamine Network market contract (minting, burning, staking).
+- `src/web3/abis/uniswapv2router.json`: ABI for the Uniswap V2 Router.
+- `src/web3/abis/uniswapPair.json`: ABI for Uniswap V2 Pair contracts.
+- `src/web3/abis/uniswapPairV3.json`: ABI for Uniswap V3 Pair contracts.
+- `src/web3/abis/multicall.json`: ABI for the Multicall contract.
 
 #### 7. Error Handling Strategy
 
-- Global error handling for Web3 transactions is managed via `src/core/utils/helperFunctions.ts` (`rethrowWeb3Error`) and then propagated to `web3Reducer.ts` to update the `error` state. User-facing error messages are typically displayed via Material-UI Snackbars or custom dialogs triggered by the `dialog` state in `web3Reducer`.
+- Global error handling for Web3 transactions is managed via `src/utils/helperFunctions.ts` (`rethrowWeb3Error`) and then propagated to `web3Reducer.ts` to update the `error` state. User-facing error messages are typically displayed via Material-UI Snackbars or custom dialogs triggered by the `dialog` state in `web3Reducer`.
 
 #### 8. Third-Party Integrations (Beyond Web3)
 
@@ -188,10 +188,10 @@ Extra information help you understand the Datamine ecosystem better:
 #### 18. Help Article Conventions
 
 - **Location:** Help articles are Markdown files located in `public/helpArticles/`.
-- **Rendering:** These Markdown files are rendered by the `HelpDialog` component (`src/core/react/elements/Dialogs/HelpDialog.tsx`) and displayed on the `HelpPage` (`src/core/react/pages/help/HelpPage.tsx`).
+- **Rendering:** These Markdown files are rendered by the `HelpDialog` component (`src/react/elements/Dialogs/HelpDialog.tsx`) and displayed on the `HelpPage` (`src/react/pages/help/HelpPage.tsx`).
 - **Styling:**
-  - Code blocks (`<code>`, `<pre>`) within help articles are styled in `src/core/react/elements/Dialogs/HelpDialog.tsx` to use `theme.palette.primary.main` (white) for background and `theme.palette.secondary.main` (teal) for text, improving readability.
-  - Help article category tags (Material-UI `Chip` components) on the `HelpPage` are styled in `src/core/styles.ts`.
+  - Code blocks (`<code>`, `<pre>`) within help articles are styled in `src/react/elements/Dialogs/HelpDialog.tsx` to use `theme.palette.primary.main` (white) for background and `theme.palette.secondary.main` (teal) for text, improving readability.
+  - Help article category tags (Material-UI `Chip` components) on the `HelpPage` are styled in `src/styles.ts`.
     - `primary` colored chips (selected) use a teal background (`#00FFFF`) with white text (`#fff`).
     - `default` colored chips (unselected) use the `classes.palette.background` (dark) with white text (`#fff`).
 - **Titles:** All help article titles should include a unique emoji for better visual organization and engagement.
@@ -242,35 +242,35 @@ By leveraging the Gemini CLI, we aim to:
 
 The `src` directory is organized into the following main subdirectories:
 
-- **`src/core/app/`**: Contains application configuration and state management logic.
-  - **`src/core/app/configs/`**: Contains application configuration files.
+- **`src/app/`**: Contains application configuration and state management logic.
+  - **`src/app/configs/`**: Contains application configuration files.
     - `config.base.ts`, `config.common.ts`, `config.network.ts`, `config.overrides.ts`, `config.ts`: Various configuration files.
-    - **`src/core/app/configs/ecosystems/`**: Holds configurations for different blockchain ecosystems.
+    - **`src/app/configs/ecosystems/`**: Holds configurations for different blockchain ecosystems.
       - `config.ecosystem.arbiflux_lockquidity_l2.ts`
       - `config.ecosystem.dam_flux_l1.ts`
       - `config.ecosystem.flux_arbiflux_l2.ts`
-  - **`src/core/app/state/`**: Contains state management logic.
+  - **`src/app/state/`**: Contains state management logic.
     - `commonLanguage.ts`, `handleCommand.ts`, `handleQuery.ts`, `initialState.ts`
 
-- **`src/core/`**: Contains the core application logic.
-  - **`src/core/react/`**: Houses all React components, pages, and UI-related elements.
+- **`src/`**: Contains the core application logic.
+  - **`src/react/`**: Houses all React components, pages, and UI-related elements.
     - `ErrorBoundary.tsx`: Error boundary component.
     - `appStore.ts`: Zustand store definition.
     - `styles.ts`: MUI theme definitions.
-    - **`src/core/react/elements/`**: Reusable UI components.
+    - **`src/react/elements/`**: Reusable UI components.
       - `LightTooltip.tsx`, `Web3Account.tsx`
-      - **`src/core/react/elements/Cards/`**: Card components for displaying data.
-      - **`src/core/react/elements/Dialogs/`**: Dialog components.
-      - **`src/core/react/elements/Fragments/`**: Smaller, reusable UI fragments.
-      - **`src/core/react/elements/Onboarding/`**: Components related to the onboarding process.
-    - **`src/core/react/pages/`**: Top-level page components.
+      - **`src/react/elements/Cards/`**: Card components for displaying data.
+      - **`src/react/elements/Dialogs/`**: Dialog components.
+      - **`src/react/elements/Fragments/`**: Smaller, reusable UI fragments.
+      - **`src/react/elements/Onboarding/`**: Components related to the onboarding process.
+    - **`src/react/pages/`**: Top-level page components.
       - `CommunityPage.tsx`, `DashboardPage.tsx`, `HelpPage.tsx`, `OnboardingPage.tsx`, `PageFragment.tsx`, `RealtimeRewardsGameFiPage.tsx`, `Terms.tsx`, `TokenPage.tsx`
-  - **`src/core/utils/`**: Collection of helper functions.
+  - **`src/utils/`**: Collection of helper functions.
     - `copyToClipboard.ts`, `devLog.ts`, `formatMoney.ts`, `getApy.ts`, `web3multicall.ts`, `helperFunctions.ts`
-    - **`src/core/utils/swap/`**: Functions related to token swapping.
+    - **`src/utils/swap/`**: Functions related to token swapping.
       - `performSwap.ts`, `performSwapUniswapV2.ts`, `sampleQuoteSingleSwap.ts`, `swapOptions.ts`
-  - **`src/core/web3/`**: Manages all blockchain interactions.
-    - **`src/core/web3/abis/`**: ABI (Application Binary Interface) JSON files for smart contracts.
+  - **`src/web3/`**: Manages all blockchain interactions.
+    - **`src/web3/abis/`**: ABI (Application Binary Interface) JSON files for smart contracts.
       - `dam.json`, `flux.json`, `market.json`, `multicall.json`, `uniswapPair.json`, `uniswapPairV3.json`, `uniswapv2router.json`
 
 - **`src/svgs/`**: Contains SVG assets.
@@ -333,10 +333,10 @@ This map outlines the key concepts, components, and principles of the Datamine N
     - DAM->FLUX (L1)
     - FLUX (L2)->ArbiFLUX (L2)
     - ArbiFLUX (L2)->LOCK (L2)
-  - **⚙️ Configuration:** Managed in `src/core/app/configs/ecosystems/`
+  - **⚙️ Configuration:** Managed in `src/app/configs/ecosystems/`
 
 - **📜 Smart Contracts & ABIs**
-  - **📍 Location:** `src/core/web3/abis/`
+  - **📍 Location:** `src/web3/abis/`
   - **🔑 Key Contracts:**
     - DAM Token (`dam.json`)
     - FLUX Token (`flux.json`)
@@ -351,13 +351,13 @@ This map outlines the key concepts, components, and principles of the Datamine N
   - **📦 Data Aggregation:** `getAddressDetails()`, `getAddressTokenDetails()`
 
 - **🏗️ Application Architecture (High-Level)**
-  - **🖥️ UI:** React components (`src/core/react/`)
-  - **🔗 Blockchain Interaction:** Web3.js, Web3Context, web3Reducer (`src/core/web3/`)
+  - **🖥️ UI:** React components (`src/react/`)
+  - **🔗 Blockchain Interaction:** Web3.js, Web3Context, web3Reducer (`src/web3/`)
   - **🧠 State Management:** `appStore.ts` (Zustand), `handleCommand.ts` and `handleQuery.ts` (Commands & Queries pattern), `sideEffectReducer.ts`
-  - **🔧 Utilities:** Helper functions (`src/core/utils/`)
-  - **⚙️ Configuration:** `src/core/app/configs/`
-  - **🎨 Styling:** `tss-react`, `useStyles`, Material-UI themes (`src/core/react/styles.ts`)
-  - **🚨 Error Handling:** `src/core/utils/helperFunctions.ts` (`rethrowWeb3Error`), `web3Reducer.ts` (error state), Material-UI Snackbars/Dialogs
+  - **🔧 Utilities:** Helper functions (`src/utils/`)
+  - **⚙️ Configuration:** `src/app/configs/`
+  - **🎨 Styling:** `tss-react`, `useStyles`, Material-UI themes (`src/react/styles.ts`)
+  - **🚨 Error Handling:** `src/utils/helperFunctions.ts` (`rethrowWeb3Error`), `web3Reducer.ts` (error state), Material-UI Snackbars/Dialogs
 
 - **🔌 Third-Party Integrations**
   - **📚 Help Articles:** Markdown files in `public/helpArticles/`, fetched via `fetch` API
@@ -375,13 +375,13 @@ This map outlines the key concepts, components, and principles of the Datamine N
 
 ### Multicall Implementation
 
-- The application utilizes a multicall contract to batch multiple read-only blockchain calls into a single request. This is implemented in `src/core/utils/web3multicall.ts`.
+- The application utilizes a multicall contract to batch multiple read-only blockchain calls into a single request. This is implemented in `src/utils/web3multicall.ts`.
 - The `encodeMulticall` function prepares the data for the multicall contract, and `decodeMulticall` parses the aggregated response.
 - This approach significantly improves performance by reducing the number of RPC calls to the blockchain.
 
 ### Uniswap V2 Integration
 
-- The application integrates with Uniswap V2 for token swapping, with the core logic located in `src/core/utils/swap/`.
+- The application integrates with Uniswap V2 for token swapping, with the core logic located in `src/utils/swap/`.
 - `performSwapUniswapV2.ts` handles the entire swap process, including:
   - Fetching quotes using `getAmountsOut`.
   - Calculating slippage tolerance.
@@ -391,13 +391,13 @@ This map outlines the key concepts, components, and principles of the Datamine N
 
 ### Gas Fee Estimation
 
-- The `getGasFees` function in `src/core/utils/helperFunctions.ts` estimates gas fees for transactions.
+- The `getGasFees` function in `src/utils/helperFunctions.ts` estimates gas fees for transactions.
 - It supports both legacy gas price and EIP-1559 `maxFeePerGas` and `maxPriorityFeePerGas` based on client settings.
 - This ensures that transactions are processed in a timely manner without overpaying for gas.
 
 ### Development Logging
 
-- The `devLog` utility in `src/core/utils/devLog.ts` provides a conditional logging mechanism.
+- The `devLog` utility in `src/utils/devLog.ts` provides a conditional logging mechanism.
 - Logs are only displayed when the `devLog=1` query parameter is present in the URL, which is useful for debugging without affecting the production build.
 
 ### Question-Driven Context Expansion
