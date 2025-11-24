@@ -15,7 +15,7 @@ import React, { ReactNode, useEffect } from 'react';
 import { DialogType, FluxAddressDetails } from '@/core/app/interfaces';
 import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
-import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';
+import { ReducerDispatch, ConnectionMethod } from '@/core/app/interfaces';
 import Web3Account from '@/core/react/elements/Web3Account';
 import logo from '@/core/react/svgs/logo.svg'; // Tell webpack this JS file uses this image
 import LightTooltip from '@/core/react/elements/LightTooltip';

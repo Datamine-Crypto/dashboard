@@ -72,7 +72,7 @@ Extra information help you understand the Datamine ecosystem better:
 - `src/core/app/state/` contains the reducer logic. We use `commonLanguage` (in `src/core/app/state/commonLanguage.ts`) as "Commands & Queries" pattern.
 - `sideEffectReducer.ts` contains the logic for handling queries
 - `handleCommand.ts` and `handleQuery.ts` control state and update `pendingQueries`. `pendingQueries` are converted into async calls. This is a creative way to manage state & separate out async logic.
-- The `AppState` interface (in `src/core/app/state/stateInterfaces.ts`) defines the complete application state.
+- The `AppState` interface (in `src/core/app/state/initialState.ts`) defines the complete application state.
 - The reducer persists user settings (e.g., selected ecosystem, currency) in `localStorage`.
 
 #### 3. Ecosystem Configuration Details
@@ -250,7 +250,7 @@ The `src` directory is organized into the following main subdirectories:
       - `config.ecosystem.dam_flux_l1.ts`
       - `config.ecosystem.flux_arbiflux_l2.ts`
   - **`src/core/app/state/`**: Contains state management logic.
-    - `commonLanguage.ts`, `handleCommand.ts`, `handleQuery.ts`, `initialState.ts`, `stateInterfaces.ts`
+    - `commonLanguage.ts`, `handleCommand.ts`, `handleQuery.ts`, `initialState.ts`
 
 - **`src/core/`**: Contains the core application logic.
   - **`src/core/react/`**: Houses all React components, pages, and UI-related elements.

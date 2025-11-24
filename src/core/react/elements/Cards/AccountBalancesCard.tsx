@@ -24,7 +24,7 @@ import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 // Custom light tooltip component
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
-import { Balances, ReducerDispatch } from '@/core/app/state/stateInterfaces';
+import { Balances, ReducerDispatch } from '@/core/app/interfaces';
 import { dispatch as appDispatch } from '@/core/react/utils/appStore';
 
 /**

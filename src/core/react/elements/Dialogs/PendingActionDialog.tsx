@@ -11,7 +11,7 @@ import {
 import React from 'react';
 
 import { commonLanguage } from '@/core/app/state/commonLanguage';
-import { ConnectionMethod } from '@/core/app/state/stateInterfaces';
+import { ConnectionMethod } from '@/core/app/interfaces';
 
 import { HourglassEmpty } from '@mui/icons-material';
 

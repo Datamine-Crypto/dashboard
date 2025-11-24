@@ -9,7 +9,7 @@ import { BNToDecimal } from '@/core/utils/mathHelpers';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { AppState } from '@/core/app/state/initialState';
 import { createWithWithQueries } from '@/core/utils/reducer/reducerHelpers';
-import { ConnectionMethod, DialogType } from '@/core/app/state/stateInterfaces';
+import { ConnectionMethod, DialogType } from '@/core/app/interfaces';
 
 /**
  * Handles responses from asynchronous queries executed by Web3Bindings.

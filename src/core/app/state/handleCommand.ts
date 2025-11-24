@@ -10,7 +10,7 @@ import { SwapOperation, SwapToken } from '@/core/web3/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN } from '@/core/utils/mathHelpers';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { AppState } from '@/core/app/state/initialState';
-import { ConnectionMethod, DialogType, Token } from '@/core/app/state/stateInterfaces';
+import { ConnectionMethod, DialogType, Token } from '@/core/app/interfaces';
 import { createWithWithQueries, localConfig } from '@/core/utils/reducer/reducerHelpers';
 
 /**

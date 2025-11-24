@@ -17,7 +17,7 @@ import {
 	SwapTokenBalances,
 	MarketAddresses,
 	MarketDetails,
-} from '@/core/app/state/stateInterfaces';
+} from '@/core/app/interfaces';
 
 const getDefaultEcosystem = () => {
 	const targetEcosystem = localStorage.getItem('targetEcosystem');

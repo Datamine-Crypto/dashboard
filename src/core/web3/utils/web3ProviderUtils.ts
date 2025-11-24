@@ -10,7 +10,7 @@ import uniswapPairV3Abi from '@/core/web3/abis/uniswapPairV3.json';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import { devLog } from '@/core/utils/devLog';
-import { ReducerDispatch } from '@/core/app/state/stateInterfaces';
+import { ReducerDispatch } from '@/core/app/interfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 
 /**

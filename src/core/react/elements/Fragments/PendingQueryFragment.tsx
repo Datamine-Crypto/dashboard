@@ -3,7 +3,7 @@ import { Ecosystem } from '@/core/app/configs/config.common';
 import { ReducerQuery } from '@/core/utils/reducer/sideEffectReducer';
 import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
-import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';
+import { ReducerDispatch, ConnectionMethod } from '@/core/app/interfaces';
 import PendingActionDialog from '@/core/react/elements/Dialogs/PendingActionDialog';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderProps {

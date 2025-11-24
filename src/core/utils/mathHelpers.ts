@@ -4,7 +4,7 @@ import moment from 'moment';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import { FluxAddressDetails, FluxAddressLock, Token } from '@/core/app/interfaces';
-import { Balances } from '@/core/app/state/stateInterfaces';
+import { Balances } from '@/core/app/interfaces';
 
 /**
  * @interface PriceToggle

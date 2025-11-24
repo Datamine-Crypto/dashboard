@@ -21,7 +21,7 @@ import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import { BNToDecimal } from '@/core/utils/mathHelpers';
 import { useAppStore } from '@/core/react/utils/appStore';
-import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
+import { ReducerDispatch, Balances } from '@/core/app/interfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { AddressLockDetailsViewModel, Game } from '@/core/app/interfaces';
 import { useShallow } from 'zustand/react/shallow';

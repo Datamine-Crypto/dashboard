@@ -7,7 +7,7 @@ import { DialogType } from '@/core/app/interfaces';
 import { ReducerQuery } from '@/core/utils/reducer/sideEffectReducer';
 import { BNToDecimal } from '@/core/utils/mathHelpers';
 import { useAppStore } from '@/core/react/utils/appStore';
-import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
+import { ReducerDispatch, Balances } from '@/core/app/interfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import { useShallow } from 'zustand/react/shallow';

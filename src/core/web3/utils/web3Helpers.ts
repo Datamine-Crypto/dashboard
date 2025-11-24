@@ -3,7 +3,7 @@ import BN from 'bn.js';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import { devLog } from '@/core/utils/devLog';
-import { ConnectionMethod } from '@/core/app/state/stateInterfaces';
+import { ConnectionMethod } from '@/core/app/interfaces';
 
 /**
  * @interface AuthorizeOperatorParams

@@ -20,13 +20,7 @@ import { AddressLockDetailsViewModel, DialogType, FluxAddressDetails, Game, Toke
 import { BNToDecimal, getPriceToggle } from '@/core/utils/mathHelpers';
 import { useAppStore } from '@/core/react/utils/appStore';
 import { dispatch as appDispatch } from '@/core/react/utils/appStore';
-import {
-	ReducerDispatch,
-	Balances,
-	ConnectionMethod,
-	MarketAddresses,
-	MarketDetails,
-} from '@/core/app/state/stateInterfaces';
+import { ReducerDispatch, Balances, ConnectionMethod, MarketAddresses, MarketDetails } from '@/core/app/interfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import DatamineGemsGame, { Gem } from '@/core/react/elements/Fragments/DatamineGemsGame';
 import { getNetworkDropdown } from '@/core/react/elements/Fragments/EcosystemDropdown';

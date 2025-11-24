@@ -33,13 +33,7 @@ import { SwapOperation, SwapToken, SwapTokenDetails, SwapTokenWithAmount } from 
 import { BNToDecimal, getPriceToggle, parseBN } from '@/core/utils/mathHelpers';
 import { switchNetwork } from '@/core/web3/utils/web3Helpers';
 import { useAppStore } from '@/core/react/utils/appStore';
-import {
-	ReducerDispatch,
-	Balances,
-	ConnectionMethod,
-	SwapState,
-	SwapTokenBalances,
-} from '@/core/app/state/stateInterfaces';
+import { ReducerDispatch, Balances, ConnectionMethod, SwapState, SwapTokenBalances } from '@/core/app/interfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/core/react/utils/appStore';

@@ -5,7 +5,7 @@ import { useAppStore } from '@/core/react/utils/appStore';
 import { BNToDecimal, getBlocksRemaining } from '@/core/utils/mathHelpers';
 import BN from 'bn.js';
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '@/core/app/interfaces';
-import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
+import { ReducerDispatch, Balances } from '@/core/app/interfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { LockOpen } from '@mui/icons-material';
 import Big from 'big.js';

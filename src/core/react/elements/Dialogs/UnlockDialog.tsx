@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useAppStore } from '@/core/react/utils/appStore';
-import { ReducerDispatch, Balances, ClientSettings } from '@/core/app/state/stateInterfaces';
+import { ReducerDispatch, Balances, ClientSettings } from '@/core/app/interfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { getEcosystemConfig as getConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
