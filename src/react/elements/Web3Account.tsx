@@ -103,7 +103,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
  * and providing options for disconnecting or switching networks.
  */
 const Web3Account: React.FC = () => {
-	const { ecosystem } = useAppStore(useShallow((state) => ({ ecosystem: state.ecosystem })));
+	const { ecosystem } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+		}))
+	);
 	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default Web3Account;

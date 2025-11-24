@@ -48,6 +48,7 @@ const PendingQueryFragment: React.FC<Params> = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	return (
 		<Render
 			pendingQueries={pendingQueries}

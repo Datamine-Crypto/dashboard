@@ -501,6 +501,7 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	useEffect(() => {
 		// When the app starts initialize web3 connection
 		appDispatch({ type: commonLanguage.commands.Initialize, payload: { address } });

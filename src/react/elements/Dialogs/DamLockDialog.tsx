@@ -304,6 +304,7 @@ const DamLockDialog: React.FC = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	const total = BNToDecimal(balances?.damToken ?? null);
 	if (!balances || !selectedAddress) {
 		return null;

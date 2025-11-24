@@ -1526,6 +1526,7 @@ const CallToActionCard: React.FC = () => {
 			connectionMethod: state.connectionMethod,
 		}))
 	);
+
 	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances || !connectionMethod) {
 		return null;
 	}

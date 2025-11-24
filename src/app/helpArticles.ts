@@ -71,7 +71,7 @@ export interface HelpArticle {
 	/**
 	 * Optional: An array of tags associated with the article.
 	 */
-	tags?: SearchTag[];
+	tags: SearchTag[];
 
 	/**
 	 * This is filled out after loading help article markdown

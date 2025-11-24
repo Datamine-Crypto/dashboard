@@ -75,6 +75,7 @@ const DialogsFragment: React.FC<Params> = () => {
 			dialogParams: state.dialogParams,
 		}))
 	);
+
 	return <Render dialog={dialog} dialogParams={dialogParams} dispatch={appDispatch} />;
 };
 export default DialogsFragment;

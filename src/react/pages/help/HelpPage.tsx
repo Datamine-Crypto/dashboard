@@ -41,7 +41,12 @@ interface Props {}
  */
 const HelpPage: React.FC<Props> = () => {
 	const { classes } = useStyles();
-	const { ecosystem } = useAppStore(useShallow((state) => ({ ecosystem: state.ecosystem })));
+	const { ecosystem } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+		}))
+	);
+
 	const [selectedUserType, setSelectedUserType] = useState<UserTypeFilter>(UserTypeFilter.All);
 	const [selectedTags, setSelectedTags] = useState<string[]>(['All']); // Changed to array
 	const filteredHelpArticles = helpArticles.filter((article) => {

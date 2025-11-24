@@ -173,6 +173,7 @@ const BurnDialog: React.FC = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	const total = BNToDecimal(balances?.fluxToken ?? null);
 	const [amount, setAmount] = React.useState(total);
 	if (!balances || !selectedAddress) {

@@ -300,7 +300,12 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const CommunityPage: React.FC<Props> = () => {
-	const { ecosystem } = useAppStore(useShallow((state) => ({ ecosystem: state.ecosystem })));
+	const { ecosystem } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+		}))
+	);
+
 	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default CommunityPage;

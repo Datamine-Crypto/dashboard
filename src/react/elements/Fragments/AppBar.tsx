@@ -145,6 +145,7 @@ const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
 			selectedAddress: state.selectedAddress,
 		}))
 	);
+
 	return <Render sidebar={sidebar} dispatch={appDispatch} selectedAddress={selectedAddress} ecosystem={ecosystem} />;
 };
 export default MainAppBar;

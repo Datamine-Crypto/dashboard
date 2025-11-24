@@ -157,6 +157,7 @@ const PageFragment: React.FC = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	/**
 	 * Effect hook to initialize special pages based on the URL hash when the component mounts.
 	 * It dispatches actions to update the application state for pages like Dashboard and Help.

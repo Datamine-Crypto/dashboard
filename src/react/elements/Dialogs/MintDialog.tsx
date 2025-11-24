@@ -129,6 +129,7 @@ const MintDialog: React.FC = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	const [address, setAddress] = React.useState(selectedAddress);
 	if (!selectedAddress || !addressDetails) {
 		return null;

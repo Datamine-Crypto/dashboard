@@ -122,7 +122,13 @@ const getWalletConnectRpc = () => {
 	return walletConnectRpc;
 };
 const WalletConnectRpcDialog: React.FC = () => {
-	const { error, ecosystem } = useAppStore(useShallow((state) => ({ error: state.error, ecosystem: state.ecosystem })));
+	const { error, ecosystem } = useAppStore(
+		useShallow((state) => ({
+			error: state.error,
+			ecosystem: state.ecosystem,
+		}))
+	);
+
 	const [rpcAddress, setRpcAddress] = React.useState(getWalletConnectRpc());
 	return (
 		<Render

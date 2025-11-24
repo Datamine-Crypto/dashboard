@@ -145,6 +145,7 @@ const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	if (!pendingQueries || !selectedAddress || !balances) {
 		return null;
 	}

@@ -306,7 +306,12 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const RealtimeRewardsGameFiPage: React.FC<Props> = () => {
-	const { ecosystem } = useAppStore(useShallow((state) => ({ ecosystem: state.ecosystem })));
+	const { ecosystem } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+		}))
+	);
+
 	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default RealtimeRewardsGameFiPage;

@@ -412,6 +412,7 @@ const AccountBalancesCard: React.FC = () => {
 				ecosystem: state.ecosystem,
 			}))
 		);
+
 	// Render nothing if essential data is not yet available
 	if (!addressLock || !selectedAddress || !addressDetails || !balances || !addressTokenDetails) {
 		return null;

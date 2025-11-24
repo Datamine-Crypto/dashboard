@@ -244,6 +244,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 			currentAddresMintableBalance: state.currentAddresMintableBalance,
 		}))
 	);
+
 	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];
 	if (
 		!balances ||

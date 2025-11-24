@@ -180,6 +180,7 @@ const LockedLiquidityCard: React.FC = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	if (!balances || !balances.lockedLiquidityUniAmount || !balances.lockedLiquidtyUniTotalSupply) {
 		return null;
 	}

@@ -323,6 +323,7 @@ const RealtimeLiqudityCard: React.FC = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	if (!balances || !addressTokenDetails || !addressDetails) {
 		return null;
 	}

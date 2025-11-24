@@ -351,6 +351,7 @@ const SettingsDialog: React.FC = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	return <Render clientSettings={clientSettings} dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default SettingsDialog;

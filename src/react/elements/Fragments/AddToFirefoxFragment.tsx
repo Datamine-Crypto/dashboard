@@ -80,6 +80,7 @@ const AddToFirefoxFragment: React.FC<Props> = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	return <Render dispatch={appDispatch} connectionMethod={connectionMethod} ecosystem={ecosystem} />;
 };
 export default AddToFirefoxFragment;

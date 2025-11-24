@@ -153,6 +153,7 @@ const UnlockDialog: React.FC = () => {
 			addressLock: state.addressLock,
 		}))
 	);
+
 	const amount = BNToDecimal(addressLock?.amount ?? null);
 	if (!addressDetails) {
 		return null;

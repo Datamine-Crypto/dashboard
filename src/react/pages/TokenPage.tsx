@@ -1111,6 +1111,7 @@ const TokenPage: React.FC<Props> = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default TokenPage;

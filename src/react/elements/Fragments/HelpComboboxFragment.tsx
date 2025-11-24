@@ -69,6 +69,7 @@ const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
 			helpArticles: state.helpArticles,
 		}))
 	);
+
 	return (
 		<Render
 			id={id}

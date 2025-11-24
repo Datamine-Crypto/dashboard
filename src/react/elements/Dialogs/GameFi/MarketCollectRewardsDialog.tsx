@@ -570,6 +570,7 @@ const MarketCollectRewardsDialog: React.FC = () => {
 			game: state.game,
 		}))
 	);
+
 	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];
 	const currentAddressMarketAddress =
 		marketAddresses && marketAddresses.addresses.length > 0

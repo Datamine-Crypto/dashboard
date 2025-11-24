@@ -566,6 +566,7 @@ const TradeDialog: React.FC<Params> = () => {
 			lastSwapThrottle: state.lastSwapThrottle,
 		}))
 	);
+
 	return (
 		<Render
 			balances={balances}

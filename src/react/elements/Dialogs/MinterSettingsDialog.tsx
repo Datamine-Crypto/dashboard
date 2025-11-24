@@ -153,6 +153,7 @@ const MintSettingsDialog: React.FC = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	const total = BNToDecimal(balances?.fluxToken ?? null);
 	if (!balances || !selectedAddress) {
 		return null;

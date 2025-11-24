@@ -446,5 +446,6 @@ export const MainDrawer: React.FC = () => {
 			isMobileDrawerOpen: state.isMobileDrawerOpen,
 		}))
 	);
+
 	return <Render isMobileDrawerOpen={isMobileDrawerOpen} dispatch={appDispatch} ecosystem={ecosystem} />;
 };

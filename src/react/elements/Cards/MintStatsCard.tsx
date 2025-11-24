@@ -276,6 +276,7 @@ const MintStatsCard: React.FC = () => {
 				ecosystem: state.ecosystem,
 			}))
 		);
+
 	if (!addressLock || !addressDetails || !addressTokenDetails || !selectedAddress || !balances) {
 		return null;
 	}

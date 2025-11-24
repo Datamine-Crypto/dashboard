@@ -171,6 +171,7 @@ const GlobalCard: React.FC = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
+
 	if (!addressDetails || !addressTokenDetails || !balances) {
 		return null;
 	}
