@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"target": "ESNext", // Or your desired ECMAScript target
+		"target": "esnext", // Or your desired ECMAScript target
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
 		"skipLibCheck": true,
@@ -9,14 +9,13 @@
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true,
-		"module": "ESNext",
+		"module": "esnext",
 		"moduleResolution": "bundler", // Recommended for Vite
 		"resolveJsonModule": true,
 		"isolatedModules": true, // Required by Vite
 		"noEmit": true, // Vite handles transpilation and bundling
 		"jsx": "react-jsx", // Or "react-jsxdev" for development specific transforms
 		// Add Vite client types and SVGR types
-		"types": ["vite/client"],
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["src/*"]
