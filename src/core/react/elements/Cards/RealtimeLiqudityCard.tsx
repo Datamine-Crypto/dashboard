@@ -1,19 +1,19 @@
 import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { useAppStore } from '@/core/web3/appStore';
+import { useAppStore } from '@/core/react/appStore';
 import BN from 'bn.js';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem, Layer, LiquidityPoolType } from '@/configs/config.common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem, Layer, LiquidityPoolType } from '@/core/app/configs/config.common';
 import sushiSwapLogo from '@/svgs/sushiSwap.svg';
 import uniswap from '@/svgs/uniswap.svg';
-import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/interfaces';
-import { BNToDecimal, getBNPercent, getPriceToggle } from '@/core/web3/helpers';
-import { Balances } from '@/core/web3/reducer/interfaces';
+import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/app/interfaces';
+import { BNToDecimal, getBNPercent, getPriceToggle } from '@/core/utils/helperFunctions';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
+import { Balances } from '@/core/app/state/stateInterfaces';
 /**
  * Props for the Render component within RealtimeLiqudityCard.
  */

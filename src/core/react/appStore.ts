@@ -1,10 +1,10 @@
 import { create } from 'zustand';
-import { handleCommand } from '@/core/web3/reducer/commandHandler';
-import { handleQueryResponse } from '@/core/web3/reducer/queryHandler';
-import { initialState } from '@/core/web3/reducer/initialState';
-import { AppState } from '@/core/web3/reducer/interfaces';
-import { sideEffectReducer, commonLanguage, handleQueries } from '@/core/sideEffectReducer';
-import { queryHandlers } from '@/core/web3/Web3Bindings';
+import { handleCommand } from '@/core/app/state/handleCommand';
+import { initialState } from '@/core/app/state/initialState';
+import { sideEffectReducer, commonLanguage, handleQueries } from '@/core/utils/reducer/sideEffectReducer';
+import { handleQueryResponse } from '@/core/app/state/handleQueryResponse';
+import { AppState } from '@/core/app/state/stateInterfaces';
+import { queryHandlers } from '@/core/app/state/handleQuery';
 
 // Recreate the reducer
 const reducer = sideEffectReducer({

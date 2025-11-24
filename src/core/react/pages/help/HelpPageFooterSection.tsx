@@ -1,8 +1,8 @@
 import { Box, Container, Link, Typography } from '@mui/material';
 import React from 'react';
 
-import { Ecosystem } from '@/configs/config.common';
-import { getEcosystemConfig } from '@/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
 
 interface HelpPageFooterSectionProps {
 	ecosystem: Ecosystem;

@@ -1,13 +1,13 @@
 import { Alert, Box, Button, Card, CardContent, Chip, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { useAppStore } from '@/core/web3/appStore';
+import { useAppStore } from '@/core/react/appStore';
 import { Visibility, Whatshot } from '@mui/icons-material';
-import { FluxAddressLock } from '@/core/interfaces';
-import { commonLanguage } from '@/core/web3/reducer/common';
+import { FluxAddressLock } from '@/core/app/interfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/state/interfaces';
 /**
  * Props for the Render component within DatamineNetworkCard.
  */

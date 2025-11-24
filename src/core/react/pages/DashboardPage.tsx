@@ -12,17 +12,17 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React, { ReactNode, useEffect } from 'react';
-import { DialogType, FluxAddressDetails } from '@/core/interfaces';
-import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/reducer/common';
-import { ReducerDispatch, ConnectionMethod } from '@/core/web3/reducer/interfaces';
+import { DialogType, FluxAddressDetails } from '@/core/app/interfaces';
+import { useAppStore } from '@/core/react/appStore';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';
 import Web3Account from '@/core/react/elements/Web3Account';
 import logo from '@/svgs/logo.svg'; // Tell webpack this JS file uses this image
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { Settings } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
 import metamaskIcon from '@/svgs/metamask.svg';
 import walletconnectIcon from '@/svgs/walletconnect.svg';
 import { isDevLogEnabled } from '@/core/utils/devLog';

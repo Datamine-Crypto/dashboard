@@ -6,13 +6,13 @@ import React from 'react';
 import DamLogo from '@/svgs/logo.svg';
 import Grid from '@mui/material/Grid';
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
-import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/reducer/common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { useAppStore } from '@/core/react/appStore';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import HelpComboboxFragment from '@/core/react/elements/Fragments/HelpComboboxFragment';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 const useStyles = tss.create(({ theme }) => ({
 	toolbar: {
 		paddingRight: 24, // keep right padding when drawer closed

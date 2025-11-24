@@ -1,8 +1,8 @@
 import Big from 'big.js';
 import type { Web3 } from 'web3'; // Changed to type-only import
-import { FluxAddressDetails, FluxAddressTokenDetails, Game } from '@/core/interfaces';
-import { commonLanguage } from '@/core/web3/reducer/common';
-import { ReducerDispatch, AppState } from '@/core/web3/reducer/interfaces';
+import { FluxAddressDetails, FluxAddressTokenDetails, Game } from '@/core/app/interfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { ReducerDispatch, AppState } from '@/core/app/state/stateInterfaces';
 
 import damTokenAbi from '@/core/web3/abis/dam.json';
 import fluxTokenAbi from '@/core/web3/abis/flux.json';
@@ -12,20 +12,20 @@ import gameHodlClickerAbi from '@/core/web3/abis/games/gameHodlClicker.json';
 import multicallAbi from '@/core/web3/abis/multicall.json';
 import uniswapPairV3Abi from '@/core/web3/abis/uniswapPairV3.json';
 
-import { getWeb3Provider, rethrowWeb3Error, withWeb3 } from '@/core/web3/helpers';
+import { getWeb3Provider, rethrowWeb3Error, withWeb3 } from '@/core/utils/helperFunctions';
 
 import BN from 'bn.js';
 
-import { HelpArticle, helpArticles } from '@/core/helpArticles';
-import { QueryHandler } from '@/core/sideEffectReducer';
+import { HelpArticle, helpArticles } from '@/core/app/helpArticles';
+import { QueryHandler } from '@/core/utils/reducer/sideEffectReducer';
 
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem, Layer, NetworkType } from '@/configs/config.common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem, Layer, NetworkType } from '@/core/app/configs/config.common';
 import { Gem } from '@/core/react/elements/Fragments/DatamineGemsGame';
 import { devLog } from '@/core/utils/devLog';
 import { performSwap } from '@/core/utils/swap/performSwap';
 import { SwapOptions, SwapPlatform, SwapToken } from '@/core/utils/swap/swapOptions';
-import { decodeMulticall, encodeMulticall, MultiCallParams } from '@/core/utils/web3multicall';
+import { decodeMulticall, encodeMulticall, MultiCallParams } from '@/core/web3/utils/web3multicall';
 
 /**
  * @var web3provider - Holds the current Web3 provider instance (e.g., MetaMask, WalletConnect).
@@ -1921,12 +1921,6 @@ const queryHandlers = {
 
 		if (!helpArticle.body) {
 			const getHelpArticleMdPath = () => {
-				switch (helpArticlesNetworkType) {
-					case NetworkType.Arbitrum:
-						if (helpArticle.articleL2Path) {
-							return helpArticle.articleL2Path;
-						}
-				}
 				return helpArticle.id;
 			};
 			const helpArticleMdPath = getHelpArticleMdPath();

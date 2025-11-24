@@ -7,8 +7,8 @@ import { ArrowRight, PlayArrow } from '@mui/icons-material';
 import logo from '@/svgs/logo.svg';
 
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 

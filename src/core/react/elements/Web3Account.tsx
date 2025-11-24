@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react';
 // Web3 context for accessing blockchain state and dispatch functions
-import { useAppStore } from '@/core/web3/appStore';
+import { useAppStore } from '@/core/react/appStore';
 // Call to action card component
 import CallToActionCard from '@/core/react/elements/Cards/CallToActionCard';
 // Global statistics card component
@@ -9,9 +9,9 @@ import GlobalCard from '@/core/react/elements/Cards/GlobalCard';
 // Styling utility from tss-react
 import { tss } from 'tss-react/mui';
 // Configuration for the current ecosystem
-import { getEcosystemConfig } from '@/configs/config';
+import { getEcosystemConfig } from '@/core/app/configs/config';
 // Ecosystem enum for type safety
-import { Ecosystem } from '@/configs/config.common';
+import { Ecosystem } from '@/core/app/configs/config.common';
 // Account balances card component
 import AccountBalancesCard from '@/core/react/elements/Cards/AccountBalancesCard';
 // Locked liquidity card component
@@ -21,7 +21,7 @@ import MintStatsCard from '@/core/react/elements/Cards/MintStatsCard';
 // Real-time liquidity card component
 import RealtimeLiqudityCard from '@/core/react/elements/Cards/RealtimeLiqudityCard';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 /**
  * Props for the Render component.
  */

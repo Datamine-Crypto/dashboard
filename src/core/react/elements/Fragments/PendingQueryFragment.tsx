@@ -1,9 +1,9 @@
 import React from 'react';
-import { Ecosystem } from '@/configs/config.common';
-import { ReducerQuery } from '@/core/sideEffectReducer';
-import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/reducer/common';
-import { ReducerDispatch, ConnectionMethod } from '@/core/web3/reducer/interfaces';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { ReducerQuery } from '@/core/utils/reducer/sideEffectReducer';
+import { useAppStore } from '@/core/react/appStore';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';
 import PendingActionDialog from '@/core/react/elements/Dialogs/PendingActionDialog';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderProps {

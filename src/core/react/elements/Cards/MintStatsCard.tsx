@@ -1,17 +1,17 @@
 import { Box, Button, Card, CardContent, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { useAppStore } from '@/core/web3/appStore';
-import { BNToDecimal, getBlocksRemaining } from '@/core/web3/helpers';
+import { useAppStore } from '@/core/react/appStore';
+import { BNToDecimal, getBlocksRemaining } from '@/core/utils/helperFunctions';
 import BN from 'bn.js';
-import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '@/core/interfaces';
-import { ReducerDispatch, Balances } from '@/core/web3/reducer/interfaces';
-import { commonLanguage } from '@/core/web3/reducer/common';
+import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '@/core/app/interfaces';
+import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { LockOpen } from '@mui/icons-material';
 import Big from 'big.js';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
-import { getRequiredFluxToBurn } from '@/core/web3/helpers';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { getRequiredFluxToBurn } from '@/core/utils/helperFunctions';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import { useShallow } from 'zustand/react/shallow';
 /**

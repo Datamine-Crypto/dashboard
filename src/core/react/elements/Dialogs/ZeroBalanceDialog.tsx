@@ -1,14 +1,14 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import React from 'react';
 import { Web3 } from 'web3';
-import { getEcosystemConfig as getConfig } from '@/configs/config';
-import { Ecosystem, Layer } from '@/configs/config.common';
-import { DialogType } from '@/core/interfaces';
-import { ReducerQuery } from '@/core/sideEffectReducer';
-import { BNToDecimal } from '@/core/web3/helpers';
-import { useAppStore } from '@/core/web3/appStore';
-import { ReducerDispatch, Balances } from '@/core/web3/reducer/interfaces';
-import { commonLanguage } from '@/core/web3/reducer/common';
+import { getEcosystemConfig as getConfig } from '@/core/app/configs/config';
+import { Ecosystem, Layer } from '@/core/app/configs/config.common';
+import { DialogType } from '@/core/app/interfaces';
+import { ReducerQuery } from '@/core/utils/reducer/sideEffectReducer';
+import { BNToDecimal } from '@/core/utils/helperFunctions';
+import { useAppStore } from '@/core/react/appStore';
+import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import { useShallow } from 'zustand/react/shallow';
 interface Params {

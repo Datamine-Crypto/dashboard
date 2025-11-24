@@ -4,7 +4,7 @@ import React, { Suspense, lazy } from 'react';
 // Error boundary for catching and displaying UI errors
 import ErrorBoundary from '@/core/react/ErrorBoundary';
 // Application-wide Material-UI theme
-import { theme } from '@/core/styles';
+import { theme } from '@/core/react/styles';
 
 // Font imports for Roboto typeface
 import '@fontsource/roboto/300.css';

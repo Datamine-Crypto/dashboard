@@ -4,13 +4,13 @@ import React, { ReactNode } from 'react';
 import { LinkedIn, Timeline, Twitter } from '@mui/icons-material';
 import discordLogo from '@/svgs/discord.svg';
 import mediumLogo from '@/svgs/medium.svg';
-import { theme as datamineTheme } from '@/core/styles';
-import { Ecosystem } from '@/configs/config.common';
-import { useAppStore } from '@/core/web3/appStore';
+import { theme as datamineTheme } from '@/core/react/styles';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { useAppStore } from '@/core/react/appStore';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
 		[theme.breakpoints.down('sm')]: {

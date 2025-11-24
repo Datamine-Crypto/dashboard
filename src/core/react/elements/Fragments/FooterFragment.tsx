@@ -3,9 +3,9 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
-import { theme as datamineTheme } from '@/core/styles';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { theme as datamineTheme } from '@/core/react/styles';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 
 const useStyles = tss.create(({ theme }) => ({

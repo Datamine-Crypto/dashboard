@@ -6,11 +6,11 @@ import lockquidityLogo from '@/svgs/lockquidity.svg';
 
 import logo from '@/svgs/logo.svg';
 // Common configuration for ecosystems
-import { Ecosystem } from '@/configs/config.common';
+import { Ecosystem } from '@/core/app/configs/config.common';
 // Ecosystem-specific configurations
-import { getArbiFluxLockquidityEcosystemConfig } from '@/configs/ecosystems/config.ecosystem.arbiflux_lockquidity_l2';
-import { getDamFluxEcosystemConfig } from '@/configs/ecosystems/config.ecosystem.dam_flux_l1';
-import { getFluxArbiFluxEcosystemConfig } from '@/configs/ecosystems/config.ecosystem.flux_arbiflux_l2';
+import { getArbiFluxLockquidityEcosystemConfig } from '@/core/app/configs/ecosystems/config.ecosystem.arbiflux_lockquidity_l2';
+import { getDamFluxEcosystemConfig } from '@/core/app/configs/ecosystems/config.ecosystem.dam_flux_l1';
+import { getFluxArbiFluxEcosystemConfig } from '@/core/app/configs/ecosystems/config.ecosystem.flux_arbiflux_l2';
 
 /**
  * Maps each ecosystem to its specific configuration function.

@@ -13,13 +13,13 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/reducer/common';
+import { useAppStore } from '@/core/react/appStore';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { SettingsInputAntenna } from '@mui/icons-material';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 interface RenderParams {
 	dispatch: ReducerDispatch;
 	error: string | null;

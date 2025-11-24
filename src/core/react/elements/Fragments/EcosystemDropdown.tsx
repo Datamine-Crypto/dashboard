@@ -1,11 +1,11 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { getEcosystemConfig } from '@/configs/config';
-import { ecosystemConfigs } from '@/configs/config.base';
-import { Ecosystem, Layer } from '@/configs/config.common';
-import { switchNetwork } from '@/core/web3/helpers';
-import { commonLanguage } from '@/core/web3/reducer/common';
-import { ReducerDispatch, ConnectionMethod } from '@/core/web3/reducer/interfaces';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { ecosystemConfigs } from '@/core/app/configs/config.base';
+import { Ecosystem, Layer } from '@/core/app/configs/config.common';
+import { switchNetwork } from '@/core/utils/helperFunctions';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';
 
 interface Props {
 	ecosystem: Ecosystem;

@@ -1,4 +1,4 @@
-import { Game } from '@/core/interfaces';
+import { Game } from '@/core/app/interfaces';
 
 /**
  * This file defines common enums and interfaces used across the application,

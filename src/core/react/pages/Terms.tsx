@@ -1,10 +1,10 @@
 import { Box, Container, Link, Paper } from '@mui/material';
 import React from 'react';
 
-import { theme as datamineTheme } from '@/core/styles';
+import { theme as datamineTheme } from '@/core/react/styles';
 
-import { getEcosystemConfig as getConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
+import { getEcosystemConfig as getConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import Header from '@/core/react/elements/Fragments/Header';
 

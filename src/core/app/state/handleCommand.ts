@@ -1,16 +1,16 @@
 import Big from 'big.js';
 import BN from 'bn.js';
-import { getEcosystemConfig } from '@/configs/config';
-import { Layer } from '@/configs/config.common';
-import { ReducerCommand } from '@/core/sideEffectReducer';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Layer } from '@/core/app/configs/config.common';
+import { ReducerCommand } from '@/core/utils/reducer/sideEffectReducer';
 import copyToClipBoard from '@/core/utils/copyToClipboard';
 import { devLog } from '@/core/utils/devLog';
 import { availableSwapTokens } from '@/core/utils/swap/performSwap';
 import { SwapOperation, SwapToken } from '@/core/utils/swap/swapOptions';
-import { BNToDecimal, getPriceToggle, parseBN } from '@/core/web3/helpers';
-import { commonLanguage } from '@/core/web3/reducer/common';
-import { createWithWithQueries, localConfig } from '@/core/web3/reducer/helpers';
-import { ConnectionMethod, DialogType, Token, AppState } from '@/core/web3/reducer/interfaces';
+import { BNToDecimal, getPriceToggle, parseBN } from '@/core/utils/helperFunctions';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { createWithWithQueries, localConfig } from '@/core/utils/reducer/reducerHelpers';
+import { ConnectionMethod, DialogType, Token, AppState } from '@/core/app/state/stateInterfaces';
 
 /**
  * Handles synchronous commands dispatched by the UI or other parts of the application.

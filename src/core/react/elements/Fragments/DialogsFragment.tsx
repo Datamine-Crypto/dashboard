@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
-import { DialogType } from '@/core/interfaces';
-import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/reducer/common';
+import { DialogType } from '@/core/app/interfaces';
+import { useAppStore } from '@/core/react/appStore';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import BurnDialog from '@/core/react/elements/Dialogs/BurnDialog';
 import DamLockDialog from '@/core/react/elements/Dialogs/DamLockDialog';
 import MarketDepositWithdrawDialog from '@/core/react/elements/Dialogs/GameFi/MarketDepositWithdrawDialog';
@@ -13,7 +13,7 @@ import UnlockDialog from '@/core/react/elements/Dialogs/UnlockDialog';
 import WalletConnectRpcDialog from '@/core/react/elements/Dialogs/WalletConnectRpcDialog';
 import MintSettingsDialog from '@/core/react/elements/Dialogs/MinterSettingsDialog';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 const MarketCollectRewardsDialog = lazy(
 	() => import('@/core/react/elements/Dialogs/GameFi/MarketCollectRewardsDialog')
 );

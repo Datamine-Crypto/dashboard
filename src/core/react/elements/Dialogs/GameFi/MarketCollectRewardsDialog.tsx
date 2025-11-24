@@ -14,19 +14,19 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Diamond, ImportExport, Mouse } from '@mui/icons-material';
 import BN from 'bn.js';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
-import { AddressLockDetailsViewModel, DialogType, FluxAddressDetails, Game, Token } from '@/core/interfaces';
-import { BNToDecimal, getPriceToggle } from '@/core/web3/helpers';
-import { useAppStore } from '@/core/web3/appStore';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { AddressLockDetailsViewModel, DialogType, FluxAddressDetails, Game, Token } from '@/core/app/interfaces';
+import { BNToDecimal, getPriceToggle } from '@/core/utils/helperFunctions';
+import { useAppStore } from '@/core/react/appStore';
 import {
 	ReducerDispatch,
 	Balances,
 	ConnectionMethod,
 	MarketAddresses,
 	MarketDetails,
-} from '@/core/web3/reducer/interfaces';
-import { commonLanguage } from '@/core/web3/reducer/common';
+} from '@/core/app/state/stateInterfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import DatamineGemsGame, { Gem } from '@/core/react/elements/Fragments/DatamineGemsGame';
 import { getNetworkDropdown } from '@/core/react/elements/Fragments/EcosystemDropdown';
 import Big from 'big.js';

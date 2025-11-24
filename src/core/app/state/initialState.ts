@@ -1,9 +1,9 @@
 import BN from 'bn.js';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem, NetworkType } from '@/configs/config.common';
-import { HelpArticle } from '@/core/helpArticles';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem, NetworkType } from '@/core/app/configs/config.common';
+import { HelpArticle } from '@/core/app/helpArticles';
 import { devLog } from '@/core/utils/devLog';
-import { ConnectionMethod, Game, AppState } from '@/core/web3/reducer/interfaces';
+import { ConnectionMethod, Game, AppState } from '@/core/app/state/stateInterfaces';
 
 const getDefaultEcosystem = () => {
 	const targetEcosystem = localStorage.getItem('targetEcosystem');

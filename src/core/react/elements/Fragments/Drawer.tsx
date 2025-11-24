@@ -32,14 +32,14 @@ import {
 	ExpandLess,
 } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
 import discordWhiteLogo from '@/svgs/discordWhite.svg';
 import Logo from '@/svgs/logo.svg';
-import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/reducer/common';
+import { useAppStore } from '@/core/react/appStore';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 const drawerWidth = 280;
 const useStyles = tss.create(({ theme }) => ({
 	root: {

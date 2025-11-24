@@ -12,12 +12,12 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { Whatshot } from '@mui/icons-material';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
-import { BNToDecimal } from '@/core/web3/helpers';
-import { useAppStore } from '@/core/web3/appStore';
-import { ReducerDispatch, Balances } from '@/core/web3/reducer/interfaces';
-import { commonLanguage } from '@/core/web3/reducer/common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { BNToDecimal } from '@/core/utils/helperFunctions';
+import { useAppStore } from '@/core/react/appStore';
+import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
 /**
  * Props for the Render component within BurnDialog.

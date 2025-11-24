@@ -10,15 +10,15 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-import { commonLanguage } from '@/core/web3/reducer/common';
-import { ConnectionMethod } from '@/core/web3/reducer/interfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { ConnectionMethod } from '@/core/app/state/stateInterfaces';
 
 import { HourglassEmpty } from '@mui/icons-material';
 
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
-import { ReducerQuery } from '@/core/sideEffectReducer';
-import { theme as datamineTheme } from '@/core/styles';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { ReducerQuery } from '@/core/utils/reducer/sideEffectReducer';
+import { theme as datamineTheme } from '@/core/react/styles';
 
 import { tss } from 'tss-react/mui';
 interface Params {

@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem, NetworkType } from '@/configs/config.common';
-import { HelpArticle, helpArticles } from '@/core/helpArticles';
-import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/reducer/common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem, NetworkType } from '@/core/app/configs/config.common';
+import { HelpArticle, helpArticles } from '@/core/app/helpArticles';
+import { useAppStore } from '@/core/react/appStore';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import LoadingDialog from '@/core/react/elements/Dialogs/LoadingDialog';
 import CenteredLoading from '@/core/react/elements/Fragments/CenteredLoading';
 import DialogsFragment from '@/core/react/elements/Fragments/DialogsFragment';
@@ -13,7 +13,7 @@ import PendingQueryFragment from '@/core/react/elements/Fragments/PendingQueryFr
 import RealtimeRewardsGameFiPage from '@/core/react/pages/RealtimeRewardsGameFiPage';
 import HodlClickerRushGameFiPage from '@/core/react/pages/HodlClickerRushGameFiPage';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 const MainAppBar = lazy(() => import('@/core/react/elements/Fragments/AppBar'));
 const HelpDialog = lazy(() => import('@/core/react/elements/Dialogs/HelpDialog'));
 const CommunityPage = lazy(() => import('@/core/react/pages/CommunityPage'));
@@ -234,7 +234,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 		}
 		//@todo helpArticle/helpArticlesNetworkType should be contained inside HelpDialog and get it's own state (instead of doing it here)
 		//Check out TradeDialog for an example
-		return <HelpDialog helpArticle={helpArticle} helpArticlesNetworkType={helpArticlesNetworkType} />;
+		return <HelpDialog helpArticle={helpArticle} />;
 	};
 	/**
 	 * Renders the DialogsFragment component, which manages various application dialogs.

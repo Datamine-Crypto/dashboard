@@ -1,4 +1,4 @@
-import { Layer } from '@/configs/config.common';
+import { Layer } from '@/core/app/configs/config.common';
 
 /**
  * Retrieves the network configuration specific to a given blockchain layer (L1 or L2).

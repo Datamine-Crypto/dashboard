@@ -9,17 +9,17 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Card, CardContent, Divider, Paper, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { Ecosystem } from '@/configs/config.common';
+import { Ecosystem } from '@/core/app/configs/config.common';
 import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
 import fluxLogo from '@/svgs/fluxLogo.svg';
 import lockquidityLogo from '@/svgs/lockquidity.svg';
 import damLogo from '@/svgs/logo.svg';
 import Grid from '@mui/material/Grid';
-import { useAppStore } from '@/core/web3/appStore';
+import { useAppStore } from '@/core/react/appStore';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 // Color palette
 const palette = {
 	highlight: '#0FF',

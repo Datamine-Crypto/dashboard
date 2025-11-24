@@ -1,8 +1,8 @@
 import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
 import React from 'react';
-import { Ecosystem } from '@/configs/config.common';
+import { Ecosystem } from '@/core/app/configs/config.common';
 import Grid from '@mui/material/Grid';
-import { useAppStore } from '@/core/web3/appStore';
+import { useAppStore } from '@/core/react/appStore';
 import {
 	Autorenew as AutorenewIcon,
 	Bolt as BoltIcon,
@@ -12,11 +12,11 @@ import {
 	RocketLaunch as RocketLaunchIcon,
 } from '@mui/icons-material';
 import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // Assuming MUI v7 imports are similar
-import { Game } from '@/core/interfaces';
-import { commonLanguage } from '@/core/web3/reducer/common';
+import { Game } from '@/core/app/interfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 // Color palette
 const palette = {
 	highlight: '#0FF',

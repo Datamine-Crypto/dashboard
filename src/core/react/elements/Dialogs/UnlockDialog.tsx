@@ -10,15 +10,15 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-import { useAppStore } from '@/core/web3/appStore';
-import { ReducerDispatch, Balances, ClientSettings } from '@/core/web3/reducer/interfaces';
-import { commonLanguage } from '@/core/web3/reducer/common';
-import { getEcosystemConfig as getConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
-import { FluxAddressDetails, Token } from '@/core/interfaces';
-import { theme } from '@/core/styles';
+import { useAppStore } from '@/core/react/appStore';
+import { ReducerDispatch, Balances, ClientSettings } from '@/core/app/state/stateInterfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { getEcosystemConfig as getConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { FluxAddressDetails, Token } from '@/core/app/interfaces';
+import { theme } from '@/core/react/styles';
 import { formatMoney } from '@/core/utils/formatMoney';
-import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '@/core/web3/helpers';
+import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '@/core/utils/helperFunctions';
 import MessageDialog from '@/core/react/elements/Dialogs/MessageDialog';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {

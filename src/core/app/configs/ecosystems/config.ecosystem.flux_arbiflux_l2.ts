@@ -1,6 +1,6 @@
-import { Game } from '@/core/interfaces';
+import { Game } from '@/core/app/interfaces';
 import ecosystemLogoSvg from '@/svgs/arbiFluxLogo.svg';
-import { EcosystemConfig, Layer, LiquidityPoolType } from '@/configs/config.common';
+import { EcosystemConfig, Layer, LiquidityPoolType } from '@/core/app/configs/config.common';
 
 /**
  * Provides the complete configuration for the Arbitrum L2 (FLUX/ArbiFLUX) ecosystem.

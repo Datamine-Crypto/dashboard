@@ -1,14 +1,14 @@
 import BN from 'bn.js';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem, Layer } from '@/configs/config.common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 import { Gem } from '@/core/react/elements/Fragments/DatamineGemsGame';
-import { ReducerQueryHandler } from '@/core/sideEffectReducer';
+import { ReducerQueryHandler } from '@/core/utils/reducer/sideEffectReducer';
 import { devLog } from '@/core/utils/devLog';
 import { SwapQuote } from '@/core/utils/swap/swapOptions';
-import { BNToDecimal } from '@/core/web3/helpers';
-import { commonLanguage } from '@/core/web3/reducer/common';
-import { createWithWithQueries } from '@/core/web3/reducer/helpers';
-import { ConnectionMethod, DialogType, AppState } from '@/core/web3/reducer/interfaces';
+import { BNToDecimal } from '@/core/utils/helperFunctions';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { createWithWithQueries } from '@/core/utils/reducer/reducerHelpers';
+import { ConnectionMethod, DialogType, AppState } from '@/core/app/state/stateInterfaces';
 
 /**
  * Handles responses from asynchronous queries executed by Web3Bindings.

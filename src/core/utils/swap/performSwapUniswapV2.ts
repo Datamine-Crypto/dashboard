@@ -5,7 +5,7 @@
  */
 
 import Big from 'big.js';
-import { getGasFees, parseBN } from '@/core/web3/helpers';
+import { getGasFees, parseBN } from '@/core/utils/helperFunctions';
 import { availableSwapTokens } from '@/core/utils/swap/performSwap';
 import {
 	SwapOptions,

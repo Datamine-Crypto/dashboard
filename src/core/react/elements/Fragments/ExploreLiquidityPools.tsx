@@ -7,11 +7,11 @@ import sushiSwapLogo from '@/svgs/sushiSwap.svg';
 import uniswapLogo from '@/svgs/uniswap.svg';
 
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
-import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/reducer/common';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { useAppStore } from '@/core/react/appStore';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 
 const useStyles = tss.create(({ theme }) => ({
 	chip: {

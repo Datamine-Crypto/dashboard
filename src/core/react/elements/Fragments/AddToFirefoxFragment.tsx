@@ -1,14 +1,14 @@
 import { Box, CardMedia, Link } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
 import metamaskIcon from '@/svgs/metamask.svg';
-import { DialogType } from '@/core/interfaces';
-import { addToMetamask } from '@/core/web3/helpers';
-import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/reducer/common';
-import { ReducerDispatch, ConnectionMethod } from '@/core/web3/reducer/interfaces';
+import { DialogType } from '@/core/app/interfaces';
+import { addToMetamask } from '@/core/utils/helperFunctions';
+import { useAppStore } from '@/core/react/appStore';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {

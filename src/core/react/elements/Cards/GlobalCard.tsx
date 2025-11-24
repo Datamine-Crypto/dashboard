@@ -1,12 +1,12 @@
 import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { useAppStore } from '@/core/web3/appStore';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem, Layer } from '@/configs/config.common';
-import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/interfaces';
-import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '@/core/web3/helpers';
-import { Balances } from '@/core/web3/reducer/interfaces';
+import { useAppStore } from '@/core/react/appStore';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem, Layer } from '@/core/app/configs/config.common';
+import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/core/app/interfaces';
+import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '@/core/utils/helperFunctions';
+import { Balances } from '@/core/app/state/stateInterfaces';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import { useShallow } from 'zustand/react/shallow';
 /**

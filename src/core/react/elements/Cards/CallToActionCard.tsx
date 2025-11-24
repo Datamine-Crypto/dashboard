@@ -25,15 +25,15 @@ import type { MobileDatePickerProps } from '@mui/x-date-pickers/MobileDatePicker
 import React, { useEffect, useState } from 'react';
 import Big from 'big.js';
 import BN from 'bn.js';
-import { useAppStore } from '@/core/web3/appStore';
+import { useAppStore } from '@/core/react/appStore';
 import {
 	ReducerDispatch,
 	Balances,
 	ClientSettings,
 	ConnectionMethod,
 	ForecastSettings,
-} from '@/core/web3/reducer/interfaces';
-import { commonLanguage } from '@/core/web3/reducer/common';
+} from '@/core/app/state/stateInterfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import {
 	Alarm as AlarmIcon,
 	Apps as AppsIcon,
@@ -47,7 +47,7 @@ import {
 	InsertInvitation,
 } from '@mui/icons-material';
 import moment, { Moment } from 'moment';
-import { Ecosystem, Layer } from '@/configs/config.common';
+import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
 import ArbitrumLogo from '@/svgs/arbitrum.svg';
 import EthereumPurpleLogo from '@/svgs/ethereumPurple.svg';
@@ -61,20 +61,20 @@ import {
 	FluxAddressTokenDetails,
 	Game,
 	Token,
-} from '@/core/interfaces';
+} from '@/core/app/interfaces';
 import { formatMoney } from '@/core/utils/formatMoney';
 import { getApy, TokenPair } from '@/core/utils/getApy';
-import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '@/core/web3/helpers';
+import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '@/core/utils/helperFunctions';
 import {
 	BNToDecimal,
 	getBlocksRemaining,
 	getFormattedMultiplier,
 	getPriceToggle,
 	getPriceToggleBig,
-} from '@/core/web3/helpers';
+} from '@/core/utils/helperFunctions';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/configs/config';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/core/app/configs/config';
 import { getNetworkDropdown } from '@/core/react/elements/Fragments/EcosystemDropdown';
 import { useShallow } from 'zustand/react/shallow';
 const useStyles = tss.create(({ theme }) => ({

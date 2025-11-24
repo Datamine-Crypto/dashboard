@@ -19,9 +19,9 @@ import React, { Suspense, lazy } from 'react';
 
 import { Close, Launch } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
-import { HelpArticle, SearchCategoryText } from '@/core/helpArticles';
-import { useAppStore } from '@/core/web3/appStore';
-import { commonLanguage } from '@/core/web3/reducer/common';
+import { HelpArticle, SearchCategoryText } from '@/core/app/helpArticles';
+import { useAppStore } from '@/core/react/appStore';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import AddToFirefoxFragment from '@/core/react/elements/Fragments/AddToFirefoxFragment';
 import CenteredLoading from '@/core/react/elements/Fragments/CenteredLoading'; // Assuming you have a loading component
 import LightTooltip from '@/core/react/elements/LightTooltip';
@@ -38,7 +38,7 @@ interface RenderParams {
 
 // Dynamically import ReactMarkdown
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 const ReactMarkdown = lazy(() => import('react-markdown'));
 
 enum ImageOption {

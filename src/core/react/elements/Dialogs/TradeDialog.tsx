@@ -19,27 +19,27 @@ import { KeyboardArrowDown } from '@mui/icons-material';
 import { Grid } from '@mui/system';
 import BN from 'bn.js';
 import { tss } from 'tss-react/mui';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem, Layer } from '@/configs/config.common';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 import arbiFluxLogo from '@/svgs/arbiFluxLogo.svg';
 import EthereumPurpleLogo from '@/svgs/ethereumPurple.svg';
 import fluxLogo from '@/svgs/fluxLogo.svg';
 import lockquidityLogo from '@/svgs/lockquidity.svg';
 import damLogo from '@/svgs/logo.svg';
 import uniswap from '@/svgs/uniswap.svg';
-import { Token } from '@/core/interfaces';
+import { Token } from '@/core/app/interfaces';
 import { availableSwapTokens } from '@/core/utils/swap/performSwap';
 import { SwapOperation, SwapToken, SwapTokenDetails, SwapTokenWithAmount } from '@/core/utils/swap/swapOptions';
-import { BNToDecimal, getPriceToggle, parseBN, switchNetwork } from '@/core/web3/helpers';
-import { useAppStore } from '@/core/web3/appStore';
+import { BNToDecimal, getPriceToggle, parseBN, switchNetwork } from '@/core/utils/helperFunctions';
+import { useAppStore } from '@/core/react/appStore';
 import {
 	ReducerDispatch,
 	Balances,
 	ConnectionMethod,
 	SwapState,
 	SwapTokenBalances,
-} from '@/core/web3/reducer/interfaces';
-import { commonLanguage } from '@/core/web3/reducer/common';
+} from '@/core/app/state/stateInterfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	balances: Balances | null;

@@ -1,10 +1,10 @@
 import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
 
-import { Ecosystem } from '@/configs/config.common';
+import { Ecosystem } from '@/core/app/configs/config.common';
 
 import { tss } from 'tss-react/mui';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 const useStyles = tss.create(({ theme }) => ({
 	titleSlogan: {
 		[theme.breakpoints.down('sm')]: {

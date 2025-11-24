@@ -1,7 +1,7 @@
-import { getConfigOverrides } from '@/configs/config.overrides';
-import { Ecosystem } from '@/configs/config.common';
-import { getBaseConfig } from '@/configs/config.base';
-import { getNetworkConfig } from '@/configs/config.network';
+import { getConfigOverrides } from '@/core/app/configs/config.overrides';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { getBaseConfig } from '@/core/app/configs/config.base';
+import { getNetworkConfig } from '@/core/app/configs/config.network';
 
 /**
  * Aggregates various configuration settings (base, network, and overrides) into a single, comprehensive ecosystem configuration object.

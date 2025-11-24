@@ -2,11 +2,11 @@ import Big from 'big.js';
 import BN from 'bn.js';
 import moment from 'moment';
 import Web3 from 'web3';
-import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
-import { FluxAddressDetails, FluxAddressLock, Token } from '@/core/interfaces';
+import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { FluxAddressDetails, FluxAddressLock, Token } from '@/core/app/interfaces';
 import { devLog } from '@/core/utils/devLog';
-import { Balances, ConnectionMethod } from '@/core/web3/reducer/interfaces';
+import { Balances, ConnectionMethod } from '@/core/app/state/stateInterfaces';
 
 /**
  * @file helpers.ts
@@ -419,7 +419,7 @@ export const getWeb3Provider = async ({
 
 			qrModalOptions: {
 				'--wcm-z-index': '10000', // Position the WalletConnect above the loading dialog
-			},
+			} as any,
 
 			/*
 			qrModalOptions, // OPTIONAL - `undefined` by default

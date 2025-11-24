@@ -5,7 +5,7 @@
  */
 
 import Web3 from 'web3';
-import { Ecosystem, Layer } from '@/configs/config.common';
+import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 
 /**
  * @interface SwapPlatformOptions

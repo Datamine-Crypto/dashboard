@@ -4,12 +4,12 @@ import React from 'react';
 import Arbitrum from '@/svgs/arbitrum.svg';
 import EthereumPurple from '@/svgs/ethereumPurple.svg';
 import walletconnectIcon from '@/svgs/walletconnect.svg';
-import { getEcosystemConfig } from '@/configs/config';
-import { Ecosystem } from '@/configs/config.common';
-import { useAppStore } from '@/core/web3/appStore';
+import { getEcosystemConfig } from '@/core/app/configs/config';
+import { Ecosystem } from '@/core/app/configs/config.common';
+import { useAppStore } from '@/core/react/appStore';
 import { useShallow } from 'zustand/react/shallow';
-import { commonLanguage } from '@/core/web3/reducer/common';
-import { ReducerDispatch } from '@/core/web3/reducer/interfaces';
+import { commonLanguage } from '@/core/app/state/commonLanguage';
+import { ReducerDispatch } from '@/core/state/interfaces';
 interface RenderParams {
 	dispatch: ReducerDispatch;
 	ecosystem: Ecosystem;
