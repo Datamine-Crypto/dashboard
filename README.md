@@ -120,7 +120,7 @@ This map outlines the key concepts, components, and principles of the Datamine N
     - DAM->FLUX (L1)
     - FLUX (L2)->ArbiFLUX (L2)
     - ArbiFLUX (L2)->LOCK (L2)
-  - **⚙️ Configuration:** Managed in `src/configs/ecosystems/`
+  - **⚙️ Configuration:** Managed in `src/core/app/configs/`
 
 - **📜 Smart Contracts & ABIs**
   - **📍 Location:** `src/core/web3/abis/`
@@ -139,12 +139,12 @@ This map outlines the key concepts, components, and principles of the Datamine N
 
 - **🏗️ Application Architecture (High-Level)**
   - **🖥️ UI:** React components (`src/core/react/`)
-  - **🔗 Blockchain Interaction:** Web3.js, Web3Bindings, Web3Context, web3Reducer (`src/core/web3/`)
-  - **🧠 State Management:** `web3Store.ts` (Zustand), `web3Reducer.ts` and `Web3Bindings.ts` (Commands & Queries pattern), `sideEffectReducer.ts`
+  - **🔗 Blockchain Interaction:** Web3.js, Web3Context, web3Reducer (`src/core/web3/`)
+  - **🧠 State Management:** `appStore.ts` (Zustand), `handleCommand.ts` and `handleQuery.ts` (Commands & Queries pattern), `sideEffectReducer.ts`
   - **🔧 Utilities:** Helper functions (`src/core/utils/`)
-  - **⚙️ Configuration:** `src/configs/`
-  - **🎨 Styling:** `tss-react`, `useStyles`, Material-UI themes (`src/core/styles.ts`)
-  - **🚨 Error Handling:** `src/core/web3/helpers.ts` (`rethrowWeb3Error`), `web3Reducer.ts` (error state), Material-UI Snackbars/Dialogs
+  - **⚙️ Configuration:** `src/core/app/configs/`
+  - **🎨 Styling:** `tss-react`, `useStyles`, Material-UI themes (`src/core/react/styles.ts`)
+  - **🚨 Error Handling:** `src/core/utils/helperFunctions.ts` (`rethrowWeb3Error`), `web3Reducer.ts` (error state), Material-UI Snackbars/Dialogs
 
 - **🔌 Third-Party Integrations**
   - **📚 Help Articles:** Markdown files in `public/helpArticles/`, fetched via `fetch` API
