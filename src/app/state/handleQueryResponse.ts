@@ -141,7 +141,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				addressTokenDetails,
 				//marketAddressLock,
 				//currentAddressMarketAddressLock,
-				//currentAddresMintableBalance,
+				//currentAddressMintableBalance,
 			} = response;
 
 			const getBlancesWithForecasting = () => {
@@ -165,7 +165,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				swapTokenBalances,
 				//marketAddressLock,
 				//currentAddressMarketAddressLock,
-				//currentAddresMintableBalance,
+				//currentAddressMintableBalance,
 			};
 		}
 		case commonLanguage.queries.GetLockInDamTokensResponse: {
@@ -292,7 +292,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 
 			const {
 				marketAddresses,
-				currentAddresMintableBalance,
+				currentAddressMintableBalance,
 				game,
 				totalContractRewardsAmount,
 				totalContractLockedAmount,
@@ -300,7 +300,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 
 			return {
 				...state,
-				currentAddresMintableBalance,
+				currentAddressMintableBalance,
 
 				games: {
 					...state.games,

@@ -301,7 +301,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 			return {
 				/*
-				currentAddresMintableBalance: {
+				currentAddressMintableBalance: {
 					address: config.mintableTokenContractAddress, //@change this
 					function: {
 						signature: {
@@ -750,7 +750,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 			otherEcosystemTokenBalance,
 			//marketAddressLock,
 			//currentAddressMarketAddressLock,
-			//currentAddresMintableBalance,
+			//currentAddressMintableBalance,
 		} = multicallDecodedResults;
 
 		devLog('FindAccountState batch request success', multicallDecodedResults);
@@ -921,7 +921,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 			addressLock,
 			//marketAddressLock,
 			//currentAddressMarketAddressLock,
-			//currentAddresMintableBalance,
+			//currentAddressMintableBalance,
 			addressDetails,
 			addressTokenDetails,
 		};

@@ -583,7 +583,7 @@ const queryHandlers = {
 		const multicallData = {
 			//@todoX current address details
 
-			currentAddresMintableBalance: {
+			currentAddressMintableBalance: {
 				address: config.mintableTokenContractAddress,
 				function: {
 					signature: {
@@ -652,19 +652,19 @@ const queryHandlers = {
 		const calls = encodeMulticall(web3, multicallData);
 		const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call({})) as any;
 
-		const { marketAddresses, currentAddresMintableBalance, totalContractRewardsAmount, totalContractLockedAmount } =
+		const { marketAddresses, currentAddressMintableBalance, totalContractRewardsAmount, totalContractLockedAmount } =
 			decodeMulticall(web3, multicallEncodedResults, multicallData);
 		devLog(
 			'GetRefreshMarketAddressesResponse:',
 			marketAddresses,
-			currentAddresMintableBalance,
+			currentAddressMintableBalance,
 			totalContractRewardsAmount,
 			totalContractLockedAmount
 		);
 
 		return {
 			marketAddresses,
-			currentAddresMintableBalance,
+			currentAddressMintableBalance,
 			game,
 			totalContractRewardsAmount,
 			totalContractLockedAmount,

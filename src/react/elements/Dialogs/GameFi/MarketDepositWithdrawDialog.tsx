@@ -39,7 +39,7 @@ interface RenderParams {
 	error: string | null;
 	total: string | null;
 	marketAddressLock: AddressLockDetailsViewModel;
-	currentAddresMintableBalance: BN | null;
+	currentAddressMintableBalance: BN | null;
 	game: Game;
 	totalContractLockedAmount: BN | null;
 	totalContractRewardsAmount: BN | null;
@@ -53,7 +53,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		total,
 		ecosystem,
 		marketAddressLock,
-		currentAddresMintableBalance,
+		currentAddressMintableBalance,
 		game,
 		totalContractLockedAmount,
 		totalContractRewardsAmount,
@@ -166,7 +166,7 @@ const Render: React.FC<RenderParams> = React.memo(
 							</Typography>
 							:{' '}
 							<Box display="inline" fontWeight="fontWeightBold">
-								{BNToDecimal(currentAddresMintableBalance, true)} {mintableTokenShortName}
+								{BNToDecimal(currentAddressMintableBalance, true)} {mintableTokenShortName}
 							</Box>
 						</Box>
 						<Box my={1}>
@@ -233,7 +233,7 @@ const Render: React.FC<RenderParams> = React.memo(
 	}
 );
 const MarketDepositWithdrawDialog: React.FC = () => {
-	const { balances, selectedAddress, error, ecosystem, games, game, currentAddresMintableBalance } = useAppStore(
+	const { balances, selectedAddress, error, ecosystem, games, game, currentAddressMintableBalance } = useAppStore(
 		useShallow((state) => ({
 			balances: state.balances,
 			selectedAddress: state.selectedAddress,
@@ -241,7 +241,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 			ecosystem: state.ecosystem,
 			games: state.games,
 			game: state.game,
-			currentAddresMintableBalance: state.currentAddresMintableBalance,
+			currentAddressMintableBalance: state.currentAddressMintableBalance,
 		}))
 	);
 
@@ -250,7 +250,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 		!balances ||
 		!selectedAddress
 		//!marketAddressLock ||
-		//!currentAddresMintableBalance ||
+		//!currentAddressMintableBalance ||
 		//!currentAddressMarketAddressLock
 	) {
 		return null;
@@ -264,7 +264,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 	if (!currentAddressMarketAddress) {
 		return null;
 	}
-	const total = BNToDecimal(currentAddresMintableBalance);
+	const total = BNToDecimal(currentAddressMintableBalance);
 	return (
 		<Render
 			balances={balances}
@@ -274,7 +274,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 			dispatch={appDispatch}
 			ecosystem={ecosystem}
 			marketAddressLock={currentAddressMarketAddress}
-			currentAddresMintableBalance={currentAddresMintableBalance}
+			currentAddressMintableBalance={currentAddressMintableBalance}
 			game={game}
 			totalContractLockedAmount={totalContractLockedAmount}
 			totalContractRewardsAmount={totalContractRewardsAmount}

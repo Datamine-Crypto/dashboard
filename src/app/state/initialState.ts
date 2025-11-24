@@ -173,7 +173,7 @@ export const initialState = {
 
 	//@todo merge these into market: {}
 	//marketAddressLock: null,
-	currentAddresMintableBalance: null as BN | null,
+	currentAddressMintableBalance: null as BN | null,
 	//urrentAddressMarketAddressLock: null,
 
 	games: {

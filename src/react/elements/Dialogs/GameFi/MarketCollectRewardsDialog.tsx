@@ -34,7 +34,7 @@ interface RenderParams {
 	error: string | null;
 	ecosystem: Ecosystem;
 	//marketAddressLock: MarketAddressLock | null;
-	//currentAddresMintableBalance: BN | null;
+	//currentAddressMintableBalance: BN | null;
 	currentAddressMarketAddress: AddressLockDetailsViewModel | null;
 	connectionMethod: ConnectionMethod;
 	addressDetails: FluxAddressDetails | null;
@@ -586,7 +586,7 @@ const MarketCollectRewardsDialog: React.FC = () => {
 			dispatch={appDispatch}
 			ecosystem={ecosystem}
 			//marketAddressLock={marketAddressLock}
-			//currentAddresMintableBalance={currentAddresMintableBalance}
+			//currentAddressMintableBalance={currentAddressMintableBalance}
 			currentAddressMarketAddress={currentAddressMarketAddress}
 			connectionMethod={connectionMethod}
 			addressDetails={addressDetails}
