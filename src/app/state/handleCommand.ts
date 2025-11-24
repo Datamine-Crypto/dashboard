@@ -2,7 +2,7 @@ import Big from 'big.js';
 import BN from 'bn.js';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Layer, NetworkType } from '@/app/configs/config.common';
-import { ReducerCommand } from '@/utils/reducer/sideEffectReducer';
+import { ReducerCommand, commonLanguage as reducerCommonLanguage } from '@/utils/reducer/sideEffectReducer';
 import copyToClipBoard from '@/utils/copyToClipboard';
 import { devLog } from '@/utils/devLog';
 import { availableSwapTokens } from '@/web3/swap/performSwap';
@@ -124,6 +124,18 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 	};
 
 	switch (command.type) {
+		// Core functionality of sideEffectReducer
+		// Note we're using reducerCommonLanguage instead of commonLanguage
+		case reducerCommonLanguage.commands.QueueQueries: {
+			const { queries } = command.payload;
+
+			return {
+				...state,
+				pendingQueries: [...state.pendingQueries, ...queries],
+				query: undefined, // Clears the query that was added
+			};
+		}
+
 		case commonLanguage.commands.UpdateEcosystem: {
 			const { ecosystem: newEcosystem } = command.payload;
 
@@ -143,14 +155,6 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...state.forecastSettings,
 					enabled: false,
 				},
-			};
-		}
-		case commonLanguage.commands.QueueQueries: {
-			const { queries } = command.payload;
-
-			return {
-				...state,
-				pendingQueries: [...state.pendingQueries, ...queries],
 			};
 		}
 		case commonLanguage.commands.UpdateAddress: {

@@ -5,8 +5,6 @@
 // This separation ensures state updates are pure and side effects are handled externally.
 export const commonLanguage = {
 	commands: {
-		QueueQueries: 'QUEUE_QUERIES',
-
 		Initialize: 'INITIALIZE',
 		ConnectToWallet: 'CONNECT_TO_WALLET',
 		RefreshAccountState: 'REFRESH_ACCOUNT_STATE',

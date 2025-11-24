@@ -209,11 +209,15 @@ const sideEffectReducer = (params: SideEffectReducerParams) => {
  */
 const commonLanguage = {
 	commands: {
-		/** Command type for handling a single query response. */
+		/**
+		 * Command type for handling a single query response. (Used in above code)
+		 *  */
 		HandleQuery: 'HANDLE_QUERY',
-		/** Command type for initiating the processing of all queued queries. */
-		HandleQueries: 'HANDLE_QUERIES',
-		/** Command type for adding new queries to the pending queue. */
+
+		/**
+		 * Command type for adding new queries to the pending queue.
+		 * This one is used in app commonLanguage! There it appends to pendingQueries and clears the query object.
+		 */
 		QueueQueries: 'QUEUE_QUERIES',
 	},
 	errors: {
