@@ -6,7 +6,7 @@ import discordLogo from '@/core/react/svgs/discord.svg';
 import mediumLogo from '@/core/react/svgs/medium.svg';
 import { theme as datamineTheme } from '@/core/react/styles';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';
@@ -300,9 +300,7 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const CommunityPage: React.FC<Props> = () => {
-	const { ecosystem, dispatch } = useAppStore(
-		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
-	);
-	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
+	const { ecosystem } = useAppStore(useShallow((state) => ({ ecosystem: state.ecosystem })));
+	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default CommunityPage;

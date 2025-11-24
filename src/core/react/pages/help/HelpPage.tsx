@@ -19,7 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useState } from 'react';
 import { theme as datamineTheme } from '@/core/react/styles';
 import { SearchCategory, SearchCategoryText, UserTypeFilter, helpArticles, SearchTag } from '@/core/app/helpArticles';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import HelpComboboxFragment from '@/core/react/elements/Fragments/HelpComboboxFragment';
 import { tss } from 'tss-react/mui';
@@ -41,9 +41,7 @@ interface Props {}
  */
 const HelpPage: React.FC<Props> = () => {
 	const { classes } = useStyles();
-	const { ecosystem, dispatch } = useAppStore(
-		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
-	);
+	const { ecosystem } = useAppStore(useShallow((state) => ({ ecosystem: state.ecosystem })));
 	const [selectedUserType, setSelectedUserType] = useState<UserTypeFilter>(UserTypeFilter.All);
 	const [selectedTags, setSelectedTags] = useState<string[]>(['All']); // Changed to array
 	const filteredHelpArticles = helpArticles.filter((article) => {
@@ -64,7 +62,7 @@ const HelpPage: React.FC<Props> = () => {
 	const secondHalfCategories = categories.slice(Math.ceil(categories.length / 2));
 	return (
 		<>
-			<HelpPageHeader dispatch={dispatch} ecosystem={ecosystem} />
+			<HelpPageHeader dispatch={appDispatch} ecosystem={ecosystem} />
 			<Paper className={classes.paperBorders}>
 				<Box py={6}>
 					<Container>
@@ -145,7 +143,7 @@ const HelpPage: React.FC<Props> = () => {
 										</AccordionSummary>
 										<AccordionDetails>
 											<HelpArticleCategorySection
-												dispatch={dispatch}
+												dispatch={appDispatch}
 												categoryKey={categoryKey}
 												filteredArticles={filteredHelpArticles.filter((article) => article.category === categoryKey)}
 											/>
@@ -163,7 +161,7 @@ const HelpPage: React.FC<Props> = () => {
 										</AccordionSummary>
 										<AccordionDetails>
 											<HelpArticleCategorySection
-												dispatch={dispatch}
+												dispatch={appDispatch}
 												categoryKey={categoryKey}
 												filteredArticles={filteredHelpArticles.filter((article) => article.category === categoryKey)}
 											/>

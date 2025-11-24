@@ -42,6 +42,8 @@ import {
 } from '@/core/app/state/stateInterfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
+
 interface RenderParams {
 	balances: Balances | null;
 	swapTokenBalances: SwapTokenBalances | null;
@@ -557,19 +559,17 @@ const TradeDialog: React.FC<Params> = () => {
 		swapState,
 		connectionMethod,
 		lastSwapThrottle,
-		dispatch: appDispatch,
 	} = useAppStore(
 		useShallow((state) => ({
-			balances: state.state.balances,
-			swapTokenBalances: state.state.swapTokenBalances,
-			error: state.state.error,
-			ecosystem: state.state.ecosystem,
-			selectedAddress: state.state.selectedAddress,
-			hasWeb3: state.state.hasWeb3,
-			swapState: state.state.swapState,
-			connectionMethod: state.state.connectionMethod,
-			lastSwapThrottle: state.state.lastSwapThrottle,
-			dispatch: state.dispatch,
+			balances: state.balances,
+			swapTokenBalances: state.swapTokenBalances,
+			error: state.error,
+			ecosystem: state.ecosystem,
+			selectedAddress: state.selectedAddress,
+			hasWeb3: state.hasWeb3,
+			swapState: state.swapState,
+			connectionMethod: state.connectionMethod,
+			lastSwapThrottle: state.lastSwapThrottle,
 		}))
 	);
 	return (

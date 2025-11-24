@@ -36,7 +36,7 @@ import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import discordWhiteLogo from '@/core/react/svgs/discordWhite.svg';
 import Logo from '@/core/react/svgs/logo.svg';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
 import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
@@ -440,12 +440,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 	);
 });
 export const MainDrawer: React.FC = () => {
-	const {
-		ecosystem,
-		state: appState,
-		dispatch,
-	} = useAppStore(
-		useShallow((state) => ({ ecosystem: state.state.ecosystem, state: state.state, dispatch: state.dispatch }))
+	const { ecosystem, isMobileDrawerOpen } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+			isMobileDrawerOpen: state.isMobileDrawerOpen,
+		}))
 	);
-	return <Render isMobileDrawerOpen={appState.isMobileDrawerOpen} dispatch={dispatch} ecosystem={ecosystem} />;
+	return <Render isMobileDrawerOpen={isMobileDrawerOpen} dispatch={appDispatch} ecosystem={ecosystem} />;
 };

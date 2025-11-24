@@ -14,6 +14,7 @@ import { Ecosystem } from '@/core/app/configs/config.common';
 import { getRequiredFluxToBurn } from '@/core/utils/mathHelpers';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import { useShallow } from 'zustand/react/shallow';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
 /**
  * Props for the Render component within MintStatsCard.
  */
@@ -263,27 +264,18 @@ const Render: React.FC<RenderParams> = React.memo(
 	}
 );
 const MintStatsCard: React.FC = () => {
-	const {
-		address,
-		selectedAddress,
-		addressLock,
-		addressDetails,
-		addressTokenDetails,
-		balances,
-		ecosystem,
-		dispatch: appDispatch,
-	} = useAppStore(
-		useShallow((state) => ({
-			address: state.state.address,
-			selectedAddress: state.state.selectedAddress,
-			addressLock: state.state.addressLock,
-			addressDetails: state.state.addressDetails,
-			addressTokenDetails: state.state.addressTokenDetails,
-			balances: state.state.balances,
-			ecosystem: state.state.ecosystem,
-			dispatch: state.dispatch,
-		}))
-	);
+	const { address, selectedAddress, addressLock, addressDetails, addressTokenDetails, balances, ecosystem } =
+		useAppStore(
+			useShallow((state) => ({
+				address: state.address,
+				selectedAddress: state.selectedAddress,
+				addressLock: state.addressLock,
+				addressDetails: state.addressDetails,
+				addressTokenDetails: state.addressTokenDetails,
+				balances: state.balances,
+				ecosystem: state.ecosystem,
+			}))
+		);
 	if (!addressLock || !addressDetails || !addressTokenDetails || !selectedAddress || !balances) {
 		return null;
 	}

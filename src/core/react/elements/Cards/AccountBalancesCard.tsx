@@ -25,6 +25,8 @@ import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
 import { Balances, ReducerDispatch } from '@/core/app/state/stateInterfaces';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
+
 /**
  * Styles for the AccountBalancesCard component.
  * Defines styles for address display and detailed list items container.
@@ -398,27 +400,18 @@ const Render: React.FC<RenderParams> = React.memo(
  * It fetches data from the Web3Context and renders various sub-components to show token balances, locked amounts, and actions like burning or unlocking tokens.
  */
 const AccountBalancesCard: React.FC = () => {
-	const {
-		addressLock,
-		selectedAddress,
-		address,
-		addressDetails,
-		balances,
-		addressTokenDetails,
-		ecosystem,
-		dispatch: appDispatch,
-	} = useAppStore(
-		useShallow((state) => ({
-			addressLock: state.state.addressLock,
-			selectedAddress: state.state.selectedAddress,
-			address: state.state.address,
-			addressDetails: state.state.addressDetails,
-			balances: state.state.balances,
-			addressTokenDetails: state.state.addressTokenDetails,
-			ecosystem: state.state.ecosystem,
-			dispatch: state.dispatch,
-		}))
-	);
+	const { addressLock, selectedAddress, address, addressDetails, balances, addressTokenDetails, ecosystem } =
+		useAppStore(
+			useShallow((state) => ({
+				addressLock: state.addressLock,
+				selectedAddress: state.selectedAddress,
+				address: state.address,
+				addressDetails: state.addressDetails,
+				balances: state.balances,
+				addressTokenDetails: state.addressTokenDetails,
+				ecosystem: state.ecosystem,
+			}))
+		);
 	// Render nothing if essential data is not yet available
 	if (!addressLock || !selectedAddress || !addressDetails || !balances || !addressTokenDetails) {
 		return null;

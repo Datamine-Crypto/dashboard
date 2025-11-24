@@ -2,7 +2,7 @@ import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import Grid from '@mui/material/Grid';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import {
 	Autorenew as AutorenewIcon,
 	Bolt as BoltIcon,
@@ -292,9 +292,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 });
 interface Props {}
 const HodlClickerRushGameFiPage: React.FC<Props> = () => {
-	const { ecosystem, dispatch } = useAppStore(
-		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
-	);
-	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
+	const { ecosystem } = useAppStore(useShallow((state) => ({ ecosystem: state.ecosystem })));
+	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default HodlClickerRushGameFiPage;

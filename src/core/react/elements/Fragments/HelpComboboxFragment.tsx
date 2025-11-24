@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React from 'react';
 import { HelpArticle, SearchCategoryText } from '@/core/app/helpArticles';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';
@@ -63,18 +63,17 @@ interface Props {
 	isBigSearch?: boolean;
 }
 const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
-	const { searchQuery, helpArticles, dispatch } = useAppStore(
+	const { searchQuery, helpArticles } = useAppStore(
 		useShallow((state) => ({
-			searchQuery: state.state.searchQuery,
-			helpArticles: state.state.helpArticles,
-			dispatch: state.dispatch,
+			searchQuery: state.searchQuery,
+			helpArticles: state.helpArticles,
 		}))
 	);
 	return (
 		<Render
 			id={id}
 			searchQuery={searchQuery}
-			dispatch={dispatch}
+			dispatch={appDispatch}
 			helpArticles={helpArticles}
 			isBigSearch={isBigSearch}
 		/>

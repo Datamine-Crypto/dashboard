@@ -15,7 +15,7 @@ import fluxLogo from '@/core/react/svgs/fluxLogo.svg';
 import lockquidityLogo from '@/core/react/svgs/lockquidity.svg';
 import damLogo from '@/core/react/svgs/logo.svg';
 import Grid from '@mui/material/Grid';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '@/core/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
@@ -1106,9 +1106,11 @@ interface Props {}
  * @param props - Component props (currently empty).
  */
 const TokenPage: React.FC<Props> = () => {
-	const { ecosystem, dispatch } = useAppStore(
-		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
+	const { ecosystem } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+		}))
 	);
-	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
+	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default TokenPage;

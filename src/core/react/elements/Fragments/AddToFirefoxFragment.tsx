@@ -6,7 +6,7 @@ import { Ecosystem } from '@/core/app/configs/config.common';
 import metamaskIcon from '@/core/react/svgs/metamask.svg';
 import { DialogType } from '@/core/app/interfaces';
 import { addToMetamask } from '@/core/web3/utils/web3Helpers';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';
 import LightTooltip from '@/core/react/elements/LightTooltip';
@@ -74,15 +74,10 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 });
 interface Props {}
 const AddToFirefoxFragment: React.FC<Props> = () => {
-	const {
-		connectionMethod,
-		ecosystem,
-		dispatch: appDispatch,
-	} = useAppStore(
+	const { connectionMethod, ecosystem } = useAppStore(
 		useShallow((state) => ({
-			connectionMethod: state.state.connectionMethod,
-			ecosystem: state.state.ecosystem,
-			dispatch: state.dispatch,
+			connectionMethod: state.connectionMethod,
+			ecosystem: state.ecosystem,
 		}))
 	);
 	return <Render dispatch={appDispatch} connectionMethod={connectionMethod} ecosystem={ecosystem} />;

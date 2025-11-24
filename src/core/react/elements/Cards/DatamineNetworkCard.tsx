@@ -8,6 +8,7 @@ import { commonLanguage } from '@/core/app/state/commonLanguage';
 import LightTooltip from '@/core/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
 import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
 /**
  * Props for the Render component within DatamineNetworkCard.
  */
@@ -102,17 +103,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 	);
 });
 const DatamineNetworkCard: React.FC = () => {
-	const {
-		addressLock,
-		address,
-		selectedAddress,
-		dispatch: appDispatch,
-	} = useAppStore(
+	const { addressLock, address, selectedAddress } = useAppStore(
 		useShallow((state) => ({
-			addressLock: state.state.addressLock,
-			address: state.state.address,
-			selectedAddress: state.state.selectedAddress,
-			dispatch: state.dispatch,
+			addressLock: state.addressLock,
+			address: state.address,
+			selectedAddress: state.selectedAddress,
 		}))
 	);
 	if (!addressLock || !selectedAddress) {

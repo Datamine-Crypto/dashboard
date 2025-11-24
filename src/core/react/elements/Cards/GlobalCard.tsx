@@ -9,6 +9,7 @@ import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '@/core/
 import { Balances } from '@/core/app/state/stateInterfaces';
 import DetailedListItem from '@/core/react/elements/Fragments/DetailedListItem';
 import { useShallow } from 'zustand/react/shallow';
+
 /**
  * Props for the Render component within GlobalCard.
  */
@@ -162,13 +163,12 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
  * It fetches global data from the Web3Context and renders it using the Render component.
  */
 const GlobalCard: React.FC = () => {
-	const { addressDetails, addressTokenDetails, balances, ecosystem, dispatch } = useAppStore(
+	const { addressDetails, addressTokenDetails, balances, ecosystem } = useAppStore(
 		useShallow((state) => ({
-			addressDetails: state.state.addressDetails,
-			addressTokenDetails: state.state.addressTokenDetails,
-			balances: state.state.balances,
-			ecosystem: state.state.ecosystem,
-			dispatch: state.dispatch,
+			addressDetails: state.addressDetails,
+			addressTokenDetails: state.addressTokenDetails,
+			balances: state.balances,
+			ecosystem: state.ecosystem,
 		}))
 	);
 	if (!addressDetails || !addressTokenDetails || !balances) {

@@ -6,7 +6,7 @@ import EthereumPurple from '@/core/react/svgs/ethereumPurple.svg';
 import walletconnectIcon from '@/core/react/svgs/walletconnect.svg';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { useShallow } from 'zustand/react/shallow';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
@@ -110,9 +110,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 });
 interface Props {}
 const WalletConnectButton: React.FC<Props> = () => {
-	const { ecosystem, dispatch: appDispatch } = useAppStore(
-		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
-	);
+	const { ecosystem } = useAppStore(useShallow((state) => ({ ecosystem: state.ecosystem })));
 	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default WalletConnectButton;

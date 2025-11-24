@@ -13,7 +13,7 @@ import {
 import Grid from '@mui/material/Grid';
 import React, { ReactNode, useEffect } from 'react';
 import { DialogType, FluxAddressDetails } from '@/core/app/interfaces';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';
 import Web3Account from '@/core/react/elements/Web3Account';
@@ -489,18 +489,16 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 		isIncorrectNetwork,
 		connectionMethod,
 		ecosystem,
-		dispatch: appDispatch,
 	} = useAppStore(
 		useShallow((state) => ({
-			addressDetails: state.state.addressDetails,
-			isLate: state.state.isLate,
-			isInitialized: state.state.isInitialized,
-			hasWeb3: state.state.hasWeb3,
-			selectedAddress: state.state.selectedAddress,
-			isIncorrectNetwork: state.state.isIncorrectNetwork,
-			connectionMethod: state.state.connectionMethod,
-			ecosystem: state.state.ecosystem,
-			dispatch: state.dispatch,
+			addressDetails: state.addressDetails,
+			isLate: state.isLate,
+			isInitialized: state.isInitialized,
+			hasWeb3: state.hasWeb3,
+			selectedAddress: state.selectedAddress,
+			isIncorrectNetwork: state.isIncorrectNetwork,
+			connectionMethod: state.connectionMethod,
+			ecosystem: state.ecosystem,
 		}))
 	);
 	useEffect(() => {

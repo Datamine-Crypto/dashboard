@@ -77,6 +77,8 @@ import { tss } from 'tss-react/mui';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/core/app/configs/config';
 import { getNetworkDropdown } from '@/core/react/elements/Fragments/EcosystemDropdown';
 import { useShallow } from 'zustand/react/shallow';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
+
 const useStyles = tss.create(({ theme }) => ({
 	progressBarLeft: {
 		height: '15px',
@@ -1516,20 +1518,18 @@ const CallToActionCard: React.FC = () => {
 		clientSettings,
 		ecosystem,
 		connectionMethod,
-		dispatch: appDispatch,
 	} = useAppStore(
 		useShallow((state) => ({
-			addressLock: state.state.addressLock,
-			address: state.state.address,
-			selectedAddress: state.state.selectedAddress,
-			addressDetails: state.state.addressDetails,
-			addressTokenDetails: state.state.addressTokenDetails,
-			balances: state.state.balances,
-			forecastSettings: state.state.forecastSettings,
-			clientSettings: state.state.clientSettings,
-			ecosystem: state.state.ecosystem,
-			connectionMethod: state.state.connectionMethod,
-			dispatch: state.dispatch,
+			addressLock: state.addressLock,
+			address: state.address,
+			selectedAddress: state.selectedAddress,
+			addressDetails: state.addressDetails,
+			addressTokenDetails: state.addressTokenDetails,
+			balances: state.balances,
+			forecastSettings: state.forecastSettings,
+			clientSettings: state.clientSettings,
+			ecosystem: state.ecosystem,
+			connectionMethod: state.connectionMethod,
 		}))
 	);
 	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances || !connectionMethod) {

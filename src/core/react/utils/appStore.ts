@@ -11,40 +11,36 @@ const reducer = sideEffectReducer({
 	handleCommand,
 });
 
-interface Web3Store {
-	state: AppState;
-	dispatch: (action: any) => void;
-}
-
-export const useAppStore = create<Web3Store>((set, get) => ({
-	state: initialState,
-	dispatch: (action: any) => {
-		const currentState = get().state;
-		const newState = reducer(currentState, action);
-
-		set({ state: newState });
-
-		// Handle side effects (queries)
-		// Only run side effects if query object has changed (reference equality check)
-		// and it is not undefined.
-		// We also check if the action is NOT QueueQueries, because QueueQueries adds them to pending
-		// but preserves the 'query' field in the state (shallow copy).
-		// If we don't check this, we might re-trigger handleQueries for the same query array.
-		// However, checking reference equality (newState.query !== currentState.query) handles most cases.
-		// But QueueQueries returns ...state, so newState.query === currentState.query (same reference).
-		// So the reference check alone is sufficient to prevent loop on QueueQueries.
-		if (newState.query && newState.query !== currentState.query) {
-			handleQueries({
-				state: newState,
-				dispatch: get().dispatch,
-				queryHandlers,
-			});
-
-			// Queue the queries in the state
-			get().dispatch({
-				type: commonLanguage.commands.QueueQueries,
-				payload: { queries: newState.query },
-			});
-		}
-	},
+export const useAppStore = create<AppState>((set, get) => ({
+	...initialState,
 }));
+
+export const dispatch = (action: any) => {
+	const currentState = useAppStore.getState();
+	const newState = reducer(currentState, action);
+
+	useAppStore.setState(newState);
+
+	// Handle side effects (queries)
+	// Only run side effects if query object has changed (reference equality check)
+	// and it is not undefined.
+	// We also check if the action is NOT QueueQueries, because QueueQueries adds them to pending
+	// but preserves the 'query' field in the state (shallow copy).
+	// If we don't check this, we might re-trigger handleQueries for the same query array.
+	// However, checking reference equality (newState.query !== currentState.query) handles most cases.
+	// But QueueQueries returns ...state, so newState.query === currentState.query (same reference).
+	// So the reference check alone is sufficient to prevent loop on QueueQueries.
+	if (newState.query && newState.query !== currentState.query) {
+		handleQueries({
+			state: newState,
+			dispatch: dispatch,
+			queryHandlers,
+		});
+
+		// Queue the queries in the state
+		dispatch({
+			type: commonLanguage.commands.QueueQueries,
+			payload: { queries: newState.query },
+		});
+	}
+};

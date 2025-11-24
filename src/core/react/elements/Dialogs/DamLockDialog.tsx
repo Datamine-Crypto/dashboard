@@ -23,6 +23,7 @@ import { useAppStore } from '@/core/react/utils/appStore';
 import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
 /**
  * Props for the Render component within DamLockDialog.
  */
@@ -295,24 +296,15 @@ const Render: React.FC<RenderParams> = React.memo(
 	}
 );
 const DamLockDialog: React.FC = () => {
-	const {
-		balances,
-		selectedAddress,
-		error,
-		ecosystem,
-		state: appState,
-		dispatch: appDispatch,
-	} = useAppStore(
+	const { balances, selectedAddress, error, ecosystem } = useAppStore(
 		useShallow((state) => ({
-			balances: state.state.balances,
-			selectedAddress: state.state.selectedAddress,
-			error: state.state.error,
-			ecosystem: state.state.ecosystem,
-			state: state.state,
-			dispatch: state.dispatch,
+			balances: state.balances,
+			selectedAddress: state.selectedAddress,
+			error: state.error,
+			ecosystem: state.ecosystem,
 		}))
 	);
-	const total = BNToDecimal(appState.balances?.damToken ?? null);
+	const total = BNToDecimal(balances?.damToken ?? null);
 	if (!balances || !selectedAddress) {
 		return null;
 	}

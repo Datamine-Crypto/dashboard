@@ -1,7 +1,7 @@
 import React from 'react';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import { ReducerQuery } from '@/core/utils/reducer/sideEffectReducer';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { ReducerDispatch, ConnectionMethod } from '@/core/app/state/stateInterfaces';
 import PendingActionDialog from '@/core/react/elements/Dialogs/PendingActionDialog';
@@ -39,21 +39,13 @@ interface Params {}
  * This is a little dialog that shows up when something is loading (shows a little infinite loading progress to user)
  */
 const PendingQueryFragment: React.FC<Params> = () => {
-	const {
-		pendingQueries,
-		queriesCount,
-		lastDismissedPendingActionCount,
-		connectionMethod,
-		ecosystem,
-		dispatch: appDispatch,
-	} = useAppStore(
+	const { pendingQueries, queriesCount, lastDismissedPendingActionCount, connectionMethod, ecosystem } = useAppStore(
 		useShallow((state) => ({
-			pendingQueries: state.state.pendingQueries,
-			queriesCount: state.state.queriesCount,
-			lastDismissedPendingActionCount: state.state.lastDismissedPendingActionCount,
-			connectionMethod: state.state.connectionMethod,
-			ecosystem: state.state.ecosystem,
-			dispatch: state.dispatch,
+			pendingQueries: state.pendingQueries,
+			queriesCount: state.queriesCount,
+			lastDismissedPendingActionCount: state.lastDismissedPendingActionCount,
+			connectionMethod: state.connectionMethod,
+			ecosystem: state.ecosystem,
 		}))
 	);
 	return (

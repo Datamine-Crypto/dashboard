@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import HelpComboboxFragment from '@/core/react/elements/Fragments/HelpComboboxFragment';
 import { useShallow } from 'zustand/react/shallow';
@@ -124,7 +124,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 					<Box sx={{ display: { xs: 'block', lg: 'none' } /*lgUp*/ }}>
 						<Box ml={1}>
 							<Tooltip title="Open Menu">
-								<IconButton onClick={() => dispatch({ type: commonLanguage.commands.OpenDrawer })}>
+								<IconButton onClick={() => appDispatch({ type: commonLanguage.commands.OpenDrawer })}>
 									<Menu />
 								</IconButton>
 							</Tooltip>
@@ -139,13 +139,12 @@ interface AppBarProps {
 	sidebar: boolean;
 }
 const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
-	const { ecosystem, selectedAddress, dispatch } = useAppStore(
+	const { ecosystem, selectedAddress } = useAppStore(
 		useShallow((state) => ({
-			ecosystem: state.state.ecosystem,
-			selectedAddress: state.state.selectedAddress,
-			dispatch: state.dispatch,
+			ecosystem: state.ecosystem,
+			selectedAddress: state.selectedAddress,
 		}))
 	);
-	return <Render sidebar={sidebar} dispatch={dispatch} selectedAddress={selectedAddress} ecosystem={ecosystem} />;
+	return <Render sidebar={sidebar} dispatch={appDispatch} selectedAddress={selectedAddress} ecosystem={ecosystem} />;
 };
 export default MainAppBar;

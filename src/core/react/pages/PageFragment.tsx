@@ -4,7 +4,7 @@ import { tss } from 'tss-react/mui';
 
 import { Ecosystem, NetworkType } from '@/core/app/configs/config.common';
 import { HelpArticle, helpArticles } from '@/core/app/helpArticles';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import LoadingDialog from '@/core/react/elements/Dialogs/LoadingDialog';
 import CenteredLoading from '@/core/react/elements/Fragments/CenteredLoading';
@@ -150,17 +150,11 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
  * - Pending queries fragment
  */
 const PageFragment: React.FC = () => {
-	const {
-		helpArticle,
-		helpArticlesNetworkType,
-		ecosystem,
-		dispatch: appDispatch,
-	} = useAppStore(
+	const { helpArticle, helpArticlesNetworkType, ecosystem } = useAppStore(
 		useShallow((state) => ({
-			helpArticle: state.state.helpArticle,
-			helpArticlesNetworkType: state.state.helpArticlesNetworkType,
-			ecosystem: state.state.ecosystem,
-			dispatch: state.dispatch,
+			helpArticle: state.helpArticle,
+			helpArticlesNetworkType: state.helpArticlesNetworkType,
+			ecosystem: state.ecosystem,
 		}))
 	);
 	/**

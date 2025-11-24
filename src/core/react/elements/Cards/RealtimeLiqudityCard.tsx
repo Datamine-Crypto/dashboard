@@ -315,13 +315,12 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 	);
 });
 const RealtimeLiqudityCard: React.FC = () => {
-	const { balances, addressTokenDetails, addressDetails, ecosystem, dispatch } = useAppStore(
+	const { balances, addressTokenDetails, addressDetails, ecosystem } = useAppStore(
 		useShallow((state) => ({
-			balances: state.state.balances,
-			addressTokenDetails: state.state.addressTokenDetails,
-			addressDetails: state.state.addressDetails,
-			ecosystem: state.state.ecosystem,
-			dispatch: state.dispatch,
+			balances: state.balances,
+			addressTokenDetails: state.addressTokenDetails,
+			addressDetails: state.addressDetails,
+			ecosystem: state.ecosystem,
 		}))
 	);
 	if (!balances || !addressTokenDetails || !addressDetails) {

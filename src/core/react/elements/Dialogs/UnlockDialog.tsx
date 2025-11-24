@@ -21,6 +21,7 @@ import { formatMoney } from '@/core/utils/formatMoney';
 import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '@/core/utils/mathHelpers';
 import MessageDialog from '@/core/react/elements/Dialogs/MessageDialog';
 import { useShallow } from 'zustand/react/shallow';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
 interface RenderParams {
 	addressDetails: FluxAddressDetails;
 	dispatch: ReducerDispatch;
@@ -142,26 +143,17 @@ const Render: React.FC<RenderParams> = React.memo(
 	}
 );
 const UnlockDialog: React.FC = () => {
-	const {
-		addressDetails,
-		error,
-		ecosystem,
-		balances,
-		clientSettings,
-		state: appState,
-		dispatch: appDispatch,
-	} = useAppStore(
+	const { addressDetails, error, ecosystem, balances, clientSettings, addressLock } = useAppStore(
 		useShallow((state) => ({
-			addressDetails: state.state.addressDetails,
-			error: state.state.error,
-			ecosystem: state.state.ecosystem,
-			balances: state.state.balances,
-			clientSettings: state.state.clientSettings,
-			state: state.state,
-			dispatch: state.dispatch,
+			addressDetails: state.addressDetails,
+			error: state.error,
+			ecosystem: state.ecosystem,
+			balances: state.balances,
+			clientSettings: state.clientSettings,
+			addressLock: state.addressLock,
 		}))
 	);
-	const amount = BNToDecimal(appState.addressLock?.amount ?? null);
+	const amount = BNToDecimal(addressLock?.amount ?? null);
 	if (!addressDetails) {
 		return null;
 	}

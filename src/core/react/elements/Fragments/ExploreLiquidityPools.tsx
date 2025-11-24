@@ -9,7 +9,7 @@ import uniswapLogo from '@/core/react/svgs/uniswap.svg';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 
@@ -347,8 +347,6 @@ interface Params {
 	ecosystem: Ecosystem;
 }
 const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, hideIcon, contents, ecosystem }) => {
-	const { dispatch: appDispatch } = useAppStore();
-
 	return (
 		<Render
 			buttonType={buttonType}

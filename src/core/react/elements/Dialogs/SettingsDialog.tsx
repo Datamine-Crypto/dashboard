@@ -25,6 +25,7 @@ import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import { formatMoney } from '@/core/utils/formatMoney';
 import { useShallow } from 'zustand/react/shallow';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
 interface RenderParams {
 	clientSettings: ClientSettings;
 	dispatch: ReducerDispatch;
@@ -344,15 +345,10 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 	);
 });
 const SettingsDialog: React.FC = () => {
-	const {
-		clientSettings,
-		ecosystem,
-		dispatch: appDispatch,
-	} = useAppStore(
+	const { clientSettings, ecosystem } = useAppStore(
 		useShallow((state) => ({
-			clientSettings: state.state.clientSettings,
-			ecosystem: state.state.ecosystem,
-			dispatch: state.dispatch,
+			clientSettings: state.clientSettings,
+			ecosystem: state.ecosystem,
 		}))
 	);
 	return <Render clientSettings={clientSettings} dispatch={appDispatch} ecosystem={ecosystem} />;

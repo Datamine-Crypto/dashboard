@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { DialogType } from '@/core/app/interfaces';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import BurnDialog from '@/core/react/elements/Dialogs/BurnDialog';
 import DamLockDialog from '@/core/react/elements/Dialogs/DamLockDialog';
@@ -71,15 +71,10 @@ interface Params {}
  * Help Dialog is excluded as it's a seperate system
  */
 const DialogsFragment: React.FC<Params> = () => {
-	const {
-		dialog,
-		dialogParams,
-		dispatch: appDispatch,
-	} = useAppStore(
+	const { dialog, dialogParams } = useAppStore(
 		useShallow((state) => ({
-			dialog: state.state.dialog,
-			dialogParams: state.state.dialogParams,
-			dispatch: state.dispatch,
+			dialog: state.dialog,
+			dialogParams: state.dialogParams,
 		}))
 	);
 	return <Render dialog={dialog} dialogParams={dialogParams} dispatch={appDispatch} />;

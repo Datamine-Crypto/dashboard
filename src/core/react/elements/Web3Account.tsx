@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react';
 // Web3 context for accessing blockchain state and dispatch functions
-import { useAppStore } from '@/core/react/utils/appStore';
+import { useAppStore, dispatch as appDispatch } from '@/core/react/utils/appStore';
 // Call to action card component
 import CallToActionCard from '@/core/react/elements/Cards/CallToActionCard';
 // Global statistics card component
@@ -103,9 +103,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
  * and providing options for disconnecting or switching networks.
  */
 const Web3Account: React.FC = () => {
-	const { ecosystem, dispatch } = useAppStore(
-		useShallow((state) => ({ ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
-	);
-	return <Render dispatch={dispatch} ecosystem={ecosystem} />;
+	const { ecosystem } = useAppStore(useShallow((state) => ({ ecosystem: state.ecosystem })));
+	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default Web3Account;

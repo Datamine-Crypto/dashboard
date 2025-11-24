@@ -20,6 +20,8 @@ import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem } from '@/core/app/configs/config.common';
 import { useShallow } from 'zustand/react/shallow';
 import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
+
 interface RenderParams {
 	dispatch: ReducerDispatch;
 	error: string | null;
@@ -120,13 +122,7 @@ const getWalletConnectRpc = () => {
 	return walletConnectRpc;
 };
 const WalletConnectRpcDialog: React.FC = () => {
-	const {
-		error,
-		ecosystem,
-		dispatch: appDispatch,
-	} = useAppStore(
-		useShallow((state) => ({ error: state.state.error, ecosystem: state.state.ecosystem, dispatch: state.dispatch }))
-	);
+	const { error, ecosystem } = useAppStore(useShallow((state) => ({ error: state.error, ecosystem: state.ecosystem })));
 	const [rpcAddress, setRpcAddress] = React.useState(getWalletConnectRpc());
 	return (
 		<Render

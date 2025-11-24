@@ -25,6 +25,8 @@ import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { AddressLockDetailsViewModel, Game } from '@/core/app/interfaces';
 import { useShallow } from 'zustand/react/shallow';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
+
 enum Action {
 	Deposit = 'Deposit',
 	Withdraw = 'Withdraw',
@@ -231,25 +233,15 @@ const Render: React.FC<RenderParams> = React.memo(
 	}
 );
 const MarketDepositWithdrawDialog: React.FC = () => {
-	const {
-		balances,
-		selectedAddress,
-		error,
-		ecosystem,
-		games,
-		game,
-		currentAddresMintableBalance,
-		dispatch: appDispatch,
-	} = useAppStore(
+	const { balances, selectedAddress, error, ecosystem, games, game, currentAddresMintableBalance } = useAppStore(
 		useShallow((state) => ({
-			balances: state.state.balances,
-			selectedAddress: state.state.selectedAddress,
-			error: state.state.error,
-			ecosystem: state.state.ecosystem,
-			games: state.state.games,
-			game: state.state.game,
-			currentAddresMintableBalance: state.state.currentAddresMintableBalance,
-			dispatch: state.dispatch,
+			balances: state.balances,
+			selectedAddress: state.selectedAddress,
+			error: state.error,
+			ecosystem: state.ecosystem,
+			games: state.games,
+			game: state.game,
+			currentAddresMintableBalance: state.currentAddresMintableBalance,
 		}))
 	);
 	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];

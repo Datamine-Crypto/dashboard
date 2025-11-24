@@ -19,6 +19,7 @@ import { FluxAddressDetails } from '@/core/app/interfaces';
 import { BNToDecimal } from '@/core/utils/mathHelpers';
 import { useShallow } from 'zustand/react/shallow';
 import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
 interface RenderParams {
 	selectedAddress: string;
 	addressDetails: FluxAddressDetails;
@@ -120,28 +121,19 @@ const Render: React.FC<RenderParams> = React.memo(
 	}
 );
 const MintDialog: React.FC = () => {
-	const {
-		selectedAddress,
-		addressDetails,
-		error,
-		ecosystem,
-		state: appState,
-		dispatch: appDispatch,
-	} = useAppStore(
+	const { selectedAddress, addressDetails, error, ecosystem } = useAppStore(
 		useShallow((state) => ({
-			selectedAddress: state.state.selectedAddress,
-			addressDetails: state.state.addressDetails,
-			error: state.state.error,
-			ecosystem: state.state.ecosystem,
-			state: state.state,
-			dispatch: state.dispatch,
+			selectedAddress: state.selectedAddress,
+			addressDetails: state.addressDetails,
+			error: state.error,
+			ecosystem: state.ecosystem,
 		}))
 	);
-	const [address, setAddress] = React.useState(appState.selectedAddress);
+	const [address, setAddress] = React.useState(selectedAddress);
 	if (!selectedAddress || !addressDetails) {
 		return null;
 	}
-	const displayedAddress = appState.address ?? selectedAddress;
+	const displayedAddress = address ?? selectedAddress;
 	return (
 		<Render
 			selectedAddress={selectedAddress}

@@ -20,7 +20,7 @@ import React, { Suspense, lazy } from 'react';
 import { Close, Launch } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
 import { HelpArticle, SearchCategoryText } from '@/core/app/helpArticles';
-import { useAppStore } from '@/core/react/utils/appStore';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import AddToFirefoxFragment from '@/core/react/elements/Fragments/AddToFirefoxFragment';
 import CenteredLoading from '@/core/react/elements/Fragments/CenteredLoading'; // Assuming you have a loading component
@@ -37,7 +37,6 @@ interface RenderParams {
 }
 
 // Dynamically import ReactMarkdown
-import { useShallow } from 'zustand/react/shallow';
 import { ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
 const ReactMarkdown = lazy(() => import('react-markdown'));
 
@@ -401,10 +400,6 @@ interface DialogProps {
 	helpArticle: HelpArticle;
 }
 const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
-	const { state: appState, dispatch: appDispatch } = useAppStore(
-		useShallow((state) => ({ state: state.state, dispatch: state.dispatch }))
-	);
-
 	return <Render helpArticle={helpArticle} dispatch={appDispatch} />;
 };
 

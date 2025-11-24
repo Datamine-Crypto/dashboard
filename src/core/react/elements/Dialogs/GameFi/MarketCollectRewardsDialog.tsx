@@ -19,6 +19,7 @@ import { Ecosystem } from '@/core/app/configs/config.common';
 import { AddressLockDetailsViewModel, DialogType, FluxAddressDetails, Game, Token } from '@/core/app/interfaces';
 import { BNToDecimal, getPriceToggle } from '@/core/utils/mathHelpers';
 import { useAppStore } from '@/core/react/utils/appStore';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
 import {
 	ReducerDispatch,
 	Balances,
@@ -560,21 +561,19 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		hasWeb3,
 		market,
 		game,
-		dispatch: appDispatch,
 	} = useAppStore(
 		useShallow((state) => ({
-			balances: state.state.balances,
-			address: state.state.address,
-			ecosystem: state.state.ecosystem,
-			selectedAddress: state.state.selectedAddress,
-			connectionMethod: state.state.connectionMethod,
-			addressDetails: state.state.addressDetails,
-			games: state.state.games,
-			error: state.state.error,
-			hasWeb3: state.state.hasWeb3,
-			market: state.state.market,
-			game: state.state.game,
-			dispatch: state.dispatch,
+			balances: state.balances,
+			address: state.address,
+			ecosystem: state.ecosystem,
+			selectedAddress: state.selectedAddress,
+			connectionMethod: state.connectionMethod,
+			addressDetails: state.addressDetails,
+			games: state.games,
+			error: state.error,
+			hasWeb3: state.hasWeb3,
+			market: state.market,
+			game: state.game,
 		}))
 	);
 	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];

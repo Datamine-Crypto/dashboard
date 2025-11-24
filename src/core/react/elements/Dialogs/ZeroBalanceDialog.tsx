@@ -11,6 +11,7 @@ import { ReducerDispatch, Balances } from '@/core/app/state/stateInterfaces';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/core/react/elements/Fragments/ExploreLiquidityPools';
 import { useShallow } from 'zustand/react/shallow';
+import { dispatch as appDispatch } from '@/core/react/utils/appStore';
 interface Params {
 	pendingQueries: ReducerQuery[];
 	selectedAddress: string;
@@ -136,19 +137,12 @@ interface DialogParams {
 	dialogType: DialogType;
 }
 const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
-	const {
-		pendingQueries,
-		selectedAddress,
-		balances,
-		ecosystem,
-		dispatch: appDispatch,
-	} = useAppStore(
+	const { pendingQueries, selectedAddress, balances, ecosystem } = useAppStore(
 		useShallow((state) => ({
-			pendingQueries: state.state.pendingQueries,
-			selectedAddress: state.state.selectedAddress,
-			balances: state.state.balances,
-			ecosystem: state.state.ecosystem,
-			dispatch: state.dispatch,
+			pendingQueries: state.pendingQueries,
+			selectedAddress: state.selectedAddress,
+			balances: state.balances,
+			ecosystem: state.ecosystem,
 		}))
 	);
 	if (!pendingQueries || !selectedAddress || !balances) {
