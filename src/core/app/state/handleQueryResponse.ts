@@ -4,7 +4,7 @@ import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 import { Gem } from '@/core/react/elements/Fragments/DatamineGemsGame';
 import { ReducerQueryHandler } from '@/core/utils/reducer/sideEffectReducer';
 import { devLog } from '@/core/utils/devLog';
-import { SwapQuote } from '@/core/utils/swap/swapOptions';
+import { SwapQuote } from '@/core/web3/swap/swapOptions';
 import { BNToDecimal } from '@/core/utils/helperFunctions';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 import { createWithWithQueries } from '@/core/utils/reducer/reducerHelpers';

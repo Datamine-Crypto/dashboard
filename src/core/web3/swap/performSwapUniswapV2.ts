@@ -6,14 +6,8 @@
 
 import Big from 'big.js';
 import { getGasFees, parseBN } from '@/core/utils/helperFunctions';
-import { availableSwapTokens } from '@/core/utils/swap/performSwap';
-import {
-	SwapOptions,
-	SwapPlatformOptions,
-	SwapQuote,
-	SwapToken,
-	SwapTokenDetails,
-} from '@/core/utils/swap/swapOptions';
+import { availableSwapTokens } from '@/core/web3/swap/performSwap';
+import { SwapOptions, SwapPlatformOptions, SwapQuote, SwapToken, SwapTokenDetails } from '@/core/web3/swap/swapOptions';
 
 /**
  * @interface UniswapV2SwapPlatformOptions

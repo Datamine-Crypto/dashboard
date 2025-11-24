@@ -28,8 +28,8 @@ import lockquidityLogo from '@/core/react/svgs/lockquidity.svg';
 import damLogo from '@/core/react/svgs/logo.svg';
 import uniswap from '@/core/react/svgs/uniswap.svg';
 import { Token } from '@/core/app/interfaces';
-import { availableSwapTokens } from '@/core/utils/swap/performSwap';
-import { SwapOperation, SwapToken, SwapTokenDetails, SwapTokenWithAmount } from '@/core/utils/swap/swapOptions';
+import { availableSwapTokens } from '@/core/web3/swap/performSwap';
+import { SwapOperation, SwapToken, SwapTokenDetails, SwapTokenWithAmount } from '@/core/web3/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN, switchNetwork } from '@/core/utils/helperFunctions';
 import { useAppStore } from '@/core/react/appStore';
 import {

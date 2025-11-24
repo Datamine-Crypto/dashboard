@@ -9,8 +9,8 @@ import { getEcosystemConfig } from '@/core/app/configs/config';
 import { NetworkType } from '@/core/app/configs/config.common';
 import { Gem } from '@/core/react/elements/Fragments/DatamineGemsGame';
 import { devLog } from '@/core/utils/devLog';
-import { performSwap } from '@/core/utils/swap/performSwap';
-import { SwapOptions, SwapPlatform } from '@/core/utils/swap/swapOptions';
+import { performSwap } from '@/core/web3/swap/performSwap';
+import { SwapOptions, SwapPlatform } from '@/core/web3/swap/swapOptions';
 import { decodeMulticall, encodeMulticall } from '@/core/web3/utils/web3multicall';
 import {
 	getContracts,
@@ -20,7 +20,7 @@ import {
 	preselectAddress,
 	setWeb3Provider,
 	subscribeToBlockUpdates,
-} from '@/core/app/state/utils/queryUtils';
+} from '@/core/web3/utils/web3ProviderUtils';
 import { findAccountState } from '@/core/app/state/queries/FindAccountState';
 
 /**

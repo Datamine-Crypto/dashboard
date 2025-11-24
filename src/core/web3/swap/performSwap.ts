@@ -6,8 +6,8 @@
 
 import fluxAbi from '@/core/web3/abis/flux.json';
 import uniswapV2RouterABI from '@/core/web3/abis/uniswapv2router.json';
-import { performSwapUniswapV2, UniswapV2SwapPlatformOptions } from '@/core/utils/swap/performSwapUniswapV2';
-import { SwapOptions, SwapPlatform, SwapToken, SwapTokenDetails } from '@/core/utils/swap/swapOptions';
+import { performSwapUniswapV2, UniswapV2SwapPlatformOptions } from '@/core/web3/swap/performSwapUniswapV2';
+import { SwapOptions, SwapPlatform, SwapToken, SwapTokenDetails } from '@/core/web3/swap/swapOptions';
 
 import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 import arbiFluxLogo from '@/core/react/svgs/arbiFluxLogo.svg';

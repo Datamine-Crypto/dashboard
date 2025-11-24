@@ -8,8 +8,8 @@ import { getEcosystemConfig } from '@/core/app/configs/config';
 import { Ecosystem, Layer } from '@/core/app/configs/config.common';
 import { devLog } from '@/core/utils/devLog';
 import { decodeMulticall, encodeMulticall, MultiCallParams } from '@/core/web3/utils/web3multicall';
-import { getContracts, getSelectedAddress } from '@/core/app/state/utils/queryUtils';
-import { SwapToken } from '@/core/utils/swap/swapOptions';
+import { getContracts, getSelectedAddress } from '@/core/web3/utils/web3ProviderUtils';
+import { SwapToken } from '@/core/web3/swap/swapOptions';
 
 /**
  * Fetches all relevant on-chain data for the current user account in a single batch request using multicall.

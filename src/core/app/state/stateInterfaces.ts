@@ -13,7 +13,7 @@ import {
 	Token,
 } from '@/core/app/interfaces';
 import { ReducerQuery, ReducerDispatch } from '@/core/utils/reducer/sideEffectReducer';
-import { SwapToken, SwapTokenWithAmount } from '@/core/utils/swap/swapOptions';
+import { SwapToken, SwapTokenWithAmount } from '@/core/web3/swap/swapOptions';
 import { commonLanguage } from '@/core/app/state/commonLanguage';
 
 export {

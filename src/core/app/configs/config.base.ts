@@ -1,5 +1,5 @@
 // Imports for token swap options and SVG logos
-import { SwapToken } from '@/core/utils/swap/swapOptions';
+import { SwapToken } from '@/core/web3/swap/swapOptions';
 import arbiFluxLogo from '@/core/react/svgs/arbiFluxLogo.svg';
 import fluxLogo from '@/core/react/svgs/fluxLogo.svg';
 import lockquidityLogo from '@/core/react/svgs/lockquidity.svg';
