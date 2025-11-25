@@ -8,11 +8,12 @@ import { ReducerDispatch, ConnectionMethod } from '@/app/interfaces';
 import logo from '@/react/svgs/logo.svg';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem } from '@/app/configs/config.common';
+import { Ecosystem, Layer } from '@/app/configs/config.common';
 import metamaskIcon from '@/react/svgs/metamask.svg';
 import { isDevLogEnabled } from '@/utils/devLog';
 import { useShallow } from 'zustand/react/shallow';
 import HodlClickerEvents from '@/react/pages/machine/HodlClickerEvents';
+import { getNetworkDropdown } from '@/react/elements/Fragments/EcosystemDropdown';
 
 interface RenderParams {
 	isLate: boolean;
@@ -160,13 +161,54 @@ const Render: React.FC<RenderParams> = React.memo(
 			);
 		};
 
+		const getEcosystemDropdown = () => {
+			return (
+				<Box mb={4} display="flex" justifyContent="center">
+					{getNetworkDropdown({
+						ecosystem,
+						connectionMethod,
+						dispatch,
+						width: 300,
+					})}
+				</Box>
+			);
+		};
+
 		const getApp = () => {
 			if (!isInitialized || hasWeb3 === null) {
 				return null;
 			}
 
 			if (!hasWeb3 || !selectedAddress) {
-				return <>{getConnectWalletButton()}</>;
+				return (
+					<>
+						{getEcosystemDropdown()}
+						{getConnectWalletButton()}
+					</>
+				);
+			}
+
+			const isL2 = config.layer === Layer.Layer2;
+
+			if (!isL2) {
+				return (
+					<Box className={classes.fullScreenSplash}>
+						<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
+							<Grid container justifyContent="center">
+								<Grid>{getLogo()}</Grid>
+							</Grid>
+							<Box mt={3} mb={6} textAlign="center">
+								<Typography component="div" variant="h5" color="error" gutterBottom>
+									Incorrect Ecosystem
+								</Typography>
+								<Typography component="div" color="textSecondary">
+									HodlClicker is only available on Arbitrum. Please switch to an Arbitrum ecosystem.
+								</Typography>
+							</Box>
+							{getEcosystemDropdown()}
+						</Box>
+					</Box>
+				);
 			}
 
 			const getBlock = () => {
@@ -191,6 +233,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						<Grid container justifyContent="center">
 							<Grid>{getLogo()}</Grid>
 						</Grid>
+						{getEcosystemDropdown()}
 						{getBlock()}
 						<Box width="100%" maxWidth={800}>
 							<HodlClickerEvents ecosystem={ecosystem} />
