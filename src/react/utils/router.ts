@@ -15,6 +15,7 @@ export enum Page {
 	Onboarding,
 	RealtimeRewardsGameFi,
 	HodlClickerRushGameFiPage,
+	Machine,
 }
 
 /**
@@ -100,6 +101,12 @@ export const getPageDetails = () => {
 		};
 	}
 
+	if (path === 'machine') {
+		return {
+			page: Page.Machine,
+		};
+	}
+
 	return {
 		page: Page.HomePage,
 	};
@@ -145,6 +152,9 @@ export const useRouter = (dispatch: ReducerDispatch, ecosystem: Ecosystem) => {
 					break;
 				case Page.HodlClickerRushGameFiPage:
 					document.title = `Get Started - ${ecosystemName}`;
+					break;
+				case Page.Machine:
+					document.title = `Machine - ${ecosystemName}`;
 					break;
 				default:
 					document.title = `${ecosystemSlogan} - ${ecosystemName}`;
