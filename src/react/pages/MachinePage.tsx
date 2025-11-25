@@ -12,6 +12,7 @@ import { Ecosystem } from '@/app/configs/config.common';
 import metamaskIcon from '@/react/svgs/metamask.svg';
 import { isDevLogEnabled } from '@/utils/devLog';
 import { useShallow } from 'zustand/react/shallow';
+import HodlClickerEvents from '@/react/pages/machine/HodlClickerEvents';
 
 interface RenderParams {
 	isLate: boolean;
@@ -191,6 +192,9 @@ const Render: React.FC<RenderParams> = React.memo(
 							<Grid>{getLogo()}</Grid>
 						</Grid>
 						{getBlock()}
+						<Box width="100%" maxWidth={800}>
+							<HodlClickerEvents ecosystem={ecosystem} />
+						</Box>
 					</Box>
 				</Box>
 			);
