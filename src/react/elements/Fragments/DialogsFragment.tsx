@@ -10,7 +10,7 @@ import MintDialog from '@/react/elements/Dialogs/MintDialog';
 import SettingsDialog from '@/react/elements/Dialogs/SettingsDialog';
 import TradeDialog from '@/react/elements/Dialogs/TradeDialog';
 import UnlockDialog from '@/react/elements/Dialogs/UnlockDialog';
-import WalletConnectRpcDialog from '@/react/elements/Dialogs/WalletConnectRpcDialog';
+//import WalletConnectRpcDialog from '@/react/elements/Dialogs/WalletConnectRpcDialog';
 import MintSettingsDialog from '@/react/elements/Dialogs/MinterSettingsDialog';
 import { useShallow } from 'zustand/react/shallow';
 import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
@@ -52,8 +52,8 @@ const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
 			case DialogType.ClientSettings: {
 				return <SettingsDialog />;
 			}
-			case DialogType.WalletConnectRpc:
-				return <WalletConnectRpcDialog />;
+			/*case DialogType.WalletConnectRpc:
+				return <WalletConnectRpcDialog />;*/
 			// Market dialogs
 			case DialogType.MarketCollectRewards:
 				return <MarketCollectRewardsDialog />;

@@ -4,7 +4,6 @@ import { Ecosystem, NetworkType } from '@/app/configs/config.common';
 import { HelpArticle } from '@/app/helpArticles';
 import { devLog } from '@/utils/devLog';
 import { ReducerQuery } from '@/utils/reducer/sideEffectReducer';
-import Web3 from 'web3';
 import {
 	ConnectionMethod,
 	Game,
@@ -95,7 +94,23 @@ const getMarketGemsCollected = () => {
 };
 
 export const initialState = {
+	//#region Pending Queries (Side-Effects Reducer pattern)
+
+	/**
+	 * The queries that are currently pending (waiting for a response)
+	 */
 	pendingQueries: [] as ReducerQuery[],
+	/**
+	 * Which new queries to add to pendingQueries after state changes (these are added at the end of the pendingQueries)
+	 */
+	query: undefined as ReducerQuery[] | undefined,
+	/**
+	 * The number of queries that have been added to pendingQueries. This number only increases and never decreases.
+	 */
+	queriesCount: 0,
+
+	//#endregion
+
 	forecastSettings: {
 		amount: new BN(0),
 		enabled: false,
@@ -127,8 +142,6 @@ export const initialState = {
 	dialog: null as DialogType | null,
 	dialogParams: undefined as any,
 
-	query: undefined as ReducerQuery[] | undefined,
-	queriesCount: 0,
 	lastDismissedPendingActionCount: 0,
 
 	isIncorrectNetwork: false,
@@ -148,7 +161,6 @@ export const initialState = {
 	ecosystem: defaultEcosystem,
 	targetEcosystem: null as Ecosystem | null,
 
-	walletConnectRpc: null as string | null,
 	clientSettings: {
 		priceMultiplier: parseFloat(priceMultiplierAmount),
 		priceMultiplierAmount,
@@ -196,7 +208,6 @@ export const initialState = {
 
 	// By default Datamine Gems will be selected as the game, the UI will change the game on selection and update this variable
 	game: Game.DatamineGems,
-	web3: undefined as Web3 | undefined,
 };
 
 export type AppState = typeof initialState;

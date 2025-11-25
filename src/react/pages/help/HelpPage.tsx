@@ -88,20 +88,32 @@ const HelpPage: React.FC<Props> = () => {
 								<FormControlLabel
 									value={UserTypeFilter.All}
 									control={<Radio />}
-									label="All Articles"
-									icon={<PublicIcon />}
+									label={
+										<Box display="flex" alignItems="center">
+											<PublicIcon style={{ marginRight: 8 }} />
+											All Articles
+										</Box>
+									}
 								/>
 								<FormControlLabel
 									value={UserTypeFilter.NewUser}
 									control={<Radio />}
-									label="New User"
-									icon={<RocketLaunchIcon />}
+									label={
+										<Box display="flex" alignItems="center">
+											<RocketLaunchIcon style={{ marginRight: 8 }} />
+											New User
+										</Box>
+									}
 								/>
 								<FormControlLabel
 									value={UserTypeFilter.ExistingUser}
 									control={<Radio />}
-									label="Existing User"
-									icon={<AccountCircleIcon />}
+									label={
+										<Box display="flex" alignItems="center">
+											<AccountCircleIcon style={{ marginRight: 8 }} />
+											Existing User
+										</Box>
+									}
 								/>
 							</RadioGroup>
 						</Box>

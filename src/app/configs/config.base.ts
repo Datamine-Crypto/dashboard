@@ -226,7 +226,7 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 			discordInviteLink: 'https://discord.gg/2dQ7XAB22u' as string | null,
 		},
 
-		walletConnect: {
+		/*walletConnect: {
 			projectId: 'e6d6b80cec26fb35f4ae37173c3b4620',
 			optionalChains: [
 				1, // ETH
@@ -243,7 +243,7 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 				url: 'https://datamine-crypto.github.io/dashboard/', // origin must match your domain & subdomain
 				icons: ['https://raw.githubusercontent.com/Datamine-Crypto/dashboard/refs/heads/main/public/logos/dam256.png'],
 			},
-		},
+		},*/
 	};
 
 	return baseConfig;

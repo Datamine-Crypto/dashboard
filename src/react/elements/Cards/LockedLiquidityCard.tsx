@@ -35,7 +35,7 @@ const useStyles = tss.create(({ theme }) => ({
  */
 const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 	const { classes } = useStyles();
-	const { mintableTokenShortName, layer, mintableSushiSwapL2EthPair } = getEcosystemConfig(ecosystem);
+	const { mintableTokenShortName, layer, mintableSushiSwapL2EthPair } = getEcosystemConfig(ecosystem) as any; // temp for mintableSushiSwapL2EthPair
 	const { lockedLiquidityUniAmount, lockedLiquidtyUniTotalSupply, uniswapFluxTokenReserves } = balances;
 	const percentLockedLiquidity =
 		lockedLiquidityUniAmount.mul(new BN(1000000)).div(lockedLiquidtyUniTotalSupply).toNumber() / 10000;

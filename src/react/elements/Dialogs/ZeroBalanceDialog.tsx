@@ -1,6 +1,6 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import React from 'react';
-import { Web3 } from 'web3';
+import { formatEther } from 'viem';
 import { getEcosystemConfig as getConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
 import { DialogType } from '@/app/interfaces';
@@ -51,7 +51,7 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 			if (!eth) {
 				return '0 ETH';
 			}
-			return `${Web3.utils.fromWei(eth as any, 'ether')} ETH`;
+			return `${formatEther(BigInt(eth.toString()))} ETH`;
 		};
 		const getDamBalance = () => {
 			const { damToken } = balances;

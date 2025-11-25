@@ -10,7 +10,7 @@ import { SwapOperation, SwapToken } from '@/web3/swap/swapOptions';
 import { BNToDecimal, getPriceToggle, parseBN } from '@/utils/mathHelpers';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { AppState } from '@/app/state/initialState';
-import { ConnectionMethod, DialogType, Token } from '@/app/interfaces';
+import { DialogType, Token } from '@/app/interfaces';
 import { createWithWithQueries, localConfig } from '@/utils/reducer/reducerHelpers';
 
 /**
@@ -190,10 +190,10 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				return state;
 			}
 
-			const { web3 } = state;
-			if (!web3) {
-				return state;
-			}
+			// const { web3 } = state;
+			// if (!web3) {
+			// 	return state;
+			// }
 
 			// Make sure we can't queue double blocks find
 			if (
@@ -507,7 +507,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				...state,
 				dialog: DialogType.WalletConnectRpc
 			}*/
-		case commonLanguage.commands.ShowWalletConnectRpc:
+		/*case commonLanguage.commands.ShowWalletConnectRpc:
 		case commonLanguage.commands.InitializeWalletConnect: {
 			const { isArbitrumMainnet } = command.payload;
 
@@ -524,29 +524,29 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				localStorage.setItem('walletConnectRpc', rpcAddress)
 			}*/
 
-			//@todo figure out if we still need this hasWeb3 logic
+		//@todo figure out if we still need this hasWeb3 logic
 
-			/*
-			if (state.hasWeb3) {
+		/*
+		if (state.hasWeb3) {
 
-				return {
-					...state,
-					isArbitrumMainnet,
-					dialog: null,
-					error: null,
-					...withQueries([{ type: commonLanguage.queries.EnableWalletConnect, payload: { isArbitrumMainnet } }])
-				}
-			}*/
-
-			//web3provider = await getProvider({ useWalletConnect: false, isArbitrumMainnet: false, ecosystem: state.ecosystem })
 			return {
 				...state,
 				isArbitrumMainnet,
 				dialog: null,
 				error: null,
-				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance, payload: { useWalletConnect: true } }]),
-			};
-		}
+				...withQueries([{ type: commonLanguage.queries.EnableWalletConnect, payload: { isArbitrumMainnet } }])
+			}
+		}*/
+
+		//web3provider = await getProvider({ useWalletConnect: false, isArbitrumMainnet: false, ecosystem: state.ecosystem })
+		/*return {
+			...state,
+			isArbitrumMainnet,
+			dialog: null,
+			error: null,
+			...withQueries([{ type: commonLanguage.queries.FindWeb3Instance, payload: { useWalletConnect: true } }]),
+		};
+	}*/
 		case commonLanguage.commands.ReinitializeWeb3: {
 			const { targetEcosystem } = command.payload;
 
@@ -561,16 +561,16 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				...withQueries([
 					{
 						type: commonLanguage.queries.FindWeb3Instance,
-						payload: { targetEcosystem, useWalletConnect: state.connectionMethod === ConnectionMethod.WalletConnect },
+						payload: { targetEcosystem },
 					},
 				]),
 			};
 		}
-		case commonLanguage.commands.DisconnectFromWalletConnect:
+		/*case commonLanguage.commands.DisconnectFromWalletConnect:
 			return {
 				...state,
 				...withQueries([{ type: commonLanguage.queries.DisconnectWalletConnect }]),
-			};
+			};*/
 		case commonLanguage.commands.DisplayAccessLinks:
 			if (state.isDisplayingLinks) {
 				//return state;
@@ -883,9 +883,9 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		}
 		case commonLanguage.commands.Market.RefreshMarketAddresses: {
 			try {
-				if (!state.web3) {
-					return state;
-				}
+				// if (!state.web3) {
+				// 	return state;
+				// }
 
 				return {
 					...state,

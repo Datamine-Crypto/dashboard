@@ -37,7 +37,6 @@
 		"@mui/system": "^7.3.5",
 		"@mui/utils": "^7.3.5",
 		"@mui/x-date-pickers": "^8.17.0",
-		"@walletconnect/ethereum-provider": "^2.23.0",
 		"big.js": "^7.0.1",
 		"bn.js": "^5.2.2",
 		"clsx": "^2.1.1",
@@ -49,7 +48,7 @@
 		"react-markdown": "^10.1.0",
 		"tss-react": "^4.9.19",
 		"uuid": "^13.0.0",
-		"web3": "^4.16.0",
+		"viem": "^2.40.0",
 		"zustand": "^5.0.8"
 	},
 	"scripts": {

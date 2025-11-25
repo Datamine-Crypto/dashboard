@@ -24,11 +24,10 @@ import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import metamaskIcon from '@/react/svgs/metamask.svg';
-import walletconnectIcon from '@/react/svgs/walletconnect.svg';
 import { isDevLogEnabled } from '@/utils/devLog';
 import AddToFirefoxFragment from '@/react/elements/Fragments/AddToFirefoxFragment';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/react/elements/Fragments/ExploreLiquidityPools';
-import WalletConnectButton from '@/react/elements/Fragments/WalletConnectButton';
+
 import { useShallow } from 'zustand/react/shallow';
 interface RenderParams {
 	isLate: boolean;
@@ -200,7 +199,6 @@ const Render: React.FC<RenderParams> = React.memo(
 									Install MetaMask
 								</Button>
 							</Box>
-							<WalletConnectButton />
 						</Box>
 						{getLiquidityPoolsButton()}
 					</Box>
@@ -217,8 +215,8 @@ const Render: React.FC<RenderParams> = React.memo(
 			 * @returns True if MetaMask is detected, false otherwise.
 			 */
 			const isMetaMask = () => {
-				const web3 = window.web3;
-				if (!web3 || !web3.currentProvider || !web3.currentProvider.isMetaMask) {
+				const ethereum = (window as any).ethereum;
+				if (!ethereum || !ethereum.isMetaMask) {
 					return false;
 				}
 				return true;
@@ -264,7 +262,6 @@ const Render: React.FC<RenderParams> = React.memo(
 									{isMetaMask() ? 'Connect Using MetaMask' : 'Connect To Wallet'}
 								</Button>
 							</Box>
-							<WalletConnectButton />
 						</Box>
 					</Box>
 				</Box>
@@ -362,29 +359,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				);
 			};
 			const getDisconnectButton = () => {
-				if (connectionMethod !== ConnectionMethod.WalletConnect) {
-					return null;
-				}
-				return (
-					<Button
-						size="small"
-						variant="outlined"
-						onClick={() => dispatch({ type: commonLanguage.commands.DisconnectFromWalletConnect })}
-						startIcon={
-							<Box mr={1} display="inline">
-								<img
-									src={walletconnectIcon}
-									alt="WalletConnect"
-									width="24"
-									height="24"
-									style={{ verticalAlign: 'middle' }}
-								/>
-							</Box>
-						}
-					>
-						Disconnect From WalletConnect
-					</Button>
-				);
+				return null;
 			};
 			const getSettingsButton = () => {
 				if (!isSettingsValidatorDashboardButtonEnabled) {

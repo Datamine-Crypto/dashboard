@@ -20,9 +20,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, connectionMethod,
 	const { mintableTokenShortName, lockableTokenShortName, navigation } = getEcosystemConfig(ecosystem);
 	const { isHelpPageEnabled } = navigation;
 	// Hide "Add To Metamask" button if we're not connected to MetaMask
-	if (connectionMethod === ConnectionMethod.WalletConnect) {
-		return null;
-	}
+
 	const handleAddToMetamask = (e: React.MouseEvent) => {
 		e.preventDefault();
 		try {

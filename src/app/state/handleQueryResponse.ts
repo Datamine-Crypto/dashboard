@@ -35,7 +35,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				};
 			}
 
-			const { web3, selectedAddress, networkType, chainId, useWalletConnect } = response;
+			const { selectedAddress, networkType, chainId } = response;
 
 			const isArbitrumMainnet = chainId === 42161;
 			devLog('FindWeb3Instance reducer isArbitrumMainnet:', {
@@ -84,10 +84,9 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 
 			return {
 				...state,
-				web3,
 				hasWeb3: true,
 				selectedAddress,
-				connectionMethod: useWalletConnect ? ConnectionMethod.WalletConnect : ConnectionMethod.MetaMask,
+				connectionMethod: ConnectionMethod.MetaMask,
 				isArbitrumMainnet,
 				ecosystem: updatedEcosystem,
 				...withQueries(
@@ -100,16 +99,15 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				),
 			};
 		}
-		case commonLanguage.queries.EnableWeb3:
-		case commonLanguage.queries.EnableWalletConnect: {
+		case commonLanguage.queries.EnableWeb3: /*case commonLanguage.queries.EnableWalletConnect:*/ {
 			if (err) {
 				return state;
 			}
 
 			const { selectedAddress } = response;
 
-			const connectionMethod =
-				query.type === commonLanguage.queries.EnableWeb3 ? ConnectionMethod.MetaMask : ConnectionMethod.WalletConnect;
+			const connectionMethod = ConnectionMethod.MetaMask;
+			//query.type === commonLanguage.queries.EnableWeb3 ? ConnectionMethod.MetaMask : ConnectionMethod.WalletConnect;
 
 			return {
 				...state,

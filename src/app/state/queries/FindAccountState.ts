@@ -1,14 +1,13 @@
 import Big from 'big.js';
 import BN from 'bn.js';
-import { FluxAddressDetails, FluxAddressTokenDetails } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { AppState } from '@/app/state/initialState';
 import { QueryHandler } from '@/utils/reducer/sideEffectReducer';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
 import { devLog } from '@/utils/devLog';
-import { decodeMulticall, encodeMulticall, MultiCallParams } from '@/web3/utils/web3multicall';
-import { getContracts, getSelectedAddress } from '@/web3/utils/web3ProviderUtils';
+import { decodeMulticall, encodeMulticall, MultiCallParams, EncodedMulticallResults } from '@/web3/utils/web3multicall';
+import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/web3ProviderUtils';
 import { SwapToken } from '@/web3/swap/swapOptions';
 
 /**
@@ -16,16 +15,17 @@ import { SwapToken } from '@/web3/swap/swapOptions';
  * This includes balances, contract details, and Uniswap pool reserves.
  */
 export const findAccountState = async ({ state, query }: QueryHandler<AppState>) => {
-	const { web3, address, ecosystem } = state;
+	const { address, ecosystem } = state;
+	const publicClient = getPublicClient();
 
 	devLog('FindAccountState:', { address, ecosystem });
 
-	if (!web3) {
+	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;
 	}
 
 	// When user logs out clean the state (this will trigger a connect to wallte button)
-	const selectedAddress = getSelectedAddress();
+	const selectedAddress = await getSelectedAddress();
 	devLog('FindAccountState selectedAddress:', selectedAddress);
 
 	if (!selectedAddress) {
@@ -41,7 +41,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 		const addressToFetch = address ?? selectedAddress;
 		devLog('FindAccountState addressToFetch:', { addressToFetch, ecosystem });
 
-		const contracts = getContracts(web3, state.ecosystem);
+		const contracts = getContracts(publicClient, state.ecosystem);
 		const config = getEcosystemConfig(state.ecosystem) as any;
 		const isArbitrumMainnet = config.layer === Layer.Layer2;
 
@@ -79,13 +79,13 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 						returns: {
 							params: ['uint112', 'uint112'],
-							callback: (reserve0: string, reserve1: string) => {
+							callback: (reserve0: bigint, reserve1: bigint) => {
 								return {
 									slot0: {
-										sqrtPriceX96: reserve0,
+										sqrtPriceX96: reserve0.toString(),
 									},
-									reserve0,
-									reserve1,
+									reserve0: reserve0.toString(),
+									reserve1: reserve1.toString(),
 								};
 							},
 						},
@@ -108,10 +108,10 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 					returns: {
 						params: ['uint160'],
-						callback: (sqrtPriceX96: string) => {
+						callback: (sqrtPriceX96: bigint) => {
 							return {
 								slot0: {
-									sqrtPriceX96,
+									sqrtPriceX96: sqrtPriceX96.toString(),
 								},
 							};
 						},
@@ -137,7 +137,9 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 						returns: {
 							params: ['uint112', 'uint112'],
-							callback: (reserve0: string, reserve1: string) => {
+							callback: (reserve0_bigint: bigint, reserve1_bigint: bigint) => {
+								let reserve0 = reserve0_bigint.toString();
+								let reserve1 = reserve1_bigint.toString();
 								// Swap pairs if you have created ETH / Lockable token instead
 								if (config.lockableSushiSwapL2EthPairSwapPairs) {
 									[reserve0, reserve1] = [reserve1, reserve0];
@@ -171,10 +173,10 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 					returns: {
 						params: ['uint160'],
-						callback: (sqrtPriceX96: string) => {
+						callback: (sqrtPriceX96: bigint) => {
 							return {
 								slot0: {
-									sqrtPriceX96,
+									sqrtPriceX96: sqrtPriceX96.toString(),
 								},
 							};
 						},
@@ -202,8 +204,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 					returns: {
 						params: ['uint256'],
-						callback: (totalSupply: string) => {
-							return new BN(totalSupply);
+						callback: (totalSupply: bigint) => {
+							return new BN(totalSupply.toString());
 						},
 					},
 				},
@@ -225,8 +227,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 					returns: {
 						params: ['uint256'],
-						callback: (addressBalance: string) => {
-							return new BN(addressBalance);
+						callback: (addressBalance: bigint) => {
+							return new BN(addressBalance.toString());
 						},
 					},
 				},
@@ -286,8 +288,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 					returns: {
 						params: ['uint256'],
-						callback: (addressBalance: string) => {
-							return new BN(addressBalance);
+						callback: (addressBalance: bigint) => {
+							return new BN(addressBalance.toString());
 						},
 					},
 				},
@@ -382,8 +384,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 				returns: {
 					params: ['uint256'],
-					callback: (ethBalance: string) => {
-						return new BN(ethBalance);
+					callback: (ethBalance: bigint) => {
+						return new BN(ethBalance.toString());
 					},
 				},
 			},
@@ -402,7 +404,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 				returns: {
 					params: ['uint160'],
-					callback: (sqrtPriceX96: string) => {
+					callback: (sqrtPriceX96: bigint) => {
 						const getUsdPriceFromUniswapV3EthPool = (sqrtPriceX96: string, flipPrice: boolean) => {
 							const num = new Big(sqrtPriceX96).times(sqrtPriceX96);
 							const denom = new Big(2).pow(192);
@@ -416,7 +418,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 							return new Big(10).pow(12).div(price0);
 						};
 
-						const ethUsdPrice = getUsdPriceFromUniswapV3EthPool(sqrtPriceX96, !isArbitrumMainnet); // Arbitrum is USDC/ETH and Mainnet is USDC/ETH
+						const ethUsdPrice = getUsdPriceFromUniswapV3EthPool(sqrtPriceX96.toString(), !isArbitrumMainnet); // Arbitrum is USDC/ETH and Mainnet is USDC/ETH
 
 						const usdcPriceLong = ethUsdPrice.mul(new Big(10).pow(6));
 
@@ -441,8 +443,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 				returns: {
 					params: ['uint256'],
-					callback: (totalSupply: string) => {
-						return new BN(totalSupply);
+					callback: (totalSupply: bigint) => {
+						return new BN(totalSupply.toString());
 					},
 				},
 			},
@@ -461,8 +463,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 				returns: {
 					params: ['uint256'],
-					callback: (totalSupply: string) => {
-						return new BN(totalSupply);
+					callback: (totalSupply: bigint) => {
+						return new BN(totalSupply.toString());
 					},
 				},
 			},
@@ -487,18 +489,18 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 				returns: {
 					params: ['uint256', 'bool', 'uint256', 'uint256', 'uint256'],
 					callback: (
-						blockNumber: string,
+						blockNumber: bigint,
 						isFluxOperator: boolean,
-						damBalance: string,
-						myRatio: string,
-						globalRatio: string
+						damBalance: bigint,
+						myRatio: bigint,
+						globalRatio: bigint
 					) => {
 						return {
-							blockNumber: new BN(blockNumber).toNumber(),
+							blockNumber: new BN(blockNumber.toString()).toNumber(),
 							isFluxOperator: isFluxOperator,
-							damBalance: new BN(damBalance),
-							myRatio: new BN(myRatio),
-							globalRatio: new BN(globalRatio),
+							damBalance: new BN(damBalance.toString()),
+							myRatio: new BN(myRatio.toString()),
+							globalRatio: new BN(globalRatio.toString()),
 						};
 					},
 				},
@@ -524,17 +526,17 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 				returns: {
 					params: ['uint256', 'uint256', 'uint256', 'uint256', 'address'],
 					callback: (
-						amount: string,
-						burnedAmount: string,
-						blockNumber: string,
-						lastMintBlockNumber: string,
+						amount: bigint,
+						burnedAmount: bigint,
+						blockNumber: bigint,
+						lastMintBlockNumber: bigint,
 						minterAddress: string
 					) => {
 						return {
-							amount: new BN(amount),
-							blockNumber: new BN(blockNumber).toNumber(),
-							burnedAmount: new BN(burnedAmount),
-							lastMintBlockNumber: new BN(lastMintBlockNumber).toNumber(),
+							amount: new BN(amount.toString()),
+							blockNumber: new BN(blockNumber.toString()).toNumber(),
+							burnedAmount: new BN(burnedAmount.toString()),
+							lastMintBlockNumber: new BN(lastMintBlockNumber.toString()).toNumber(),
 							minterAddress: minterAddress.toLowerCase(),
 						};
 					},
@@ -562,24 +564,24 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 				returns: {
 					params: ['uint256', 'uint256', 'uint256', 'uint256', 'uint256', 'uint256', 'uint256'],
 					callback: (
-						blockNumber: string,
-						fluxBalance: string,
-						mintAmount: string,
-						addressTimeMultiplier: string,
-						addressBurnMultiplier: string,
-						globalLockedAmount: string,
-						globalBurnedAmount: string
+						blockNumber: bigint,
+						fluxBalance: bigint,
+						mintAmount: bigint,
+						addressTimeMultiplier: bigint,
+						addressBurnMultiplier: bigint,
+						globalLockedAmount: bigint,
+						globalBurnedAmount: bigint
 					) => {
 						return {
-							blockNumber: new BN(blockNumber).toNumber(),
-							fluxBalance: new BN(fluxBalance),
-							mintAmount: new BN(mintAmount),
-							addressTimeMultiplier: new BN(addressTimeMultiplier).toNumber(),
-							addressBurnMultiplier: new BN(addressBurnMultiplier).toNumber(),
-							addressTimeMultiplierRaw: new BN(addressTimeMultiplier),
-							addressBurnMultiplierRaw: new BN(addressBurnMultiplier),
-							globalLockedAmount: new BN(globalLockedAmount),
-							globalBurnedAmount: new BN(globalBurnedAmount),
+							blockNumber: new BN(blockNumber.toString()).toNumber(),
+							fluxBalance: new BN(fluxBalance.toString()),
+							mintAmount: new BN(mintAmount.toString()),
+							addressTimeMultiplier: new BN(addressTimeMultiplier.toString()).toNumber(),
+							addressBurnMultiplier: new BN(addressBurnMultiplier.toString()).toNumber(),
+							addressTimeMultiplierRaw: new BN(addressTimeMultiplier.toString()),
+							addressBurnMultiplierRaw: new BN(addressBurnMultiplier.toString()),
+							globalLockedAmount: new BN(globalLockedAmount.toString()),
+							globalBurnedAmount: new BN(globalBurnedAmount.toString()),
 						};
 					},
 				},
@@ -607,8 +609,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 				returns: {
 					params: ['uint256'],
-					callback: (positions: string) => {
-						return positions;
+					callback: (positions: bigint) => {
+						return positions.toString();
 					},
 				},
 			},
@@ -635,8 +637,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 				returns: {
 					params: ['uint256'],
-					callback: (positions: string) => {
-						return positions;
+					callback: (positions: bigint) => {
+						return positions.toString();
 					},
 				},
 			},
@@ -660,8 +662,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 				returns: {
 					params: ['uint256'],
-					callback: (positions: string) => {
-						return positions;
+					callback: (positions: bigint) => {
+						return positions.toString();
 					},
 				},
 			},
@@ -685,8 +687,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 				returns: {
 					params: ['uint256'],
-					callback: (positions: string) => {
-						return positions;
+					callback: (positions: bigint) => {
+						return positions.toString();
 					},
 				},
 			},
@@ -710,8 +712,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 				returns: {
 					params: ['uint256'],
-					callback: (positions: string) => {
-						return positions;
+					callback: (positions: bigint) => {
+						return positions.toString();
 					},
 				},
 			},
@@ -720,10 +722,17 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 			...getOtherEcosystemTokenBalance(),
 		};
 
-		const calls = encodeMulticall(web3, multicallData);
-		const multicallEncodedResults = (await contracts.multicall.methods.aggregate(calls).call()) as any;
+		const calls = encodeMulticall(multicallData);
+		if (!contracts.multicall) {
+			throw new Error('Multicall contract not initialized');
+		}
+		const [blockNumber, returnData] = (await contracts.multicall.read.aggregate([calls])) as [bigint, any[]];
+		const multicallEncodedResults: EncodedMulticallResults = {
+			blockNumber: blockNumber.toString(),
+			returnData,
+		};
 
-		const multicallDecodedResults = decodeMulticall(web3, multicallEncodedResults, multicallData);
+		const multicallDecodedResults = decodeMulticall(multicallEncodedResults, multicallData);
 
 		const {
 			ethBalance,
@@ -809,7 +818,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 				};
 			}
 
-			const { sqrtPriceX96, tick } = slot0;
+			const { sqrtPriceX96 } = slot0;
 			const num = new Big(sqrtPriceX96).times(sqrtPriceX96);
 			const denom = new Big(2).pow(192);
 			const price1 = num.div(denom);
@@ -851,9 +860,9 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 			const getL2ArbiFluxSwapBalance = () => {
 				switch (state.ecosystem) {
 					case Ecosystem.ArbiFlux:
-						return (addressDetails as FluxAddressDetails).fluxBalance;
+						return addressDetails.fluxBalance;
 					case Ecosystem.Lockquidity:
-						return (addressTokenDetails as FluxAddressTokenDetails).damBalance;
+						return addressTokenDetails.damBalance;
 				}
 
 				return swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX];
@@ -863,7 +872,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 					case Ecosystem.ArbiFlux:
 						return otherEcosystemTokenBalance;
 					case Ecosystem.Lockquidity:
-						return (addressDetails as FluxAddressDetails).fluxBalance;
+						return addressDetails.fluxBalance;
 				}
 
 				return swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX];
@@ -872,7 +881,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 			const getFluxL2SwapBlance = () => {
 				switch (state.ecosystem) {
 					case Ecosystem.ArbiFlux:
-						return (addressTokenDetails as FluxAddressTokenDetails).damBalance;
+						return addressTokenDetails.damBalance;
 					//case Ecosystem.Lockquidity: //@todo get from extra prop
 				}
 				return swapTokenBalances[Layer.Layer2][SwapToken.FLUX];
@@ -881,10 +890,10 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 			return {
 				[Layer.Layer1]: {
 					[SwapToken.DAM]: !isArbitrumMainnet
-						? (addressTokenDetails as FluxAddressTokenDetails).damBalance
+						? addressTokenDetails.damBalance
 						: swapTokenBalances[Layer.Layer1][SwapToken.DAM],
 					[SwapToken.FLUX]: !isArbitrumMainnet
-						? (addressDetails as FluxAddressDetails).fluxBalance
+						? addressDetails.fluxBalance
 						: swapTokenBalances[Layer.Layer1][SwapToken.FLUX],
 					[SwapToken.ETH]: !isArbitrumMainnet ? ethBalance : swapTokenBalances[Layer.Layer1][SwapToken.ETH],
 				},
@@ -900,8 +909,8 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 
 		return {
 			balances: {
-				damToken: (addressTokenDetails as FluxAddressTokenDetails).damBalance,
-				fluxToken: (addressDetails as FluxAddressDetails).fluxBalance,
+				damToken: addressTokenDetails.damBalance,
+				fluxToken: addressDetails.fluxBalance,
 				eth: ethBalance,
 
 				fluxTotalSupply,
@@ -919,47 +928,10 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 			swapTokenBalances,
 			selectedAddress,
 			addressLock,
-			//marketAddressLock,
-			//currentAddressMarketAddressLock,
-			//currentAddressMintableBalance,
 			addressDetails,
 			addressTokenDetails,
 		};
 	};
 
-	// Try 3 times to get account state
-	for (let attempt = 0; attempt <= 3; attempt++) {
-		try {
-			const accountState = await getAccountState();
-			return accountState;
-		} catch (err) {
-			devLog('FindAccountState batch request failure:', { err, message: (err as any).message });
-			// Retry
-			switch (attempt) {
-				case 0:
-					await new Promise((resolve) => setTimeout(resolve, 1000));
-					continue;
-				case 1:
-					await new Promise((resolve) => setTimeout(resolve, 2500));
-					continue;
-				case 2:
-					await new Promise((resolve) => setTimeout(resolve, 5000));
-					continue;
-			}
-
-			const netId = await web3.eth.net.getId();
-			devLog('netId:', netId);
-
-			//const networkType = await web3.eth.net.networkType();
-			const networkType = 'main';
-			//devLog('networkType:', networkType)
-
-			// This will pretty print on frontend in a table
-			throw {
-				err: (err as any).message ? (err as any).message : err,
-				netId,
-				networkType,
-			};
-		}
-	}
+	return await getAccountState();
 };

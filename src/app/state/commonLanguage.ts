@@ -38,9 +38,9 @@ export const commonLanguage = {
 
 		CloseDrawer: 'CLOSE_DRAWER',
 		OpenDrawer: 'OPEN_DRAWER',
-		InitializeWalletConnect: 'INITIALIZE_WALLET_CONNECT',
-		DisconnectFromWalletConnect: 'DISCONNECT_FROM_WALLETCONNECT',
-		ShowWalletConnectRpc: 'SHOW_WALLETCONNECT_RPC',
+		//InitializeWalletConnect: 'INITIALIZE_WALLET_CONNECT',
+		//DisconnectFromWalletConnect: 'DISCONNECT_FROM_WALLETCONNECT',
+		//ShowWalletConnectRpc: 'SHOW_WALLETCONNECT_RPC',
 
 		ClientSettings: {
 			SetPriceMultiplier: 'CLIENT_SETTINGS_SET_PRICE_MULTIPLIER',
@@ -79,7 +79,7 @@ export const commonLanguage = {
 		FindWeb3Instance: 'FIND_WEB3_INSTANCE',
 		FindAccessLinks: 'FIND_ACCESS_LINKS',
 		EnableWeb3: 'ENABLE_WEB3',
-		EnableWalletConnect: 'ENABLE_WALLET_CONNECT',
+		//EnableWalletConnect: 'ENABLE_WALLET_CONNECT',
 		FindAccountState: 'FIND_ACCOUNT_STATE',
 
 		GetAuthorizeFluxOperatorResponse: 'GET_AUTHORIZE_FLUX_OPERATOR_RESPONSE',
@@ -92,7 +92,7 @@ export const commonLanguage = {
 
 		PerformSearch: 'PERFORM_SEARCH',
 		GetFullHelpArticle: 'GET_FULL_HELP_ARTICLE',
-		DisconnectWalletConnect: 'DISCONNECT_WALLETCONNECT',
+		//DisconnectWalletConnect: 'DISCONNECT_WALLETCONNECT',
 		ResetHelpArticleBodies: 'RESET_HELP_ARTICLE_BODIES',
 
 		Swap: {

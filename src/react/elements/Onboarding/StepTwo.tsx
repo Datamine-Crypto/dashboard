@@ -1,4 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
+import { dispatch } from '@/react/utils/appStore';
+import { commonLanguage } from '@/app/state/commonLanguage';
 import Grid from '@mui/material/Grid';
 import { OnboardingProps } from '@/react/elements/Onboarding/types';
 
@@ -252,6 +254,17 @@ const StepTwo: React.FC<OnboardingProps> = ({ handleNext, handleBack }) => {
 				<Grid size={{ xs: 12, md: 5 }} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 					<Box sx={{ maxWidth: '100%', height: 'auto' }}>
 						<MetamaskSvg />
+						<Box mt={2} display="flex" justifyContent="center">
+							<Button
+								variant="contained"
+								color="primary"
+								onClick={() => {
+									dispatch({ type: commonLanguage.commands.ConnectToWallet });
+								}}
+							>
+								Connect Wallet
+							</Button>
+						</Box>
 					</Box>
 				</Grid>
 				<Grid size={{ xs: 12, md: 7 }}>

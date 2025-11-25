@@ -1,6 +1,6 @@
 // This utility leverages the Multicall contract to aggregate multiple read-only contract calls into a single blockchain transaction.
 // This significantly reduces network overhead and improves application performance by minimizing RPC requests.
-import Web3 from 'web3';
+import { encodeFunctionData, decodeAbiParameters, parseAbiParameter, Hex } from 'viem';
 
 /**
  * This file provides functions to encode and decode multicall requests, a technique to batch multiple
@@ -16,7 +16,7 @@ export interface MultiCallParams {
 	/** The function to call, including its signature and parameters. */
 	function: {
 		signature: any;
-		parameters: string[];
+		parameters: any[];
 	};
 	/** The expected return types and a callback to process the results. */
 	returns: {
@@ -27,11 +27,10 @@ export interface MultiCallParams {
 
 /**
  * Encodes a set of contract calls into the format expected by the Multicall contract.
- * @param web3 - The Web3 instance.
  * @param multicallParams - A record of named calls, where each value is a `MultiCallParams` object.
  * @returns An array of encoded call data, ready to be sent to the Multicall contract.
  */
-export const encodeMulticall = (web3: Web3, multicallParams: Record<string, MultiCallParams>) => {
+export const encodeMulticall = (multicallParams: Record<string, MultiCallParams>) => {
 	const multicallEntries = Object.entries(multicallParams);
 
 	return multicallEntries
@@ -40,28 +39,30 @@ export const encodeMulticall = (web3: Web3, multicallParams: Record<string, Mult
 		})
 		.map(([key, multicallParam]) => [
 			multicallParam.address,
-			web3.eth.abi.encodeFunctionCall(multicallParam.function.signature, multicallParam.function.parameters),
+			encodeFunctionData({
+				abi: [multicallParam.function.signature],
+				functionName: multicallParam.function.signature.name,
+				args: multicallParam.function.parameters,
+			}),
 		]);
 };
 
 /**
  * Defines the structure of the results returned from a Multicall contract execution.
  */
-interface EncodedMulticallResults {
+export interface EncodedMulticallResults {
 	blockNumber: string;
-	returnData: any[];
+	returnData: Hex[];
 }
 
 /**
  * Decodes the aggregated results from a Multicall contract call.
  * It maps the raw return data back to the original call definitions and applies the specified callbacks.
- * @param web3 - The Web3 instance.
  * @param encodedMulticallResults - The raw results from the Multicall contract.
  * @param multicallParams - The original record of named calls used for encoding.
  * @returns A record of named results, where each key corresponds to a call in the original `multicallParams`.
  */
 export const decodeMulticall = (
-	web3: Web3,
 	encodedMulticallResults: EncodedMulticallResults,
 	multicallParams: Record<string, MultiCallParams>
 ) => {
@@ -74,13 +75,21 @@ export const decodeMulticall = (
 		.reduce((results, [key, multicallParam], index) => {
 			const encodedReturnData = encodedMulticallResults.returnData[index];
 
-			const decodedParams = (web3.eth.abi as any).decodeParameters(
-				multicallParam.returns.params,
-				encodedReturnData
-			) as any[]; // Will be Results object (non-array)
-			const decodedParamsArray = multicallParam.returns.params.map((_, index) => decodedParams[index]);
+			// If the return data is empty or 0x, we can't decode it.
+			// This might happen if the call failed within the multicall.
+			if (!encodedReturnData || encodedReturnData === '0x') {
+				return {
+					...results,
+					[key]: null, // Or handle error appropriately
+				};
+			}
 
-			const result = multicallParam.returns.callback(...decodedParamsArray);
+			const decodedParams = decodeAbiParameters(
+				multicallParam.returns.params.map((type) => parseAbiParameter(type)),
+				encodedReturnData
+			);
+
+			const result = multicallParam.returns.callback(...decodedParams);
 			return {
 				...results,
 				[key]: result,
