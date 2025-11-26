@@ -1,21 +1,26 @@
 import React from 'react';
 import { Box, Paper, Typography, Chip, Tooltip, useTheme } from '@mui/material';
 
-interface ChartDataPoint {
+export interface ChartTooltipItem {
+	label?: string;
+	value: string | number | React.ReactNode;
+	color?: string;
+	variant?: 'body2' | 'caption' | 'h6';
+	fontWeight?: 'bold' | 'normal';
+}
+
+export interface ChartDataPoint {
 	time: string;
 	timestamp: number;
-	burnedUSD: number;
-	txCount: number;
+	value: number; // Primary value for bar height
+	formattedValue?: string; // Formatted primary value for tooltip
 	id?: string;
-	caller?: string;
-	jackpotUSD?: string;
-	tipUSD?: string;
-	blockNumber?: string;
+	tooltipItems?: ChartTooltipItem[]; // Flexible tooltip content
 }
 
 interface HodlClickerChartProps {
 	chartData: ChartDataPoint[];
-	maxBurnedUSD: number;
+	maxValue: number;
 	totalTransactions: number;
 	chartTitle: string;
 	averageValue?: number;
@@ -25,12 +30,11 @@ interface HodlClickerChartProps {
 
 const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
 	chartData,
-	maxBurnedUSD,
+	maxValue,
 	totalTransactions,
 	chartTitle,
 	averageValue,
 	hideTotalTransactions,
-	hideTooltipTxCount,
 }) => {
 	const theme = useTheme();
 
@@ -64,13 +68,13 @@ const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
 					}}
 				>
 					{/* Average Line */}
-					{averageValue !== undefined && maxBurnedUSD > 0 && (
+					{averageValue !== undefined && maxValue > 0 && (
 						<Box
 							sx={{
 								position: 'absolute',
 								left: 0,
 								right: 0,
-								bottom: `${(averageValue / maxBurnedUSD) * 100}%`,
+								bottom: `${(averageValue / maxValue) * 100}%`,
 								borderTop: `2px dashed ${theme.palette.info.main}`,
 								opacity: 0.7,
 								zIndex: 1,
@@ -80,8 +84,8 @@ const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
 					)}
 
 					{chartData.map((data, index) => {
-						const heightPercent = maxBurnedUSD > 0 ? (data.burnedUSD / maxBurnedUSD) * 100 : 0;
-						const isAboveAverage = averageValue !== undefined && data.burnedUSD > averageValue;
+						const heightPercent = maxValue > 0 ? (data.value / maxValue) * 100 : 0;
+						const isAboveAverage = averageValue !== undefined && data.value > averageValue;
 
 						return (
 							<Tooltip
@@ -91,34 +95,23 @@ const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
 										<Typography variant="body2" fontWeight="bold">
 											{data.time}
 										</Typography>
-										<Typography variant="body2" color="warning.main" fontWeight="bold">
-											${data.burnedUSD.toFixed(4)}
-										</Typography>
-										{data.caller && (
-											<Typography variant="caption" display="block">
-												By: {data.caller}
+										{data.formattedValue && (
+											<Typography variant="body2" color="warning.main" fontWeight="bold">
+												{data.formattedValue}
 											</Typography>
 										)}
-										{data.jackpotUSD && (
-											<Typography variant="caption" display="block" color="success.light">
-												Jackpot: ${data.jackpotUSD}
+										{data.tooltipItems?.map((item, idx) => (
+											<Typography
+												key={idx}
+												variant={item.variant || 'caption'}
+												display="block"
+												color={item.color || 'text.secondary'}
+												fontWeight={item.fontWeight || 'normal'}
+											>
+												{item.label ? `${item.label}: ` : ''}
+												{item.value}
 											</Typography>
-										)}
-										{data.tipUSD && (
-											<Typography variant="caption" display="block" color="info.light">
-												Tip: ${data.tipUSD}
-											</Typography>
-										)}
-										{data.blockNumber && (
-											<Typography variant="caption" display="block" color="text.secondary">
-												Block: {data.blockNumber}
-											</Typography>
-										)}
-										{!hideTooltipTxCount && (
-											<Typography variant="caption" display="block">
-												{data.txCount} Tx{data.txCount !== 1 ? 's' : ''}
-											</Typography>
-										)}
+										))}
 									</Box>
 								}
 								arrow

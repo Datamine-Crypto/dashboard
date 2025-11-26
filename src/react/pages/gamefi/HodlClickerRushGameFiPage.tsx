@@ -109,7 +109,12 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 	];
 	return (
 		<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-			<CardMedia component="img" height="455" image="./images/hodlClicker.png" alt="HODL Clicker Rush" />
+			<CardMedia
+				component="img"
+				image="./images/hodlClicker.png"
+				alt="HODL Clicker Rush"
+				style={{ borderRadius: 30 }}
+			/>
 			{/* Header Section: Title, Subtitle, and Start Game Button */}
 			<Box textAlign="center" mb={6}>
 				<Typography variant="h6" color="text.secondary" paragraph sx={{ mb: 3, mt: 3 }}>
