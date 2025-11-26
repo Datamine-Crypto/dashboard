@@ -5,7 +5,7 @@ _Preface: For true decentralization and openness we've decided to open source 6 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.x-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Material-UI](https://img.shields.io/badge/Material--UI-v7-0081CB?logo=mui&logoColor=white)](https://mui.com/)
-[![Web3.js](https://img.shields.io/badge/Web3.js-v4-F16822?logo=web3.js&logoColor=white)](https://web3js.org/)
+[![Viem](https://img.shields.io/badge/Viem-v2-1E1E1E?logo=ethereum&logoColor=white)](https://viem.sh/)
 [![Yarn](https://img.shields.io/badge/Yarn-v4-2C8EBB?logo=yarn&logoColor=white)](https://yarnpkg.com/)
 [![Status](https://img.shields.io/badge/Status-Under%20Active%20Development-blue)](https://github.com/Datamine-Crypto/dashboard)
 [![Deploy to GitHub Pages](https://github.com/Datamine-Crypto/dashboard/actions/workflows/deploy.yml/badge.svg)](https://github.com/Datamine-Crypto/dashboard/actions/workflows/deploy.yml)
@@ -139,12 +139,12 @@ This map outlines the key concepts, components, and principles of the Datamine N
 
 - **🏗️ Application Architecture (High-Level)**
   - **🖥️ UI:** React components (`src/react/`)
-  - **🔗 Blockchain Interaction:** Web3.js, Web3Context, web3Reducer (`src/web3/`)
+  - **🔗 Blockchain Interaction:** Viem, Web3Context, web3Reducer (`src/web3/`)
   - **🧠 State Management:** `appStore.ts` (Zustand), `handleCommand.ts` and `handleQuery.ts` (Commands & Queries pattern), `sideEffectReducer.ts`
   - **🔧 Utilities:** Helper functions (`src/utils/`)
   - **⚙️ Configuration:** `src/app/configs/`
   - **🎨 Styling:** `tss-react`, `useStyles`, Material-UI themes (`src/react/styles.ts`)
-  - **🚨 Error Handling:** `src/utils/helperFunctions.ts` (`rethrowWeb3Error`), `web3Reducer.ts` (error state), Material-UI Snackbars/Dialogs
+  - **🚨 Error Handling:** `web3Reducer.ts` (error state), Material-UI Snackbars/Dialogs
 
 - **🔌 Third-Party Integrations**
   - **📚 Help Articles:** Markdown files in `public/helpArticles/`, fetched via `fetch` API

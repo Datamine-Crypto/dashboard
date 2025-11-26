@@ -30,7 +30,7 @@ This project is a web-based dashboard for the Datamine Network, built with React
 
 - **Framework:** React v19.2.0
 - **UI Library:** Material-UI (MUI) v7.3.5
-- **Blockchain Interaction:** Web3.js v4.16.0, @walletconnect/ethereum-provider
+- **Blockchain Interaction:** Viem v2.40.0
 - **Language:** TypeScript v5.9.3
 - **Build Tool:** Vite v7.2.2
 - **Package Manager:** Yarn v4.10.3
@@ -41,7 +41,7 @@ The `src` directory is organized with a clear separation of concerns:
 
 - **`src/`**: Contains the application's core logic.
   - **`src/react/`**: Houses all React components, pages, and UI-related elements.
-  - **`src/web3/`**: Manages all blockchain interactions, including ABI definitions (located in `src/web3/abis/`).
+  - **`src/web3/`**: Manages all blockchain interactions using Viem, including ABI definitions (located in `src/web3/abis/`).
   - **`src/utils/`**: A collection of helper functions for tasks like formatting, calculations, and clipboard interaction.
   - **`src/app/`**: Contains application configuration and state management logic.
     - **`src/app/configs/`**: Manages all environment and application configurations.
@@ -107,10 +107,12 @@ Extra information help you understand the Datamine ecosystem better:
 - `src/web3/abis/uniswapPair.json`: ABI for Uniswap V2 Pair contracts.
 - `src/web3/abis/uniswapPairV3.json`: ABI for Uniswap V3 Pair contracts.
 - `src/web3/abis/multicall.json`: ABI for the Multicall contract.
+- `src/web3/abis/batchMinter.json`: ABI for the Batch Minter contract.
+- `src/web3/abis/games/gameHodlClicker.json`: ABI for the Hodl Clicker game contract.
 
 #### 7. Error Handling Strategy
 
-- Global error handling for Web3 transactions is managed via `src/utils/helperFunctions.ts` (`rethrowWeb3Error`) and then propagated to `web3Reducer.ts` to update the `error` state. User-facing error messages are typically displayed via Material-UI Snackbars or custom dialogs triggered by the `dialog` state in `web3Reducer`.
+- Global error handling for Web3 transactions is managed via `web3Reducer.ts` to update the `error` state. User-facing error messages are typically displayed via Material-UI Snackbars or custom dialogs triggered by the `dialog` state in `web3Reducer`.
 
 #### 8. Third-Party Integrations (Beyond Web3)
 
@@ -266,7 +268,7 @@ The `src` directory is organized into the following main subdirectories:
     - **`src/react/pages/`**: Top-level page components.
       - `CommunityPage.tsx`, `DashboardPage.tsx`, `HelpPage.tsx`, `OnboardingPage.tsx`, `PageFragment.tsx`, `RealtimeRewardsGameFiPage.tsx`, `Terms.tsx`, `TokenPage.tsx`
   - **`src/utils/`**: Collection of helper functions.
-    - `copyToClipboard.ts`, `devLog.ts`, `formatMoney.ts`, `getApy.ts`, `web3multicall.ts`, `helperFunctions.ts`
+    - `copyToClipboard.ts`, `devLog.ts`, `formatMoney.ts`, `getApy.ts`, `web3multicall.ts`, `mathHelpers.ts`
     - **`src/utils/swap/`**: Functions related to token swapping.
       - `performSwap.ts`, `performSwapUniswapV2.ts`, `sampleQuoteSingleSwap.ts`, `swapOptions.ts`
   - **`src/web3/`**: Manages all blockchain interactions.
@@ -357,7 +359,7 @@ This map outlines the key concepts, components, and principles of the Datamine N
   - **🔧 Utilities:** Helper functions (`src/utils/`)
   - **⚙️ Configuration:** `src/app/configs/`
   - **🎨 Styling:** `tss-react`, `useStyles`, Material-UI themes (`src/react/styles.ts`)
-  - **🚨 Error Handling:** `src/utils/helperFunctions.ts` (`rethrowWeb3Error`), `web3Reducer.ts` (error state), Material-UI Snackbars/Dialogs
+  - **🚨 Error Handling:** `web3Reducer.ts` (error state), Material-UI Snackbars/Dialogs
 
 - **🔌 Third-Party Integrations**
   - **📚 Help Articles:** Markdown files in `public/helpArticles/`, fetched via `fetch` API
@@ -391,7 +393,7 @@ This map outlines the key concepts, components, and principles of the Datamine N
 
 ### Gas Fee Estimation
 
-- The `getGasFees` function in `src/utils/helperFunctions.ts` estimates gas fees for transactions.
+- The `getGasFees` function in `src/web3/utils/web3Helpers.ts` estimates gas fees for transactions.
 - It supports both legacy gas price and EIP-1559 `maxFeePerGas` and `maxPriorityFeePerGas` based on client settings.
 - This ensures that transactions are processed in a timely manner without overpaying for gas.
 
@@ -411,8 +413,8 @@ This map outlines the key concepts, components, and principles of the Datamine N
   FLUX (L2) is using Sushiswap (which is a fork of Uniswap V2) (0.3% pool)
   ArbiFLUX (L2) is using Sushiswap (which is a fork of Uniswap V2) (0.3% pool)
   LOCK (L2) is using Uniswap V2 (0.3% pool). The Lockquidity pool is hardcoded into the smart contract and can never be changed again
-- **Q: What is the role of `Web3Context.tsx` in the application's architecture, and how does it facilitate blockchain interactions across different components?**
-- **A:** `Web3Context.tsx` now acts as a wrapper around the `useAppStore` hook from `zustand`. It provides a `useWeb3Context` hook so you can access global state (we only have `AppState` that is global across the entire app) and the `emitter`. It no longer uses `React.createContext`.
+- **Q: What is the role of `Web3Context.tsx` in the application's architecture?**
+- **A:** `Web3Context.tsx` has been removed. The application now uses `zustand` for state management, and blockchain interactions are handled via `viem` directly in the components or through the `web3ProviderUtils.ts` and `sideEffectReducer.ts` pattern.
 - **Q: Could you elaborate on the "forecasting calculator" feature? What is its purpose, and how does it work from a user's perspective?**
 - The forecasting tool allows a user to toggle a "forecasting mode" that shows a forecasted amount that they would mint over a certain time. Here they can drag sliders for burn & time multipliers, enter prediced price and also pick start/end times for their unminted time. This way they can calculate potential amount that can be minted in the future.
   The forecasting tool is available for all ecosystems.
