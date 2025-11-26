@@ -222,7 +222,7 @@ const Render: React.FC<RenderParams> = React.memo(
 
 interface Props {}
 
-const MachinePage: React.FC<Props> = () => {
+const HodlClickerPage: React.FC<Props> = () => {
 	const {
 		addressDetails,
 		isLate,
@@ -271,4 +271,4 @@ const MachinePage: React.FC<Props> = () => {
 	);
 };
 
-export default MachinePage;
+export default HodlClickerPage;

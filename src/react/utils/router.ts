@@ -15,7 +15,7 @@ export enum Page {
 	Onboarding,
 	RealtimeRewardsGameFi,
 	HodlClickerRushGameFiPage,
-	Machine,
+	HodlClicker,
 }
 
 /**
@@ -101,9 +101,9 @@ export const getPageDetails = () => {
 		};
 	}
 
-	if (path === 'machine') {
+	if (path === 'hodlclicker') {
 		return {
-			page: Page.Machine,
+			page: Page.HodlClicker,
 		};
 	}
 
@@ -153,8 +153,8 @@ export const useRouter = (dispatch: ReducerDispatch, ecosystem: Ecosystem) => {
 				case Page.HodlClickerRushGameFiPage:
 					document.title = `Get Started - ${ecosystemName}`;
 					break;
-				case Page.Machine:
-					document.title = `Machine - ${ecosystemName}`;
+				case Page.HodlClicker:
+					document.title = `Hodl Clicker - ${ecosystemName}`;
 					break;
 				default:
 					document.title = `${ecosystemSlogan} - ${ecosystemName}`;

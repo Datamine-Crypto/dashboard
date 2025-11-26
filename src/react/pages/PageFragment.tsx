@@ -26,7 +26,7 @@ const MainDrawer = lazy(() =>
 	import('@/react/elements/Fragments/Drawer').then((module) => ({ default: module.MainDrawer }))
 );
 const DashboardPage = lazy(() => import('@/react/pages/DashboardPage'));
-const MachinePage = lazy(() => import('@/react/pages/MachinePage'));
+const HodlClickerPage = lazy(() => import('@/react/pages/HodlClickerPage'));
 const HomePage = lazy(() => import('@/react/pages/HomePage'));
 interface RenderParams {
 	dispatch: ReducerDispatch;
@@ -83,8 +83,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				return <RealtimeRewardsGameFiPage />;
 			case Page.HodlClickerRushGameFiPage:
 				return <HodlClickerRushGameFiPage />;
-			case Page.Machine:
-				return <MachinePage />;
+			case Page.HodlClicker:
+				return <HodlClickerPage />;
 		}
 		return <HomePage ecosystem={ecosystem} />;
 	};

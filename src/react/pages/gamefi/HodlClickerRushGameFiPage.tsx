@@ -12,8 +12,6 @@ import {
 	RocketLaunch as RocketLaunchIcon,
 } from '@mui/icons-material';
 import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // Assuming MUI v7 imports are similar
-import { Game } from '@/app/interfaces';
-import { commonLanguage } from '@/app/state/commonLanguage';
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
 import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
@@ -276,10 +274,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 					>
 						<HodlClickerRushLandingPage
 							onStartGameClick={() => {
-								dispatch({
-									type: commonLanguage.commands.Market.ShowGameDialog,
-									payload: { game: Game.HodlClicker },
-								});
+								window.location.hash = '#hodlclicker';
 							}}
 						/>
 					</Paper>
