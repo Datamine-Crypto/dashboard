@@ -761,6 +761,13 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				...withQueries([{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} }]),
 			};
 		}
+		case commonLanguage.commands.Market.UpdateGame: {
+			const { game } = command.payload;
+			return {
+				...state,
+				game,
+			};
+		}
 		case commonLanguage.commands.Market.AddGemAddress: {
 			const { address } = command.payload;
 
@@ -883,12 +890,14 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		}
 		case commonLanguage.commands.Market.RefreshMarketAddresses: {
 			try {
+				const { game } = command.payload || {};
 				// if (!state.web3) {
 				// 	return state;
 				// }
 
 				return {
 					...state,
+					...(game ? { game } : {}),
 					error: null,
 					...withQueries([{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} }]),
 				};

@@ -351,7 +351,7 @@ export const queryHandlers = {
 			return;
 		}
 
-		const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market : contracts.gameHodlClicker);
+		const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market : contracts.gameHodlClicker) as any;
 
 		if (gems.length === 1) {
 			const gem = gems[0];

@@ -1,11 +1,9 @@
 import { Box, Button, CircularProgress, Container, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import React, { useEffect } from 'react';
 import { FluxAddressDetails } from '@/app/interfaces';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { ReducerDispatch, ConnectionMethod } from '@/app/interfaces';
-import logo from '@/react/svgs/logo.svg';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
@@ -14,6 +12,7 @@ import { isDevLogEnabled } from '@/utils/devLog';
 import { useShallow } from 'zustand/react/shallow';
 import HodlClickerEvents from '@/react/pages/machine/HodlClickerEvents';
 import { getNetworkDropdown } from '@/react/elements/Fragments/EcosystemDropdown';
+import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 
 interface RenderParams {
 	isLate: boolean;
@@ -84,17 +83,10 @@ const Render: React.FC<RenderParams> = React.memo(
 			);
 		};
 
-		const getLogo = () => {
-			return <img src={logo} alt="Logo" style={{ width: '128px' }} />;
-		};
-
 		const getCenterContent = ({ title, message, content }: CenterContent) => {
 			return (
 				<Box className={classes.fullScreenSplash}>
 					<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-						<Grid container justifyContent="center">
-							<Grid>{getLogo()}</Grid>
-						</Grid>
 						<Box mt={3} mb={6} textAlign="center">
 							<Typography component="div" variant="h5" color="textPrimary" gutterBottom>
 								{title}
@@ -132,9 +124,6 @@ const Render: React.FC<RenderParams> = React.memo(
 			return (
 				<Box className={classes.fullScreenSplash}>
 					<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-						<Grid container justifyContent="center">
-							<Grid>{getLogo()}</Grid>
-						</Grid>
 						<Box mt={3} mb={6} textAlign="center">
 							<Typography component="div" variant="h5" color="textPrimary" gutterBottom>
 								Welcome to {ecosystemName} Machine
@@ -194,9 +183,6 @@ const Render: React.FC<RenderParams> = React.memo(
 				return (
 					<Box className={classes.fullScreenSplash}>
 						<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-							<Grid container justifyContent="center">
-								<Grid>{getLogo()}</Grid>
-							</Grid>
 							<Box mt={3} mb={6} textAlign="center">
 								<Typography component="div" variant="h5" color="error" gutterBottom>
 									Incorrect Ecosystem
@@ -211,30 +197,9 @@ const Render: React.FC<RenderParams> = React.memo(
 				);
 			}
 
-			const getBlock = () => {
-				if (!addressDetails) {
-					return null;
-				}
-				return (
-					<Box mt={4} textAlign="center">
-						<Typography variant="h4" color="textPrimary">
-							Current Block
-						</Typography>
-						<Typography variant="h2" color="secondary">
-							{addressDetails.blockNumber}
-						</Typography>
-					</Box>
-				);
-			};
-
 			return (
 				<Box className={classes.fullScreenSplash}>
-					<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-						<Grid container justifyContent="center">
-							<Grid>{getLogo()}</Grid>
-						</Grid>
-						{getEcosystemDropdown()}
-						{getBlock()}
+					<Box mt={8 + 3} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
 						<Box width="100%" maxWidth={800}>
 							<HodlClickerEvents ecosystem={ecosystem} />
 						</Box>
@@ -244,10 +209,14 @@ const Render: React.FC<RenderParams> = React.memo(
 		};
 
 		return (
-			<Container style={{ height: '100vh' }}>
-				{getLoadingIndicator()}
-				{getApp()}
-			</Container>
+			<>
+				<Container>
+					{getLoadingIndicator()}
+					{getApp()}
+				</Container>
+
+				<FooterFragment ecosystem={ecosystem} />
+			</>
 		);
 	}
 );

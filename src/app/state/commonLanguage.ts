@@ -73,6 +73,7 @@ export const commonLanguage = {
 			RefreshMarketAddresses: 'MARKET_REFRESH_MARKET_ADDRESSES',
 			AddGemAddress: 'MARKET_ADD_GEM_ADDRESS',
 			ShowGameDialog: 'SHOW_GAME_DIALOG',
+			UpdateGame: 'UPDATE_GAME',
 		},
 	},
 	queries: {

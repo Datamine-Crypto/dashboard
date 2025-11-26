@@ -1,15 +1,4 @@
-import {
-	Box,
-	Card,
-	CardContent,
-	Chip,
-	CircularProgress,
-	Grid,
-	Typography,
-	useTheme,
-	Paper,
-	Tooltip,
-} from '@mui/material';
+import { Box, Button, Typography, useTheme, Alert } from '@mui/material';
 import React, { useEffect, useState, useMemo } from 'react';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
@@ -17,12 +6,22 @@ import { getPublicClient } from '@/web3/utils/web3ProviderUtils';
 import gameHodlClickerAbi from '@/web3/abis/games/gameHodlClicker.json';
 import { Address } from 'viem';
 import moment from 'moment';
-import { BNToDecimal, getPriceToggle } from '@/utils/mathHelpers';
+import { getPriceToggle } from '@/utils/mathHelpers';
 import BN from 'bn.js';
-import { Whatshot, AttachMoney, LocalGasStation } from '@mui/icons-material';
-import { useAppStore } from '@/react/utils/appStore';
+import { Diamond, AutoAwesome } from '@mui/icons-material';
+import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { useShallow } from 'zustand/react/shallow';
-import { Token } from '@/app/interfaces';
+import { Token, Game, AddressLockDetailsViewModel, DialogType } from '@/app/interfaces';
+import { commonLanguage } from '@/app/state/commonLanguage';
+import Big from 'big.js';
+import { getNetworkDropdown } from '@/react/elements/Fragments/EcosystemDropdown';
+
+// Sub-components
+import HodlClickerChart from './HodlClickerChart';
+import HodlClickerFaucets, { GemFilterType } from './HodlClickerFaucets';
+import HodlClickerFeed from './HodlClickerFeed';
+import HodlClickerStats from './HodlClickerStats';
+import HodlClickerLeaderboard from './HodlClickerLeaderboard';
 
 interface Props {
 	ecosystem: Ecosystem;
@@ -49,27 +48,81 @@ interface EventLog {
 	timestamp: number; // Unix timestamp in seconds
 }
 
-const TimeAgo: React.FC<{ timestamp: number }> = ({ timestamp }) => {
-	const [timeAgo, setTimeAgo] = useState(moment.unix(timestamp).fromNow());
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setTimeAgo(moment.unix(timestamp).fromNow());
-		}, 60000); // Update every minute
-		return () => clearInterval(interval);
-	}, [timestamp]);
-
-	return <>{timeAgo}</>;
-};
-
 const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 	const [logs, setLogs] = useState<EventLog[]>([]);
 	const theme = useTheme();
-	const { balances } = useAppStore(
+	const { balances, games, selectedAddress } = useAppStore(
 		useShallow((state) => ({
 			balances: state.balances,
+			games: state.games,
+			selectedAddress: state.selectedAddress,
 		}))
 	);
+
+	// Game Details Logic
+	const game = Game.HodlClicker;
+	const { marketAddresses, totalContractRewardsAmount, totalContractLockedAmount } = games[game];
+	const currentAddressMarketAddress =
+		marketAddresses && marketAddresses.addresses.length > 0
+			? marketAddresses.addresses.find(
+					(address) => address.currentAddress.toLowerCase() === selectedAddress?.toLowerCase()
+				) || null
+			: null;
+
+	const getRewardsAlert = () => {
+		if (!currentAddressMarketAddress || !balances || !totalContractRewardsAmount || !totalContractLockedAmount) {
+			return null;
+		}
+		const getBalancePercentage = () => {
+			if (!totalContractLockedAmount) {
+				return 0;
+			}
+			const test = new Big(currentAddressMarketAddress.rewardsAmount.toString()).div(
+				new Big(totalContractLockedAmount.toString())
+			);
+			return test.toNumber() * 100;
+		};
+		if (totalContractLockedAmount.eq(new BN(0)) || currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
+			return <></>;
+		}
+		const balancePercentage = getBalancePercentage();
+		const getTierDetails = () => {
+			if (balancePercentage > 20) {
+				return { tier: 7, emoji: <>👀</> };
+			}
+			if (balancePercentage > 10) {
+				return { tier: 6, emoji: <>👑</> };
+			}
+			if (balancePercentage > 5) {
+				return { tier: 5, emoji: <>💎</> };
+			}
+			if (balancePercentage > 2) {
+				return { tier: 4, emoji: <>🏅</> };
+			}
+			if (balancePercentage > 1) {
+				return { tier: 3, emoji: <>🥈</> };
+			}
+			if (balancePercentage > 0.5) {
+				return { tier: 2, emoji: <>🥉</> };
+			}
+			return { tier: 1 };
+		};
+		const { emoji, tier } = getTierDetails();
+		return (
+			<Alert severity="success" sx={{ mt: 2 }}>
+				[Tier {tier}] Passive Staking:{' '}
+				<Typography variant="body2" display="inline" color="textSecondary">
+					<strong>
+						Earning {balancePercentage.toFixed(4)}% of all rewards collected {emoji}
+					</strong>
+				</Typography>
+			</Alert>
+		);
+	};
+
+	const showDepositWithdrawDialog = () => {
+		appDispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
+	};
 
 	useEffect(() => {
 		const publicClient = getPublicClient();
@@ -178,8 +231,171 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 		};
 	}, [ecosystem]);
 
+	// Access Market Data for "Collect All" functionality
+	const [selectedFilter, setSelectedFilter] = useState<GemFilterType>(() => {
+		const saved = localStorage.getItem('hodlClickerGemFilter');
+		return (saved as GemFilterType) || GemFilterType.PERCENT_80;
+	});
+	const [minGemValue, setMinGemValue] = useState<number>(0.05); // Default, will be updated by avg
+	const [avgGemValue, setAvgGemValue] = useState<number | null>(null);
+
+	// Persist filter selection
+	useEffect(() => {
+		localStorage.setItem('hodlClickerGemFilter', selectedFilter);
+	}, [selectedFilter]);
+
+	// Recalculate minGemValue when filter or average changes
+	useEffect(() => {
+		if (avgGemValue === null) return;
+
+		let newVal = 0.05;
+		switch (selectedFilter) {
+			case GemFilterType.PERCENT_90:
+				newVal = avgGemValue * 0.9;
+				break;
+			case GemFilterType.PERCENT_80:
+				newVal = avgGemValue * 0.8;
+				break;
+			case GemFilterType.PERCENT_50:
+				newVal = avgGemValue * 0.5;
+				break;
+			case GemFilterType.PERCENT_25:
+				newVal = avgGemValue * 0.25;
+				break;
+			case GemFilterType.PERCENT_10:
+				newVal = avgGemValue * 0.1;
+				break;
+			case GemFilterType.MANUAL_0_01:
+				newVal = 0.01;
+				break;
+			case GemFilterType.MANUAL_0_05:
+				newVal = 0.05;
+				break;
+			case GemFilterType.MANUAL_0_10:
+				newVal = 0.1;
+				break;
+		}
+		setMinGemValue(newVal);
+	}, [selectedFilter, avgGemValue]);
+
+	// Fetch Market Addresses if missing
+	const hasFetchedMarketAddresses = React.useRef(false);
+	useEffect(() => {
+		// Ensure the game is set to HodlClicker so dialogs work correctly
+		appDispatch({
+			type: commonLanguage.commands.Market.UpdateGame,
+			payload: { game: Game.HodlClicker },
+		});
+
+		const marketData = games[Game.HodlClicker];
+		// Only fetch if marketAddresses is null/undefined and we haven't fetched yet.
+		if ((!marketData || !marketData.marketAddresses) && !hasFetchedMarketAddresses.current) {
+			hasFetchedMarketAddresses.current = true;
+			appDispatch({
+				type: commonLanguage.commands.Market.RefreshMarketAddresses,
+				payload: { game: Game.HodlClicker },
+			});
+		}
+	}, [games]);
+
+	const validGems = useMemo(() => {
+		const marketData = games[Game.HodlClicker];
+		if (!marketData || !marketData.marketAddresses) return [];
+
+		const gems: any[] = []; // Using any to avoid complex type imports if Gem isn't easily available, but better to match structure
+		// We need to map marketAddresses to Gem structure expected by MarketBurnFluxTokens
+		// Gem interface: { id: string; dollarAmount: number; ethereumAddress: string; ... }
+
+		const config = getEcosystemConfig(ecosystem);
+		const gameAddress = config.gameHodlClickerAddress;
+
+		marketData.marketAddresses.addresses.forEach((addr: AddressLockDetailsViewModel) => {
+			// Filter out paused addresses or addresses not belonging to this game
+			if (addr.isPaused || addr.minterAddress.toLowerCase() !== gameAddress?.toLowerCase()) {
+				return;
+			}
+
+			// Logic to calculate dollar amount for the gem
+			// This mimics logic from MarketCollectRewardsDialog
+			// We need 'balances' to calculate USD value.
+			if (!balances) return;
+
+			const amountBN = addr.mintAmount;
+			const rewardsPercent = addr.rewardsPercent === 0 ? 500 : addr.rewardsPercent;
+			const rewardsAmount = amountBN.add(amountBN.mul(new BN(rewardsPercent)).div(new BN(10000)));
+			// For HodlClicker (Game 2), dollar amount is divided by 2?
+			// In MarketCollectRewardsDialog: dollarAmount: parseFloat(balanceInUsdc) / (game === Game.DatamineGems ? 1 : 2)
+			// So for HodlClicker it is / 2.
+
+			const balanceInUsdc = getPriceToggle({
+				value: rewardsAmount.sub(amountBN),
+				inputToken: Token.Mintable,
+				outputToken: Token.USDC,
+				balances,
+				round: 6,
+				removeCommas: true,
+			});
+
+			const dollarAmount = parseFloat(balanceInUsdc) / 2;
+
+			gems.push({
+				id: addr.currentAddress,
+				ethereumAddress: addr.currentAddress,
+				dollarAmount: dollarAmount,
+				error: undefined,
+			});
+		});
+		return gems;
+	}, [games, balances]);
+
+	// Calculate Average Jackpot Value for Goal (from recent burns)
+	useEffect(() => {
+		if (logs.length > 0 && balances) {
+			// Use only the last 50 transactions for the average
+			const recentLogs = logs.slice(0, 50);
+
+			const totalJackpotUSD = recentLogs.reduce((acc, log) => {
+				const jackpotBN = new BN(log.args.jackpotAmount.toString());
+				const jackpotUSD = parseFloat(
+					getPriceToggle({
+						value: jackpotBN,
+						inputToken: Token.Mintable,
+						outputToken: Token.USDC,
+						balances,
+						round: 6,
+						removeCommas: true,
+					})
+				);
+				return acc + jackpotUSD;
+			}, 0);
+
+			const avgValue = totalJackpotUSD / recentLogs.length;
+			setAvgGemValue(avgValue);
+		}
+	}, [logs, balances]);
+
+	const availableGems = useMemo(() => {
+		return validGems.filter((gem) => gem.dollarAmount >= minGemValue);
+	}, [validGems, minGemValue]);
+
+	const totalAvailableGemsUSD = useMemo(() => {
+		return availableGems.reduce((acc, gem) => acc + gem.dollarAmount, 0);
+	}, [availableGems]);
+
+	const handleCollectAll = () => {
+		if (availableGems.length === 0) return;
+
+		appDispatch({
+			type: commonLanguage.commands.Market.MarketBurnFluxTokens,
+			payload: {
+				amountToBurn: new BN(0),
+				gems: availableGems,
+			},
+		});
+	};
+
 	// Calculate 24h Summary and Chart Data
-	const { summary, chartData, maxBurned, totalTransactions, dateRange } = useMemo(() => {
+	const { summary, chartData, maxBurnedUSD, totalTransactions, dateRange, chartTitle } = useMemo(() => {
 		const now = Math.floor(Date.now() / 1000);
 		const oneDayAgo = now - 24 * 3600;
 
@@ -193,30 +409,40 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 		const totalTip = recentLogs.reduce((acc, log) => acc.add(new BN(log.args.totalTipAmount.toString())), new BN(0));
 
 		// Chart Data: Bucket by hour
-		const buckets: { [key: string]: { burned: number; txCount: number } } = {};
-		// Initialize last 24 hours
-		for (let i = 0; i < 24; i++) {
-			const hourTimestamp = moment().subtract(i, 'hours').startOf('hour').unix();
-			buckets[hourTimestamp] = { burned: 0, txCount: 0 };
-		}
+		const buckets: { [key: string]: { burnedUSD: number; txCount: number } } = {};
 
 		recentLogs.forEach((log) => {
 			const hourTimestamp = moment.unix(log.timestamp).startOf('hour').unix();
-			if (buckets[hourTimestamp] !== undefined) {
-				const burned = parseFloat(BNToDecimal(new BN(log.args.amountActuallyBurned.toString()), false, 18, 2) || '0');
-				buckets[hourTimestamp].burned += burned;
-				buckets[hourTimestamp].txCount += 1;
+			if (!buckets[hourTimestamp]) {
+				buckets[hourTimestamp] = { burnedUSD: 0, txCount: 0 };
 			}
+
+			const burnedBN = new BN(log.args.amountActuallyBurned.toString());
+			let burnedUSD = 0;
+			if (balances) {
+				const usdStr = getPriceToggle({
+					value: burnedBN,
+					inputToken: Token.Mintable,
+					outputToken: Token.USDC,
+					balances,
+					round: 2,
+					removeCommas: true,
+				});
+				burnedUSD = parseFloat(usdStr);
+			}
+
+			buckets[hourTimestamp].burnedUSD += burnedUSD;
+			buckets[hourTimestamp].txCount += 1;
 		});
 
 		let maxBurnedVal = 0;
 		const chartData = Object.entries(buckets)
 			.map(([timestamp, data]) => {
-				if (data.burned > maxBurnedVal) maxBurnedVal = data.burned;
+				if (data.burnedUSD > maxBurnedVal) maxBurnedVal = data.burnedUSD;
 				return {
 					time: moment.unix(Number(timestamp)).format('HH:mm'),
 					timestamp: Number(timestamp),
-					burned: data.burned,
+					burnedUSD: data.burnedUSD,
 					txCount: data.txCount,
 				};
 			})
@@ -225,6 +451,18 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 		const startDate = moment.unix(oneDayAgo).format('MMM D, h:mm A');
 		const endDate = moment.unix(now).format('MMM D, h:mm A');
 
+		// Dynamic Chart Title
+		let chartTitle = 'Collect History (Last 24h)';
+		if (logs.length > 0) {
+			if (recentLogs.length > 0) {
+				const oldestTimestamp = Math.min(...recentLogs.map((l) => l.timestamp));
+				const durationHours = Math.ceil((now - oldestTimestamp) / 3600);
+				if (durationHours < 24 && durationHours > 0) {
+					chartTitle = `Collect History (Last ${durationHours} hour${durationHours !== 1 ? 's' : ''})`;
+				}
+			}
+		}
+
 		return {
 			summary: {
 				totalBurned,
@@ -232,11 +470,12 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 				totalTip,
 			},
 			chartData,
-			maxBurned: maxBurnedVal,
+			maxBurnedUSD: maxBurnedVal,
 			totalTransactions: recentLogs.length,
 			dateRange: `${startDate} - ${endDate}`,
+			chartTitle,
 		};
-	}, [logs]);
+	}, [logs, balances]);
 
 	const getUSDValue = (value: BN, round: number = 2) => {
 		if (!balances) return '0.00';
@@ -254,219 +493,255 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 		return `${address.substring(0, 12)}...${address.substring(address.length - 12)}`;
 	};
 
+	const sortedMarketAddresses = useMemo(() => {
+		if (!marketAddresses?.addresses || !balances) return [];
+
+		const config = getEcosystemConfig(ecosystem);
+		const gameAddress = config.gameHodlClickerAddress;
+
+		// Filter out paused addresses or addresses not belonging to this game
+		const filteredAddresses = marketAddresses.addresses.filter((addr) => {
+			if (addr.isPaused || addr.minterAddress.toLowerCase() !== gameAddress?.toLowerCase()) {
+				return false;
+			}
+			return true;
+		});
+
+		return [...filteredAddresses].sort((a, b) => {
+			const getDollarAmount = (addr: AddressLockDetailsViewModel) => {
+				const amountBN = addr.mintAmount;
+				const rewardsPercent = addr.rewardsPercent === 0 ? 500 : addr.rewardsPercent;
+				const rewardsAmount = amountBN.add(amountBN.mul(new BN(rewardsPercent)).div(new BN(10000)));
+				const balanceInUsdc = getPriceToggle({
+					value: rewardsAmount.sub(amountBN),
+					inputToken: Token.Mintable,
+					outputToken: Token.USDC,
+					balances,
+					round: 6,
+					removeCommas: true,
+				});
+				return parseFloat(balanceInUsdc) / 4;
+			};
+
+			const amountA = getDollarAmount(a);
+			const amountB = getDollarAmount(b);
+			const isWinnerA = amountA >= minGemValue;
+			const isWinnerB = amountB >= minGemValue;
+
+			if (isWinnerA && !isWinnerB) return -1;
+			if (!isWinnerA && isWinnerB) return 1;
+			return amountB - amountA; // Sort by amount descending within groups
+		});
+	}, [marketAddresses, balances, minGemValue, ecosystem]);
+
+	const [gasEstimateUSD, setGasEstimateUSD] = useState<string | null>(null);
+
+	// Estimate Gas
+	useEffect(() => {
+		const calculateGas = async () => {
+			if (availableGems.length === 0 || !selectedAddress || !balances) {
+				setGasEstimateUSD(null);
+				return;
+			}
+
+			try {
+				const publicClient = getPublicClient();
+				const config = getEcosystemConfig(ecosystem);
+				const address = config.gameHodlClickerAddress as Address;
+
+				if (!publicClient || !address) {
+					return;
+				}
+
+				let gasEstimate = 0n;
+				const amountToBurn = 0n; // We are burning 0 flux to collect
+
+				if (availableGems.length === 1) {
+					const gem = availableGems[0];
+					gasEstimate = await publicClient.estimateContractGas({
+						address,
+						abi: gameHodlClickerAbi,
+						functionName: 'burnTokens',
+						args: [amountToBurn, gem.ethereumAddress],
+						account: selectedAddress as Address,
+					});
+				} else {
+					const requests = availableGems.map((gem) => ({
+						amountToBurn: amountToBurn,
+						burnToAddress: gem.ethereumAddress,
+					}));
+					gasEstimate = await publicClient.estimateContractGas({
+						address,
+						abi: gameHodlClickerAbi,
+						functionName: 'burnTokensFromAddresses',
+						args: [requests],
+						account: selectedAddress as Address,
+					});
+				}
+
+				const gasPrice = await publicClient.getGasPrice();
+				const totalGasCost = gasEstimate * gasPrice;
+
+				const usdValue = getPriceToggle({
+					value: new BN(totalGasCost.toString()),
+					inputToken: Token.ETH,
+					outputToken: Token.USDC,
+					balances,
+					round: 4,
+					removeCommas: true,
+				});
+
+				setGasEstimateUSD(usdValue);
+			} catch (error) {
+				console.error('Error estimating gas:', error);
+				setGasEstimateUSD(null);
+			}
+		};
+
+		calculateGas();
+	}, [availableGems, selectedAddress, balances, ecosystem]);
+
+	const isGasHigh = useMemo(() => {
+		if (!gasEstimateUSD) return false;
+		return parseFloat(gasEstimateUSD) > totalAvailableGemsUSD;
+	}, [gasEstimateUSD, totalAvailableGemsUSD]);
+
 	return (
-		<Box mt={4}>
-			{/* 24h Summary Card */}
-			<Card
-				sx={{
-					mb: 4,
-					background: `linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%)`, // Much darker gradient
-					border: `1px solid ${theme.palette.divider}`,
-					color: 'white',
-					boxShadow: 6,
-				}}
-			>
-				<CardContent>
-					<Typography
-						variant="h6"
-						gutterBottom
-						sx={{ opacity: 0.7, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}
+		<Box>
+			{/* Header: Dropdown & Staked Balance */}
+			<Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+				{getNetworkDropdown({
+					ecosystem,
+					connectionMethod: useAppStore.getState().connectionMethod,
+					dispatch: appDispatch,
+					width: 300,
+				})}
+
+				<Box display="flex" alignItems="center" gap={2}>
+					<Box textAlign="right">
+						<Typography variant="caption" display="block" color="textSecondary">
+							Your Staked Balance
+						</Typography>
+						<Typography variant="h6" fontWeight="bold" color="textPrimary">
+							{currentAddressMarketAddress && balances
+								? '$' +
+									getPriceToggle({
+										value: currentAddressMarketAddress.rewardsAmount,
+										inputToken: Token.Mintable,
+										outputToken: Token.USDC,
+										balances,
+										round: 4,
+									})
+								: '$0.00'}
+						</Typography>
+					</Box>
+					<Button
+						variant="outlined"
+						color="secondary"
+						startIcon={<Diamond />}
+						onClick={showDepositWithdrawDialog}
+						size="small"
 					>
-						{dateRange}
-					</Typography>
-					<Grid container spacing={3}>
-						<Grid size={{ xs: 12, md: 4 }}>
-							<Box display="flex" alignItems="center">
-								<Whatshot sx={{ mr: 2, fontSize: 48, opacity: 0.9, color: theme.palette.error.main }} />
-								<Box>
-									<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
-										LOCK Burned (USD)
-									</Typography>
-									<Typography variant="h4" fontWeight="bold">
-										${getUSDValue(summary.totalBurned)}
-									</Typography>
-								</Box>
-							</Box>
-						</Grid>
-						<Grid size={{ xs: 12, md: 4 }}>
-							<Box display="flex" alignItems="center">
-								<AttachMoney sx={{ mr: 2, fontSize: 48, opacity: 0.9, color: theme.palette.success.main }} />
-								<Box>
-									<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
-										Total Jackpot Won (USD)
-									</Typography>
-									<Typography variant="h4" fontWeight="bold">
-										${getUSDValue(summary.totalJackpot)}
-									</Typography>
-								</Box>
-							</Box>
-						</Grid>
-						<Grid size={{ xs: 12, md: 4 }}>
-							<Box display="flex" alignItems="center">
-								<LocalGasStation sx={{ mr: 2, fontSize: 48, opacity: 0.9, color: theme.palette.warning.main }} />
-								<Box>
-									<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
-										Distributed Rewards (USD)
-									</Typography>
-									<Typography variant="h4" fontWeight="bold">
-										${getUSDValue(summary.totalTip, 4)}
-									</Typography>
-								</Box>
-							</Box>
-						</Grid>
-					</Grid>
-				</CardContent>
-			</Card>
+						Stake / Unstake
+					</Button>
+				</Box>
+			</Box>
 
-			{/* Custom Burn History Chart */}
-			<Paper sx={{ p: 3, mb: 4, bgcolor: 'background.paper' }}>
-				<Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-					<Typography variant="h6">Burn History (Last 24h)</Typography>
-					<Chip label={`${totalTransactions} Transactions`} color="secondary" variant="outlined" size="small" />
-				</Box>
-				<Box height={200} display="flex" alignItems="flex-end" justifyContent="space-between" sx={{ gap: 0.5, pt: 2 }}>
-					{chartData.map((data, index) => {
-						const heightPercent = maxBurned > 0 ? (data.burned / maxBurned) * 100 : 0;
-						return (
-							<Tooltip
-								key={data.timestamp}
-								title={
-									<Box textAlign="center">
-										<Typography variant="body2" fontWeight="bold">
-											{data.time}
-										</Typography>
-										<Typography variant="body2">{data.burned.toFixed(2)} FLUX</Typography>
-										<Typography variant="caption" display="block">
-											{data.txCount} Tx{data.txCount !== 1 ? 's' : ''}
-										</Typography>
-									</Box>
-								}
-								arrow
-							>
-								<Box
-									sx={{
-										height: `${Math.max(heightPercent, 2)}%`, // Min height for visibility
-										width: '100%',
-										bgcolor: theme.palette.secondary.main,
-										borderRadius: '4px 4px 0 0',
-										transition: 'all 0.3s ease',
-										boxShadow: `0 0 8px ${theme.palette.secondary.main}`,
-										'&:hover': {
-											opacity: 0.9,
-											transform: 'scaleY(1.05)',
-											boxShadow: `0 0 12px ${theme.palette.secondary.light}`,
-										},
-									}}
-								/>
-							</Tooltip>
-						);
-					})}
-				</Box>
-				<Box display="flex" justifyContent="space-between" mt={1}>
-					<Typography variant="caption" color="textSecondary">
-						24h Ago
-					</Typography>
-					<Typography variant="caption" color="textSecondary">
-						Now
-					</Typography>
-				</Box>
-			</Paper>
+			{getRewardsAlert()}
 
-			{/* Horizontal Timeline */}
-			<Typography variant="h6" gutterBottom>
-				Recent Burns Timeline
-			</Typography>
-			{logs.length === 0 ? (
-				<Box display="flex" justifyContent="center" p={4}>
-					<CircularProgress color="secondary" />
-				</Box>
-			) : (
-				<Box
+			<Box mt={4} mb={4} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+				<Button
+					variant="contained"
+					size="large"
+					startIcon={<AutoAwesome sx={{ fontSize: 28, color: availableGems.length > 0 ? '#009688' : 'inherit' }} />}
+					onClick={handleCollectAll}
+					disabled={availableGems.length === 0}
 					sx={{
-						display: 'flex',
-						overflowX: 'auto',
-						pb: 2,
-						gap: 2,
-						'&::-webkit-scrollbar': {
-							height: 8,
+						px: 6,
+						py: 2,
+						fontSize: '1.2rem',
+						fontWeight: 'bold',
+						borderRadius: 3,
+						background:
+							availableGems.length > 0
+								? 'linear-gradient(45deg, #FFD700 30%, #FF8C00 90%)'
+								: theme.palette.action.disabledBackground,
+						color: availableGems.length > 0 ? '#000' : theme.palette.text.disabled,
+						boxShadow: availableGems.length > 0 ? '0 3px 5px 2px rgba(255, 105, 135, .3)' : 'none',
+						backfaceVisibility: 'hidden',
+						WebkitFontSmoothing: 'antialiased',
+						MozOsxFontSmoothing: 'grayscale',
+						willChange: 'transform',
+						animation: availableGems.length > 0 ? 'pulse 2s infinite' : 'none',
+						'@keyframes pulse': {
+							'0%': {
+								transform: 'scale(1) translateZ(0)',
+								boxShadow: '0 0 0 0 rgba(255, 165, 0, 0.7)',
+							},
+							'70%': {
+								transform: 'scale(1.05) translateZ(0)',
+								boxShadow: '0 0 0 20px rgba(255, 165, 0, 0)',
+							},
+							'100%': {
+								transform: 'scale(1) translateZ(0)',
+								boxShadow: '0 0 0 0 rgba(255, 165, 0, 0)',
+							},
 						},
-						'&::-webkit-scrollbar-track': {
-							backgroundColor: theme.palette.action.hover,
-							borderRadius: 4,
-						},
-						'&::-webkit-scrollbar-thumb': {
-							backgroundColor: theme.palette.secondary.main,
-							borderRadius: 4,
+						transition: 'all 0.3s ease',
+						'&:hover': {
+							transform: 'scale(1.05)',
+							boxShadow: '0 0 30px rgba(255, 140, 0, 0.8)',
 						},
 					}}
 				>
-					{logs.map((log) => {
-						const amountBurned = BNToDecimal(new BN(log.args.amountActuallyBurned.toString()), true, 18, 2);
-						const jackpotBN = new BN(log.args.jackpotAmount.toString());
-						const tipBN = new BN(log.args.totalTipAmount.toString());
+					{availableGems.length > 0 ? `Collect $${totalAvailableGemsUSD.toFixed(4)}` : 'Waiting...'}
+				</Button>
+				{gasEstimateUSD ? (
+					<Typography
+						variant="caption"
+						sx={{
+							mt: 1,
+							color: isGasHigh ? 'error.main' : 'success.main',
+							fontWeight: 'bold',
+						}}
+					>
+						Gas Estimate: ~${gasEstimateUSD}
+					</Typography>
+				) : (
+					<Typography variant="caption" color="textSecondary" sx={{ mt: 1 }}>
+						Waiting for Faucets to Fill...
+					</Typography>
+				)}
+			</Box>
 
-						const jackpotUSDC = balances
-							? getPriceToggle({
-									value: jackpotBN,
-									inputToken: Token.Mintable,
-									outputToken: Token.USDC,
-									balances,
-									round: 4,
-								})
-							: '0.0000';
+			{/* Ready Faucets List */}
+			<HodlClickerFaucets
+				avgGemValue={avgGemValue}
+				minGemValue={minGemValue}
+				selectedFilter={selectedFilter}
+				onFilterChange={setSelectedFilter}
+				sortedMarketAddresses={sortedMarketAddresses}
+				balances={balances}
+				truncateAddress={truncateAddress}
+			/>
 
-						const tipUSDC = balances
-							? getPriceToggle({
-									value: tipBN,
-									inputToken: Token.Mintable,
-									outputToken: Token.USDC,
-									balances,
-									round: 4,
-								})
-							: '0.0000';
+			{/* Daily Summary Stats */}
+			<HodlClickerStats summary={summary} getUSDValue={getUSDValue} />
 
-						return (
-							<Card
-								key={log.id}
-								variant="outlined"
-								sx={{
-									minWidth: 280,
-									flexShrink: 0,
-									position: 'relative',
-									overflow: 'visible',
-									mt: 2,
-									bgcolor: theme.palette.background.paper, // Ensure contrast
-									borderColor: theme.palette.divider,
-								}}
-							>
-								<CardContent>
-									<Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-										<Typography variant="caption" color="textSecondary">
-											<TimeAgo timestamp={log.timestamp} />
-										</Typography>
-										<Typography variant="caption" color="textSecondary">
-											Block: {log.blockNumber}
-										</Typography>
-									</Box>
-									<Box display="flex" alignItems="center" mb={1}>
-										<Whatshot color="secondary" sx={{ mr: 1 }} />
-										<Typography variant="h6" color="secondary">
-											{amountBurned} FLUX
-										</Typography>
-									</Box>
-									<Typography variant="caption" color="textSecondary" gutterBottom noWrap sx={{ fontSize: '0.7rem' }}>
-										By: {truncateAddress(log.args.caller)}
-									</Typography>
-									<Box mt={2}>
-										<Chip label={`Jackpot: $${jackpotUSDC}`} size="small" variant="outlined" sx={{ mr: 1, mb: 1 }} />
-										<Chip label={`Tip: $${tipUSDC}`} size="small" variant="outlined" sx={{ mb: 1 }} />
-									</Box>
-								</CardContent>
-							</Card>
-						);
-					})}
-				</Box>
-			)}
+			{/* Leaderboard */}
+			<HodlClickerLeaderboard logs={logs} balances={balances} truncateAddress={truncateAddress} />
+			{/* Collect History Chart */}
+			<HodlClickerChart
+				chartData={chartData}
+				maxBurnedUSD={maxBurnedUSD}
+				totalTransactions={totalTransactions}
+				chartTitle={chartTitle}
+			/>
+
+			{/* Horizontal Timeline */}
+			<Box mb={6}>
+				<HodlClickerFeed logs={logs} balances={balances} truncateAddress={truncateAddress} />
+			</Box>
 		</Box>
 	);
 };

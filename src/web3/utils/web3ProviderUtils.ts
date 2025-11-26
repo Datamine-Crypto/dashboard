@@ -1,5 +1,4 @@
 import { createPublicClient, createWalletClient, custom, getContract, PublicClient, WalletClient, Address } from 'viem';
-import { mainnet } from 'viem/chains';
 import damTokenAbi from '@/web3/abis/dam.json';
 import fluxTokenAbi from '@/web3/abis/flux.json';
 import batchMinterAbi from '@/web3/abis/batchMinter.json';
@@ -10,6 +9,7 @@ import uniswapPairV3Abi from '@/web3/abis/uniswapPairV3.json';
 
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
+import { arbitrum } from 'viem/chains';
 import { devLog } from '@/utils/devLog';
 import { ReducerDispatch } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -32,11 +32,11 @@ let preselectedAddress: Address | null = null;
 export const setWeb3Provider = (provider: any) => {
 	if (provider) {
 		walletClient = createWalletClient({
-			chain: mainnet, // Default to mainnet, will be updated
+			chain: arbitrum, // Default to arbitrum
 			transport: custom(provider),
 		});
 		publicClient = createPublicClient({
-			chain: mainnet,
+			chain: arbitrum,
 			transport: custom(provider),
 		});
 	} else {
