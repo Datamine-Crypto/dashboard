@@ -8,8 +8,8 @@ import multicallAbi from '@/web3/abis/multicall.json';
 import uniswapPairV3Abi from '@/web3/abis/uniswapPairV3.json';
 
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem } from '@/app/configs/config.common';
-import { arbitrum } from 'viem/chains';
+import { Ecosystem, Layer } from '@/app/configs/config.common';
+import { arbitrum, mainnet } from 'viem/chains';
 import { devLog } from '@/utils/devLog';
 import { ReducerDispatch } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -29,14 +29,17 @@ let publicClient: PublicClient | null = null;
  */
 let preselectedAddress: Address | null = null;
 
-export const setWeb3Provider = (provider: any) => {
+export const setWeb3Provider = (provider: any, ecosystem: Ecosystem) => {
 	if (provider) {
+		const config = getEcosystemConfig(ecosystem);
+		const chain = config.layer === Layer.Layer1 ? mainnet : arbitrum;
+
 		walletClient = createWalletClient({
-			chain: arbitrum, // Default to arbitrum
+			chain,
 			transport: custom(provider),
 		});
 		publicClient = createPublicClient({
-			chain: arbitrum,
+			chain,
 			transport: custom(provider),
 		});
 	} else {

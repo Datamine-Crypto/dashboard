@@ -50,7 +50,7 @@ const HodlClickerStats: React.FC<HodlClickerStatsProps> = ({ summary, getUSDValu
 							<AttachMoney sx={{ mr: 2, fontSize: 48, opacity: 0.9, color: theme.palette.success.main }} />
 							<Box>
 								<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
-									Total Jackpot Won (USD)
+									Jackpot Wins (USD)
 								</Typography>
 								<Typography variant="h4" fontWeight="bold">
 									${getUSDValue(summary.totalJackpot)}
@@ -63,7 +63,7 @@ const HodlClickerStats: React.FC<HodlClickerStatsProps> = ({ summary, getUSDValu
 							<LocalGasStation sx={{ mr: 2, fontSize: 48, opacity: 0.9, color: theme.palette.info.main }} />
 							<Box>
 								<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
-									Total Tips Paid (USD)
+									Tips Paid (USD)
 								</Typography>
 								<Typography variant="h4" fontWeight="bold">
 									${getUSDValue(summary.totalTip)}

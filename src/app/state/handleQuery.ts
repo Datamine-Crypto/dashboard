@@ -41,7 +41,7 @@ export const queryHandlers = {
 
 		const provider = await getWeb3Provider({ ecosystem: state.ecosystem });
 		devLog('Found provider:', { provider, ecosystem: state.ecosystem });
-		setWeb3Provider(provider);
+		setWeb3Provider(provider, state.ecosystem);
 
 		if (provider) {
 			const publicClient = getPublicClient();
@@ -122,7 +122,7 @@ export const queryHandlers = {
 		const publicClient = getPublicClient();
 		if (!publicClient) {
 			devLog('EnableWeb3 web3provider is missing?');
-			setWeb3Provider(await getWeb3Provider({ ecosystem: state.ecosystem }));
+			setWeb3Provider(await getWeb3Provider({ ecosystem: state.ecosystem }), state.ecosystem);
 		}
 
 		// Checks to see if user has selectedAddress. If not we'll call eth_requestAccounts and select first one

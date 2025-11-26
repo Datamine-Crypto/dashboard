@@ -34,8 +34,7 @@ interface CenterContent {
 
 const useStyles = tss.create(({ theme }) => ({
 	fullScreenSplash: {
-		minHeight: '100vh',
-		display: 'flex',
+		display: 'block',
 		alignContent: 'center',
 		justifyContent: 'center',
 	},
