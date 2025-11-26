@@ -8,6 +8,11 @@ export default defineConfig({
 		react(), // This plugin automatically handles Emotion's Babel transform if @emotion/react or @emotion/styled is detected.
 		mkcert(), // Enable HTTPS for development server
 	],
+	resolve: {
+		alias: {
+			'@': '/src',
+		},
+	},
 	experimental: {
 		// This targets the MUI libraries for optimization
 		optimizePackageImports: {
