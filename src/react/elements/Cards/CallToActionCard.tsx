@@ -19,7 +19,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import type { AdapterMoment as AdapterMomentType } from '@mui/x-date-pickers/AdapterMoment';
+import type { AdapterDayjs as AdapterDayjsType } from '@mui/x-date-pickers/AdapterDayjs';
 import type { LocalizationProviderProps } from '@mui/x-date-pickers/LocalizationProvider';
 import type { MobileDatePickerProps } from '@mui/x-date-pickers/MobileDatePicker';
 import React, { useEffect, useState } from 'react';
@@ -40,7 +40,7 @@ import {
 	Whatshot as WhatshotIcon,
 	InsertInvitation,
 } from '@mui/icons-material';
-import moment, { Moment } from 'moment';
+import dayjs, { Dayjs } from 'dayjs';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
 import arbiFluxLogo from '@/react/svgs/arbiFluxLogo.svg';
 import ArbitrumLogo from '@/react/svgs/arbitrum.svg';
@@ -172,7 +172,7 @@ interface RenderParams {
 interface DatePickerDependencies {
 	LocalizationProvider: React.ElementType<LocalizationProviderProps<any>> | null;
 	MobileDatePicker: React.ElementType<MobileDatePickerProps<any>> | null;
-	AdapterMoment: typeof AdapterMomentType | null;
+	AdapterDayjs: typeof AdapterDayjsType | null;
 }
 /**
  * A memoized functional component that renders the Call To Action card on the dashboard.
@@ -220,7 +220,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		const [datePickerDeps, setDatePickerDeps] = useState<DatePickerDependencies>({
 			LocalizationProvider: null,
 			MobileDatePicker: null,
-			AdapterMoment: null,
+			AdapterDayjs: null,
 		});
 		/**
 		 * Effect hook to dynamically load date picker dependencies when the forecasting mode is enabled.
@@ -228,20 +228,20 @@ const Render: React.FC<RenderParams> = React.memo(
 		 */
 		useEffect(() => {
 			let isMounted = true;
-			if (forecastSettings.enabled && !datePickerDeps.AdapterMoment) {
+			if (forecastSettings.enabled && !datePickerDeps.AdapterDayjs) {
 				// Check for one, assume all load together
 				const loadDependencies = async () => {
 					try {
 						const [lpModule, mdpModule, amModule] = await Promise.all([
 							import('@mui/x-date-pickers/LocalizationProvider'),
 							import('@mui/x-date-pickers/MobileDatePicker'),
-							import('@mui/x-date-pickers/AdapterMoment'),
+							import('@mui/x-date-pickers/AdapterDayjs'),
 						]);
 						if (isMounted) {
 							setDatePickerDeps({
 								LocalizationProvider: lpModule.LocalizationProvider,
 								MobileDatePicker: mdpModule.MobileDatePicker,
-								AdapterMoment: amModule.AdapterMoment,
+								AdapterDayjs: amModule.AdapterDayjs,
 							});
 						}
 					} catch (err) {
@@ -253,7 +253,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			return () => {
 				isMounted = false;
 			};
-		}, [forecastSettings.enabled, datePickerDeps.AdapterMoment]);
+		}, [forecastSettings.enabled, datePickerDeps.AdapterDayjs]);
 		// Prevent inputs from autofills
 		const removeAutocompleteProps = {
 			'data-lpignore': 'true',
@@ -317,7 +317,7 @@ const Render: React.FC<RenderParams> = React.memo(
 							}
 							return addressDetails.blockNumber - addressLock.lastMintBlockNumber;
 						};
-						const isCurrentAddress = selectedAddress === displayedAddress;
+						const isCurrentAddress = selectedAddress?.toLowerCase() === displayedAddress?.toLowerCase();
 						const getBurnButton = () => {
 							if (isPlayingGame) {
 								return;
@@ -501,14 +501,17 @@ const Render: React.FC<RenderParams> = React.memo(
 								return null;
 							}
 							const getStartArea = () => {
-								const value = moment()
-									.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+								const value = dayjs()
+									.set('hour', 0)
+									.set('minute', 0)
+									.set('second', 0)
+									.set('millisecond', 0)
 									.add(parseFloat(forecastSettings.forecastStartBlocks) / (60 / 12), 'minutes');
 								const getBlocksDropdown = () => {
 									if (
 										!datePickerDeps.LocalizationProvider ||
 										!datePickerDeps.MobileDatePicker ||
-										!datePickerDeps.AdapterMoment
+										!datePickerDeps.AdapterDayjs
 									) {
 										return (
 											<Typography variant="caption" component="div">
@@ -516,9 +519,9 @@ const Render: React.FC<RenderParams> = React.memo(
 											</Typography>
 										);
 									}
-									const { LocalizationProvider, MobileDatePicker, AdapterMoment } = datePickerDeps;
+									const { LocalizationProvider, MobileDatePicker, AdapterDayjs } = datePickerDeps;
 									return (
-										<LocalizationProvider dateAdapter={AdapterMoment}>
+										<LocalizationProvider dateAdapter={AdapterDayjs}>
 											<MobileDatePicker
 												enableAccessibleFieldDOMStructure={false}
 												closeOnSelect={true}
@@ -536,8 +539,12 @@ const Render: React.FC<RenderParams> = React.memo(
 												// }}
 												onChange={(date: any) => {
 													if (date) {
-														date = date.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-														const currentDate = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+														date = date.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
+														const currentDate = dayjs()
+															.set('hour', 0)
+															.set('minute', 0)
+															.set('second', 0)
+															.set('millisecond', 0);
 														const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 12);
 														dispatch({
 															type: commonLanguage.commands.ForecastSetStartBlocks,
@@ -596,14 +603,17 @@ const Render: React.FC<RenderParams> = React.memo(
 							const blocksDiff = addressDetails.blockNumber - addressLock.lastMintBlockNumber;
 							if (forecastSettings.enabled) {
 								//const additionalBlocks = forecastSettings.forecastStartBlocks
-								const value = moment()
-									.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+								const value = dayjs()
+									.set('hour', 0)
+									.set('minute', 0)
+									.set('second', 0)
+									.set('millisecond', 0)
 									.add(parseFloat(forecastSettings.forecastBlocks) / (60 / 12), 'minutes');
 								const getBlocksDropdown = () => {
 									if (
 										!datePickerDeps.LocalizationProvider ||
 										!datePickerDeps.MobileDatePicker ||
-										!datePickerDeps.AdapterMoment
+										!datePickerDeps.AdapterDayjs
 									) {
 										return (
 											<Typography variant="caption" component="div">
@@ -611,9 +621,9 @@ const Render: React.FC<RenderParams> = React.memo(
 											</Typography>
 										);
 									}
-									const { LocalizationProvider, MobileDatePicker, AdapterMoment } = datePickerDeps;
+									const { LocalizationProvider, MobileDatePicker, AdapterDayjs } = datePickerDeps;
 									return (
-										<LocalizationProvider dateAdapter={AdapterMoment}>
+										<LocalizationProvider dateAdapter={AdapterDayjs}>
 											<MobileDatePicker
 												enableAccessibleFieldDOMStructure={false}
 												closeOnSelect={true}
@@ -629,10 +639,14 @@ const Render: React.FC<RenderParams> = React.memo(
 												// 	},
 												// 	mobilePaper: { className: classes.datePicker },
 												// }}
-												onChange={(date: Moment | null) => {
+												onChange={(date: Dayjs | null) => {
 													if (date) {
-														date = date.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-														const currentDate = moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+														date = date.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
+														const currentDate = dayjs()
+															.set('hour', 0)
+															.set('minute', 0)
+															.set('second', 0)
+															.set('millisecond', 0);
 														const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 12);
 														dispatch({
 															type: commonLanguage.commands.ForecastSetBlocks,

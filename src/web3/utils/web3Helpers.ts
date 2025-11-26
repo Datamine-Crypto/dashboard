@@ -611,12 +611,12 @@ export const withWeb3 = (contract: any) => {
 		batchNormalMintTo: async ({ sourceAddress, targetAddress, blockNumber, from }: MintToAddressParams) => {
 			try {
 				if (!publicClient || !walletClient) throw new Error('No client');
-				await contract.simulate.batchNormalMintTo([sourceAddress, targetAddress, blockNumber], {
+				await contract.simulate.normalMintTo([sourceAddress, blockNumber, targetAddress], {
 					account: from as Address,
 				});
 
 				const fees = await getGasFees(publicClient);
-				const hash = await contract.write.batchNormalMintTo([sourceAddress, targetAddress, blockNumber], {
+				const hash = await contract.write.normalMintTo([sourceAddress, blockNumber, targetAddress], {
 					account: from as Address,
 					...fees,
 				});

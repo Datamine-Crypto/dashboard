@@ -12,7 +12,6 @@ export enum Page {
 	Help,
 	Community,
 	TokenPage,
-	Onboarding,
 	RealtimeRewardsGameFi,
 	HodlClickerRushGameFiPage,
 	HodlClicker,
@@ -58,12 +57,6 @@ export const getPageDetails = () => {
 		return {
 			page: Page.TokenPage,
 			isArbitrumMainnet: true,
-		};
-	}
-
-	if (path === 'onboarding') {
-		return {
-			page: Page.Onboarding,
 		};
 	}
 
@@ -144,9 +137,7 @@ export const useRouter = (dispatch: ReducerDispatch, ecosystem: Ecosystem) => {
 				case Page.TokenPage:
 					document.title = `${mintableTokenShortName} Ecosystem - ${ecosystemName}`;
 					break;
-				case Page.Onboarding:
-					document.title = `Get Started - ${ecosystemName}`;
-					break;
+
 				case Page.RealtimeRewardsGameFi:
 					document.title = `Get Started - ${ecosystemName}`;
 					break;

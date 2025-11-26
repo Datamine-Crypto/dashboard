@@ -80,7 +80,7 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 	// Check if the selected address is the delegated minter (case-insensitive)
 	const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase();
 	// Check if the displayed address is the currently selected address
-	const isCurrentAddress = selectedAddress === displayedAddress;
+	const isCurrentAddress = selectedAddress?.toLowerCase() === displayedAddress?.toLowerCase();
 	const isSelfMinter = addressLock.minterAddress === displayedAddress;
 	/**
 	 * Displays the mint dialog by dispatching a SHOW_DIALOG command.
@@ -236,7 +236,9 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 				);
 				if (!isCurrentAddress) {
 					return (
-						<LightTooltip title="You must select this account in your wallet to stop a validator for this address.">
+						<LightTooltip
+							title={`You must select ${displayedAddress} account in your wallet to stop a validator for this address. Current account: ${selectedAddress}`}
+						>
 							<Box display="inline-block">{stopMintButton}</Box>
 						</LightTooltip>
 					);
@@ -259,11 +261,7 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 					</Button>
 				);
 				if (!isCurrentAddress) {
-					return (
-						<LightTooltip title="You must select this account in your wallet to stop a validator for this address.">
-							<Box display="inline-block">{stopMintButton}</Box>
-						</LightTooltip>
-					);
+					return;
 				}
 				return stopMintButton;
 			};

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import BN from 'bn.js';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Token } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
 import HodlClickerChart from './HodlClickerChart';
@@ -127,7 +127,7 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 
 			return {
 				id: group.id,
-				time: moment.unix(group.timestamp).format('HH:mm:ss'),
+				time: dayjs.unix(group.timestamp).format('HH:mm:ss'),
 				timestamp: group.timestamp,
 				value: jackpotUSD,
 				formattedValue: `$${jackpotUSDStr}`,

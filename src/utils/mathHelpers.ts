@@ -1,6 +1,6 @@
 import Big from 'big.js';
 import BN from 'bn.js';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { FluxAddressDetails, FluxAddressLock, Token } from '@/app/interfaces';
@@ -282,13 +282,12 @@ export const getBlocksRemaining = (
 };
 
 /**
- * Calculates a future date and time based on a given number of blocks from the current moment.
- * Assumes an average Ethereum block time of 12 seconds.
- * @param {number} blocksDuration - The number of blocks from the current time.
- * @returns {moment.Moment} A Moment.js object representing the calculated future date and time.
+ * Calculates a future date and time based on a given number of blocks from the current time.
+ * @param {number} blocksDuration - The number of blocks to add.
+ * @returns {dayjs.Dayjs} A Day.js object representing the calculated future date and time.
  */
 export const getBlocksDateFromNow = (blocksDuration: number) => {
-	return moment().add(blocksDuration * 12, 'seconds');
+	return dayjs().add(blocksDuration * 12, 'seconds');
 };
 
 /**

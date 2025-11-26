@@ -19,7 +19,7 @@ const MainAppBar = lazy(() => import('@/react/elements/Fragments/AppBar'));
 const HelpDialog = lazy(() => import('@/react/elements/Dialogs/HelpDialog'));
 const CommunityPage = lazy(() => import('@/react/pages/CommunityPage'));
 const HelpPage = lazy(() => import('@/react/pages/help/HelpPage'));
-const OnboardingPage = lazy(() => import('@/react/pages/OnboardingPage'));
+
 const Terms = lazy(() => import('@/react/pages/Terms'));
 const TokenPage = lazy(() => import('@/react/pages/TokenPage'));
 const MainDrawer = lazy(() =>
@@ -77,8 +77,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				return <Terms ecosystem={ecosystem} />;
 			case Page.TokenPage:
 				return <TokenPage />;
-			case Page.Onboarding:
-				return <OnboardingPage />;
+
 			case Page.RealtimeRewardsGameFi:
 				return <RealtimeRewardsGameFiPage />;
 			case Page.HodlClickerRushGameFiPage:

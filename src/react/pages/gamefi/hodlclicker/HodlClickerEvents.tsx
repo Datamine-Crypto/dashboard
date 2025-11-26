@@ -5,7 +5,7 @@ import { Ecosystem } from '@/app/configs/config.common';
 import { getPublicClient } from '@/web3/utils/web3ProviderUtils';
 import gameHodlClickerAbi from '@/web3/abis/games/gameHodlClicker.json';
 import { Address } from 'viem';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { getPriceToggle } from '@/utils/mathHelpers';
 import BN from 'bn.js';
 import { useAppStore } from '@/react/utils/appStore';
@@ -206,7 +206,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 		const buckets: { [key: string]: { burnedUSD: number; txCount: number } } = {};
 
 		recentLogs.forEach((log) => {
-			const hourTimestamp = moment.unix(log.timestamp).startOf('hour').unix();
+			const hourTimestamp = dayjs.unix(log.timestamp).startOf('hour').unix();
 			if (!buckets[hourTimestamp]) {
 				buckets[hourTimestamp] = { burnedUSD: 0, txCount: 0 };
 			}
@@ -234,7 +234,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 			.map(([timestamp, data]) => {
 				if (data.burnedUSD > maxBurnedVal) maxBurnedVal = data.burnedUSD;
 				return {
-					time: moment.unix(Number(timestamp)).format('HH:mm'),
+					time: dayjs.unix(Number(timestamp)).format('HH:mm'),
 					timestamp: Number(timestamp),
 					value: data.burnedUSD,
 					formattedValue: `$${data.burnedUSD.toFixed(2)}`,
@@ -243,8 +243,8 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 			})
 			.sort((a, b) => a.timestamp - b.timestamp);
 
-		const startDate = moment.unix(oneDayAgo).format('MMM D, h:mm A');
-		const endDate = moment.unix(now).format('MMM D, h:mm A');
+		const startDate = dayjs.unix(oneDayAgo).format('MMM D, h:mm A');
+		const endDate = dayjs.unix(now).format('MMM D, h:mm A');
 
 		// Dynamic Chart Title
 		let chartTitle = 'Collect History (Last 24h)';
