@@ -2,11 +2,10 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import { findAccountState } from '@/app/state/queries/web3/FindAccountState';
 import { findWeb3Instance } from '@/app/state/queries/web3/FindWeb3Instance';
 import { enableWeb3 } from '@/app/state/queries/web3/EnableWeb3';
-import { findAccessLinks } from '@/app/state/queries/web3/FindAccessLinks';
 import { getAuthorizeFluxOperatorResponse } from '@/app/state/queries/web3/GetAuthorizeFluxOperatorResponse';
 import { getLockInDamTokensResponse } from '@/app/state/queries/web3/GetLockInDamTokensResponse';
 import { getMintFluxResponse } from '@/app/state/queries/web3/GetMintFluxResponse';
-import { getSetMintSettingsResponse } from '@/app/state/queries/web3/GetSetMintSettingsResponse';
+import { getSetMintSettingsResponse } from '@/app/state/queries/web3/batchMinter/GetSetMintSettingsResponse';
 import { getBurnFluxResponse } from '@/app/state/queries/web3/GetBurnFluxResponse';
 import { getUnlockDamTokensResponse } from '@/app/state/queries/web3/GetUnlockDamTokensResponse';
 import {
@@ -31,10 +30,6 @@ export const queryHandlers = {
 	 */
 	[commonLanguage.queries.EnableWeb3]: enableWeb3,
 
-	/**
-	 * Fetches access links for pro features by sending a signed message to the backend.
-	 */
-	[commonLanguage.queries.FindAccessLinks]: findAccessLinks,
 	/**
 	 * Fetches all relevant on-chain data for the current user account in a single batch request using multicall.
 	 * This includes balances, contract details, and Uniswap pool reserves.

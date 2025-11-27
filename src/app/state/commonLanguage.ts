@@ -19,7 +19,6 @@ export const commonLanguage = {
 		UnlockDamTokens: 'UNLOCK_DAM_TOKENS',
 		DismissPendingAction: 'DISMISS_PENDING_ACTION',
 		CopyAnalytics: 'COPY_ANALYTICS',
-		DisplayAccessLinks: 'DISPLAY_ACCESS_LINKS',
 
 		ToggleForecastMode: 'TOGGLE_FORECAST_MODE',
 		ForecastSetAmount: 'TOGGLE_SET_AMOUNT',
@@ -75,7 +74,6 @@ export const commonLanguage = {
 	},
 	queries: {
 		FindWeb3Instance: 'FIND_WEB3_INSTANCE',
-		FindAccessLinks: 'FIND_ACCESS_LINKS',
 		EnableWeb3: 'ENABLE_WEB3',
 		FindAccountState: 'FIND_ACCOUNT_STATE',
 

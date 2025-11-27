@@ -521,17 +521,6 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 
-		case commonLanguage.commands.DisplayAccessLinks:
-			if (state.isDisplayingLinks) {
-				//return state;
-			}
-
-			return {
-				...state,
-				isDisplayingLinks: true,
-				...withQueries([{ type: commonLanguage.queries.FindAccessLinks }]),
-			};
-
 		case commonLanguage.commands.AuthorizeFluxOperator:
 			if (state.balances?.damToken === 0n) {
 				return {
