@@ -53,7 +53,7 @@ const HodlClickerLeaderboard: React.FC<Props> = ({ logs, balances, truncateAddre
 
 		logs.forEach((log) => {
 			const address = log.args.caller;
-			const jackpot = BigInt(log.args.jackpotAmount.toString());
+			const jackpot = log.args.jackpotAmount;
 
 			if (jackpot === 0n) return;
 

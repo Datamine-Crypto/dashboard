@@ -51,7 +51,7 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 			if (!eth) {
 				return '0 ETH';
 			}
-			return `${formatEther(BigInt(eth.toString()))} ETH`;
+			return `${formatEther(eth)} ETH`;
 		};
 		const getDamBalance = () => {
 			const { damToken } = balances;

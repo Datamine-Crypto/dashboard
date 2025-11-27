@@ -487,7 +487,7 @@ export const queryHandlers = {
 							returns: {
 								params: ['uint256'],
 								callback: (amount: bigint) => {
-									return BigInt(amount.toString());
+									return amount;
 								},
 							},
 						},
@@ -505,7 +505,7 @@ export const queryHandlers = {
 							returns: {
 								params: ['uint256'],
 								callback: (amount: bigint) => {
-									return BigInt(amount.toString());
+									return amount;
 								},
 							},
 						},
@@ -537,7 +537,7 @@ export const queryHandlers = {
 				returns: {
 					params: ['uint256'],
 					callback: (positions: bigint) => {
-						return BigInt(positions.toString());
+						return positions;
 					},
 				},
 			},
@@ -566,11 +566,11 @@ export const queryHandlers = {
 							targetBlock: Number(targetBlock),
 							addresses: addressData.map((address: any) => ({
 								currentAddress: address[0],
-								mintAmount: BigInt(address[1].toString()),
-								rewardsAmount: BigInt(address[2].toString()),
+								mintAmount: address[1],
+								rewardsAmount: address[2],
 								rewardsPercent: Number(address[3]),
 								minBlockNumber: Number(address[4]),
-								minBurnAmount: BigInt(address[5].toString()),
+								minBurnAmount: address[5],
 								isPaused: address[6],
 
 								minterAddress: address[7],

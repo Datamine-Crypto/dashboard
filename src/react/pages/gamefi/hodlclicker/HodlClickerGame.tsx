@@ -325,7 +325,7 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 				const totalGasCost = gasEstimate * gasPrice;
 
 				const usdValue = getPriceToggle({
-					value: BigInt(totalGasCost.toString()),
+					value: totalGasCost,
 					inputToken: Token.ETH,
 					outputToken: Token.USDC,
 					balances,

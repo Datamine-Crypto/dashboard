@@ -67,9 +67,9 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 			}
 
 			const group = groupedLogs[log.blockNumber];
-			group.burnedBN = group.burnedBN + BigInt(log.args.amountActuallyBurned.toString());
-			group.jackpotBN = group.jackpotBN + BigInt(log.args.jackpotAmount.toString());
-			group.tipBN = group.tipBN + BigInt(log.args.totalTipAmount.toString());
+			group.burnedBN = group.burnedBN + log.args.amountActuallyBurned;
+			group.jackpotBN = group.jackpotBN + log.args.jackpotAmount;
+			group.tipBN = group.tipBN + log.args.totalTipAmount;
 			group.callers.add(log.args.caller);
 			group.txCount += 1;
 		});

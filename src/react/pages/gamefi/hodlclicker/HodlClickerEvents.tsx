@@ -169,7 +169,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 			const recentLogs = logs.slice(0, 50);
 
 			const totalJackpotUSD = recentLogs.reduce((acc, log) => {
-				const jackpotBN = BigInt(log.args.jackpotAmount.toString());
+				const jackpotBN = log.args.jackpotAmount;
 				const jackpotUSD = parseFloat(
 					getPriceToggle({
 						value: jackpotBN,
@@ -195,9 +195,9 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 
 		const recentLogs = logs.filter((log) => log.timestamp >= oneDayAgo);
 
-		const totalBurned = recentLogs.reduce((acc, log) => acc + BigInt(log.args.amountActuallyBurned.toString()), 0n);
-		const totalJackpot = recentLogs.reduce((acc, log) => acc + BigInt(log.args.jackpotAmount.toString()), 0n);
-		const totalTip = recentLogs.reduce((acc, log) => acc + BigInt(log.args.totalTipAmount.toString()), 0n);
+		const totalBurned = recentLogs.reduce((acc, log) => acc + log.args.amountActuallyBurned, 0n);
+		const totalJackpot = recentLogs.reduce((acc, log) => acc + log.args.jackpotAmount, 0n);
+		const totalTip = recentLogs.reduce((acc, log) => acc + log.args.totalTipAmount, 0n);
 
 		// Chart Data: Bucket by hour
 		const buckets: { [key: string]: { burnedUSD: number; txCount: number } } = {};
@@ -208,7 +208,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 				buckets[hourTimestamp] = { burnedUSD: 0, txCount: 0 };
 			}
 
-			const burnedBN = BigInt(log.args.amountActuallyBurned.toString());
+			const burnedBN = log.args.amountActuallyBurned;
 			let burnedUSD = 0;
 			if (balances) {
 				const usdStr = getPriceToggle({

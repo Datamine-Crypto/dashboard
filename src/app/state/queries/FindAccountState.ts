@@ -205,7 +205,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 					returns: {
 						params: ['uint256'],
 						callback: (totalSupply: bigint) => {
-							return BigInt(totalSupply.toString());
+							return totalSupply;
 						},
 					},
 				},
@@ -228,7 +228,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 					returns: {
 						params: ['uint256'],
 						callback: (addressBalance: bigint) => {
-							return BigInt(addressBalance.toString());
+							return addressBalance;
 						},
 					},
 				},
@@ -289,7 +289,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 					returns: {
 						params: ['uint256'],
 						callback: (addressBalance: bigint) => {
-							return BigInt(addressBalance.toString());
+							return addressBalance;
 						},
 					},
 				},
@@ -385,7 +385,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 				returns: {
 					params: ['uint256'],
 					callback: (ethBalance: bigint) => {
-						return BigInt(ethBalance.toString());
+						return ethBalance;
 					},
 				},
 			},
@@ -444,7 +444,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 				returns: {
 					params: ['uint256'],
 					callback: (totalSupply: bigint) => {
-						return BigInt(totalSupply.toString());
+						return totalSupply;
 					},
 				},
 			},
@@ -464,7 +464,7 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 				returns: {
 					params: ['uint256'],
 					callback: (totalSupply: bigint) => {
-						return BigInt(totalSupply.toString());
+						return totalSupply;
 					},
 				},
 			},
@@ -498,9 +498,9 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 						return {
 							blockNumber: Number(blockNumber),
 							isFluxOperator: isFluxOperator,
-							damBalance: BigInt(damBalance.toString()),
-							myRatio: BigInt(myRatio.toString()),
-							globalRatio: BigInt(globalRatio.toString()),
+							damBalance: damBalance,
+							myRatio: myRatio,
+							globalRatio: globalRatio,
 						};
 					},
 				},
@@ -533,9 +533,9 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 						minterAddress: string
 					) => {
 						return {
-							amount: BigInt(amount.toString()),
+							amount: amount,
 							blockNumber: Number(blockNumber),
-							burnedAmount: BigInt(burnedAmount.toString()),
+							burnedAmount: burnedAmount,
 							lastMintBlockNumber: Number(lastMintBlockNumber),
 							minterAddress: minterAddress.toLowerCase(),
 						};
@@ -574,14 +574,14 @@ export const findAccountState = async ({ state, query }: QueryHandler<AppState>)
 					) => {
 						return {
 							blockNumber: Number(blockNumber),
-							fluxBalance: BigInt(fluxBalance.toString()),
-							mintAmount: BigInt(mintAmount.toString()),
+							fluxBalance: fluxBalance,
+							mintAmount: mintAmount,
 							addressTimeMultiplier: Number(addressTimeMultiplier),
 							addressBurnMultiplier: Number(addressBurnMultiplier),
-							addressTimeMultiplierRaw: BigInt(addressTimeMultiplier.toString()),
-							addressBurnMultiplierRaw: BigInt(addressBurnMultiplier.toString()),
-							globalLockedAmount: BigInt(globalLockedAmount.toString()),
-							globalBurnedAmount: BigInt(globalBurnedAmount.toString()),
+							addressTimeMultiplierRaw: addressTimeMultiplier,
+							addressBurnMultiplierRaw: addressBurnMultiplier,
+							globalLockedAmount: globalLockedAmount,
+							globalBurnedAmount: globalBurnedAmount,
 						};
 					},
 				},
