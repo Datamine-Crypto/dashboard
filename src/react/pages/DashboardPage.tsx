@@ -11,7 +11,7 @@ import {
 	Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode } from 'react';
 import { DialogType } from '@/app/interfaces';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -22,7 +22,6 @@ import { Settings } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
 import metamaskIcon from '@/react/svgs/metamask.svg';
-import { isDevLogEnabled } from '@/utils/devLog';
 import AddToFirefoxFragment from '@/react/elements/Fragments/AddToFirefoxFragment';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/react/elements/Fragments/ExploreLiquidityPools';
 
@@ -78,17 +77,6 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 		isLiquidityPoolsEnabled,
 	} = config;
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-	useEffect(() => {
-		// When the app starts initialize web3 connection
-		appDispatch({ type: commonLanguage.commands.Initialize, payload: { address } });
-		if (isDevLogEnabled()) {
-			import('vconsole').then((VConsoleModule) => {
-				const VConsole = VConsoleModule.default;
-				new VConsole();
-			});
-		}
-	}, [appDispatch]);
 
 	// Add loading to middle of the page
 	/**

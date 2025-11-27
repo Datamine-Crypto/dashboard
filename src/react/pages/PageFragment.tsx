@@ -1,11 +1,10 @@
 import { Box } from '@mui/material';
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { tss } from 'tss-react/mui';
 
 import { Ecosystem, NetworkType } from '@/app/configs/config.common';
-import { HelpArticle, helpArticles } from '@/app/helpArticles';
+import { HelpArticle } from '@/app/helpArticles';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
-import { commonLanguage } from '@/app/state/commonLanguage';
 import LoadingDialog from '@/react/elements/Dialogs/LoadingDialog';
 import CenteredLoading from '@/react/elements/Fragments/CenteredLoading';
 import DialogsFragment from '@/react/elements/Fragments/DialogsFragment';
@@ -74,31 +73,6 @@ const PageFragment: React.FC = () => {
 			ecosystem: state.ecosystem,
 		}))
 	);
-
-	/**
-	 * Effect hook to initialize special pages based on the URL hash when the component mounts.
-	 * It dispatches actions to update the application state for pages like Dashboard and Help.
-	 */
-	useEffect(() => {
-		const pageDetails = getPageDetails();
-		// When the app starts initialize special pages
-		switch (pageDetails.page) {
-			case Page.Help: {
-				const helpArticle = helpArticles.find(
-					(helpArticle) => helpArticle.id.toLowerCase() === pageDetails.helpArticleId
-				);
-				if (helpArticle) {
-					appDispatch({
-						type: commonLanguage.commands.ShowHelpArticle,
-						payload: {
-							helpArticle,
-						},
-					});
-				}
-				break;
-			}
-		}
-	}, []);
 
 	const count = useRouter(appDispatch, ecosystem);
 	/**
