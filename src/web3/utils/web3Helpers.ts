@@ -190,6 +190,9 @@ export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: Conn
 /**
  * Adds the project's main tokens (DAM and FLUX) to the user's MetaMask wallet.
  */
+/**
+ * Adds the project's main tokens (DAM and FLUX) to the user's MetaMask wallet.
+ */
 export const addToMetamask = async (ecosystem: Ecosystem) => {
 	const config = getConfig(ecosystem);
 	const {
@@ -200,13 +203,46 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 		mintableTokenLogoFileName,
 	} = config;
 
+	const walletClient = getWalletClient();
 	const ethereum = await getWeb3Provider({
 		ecosystem,
 	});
-	if (!ethereum) {
+
+	if (!walletClient && !ethereum) {
 		alert('Failed adding to Metamask, no Web3 provider found');
 		return;
 	}
+
+	const addToken = async (address: string, symbol: string, decimals: number, image: string) => {
+		try {
+			if (walletClient) {
+				await walletClient.watchAsset({
+					type: 'ERC20',
+					options: {
+						address,
+						symbol,
+						decimals,
+						image,
+					},
+				});
+			} else {
+				await ethereum.request({
+					method: 'wallet_watchAsset',
+					params: {
+						type: 'ERC20',
+						options: {
+							address,
+							symbol,
+							decimals,
+							image,
+						},
+					},
+				});
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const addDam = () => {
 		const tokenAddress = config.lockableTokenContractAddress;
@@ -214,20 +250,7 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 		const tokenDecimals = 18;
 		const tokenImage = `${dashboardAbsoluteUrl}/logos/${lockableTokenLogoFileName}.png`;
 
-		ethereum
-			.request({
-				method: 'wallet_watchAsset',
-				params: {
-					type: 'ERC20',
-					options: {
-						address: tokenAddress,
-						symbol: tokenSymbol,
-						decimals: tokenDecimals,
-						image: tokenImage,
-					},
-				},
-			})
-			.catch(console.error);
+		addToken(tokenAddress, tokenSymbol, tokenDecimals, tokenImage);
 	};
 
 	const addFlux = () => {
@@ -236,20 +259,7 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 		const tokenDecimals = 18;
 		const tokenImage = `${dashboardAbsoluteUrl}/logos/${mintableTokenLogoFileName}.png`;
 
-		ethereum
-			.request({
-				method: 'wallet_watchAsset',
-				params: {
-					type: 'ERC20',
-					options: {
-						address: tokenAddress,
-						symbol: tokenSymbol,
-						decimals: tokenDecimals,
-						image: tokenImage,
-					},
-				},
-			})
-			.catch(console.error);
+		addToken(tokenAddress, tokenSymbol, tokenDecimals, tokenImage);
 	};
 
 	const addTokens = () => {
@@ -320,34 +330,21 @@ export const rethrowWeb3Error = (err: any) => {
 /**
  * Retrieves the estimated gas fees.
  */
+/**
+ * Retrieves the estimated gas fees.
+ */
 export const getGasFees = async (publicClient: PublicClient) => {
 	if (!publicClient) return {};
 
-	const block = await publicClient.getBlock();
-	const baseFeePerGas = block.baseFeePerGas;
-
-	if (!baseFeePerGas) {
+	try {
+		const fees = await publicClient.estimateFeesPerGas();
+		return fees;
+	} catch (err) {
+		// Fallback or handle error if needed, but Viem's estimateFeesPerGas handles EIP-1559 vs Legacy automatically mostly.
+		// If it fails, we might want to try getGasPrice as fallback for very old chains, but Arbitrum supports EIP-1559.
 		const gasPrice = await publicClient.getGasPrice();
 		return { gasPrice };
 	}
-
-	const maxPriorityFeePerGas = (baseFeePerGas * 15n) / 100n; // 15%
-	const maxFeePerGas = baseFeePerGas + maxPriorityFeePerGas;
-
-	const useEip1559 =
-		!localStorage.getItem('clientSettingsUseEip1559') || localStorage.getItem('clientSettingsUseEip1559') === 'true';
-
-	if (!useEip1559) {
-		// Fallback to gasPrice if EIP-1559 is disabled by user setting
-		// But Viem defaults to EIP-1559 if chain supports it.
-		// If user explicitly wants legacy, we might need to use gasPrice.
-		// For now, let's return maxFeePerGas as gasPrice if needed, or just return EIP-1559 params.
-		// Actually, if useEip1559 is false, we should return gasPrice.
-		const gasPrice = await publicClient.getGasPrice();
-		return { gasPrice };
-	}
-
-	return { maxFeePerGas, maxPriorityFeePerGas };
 };
 
 /**

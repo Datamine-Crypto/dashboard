@@ -113,8 +113,6 @@ export const performSwapUniswapV2 = async (
 	const accounts = await walletClient.getAddresses();
 	const account = accounts[0];
 
-	const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(publicClient);
-
 	// ETH would not have a contract and no allowance is necessary
 	if (inputTokenContract) {
 		// Check existing allowance

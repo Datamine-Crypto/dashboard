@@ -5,6 +5,7 @@ import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/app/confi
 import { Ecosystem } from '@/app/configs/config.common';
 import { FluxAddressDetails, FluxAddressLock, Token } from '@/app/interfaces';
 import { Balances } from '@/app/interfaces';
+import { formatUnits, parseUnits } from 'viem';
 
 /**
  * Defines the parameters for functions that toggle or format prices.
@@ -174,10 +175,9 @@ export const getBNPercent = (bnA: bigint, bnB: bigint, shouldAdd = true) => {
  * @returns {bigint} The converted BigInt.
  */
 export const parseBN = (unformattedInput: string) => {
-	const big = new Big(unformattedInput);
-
-	const parsedNumber = big.mul(bigDecimalDividor).toFixed(0);
-	return BigInt(parsedNumber);
+	// Remove commas if present
+	const cleanInput = unformattedInput.replace(/,/g, '');
+	return parseUnits(cleanInput, 18);
 };
 
 /**
@@ -194,11 +194,11 @@ export const BNToDecimal = (number: bigint | null, addCommas = false, decimals =
 	}
 
 	const getFinalAmount = () => {
-		const amount = new Big(number.toString()).div(new Big(10).pow(decimals));
+		const amount = formatUnits(number, decimals);
 		if (round > 0) {
-			return amount.toFixed(round);
+			return new Big(amount).toFixed(round);
 		}
-		return amount.toFixed();
+		return amount;
 	};
 
 	const finalAmount = getFinalAmount();
