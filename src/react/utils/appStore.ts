@@ -27,11 +27,17 @@ export const dispatch = (action: any) => {
 	// This means a "side-effect" (query) occured and now we need to add it to pendingQueries (so it can be executed as async)
 
 	// Handle side effects (queries)
-	// Only run side effects if query object has changed (reference equality check)
-	// and it is not undefined.
+	// This is the core of our "Commands & Queries" architecture.
+	// 1. The reducer runs and returns a `newState`.
+	// 2. If `newState.query` is present, it means the reducer wants to perform a side effect (e.g., fetch data, call a smart contract).
+	// 3. We detect this here and queue the query for execution.
+	// 4. `handleQueries` is then called to execute the async operation.
+	// 5. When the async operation finishes, it dispatches a new action (Command) back to the store to update the state.
+	//
+	// This loop allows us to keep the reducer pure while managing complex async flows like blockchain transactions.
 	if (newState.query) {
-		// Queue the queries in the state (add then to pendingQueries)
-		// This also sets query to undefined after
+		// Queue the queries in the state (add them to pendingQueries)
+		// This also sets query to undefined after, ensuring we don't re-trigger it.
 		dispatch({
 			type: commonLanguage.commands.QueueQueries,
 			payload: { queries: newState.query },

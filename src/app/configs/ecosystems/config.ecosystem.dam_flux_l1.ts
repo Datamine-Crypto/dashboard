@@ -4,8 +4,19 @@ import { EcosystemConfig, Layer, LiquidityPoolType } from '@/app/configs/config.
 
 /**
  * Provides the complete configuration for the Ethereum Mainnet (L1) ecosystem.
- * This configuration includes network details, token addresses, smart contract ABIs, and feature flags
- * specific to this blockchain, allowing the dashboard to dynamically adapt its functionality.
+ *
+ * CONCEPT: **Multi-Chain Configuration Strategy**
+ * The Datamine Network operates across multiple blockchains (Ethereum L1, Arbitrum L2, etc.).
+ * Instead of hardcoding addresses or logic in the components, we use "Ecosystem Configs".
+ *
+ * HOW IT WORKS:
+ * 1. The user selects an ecosystem (e.g., "DAM L1" or "FLUX L2") in the UI.
+ * 2. The app loads the corresponding config file (like this one).
+ * 3. All components (Minting, Burning, Analytics) read from this config to know which contract addresses to use,
+ *    which tokens to display, and which features to enable.
+ *
+ * This allows the same React codebase to power completely different dashboard experiences depending on the selected chain.
+ *
  * @returns An `EcosystemConfig` object tailored for the DAM/FLUX L1 ecosystem.
  */
 export const getDamFluxEcosystemConfig = () => {

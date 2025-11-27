@@ -349,6 +349,16 @@ export const getGasFees = async (publicClient: PublicClient) => {
 
 /**
  * A higher-order function that wraps a Viem contract instance with helper functions.
+ *
+ * CONCEPT: **Abstraction Layer for Smart Contract Interactions**
+ * Instead of calling `contract.read.methodName()` or `contract.write.methodName()` directly in our React components,
+ * we wrap these calls in this factory function.
+ *
+ * WHY?
+ * 1. **Simplified API**: It exposes a clean, type-safe API (e.g., `lock({ amount })`) that abstracts away the complexity of gas estimation, simulation, and transaction waiting.
+ * 2. **Error Handling**: It centralizes error handling (using `rethrowWeb3Error`) so we can provide consistent, human-readable error messages across the app.
+ * 3. **Simulation First**: For write operations, we *always* run `contract.simulate` first. This ensures the transaction will likely succeed before asking the user to sign it, saving them gas fees on failed transactions.
+ * 4. **Gas Estimation**: It automatically handles gas estimation (via `getGasFees`) to ensure transactions are mined reliably.
  */
 export const withWeb3 = (contract: any) => {
 	if (!contract) {

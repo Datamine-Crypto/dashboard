@@ -1,8 +1,17 @@
 // This reducer manages the core Web3 state and orchestrates interactions with the blockchain.
-// It implements a "Commands & Queries" pattern:
-// - 'commonLanguage' actions represent user intentions or system events (commands/queries).
-// - 'pendingQueries' holds requests that need to be processed asynchronously by Web3Bindings.
-// This separation ensures state updates are pure and side effects are handled externally.
+// It implements a "Commands & Queries" pattern, which is a variation of CQRS (Command Query Responsibility Segregation) adapted for Redux-like state management.
+//
+// 1. **Commands**: These are synchronous actions that directly modify the application state.
+//    - Examples: 'INITIALIZE', 'UPDATE_ADDRESS', 'SHOW_DIALOG'.
+//    - They represent a user's intent or a system event that *must* happen immediately.
+//
+// 2. **Queries**: These are asynchronous operations (side effects) that fetch data or interact with external systems (like the blockchain).
+//    - Examples: 'FIND_WEB3_INSTANCE', 'GET_MINT_FLUX_RESPONSE'.
+//    - Instead of executing immediately, queries are queued in the `pendingQueries` state array.
+//    - The `sideEffectReducer` (in `src/react/utils/appStore.ts`) detects these pending queries and executes them asynchronously.
+//    - Once a query completes, it dispatches a new Command (often a "Response" command) to update the state with the result.
+//
+// This separation ensures that the reducer remains pure (no side effects inside the reducer) and that all async logic is centralized and testable.
 export const commonLanguage = {
 	commands: {
 		Initialize: 'INITIALIZE',
