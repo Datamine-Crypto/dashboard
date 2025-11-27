@@ -128,7 +128,7 @@ export const getContracts = (publicClient: PublicClient, ecosystem: Ecosystem) =
 	const config = getEcosystemConfig(ecosystem) as any;
 
 	// Helper to create contract
-	const createContract = (address: string, abi: any) => {
+	const createContract = <TAbi extends readonly unknown[]>(address: string, abi: TAbi) => {
 		if (!address || address === '0x0') return null;
 		return getContract({
 			address: address as Address,

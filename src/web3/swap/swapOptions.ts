@@ -3,7 +3,7 @@
  * It provides a standardized structure for handling swap operations, tokens, and platform-specific details.
  */
 
-import { PublicClient } from 'viem';
+import { PublicClient, Abi, WalletClient } from 'viem';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
 
 /**
@@ -46,7 +46,7 @@ export interface SwapTokenDetails {
 	shortName: string;
 	longName: string;
 	address: string;
-	abi?: any;
+	abi?: Abi | readonly unknown[];
 	logo: any;
 	ecosystem: Ecosystem | null;
 
@@ -65,7 +65,7 @@ export interface SwapOptions {
 	swapPlatform: SwapPlatform;
 
 	publicClient: PublicClient;
-	walletClient?: any; // Using any to avoid circular dependency or import issues if WalletClient is not exported from viem (it is, but let's be safe or just import it)
+	walletClient?: WalletClient | null;
 	web3provider: any;
 
 	/**

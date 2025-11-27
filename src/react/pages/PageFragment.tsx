@@ -2,8 +2,6 @@ import { Box } from '@mui/material';
 import React, { lazy, Suspense } from 'react';
 import { tss } from 'tss-react/mui';
 
-import { Ecosystem, NetworkType } from '@/app/configs/config.common';
-import { HelpArticle } from '@/app/helpArticles';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import LoadingDialog from '@/react/elements/Dialogs/LoadingDialog';
 import CenteredLoading from '@/react/elements/Fragments/CenteredLoading';
@@ -11,7 +9,6 @@ import DialogsFragment from '@/react/elements/Fragments/DialogsFragment';
 import PendingQueryFragment from '@/react/elements/Fragments/PendingQueryFragment';
 
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
 import { Page, getPageDetails, useRouter } from '@/react/utils/router';
 const MainAppBar = lazy(() => import('@/react/elements/Fragments/AppBar'));
 const HelpDialog = lazy(() => import('@/react/elements/Dialogs/HelpDialog'));
@@ -28,12 +25,6 @@ const HodlClickerPage = lazy(() => import('@/react/pages/HodlClickerPage'));
 const HomePage = lazy(() => import('@/react/pages/HomePage'));
 const RealtimeRewardsGameFiPage = lazy(() => import('@/react/pages/gamefi/RealtimeRewardsGameFiPage'));
 const HodlClickerRushGameFiPage = lazy(() => import('@/react/pages/gamefi/HodlClickerRushGameFiPage'));
-interface RenderParams {
-	dispatch: ReducerDispatch;
-	helpArticle: HelpArticle | null;
-	helpArticlesNetworkType: NetworkType;
-	ecosystem: Ecosystem;
-}
 
 const useStyles = tss.create(({ theme }) => ({
 	pageContainer: {
