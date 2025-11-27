@@ -1,4 +1,3 @@
-import BN from 'bn.js';
 import { getEcosystemConfig as getConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { devLog } from '@/utils/devLog';
@@ -21,7 +20,7 @@ export interface AuthorizeOperatorParams {
 export interface LockParams {
 	minterAddress: string;
 	from: string;
-	amount: BN;
+	amount: bigint;
 }
 
 /**
@@ -39,7 +38,7 @@ export interface MintToAddressParams {
  */
 export interface BurnToAddressParams {
 	targetAddress: string;
-	amount: BN;
+	amount: bigint;
 	from: string;
 }
 
@@ -59,7 +58,7 @@ export interface UnlockParams {
  * Parameters for burning tokens within the Datamine Market contract.
  */
 export interface MarketBurnTokensParams {
-	amountToBurn: BN;
+	amountToBurn: bigint;
 	burnToAddress: string;
 	from: string;
 }
@@ -69,7 +68,7 @@ export interface MarketBurnTokensParams {
  * within the Datamine Market contract.
  */
 export interface MarketBatchBurnTokensParams {
-	amountToBurn: BN;
+	amountToBurn: bigint;
 	addresses: string[];
 	from: string;
 }
@@ -78,11 +77,11 @@ export interface MarketBatchBurnTokensParams {
  * Parameters for depositing tokens into the Datamine Market contract.
  */
 export interface MarketDepositParams {
-	amountToDeposit: BN;
+	amountToDeposit: bigint;
 	rewardsPercent: number;
 	from: string;
-	minBlockNumber: BN;
-	minBurnAmount: BN;
+	minBlockNumber: bigint;
+	minBurnAmount: bigint;
 }
 
 /**

@@ -12,7 +12,7 @@ import {
 	useTheme,
 } from '@mui/material';
 import { EmojiEvents } from '@mui/icons-material';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { Token } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
 
@@ -49,19 +49,19 @@ const HodlClickerLeaderboard: React.FC<Props> = ({ logs, balances, truncateAddre
 	const leaderboardData = useMemo(() => {
 		if (!logs || logs.length === 0 || !balances) return [];
 
-		const addressStats: { [key: string]: { address: string; totalJackpot: BN; wins: number } } = {};
+		const addressStats: { [key: string]: { address: string; totalJackpot: bigint; wins: number } } = {};
 
 		logs.forEach((log) => {
 			const address = log.args.caller;
-			const jackpot = new BN(log.args.jackpotAmount.toString());
+			const jackpot = BigInt(log.args.jackpotAmount.toString());
 
-			if (jackpot.isZero()) return;
+			if (jackpot === 0n) return;
 
 			if (!addressStats[address]) {
-				addressStats[address] = { address, totalJackpot: new BN(0), wins: 0 };
+				addressStats[address] = { address, totalJackpot: 0n, wins: 0 };
 			}
 
-			addressStats[address].totalJackpot = addressStats[address].totalJackpot.add(jackpot);
+			addressStats[address].totalJackpot = addressStats[address].totalJackpot + jackpot;
 			addressStats[address].wins += 1;
 		});
 

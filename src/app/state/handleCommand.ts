@@ -1,5 +1,5 @@
 import Big from 'big.js';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Layer, NetworkType } from '@/app/configs/config.common';
 import { ReducerCommand, commonLanguage as reducerCommonLanguage } from '@/utils/reducer/sideEffectReducer';
@@ -281,11 +281,10 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				return state;
 			}
 
-			const isLocked = !state.addressLock.amount.isZero();
-
+			const isLocked = state.addressLock.amount > 0n;
 			const getLockAmount = () => {
 				if (!state.addressLock || !isLocked) {
-					return new BN('1000').mul(new BN(10).pow(new BN(18)));
+					return 1000n * 10n ** 18n;
 				}
 				return state.addressLock.amount;
 			};
@@ -303,7 +302,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			const blocks = unmintedBlocks;
 			const forecastBlocks = isLocked ? 0 : blocks.toString();
 			const forecastStartBlocks = (
-				state.addressLock.amount.isZero()
+				state.addressLock.amount === 0n
 					? 0
 					: (state.addressDetails.blockNumber - state.addressLock.lastMintBlockNumber) * -1
 			).toString();
@@ -322,7 +321,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					return '';
 				}
 				return getPriceToggle({
-					value: new BN(10).pow(new BN(18)),
+					value: 10n ** 18n,
 					inputToken: Token.Mintable,
 					outputToken: Token.USDC,
 					balances: state.balances,
@@ -466,9 +465,9 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				forecastSettings: {
 					...state.forecastSettings,
 					forecastAmount,
-					amount: new Big(
-						getForecastAmount(command.payload, state.forecastSettings.forecastAmount, true).toString()
-					).mul(new Big(10).pow(18)),
+					amount:
+						BigInt(getForecastAmount(command.payload, state.forecastSettings.forecastAmount, true).toString()) *
+						10n ** 18n,
 				},
 			};
 		}
@@ -583,13 +582,13 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 
 		case commonLanguage.commands.AuthorizeFluxOperator:
-			if (state.balances?.damToken?.isZero()) {
+			if (state.balances?.damToken === 0n) {
 				return {
 					...state,
 					dialog: DialogType.ZeroDam,
 				};
 			}
-			if (state.balances?.eth?.isZero()) {
+			if (state.balances?.eth === 0n) {
 				return {
 					...state,
 					dialog: DialogType.ZeroEth,
@@ -836,7 +835,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					return state;
 				}*/
 
-				if (amountBN.lte(new BN(0))) {
+				if (amountBN <= 0n) {
 					throw new Error(commonLanguage.errors.MustExceedZero);
 				}
 

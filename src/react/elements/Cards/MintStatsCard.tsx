@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useAppStore } from '@/react/utils/appStore';
 import { BNToDecimal, getBlocksRemaining } from '@/utils/mathHelpers';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { DialogType, FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '@/app/interfaces';
 import { ReducerDispatch, Balances } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -69,7 +69,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		};
 		const getDamLockedInHeader = () => {
 			const getUnlockButton = () => {
-				if (new BN(addressLock.amount).isZero()) {
+				if (addressLock.amount === 0n) {
 					return;
 				}
 				if (displayedAddress !== selectedAddress) {
@@ -118,7 +118,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				/>
 			);
 		};
-		if (addressLock.amount.isZero()) {
+		if (addressLock.amount === 0n) {
 			return null;
 		}
 		const { myRatio } = addressTokenDetails;
@@ -167,7 +167,7 @@ const Render: React.FC<RenderParams> = React.memo(
 									)
 								</>
 							) : (
-								`${mintableTokenShortName} to Burn For 2x Bonus:`
+								`${mintableTokenShortName} to Burn For Average Bonus (${ecosystem === Ecosystem.Lockquidity ? 1 : 2}X):`
 							)
 						}
 						main={
@@ -193,7 +193,7 @@ const Render: React.FC<RenderParams> = React.memo(
 								)
 							</>
 						) : (
-							`${mintableTokenShortName} to Burn For ${maxBurnMultiplier}x Bonus:`
+							`${mintableTokenShortName} to Burn For ${maxBurnMultiplier}x MAX Bonus:`
 						)
 					}
 					main={

@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useAppStore } from '@/react/utils/appStore';
 import { OpenInNew } from '@mui/icons-material';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
 import { Token } from '@/app/interfaces';
@@ -37,8 +37,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 	const { classes } = useStyles();
 	const { mintableTokenShortName, layer, mintableSushiSwapL2EthPair } = getEcosystemConfig(ecosystem) as any; // temp for mintableSushiSwapL2EthPair
 	const { lockedLiquidityUniAmount, lockedLiquidtyUniTotalSupply, uniswapFluxTokenReserves } = balances;
-	const percentLockedLiquidity =
-		lockedLiquidityUniAmount.mul(new BN(1000000)).div(lockedLiquidtyUniTotalSupply).toNumber() / 10000;
+	const percentLockedLiquidity = Number((lockedLiquidityUniAmount * 1000000n) / lockedLiquidtyUniTotalSupply) / 10000;
 	/**
 	 * Calculates and displays the percentage of the mintable token's liquidity that is permanently locked.
 	 * @returns A DetailedListItem component showing the locked percentage.
@@ -87,9 +86,8 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 	 * @returns A DetailedListItem component.
 	 */
 	const getFluxAvailableLiquidity = () => {
-		const permaLockedMintableToken = uniswapFluxTokenReserves.flux
-			.mul(new BN(percentLockedLiquidity * 100))
-			.div(new BN(10000));
+		const permaLockedMintableToken =
+			(uniswapFluxTokenReserves.flux * BigInt(Math.floor(percentLockedLiquidity * 100))) / 10000n;
 		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: permaLockedMintableToken, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return (
 			<DetailedListItem
@@ -110,7 +108,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, ecosystem }) => {
 	 * @returns A DetailedListItem component.
 	 */
 	const getFluxAvailableLiquidityEth = () => {
-		const permaLockedEth = uniswapFluxTokenReserves.eth.mul(new BN(percentLockedLiquidity * 100)).div(new BN(10000));
+		const permaLockedEth = (uniswapFluxTokenReserves.eth * BigInt(Math.floor(percentLockedLiquidity * 100))) / 10000n;
 		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: permaLockedEth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return (
 			<DetailedListItem

@@ -1,5 +1,5 @@
 import Big from 'big.js';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import dayjs from 'dayjs';
 import { getEcosystemConfig as getConfig, getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
@@ -11,9 +11,9 @@ import { Balances } from '@/app/interfaces';
  */
 interface PriceToggle {
 	/**
-	 * The numeric value as a BN (BigNumber) to be formatted or used in price calculation.
+	 * The numeric value as a bigint to be formatted or used in price calculation.
 	 */
-	value?: BN;
+	value?: bigint;
 	/**
 	 * The numeric value as a Big.js object to be formatted or used in price calculation.
 	 */
@@ -41,17 +41,17 @@ interface PriceToggle {
 }
 
 /**
- * Formats a numeric value (BN) into a price string based on input and output tokens and current balances.
+ * Formats a numeric value (bigint) into a price string based on input and output tokens and current balances.
  * It calculates the price using Uniswap reserves and applies formatting options.
  * @param {PriceToggle} params - Object containing value, inputToken, outputToken, balances, optional rounding, and comma removal.
  * @returns {string} The formatted price string.
  */
 export const getPriceToggle = ({ value, inputToken, outputToken, balances, round, removeCommas }: PriceToggle) => {
-	if (!value) {
+	if (value === null || value === undefined) {
 		return '*invalid value*';
 	}
 
-	const valueBig = new Big(value.toString(10));
+	const valueBig = new Big(value.toString());
 
 	return getPriceToggleBig({
 		valueBig,
@@ -153,18 +153,16 @@ const bigDecimalDividor = new Big(10).pow(18);
 /**
  * Calculates the percentage of `bnA` relative to `bnB` or `bnA + bnB`.
  * Useful for displaying proportions or progress.
- * @param {BN} bnA - The first BN (BigNumber) value.
- * @param {BN} bnB - The second BN (BigNumber) value.
+ * @param {bigint} bnA - The first bigint value.
+ * @param {bigint} bnB - The second bigint value.
  * @param {boolean} [shouldAdd=true] - If true, calculates percentage of `bnA / (bnA + bnB)`; otherwise, `bnA / bnB`.
  * @returns {string} The calculated percentage as a string, formatted to two decimal places.
  */
-export const getBNPercent = (bnA: BN, bnB: BN, shouldAdd = true) => {
-	if (bnB.isZero() || bnA.isZero()) {
+export const getBNPercent = (bnA: bigint, bnB: bigint, shouldAdd = true) => {
+	if (bnB === 0n || bnA === 0n) {
 		return '0.00';
 	}
-	const big = new Big(bnA.toString(10))
-		.div(new Big(shouldAdd ? bnA.toString(10) : new BN(0).toString(10)).add(bnB.toString(10)))
-		.mul(100);
+	const big = new Big(bnA.toString()).div(new Big(shouldAdd ? bnA.toString() : '0').add(bnB.toString())).mul(100);
 
 	return big.toFixed(2);
 };
@@ -173,30 +171,30 @@ export const getBNPercent = (bnA: BN, bnB: BN, shouldAdd = true) => {
  * Converts a decimal string representation of a number into a BN (BigNumber) instance,
  * scaling it by 10^18 (common for ERC-20 tokens).
  * @param {string} unformattedInput - The decimal string to convert (e.g., "1.3").
- * @returns {BN} The converted BigNumber.
+ * @returns {bigint} The converted BigInt.
  */
 export const parseBN = (unformattedInput: string) => {
 	const big = new Big(unformattedInput);
 
-	const parsedNumber = big.mul(bigDecimalDividor).toFixed();
-	return new BN(parsedNumber);
+	const parsedNumber = big.mul(bigDecimalDividor).toFixed(0);
+	return BigInt(parsedNumber);
 };
 
 /**
- * Converts a BN (BigNumber) to a human-readable decimal string, with optional formatting.
- * @param {BN | null} number - The BN to convert. Can be null.
+ * Converts a bigint to a human-readable decimal string, with optional formatting.
+ * @param {bigint | null} number - The bigint to convert. Can be null.
  * @param {boolean} [addCommas=false] - Whether to add comma separators for thousands.
  * @param {number} [decimals=18] - The number of decimal places to consider for the conversion (e.g., 18 for ETH).
  * @param {number} [round=0] - The number of decimal places to round the final output to.
  * @returns {string | null} The converted decimal string, or null if the input number is null.
  */
-export const BNToDecimal = (number: BN | null, addCommas = false, decimals = 18, round = 0) => {
-	if (!number) {
+export const BNToDecimal = (number: bigint | null, addCommas = false, decimals = 18, round = 0) => {
+	if (number === null || number === undefined) {
 		return null;
 	}
 
 	const getFinalAmount = () => {
-		const amount = new Big(number.toString(10)).div(new Big(10).pow(decimals));
+		const amount = new Big(number.toString()).div(new Big(10).pow(decimals));
 		if (round > 0) {
 			return amount.toFixed(round);
 		}
@@ -218,11 +216,11 @@ export const BNToDecimal = (number: BN | null, addCommas = false, decimals = 18,
 
 /**
  * Formats a burn ratio into a human-readable string (e.g., "X FLUX / 1 DAM").
- * @param {BN} ratio - The BN (BigNumber) representing the burn ratio.
+ * @param {bigint} ratio - The bigint representing the burn ratio.
  * @param {Ecosystem} ecosystem - The current ecosystem to retrieve token short names for display.
  * @returns {string} A formatted string showing the burn ratio between mintable and lockable tokens.
  */
-export const getBurnRatio = (ratio: BN, ecosystem: Ecosystem) => {
+export const getBurnRatio = (ratio: bigint, ecosystem: Ecosystem) => {
 	const { mintableTokenShortName, lockableTokenShortName } = getEcosystemConfig(ecosystem);
 
 	return `${BNToDecimal(ratio, true, 10, 5)} ${mintableTokenShortName} / 1 ${lockableTokenShortName}`;
@@ -420,11 +418,12 @@ export const getRequiredFluxToBurn = ({
 	const isTargetReached =
 		fluxRequired == new Big(0) || addressDetails.addressBurnMultiplier === 10000 * maxBurnMultiplier;
 
-	const fluxRequiredBn = new BN(fluxRequired.abs().round(0).toFixed());
+	const fluxRequiredBn = fluxRequired.abs().round(0).toFixed();
+	const fluxRequiredBigInt = BigInt(fluxRequiredBn);
 
-	const fluxRequiredToBurn = BNToDecimal(fluxRequiredBn, true, 18, mintableTokenPriceDecimals);
+	const fluxRequiredToBurn = BNToDecimal(fluxRequiredBigInt, true, 18, mintableTokenPriceDecimals);
 
-	const fluxRequiredToBurnInUsdc = `$ ${getPriceToggle({ value: fluxRequiredBn, inputToken: Token.Mintable, outputToken: Token.USDC, balances })} USD`;
+	const fluxRequiredToBurnInUsdc = `$ ${getPriceToggle({ value: fluxRequiredBigInt, inputToken: Token.Mintable, outputToken: Token.USDC, balances })} USD`;
 
 	return {
 		fluxRequiredToBurn,

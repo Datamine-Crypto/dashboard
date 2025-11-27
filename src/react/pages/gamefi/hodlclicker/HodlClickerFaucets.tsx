@@ -15,7 +15,7 @@ import {
 	SelectChangeEvent,
 } from '@mui/material';
 import { SportsScore, MoreVert, DirectionsRun } from '@mui/icons-material';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { Token, AddressLockDetailsViewModel } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
 
@@ -144,9 +144,9 @@ const HodlClickerFaucets: React.FC<HodlClickerFaucetsProps> = ({
 						if (!balances) return null;
 						const amountBN = addr.mintAmount;
 						const rewardsPercent = addr.rewardsPercent === 0 ? 500 : addr.rewardsPercent;
-						const rewardsAmount = amountBN.add(amountBN.mul(new BN(rewardsPercent)).div(new BN(10000)));
+						const rewardsAmount = amountBN + (amountBN * BigInt(rewardsPercent)) / 10000n;
 						const balanceInUsdc = getPriceToggle({
-							value: rewardsAmount.sub(amountBN),
+							value: rewardsAmount - amountBN,
 							inputToken: Token.Mintable,
 							outputToken: Token.USDC,
 							balances,

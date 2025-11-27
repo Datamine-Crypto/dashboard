@@ -1,4 +1,4 @@
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
 import { Gem } from '@/react/elements/Fragments/DatamineGemsGame';
@@ -385,7 +385,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 					...state.swapState,
 					output: {
 						...state.swapState.output,
-						amount: `${BNToDecimal(new BN(swapQuote.out.minAmount))}`,
+						amount: `${BNToDecimal(BigInt(swapQuote.out.minAmount))}`,
 					},
 				},
 			};

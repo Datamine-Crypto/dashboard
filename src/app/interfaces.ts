@@ -1,5 +1,5 @@
 import Big from 'big.js';
-import BN from 'bn.js';
+
 import { Ecosystem, Layer } from '@/app/configs/config.common';
 import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
 import { SwapToken, SwapTokenWithAmount } from '@/web3/swap/swapOptions';
@@ -14,7 +14,7 @@ export interface FluxAddressLock {
 	/**
 	 * The amount of DAM (Datamine) tokens locked by this address.
 	 */
-	amount: BN;
+	amount: bigint;
 	/**
 	 * The Ethereum block number when the tokens were initially locked.
 	 */
@@ -23,7 +23,7 @@ export interface FluxAddressLock {
 	 * The cumulative amount of FLUX tokens burned by this address.
 	 * This contributes to the burn multiplier.
 	 */
-	burnedAmount: BN;
+	burnedAmount: bigint;
 	/**
 	 * The Ethereum block number of the last mint operation performed by this address.
 	 * Used to calculate unminted blocks.
@@ -48,12 +48,12 @@ export interface FluxAddressDetails {
 	/**
 	 * The current balance of FLUX tokens held by the address.
 	 */
-	fluxBalance: BN;
+	fluxBalance: bigint;
 	/**
 	 * The calculated amount of FLUX tokens available for minting for this address,
 	 * considering all bonuses and unminted blocks.
 	 */
-	mintAmount: BN;
+	mintAmount: bigint;
 	/**
 	 * The time-based multiplier applied to minting rewards (e.g., 1x, 3x).
 	 * This is a human-readable, scaled value.
@@ -67,19 +67,19 @@ export interface FluxAddressDetails {
 	/**
 	 * The raw BigNumber value of the address's time multiplier as returned by the smart contract.
 	 */
-	addressTimeMultiplierRaw: BN;
+	addressTimeMultiplierRaw: bigint;
 	/**
 	 * The raw BigNumber value of the address's burn multiplier as returned by the smart contract.
 	 */
-	addressBurnMultiplierRaw: BN;
+	addressBurnMultiplierRaw: bigint;
 	/**
 	 * The total amount of DAM tokens locked across all validators in the entire ecosystem.
 	 */
-	globalLockedAmount: BN;
+	globalLockedAmount: bigint;
 	/**
 	 * The total amount of FLUX tokens burned across all validators in the entire ecosystem.
 	 */
-	globalBurnedAmount: BN;
+	globalBurnedAmount: bigint;
 }
 
 /**
@@ -98,17 +98,17 @@ export interface FluxAddressTokenDetails {
 	/**
 	 * The current balance of DAM tokens held by the address.
 	 */
-	damBalance: BN;
+	damBalance: bigint;
 	/**
 	 * The individual burn-to-locked-DAM ratio for this specific address.
 	 * Used in calculating the `addressBurnMultiplier`.
 	 */
-	myRatio: BN;
+	myRatio: bigint;
 	/**
 	 * The global average burn-to-locked-DAM ratio across the entire ecosystem.
 	 * Used in calculating the `addressBurnMultiplier`.
 	 */
-	globalRatio: BN;
+	globalRatio: bigint;
 }
 
 /**
@@ -165,8 +165,8 @@ export enum Token {
 
 export interface AddressLockDetailsViewModel {
 	currentAddress: string;
-	mintAmount: BN;
-	rewardsAmount: BN;
+	mintAmount: bigint;
+	rewardsAmount: bigint;
 
 	/**
 	 * This would need to be divided by 10000
@@ -174,14 +174,14 @@ export interface AddressLockDetailsViewModel {
 	rewardsPercent: number;
 
 	minBlockNumber: number;
-	minBurnAmount: BN;
+	minBurnAmount: bigint;
 	isPaused: boolean;
 
 	//lastMintBlockNumber: number;
-	//mintPerBlock: BN;
+	//mintPerBlock: bigint;
 
 	minterAddress: string;
-	//prevBlockMintAmount: BN;
+	//prevBlockMintAmount: bigint;
 }
 
 /**
@@ -196,20 +196,20 @@ export enum ConnectionMethod {
  * Interfaces for Uniswap reserve data.
  */
 interface UniswapReservesDam {
-	dam: BN;
-	eth: BN;
+	dam: bigint;
+	eth: bigint;
 	ethPrice: Big;
 	damPrice: Big;
 }
 interface UniswapReservesFlux {
-	flux: BN;
-	eth: BN;
+	flux: bigint;
+	eth: bigint;
 	ethPrice: Big;
 	fluxPrice: Big;
 }
 interface UniswapReservesUsdcEth {
-	usdc: BN;
-	eth: BN;
+	usdc: bigint;
+	eth: bigint;
 }
 
 /**
@@ -225,7 +225,7 @@ export enum ForecastMultiplierType {
  */
 export interface ForecastSettings {
 	enabled: boolean;
-	amount: BN;
+	amount: bigint;
 	blocks: number;
 
 	forecastBurn: number;
@@ -246,23 +246,23 @@ export interface ForecastSettings {
  * State for user's on-chain balances.
  */
 export interface Balances {
-	damToken: BN;
-	fluxToken: BN;
-	eth: BN | null;
-	fluxTotalSupply: BN;
-	damTotalSupply: BN;
+	damToken: bigint;
+	fluxToken: bigint;
+	eth: bigint | null;
+	fluxTotalSupply: bigint;
+	damTotalSupply: bigint;
 	uniswapDamTokenReserves: UniswapReservesDam;
 	uniswapFluxTokenReserves: UniswapReservesFlux;
 	uniswapUsdcEthTokenReserves: UniswapReservesUsdcEth;
-	arbitrumBridgeBalance: BN;
+	arbitrumBridgeBalance: bigint;
 
 	/**
 	 * We'll add this to balances so we can override global FLUX price
 	 */
 	forecastFluxPrice: string;
 
-	lockedLiquidtyUniTotalSupply: BN;
-	lockedLiquidityUniAmount: BN;
+	lockedLiquidtyUniTotalSupply: bigint;
+	lockedLiquidityUniAmount: bigint;
 }
 
 /**
@@ -288,15 +288,15 @@ export interface SwapState {
  */
 export interface SwapTokenBalances {
 	[Layer.Layer1]: {
-		[SwapToken.DAM]: BN;
-		[SwapToken.FLUX]: BN;
-		[SwapToken.ETH]: BN;
+		[SwapToken.DAM]: bigint;
+		[SwapToken.FLUX]: bigint;
+		[SwapToken.ETH]: bigint;
 	};
 	[Layer.Layer2]: {
-		[SwapToken.ArbiFLUX]: BN;
-		[SwapToken.FLUX]: BN;
-		[SwapToken.LOCK]: BN;
-		[SwapToken.ETH]: BN;
+		[SwapToken.ArbiFLUX]: bigint;
+		[SwapToken.FLUX]: bigint;
+		[SwapToken.LOCK]: bigint;
+		[SwapToken.ETH]: bigint;
 	};
 }
 

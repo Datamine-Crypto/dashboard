@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Diamond, ImportExport, Mouse } from '@mui/icons-material';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { AddressLockDetailsViewModel, DialogType, FluxAddressDetails, Game, Token } from '@/app/interfaces';
@@ -42,8 +42,8 @@ interface RenderParams {
 	hasWeb3: boolean | null;
 	market: MarketDetails;
 	game: Game;
-	totalContractLockedAmount: BN | null;
-	totalContractRewardsAmount: BN | null;
+	totalContractLockedAmount: bigint | null;
+	totalContractRewardsAmount: bigint | null;
 }
 enum BlockReason {
 	IsPaused,
@@ -130,9 +130,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			}
 		};
 		const isDepositRequired =
-			isGameRequiringBalance() &&
-			currentAddressMarketAddress &&
-			currentAddressMarketAddress.rewardsAmount.eq(new BN(0));
+			isGameRequiringBalance() && currentAddressMarketAddress && currentAddressMarketAddress.rewardsAmount === 0n;
 		const onSubmit = async (e: any) => {
 			e.preventDefault();
 			if (!selectedAddress) {
@@ -218,14 +216,14 @@ const Render: React.FC<RenderParams> = React.memo(
 					}
 				};
 				const amountBN = address.mintAmount;
-				const getAmountReceived = (): BN => {
+				const getAmountReceived = (): bigint => {
 					const rewardsPercent = address.rewardsPercent === 0 ? 500 : address.rewardsPercent;
-					const rewardsAmount = amountBN.add(amountBN.mul(new BN(rewardsPercent)).div(new BN(10000)));
+					const rewardsAmount = amountBN + (amountBN * BigInt(rewardsPercent)) / 10000n;
 					return rewardsAmount;
 				};
 				const amountReceived = getAmountReceived();
 				const balanceInUsdc = getPriceToggle({
-					value: amountReceived.sub(amountBN),
+					value: amountReceived - amountBN,
 					inputToken: Token.Mintable,
 					outputToken: Token.USDC,
 					balances,
@@ -255,7 +253,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			dispatch({
 				type: commonLanguage.commands.Market.MarketBurnFluxTokens,
 				payload: {
-					amountToBurn: new BN(0),
+					amountToBurn: 0n,
 					gems,
 				},
 			});
@@ -316,11 +314,10 @@ const Render: React.FC<RenderParams> = React.memo(
 					return currentAddressMarketAddress.rewardsAmount;
 				}
 				if (!totalContractRewardsAmount || !totalContractLockedAmount) {
-					return new BN(0);
+					return 0n;
 				}
-				const rewardsToWithdraw = currentAddressMarketAddress.rewardsAmount
-					.mul(totalContractRewardsAmount)
-					.div(totalContractLockedAmount);
+				const rewardsToWithdraw =
+					(currentAddressMarketAddress.rewardsAmount * totalContractRewardsAmount) / totalContractLockedAmount;
 				return rewardsToWithdraw;
 			};
 			const rewardsAmount = getRewardsAmount();
@@ -365,7 +362,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				);
 				return test.toNumber() * 100;
 			};
-			if (totalContractLockedAmount.eq(new BN(0)) || currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
+			if (totalContractLockedAmount === 0n || currentAddressMarketAddress.rewardsAmount === 0n) {
 				return <></>;
 			}
 			const balancePercentage = getBalancePercentage();
@@ -459,7 +456,7 @@ const Render: React.FC<RenderParams> = React.memo(
 			);
 		};
 		const getSubmitButton = () => {
-			if (currentAddressMarketAddress && selectedAddress && currentAddressMarketAddress.rewardsAmount.gt(new BN(0))) {
+			if (currentAddressMarketAddress && selectedAddress && currentAddressMarketAddress.rewardsAmount > 0n) {
 				return;
 			}
 			return (

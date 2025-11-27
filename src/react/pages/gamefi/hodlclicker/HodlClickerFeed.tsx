@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Box, CircularProgress } from '@mui/material';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import dayjs from 'dayjs';
 import { Token } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
@@ -45,9 +45,9 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 			[blockNumber: string]: {
 				id: string;
 				timestamp: number;
-				burnedBN: BN;
-				jackpotBN: BN;
-				tipBN: BN;
+				burnedBN: bigint;
+				jackpotBN: bigint;
+				tipBN: bigint;
 				callers: Set<string>;
 				txCount: number;
 			};
@@ -58,18 +58,18 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 				groupedLogs[log.blockNumber] = {
 					id: log.id,
 					timestamp: log.timestamp,
-					burnedBN: new BN(0),
-					jackpotBN: new BN(0),
-					tipBN: new BN(0),
+					burnedBN: 0n,
+					jackpotBN: 0n,
+					tipBN: 0n,
 					callers: new Set(),
 					txCount: 0,
 				};
 			}
 
 			const group = groupedLogs[log.blockNumber];
-			group.burnedBN = group.burnedBN.add(new BN(log.args.amountActuallyBurned.toString()));
-			group.jackpotBN = group.jackpotBN.add(new BN(log.args.jackpotAmount.toString()));
-			group.tipBN = group.tipBN.add(new BN(log.args.totalTipAmount.toString()));
+			group.burnedBN = group.burnedBN + BigInt(log.args.amountActuallyBurned.toString());
+			group.jackpotBN = group.jackpotBN + BigInt(log.args.jackpotAmount.toString());
+			group.tipBN = group.tipBN + BigInt(log.args.totalTipAmount.toString());
 			group.callers.add(log.args.caller);
 			group.txCount += 1;
 		});
@@ -108,7 +108,7 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 					round: 4,
 				});
 
-				if (!group.tipBN.isZero()) {
+				if (group.tipBN !== 0n) {
 					tipUSDStr = getPriceToggle({
 						value: group.tipBN,
 						inputToken: Token.Mintable,

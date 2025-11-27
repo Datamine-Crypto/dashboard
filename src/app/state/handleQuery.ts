@@ -3,7 +3,7 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import { ReducerDispatch } from '@/app/interfaces';
 import { AppState } from '@/app/state/initialState';
 import { getWeb3Provider, rethrowWeb3Error, withWeb3 } from '@/web3/utils/web3Helpers';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { QueryHandler } from '@/utils/reducer/sideEffectReducer';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Gem } from '@/react/elements/Fragments/DatamineGemsGame';
@@ -341,7 +341,7 @@ export const queryHandlers = {
 		}
 		const selectedAddress = await getSelectedAddress();
 
-		const { gems, amountToBurn }: { gems: Gem[]; amountToBurn: BN } = query.payload;
+		const { gems, amountToBurn }: { gems: Gem[]; amountToBurn: bigint } = query.payload;
 
 		const contracts = getContracts(publicClient, state.ecosystem);
 
@@ -420,8 +420,8 @@ export const queryHandlers = {
 			amountToDeposit: amount,
 			rewardsPercent,
 			from: selectedAddress as string,
-			minBlockNumber: new BN(0), //@todo customize via UI
-			minBurnAmount: new BN(0), //@todo customize via UI
+			minBlockNumber: 0n, //@todo customize via UI
+			minBurnAmount: 0n, //@todo customize via UI
 		});
 
 		return depositResponse;
@@ -487,7 +487,7 @@ export const queryHandlers = {
 							returns: {
 								params: ['uint256'],
 								callback: (amount: bigint) => {
-									return new BN(amount.toString());
+									return BigInt(amount.toString());
 								},
 							},
 						},
@@ -505,7 +505,7 @@ export const queryHandlers = {
 							returns: {
 								params: ['uint256'],
 								callback: (amount: bigint) => {
-									return new BN(amount.toString());
+									return BigInt(amount.toString());
 								},
 							},
 						},
@@ -537,7 +537,7 @@ export const queryHandlers = {
 				returns: {
 					params: ['uint256'],
 					callback: (positions: bigint) => {
-						return new BN(positions.toString());
+						return BigInt(positions.toString());
 					},
 				},
 			},
@@ -566,12 +566,11 @@ export const queryHandlers = {
 							targetBlock: Number(targetBlock),
 							addresses: addressData.map((address: any) => ({
 								currentAddress: address[0],
-								mintAmount: new BN(address[1].toString()),
-
-								rewardsAmount: new BN(address[2].toString()),
+								mintAmount: BigInt(address[1].toString()),
+								rewardsAmount: BigInt(address[2].toString()),
 								rewardsPercent: Number(address[3]),
 								minBlockNumber: Number(address[4]),
-								minBurnAmount: new BN(address[5].toString()),
+								minBurnAmount: BigInt(address[5].toString()),
 								isPaused: address[6],
 
 								minterAddress: address[7],

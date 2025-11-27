@@ -24,7 +24,7 @@ import type { LocalizationProviderProps } from '@mui/x-date-pickers/Localization
 import type { MobileDatePickerProps } from '@mui/x-date-pickers/MobileDatePicker';
 import React, { useEffect, useState } from 'react';
 import Big from 'big.js';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { useAppStore } from '@/react/utils/appStore';
 import { ReducerDispatch, Balances, ClientSettings, ConnectionMethod, ForecastSettings } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -280,8 +280,8 @@ const Render: React.FC<RenderParams> = React.memo(
 			const isForecastingModeEnabled = forecastSettings.enabled;
 			if (addressTokenDetails.isFluxOperator || isForecastingModeEnabled) {
 				if (addressLock && addressDetails) {
-					const lockedInDamAmount = new BN(addressLock.amount);
-					const isLocked = !lockedInDamAmount.isZero();
+					const lockedInDamAmount = addressLock.amount;
+					const isLocked = lockedInDamAmount !== 0n;
 					if (isLocked || isForecastingModeEnabled) {
 						const { minterAddress } = addressLock;
 						const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase(); // Lowercase for WalletConnect
@@ -326,7 +326,7 @@ const Render: React.FC<RenderParams> = React.memo(
 								dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Burn } });
 							};
 							const getButton = () => {
-								const isDisabled = !isCurrentAddress || addressDetails.fluxBalance.isZero();
+								const isDisabled = !isCurrentAddress || addressDetails.fluxBalance === 0n;
 								const button = (
 									<Button
 										disabled={isDisabled}
@@ -338,7 +338,7 @@ const Render: React.FC<RenderParams> = React.memo(
 										Burn {mintableTokenShortName}
 									</Button>
 								);
-								if (addressDetails.fluxBalance.isZero()) {
+								if (addressDetails.fluxBalance === 0n) {
 									return (
 										<LightTooltip title={`This address must have ${mintableTokenShortName} tokens to burn.`}>
 											<Box display="inline-block">{button}</Box>
@@ -369,9 +369,8 @@ const Render: React.FC<RenderParams> = React.memo(
 							}
 							return addressLock.amount;
 						};
-						const rawAmount = getLockedInAmount()
-							.div(new BN(10).pow(new BN(mintableTokenMintPerBlockDivisor)))
-							.mul(new BN(unmintedBlocks));
+						const rawAmount =
+							(getLockedInAmount() / 10n ** BigInt(mintableTokenMintPerBlockDivisor)) * BigInt(unmintedBlocks);
 						const rawAmountBig = new Big(rawAmount.toString(10));
 						const blanceWithoutBonusesInUsdc = getPriceToggleBig({
 							valueBig: rawAmountBig.mul(minBurnMultiplier),
@@ -381,7 +380,7 @@ const Render: React.FC<RenderParams> = React.memo(
 							round: 6,
 						});
 						const blanceWitMaxBonusesInUsdc = getPriceToggle({
-							value: rawAmount.mul(new BN(3 * maxBurnMultiplier)),
+							value: rawAmount * BigInt(3 * maxBurnMultiplier),
 							inputToken: Token.Mintable,
 							outputToken: Token.USDC,
 							balances,
@@ -389,12 +388,12 @@ const Render: React.FC<RenderParams> = React.memo(
 						});
 						const getMintAmount = () => {
 							if (forecastSettings.enabled) {
-								const percentMultiplier = new BN('10000');
-								return rawAmount
-									.mul(new BN(forecastSettings.forecastBurn))
-									.div(percentMultiplier)
-									.mul(new BN(forecastSettings.forecastTime))
-									.div(percentMultiplier);
+								const percentMultiplier = 10000n;
+								return (
+									(((rawAmount * BigInt(forecastSettings.forecastBurn)) / percentMultiplier) *
+										BigInt(forecastSettings.forecastTime)) /
+									percentMultiplier
+								);
 							}
 							return addressDetails.mintAmount;
 						};
@@ -867,7 +866,7 @@ const Render: React.FC<RenderParams> = React.memo(
 								if (fluxRequiredToBurn.gt(new Big(0))) {
 									const actualFluxRequiredToBurn = fluxRequiredToBurn.mul(new Big(10).pow(18)).round(0).toFixed();
 									const amountToBurnUsd = getPriceToggle({
-										value: new BN(actualFluxRequiredToBurn),
+										value: BigInt(actualFluxRequiredToBurn),
 										inputToken: Token.Mintable,
 										outputToken: Token.USDC,
 										balances,
@@ -977,7 +976,7 @@ const Render: React.FC<RenderParams> = React.memo(
 								return null;
 							}
 							const usdcAmount = getPriceToggle({
-								value: new BN(lockedAmount.toFixed(0)),
+								value: BigInt(lockedAmount.toFixed(0)),
 								inputToken: Token.Lockable,
 								outputToken: Token.USDC,
 								balances,
@@ -1290,8 +1289,8 @@ const Render: React.FC<RenderParams> = React.memo(
 		}
 		const { disabledText } = ctaDetails;
 		const getButton = () => {
-			const lockedInDamAmount = new BN(addressLock.amount);
-			const isLocked = !lockedInDamAmount.isZero();
+			const lockedInDamAmount = addressLock.amount;
+			const isLocked = lockedInDamAmount !== 0n;
 			if (isPlayingGame && isLocked) {
 				return (
 					<Button
@@ -1382,7 +1381,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				}
 			};
 			const getFluxPrice = () => {
-				const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: mintableTokenPriceDecimals })}`;
+				const shortFluxPrice = `${getPriceToggle({ value: 1n * 10n ** 18n, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: mintableTokenPriceDecimals })}`;
 				const actualFluxPrice = `$ ${shortFluxPrice}`;
 				return (
 					<>
@@ -1397,7 +1396,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				);
 			};
 			const getDamPrice = () => {
-				const shortDamPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 4 })}`;
+				const shortDamPrice = `${getPriceToggle({ value: 1n * 10n ** 18n, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 4 })}`;
 				const actualDamPrice = `$ ${shortDamPrice}`;
 				return (
 					<>
@@ -1412,7 +1411,7 @@ const Render: React.FC<RenderParams> = React.memo(
 				);
 			};
 			const getEthPrice = () => {
-				const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })}`;
+				const shortFluxPrice = `${getPriceToggle({ value: 1n * 10n ** 18n, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })}`;
 				const actualFluxPrice = `$ ${shortFluxPrice}`;
 				return (
 					<>

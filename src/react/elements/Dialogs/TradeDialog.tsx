@@ -17,7 +17,7 @@ import {
 import React from 'react';
 import { KeyboardArrowDown } from '@mui/icons-material';
 import { Grid } from '@mui/system';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
@@ -262,7 +262,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						return;
 					}
 					const balance = layerBalances[SwapToken.FLUX];
-					if (balance.isZero() || !balances) {
+					if (balance === 0n || !balances) {
 						return;
 					}
 					return (
@@ -284,7 +284,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						return;
 					}
 					const balance = swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX];
-					if (balance.isZero() || !balances) {
+					if (balance === 0n || !balances) {
 						return;
 					}
 					return (
@@ -306,7 +306,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						return;
 					}
 					const balance = swapTokenBalances[Layer.Layer2][SwapToken.LOCK];
-					if (balance.isZero() || !balances) {
+					if (balance === 0n || !balances) {
 						return;
 					}
 					return (
@@ -332,7 +332,7 @@ const Render: React.FC<RenderParams> = React.memo(
 						return;
 					}
 					const balance = swapTokenBalances[Layer.Layer1][SwapToken.DAM];
-					if (balance.isZero() || !balances) {
+					if (balance === 0n || !balances) {
 						return;
 					}
 					return (
@@ -363,7 +363,7 @@ const Render: React.FC<RenderParams> = React.memo(
 							{getIcon(SwapToken.ETH)} <>{BNToDecimal(balance, true, 18, 18)} ETH</>
 							{' / '}${' '}
 							{getPriceToggle({
-								value: balance ?? new BN(0),
+								value: balance ?? 0n,
 								inputToken: Token.ETH,
 								outputToken: Token.USDC,
 								balances,

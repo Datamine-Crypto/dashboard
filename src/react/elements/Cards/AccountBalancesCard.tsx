@@ -12,7 +12,7 @@ import { DialogType, Token } from '@/app/interfaces';
 // Helper functions for BN to decimal conversion, burn ratio calculation, and price toggling
 import { BNToDecimal, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers';
 // BN.js library for handling large numbers
-import BN from 'bn.js';
+// import BN from 'bn.js';
 // Styling utility from tss-react
 import { tss } from 'tss-react/mui';
 // Ecosystem configuration getter
@@ -93,7 +93,7 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 	 * Returns null if no tokens are locked.
 	 */
 	const getDelegatedMinterAddress = () => {
-		if (new BN(addressLock.amount).isZero()) {
+		if (addressLock.amount === 0n) {
 			return null;
 		}
 		const getSuffix = () => {
@@ -132,7 +132,7 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Burn } });
 			};
 			const getButton = () => {
-				const isDisabled = !isCurrentAddress || addressDetails.fluxBalance.isZero();
+				const isDisabled = !isCurrentAddress || addressDetails.fluxBalance === 0n;
 				const button = (
 					<Button
 						disabled={isDisabled}
@@ -145,7 +145,7 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 						Burn {mintableTokenShortName}
 					</Button>
 				);
-				if (addressDetails.fluxBalance.isZero()) {
+				if (addressDetails.fluxBalance === 0n) {
 					return (
 						<LightTooltip title={`This address must have ${mintableTokenShortName} tokens to burn.`}>
 							<Box display="inline-block">{button}</Box>
@@ -219,7 +219,7 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 			const showMintSettingsDialog = () => {
 				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MintSettings } });
 			};
-			if (new BN(addressLock.amount).isZero()) {
+			if (addressLock.amount === 0n) {
 				return;
 			}
 			const getStopMintButton = () => {

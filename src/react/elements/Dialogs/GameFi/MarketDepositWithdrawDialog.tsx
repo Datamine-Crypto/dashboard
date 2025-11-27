@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { ImportExport } from '@mui/icons-material';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { BNToDecimal } from '@/utils/mathHelpers';
@@ -39,10 +39,10 @@ interface RenderParams {
 	error: string | null;
 	total: string | null;
 	marketAddressLock: AddressLockDetailsViewModel;
-	currentAddressMintableBalance: BN | null;
+	currentAddressMintableBalance: bigint | null;
 	game: Game;
-	totalContractLockedAmount: BN | null;
-	totalContractRewardsAmount: BN | null;
+	totalContractLockedAmount: bigint | null;
+	totalContractRewardsAmount: bigint | null;
 }
 const Render: React.FC<RenderParams> = React.memo(
 	({
@@ -116,7 +116,7 @@ const Render: React.FC<RenderParams> = React.memo(
 		const getWithdrawOption = () => {
 			return (
 				<FormControlLabel
-					disabled={marketAddressLock.rewardsAmount.eq(new BN(0))}
+					disabled={marketAddressLock.rewardsAmount === 0n}
 					value={Action.Withdraw}
 					control={<Radio color="secondary" />}
 					label={
@@ -133,11 +133,10 @@ const Render: React.FC<RenderParams> = React.memo(
 				return marketAddressLock.rewardsAmount;
 			}
 			if (!totalContractRewardsAmount || !totalContractLockedAmount) {
-				return new BN(0);
+				return 0n;
 			}
-			const rewardsToWithdraw = marketAddressLock.rewardsAmount
-				.mul(totalContractRewardsAmount)
-				.div(totalContractLockedAmount);
+			const rewardsToWithdraw =
+				(marketAddressLock.rewardsAmount * totalContractRewardsAmount) / totalContractLockedAmount;
 			return rewardsToWithdraw;
 		};
 		const rewardsAmount = getRewardsAmount();

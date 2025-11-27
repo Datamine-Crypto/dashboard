@@ -7,7 +7,7 @@ import gameHodlClickerAbi from '@/web3/abis/games/gameHodlClicker.json';
 import { Address } from 'viem';
 import dayjs from 'dayjs';
 import { getPriceToggle } from '@/utils/mathHelpers';
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import { useAppStore } from '@/react/utils/appStore';
 import { useShallow } from 'zustand/react/shallow';
 import { Token } from '@/app/interfaces';
@@ -169,7 +169,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 			const recentLogs = logs.slice(0, 50);
 
 			const totalJackpotUSD = recentLogs.reduce((acc, log) => {
-				const jackpotBN = new BN(log.args.jackpotAmount.toString());
+				const jackpotBN = BigInt(log.args.jackpotAmount.toString());
 				const jackpotUSD = parseFloat(
 					getPriceToggle({
 						value: jackpotBN,
@@ -195,12 +195,9 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 
 		const recentLogs = logs.filter((log) => log.timestamp >= oneDayAgo);
 
-		const totalBurned = recentLogs.reduce(
-			(acc, log) => acc.add(new BN(log.args.amountActuallyBurned.toString())),
-			new BN(0)
-		);
-		const totalJackpot = recentLogs.reduce((acc, log) => acc.add(new BN(log.args.jackpotAmount.toString())), new BN(0));
-		const totalTip = recentLogs.reduce((acc, log) => acc.add(new BN(log.args.totalTipAmount.toString())), new BN(0));
+		const totalBurned = recentLogs.reduce((acc, log) => acc + BigInt(log.args.amountActuallyBurned.toString()), 0n);
+		const totalJackpot = recentLogs.reduce((acc, log) => acc + BigInt(log.args.jackpotAmount.toString()), 0n);
+		const totalTip = recentLogs.reduce((acc, log) => acc + BigInt(log.args.totalTipAmount.toString()), 0n);
 
 		// Chart Data: Bucket by hour
 		const buckets: { [key: string]: { burnedUSD: number; txCount: number } } = {};
@@ -211,7 +208,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 				buckets[hourTimestamp] = { burnedUSD: 0, txCount: 0 };
 			}
 
-			const burnedBN = new BN(log.args.amountActuallyBurned.toString());
+			const burnedBN = BigInt(log.args.amountActuallyBurned.toString());
 			let burnedUSD = 0;
 			if (balances) {
 				const usdStr = getPriceToggle({
@@ -272,7 +269,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 		};
 	}, [logs, balances]);
 
-	const getUSDValue = (value: BN, round: number = 2) => {
+	const getUSDValue = (value: bigint, round: number = 2) => {
 		if (!balances) return '0.00';
 		return getPriceToggle({
 			value,
