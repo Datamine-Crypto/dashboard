@@ -16,7 +16,7 @@ const CenteredLoading = lazy(() => import('@/react/elements/Fragments/CenteredLo
 
 /**
  * The main application component.
- * It sets up the Material-UI theme, ErrorBoundary, Web3Context, and renders the main PageFragment.
+ * It sets up the Material-UI theme, ErrorBoundary, and renders the main PageFragment.
  * Uses React.lazy and Suspense for code splitting and loading indicators.
  */
 function App() {

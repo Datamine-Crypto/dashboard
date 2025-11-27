@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import React from 'react';
-// Web3 context for accessing blockchain state and dispatch functions
+// AppStore for accessing blockchain state and dispatch functions
 import { useAppStore } from '@/react/utils/appStore';
 // Call to action card component
 import CallToActionCard from '@/react/elements/Cards/CallToActionCard';
@@ -28,7 +28,7 @@ import { useShallow } from 'zustand/react/shallow';
 
 /**
  * Web3Account component that displays various cards related to the user's Web3 account and the Datamine Network.
- * It consumes the Web3Context to get the current Web3 state and dispatch function.
+ * It consumes the AppStore to get the current Web3 state and dispatch function.
  * This component is responsible for managing and displaying the user's Web3 account connection status,
  * handling wallet connection (e.g., MetaMask), displaying the connected address,
  * and providing options for disconnecting or switching networks.

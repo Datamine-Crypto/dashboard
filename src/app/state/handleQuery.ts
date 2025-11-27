@@ -1,23 +1,23 @@
 import { commonLanguage } from '@/app/state/commonLanguage';
-import { findAccountState } from '@/app/state/queries/FindAccountState';
-import { findWeb3Instance } from '@/app/state/queries/FindWeb3Instance';
-import { enableWeb3 } from '@/app/state/queries/EnableWeb3';
-import { findAccessLinks } from '@/app/state/queries/FindAccessLinks';
-import { getAuthorizeFluxOperatorResponse } from '@/app/state/queries/GetAuthorizeFluxOperatorResponse';
-import { getLockInDamTokensResponse } from '@/app/state/queries/GetLockInDamTokensResponse';
-import { getMintFluxResponse } from '@/app/state/queries/GetMintFluxResponse';
-import { getSetMintSettingsResponse } from '@/app/state/queries/GetSetMintSettingsResponse';
-import { getBurnFluxResponse } from '@/app/state/queries/GetBurnFluxResponse';
-import { getUnlockDamTokensResponse } from '@/app/state/queries/GetUnlockDamTokensResponse';
+import { findAccountState } from '@/app/state/queries/web3/FindAccountState';
+import { findWeb3Instance } from '@/app/state/queries/web3/FindWeb3Instance';
+import { enableWeb3 } from '@/app/state/queries/web3/EnableWeb3';
+import { findAccessLinks } from '@/app/state/queries/web3/FindAccessLinks';
+import { getAuthorizeFluxOperatorResponse } from '@/app/state/queries/web3/GetAuthorizeFluxOperatorResponse';
+import { getLockInDamTokensResponse } from '@/app/state/queries/web3/GetLockInDamTokensResponse';
+import { getMintFluxResponse } from '@/app/state/queries/web3/GetMintFluxResponse';
+import { getSetMintSettingsResponse } from '@/app/state/queries/web3/GetSetMintSettingsResponse';
+import { getBurnFluxResponse } from '@/app/state/queries/web3/GetBurnFluxResponse';
+import { getUnlockDamTokensResponse } from '@/app/state/queries/web3/GetUnlockDamTokensResponse';
 import {
 	getMarketBurnFluxResponse,
 	getDepositMarketResponse,
 	getRefreshMarketAddressesResponse,
 	getWithdrawMarketResponse,
-} from '@/app/state/queries/MarketQueries';
-import { throttleGetOutputQuote, getOutputQuote, getTradeResponse } from '@/app/state/queries/SwapQueries';
+} from '@/app/state/queries/web3/MarketQueries';
+import { throttleGetOutputQuote, getOutputQuote, getTradeResponse } from '@/app/state/queries/web3/swap/SwapQueries';
 
-// This module executes the asynchronous Web3 operations requested by the web3Reducer.
+// This module executes the asynchronous Web3 operations requested by the sideEffectReducer.
 // Each function here corresponds to a specific blockchain interaction (e.g., minting, swapping, reading contract data).
 // It's crucial that these functions handle network errors and return results back to the reducer for state updates.
 export const queryHandlers = {

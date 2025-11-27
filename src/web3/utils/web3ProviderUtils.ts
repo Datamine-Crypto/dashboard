@@ -2,7 +2,7 @@ import { createPublicClient, createWalletClient, custom, getContract, PublicClie
 import { damAbi as damTokenAbi } from '@/web3/abis/dam';
 import { fluxAbi as fluxTokenAbi } from '@/web3/abis/flux';
 import { batchMinterAbi } from '@/web3/abis/batchMinter';
-import { marketAbi } from '@/web3/abis/market';
+import { marketAbi } from '@/web3/abis/games/datamineGems';
 import { gameHodlClickerAbi } from '@/web3/abis/games/gameHodlClicker';
 import { multicallAbi } from '@/web3/abis/multicall';
 import { uniswapPairV3Abi } from '@/web3/abis/uniswapPairV3';

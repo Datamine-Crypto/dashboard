@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-// Web3 context for accessing blockchain state and dispatch functions
+// AppStore for accessing blockchain state and dispatch functions
 import { dispatch, useAppStore } from '@/react/utils/appStore';
 // Balances and common language constants from the Web3 reducer
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -40,7 +40,7 @@ const useStyles = tss.create(({ theme }) => ({
 
 /**
  * AccountBalancesCard component displays the balances and related information for the currently selected Web3 account.
- * It fetches data from the Web3Context and renders various sub-components to show token balances, locked amounts, and actions like burning or unlocking tokens.
+ * It fetches data from the AppStore and renders various sub-components to show token balances, locked amounts, and actions like burning or unlocking tokens.
  */
 export const AccountBalancesCard: React.FC = React.memo(() => {
 	const { addressLock, selectedAddress, address, addressDetails, balances, addressTokenDetails, ecosystem } =
