@@ -13,18 +13,30 @@ import UnlockDialog from '@/react/elements/Dialogs/UnlockDialog';
 //import WalletConnectRpcDialog from '@/react/elements/Dialogs/WalletConnectRpcDialog';
 import MintSettingsDialog from '@/react/elements/Dialogs/MinterSettingsDialog';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
+
 const MarketCollectRewardsDialog = lazy(() => import('@/react/elements/Dialogs/GameFi/MarketCollectRewardsDialog'));
 const ZeroBalanceDialog = lazy(() => import('@/react/elements/Dialogs/ZeroBalanceDialog'));
-interface Props {
-	dispatch: ReducerDispatch;
-	dialog: DialogType | null;
-	dialogParams: any;
-}
-const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
+
+interface Params {}
+/**
+ * This fragment contains all the dialogs in one place
+ * Help Dialog is excluded as it's a seperate system
+ */
+/**
+ * This fragment contains all the dialogs in one place
+ * Help Dialog is excluded as it's a seperate system
+ */
+const DialogsFragment: React.FC<Params> = () => {
+	const { dialog, dialogParams } = useAppStore(
+		useShallow((state) => ({
+			dialog: state.dialog,
+			dialogParams: state.dialogParams,
+		}))
+	);
+
 	const getDialog = () => {
 		const onClose = () => {
-			dispatch({ type: commonLanguage.commands.CloseDialog });
+			appDispatch({ type: commonLanguage.commands.CloseDialog });
 		};
 		if (!dialog) {
 			return null;
@@ -62,20 +74,5 @@ const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
 		}
 	};
 	return getDialog();
-};
-interface Params {}
-/**
- * This fragment contains all the dialogs in one place
- * Help Dialog is excluded as it's a seperate system
- */
-const DialogsFragment: React.FC<Params> = () => {
-	const { dialog, dialogParams } = useAppStore(
-		useShallow((state) => ({
-			dialog: state.dialog,
-			dialogParams: state.dialogParams,
-		}))
-	);
-
-	return <Render dialog={dialog} dialogParams={dialogParams} dispatch={appDispatch} />;
 };
 export default DialogsFragment;

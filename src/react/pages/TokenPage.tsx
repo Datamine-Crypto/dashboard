@@ -9,17 +9,16 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Card, CardContent, Divider, Paper, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { Ecosystem } from '@/app/configs/config.common';
 import arbiFluxLogo from '@/react/svgs/arbiFluxLogo.svg';
 import fluxLogo from '@/react/svgs/fluxLogo.svg';
 import lockquidityLogo from '@/react/svgs/lockquidity.svg';
 import damLogo from '@/react/svgs/logo.svg';
 import Grid from '@mui/material/Grid';
-import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
+import { useAppStore } from '@/react/utils/appStore';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/react/elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
+
 // Color palette
 const palette = {
 	highlight: '#0FF',
@@ -27,18 +26,19 @@ const palette = {
 	secondaryBackground: '#202336',
 };
 // Main component
-interface RenderParams {
-	dispatch: ReducerDispatch;
-	ecosystem: Ecosystem;
-}
+interface Props {}
 // Main component
 /**
- * A memoized functional component that renders the main content of the Token Page.
+ * A functional component that renders the main content of the Token Page.
  * It displays information about DAM, FLUX, ArbiFLUX, and LOCK tokens, including their roles, uses, and ecosystem flow.
  * It also features security audit links and an integration flow section.
- * @param params - Object containing dispatch function and ecosystem.
  */
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
+const TokenPage: React.FC<Props> = () => {
+	const { ecosystem } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+		}))
+	);
 	// Animation states
 	const [animateDAM, setAnimateDAM] = useState(false);
 	const [animateFLUX, setAnimateFLUX] = useState(false);
@@ -1098,20 +1098,5 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 			</Box>
 		</Box>
 	);
-});
-interface Props {}
-/**
- * TokenPage component that serves as the entry point for displaying token-related information.
- * It provides the necessary Web3 context (dispatch and ecosystem) to its child components.
- * @param props - Component props (currently empty).
- */
-const TokenPage: React.FC<Props> = () => {
-	const { ecosystem } = useAppStore(
-		useShallow((state) => ({
-			ecosystem: state.ecosystem,
-		}))
-	);
-
-	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default TokenPage;

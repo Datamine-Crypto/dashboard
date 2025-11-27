@@ -10,8 +10,7 @@ import LoadingDialog from '@/react/elements/Dialogs/LoadingDialog';
 import CenteredLoading from '@/react/elements/Fragments/CenteredLoading';
 import DialogsFragment from '@/react/elements/Fragments/DialogsFragment';
 import PendingQueryFragment from '@/react/elements/Fragments/PendingQueryFragment';
-import RealtimeRewardsGameFiPage from '@/react/pages/gamefi/RealtimeRewardsGameFiPage';
-import HodlClickerRushGameFiPage from '@/react/pages/gamefi/HodlClickerRushGameFiPage';
+
 import { useShallow } from 'zustand/react/shallow';
 import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
 import { Page, getPageDetails, useRouter } from '@/react/utils/router';
@@ -28,6 +27,8 @@ const MainDrawer = lazy(() =>
 const DashboardPage = lazy(() => import('@/react/pages/DashboardPage'));
 const HodlClickerPage = lazy(() => import('@/react/pages/HodlClickerPage'));
 const HomePage = lazy(() => import('@/react/pages/HomePage'));
+const RealtimeRewardsGameFiPage = lazy(() => import('@/react/pages/gamefi/RealtimeRewardsGameFiPage'));
+const HodlClickerRushGameFiPage = lazy(() => import('@/react/pages/gamefi/HodlClickerRushGameFiPage'));
 interface RenderParams {
 	dispatch: ReducerDispatch;
 	helpArticle: HelpArticle | null;
@@ -56,10 +57,50 @@ const useStyles = tss.create(({ theme }) => ({
  * It also manages global dialogs and pending queries.
  * @param params - Object containing dispatch function, helpArticle, helpArticlesNetworkType, and ecosystem.
  */
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, helpArticlesNetworkType, ecosystem }) => {
+/**
+ * This fragment contains all the pages (such as dashboard, help, homepage)
+ * It is always rendered at <App /> level
+ * Please note that this also contains
+ * - Help dialog
+ * - Dialogs
+ * - Pending queries fragment
+ */
+const PageFragment: React.FC = () => {
 	const { classes } = useStyles();
+	const { helpArticle, helpArticlesNetworkType, ecosystem } = useAppStore(
+		useShallow((state) => ({
+			helpArticle: state.helpArticle,
+			helpArticlesNetworkType: state.helpArticlesNetworkType,
+			ecosystem: state.ecosystem,
+		}))
+	);
 
-	const count = useRouter(dispatch, ecosystem);
+	/**
+	 * Effect hook to initialize special pages based on the URL hash when the component mounts.
+	 * It dispatches actions to update the application state for pages like Dashboard and Help.
+	 */
+	useEffect(() => {
+		const pageDetails = getPageDetails();
+		// When the app starts initialize special pages
+		switch (pageDetails.page) {
+			case Page.Help: {
+				const helpArticle = helpArticles.find(
+					(helpArticle) => helpArticle.id.toLowerCase() === pageDetails.helpArticleId
+				);
+				if (helpArticle) {
+					appDispatch({
+						type: commonLanguage.commands.ShowHelpArticle,
+						payload: {
+							helpArticle,
+						},
+					});
+				}
+				break;
+			}
+		}
+	}, []);
+
+	const count = useRouter(appDispatch, ecosystem);
 	/**
 	 * Renders the appropriate page component based on the current route.
 	 * @returns The React component for the current page.
@@ -141,56 +182,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle, help
 				</Box>
 			</Box>
 		</>
-	);
-});
-/**
- * This fragment contains all the pages (such as dashboard, help, homepage)
- * It is always rendered at <App /> level
- * Please note that this also contains
- * - Help dialog
- * - Dialogs
- * - Pending queries fragment
- */
-const PageFragment: React.FC = () => {
-	const { helpArticle, helpArticlesNetworkType, ecosystem } = useAppStore(
-		useShallow((state) => ({
-			helpArticle: state.helpArticle,
-			helpArticlesNetworkType: state.helpArticlesNetworkType,
-			ecosystem: state.ecosystem,
-		}))
-	);
-
-	/**
-	 * Effect hook to initialize special pages based on the URL hash when the component mounts.
-	 * It dispatches actions to update the application state for pages like Dashboard and Help.
-	 */
-	useEffect(() => {
-		const pageDetails = getPageDetails();
-		// When the app starts initialize special pages
-		switch (pageDetails.page) {
-			case Page.Help: {
-				const helpArticle = helpArticles.find(
-					(helpArticle) => helpArticle.id.toLowerCase() === pageDetails.helpArticleId
-				);
-				if (helpArticle) {
-					appDispatch({
-						type: commonLanguage.commands.ShowHelpArticle,
-						payload: {
-							helpArticle,
-						},
-					});
-				}
-				break;
-			}
-		}
-	}, [appDispatch]);
-	return (
-		<Render
-			helpArticle={helpArticle}
-			helpArticlesNetworkType={helpArticlesNetworkType}
-			dispatch={appDispatch}
-			ecosystem={ecosystem}
-		/>
 	);
 };
 export default PageFragment;

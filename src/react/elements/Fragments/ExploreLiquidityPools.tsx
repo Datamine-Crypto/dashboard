@@ -11,7 +11,6 @@ import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
 
 const useStyles = tss.create(({ theme }) => ({
 	chip: {
@@ -78,15 +77,15 @@ interface TradePool {
 	};
 	layer: number;
 }
-interface RenderProps {
+
+interface Params {
 	buttonType: LiquidityPoolButtonType;
 	hideIcon?: boolean;
 
 	contents?: React.ReactElement;
 	ecosystem: Ecosystem;
-	dispatch: ReducerDispatch;
 }
-const Render: React.FC<RenderProps> = React.memo(({ buttonType, contents, ecosystem, dispatch }) => {
+const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, hideIcon, contents, ecosystem }) => {
 	const { liquidityPoolGroups } = getEcosystemConfig(ecosystem);
 
 	const { classes } = useStyles();
@@ -199,7 +198,7 @@ const Render: React.FC<RenderProps> = React.memo(({ buttonType, contents, ecosys
 						// Tokens below are all tokens that support built-in swaps
 						if (pool.isBuiltinSwapEnabled) {
 							const showTradeDialog = () => {
-								dispatch({
+								appDispatch({
 									type: commonLanguage.commands.Swap.ShowTradeDialog,
 									payload: {
 										input: {
@@ -336,25 +335,6 @@ const Render: React.FC<RenderProps> = React.memo(({ buttonType, contents, ecosys
 				{getMenuItems()}
 			</Menu>
 		</>
-	);
-});
-
-interface Params {
-	buttonType: LiquidityPoolButtonType;
-	hideIcon?: boolean;
-
-	contents?: React.ReactElement;
-	ecosystem: Ecosystem;
-}
-const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, hideIcon, contents, ecosystem }) => {
-	return (
-		<Render
-			buttonType={buttonType}
-			hideIcon={hideIcon}
-			contents={contents}
-			ecosystem={ecosystem}
-			dispatch={appDispatch}
-		/>
 	);
 };
 

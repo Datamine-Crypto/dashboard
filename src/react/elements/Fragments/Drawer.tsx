@@ -33,13 +33,13 @@ import {
 } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem } from '@/app/configs/config.common';
+
 import discordWhiteLogo from '@/react/svgs/discordWhite.svg';
 import Logo from '@/react/svgs/logo.svg';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
+
 const drawerWidth = 280;
 const useStyles = tss.create(({ theme }) => ({
 	root: {
@@ -127,12 +127,15 @@ const useStyles = tss.create(({ theme }) => ({
 		paddingBottom: theme.spacing(2),
 	},
 }));
-interface RenderParams {
-	dispatch: ReducerDispatch;
-	isMobileDrawerOpen: boolean;
-	ecosystem: Ecosystem;
-}
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpen, ecosystem }) => {
+
+export const MainDrawer: React.FC = () => {
+	const { ecosystem, isMobileDrawerOpen } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+			isMobileDrawerOpen: state.isMobileDrawerOpen,
+		}))
+	);
+
 	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem);
 	const {
 		isL1PageEnabled,
@@ -299,7 +302,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 						href: button.href,
 						color: 'textPrimary',
 						onClick: () => {
-							dispatch({ type: commonLanguage.commands.CloseDrawer });
+							appDispatch({ type: commonLanguage.commands.CloseDrawer });
 						},
 					};
 				}
@@ -317,7 +320,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				return {
 					button: true,
 					onClick: () => {
-						dispatch({ type: commonLanguage.commands.CloseDrawer });
+						appDispatch({ type: commonLanguage.commands.CloseDrawer });
 						button.onClick();
 					},
 				};
@@ -395,7 +398,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		);
 	};
 	const handleDrawerToggle = () => {
-		dispatch({ type: commonLanguage.commands.CloseDrawer });
+		appDispatch({ type: commonLanguage.commands.CloseDrawer });
 	};
 	return (
 		<nav className={classes.drawer} aria-label="mailbox folders">
@@ -438,14 +441,4 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			</Box>
 		</nav>
 	);
-});
-export const MainDrawer: React.FC = () => {
-	const { ecosystem, isMobileDrawerOpen } = useAppStore(
-		useShallow((state) => ({
-			ecosystem: state.ecosystem,
-			isMobileDrawerOpen: state.isMobileDrawerOpen,
-		}))
-	);
-
-	return <Render isMobileDrawerOpen={isMobileDrawerOpen} dispatch={appDispatch} ecosystem={ecosystem} />;
 };

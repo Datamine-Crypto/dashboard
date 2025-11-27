@@ -1,6 +1,6 @@
 import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
 import React from 'react';
-import { Ecosystem } from '@/app/configs/config.common';
+
 import Grid from '@mui/material/Grid';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import {
@@ -19,7 +19,7 @@ import { Game } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
+
 // Color palette
 const palette = {
 	highlight: '#0FF',
@@ -251,17 +251,20 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 	);
 };
 // Main component
-interface RenderParams {
-	dispatch: ReducerDispatch;
-	ecosystem: Ecosystem;
-}
-// Main component
+
+interface Props {}
 /**
- * Main component for the Realtime Rewards GameFi Page.
- * It renders the DatamineGemsLandingPage and the FooterFragment.
- * @param params - Object containing dispatch function and ecosystem.
+ * RealtimeRewardsGameFiPage component that serves as the entry point for the Datamine Gems GameFi experience.
+ * It provides the necessary Web3 context (dispatch and ecosystem) to its child components.
+ * @param props - Component props (currently empty).
  */
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
+const RealtimeRewardsGameFiPage: React.FC<Props> = () => {
+	const { ecosystem } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+		}))
+	);
+
 	return (
 		<Box>
 			<Box mt={6} pt={4}>
@@ -285,7 +288,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 					>
 						<DatamineGemsLandingPage
 							onStartGameClick={() => {
-								dispatch({
+								appDispatch({
 									type: commonLanguage.commands.Market.ShowGameDialog,
 									payload: { game: Game.DatamineGems },
 								});
@@ -298,20 +301,5 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 			</Box>
 		</Box>
 	);
-});
-interface Props {}
-/**
- * RealtimeRewardsGameFiPage component that serves as the entry point for the Datamine Gems GameFi experience.
- * It provides the necessary Web3 context (dispatch and ecosystem) to its child components.
- * @param props - Component props (currently empty).
- */
-const RealtimeRewardsGameFiPage: React.FC<Props> = () => {
-	const { ecosystem } = useAppStore(
-		useShallow((state) => ({
-			ecosystem: state.ecosystem,
-		}))
-	);
-
-	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default RealtimeRewardsGameFiPage;

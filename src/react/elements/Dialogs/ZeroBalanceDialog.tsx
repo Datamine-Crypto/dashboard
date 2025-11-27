@@ -2,32 +2,41 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typogra
 import React from 'react';
 import { formatEther } from 'viem';
 import { getEcosystemConfig as getConfig } from '@/app/configs/config';
-import { Ecosystem, Layer } from '@/app/configs/config.common';
+import { Layer } from '@/app/configs/config.common';
 import { DialogType } from '@/app/interfaces';
-import { ReducerQuery } from '@/utils/reducer/sideEffectReducer';
+
 import { BNToDecimal } from '@/utils/mathHelpers';
 import { useAppStore } from '@/react/utils/appStore';
-import { ReducerDispatch, Balances } from '@/app/interfaces';
+
 import { commonLanguage } from '@/app/state/commonLanguage';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/react/elements/Fragments/ExploreLiquidityPools';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
-interface Params {
-	pendingQueries: ReducerQuery[];
-	selectedAddress: string;
-	balances: Balances;
-	dispatch: ReducerDispatch;
+
+interface DialogParams {
 	dialogType: DialogType;
-	ecosystem: Ecosystem;
 }
-const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balances, dialogType, ecosystem }) => {
+const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
+	const { pendingQueries, selectedAddress, balances, ecosystem } = useAppStore(
+		useShallow((state) => ({
+			pendingQueries: state.pendingQueries,
+			selectedAddress: state.selectedAddress,
+			balances: state.balances,
+			ecosystem: state.ecosystem,
+		}))
+	);
+
+	if (!pendingQueries || !selectedAddress || !balances) {
+		return null;
+	}
+
 	const config = getConfig(ecosystem);
 	const { mintableTokenShortName, lockableTokenShortName, ecosystemName, layer } = config;
 	const onClose = () => {
-		dispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.CloseDialog });
 	};
 	const onContinue = () => {
-		dispatch({
+		appDispatch({
 			type: commonLanguage.commands.RefreshAccountState,
 			payload: {
 				updateEthBalance: true,
@@ -131,33 +140,6 @@ const Render: React.FC<Params> = React.memo(({ dispatch, selectedAddress, balanc
 			</DialogContent>
 			<DialogActions>{getButtons()}</DialogActions>
 		</Dialog>
-	);
-});
-interface DialogParams {
-	dialogType: DialogType;
-}
-const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
-	const { pendingQueries, selectedAddress, balances, ecosystem } = useAppStore(
-		useShallow((state) => ({
-			pendingQueries: state.pendingQueries,
-			selectedAddress: state.selectedAddress,
-			balances: state.balances,
-			ecosystem: state.ecosystem,
-		}))
-	);
-
-	if (!pendingQueries || !selectedAddress || !balances) {
-		return null;
-	}
-	return (
-		<Render
-			pendingQueries={pendingQueries}
-			selectedAddress={selectedAddress}
-			balances={balances}
-			dispatch={appDispatch}
-			dialogType={dialogType}
-			ecosystem={ecosystem}
-		/>
 	);
 };
 export default ZeroBalanceDialog;

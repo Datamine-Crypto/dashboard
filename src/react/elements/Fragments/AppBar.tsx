@@ -7,12 +7,12 @@ import DamLogo from '@/react/svgs/logo.svg';
 import Grid from '@mui/material/Grid';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem } from '@/app/configs/config.common';
+
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import HelpComboboxFragment from '@/react/elements/Fragments/HelpComboboxFragment';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
+
 const useStyles = tss.create(({ theme }) => ({
 	toolbar: {
 		paddingRight: 24, // keep right padding when drawer closed
@@ -55,13 +55,18 @@ const useStyles = tss.create(({ theme }) => ({
 		alignItems: 'center',
 	},
 }));
-interface INavProps {
+interface AppBarProps {
 	sidebar: boolean;
-	dispatch: ReducerDispatch;
-	selectedAddress: string | null;
-	ecosystem: Ecosystem;
 }
-const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }) => {
+const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
+	//const { state: socketState, dispatch: socketDispatch } = useContext(SocketContext)
+	const { ecosystem, selectedAddress } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+			selectedAddress: state.selectedAddress,
+		}))
+	);
+
 	//const { state: socketState, dispatch: socketDispatch } = useContext(SocketContext)
 	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem);
 	const { isHelpPageEnabled } = navigation;
@@ -134,18 +139,5 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 			</Toolbar>
 		</AppBar>
 	);
-});
-interface AppBarProps {
-	sidebar: boolean;
-}
-const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
-	const { ecosystem, selectedAddress } = useAppStore(
-		useShallow((state) => ({
-			ecosystem: state.ecosystem,
-			selectedAddress: state.selectedAddress,
-		}))
-	);
-
-	return <Render sidebar={sidebar} dispatch={appDispatch} selectedAddress={selectedAddress} ecosystem={ecosystem} />;
 };
 export default MainAppBar;

@@ -1,8 +1,7 @@
 import { Box, Button, CardMedia, Paper, Typography } from '@mui/material';
 import React from 'react';
-import { Ecosystem } from '@/app/configs/config.common';
 import Grid from '@mui/material/Grid';
-import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
+import { useAppStore } from '@/react/utils/appStore';
 import {
 	Autorenew as AutorenewIcon,
 	Bolt as BoltIcon,
@@ -14,7 +13,6 @@ import {
 import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // Assuming MUI v7 imports are similar
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
 // Color palette
 const palette = {
 	highlight: '#0FF',
@@ -251,11 +249,15 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 		</Container>
 	);
 };
-interface RenderParams {
-	dispatch: ReducerDispatch;
-	ecosystem: Ecosystem;
-}
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
+
+interface Props {}
+const HodlClickerRushGameFiPage: React.FC<Props> = () => {
+	const { ecosystem } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+		}))
+	);
+
 	return (
 		<Box>
 			<Box mt={6} pt={4}>
@@ -289,15 +291,5 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, ecosystem }) => {
 			</Box>
 		</Box>
 	);
-});
-interface Props {}
-const HodlClickerRushGameFiPage: React.FC<Props> = () => {
-	const { ecosystem } = useAppStore(
-		useShallow((state) => ({
-			ecosystem: state.ecosystem,
-		}))
-	);
-
-	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default HodlClickerRushGameFiPage;
