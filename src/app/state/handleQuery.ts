@@ -37,8 +37,6 @@ export const queryHandlers = {
 	 * It sets up listeners for account and network changes to keep the app state synced.
 	 */
 	[commonLanguage.queries.FindWeb3Instance]: async ({ state, query, dispatch }: QueryHandler<AppState>) => {
-		//const useWalletConnect = query.payload?.useWalletConnect;
-
 		const provider = await getWeb3Provider({ ecosystem: state.ecosystem });
 		devLog('Found provider:', { provider, ecosystem: state.ecosystem });
 		setWeb3Provider(provider, state.ecosystem);
@@ -72,11 +70,6 @@ export const queryHandlers = {
 				};
 				provider.on('networkChanged', reinitializeWeb3); // [DEPRECATED] networkChanged is deprecated for chainChanged
 				provider.on('chainChanged', reinitializeWeb3);
-
-				// For WalletConnect
-				/*provider.on('disconnect', () => {
-					window.location.reload();
-				});*/
 			};
 			subscribeToNetworkChanges(dispatch);
 

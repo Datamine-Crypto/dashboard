@@ -132,8 +132,6 @@ export enum DialogType {
 	Trade = 'TRADE',
 	/** Generic dialog for displaying a title and a message. */
 	TitleMessage = 'TITLE_MESSAGE',
-	/** Dialog related to WalletConnect RPC connection issues or information. */
-	//WalletConnectRpc = 'WALLET_CONNECT_RPC',
 	/** Dialog for client-side application settings. */
 	ClientSettings = 'CLIENT_SETTINGS',
 	/** Dialog for collecting rewards from the Datamine Market (GameFi). */
@@ -189,7 +187,6 @@ export interface AddressLockDetailsViewModel {
  */
 export enum ConnectionMethod {
 	MetaMask = 'MetaMask',
-	//WalletConnect = 'WalletConnect',
 }
 
 /**

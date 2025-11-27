@@ -178,7 +178,7 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 							You must have an Ethereum based wallet to continue...
 						</Typography>
 						<Typography component="div" color="textSecondary">
-							We recommend MetaMask extension, Brave browser or WalletConnect.
+							We recommend MetaMask extension or Brave browser.
 						</Typography>
 					</Box>
 					<Box mb={3}>

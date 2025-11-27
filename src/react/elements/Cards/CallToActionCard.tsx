@@ -284,7 +284,7 @@ const Render: React.FC<RenderParams> = React.memo(
 					const isLocked = lockedInDamAmount !== 0n;
 					if (isLocked || isForecastingModeEnabled) {
 						const { minterAddress } = addressLock;
-						const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase(); // Lowercase for WalletConnect
+						const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase();
 						const isBatchMinter =
 							batchMinterAddress && minterAddress?.toLowerCase() === batchMinterAddress.toLowerCase();
 						const getLockedInAmountArea = () => {

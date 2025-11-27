@@ -30,7 +30,7 @@ import { useShallow } from 'zustand/react/shallow';
  * Web3Account component that displays various cards related to the user's Web3 account and the Datamine Network.
  * It consumes the Web3Context to get the current Web3 state and dispatch function.
  * This component is responsible for managing and displaying the user's Web3 account connection status,
- * handling wallet connection (e.g., MetaMask, WalletConnect), displaying the connected address,
+ * handling wallet connection (e.g., MetaMask), displaying the connected address,
  * and providing options for disconnecting or switching networks.
  */
 /**

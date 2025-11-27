@@ -500,52 +500,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance }]),
 			};
 		}
-		//This is how we can do RPC selection
-		/*case commonLanguage.commands.ShowWalletConnectRpc:
-			return {
-				...state,
-				dialog: DialogType.WalletConnectRpc
-			}*/
-		/*case commonLanguage.commands.ShowWalletConnectRpc:
-		case commonLanguage.commands.InitializeWalletConnect: {
-			const { isArbitrumMainnet } = command.payload;
 
-			/*const rpcAddress = (command.payload.rpcAddress as string).trim();
-
-			if (!rpcAddress || rpcAddress.indexOf('wss://') === -1 && rpcAddress.indexOf('http://') === -1 && rpcAddress.indexOf('https://') === -1) {
-				return {
-					...state,
-					error: 'Must be a valid Mainnet Ethereum RPC Endpoint'
-				}
-			}
-
-			if (localStorage) {
-				localStorage.setItem('walletConnectRpc', rpcAddress)
-			}*/
-
-		//@todo figure out if we still need this hasWeb3 logic
-
-		/*
-		if (state.hasWeb3) {
-
-			return {
-				...state,
-				isArbitrumMainnet,
-				dialog: null,
-				error: null,
-				...withQueries([{ type: commonLanguage.queries.EnableWalletConnect, payload: { isArbitrumMainnet } }])
-			}
-		}*/
-
-		//web3provider = await getProvider({ useWalletConnect: false, isArbitrumMainnet: false, ecosystem: state.ecosystem })
-		/*return {
-			...state,
-			isArbitrumMainnet,
-			dialog: null,
-			error: null,
-			...withQueries([{ type: commonLanguage.queries.FindWeb3Instance, payload: { useWalletConnect: true } }]),
-		};
-	}*/
 		case commonLanguage.commands.ReinitializeWeb3: {
 			const { targetEcosystem } = command.payload;
 
@@ -565,11 +520,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				]),
 			};
 		}
-		/*case commonLanguage.commands.DisconnectFromWalletConnect:
-			return {
-				...state,
-				...withQueries([{ type: commonLanguage.queries.DisconnectWalletConnect }]),
-			};*/
+
 		case commonLanguage.commands.DisplayAccessLinks:
 			if (state.isDisplayingLinks) {
 				//return state;

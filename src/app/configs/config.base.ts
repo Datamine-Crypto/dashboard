@@ -225,25 +225,6 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 			 */
 			discordInviteLink: 'https://discord.gg/2dQ7XAB22u' as string | null,
 		},
-
-		/*walletConnect: {
-			projectId: 'e6d6b80cec26fb35f4ae37173c3b4620',
-			optionalChains: [
-				1, // ETH
-				42161, // Arbitrum
-			],
-			rpcMap: {
-				'1': 'https://rpc.ankr.com/eth',
-				'42161': 'https://arb1.arbitrum.io/rpc',
-			},
-			metadata: {
-				name: 'Datamine Network',
-				description:
-					"Datamine FLUX is DeFi's first inflation-resistant currency built on Ethereum. Market equilibrium is established using a variation of Proof-of-Burn algorithm.",
-				url: 'https://datamine-crypto.github.io/dashboard/', // origin must match your domain & subdomain
-				icons: ['https://raw.githubusercontent.com/Datamine-Crypto/dashboard/refs/heads/main/public/logos/dam256.png'],
-			},
-		},*/
 	};
 
 	return baseConfig;

@@ -99,7 +99,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				),
 			};
 		}
-		case commonLanguage.queries.EnableWeb3: /*case commonLanguage.queries.EnableWalletConnect:*/ {
+		case commonLanguage.queries.EnableWeb3: {
 			if (err) {
 				return state;
 			}
@@ -107,7 +107,6 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 			const { selectedAddress } = response;
 
 			const connectionMethod = ConnectionMethod.MetaMask;
-			//query.type === commonLanguage.queries.EnableWeb3 ? ConnectionMethod.MetaMask : ConnectionMethod.WalletConnect;
 
 			return {
 				...state,

@@ -12,7 +12,7 @@ Be sure to make your own suggestions to update GEMINI.md as you learn of new con
 
 The "Context Map" has been added to `README.md` right after the "Quick Start Guide" section. The "Context Map" represents a nested navigation of all the paths and concepts within the Datamine Network.
 
-This project is a React-based web application for interacting with the Datamine Network. It uses Material-UI for components and styling and Web3.js for blockchain interactions. The project is configured to work with multiple blockchain
+This project is a React-based web application for interacting with the Datamine Network. It uses Material-UI for components and styling and Viem for blockchain interactions. The project is configured to work with multiple blockchain
 ecosystems, as defined in the `src/configs/ecosystems` directory. The core logic is separated into three main directories: `react` for UI components, `utils` for utility functions, and `web3` for blockchain-related logic. The project uses
 Vite for building and development, with scripts defined in `package.json`.
 
@@ -354,7 +354,7 @@ This map outlines the key concepts, components, and principles of the Datamine N
 
 - **🏗️ Application Architecture (High-Level)**
   - **🖥️ UI:** React components (`src/react/`)
-  - **🔗 Blockchain Interaction:** Web3.js, Web3Context, web3Reducer (`src/web3/`)
+  - **🔗 Blockchain Interaction:** Viem, Web3Context, web3Reducer (`src/web3/`)
   - **🧠 State Management:** `appStore.ts` (Zustand), `handleCommand.ts` and `handleQuery.ts` (Commands & Queries pattern), `sideEffectReducer.ts`
   - **🔧 Utilities:** Helper functions (`src/utils/`)
   - **⚙️ Configuration:** `src/app/configs/`
