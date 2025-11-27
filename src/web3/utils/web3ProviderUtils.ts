@@ -1,11 +1,11 @@
 import { createPublicClient, createWalletClient, custom, getContract, PublicClient, WalletClient, Address } from 'viem';
-import damTokenAbi from '@/web3/abis/dam.json';
-import fluxTokenAbi from '@/web3/abis/flux.json';
-import batchMinterAbi from '@/web3/abis/batchMinter.json';
-import marketAbi from '@/web3/abis/market.json';
-import gameHodlClickerAbi from '@/web3/abis/games/gameHodlClicker.json';
-import multicallAbi from '@/web3/abis/multicall.json';
-import uniswapPairV3Abi from '@/web3/abis/uniswapPairV3.json';
+import { damAbi as damTokenAbi } from '@/web3/abis/dam';
+import { fluxAbi as fluxTokenAbi } from '@/web3/abis/flux';
+import { batchMinterAbi } from '@/web3/abis/batchMinter';
+import { marketAbi } from '@/web3/abis/market';
+import { gameHodlClickerAbi } from '@/web3/abis/games/gameHodlClicker';
+import { multicallAbi } from '@/web3/abis/multicall';
+import { uniswapPairV3Abi } from '@/web3/abis/uniswapPairV3';
 
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';

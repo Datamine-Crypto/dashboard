@@ -3,8 +3,8 @@
  * It abstracts the underlying swap platform (e.g., Uniswap, SushiSwap) and routes the request to the appropriate handler.
  */
 
-import fluxAbi from '@/web3/abis/flux.json';
-import uniswapV2RouterABI from '@/web3/abis/uniswapv2router.json';
+import { fluxAbi } from '@/web3/abis/flux';
+import { uniswapv2routerAbi as uniswapV2RouterABI } from '@/web3/abis/uniswapv2router';
 import { performSwapUniswapV2, UniswapV2SwapPlatformOptions } from '@/web3/swap/performSwapUniswapV2';
 import { SwapOptions, SwapPlatform, SwapToken, SwapTokenDetails } from '@/web3/swap/swapOptions';
 

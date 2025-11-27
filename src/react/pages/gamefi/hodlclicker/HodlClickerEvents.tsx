@@ -3,7 +3,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { getPublicClient } from '@/web3/utils/web3ProviderUtils';
-import gameHodlClickerAbi from '@/web3/abis/games/gameHodlClicker.json';
+import { gameHodlClickerAbi } from '@/web3/abis/games/gameHodlClicker';
 import { Address } from 'viem';
 import dayjs from 'dayjs';
 import { getPriceToggle } from '@/utils/mathHelpers';
