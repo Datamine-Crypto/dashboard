@@ -29,15 +29,9 @@ import LightTooltip from '@/react/elements/LightTooltip';
 /**
  * Props for the Render component within HelpDialog.
  */
-interface RenderParams {
-	/** The dispatch function from the Web3Context. */
-	dispatch: ReducerDispatch;
-	/** The help article to display. */
-	helpArticle: HelpArticle;
-}
 
 // Dynamically import ReactMarkdown
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
+
 const ReactMarkdown = lazy(() => import('react-markdown'));
 
 enum ImageOption {
@@ -141,14 +135,18 @@ enum ComponentType {
  * This dialog displays help articles formatted with Markdown, including dynamic content and styling.
  * @param params - Object containing dispatch function, helpArticle, and helpArticlesNetworkType.
  */
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) => {
+interface DialogProps {
+	helpArticle: HelpArticle;
+}
+
+const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 	const { classes } = useStyles();
 
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const onClose = () => {
-		//dispatch({ type: commonLanguage.commands.CloseDialog });
+		//appDispatch({ type: commonLanguage.commands.CloseDialog });
 	};
 
 	const slugify = (text: string) => {
@@ -338,7 +336,10 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 							<Launch />
 						</IconButton>
 					</LightTooltip>
-					<IconButton aria-label="close" onClick={() => dispatch({ type: commonLanguage.commands.CloseHelpArticle })}>
+					<IconButton
+						aria-label="close"
+						onClick={() => appDispatch({ type: commonLanguage.commands.CloseHelpArticle })}
+					>
 						<Close />
 					</IconButton>
 				</Box>
@@ -386,7 +387,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 						color="secondary"
 						size="large"
 						variant="outlined"
-						onClick={() => dispatch({ type: commonLanguage.commands.CloseHelpArticle })}
+						onClick={() => appDispatch({ type: commonLanguage.commands.CloseHelpArticle })}
 					>
 						Close
 					</Button>
@@ -394,13 +395,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 			</DialogActions>
 		</Dialog>
 	);
-});
-
-interface DialogProps {
-	helpArticle: HelpArticle;
-}
-const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
-	return <Render helpArticle={helpArticle} dispatch={appDispatch} />;
 };
 
 export default HelpDialog;

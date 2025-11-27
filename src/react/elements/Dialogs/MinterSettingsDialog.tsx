@@ -13,35 +13,48 @@ import {
 import React from 'react';
 import { Settings } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem } from '@/app/configs/config.common';
+
 import { BNToDecimal } from '@/utils/mathHelpers';
 import { useAppStore } from '@/react/utils/appStore';
-import { ReducerDispatch, Balances } from '@/app/interfaces';
+
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
+
 /**
- * Props for the Render component within BurnDialog.
+ * BurnDialog component for burning Flux tokens.
+ * This dialog allows users to specify an amount of Flux tokens to burn and a target Ethereum address.
+ * Burning tokens permanently increases the minting rate on the destination address.
  */
-interface RenderParams {
-	/** The currently selected address in the wallet. */
-	selectedAddress: string;
-	/** Balances of various tokens. */
-	balances: Balances;
-	/** The dispatch function from the Web3Context. */
-	dispatch: ReducerDispatch;
-	/** Any error message to display. */
-	error: string | null;
-	/** The current ecosystem. */
-	ecosystem: Ecosystem;
-}
-const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, dispatch, error, ecosystem }) => {
-	const { mintableTokenShortName, navigation, ecosystemName } = getEcosystemConfig(ecosystem);
+const MintSettingsDialog: React.FC = () => {
+	const { balances, selectedAddress, error, ecosystem } = useAppStore(
+		useShallow((state) => ({
+			balances: state.balances,
+			selectedAddress: state.selectedAddress,
+			error: state.error,
+			ecosystem: state.ecosystem,
+		}))
+	);
+
+	const [targetAddress, setTargetAddress] = React.useState(selectedAddress || '');
+
+	// Update targetAddress when selectedAddress changes
+	React.useEffect(() => {
+		if (selectedAddress) {
+			setTargetAddress(selectedAddress);
+		}
+	}, [selectedAddress]);
+
+	if (!balances || !selectedAddress) {
+		return null;
+	}
+
+	const { mintableTokenShortName, navigation } = getEcosystemConfig(ecosystem);
 	const { isHelpPageEnabled } = navigation;
-	const [targetAddress, setTargetAddress] = React.useState(selectedAddress);
+
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
-		dispatch({
+		appDispatch({
 			type: commonLanguage.commands.SetMinterSettings,
 			payload: { address: targetAddress },
 		});
@@ -51,7 +64,7 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 		if (reason === 'backdropClick') {
 			return;
 		}
-		dispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.CloseDialog });
 	};
 	const getDelegatedMinterBox = () => {
 		return (
@@ -137,35 +150,6 @@ const Render: React.FC<RenderParams> = React.memo(({ selectedAddress, balances, 
 				</DialogActions>
 			</form>
 		</Dialog>
-	);
-});
-/**
- * BurnDialog component for burning Flux tokens.
- * This dialog allows users to specify an amount of Flux tokens to burn and a target Ethereum address.
- * Burning tokens permanently increases the minting rate on the destination address.
- */
-const MintSettingsDialog: React.FC = () => {
-	const { balances, selectedAddress, error, ecosystem } = useAppStore(
-		useShallow((state) => ({
-			balances: state.balances,
-			selectedAddress: state.selectedAddress,
-			error: state.error,
-			ecosystem: state.ecosystem,
-		}))
-	);
-
-	const total = BNToDecimal(balances?.fluxToken ?? null);
-	if (!balances || !selectedAddress) {
-		return null;
-	}
-	return (
-		<Render
-			balances={balances}
-			selectedAddress={selectedAddress}
-			error={error}
-			dispatch={appDispatch}
-			ecosystem={ecosystem}
-		/>
 	);
 };
 export default MintSettingsDialog;
