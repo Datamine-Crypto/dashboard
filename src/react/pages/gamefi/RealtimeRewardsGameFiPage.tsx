@@ -252,13 +252,7 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 };
 // Main component
 
-interface Props {}
-/**
- * RealtimeRewardsGameFiPage component that serves as the entry point for the Datamine Gems GameFi experience.
- * It provides the necessary Web3 context (dispatch and ecosystem) to its child components.
- * @param props - Component props (currently empty).
- */
-const RealtimeRewardsGameFiPage: React.FC<Props> = () => {
+const RealtimeRewardsGameFiPage: React.FC = () => {
 	const { ecosystem } = useAppStore(
 		useShallow((state) => ({
 			ecosystem: state.ecosystem,

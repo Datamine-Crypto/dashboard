@@ -35,7 +35,13 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 }));
 
-const PendingActionDialog: React.FC<Params> = React.memo(({ open, queries, connectionMethod, onClose, ecosystem }) => {
+const PendingActionDialog: React.FC<Params> = React.memo(function PendingActionDialog({
+	open,
+	queries,
+	connectionMethod,
+	onClose,
+	ecosystem,
+}) {
 	const { mintableTokenShortName } = getEcosystemConfig(ecosystem);
 	const { classes } = useStyles();
 

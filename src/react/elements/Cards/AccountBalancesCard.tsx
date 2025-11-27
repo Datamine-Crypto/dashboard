@@ -42,7 +42,7 @@ const useStyles = tss.create(({ theme }) => ({
  * AccountBalancesCard component displays the balances and related information for the currently selected Web3 account.
  * It fetches data from the AppStore and renders various sub-components to show token balances, locked amounts, and actions like burning or unlocking tokens.
  */
-export const AccountBalancesCard: React.FC = React.memo(() => {
+export const AccountBalancesCard: React.FC = React.memo(function AccountBalancesCard() {
 	const { addressLock, selectedAddress, address, addressDetails, balances, addressTokenDetails, ecosystem } =
 		useAppStore(
 			useShallow((state) => ({

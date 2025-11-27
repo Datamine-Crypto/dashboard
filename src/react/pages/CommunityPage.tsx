@@ -100,9 +100,7 @@ interface PointParams {
 	mb?: number;
 }
 
-interface Props {}
-
-const CommunityPage: React.FC<Props> = () => {
+const CommunityPage: React.FC = () => {
 	const { classes } = useStyles();
 	const { ecosystem } = useAppStore(
 		useShallow((state) => ({

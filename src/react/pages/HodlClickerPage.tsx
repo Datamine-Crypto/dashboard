@@ -5,7 +5,6 @@ import React, { useEffect } from 'react';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 
-import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
 import metamaskIcon from '@/react/svgs/metamask.svg';
@@ -15,8 +14,6 @@ import HodlClickerEvents from '@/react/pages/gamefi/hodlclicker/HodlClickerEvent
 import { getNetworkDropdown } from '@/react/elements/Fragments/EcosystemDropdown';
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import { switchNetwork } from '@/web3/utils/web3Helpers';
-
-interface Props {}
 
 interface CenterContent {
 	title: React.ReactNode;
@@ -32,7 +29,7 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 }));
 
-const HodlClickerPage: React.FC<Props> = () => {
+const HodlClickerPage: React.FC = () => {
 	const { classes } = useStyles();
 	const {
 		addressDetails,

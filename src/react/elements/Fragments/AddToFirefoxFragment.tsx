@@ -10,9 +10,7 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import LightTooltip from '@/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
 
-interface Props {}
-
-const AddToFirefoxFragment: React.FC<Props> = () => {
+const AddToFirefoxFragment: React.FC = () => {
 	const { ecosystem } = useAppStore(
 		useShallow((state) => ({
 			ecosystem: state.ecosystem,

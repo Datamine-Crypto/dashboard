@@ -16,16 +16,7 @@ import { useShallow } from 'zustand/react/shallow';
 const MarketCollectRewardsDialog = lazy(() => import('@/react/elements/Dialogs/GameFi/MarketCollectRewardsDialog'));
 const ZeroBalanceDialog = lazy(() => import('@/react/elements/Dialogs/ZeroBalanceDialog'));
 
-interface Params {}
-/**
- * This fragment contains all the dialogs in one place
- * Help Dialog is excluded as it's a seperate system
- */
-/**
- * This fragment contains all the dialogs in one place
- * Help Dialog is excluded as it's a seperate system
- */
-const DialogsFragment: React.FC<Params> = () => {
+const DialogsFragment: React.FC = () => {
 	const { dialog, dialogParams } = useAppStore(
 		useShallow((state) => ({
 			dialog: state.dialog,

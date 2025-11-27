@@ -9,7 +9,7 @@ import { Ecosystem, Layer } from '@/app/configs/config.common';
 /**
  * A base interface for platform-specific swap options. It can be extended for different DEXs.
  */
-export interface SwapPlatformOptions {}
+export type SwapPlatformOptions = object;
 
 /**
  * An enumeration of all tokens that can be used in a swap.

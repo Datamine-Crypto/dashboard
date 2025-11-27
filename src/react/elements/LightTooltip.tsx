@@ -10,7 +10,7 @@ import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
  * Defines the props for the custom LightTooltip component.
  * Extends Material-UI's TooltipProps to inherit standard tooltip properties.
  */
-interface CustomTooltipProps extends TooltipProps {}
+type CustomTooltipProps = TooltipProps;
 
 /**
  * A custom styled Material-UI Tooltip component with a light theme.

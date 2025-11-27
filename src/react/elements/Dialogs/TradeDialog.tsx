@@ -53,8 +53,7 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 }));
 
-interface Params {}
-const TradeDialog: React.FC<Params> = () => {
+const TradeDialog: React.FC = () => {
 	const {
 		balances,
 		swapTokenBalances,

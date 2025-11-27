@@ -26,14 +26,7 @@ const palette = {
 	secondaryBackground: '#202336',
 };
 // Main component
-interface Props {}
-// Main component
-/**
- * A functional component that renders the main content of the Token Page.
- * It displays information about DAM, FLUX, ArbiFLUX, and LOCK tokens, including their roles, uses, and ecosystem flow.
- * It also features security audit links and an integration flow section.
- */
-const TokenPage: React.FC<Props> = () => {
+const TokenPage: React.FC = () => {
 	const { ecosystem } = useAppStore(
 		useShallow((state) => ({
 			ecosystem: state.ecosystem,

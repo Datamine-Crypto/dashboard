@@ -34,7 +34,7 @@ interface ErrorState {
  * logs those errors, and displays a fallback UI instead of the crashed component tree.
  * This prevents the entire application from crashing.
  */
-export default class ErrorBoundary extends React.Component<{}, ErrorState> {
+export default class ErrorBoundary extends React.Component<React.PropsWithChildren, ErrorState> {
 	/**
 	 * Constructs the ErrorBoundary component.
 	 * @param props The component props.

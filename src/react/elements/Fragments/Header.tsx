@@ -76,7 +76,7 @@ interface Props {
 	isVideoVisible?: boolean;
 	ecosystem: Ecosystem;
 }
-const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosystem }) => {
+const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoVisible, ecosystem }) {
 	const { classes } = useStyles();
 
 	const { isLiquidityPoolsEnabled, navigation, ecosystemName } = getEcosystemConfig(ecosystem);

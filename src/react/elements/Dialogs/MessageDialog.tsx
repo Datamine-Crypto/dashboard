@@ -8,7 +8,7 @@ interface Params {
 	onClose: () => void;
 }
 
-const MessageDialog: React.FC<Params> = React.memo(({ open, title, message, onClose }) => {
+const MessageDialog: React.FC<Params> = React.memo(function MessageDialog({ open, title, message, onClose }) {
 	return (
 		<Dialog open={open} onClose={onClose} aria-labelledby="alert-dialog-title">
 			<DialogTitle id="alert-dialog-title">{title}</DialogTitle>

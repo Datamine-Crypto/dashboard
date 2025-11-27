@@ -250,8 +250,7 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 	);
 };
 
-interface Props {}
-const HodlClickerRushGameFiPage: React.FC<Props> = () => {
+const HodlClickerRushGameFiPage: React.FC = () => {
 	const { ecosystem } = useAppStore(
 		useShallow((state) => ({
 			ecosystem: state.ecosystem,
