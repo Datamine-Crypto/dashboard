@@ -598,8 +598,8 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				const clipboardState = {
 					address: state.selectedAddress,
 					balances: {
-						dam: balances.damToken?.toString(10),
-						flux: balances.fluxToken?.toString(10),
+						dam: balances.damToken.toString(10),
+						flux: balances.fluxToken.toString(10),
 					},
 					addressLock: {
 						amount: addressLock.amount.toString(10),
@@ -764,8 +764,8 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 						},
 					]),
 				};
-			} catch (err: any) {
-				if (err && err.message) {
+			} catch (err) {
+				if (err instanceof Error && err.message) {
 					switch (err.message) {
 						case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
 							return {
@@ -804,9 +804,9 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 						},
 					]),
 				};
-			} catch (err: any) {
+			} catch (err) {
 				devLog('err1:', err);
-				if (err && err.message) {
+				if (err instanceof Error && err.message) {
 					switch (err.message) {
 						case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
 							devLog('err2:', err);
@@ -829,8 +829,8 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					error: null,
 					...withQueries([{ type: commonLanguage.queries.Market.GetWithdrawMarketResponse, payload: {} }]),
 				};
-			} catch (err: any) {
-				if (err && err.message) {
+			} catch (err) {
+				if (err instanceof Error && err.message) {
 					switch (err.message) {
 						case commonLanguage.errors.Market.AmountExceedsMaxAddressMintable:
 							return {
@@ -858,7 +858,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					error: null,
 					...withQueries([{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} }]),
 				};
-			} catch (err: any) {
+			} catch (err) {
 				return {
 					...state,
 					error: commonLanguage.errors.InvalidNumber,

@@ -156,7 +156,7 @@ export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: Conn
 		}
 	} catch (err) {
 		// This error code indicates that the chain has not been added to MetaMask.
-		if ((err as any).code === 4902) {
+		if (err && typeof err === 'object' && 'code' in err && (err as { code: number }).code === 4902) {
 			try {
 				if (walletClient) {
 					await walletClient.addChain({ chain: arbitrum }); // Assuming Arbitrum for now as per original code
@@ -292,9 +292,10 @@ export const rethrowWeb3Error = (err: any) => {
 
 		const tryThrowError = (jsonData: any) => {
 			if (jsonData && jsonData.data) {
-				for (const [, errorDetails] of Object.entries(jsonData.data) as any) {
-					if (errorDetails?.reason) {
-						throw errorDetails.reason;
+				for (const [, errorDetails] of Object.entries(jsonData.data)) {
+					const details = errorDetails as { reason?: string };
+					if (details?.reason) {
+						throw details.reason;
 					}
 				}
 				if (jsonData.data.message) {

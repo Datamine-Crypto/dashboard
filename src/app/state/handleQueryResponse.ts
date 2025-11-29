@@ -27,7 +27,8 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 	switch (query.type) {
 		case commonLanguage.queries.Web3.FindWeb3Instance: {
 			if (err) {
-				devLog('FindWeb3Instance reducer err:', { err, message: (err as any).message });
+				const errorMessage = err instanceof Error ? err.message : String(err);
+				devLog('FindWeb3Instance reducer err:', { err, message: errorMessage });
 				return {
 					...state,
 					hasWeb3: false,
@@ -201,15 +202,15 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 		case commonLanguage.queries.Market.GetDepositMarketResponse:
 		case commonLanguage.queries.Market.GetWithdrawMarketResponse: {
 			if (err) {
-				if ((err as any).message) {
+				if (err instanceof Error) {
 					return {
 						...state,
-						error: (err as any).message,
+						error: err.message,
 					};
 				}
 				return {
 					...state,
-					error: err,
+					error: String(err),
 				};
 			}
 
@@ -221,15 +222,15 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 		}
 		case commonLanguage.queries.Market.GetMarketBurnFluxResponse: {
 			if (err) {
-				if ((err as any).message) {
+				if (err instanceof Error) {
 					return {
 						...state,
-						error: (err as any).message,
+						error: err.message,
 					};
 				}
 				return {
 					...state,
-					error: err,
+					error: String(err),
 				};
 			}
 
@@ -270,15 +271,15 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 		}
 		case commonLanguage.queries.Market.GetRefreshMarketAddressesResponse: {
 			if (err) {
-				if ((err as any).message) {
+				if (err instanceof Error) {
 					return {
 						...state,
-						error: (err as any).message,
+						error: err.message,
 					};
 				}
 				return {
 					...state,
-					error: err,
+					error: String(err),
 				};
 			}
 

@@ -74,5 +74,10 @@ export const getDamFluxEcosystemConfig = () => {
 			[Game.DatamineGems]: [],
 			[Game.HodlClicker]: [],
 		},
+
+		mintableSushiSwapL2EthPair: undefined,
+		lockedLiquidityUniswapAddress: undefined,
+		lockableSushiSwapL2EthPairSwapPairs: undefined,
+		lockableSushiSwapL2EthPair: undefined,
 	} satisfies EcosystemConfig;
 };

@@ -202,7 +202,7 @@ export const initialState = {
 
 	market: {
 		gemAddresses: getCustomMarketAddresses(),
-		gemsCollected: getMarketGemsCollected() as any,
+		gemsCollected: getMarketGemsCollected(),
 	} as MarketDetails,
 
 	// By default Datamine Gems will be selected as the game, the UI will change the game on selection and update this variable

@@ -66,7 +66,7 @@ interface ReducerQueryData {
 	/**
 	 * An error message if the query execution failed.
 	 */
-	err: string;
+	err: any;
 	/**
 	 * The successful response data from the query.
 	 */

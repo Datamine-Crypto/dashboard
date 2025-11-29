@@ -243,23 +243,23 @@ export interface ForecastSettings {
  * State for user's on-chain balances.
  */
 export interface Balances {
-	damToken?: bigint;
-	fluxToken?: bigint;
-	eth?: bigint | null;
-	fluxTotalSupply?: bigint;
-	damTotalSupply?: bigint;
-	uniswapDamTokenReserves?: UniswapReservesDam;
-	uniswapFluxTokenReserves?: UniswapReservesFlux;
-	uniswapUsdcEthTokenReserves?: UniswapReservesUsdcEth;
-	arbitrumBridgeBalance?: bigint;
+	damToken: bigint;
+	fluxToken: bigint;
+	eth: bigint;
+	fluxTotalSupply: bigint;
+	damTotalSupply: bigint;
+	uniswapDamTokenReserves: UniswapReservesDam;
+	uniswapFluxTokenReserves: UniswapReservesFlux;
+	uniswapUsdcEthTokenReserves: UniswapReservesUsdcEth;
+	arbitrumBridgeBalance: bigint;
 
 	/**
 	 * We'll add this to balances so we can override global FLUX price
 	 */
-	forecastFluxPrice?: string;
+	forecastFluxPrice: string;
 
-	lockedLiquidtyUniTotalSupply?: bigint;
-	lockedLiquidityUniAmount?: bigint;
+	lockedLiquidtyUniTotalSupply: bigint;
+	lockedLiquidityUniAmount: bigint;
 }
 
 /**
