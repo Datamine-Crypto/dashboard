@@ -8,14 +8,25 @@ import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/
 /**
  * Locks a specified amount of DAM tokens to start minting FLUX.
  */
-export const getLockInDamTokensResponse: QueryHandler<AppState> = async ({ state, query }) => {
+export interface GetLockInDamTokensResponseQuery {
+	amount: bigint;
+	minterAddress: string;
+}
+
+/**
+ * Locks a specified amount of DAM tokens to start minting FLUX.
+ */
+export const getLockInDamTokensResponse: QueryHandler<AppState, GetLockInDamTokensResponseQuery> = async ({
+	state,
+	query,
+}) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;
 	}
 	const selectedAddress = await getSelectedAddress();
 
-	const { amount, minterAddress } = query.payload;
+	const { amount, minterAddress } = query.payload!;
 
 	const contracts = getContracts(publicClient, state.ecosystem);
 

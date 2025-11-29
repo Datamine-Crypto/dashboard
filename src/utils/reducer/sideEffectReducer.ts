@@ -81,7 +81,7 @@ interface ReducerQueryData {
  * Represents an asynchronous query to be processed by the `sideEffectReducer`.
  * These queries typically trigger side effects like API calls.
  */
-export interface ReducerQuery {
+export interface ReducerQuery<P = any> {
 	/**
 	 * Optional: A unique identifier for the query, useful for tracking and removing pending queries.
 	 */
@@ -93,7 +93,7 @@ export interface ReducerQuery {
 	/**
 	 * Optional: The data associated with the query, passed to the query handler.
 	 */
-	payload?: any;
+	payload?: P;
 }
 
 /**
@@ -113,7 +113,11 @@ export interface ReducerQueryHandler<T> {
 /**
  * Defines the parameters passed to an individual query handler function.
  */
-export type QueryHandler<T> = (params: { state: T; query: ReducerQuery; dispatch: ReducerDispatch }) => Promise<any>;
+export type QueryHandler<T, P = any> = (params: {
+	state: T;
+	query: ReducerQuery<P>;
+	dispatch: ReducerDispatch;
+}) => Promise<any>;
 
 /**
  * Processes a queue of `ReducerQueries` by invoking their respective handlers.

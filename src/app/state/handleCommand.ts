@@ -12,6 +12,11 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import { AppState } from '@/app/state/initialState';
 import { DialogType, Token } from '@/app/interfaces';
 import { createWithWithQueries, localConfig } from '@/utils/reducer/reducerHelpers';
+import { GetBurnFluxResponseQuery } from '@/app/state/queries/web3/GetBurnFluxResponse';
+import { GetLockInDamTokensResponseQuery } from '@/app/state/queries/web3/GetLockInDamTokensResponse';
+import { GetMintFluxResponseQuery } from '@/app/state/queries/web3/GetMintFluxResponse';
+import { GetSetMintSettingsResponseQuery } from '@/app/state/queries/web3/batchMinter/GetSetMintSettingsResponse';
+import { GetMarketBurnFluxResponseQuery, GetDepositMarketResponseQuery } from '@/app/state/queries/web3/MarketQueries';
 
 /**
  * Handles synchronous commands dispatched by the UI or other parts of the application.
@@ -558,7 +563,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...withQueries([
 						{
 							type: commonLanguage.queries.Flux.GetLockInDamTokensResponse,
-							payload: { amount: amountBigInt, minterAddress },
+							payload: { amount: amountBigInt, minterAddress } as GetLockInDamTokensResponseQuery,
 						},
 					]),
 				};
@@ -576,7 +581,10 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				...state,
 				error: null,
 				...withQueries([
-					{ type: commonLanguage.queries.Flux.GetMintResponse, payload: { sourceAddress, targetAddress, blockNumber } },
+					{
+						type: commonLanguage.queries.Flux.GetMintResponse,
+						payload: { sourceAddress, targetAddress, blockNumber } as GetMintFluxResponseQuery,
+					},
 				]),
 			};
 		}
@@ -655,7 +663,10 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...state,
 					error: null,
 					...withQueries([
-						{ type: commonLanguage.queries.Flux.GetBurnResponse, payload: { amount: amountBigInt, address } },
+						{
+							type: commonLanguage.queries.Flux.GetBurnResponse,
+							payload: { amount: amountBigInt, address } as GetBurnFluxResponseQuery,
+						},
 					]),
 				};
 			} catch (err) {
@@ -672,7 +683,12 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				return {
 					...state,
 					error: null,
-					...withQueries([{ type: commonLanguage.queries.Flux.GetSetMintSettingsResponse, payload: { address } }]),
+					...withQueries([
+						{
+							type: commonLanguage.queries.Flux.GetSetMintSettingsResponse,
+							payload: { address } as GetSetMintSettingsResponseQuery,
+						},
+					]),
 				};
 			} catch (err) {
 				return {
@@ -742,7 +758,10 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...state,
 					error: null,
 					...withQueries([
-						{ type: commonLanguage.queries.Market.GetMarketBurnFluxResponse, payload: { amountToBurn, gems } },
+						{
+							type: commonLanguage.queries.Market.GetMarketBurnFluxResponse,
+							payload: { amountToBurn, gems } as GetMarketBurnFluxResponseQuery,
+						},
 					]),
 				};
 			} catch (err: any) {
@@ -781,7 +800,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...withQueries([
 						{
 							type: commonLanguage.queries.Market.GetDepositMarketResponse,
-							payload: { amount: amountBigInt, address },
+							payload: { amount: amountBigInt, address } as GetDepositMarketResponseQuery,
 						},
 					]),
 				};

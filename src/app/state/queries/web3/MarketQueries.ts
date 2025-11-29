@@ -12,7 +12,18 @@ import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/
 /**
  * Burns tokens through the Datamine Market to collect rewards from other validators.
  */
-export const getMarketBurnFluxResponse: QueryHandler<AppState> = async ({ state, query }) => {
+export interface GetMarketBurnFluxResponseQuery {
+	gems: Gem[];
+	amountToBurn: bigint;
+}
+
+/**
+ * Burns tokens through the Datamine Market to collect rewards from other validators.
+ */
+export const getMarketBurnFluxResponse: QueryHandler<AppState, GetMarketBurnFluxResponseQuery> = async ({
+	state,
+	query,
+}) => {
 	const { ecosystem, game } = state;
 	const publicClient = getPublicClient();
 	if (!publicClient) {
@@ -20,7 +31,7 @@ export const getMarketBurnFluxResponse: QueryHandler<AppState> = async ({ state,
 	}
 	const selectedAddress = await getSelectedAddress();
 
-	const { gems, amountToBurn }: { gems: Gem[]; amountToBurn: bigint } = query.payload;
+	const { gems, amountToBurn } = query.payload!;
 
 	const contracts = getContracts(publicClient, state.ecosystem);
 
@@ -57,7 +68,18 @@ export const getMarketBurnFluxResponse: QueryHandler<AppState> = async ({ state,
 /**
  * Deposits tokens into the Datamine Market to be available for public burning.
  */
-export const getDepositMarketResponse: QueryHandler<AppState> = async ({ state, query }) => {
+export interface GetDepositMarketResponseQuery {
+	address: string;
+	amount: bigint;
+}
+
+/**
+ * Deposits tokens into the Datamine Market to be available for public burning.
+ */
+export const getDepositMarketResponse: QueryHandler<AppState, GetDepositMarketResponseQuery> = async ({
+	state,
+	query,
+}) => {
 	const { ecosystem, game } = state;
 	const publicClient = getPublicClient();
 	if (!publicClient) {
@@ -65,7 +87,7 @@ export const getDepositMarketResponse: QueryHandler<AppState> = async ({ state, 
 	}
 	const selectedAddress = await getSelectedAddress();
 
-	const { address, amount } = query.payload;
+	const { address, amount } = query.payload!;
 
 	const contracts = getContracts(publicClient, state.ecosystem);
 

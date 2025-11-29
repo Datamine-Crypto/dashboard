@@ -9,14 +9,23 @@ import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/
 /**
  * Mints available FLUX tokens.
  */
-export const getMintFluxResponse: QueryHandler<AppState> = async ({ state, query }) => {
+export interface GetMintFluxResponseQuery {
+	sourceAddress: string;
+	targetAddress: string;
+	blockNumber: string;
+}
+
+/**
+ * Mints available FLUX tokens.
+ */
+export const getMintFluxResponse: QueryHandler<AppState, GetMintFluxResponseQuery> = async ({ state, query }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;
 	}
 	const selectedAddress = await getSelectedAddress();
 
-	const { sourceAddress, targetAddress, blockNumber } = query.payload;
+	const { sourceAddress, targetAddress, blockNumber } = query.payload!;
 
 	const contracts = getContracts(publicClient, state.ecosystem);
 	const config = getEcosystemConfig(state.ecosystem);

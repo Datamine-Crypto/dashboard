@@ -7,14 +7,22 @@ import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/
 /**
  * Burns a specified amount of FLUX tokens to increase the minting multiplier.
  */
-export const getBurnFluxResponse: QueryHandler<AppState> = async ({ state, query }) => {
+export interface GetBurnFluxResponseQuery {
+	address: string;
+	amount: bigint;
+}
+
+/**
+ * Burns a specified amount of FLUX tokens to increase the minting multiplier.
+ */
+export const getBurnFluxResponse: QueryHandler<AppState, GetBurnFluxResponseQuery> = async ({ state, query }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;
 	}
 	const selectedAddress = await getSelectedAddress();
 
-	const { address, amount } = query.payload;
+	const { address, amount } = query.payload!;
 
 	const contracts = getContracts(publicClient, state.ecosystem);
 
