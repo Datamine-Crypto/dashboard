@@ -120,13 +120,21 @@ export type QueryHandler<T, P = any> = (params: {
 }) => Promise<any>;
 
 /**
+ * Interface representing the state shape required for side effects.
+ */
+interface SideEffectState {
+	query?: ReducerQuery[];
+	pendingQueries: ReducerQuery[];
+}
+
+/**
  * Processes a queue of `ReducerQueries` by invoking their respective handlers.
  * It iterates through the `queries` array in the state, executes each query handler asynchronously,
  * and dispatches a `HANDLE_QUERY` action with the result (success or error).
  * @param {HandlerQueriesParams} params - Object containing the current state, dispatch function, and query handlers.
  */
 const handleQueries = async <T>({ state, dispatch, queryHandlers }: HandlerQueriesParams<T>) => {
-	const { query: queries } = state as any;
+	const { query: queries } = state as unknown as SideEffectState;
 	if (!queries) {
 		return;
 	}
@@ -179,7 +187,7 @@ const sideEffectReducer = <T>(params: SideEffectReducerParams<T>) => {
 				const { query } = data.payload;
 				const stateWithoutPendingQuery = {
 					...newState,
-					pendingQueries: (newState as any).pendingQueries.filter(
+					pendingQueries: (newState as unknown as SideEffectState).pendingQueries.filter(
 						(pendingQuery: ReducerQuery) => pendingQuery.id !== query.id
 					),
 				};

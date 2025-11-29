@@ -28,9 +28,11 @@ const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
 		}))
 	);
 
-	const filterOptions = (options: any, { inputValue }: any) => options;
-	const onChange = (event: any, helpArticle: HelpArticle) => {
-		appDispatch({ type: commonLanguage.commands.Help.ShowArticle, payload: { helpArticle } });
+	const filterOptions = (options: HelpArticle[], { inputValue }: { inputValue: string }) => options;
+	const onChange = (event: React.SyntheticEvent, helpArticle: HelpArticle | null) => {
+		if (helpArticle) {
+			appDispatch({ type: commonLanguage.commands.Help.ShowArticle, payload: { helpArticle } });
+		}
 	};
 
 	return (
@@ -47,7 +49,7 @@ const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
 			groupBy={(option) => {
 				return SearchCategoryText[option.category];
 			}}
-			onChange={onChange as any}
+			onChange={onChange}
 			inputValue={searchQuery}
 			renderInput={(params) => (
 				<TextField
@@ -55,9 +57,7 @@ const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
 					//label="Search Help Articles (ex: How To Mint FLUX) ..."
 					placeholder={isBigSearch ? 'Search Help Articles ...' : 'Search Help Articles ...'}
 					//value={searchQuery}
-					onChange={(e) =>
-						appDispatch({ type: commonLanguage.commands.Help.SetSearch, payload: (e.target as any).value })
-					}
+					onChange={(e) => appDispatch({ type: commonLanguage.commands.Help.SetSearch, payload: e.target.value })}
 					autoComplete="off"
 					autoFocus={isBigSearch}
 					variant="outlined"

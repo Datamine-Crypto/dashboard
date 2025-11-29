@@ -6,7 +6,7 @@ import { QueryHandler } from '@/utils/reducer/sideEffectReducer';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Gem } from '@/react/elements/Fragments/DatamineGemsGame';
 import { devLog } from '@/utils/devLog';
-import { decodeMulticall, encodeMulticall, EncodedMulticallResults } from '@/web3/utils/web3multicall';
+import { decodeMulticall, encodeMulticall, EncodedMulticallResults, MultiCallParams } from '@/web3/utils/web3multicall';
 import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/web3ProviderUtils';
 
 /**
@@ -41,7 +41,7 @@ export const getMarketBurnFluxResponse: QueryHandler<AppState, GetMarketBurnFlux
 		return;
 	}
 
-	const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market : contracts.gameHodlClicker) as any;
+	const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market : contracts.gameHodlClicker);
 
 	if (gems.length === 1) {
 		const gem = gems[0];
@@ -259,10 +259,13 @@ export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async (
 
 			returns: {
 				params: ['(address, uint256, uint256, uint256, uint256, uint256, bool, address)[]', 'uint256'],
-				callback: (addressData: any, targetBlock: any) => {
+				callback: (
+					addressData: [string, bigint, bigint, bigint, bigint, bigint, boolean, string][],
+					targetBlock: bigint
+				) => {
 					return {
 						targetBlock: Number(targetBlock),
-						addresses: addressData.map((address: any) => ({
+						addresses: addressData.map((address) => ({
 							currentAddress: address[0],
 							mintAmount: address[1],
 							rewardsAmount: address[2],
@@ -278,12 +281,12 @@ export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async (
 			},
 		},
 		...getExtraData(),
-	} as any;
+	} as Record<string, MultiCallParams>;
 
 	// Call multicall aggregate and parse the results
 	const calls = encodeMulticall(multicallData);
 	if (!contracts.multicall) throw new Error('Multicall contract not initialized');
-	const [blockNumber, returnData] = (await contracts.multicall.read.aggregate([calls])) as [bigint, any[]];
+	const [blockNumber, returnData] = (await contracts.multicall.read.aggregate([calls])) as [bigint, `0x${string}`[]];
 
 	const multicallEncodedResults: EncodedMulticallResults = {
 		blockNumber: blockNumber.toString(),

@@ -509,16 +509,6 @@ const CallToActionCard: React.FC = () => {
 											closeOnSelect={true}
 											value={value}
 											label="From"
-											// slotProps={{
-											// 	textField: {
-											// 		size: "small",
-											// 		name: "startBlocks",
-											// 		inputProps: {
-											// 			...removeAutocompleteProps
-											// 		} as any,
-											// 	},
-											// 	mobilePaper: { className: classes.datePicker },
-											// }}
 											onChange={(date) => {
 												if (date) {
 													date = date.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
@@ -609,16 +599,6 @@ const CallToActionCard: React.FC = () => {
 											closeOnSelect={true}
 											label="To"
 											value={value}
-											// slotProps={{
-											// 	textField: {
-											// 		size: "small",
-											// 		name: "endBlocks",
-											// 		inputProps: {
-											// 			...removeAutocompleteProps
-											// 		} as any,
-											// 	},
-											// 	mobilePaper: { className: classes.datePicker },
-											// }}
 											onChange={(date: Dayjs | null) => {
 												if (date) {
 													date = date.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);

@@ -231,8 +231,8 @@ export interface ForecastSettings {
 	forecastTime: number;
 	forecastTimeAmount: string;
 
-	forecastAmount: any;
-	forecastBlocks: any;
+	forecastAmount: string;
+	forecastBlocks: string;
 	forecastStartBlocks: string;
 
 	forecastFluxPrice: string;

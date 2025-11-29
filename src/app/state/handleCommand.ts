@@ -183,7 +183,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		}
 
 		case commonLanguage.commands.RefreshAccountState: {
-			const { updateEthBalance, closeDialog, forceRefresh = false } = command.payload ?? ({} as any);
+			const { updateEthBalance, closeDialog, forceRefresh = false } = command.payload || {};
 
 			// Apply throttling (only if we're not refreshing ETH balance. ETH balance updates usually happen at important times so think of it like "forced refresh")
 			const currentTimestampMs = Date.now();
@@ -305,7 +305,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 
 			const forecastAmount = new Big(lockAmount.toString(10)).div(new Big(10).pow(18));
 			const blocks = unmintedBlocks;
-			const forecastBlocks = isLocked ? 0 : blocks.toString();
+			const forecastBlocks = isLocked ? '0' : blocks.toString();
 			const forecastStartBlocks = (
 				state.addressLock.amount === 0n
 					? 0
@@ -342,7 +342,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...state.forecastSettings,
 					enabled,
 					amount: lockAmount,
-					forecastAmount,
+					forecastAmount: forecastAmount.toString(),
 					forecastBlocks,
 					forecastStartBlocks,
 					blocks,

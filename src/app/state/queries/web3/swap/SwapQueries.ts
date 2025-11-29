@@ -9,7 +9,7 @@ import { getPublicClient, getWalletClient, localConfig } from '@/web3/utils/web3
 /**
  * @var thottleGetOutputQuoteTimeout - Timeout ID for throttling swap quote requests.
  */
-let thottleGetOutputQuoteTimeout: any;
+let thottleGetOutputQuoteTimeout: ReturnType<typeof setTimeout> | undefined;
 
 /**
  * Throttles requests for swap output quotes to prevent excessive calls while the user is typing.

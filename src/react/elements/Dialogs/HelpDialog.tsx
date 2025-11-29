@@ -162,11 +162,11 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 		); // Trim - from end of text
 	};
 
-	const heading = (props: any, level: number) => {
+	const heading = (props: React.PropsWithChildren<{ node?: any; level?: number }>, level: number) => {
 		const variant = `h${level}` as any;
 
 		const getId = () => {
-			if (props.node.children.length > 0) {
+			if (props.node && props.node.children.length > 0) {
 				return slugify(props.node.children[0].value);
 			}
 			return;
@@ -179,14 +179,14 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 			</Typography>
 		);
 	};
-	const paragraph = (props: any) => {
+	const paragraph = (props: React.PropsWithChildren<unknown>) => {
 		return (
 			<Typography component="div" variant="body1" gutterBottom>
 				{props.children}
 			</Typography>
 		);
 	};
-	const listItem = (props: any) => {
+	const listItem = (props: React.PropsWithChildren<unknown>) => {
 		return (
 			<li>
 				<Typography component="div" variant="body1">
@@ -196,7 +196,7 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 		);
 	};
 
-	const thematicBreak = (props: any) => {
+	const thematicBreak = () => {
 		return (
 			<Box my={2}>
 				<Divider />
@@ -204,13 +204,14 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 		);
 	};
 
-	const link = (props: any) => {
-		const isRelativeElement = props.href.indexOf('#') === 0;
+	const link = (props: React.PropsWithChildren<{ href?: string }>) => {
+		const href = props.href || '';
+		const isRelativeElement = href.indexOf('#') === 0;
 
 		const onClick = (e: React.MouseEvent<HTMLElement>) => {
 			// For focusing elements on page
 			if (isRelativeElement) {
-				const elementId = props.href.replace('#', '');
+				const elementId = href.replace('#', '');
 				const documentToFocus = document.getElementById(elementId);
 				if (documentToFocus) {
 					documentToFocus.scrollIntoView();
@@ -233,16 +234,16 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 		};
 
 		return (
-			<Link href={props.href} title={props.href} target="_blank" rel="noopener noreferrer" onClick={onClick}>
+			<Link href={href} title={href} target="_blank" rel="noopener noreferrer" onClick={onClick}>
 				{getIcon()}
 				{props.children}
 			</Link>
 		);
 	};
 
-	const image = (props: any) => {
-		const src = props.src as string;
-		const alt = props.alt as string;
+	const image = (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
+		const src = (props.src as string) || '';
+		const alt = (props.alt as string) || '';
 
 		const getImageOverrides = () => {
 			const style = {} as any;

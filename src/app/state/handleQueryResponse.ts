@@ -169,7 +169,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 			if (err) {
 				return {
 					...state,
-					error: err,
+					error: err instanceof Error ? err.message : String(err),
 				};
 			}
 			const { minterAddress } = response;
@@ -187,7 +187,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 			if (err) {
 				return {
 					...state,
-					error: err,
+					error: err instanceof Error ? err.message : String(err),
 				};
 			}
 
@@ -313,7 +313,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 			if (err) {
 				return {
 					...state,
-					error: err,
+					error: err instanceof Error ? err.message : String(err),
 				};
 			}
 
@@ -327,7 +327,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 			if (err) {
 				return {
 					...state,
-					error: err,
+					error: err instanceof Error ? err.message : String(err),
 				};
 			}
 

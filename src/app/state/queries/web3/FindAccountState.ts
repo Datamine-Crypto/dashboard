@@ -42,7 +42,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state, query })
 		devLog('FindAccountState addressToFetch:', { addressToFetch, ecosystem });
 
 		const contracts = getContracts(publicClient, state.ecosystem);
-		const config = getEcosystemConfig(state.ecosystem) as any;
+		const config = getEcosystemConfig(state.ecosystem);
 		const isArbitrumMainnet = config.layer === Layer.Layer2;
 
 		devLog('FindAccountState Making batch request:');
@@ -726,7 +726,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state, query })
 		if (!contracts.multicall) {
 			throw new Error('Multicall contract not initialized');
 		}
-		const [blockNumber, returnData] = (await contracts.multicall.read.aggregate([calls])) as [bigint, any[]];
+		const [blockNumber, returnData] = (await contracts.multicall.read.aggregate([calls])) as [bigint, `0x${string}`[]];
 		const multicallEncodedResults: EncodedMulticallResults = {
 			blockNumber: blockNumber.toString(),
 			returnData,
@@ -765,7 +765,11 @@ export const findAccountState: QueryHandler<AppState> = async ({ state, query })
 		devLog('FindAccountState batch request success', multicallDecodedResults);
 
 		const getV3ReservesDAM = () => {
-			const { slot0, reserve0, reserve1 } = uniswapDamTokenReservesV3 as any;
+			const { slot0, reserve0, reserve1 } = uniswapDamTokenReservesV3 as {
+				slot0: { sqrtPriceX96: string };
+				reserve0: string;
+				reserve1: string;
+			};
 
 			if (isArbitrumMainnet) {
 				const ethAvailable = new Big(reserve1);

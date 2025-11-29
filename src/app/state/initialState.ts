@@ -121,8 +121,8 @@ export const initialState = {
 		forecastTime: 0,
 		forecastTimeAmount: '0',
 
-		forecastAmount: '0' as any, // This is used as Big in some places, but string in initial state.
-		forecastBlocks: '0' as any, // Used as number in some places, string in initial
+		forecastAmount: '0', // This is used as Big in some places, but string in initial state.
+		forecastBlocks: '0', // Used as number in some places, string in initial
 		forecastStartBlocks: '0',
 		forecastFluxPrice: '',
 		alreadyMintedBlocks: 0,
@@ -139,7 +139,7 @@ export const initialState = {
 	addressDetails: null as FluxAddressDetails | null,
 	addressTokenDetails: null as FluxAddressTokenDetails | null,
 	dialog: null as DialogType | null,
-	dialogParams: undefined as any,
+	dialogParams: undefined as Record<string, unknown> | undefined,
 
 	lastDismissedPendingActionCount: 0,
 
