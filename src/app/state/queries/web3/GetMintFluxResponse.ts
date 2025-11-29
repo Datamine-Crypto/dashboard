@@ -9,7 +9,7 @@ import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/
 /**
  * Mints available FLUX tokens.
  */
-export const getMintFluxResponse = async ({ state, query }: QueryHandler<AppState>) => {
+export const getMintFluxResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;

@@ -9,7 +9,7 @@ import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/
 /**
  * Authorizes the FLUX contract to spend the user's DAM tokens.
  */
-export const getAuthorizeFluxOperatorResponse = async ({ state }: QueryHandler<AppState>) => {
+export const getAuthorizeFluxOperatorResponse: QueryHandler<AppState> = async ({ state }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;

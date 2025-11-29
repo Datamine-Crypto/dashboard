@@ -18,6 +18,9 @@ export const getFluxArbiFluxEcosystemConfig = () => {
 		// Sushiswap L2 ETH pair address for FLUX
 		lockableSushiSwapL2EthPair: '0x088f6dcde862781db7b01feb67afd265abbc6d90',
 
+		lockableUniswapV3L1EthTokenContractAddress: undefined,
+		mintableUniswapV3L1EthTokenContractAddress: undefined,
+
 		// Short name for the mintable token (ArbiFLUX)
 		mintableTokenShortName: 'ArbiFLUX',
 		// Contract address for the mintable token

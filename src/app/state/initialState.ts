@@ -121,8 +121,8 @@ export const initialState = {
 		forecastTime: 0,
 		forecastTimeAmount: '0',
 
-		forecastAmount: '0',
-		forecastBlocks: '0',
+		forecastAmount: '0' as any, // This is used as Big in some places, but string in initial state.
+		forecastBlocks: '0' as any, // Used as number in some places, string in initial
 		forecastStartBlocks: '0',
 		forecastFluxPrice: '',
 		alreadyMintedBlocks: 0,
@@ -202,7 +202,7 @@ export const initialState = {
 
 	market: {
 		gemAddresses: getCustomMarketAddresses(),
-		gemsCollected: getMarketGemsCollected(),
+		gemsCollected: getMarketGemsCollected() as any,
 	} as MarketDetails,
 
 	// By default Datamine Gems will be selected as the game, the UI will change the game on selection and update this variable

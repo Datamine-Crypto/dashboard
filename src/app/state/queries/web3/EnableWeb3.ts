@@ -13,7 +13,7 @@ import {
 /**
  * Enables the Web3 provider, requesting account access from the user if necessary.
  */
-export const enableWeb3 = async ({ state, dispatch }: QueryHandler<AppState>) => {
+export const enableWeb3: QueryHandler<AppState> = async ({ state, dispatch }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		devLog('EnableWeb3 web3provider is missing?');

@@ -963,7 +963,12 @@ const CallToActionCard: React.FC = () => {
 						return `($ ${usdcAmount} USD)`;
 					};
 					const getApyHeader = () => {
-						if (!balances) {
+						if (
+							!balances ||
+							!balances.uniswapDamTokenReserves ||
+							!balances.uniswapFluxTokenReserves ||
+							!balances.uniswapUsdcEthTokenReserves
+						) {
 							return null;
 						}
 						const apyPools = new Map<TokenPair, any>();

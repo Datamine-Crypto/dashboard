@@ -87,7 +87,7 @@ export interface SwapOptions {
  * Represents a token involved in a swap, including the amount to be swapped.
  */
 export interface SwapTokenWithAmount {
-	amount: string;
+	amount: string | null | undefined;
 	swapToken: SwapToken | null;
 }
 

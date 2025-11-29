@@ -12,7 +12,7 @@ import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/
 /**
  * Burns tokens through the Datamine Market to collect rewards from other validators.
  */
-export const getMarketBurnFluxResponse = async ({ state, query }: QueryHandler<AppState>) => {
+export const getMarketBurnFluxResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const { ecosystem, game } = state;
 	const publicClient = getPublicClient();
 	if (!publicClient) {
@@ -57,7 +57,7 @@ export const getMarketBurnFluxResponse = async ({ state, query }: QueryHandler<A
 /**
  * Deposits tokens into the Datamine Market to be available for public burning.
  */
-export const getDepositMarketResponse = async ({ state, query }: QueryHandler<AppState>) => {
+export const getDepositMarketResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const { ecosystem, game } = state;
 	const publicClient = getPublicClient();
 	if (!publicClient) {
@@ -108,7 +108,7 @@ export const getDepositMarketResponse = async ({ state, query }: QueryHandler<Ap
 /**
  * Refreshes market addresses and other game-related data.
  */
-export const getRefreshMarketAddressesResponse = async ({ state, query }: QueryHandler<AppState>) => {
+export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const { ecosystem, game } = state;
 	const publicClient = getPublicClient();
 	if (!publicClient) {
@@ -291,7 +291,7 @@ export const getRefreshMarketAddressesResponse = async ({ state, query }: QueryH
 /**
  * Withdraws all accumulated rewards from the Datamine Market.
  */
-export const getWithdrawMarketResponse = async ({ state, query }: QueryHandler<AppState>) => {
+export const getWithdrawMarketResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const { ecosystem, game } = state;
 	const publicClient = getPublicClient();
 	if (!publicClient) {

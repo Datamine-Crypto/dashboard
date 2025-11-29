@@ -4,7 +4,7 @@ import { withWeb3 } from '@/web3/utils/web3Helpers';
 import { QueryHandler } from '@/utils/reducer/sideEffectReducer';
 import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/web3ProviderUtils';
 
-export const getSetMintSettingsResponse = async ({ state, query }: QueryHandler<AppState>) => {
+export const getSetMintSettingsResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;

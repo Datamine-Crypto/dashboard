@@ -590,8 +590,8 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				const clipboardState = {
 					address: state.selectedAddress,
 					balances: {
-						dam: balances.damToken.toString(10),
-						flux: balances.fluxToken.toString(10),
+						dam: balances.damToken?.toString(10),
+						flux: balances.fluxToken?.toString(10),
 					},
 					addressLock: {
 						amount: addressLock.amount.toString(10),
@@ -945,7 +945,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...withQueries([{ type: commonLanguage.queries.Swap.ThrottleGetOutputQuote }]),
 				};
 			};
-			const newAmount = getForecastAmount(amount, state.swapState.input.amount);
+			const newAmount = getForecastAmount(amount, state.swapState.input.amount || '');
 
 			// No update necessary (Ex: invalid chartacters were stripped)
 			if (newAmount === state.swapState.input.amount) {

@@ -20,6 +20,9 @@ export const getArbiFluxLockquidityEcosystemConfig = () => {
 		// Indicates if the token pair is swapped (e.g., ETH/ArbiFLUX instead of ArbiFLUX/ETH)
 		lockableSushiSwapL2EthPairSwapPairs: true,
 
+		lockableUniswapV3L1EthTokenContractAddress: undefined,
+		mintableUniswapV3L1EthTokenContractAddress: undefined,
+
 		// Short name for the mintable token (LOCK)
 		mintableTokenShortName: 'LOCK',
 		// Contract address for the mintable token

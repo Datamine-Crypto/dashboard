@@ -6,7 +6,7 @@ import { handleQueryResponse as handleAppQueryResponse } from '@/app/state/handl
 import { queryHandlers } from '@/app/state/handleQuery';
 
 // Recreate the reducer
-const reducer = sideEffectReducer({
+const reducer = sideEffectReducer<AppState>({
 	// These are prefixed with "app" to make it clear that they are from the app (not to be confused with the global reducer)
 	handleQueryResponse: handleAppQueryResponse,
 	handleCommand: handleAppCommand,

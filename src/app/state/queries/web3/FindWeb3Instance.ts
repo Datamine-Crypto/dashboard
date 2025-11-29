@@ -16,7 +16,7 @@ import {
  * Finds and initializes the Web3 provider (MetaMask).
  * It sets up listeners for account and network changes to keep the app state synced.
  */
-export const findWeb3Instance = async ({ state, query, dispatch }: QueryHandler<AppState>) => {
+export const findWeb3Instance: QueryHandler<AppState> = async ({ state, query, dispatch }) => {
 	const provider = await getWeb3Provider({ ecosystem: state.ecosystem });
 	devLog('Found provider:', { provider, ecosystem: state.ecosystem });
 	setWeb3Provider(provider, state.ecosystem);

@@ -125,10 +125,10 @@ export const preselectAddress = async () => {
  * @returns An object containing all necessary contract instances.
  */
 export const getContracts = (publicClient: PublicClient, ecosystem: Ecosystem) => {
-	const config = getEcosystemConfig(ecosystem) as any;
+	const config = getEcosystemConfig(ecosystem);
 
 	// Helper to create contract
-	const createContract = <TAbi extends readonly unknown[]>(address: string, abi: TAbi) => {
+	const createContract = <TAbi extends readonly unknown[]>(address: string | null | undefined, abi: TAbi) => {
 		if (!address || address === '0x0') return null;
 		return getContract({
 			address: address as Address,

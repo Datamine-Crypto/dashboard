@@ -87,6 +87,14 @@ export const getPriceToggleBig = ({
 	const div18 = new Big(10).pow(18);
 	const div6 = new Big(10).pow(6);
 
+	if (
+		!balances.uniswapUsdcEthTokenReserves ||
+		!balances.uniswapDamTokenReserves ||
+		!balances.uniswapFluxTokenReserves
+	) {
+		return '*loading*';
+	}
+
 	const usdcReserve = new Big(balances.uniswapUsdcEthTokenReserves.usdc.toString(10)).div(div6);
 	const ethReserve = new Big(balances.uniswapUsdcEthTokenReserves.eth.toString(10)).div(div18);
 	const ethPrice = usdcReserve.div(ethReserve);
@@ -116,9 +124,9 @@ export const getPriceToggleBig = ({
 							return newEthCost;
 						}
 
-						return balances.uniswapFluxTokenReserves.ethPrice;
+						return balances.uniswapFluxTokenReserves!.ethPrice;
 					case Token.Lockable:
-						return balances.uniswapDamTokenReserves.ethPrice;
+						return balances.uniswapDamTokenReserves!.ethPrice;
 				}
 			};
 

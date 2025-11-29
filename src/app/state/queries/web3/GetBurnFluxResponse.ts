@@ -7,7 +7,7 @@ import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/
 /**
  * Burns a specified amount of FLUX tokens to increase the minting multiplier.
  */
-export const getBurnFluxResponse = async ({ state, query }: QueryHandler<AppState>) => {
+export const getBurnFluxResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;

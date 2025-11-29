@@ -8,7 +8,7 @@ import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/
 /**
  * Unlocks all previously locked DAM tokens.
  */
-export const getUnlockDamTokensResponse = async ({ state, query }: QueryHandler<AppState>) => {
+export const getUnlockDamTokensResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;

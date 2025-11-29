@@ -96,7 +96,7 @@ export interface MarketWithdrawAllParams {
  * It attempts to detect common providers like MetaMask, Trust Wallet, or a generic Web3 provider.
  */
 export const getWeb3Provider = async ({ ecosystem }: { ecosystem: Ecosystem }) => {
-	const { ethereum } = window as any;
+	const { ethereum } = window;
 	if (ethereum) {
 		devLog('found window.ethereum provider:');
 		return ethereum;
@@ -113,7 +113,7 @@ export const getWeb3Provider = async ({ ecosystem }: { ecosystem: Ecosystem }) =
 
 	// Trustwallet provider
 	{
-		const { trustwallet } = window as any;
+		const { trustwallet } = window;
 		if (trustwallet && trustwallet.Provider) {
 			return trustwallet.Provider;
 		}
@@ -121,13 +121,13 @@ export const getWeb3Provider = async ({ ecosystem }: { ecosystem: Ecosystem }) =
 
 	// For generic web3
 	{
-		const web3 = (window as any).web3;
+		const web3 = window.web3;
 		if (web3 && web3.currentProvider) {
 			return web3.currentProvider;
 		}
 	}
 
-	return ethereum as any;
+	return ethereum;
 };
 
 /**
