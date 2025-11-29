@@ -18,7 +18,7 @@ import React from 'react';
 import { Diamond, Mouse as MouseIcon } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/app/configs/config';
 
-import { BNToDecimal } from '@/utils/mathHelpers';
+import { formatBigInt } from '@/utils/mathHelpers';
 import { useAppStore } from '@/react/utils/appStore';
 
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -42,7 +42,7 @@ const DamLockDialog: React.FC = () => {
 		}))
 	);
 
-	const total = BNToDecimal(balances?.damToken ?? null);
+	const total = formatBigInt(balances?.damToken ?? null);
 
 	const { lockableTokenShortName, mintableTokenShortName, marketAddress, gameHodlClickerAddress, batchMinterAddress } =
 		getEcosystemConfig(ecosystem);
@@ -232,7 +232,7 @@ const DamLockDialog: React.FC = () => {
 					<Box my={1}>
 						Current Balance:{' '}
 						<Box display="inline" fontWeight="fontWeightBold">
-							{BNToDecimal(balances.damToken, true)} {lockableTokenShortName}
+							{formatBigInt(balances.damToken, true)} {lockableTokenShortName}
 						</Box>
 					</Box>
 					<Box my={2}>

@@ -7,7 +7,7 @@ import { OpenInNew } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Layer } from '@/app/configs/config.common';
 import { Token } from '@/app/interfaces';
-import { BNToDecimal, getBNPercent, getPriceToggle } from '@/utils/mathHelpers';
+import { formatBigInt, formatBigIntPercent, getPriceToggle } from '@/utils/mathHelpers';
 import DetailedListItem from '@/react/elements/Fragments/DetailedListItem';
 import LightTooltip from '@/react/elements/LightTooltip';
 import { tss } from 'tss-react/mui';
@@ -49,7 +49,7 @@ const LockedLiquidityCard: React.FC = () => {
 	const getAvailableLiquidity = (token: Token) => {
 		switch (token) {
 			case Token.Lockable: {
-				const damSupply = getBNPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false);
+				const damSupply = formatBigIntPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false);
 				return (
 					<>
 						{' '}
@@ -60,7 +60,7 @@ const LockedLiquidityCard: React.FC = () => {
 				);
 			}
 			case Token.Mintable: {
-				const fluxSupply = getBNPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false);
+				const fluxSupply = formatBigIntPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false);
 				return (
 					<>
 						{' '}
@@ -82,7 +82,7 @@ const LockedLiquidityCard: React.FC = () => {
 				title={`Perma-Locked Liquidity:`}
 				main={
 					<>
-						{BNToDecimal(permaLockedMintableToken, true, 18, 2)} {mintableTokenShortName}
+						{formatBigInt(permaLockedMintableToken, true, 18, 2)} {mintableTokenShortName}
 					</>
 				}
 				sub={<>{fluxEthUsdcLiquidity}</>}
@@ -98,7 +98,7 @@ const LockedLiquidityCard: React.FC = () => {
 		return (
 			<DetailedListItem
 				title={`Perma-Locked ETH:`}
-				main={<>{BNToDecimal(permaLockedEth, true, 18, 2)} ETH</>}
+				main={<>{formatBigInt(permaLockedEth, true, 18, 2)} ETH</>}
 				sub={<>{fluxEthUsdcLiquidity}</>}
 				buttons={[]}
 			/>

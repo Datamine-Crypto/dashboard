@@ -14,7 +14,7 @@ import React from 'react';
 import { Settings } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/app/configs/config';
 
-import { BNToDecimal } from '@/utils/mathHelpers';
+import { formatBigInt } from '@/utils/mathHelpers';
 import { useAppStore } from '@/react/utils/appStore';
 
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -117,7 +117,7 @@ const MintSettingsDialog: React.FC = () => {
 					<Box my={1}>
 						Current Balance:{' '}
 						<Box display="inline" fontWeight="fontWeightBold">
-							{BNToDecimal(balances.fluxToken, true)} {mintableTokenShortName}
+							{formatBigInt(balances.fluxToken, true)} {mintableTokenShortName}
 						</Box>
 					</Box>
 					<Box my={3}>

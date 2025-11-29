@@ -10,7 +10,7 @@ import { OpenInNew, Stop, Whatshot, Settings } from '@mui/icons-material';
 // Interfaces for dialog types, Flux address details, lock, token details, and token enum
 import { DialogType, Token } from '@/app/interfaces';
 // Helper functions for decimal conversion, burn ratio calculation, and price toggling
-import { BNToDecimal, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers';
+import { formatBigInt, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers';
 // Styling utility from tss-react
 import { tss } from 'tss-react/mui';
 // Ecosystem configuration getter
@@ -170,7 +170,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 		const getFluxAmount = () => {
 			return (
 				<>
-					{BNToDecimal(balances.fluxToken, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
+					{formatBigInt(balances.fluxToken, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
 				</>
 			);
 		};
@@ -194,7 +194,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 		const getDamBalance = () => {
 			return (
 				<>
-					{BNToDecimal(balances.damToken, true, 18, 2)} {lockableTokenShortName}
+					{formatBigInt(balances.damToken, true, 18, 2)} {lockableTokenShortName}
 				</>
 			);
 		};
@@ -272,7 +272,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 		const getLockedInAmount = () => {
 			return (
 				<>
-					{BNToDecimal(addressLock.amount, true, 18, 4)} {lockableTokenShortName}
+					{formatBigInt(addressLock.amount, true, 18, 4)} {lockableTokenShortName}
 				</>
 			);
 		};
@@ -302,7 +302,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 		const getFluxBurnedBalance = () => {
 			return (
 				<>
-					{BNToDecimal(addressLock.burnedAmount, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
+					{formatBigInt(addressLock.burnedAmount, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
 				</>
 			);
 		};

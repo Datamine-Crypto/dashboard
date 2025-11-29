@@ -167,7 +167,7 @@ const bigDecimalDividor = new Big(10).pow(18);
  * @param {boolean} [shouldAdd=true] - If true, calculates percentage of `bnA / (bnA + bnB)`; otherwise, `bnA / bnB`.
  * @returns {string} The calculated percentage as a string, formatted to two decimal places.
  */
-export const getBNPercent = (bnA: bigint, bnB: bigint, shouldAdd = true) => {
+export const formatBigIntPercent = (bnA: bigint, bnB: bigint, shouldAdd = true) => {
 	if (bnB === 0n || bnA === 0n) {
 		return '0.00';
 	}
@@ -177,12 +177,16 @@ export const getBNPercent = (bnA: bigint, bnB: bigint, shouldAdd = true) => {
 };
 
 /**
- * Converts a decimal string representation of a number into a BN (BigNumber) instance,
+ * Converts a decimal string representation of a number into a BigInt instance,
  * scaling it by 10^18 (common for ERC-20 tokens).
  * @param {string} unformattedInput - The decimal string to convert (e.g., "1.3").
  * @returns {bigint} The converted BigInt.
  */
-export const parseBN = (unformattedInput: string) => {
+export const parseBigInt = (unformattedInput?: string | null) => {
+	if (!unformattedInput) {
+		throw new Error('Invalid input');
+	}
+
 	// Remove commas if present
 	const cleanInput = unformattedInput.replace(/,/g, '');
 	return parseUnits(cleanInput, 18);
@@ -196,8 +200,8 @@ export const parseBN = (unformattedInput: string) => {
  * @param {number} [round=0] - The number of decimal places to round the final output to.
  * @returns {string | null} The converted decimal string, or null if the input number is null.
  */
-export const BNToDecimal = (number: bigint | null, addCommas = false, decimals = 18, round = 0) => {
-	if (number === null || number === undefined) {
+export const formatBigInt = (number?: bigint | null, addCommas = false, decimals = 18, round = 0) => {
+	if (!number) {
 		return null;
 	}
 
@@ -231,7 +235,7 @@ export const BNToDecimal = (number: bigint | null, addCommas = false, decimals =
 export const getBurnRatio = (ratio: bigint, ecosystem: Ecosystem) => {
 	const { mintableTokenShortName, lockableTokenShortName } = getEcosystemConfig(ecosystem);
 
-	return `${BNToDecimal(ratio, true, 10, 5)} ${mintableTokenShortName} / 1 ${lockableTokenShortName}`;
+	return `${formatBigInt(ratio, true, 10, 5)} ${mintableTokenShortName} / 1 ${lockableTokenShortName}`;
 };
 
 /**
@@ -429,7 +433,7 @@ export const getRequiredFluxToBurn = ({
 	const fluxRequiredBn = fluxRequired.abs().round(0).toFixed();
 	const fluxRequiredBigInt = BigInt(fluxRequiredBn);
 
-	const fluxRequiredToBurn = BNToDecimal(fluxRequiredBigInt, true, 18, mintableTokenPriceDecimals);
+	const fluxRequiredToBurn = formatBigInt(fluxRequiredBigInt, true, 18, mintableTokenPriceDecimals);
 
 	const fluxRequiredToBurnInUsdc = `$ ${getPriceToggle({ value: fluxRequiredBigInt, inputToken: Token.Mintable, outputToken: Token.USDC, balances })} USD`;
 

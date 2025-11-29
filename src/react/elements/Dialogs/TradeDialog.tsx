@@ -30,7 +30,7 @@ import uniswap from '@/react/svgs/uniswap.svg';
 import { Token } from '@/app/interfaces';
 import { availableSwapTokens } from '@/web3/swap/performSwap';
 import { SwapOperation, SwapToken, SwapTokenDetails, SwapTokenWithAmount } from '@/web3/swap/swapOptions';
-import { BNToDecimal, getPriceToggle, parseBN } from '@/utils/mathHelpers';
+import { formatBigInt, getPriceToggle, parseBigInt } from '@/utils/mathHelpers';
 import { switchNetwork } from '@/web3/utils/web3Helpers';
 import { useAppStore } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -265,7 +265,7 @@ const TradeDialog: React.FC = () => {
 					<Grid>
 						{getIcon(SwapToken.FLUX)}{' '}
 						<>
-							{BNToDecimal(balance, true, 18, 18)} {mintableTokenShortName}
+							{formatBigInt(balance, true, 18, 18)} {mintableTokenShortName}
 						</>
 						{' / '}${' '}
 						{getPriceToggle({ value: balance, inputToken: token, outputToken: Token.USDC, balances, round: 2 })} USD
@@ -287,7 +287,7 @@ const TradeDialog: React.FC = () => {
 					<Grid>
 						{getIcon(SwapToken.ArbiFLUX)}{' '}
 						<>
-							{BNToDecimal(balance, true, 18, 18)} {SwapToken.ArbiFLUX}
+							{formatBigInt(balance, true, 18, 18)} {SwapToken.ArbiFLUX}
 						</>
 						{' / '}${' '}
 						{getPriceToggle({ value: balance, inputToken: token, outputToken: Token.USDC, balances, round: 2 })} USD
@@ -309,7 +309,7 @@ const TradeDialog: React.FC = () => {
 					<Grid>
 						{getIcon(SwapToken.LOCK)}{' '}
 						<>
-							{BNToDecimal(balance, true, 18, 18)} {SwapToken.LOCK}
+							{formatBigInt(balance, true, 18, 18)} {SwapToken.LOCK}
 						</>
 						{' / '}${' '}
 						{getPriceToggle({
@@ -335,7 +335,7 @@ const TradeDialog: React.FC = () => {
 					<Grid>
 						{getIcon(SwapToken.DAM)}{' '}
 						<>
-							{BNToDecimal(balance, true, 18, 18)} {lockableTokenShortName}
+							{formatBigInt(balance, true, 18, 18)} {lockableTokenShortName}
 						</>
 						{' / '}${' '}
 						{getPriceToggle({
@@ -356,7 +356,7 @@ const TradeDialog: React.FC = () => {
 				}
 				return (
 					<Grid>
-						{getIcon(SwapToken.ETH)} <>{BNToDecimal(balance, true, 18, 18)} ETH</>
+						{getIcon(SwapToken.ETH)} <>{formatBigInt(balance, true, 18, 18)} ETH</>
 						{' / '}${' '}
 						{getPriceToggle({
 							value: balance ?? 0n,
@@ -433,9 +433,9 @@ const TradeDialog: React.FC = () => {
 			if (!balances) {
 				return baseLabel;
 			}
-			// We'll be trying to parse BN so try/catch to default back to a non-USD number on error
+			// We'll be trying to parse BigInt so try/catch to default back to a non-USD number on error
 			try {
-				const parsedAmount = parseBN(swapTokenWithAmount.amount);
+				const parsedAmount = parseBigInt(swapTokenWithAmount?.amount);
 				const usdPrice = getPriceToggle({
 					value: parsedAmount,
 					inputToken: getToken(swapTokenWithAmount.swapToken),

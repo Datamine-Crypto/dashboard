@@ -5,7 +5,7 @@ import { useAppStore } from '@/react/utils/appStore';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Layer } from '@/app/configs/config.common';
 import { Token } from '@/app/interfaces';
-import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers';
+import { formatBigInt, formatBigIntPercent, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers';
 import DetailedListItem from '@/react/elements/Fragments/DetailedListItem';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -33,7 +33,7 @@ const GlobalCard: React.FC = () => {
 	};
 
 	const getBurnPercent = () => {
-		const burnPercent = getBNPercent(addressDetails.globalBurnedAmount, balances.fluxTotalSupply, false);
+		const burnPercent = formatBigIntPercent(addressDetails.globalBurnedAmount, balances.fluxTotalSupply, false);
 		return (
 			<>
 				({burnPercent}% of minted {mintableTokenShortName})
@@ -48,7 +48,7 @@ const GlobalCard: React.FC = () => {
 				title={`${mintableTokenShortName} Current Supply:`}
 				main={
 					<>
-						{BNToDecimal(balances.fluxTotalSupply, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
+						{formatBigInt(balances.fluxTotalSupply, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
 					</>
 				}
 				sub={<>{balanceInUsdc}</>}
@@ -62,7 +62,7 @@ const GlobalCard: React.FC = () => {
 				title={`${mintableTokenShortName} Burned:`}
 				main={
 					<>
-						{BNToDecimal(addressDetails.globalBurnedAmount, true, 18, mintableTokenPriceDecimals)}{' '}
+						{formatBigInt(addressDetails.globalBurnedAmount, true, 18, mintableTokenPriceDecimals)}{' '}
 						{mintableTokenShortName}
 					</>
 				}
@@ -77,7 +77,7 @@ const GlobalCard: React.FC = () => {
 	};
 
 	const getDamLockedIn = () => {
-		const lockedPercent = getBNPercent(addressDetails.globalLockedAmount, balances.damTotalSupply, false);
+		const lockedPercent = formatBigIntPercent(addressDetails.globalLockedAmount, balances.damTotalSupply, false);
 		const getLockedPercent = () => {
 			const balanceInUsdc = `$ ${getPriceToggle({ value: addressDetails.globalLockedAmount, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 			return <>{balanceInUsdc}</>;
@@ -87,7 +87,7 @@ const GlobalCard: React.FC = () => {
 				title={`${lockableTokenShortName} Powering Validators:`}
 				main={
 					<>
-						{BNToDecimal(addressDetails.globalLockedAmount, true, 18, 2)} {lockableTokenShortName}
+						{formatBigInt(addressDetails.globalLockedAmount, true, 18, 2)} {lockableTokenShortName}
 					</>
 				}
 				sub={<>{getLockedPercent()}</>}

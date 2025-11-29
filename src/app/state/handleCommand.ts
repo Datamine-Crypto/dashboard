@@ -7,7 +7,7 @@ import copyToClipBoard from '@/utils/copyToClipboard';
 import { devLog } from '@/utils/devLog';
 import { availableSwapTokens } from '@/web3/swap/performSwap';
 import { SwapOperation, SwapToken } from '@/web3/swap/swapOptions';
-import { BNToDecimal, getPriceToggle, parseBN } from '@/utils/mathHelpers';
+import { formatBigInt, getPriceToggle, parseBigInt } from '@/utils/mathHelpers';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { AppState } from '@/app/state/initialState';
 import { DialogType, Token } from '@/app/interfaces';
@@ -69,13 +69,13 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 
 		switch (swapToken) {
 			case SwapToken.LOCK:
-				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.LOCK] ?? null);
+				return formatBigInt(state.swapTokenBalances[Layer.Layer2][SwapToken.LOCK] ?? null);
 			case SwapToken.FLUX:
-				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.FLUX] ?? null);
+				return formatBigInt(state.swapTokenBalances[Layer.Layer2][SwapToken.FLUX] ?? null);
 			case SwapToken.ArbiFLUX:
-				return BNToDecimal(state.swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX] ?? null);
+				return formatBigInt(state.swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX] ?? null);
 			case SwapToken.ETH:
-				return BNToDecimal(state.balances?.eth ?? null);
+				return formatBigInt(state.balances?.eth ?? null);
 		}
 	};
 	const getFlipSwapState = () => {
@@ -550,7 +550,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			try {
 				const { amount, minterAddress } = command.payload;
 
-				const amountBN = parseBN(amount);
+				const amountBigInt = parseBigInt(amount);
 
 				return {
 					...state,
@@ -558,7 +558,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...withQueries([
 						{
 							type: commonLanguage.queries.Flux.GetLockInDamTokensResponse,
-							payload: { amount: amountBN, minterAddress },
+							payload: { amount: amountBigInt, minterAddress },
 						},
 					]),
 				};
@@ -649,13 +649,13 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			const { amount, address } = command.payload;
 
 			try {
-				const amountBN = parseBN(amount);
+				const amountBigInt = parseBigInt(amount);
 
 				return {
 					...state,
 					error: null,
 					...withQueries([
-						{ type: commonLanguage.queries.Flux.GetBurnResponse, payload: { amount: amountBN, address } },
+						{ type: commonLanguage.queries.Flux.GetBurnResponse, payload: { amount: amountBigInt, address } },
 					]),
 				};
 			} catch (err) {
@@ -765,13 +765,13 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			const { amount, address } = command.payload;
 
 			try {
-				const amountBN = parseBN(amount);
+				const amountBigInt = parseBigInt(amount);
 
 				/*if (!state.marketAddressLock) {
 					return state;
 				}*/
 
-				if (amountBN <= 0n) {
+				if (amountBigInt <= 0n) {
 					throw new Error(commonLanguage.errors.MustExceedZero);
 				}
 
@@ -779,7 +779,10 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...state,
 					error: null,
 					...withQueries([
-						{ type: commonLanguage.queries.Market.GetDepositMarketResponse, payload: { amount: amountBN, address } },
+						{
+							type: commonLanguage.queries.Market.GetDepositMarketResponse,
+							payload: { amount: amountBigInt, address },
+						},
 					]),
 				};
 			} catch (err: any) {

@@ -14,7 +14,7 @@ import React from 'react';
 import { Whatshot } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/app/configs/config';
 
-import { BNToDecimal } from '@/utils/mathHelpers';
+import { formatBigInt } from '@/utils/mathHelpers';
 import { useAppStore } from '@/react/utils/appStore';
 
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -39,7 +39,7 @@ const BurnDialog: React.FC = () => {
 		}))
 	);
 
-	const total = BNToDecimal(balances?.fluxToken ?? null);
+	const total = formatBigInt(balances?.fluxToken ?? null);
 	const [amount, setAmount] = React.useState(total);
 	const [targetAddress, setTargetAddress] = React.useState(selectedAddress || '');
 
@@ -122,7 +122,7 @@ const BurnDialog: React.FC = () => {
 					<Box my={1}>
 						Current Balance:{' '}
 						<Box display="inline" fontWeight="fontWeightBold">
-							{BNToDecimal(balances.fluxToken, true)} {mintableTokenShortName}
+							{formatBigInt(balances.fluxToken, true)} {mintableTokenShortName}
 						</Box>
 					</Box>
 					<Box my={3}>

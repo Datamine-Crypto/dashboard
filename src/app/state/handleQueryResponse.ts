@@ -4,7 +4,7 @@ import { Gem } from '@/react/elements/Fragments/DatamineGemsGame';
 import { ReducerQueryHandler } from '@/utils/reducer/sideEffectReducer';
 import { devLog } from '@/utils/devLog';
 import { SwapQuote } from '@/web3/swap/swapOptions';
-import { BNToDecimal } from '@/utils/mathHelpers';
+import { formatBigInt } from '@/utils/mathHelpers';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { AppState } from '@/app/state/initialState';
 import { createWithWithQueries } from '@/utils/reducer/reducerHelpers';
@@ -378,12 +378,11 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 			devLog('swapQuote:', swapQuote);
 			return {
 				...state,
-				//BNToDecimal(
 				swapState: {
 					...state.swapState,
 					output: {
 						...state.swapState.output,
-						amount: `${BNToDecimal(BigInt(swapQuote.out.minAmount))}`,
+						amount: `${formatBigInt(BigInt(swapQuote.out.minAmount))}`,
 					},
 				},
 			};

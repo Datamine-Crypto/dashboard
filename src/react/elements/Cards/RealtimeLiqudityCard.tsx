@@ -8,7 +8,7 @@ import { Layer, LiquidityPoolType } from '@/app/configs/config.common';
 import sushiSwapLogo from '@/react/svgs/sushiSwap.svg';
 import uniswap from '@/react/svgs/uniswap.svg';
 import { Token } from '@/app/interfaces';
-import { BNToDecimal, getBNPercent, getPriceToggle } from '@/utils/mathHelpers';
+import { formatBigInt, formatBigIntPercent, getPriceToggle } from '@/utils/mathHelpers';
 import DetailedListItem from '@/react/elements/Fragments/DetailedListItem';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/react/elements/Fragments/ExploreLiquidityPools';
 import LightTooltip from '@/react/elements/LightTooltip';
@@ -42,7 +42,7 @@ const RealtimeLiqudityCard: React.FC = () => {
 	const getAvailableLiquidity = (token: Token) => {
 		switch (token) {
 			case Token.Lockable: {
-				const damSupply = getBNPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false);
+				const damSupply = formatBigIntPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false);
 				return (
 					<>
 						{' '}
@@ -53,7 +53,7 @@ const RealtimeLiqudityCard: React.FC = () => {
 				);
 			}
 			case Token.Mintable: {
-				const fluxSupply = getBNPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false);
+				const fluxSupply = formatBigIntPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false);
 				return (
 					<>
 						{' '}
@@ -142,7 +142,7 @@ const RealtimeLiqudityCard: React.FC = () => {
 				title={`${lockableTokenShortName} Available ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Liquidity :`}
 				main={
 					<>
-						{BNToDecimal(uniswapDamTokenReserves.dam, true, 18, 2)} {lockableTokenShortName}
+						{formatBigInt(uniswapDamTokenReserves.dam, true, 18, 2)} {lockableTokenShortName}
 					</>
 				}
 				sub={<>{damEthUsdcLiquidity}</>}
@@ -157,7 +157,7 @@ const RealtimeLiqudityCard: React.FC = () => {
 		return (
 			<DetailedListItem
 				title={`${lockableTokenShortName} ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
-				main={<>{BNToDecimal(uniswapDamTokenReserves.eth, true, 18, 2)} ETH</>}
+				main={<>{formatBigInt(uniswapDamTokenReserves.eth, true, 18, 2)} ETH</>}
 				sub={<>{damEthUsdcLiquidity}</>}
 			/>
 		);
@@ -215,7 +215,7 @@ const RealtimeLiqudityCard: React.FC = () => {
 				title={`${mintableTokenShortName} Available ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Liquidity:`}
 				main={
 					<>
-						{BNToDecimal(uniswapFluxTokenReserves.flux, true, 18, 2)} {mintableTokenShortName}
+						{formatBigInt(uniswapFluxTokenReserves.flux, true, 18, 2)} {mintableTokenShortName}
 					</>
 				}
 				sub={<>{fluxEthUsdcLiquidity}</>}
@@ -268,7 +268,7 @@ const RealtimeLiqudityCard: React.FC = () => {
 		return (
 			<DetailedListItem
 				title={`${mintableTokenShortName} / ETH ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
-				main={<>{BNToDecimal(uniswapFluxTokenReserves.eth, true, 18, 2)} ETH</>}
+				main={<>{formatBigInt(uniswapFluxTokenReserves.eth, true, 18, 2)} ETH</>}
 				sub={<>{fluxEthUsdcLiquidity}</>}
 				buttons={[getPoolButton()]}
 			/>

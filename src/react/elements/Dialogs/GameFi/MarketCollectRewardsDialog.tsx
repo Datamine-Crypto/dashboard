@@ -17,7 +17,7 @@ import { Diamond, ImportExport, Mouse } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/app/configs/config';
 
 import { DialogType, Game, Token } from '@/app/interfaces';
-import { BNToDecimal, getPriceToggle } from '@/utils/mathHelpers';
+import { formatBigInt, getPriceToggle } from '@/utils/mathHelpers';
 import { useAppStore } from '@/react/utils/appStore';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
 
@@ -216,15 +216,15 @@ const MarketCollectRewardsDialog: React.FC = () => {
 					return ': This address is not paricipating in public minting.';
 				}
 			};
-			const amountBN = address.mintAmount;
+			const amountBigInt = address.mintAmount;
 			const getAmountReceived = (): bigint => {
 				const rewardsPercent = address.rewardsPercent === 0 ? 500 : address.rewardsPercent;
-				const rewardsAmount = amountBN + (amountBN * BigInt(rewardsPercent)) / 10000n;
+				const rewardsAmount = amountBigInt + (amountBigInt * BigInt(rewardsPercent)) / 10000n;
 				return rewardsAmount;
 			};
 			const amountReceived = getAmountReceived();
 			const balanceInUsdc = getPriceToggle({
-				value: amountReceived - amountBN,
+				value: amountReceived - amountBigInt,
 				inputToken: Token.Mintable,
 				outputToken: Token.USDC,
 				balances,
@@ -341,7 +341,7 @@ const MarketCollectRewardsDialog: React.FC = () => {
 				<Box my={1}>
 					{game === Game.HodlClicker ? 'Staked Game' : 'Game'} Balance:{' '}
 					<Typography variant="body2" display="inline" color="textSecondary">
-						$ {balanceInUsdc} ( {BNToDecimal(rewardsAmount, true, 18, 6)} {mintableTokenShortName} )
+						$ {balanceInUsdc} ( {formatBigInt(rewardsAmount, true, 18, 6)} {mintableTokenShortName} )
 					</Typography>
 				</Box>
 			</>

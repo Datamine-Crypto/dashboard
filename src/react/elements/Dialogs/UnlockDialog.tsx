@@ -18,7 +18,7 @@ import { getEcosystemConfig as getConfig } from '@/app/configs/config';
 import { Token } from '@/app/interfaces';
 import { theme } from '@/react/utils/theme';
 import { formatMoney } from '@/utils/formatMoney';
-import { BNToDecimal, getFormattedMultiplier, getPriceToggle } from '@/utils/mathHelpers';
+import { formatBigInt, getFormattedMultiplier, getPriceToggle } from '@/utils/mathHelpers';
 import MessageDialog from '@/react/elements/Dialogs/MessageDialog';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
@@ -42,7 +42,7 @@ const UnlockDialog: React.FC = () => {
 		}))
 	);
 
-	const amount = BNToDecimal(addressLock?.amount ?? null);
+	const amount = formatBigInt(addressLock?.amount ?? null);
 	if (!addressDetails) {
 		return null;
 	}

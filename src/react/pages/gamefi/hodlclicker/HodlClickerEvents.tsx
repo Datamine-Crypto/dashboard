@@ -169,10 +169,10 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 			const recentLogs = logs.slice(0, 50);
 
 			const totalJackpotUSD = recentLogs.reduce((acc, log) => {
-				const jackpotBN = log.args.jackpotAmount;
+				const jackpotBigInt = log.args.jackpotAmount;
 				const jackpotUSD = parseFloat(
 					getPriceToggle({
-						value: jackpotBN,
+						value: jackpotBigInt,
 						inputToken: Token.Mintable,
 						outputToken: Token.USDC,
 						balances,
@@ -208,11 +208,11 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 				buckets[hourTimestamp] = { burnedUSD: 0, txCount: 0 };
 			}
 
-			const burnedBN = log.args.amountActuallyBurned;
+			const burnedBigInt = log.args.amountActuallyBurned;
 			let burnedUSD = 0;
 			if (balances) {
 				const usdStr = getPriceToggle({
-					value: burnedBN,
+					value: burnedBigInt,
 					inputToken: Token.Mintable,
 					outputToken: Token.USDC,
 					balances,

@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, Divider, Typography } from '@mui/materi
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useAppStore } from '@/react/utils/appStore';
-import { BNToDecimal, getBlocksRemaining } from '@/utils/mathHelpers';
+import { formatBigInt, getBlocksRemaining } from '@/utils/mathHelpers';
 
 import { DialogType } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -51,7 +51,7 @@ const MintStatsCard: React.FC = () => {
 	};
 
 	const getLockedInAmount = () => {
-		return `${BNToDecimal(addressLock.amount, true)} DAM`;
+		return `${formatBigInt(addressLock.amount, true)} DAM`;
 	};
 
 	const getDamLockedInHeader = () => {

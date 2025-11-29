@@ -18,7 +18,7 @@ import React from 'react';
 import { ImportExport } from '@mui/icons-material';
 
 import { getEcosystemConfig } from '@/app/configs/config';
-import { BNToDecimal } from '@/utils/mathHelpers';
+import { formatBigInt } from '@/utils/mathHelpers';
 import { useAppStore } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { Game } from '@/app/interfaces';
@@ -53,7 +53,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 				)
 			: null;
 
-	const total = BNToDecimal(currentAddressMintableBalance);
+	const total = formatBigInt(currentAddressMintableBalance);
 	const { mintableTokenShortName } = getEcosystemConfig(ecosystem);
 
 	// Local state
@@ -174,7 +174,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 						</Typography>
 						:{' '}
 						<Box display="inline" fontWeight="fontWeightBold">
-							{BNToDecimal(currentAddressMintableBalance, true)} {mintableTokenShortName}
+							{formatBigInt(currentAddressMintableBalance, true)} {mintableTokenShortName}
 						</Box>
 					</Box>
 					<Box my={1}>
@@ -184,7 +184,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 						</Typography>
 						:{' '}
 						<Box display="inline" fontWeight="fontWeightBold">
-							{BNToDecimal(rewardsAmount, true)} {mintableTokenShortName}
+							{formatBigInt(rewardsAmount, true)} {mintableTokenShortName}
 						</Box>
 					</Box>
 					<Box my={2}>

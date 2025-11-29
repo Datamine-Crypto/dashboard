@@ -187,15 +187,15 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 			// We need 'balances' to calculate USD value.
 			if (!balances) return;
 
-			const amountBN = addr.mintAmount;
+			const amountBigInt = addr.mintAmount;
 			const rewardsPercent = addr.rewardsPercent === 0 ? 500 : addr.rewardsPercent;
-			const rewardsAmount = amountBN + (amountBN * BigInt(rewardsPercent)) / 10000n;
+			const rewardsAmount = amountBigInt + (amountBigInt * BigInt(rewardsPercent)) / 10000n;
 			// For HodlClicker (Game 2), dollar amount is divided by 2?
 			// In MarketCollectRewardsDialog: dollarAmount: parseFloat(balanceInUsdc) / (game === Game.DatamineGems ? 1 : 2)
 			// So for HodlClicker it is / 2.
 
 			const balanceInUsdc = getPriceToggle({
-				value: rewardsAmount - amountBN,
+				value: rewardsAmount - amountBigInt,
 				inputToken: Token.Mintable,
 				outputToken: Token.USDC,
 				balances,
@@ -251,11 +251,11 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 
 		return [...filteredAddresses].sort((a, b) => {
 			const getDollarAmount = (addr: AddressLockDetailsViewModel) => {
-				const amountBN = addr.mintAmount;
+				const amountBigInt = addr.mintAmount;
 				const rewardsPercent = addr.rewardsPercent === 0 ? 500 : addr.rewardsPercent;
-				const rewardsAmount = amountBN + (amountBN * BigInt(rewardsPercent)) / 10000n;
+				const rewardsAmount = amountBigInt + (amountBigInt * BigInt(rewardsPercent)) / 10000n;
 				const balanceInUsdc = getPriceToggle({
-					value: rewardsAmount - amountBN,
+					value: rewardsAmount - amountBigInt,
 					inputToken: Token.Mintable,
 					outputToken: Token.USDC,
 					balances,

@@ -14,7 +14,7 @@ import { useAppStore } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { Redeem } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/app/configs/config';
-import { BNToDecimal } from '@/utils/mathHelpers';
+import { formatBigInt } from '@/utils/mathHelpers';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
 import MessageDialog from '@/react/elements/Dialogs/MessageDialog';
@@ -84,7 +84,7 @@ const MintDialog: React.FC = () => {
 					<Box my={1}>
 						Total Yield: ~
 						<Box display="inline" fontWeight="fontWeightBold">
-							{BNToDecimal(addressDetails.mintAmount, true)} {mintableTokenShortName}
+							{formatBigInt(addressDetails.mintAmount, true)} {mintableTokenShortName}
 						</Box>
 					</Box>
 					<Box my={3}>

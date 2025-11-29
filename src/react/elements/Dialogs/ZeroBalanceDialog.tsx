@@ -5,7 +5,7 @@ import { getEcosystemConfig as getConfig } from '@/app/configs/config';
 import { Layer } from '@/app/configs/config.common';
 import { DialogType } from '@/app/interfaces';
 
-import { BNToDecimal } from '@/utils/mathHelpers';
+import { formatBigInt } from '@/utils/mathHelpers';
 import { useAppStore } from '@/react/utils/appStore';
 
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -67,7 +67,7 @@ const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
 			if (!damToken) {
 				return '0 DAM';
 			}
-			return `${BNToDecimal(damToken, true)} ${lockableTokenShortName}`;
+			return `${formatBigInt(damToken, true)} ${lockableTokenShortName}`;
 		};
 		switch (dialogType) {
 			case DialogType.ZeroDam:

@@ -49,7 +49,7 @@ import { formatMoney } from '@/utils/formatMoney';
 import { getApy, TokenPair } from '@/utils/getApy';
 import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '@/utils/mathHelpers';
 import {
-	BNToDecimal,
+	formatBigInt,
 	getBlocksRemaining,
 	getFormattedMultiplier,
 	getPriceToggle,
@@ -64,6 +64,11 @@ import { dispatch as appDispatch } from '@/react/utils/appStore';
 import { LocalizationProviderProps } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePickerProps } from '@mui/x-date-pickers/MobileDatePicker';
 import { AdapterDayjs as AdapterDayjsType } from '@mui/x-date-pickers/AdapterDayjs';
+
+interface PoolReserves {
+	Reserve0: string;
+	Reserve1: string;
+}
 
 const useStyles = tss.create(({ theme }) => ({
 	progressBarLeft: {
@@ -235,7 +240,7 @@ const CallToActionCard: React.FC = () => {
 	const removeAutocompleteProps = {
 		'data-lpignore': 'true',
 		'data-form-type': 'other',
-		autocomplete: 'off',
+		autoComplete: 'off',
 	};
 
 	if (!addressLock || !selectedAddress || !addressDetails || !addressTokenDetails || !balances || !connectionMethod) {
@@ -287,7 +292,7 @@ const CallToActionCard: React.FC = () => {
 								</>
 							);
 						}
-						return `${BNToDecimal(amount, true)}`;
+						return `${formatBigInt(amount, true)}`;
 					};
 					const getUnmintedBlocks = () => {
 						if (forecastSettings.enabled) {
@@ -536,12 +541,10 @@ const CallToActionCard: React.FC = () => {
 														type="text"
 														name="startBlocks"
 														size="small"
-														inputProps={
-															{
-																...props.inputProps,
-																...removeAutocompleteProps,
-															} as any
-														}
+														inputProps={{
+															...props.inputProps,
+															...removeAutocompleteProps,
+														}}
 													/>
 												),
 											}}
@@ -638,7 +641,7 @@ const CallToActionCard: React.FC = () => {
 														type="text"
 														name="endBlocks"
 														size="small"
-														inputProps={{ ...props.inputProps, ...removeAutocompleteProps } as any}
+														inputProps={{ ...props.inputProps, ...removeAutocompleteProps }}
 													/>
 												),
 											}}
@@ -686,7 +689,7 @@ const CallToActionCard: React.FC = () => {
 									className={classes.largeSlider}
 									min={10000 * minBurnMultiplier}
 									max={10000 * maxBurnMultiplier}
-									onChange={(event: any, newValue: number | number[]) => {
+									onChange={(event: Event, newValue: number | number[]) => {
 										dispatch({ type: commonLanguage.commands.Forecasting.SetBurn, payload: newValue as number });
 									}}
 								/>
@@ -738,7 +741,7 @@ const CallToActionCard: React.FC = () => {
 									className={classes.largeSlider}
 									min={10000}
 									max={30000}
-									onChange={(event: any, newValue: number | number[]) => {
+									onChange={(event: Event, newValue: number | number[]) => {
 										dispatch({ type: commonLanguage.commands.Forecasting.SetTime, payload: newValue as number });
 									}}
 								/>
@@ -971,7 +974,7 @@ const CallToActionCard: React.FC = () => {
 						) {
 							return null;
 						}
-						const apyPools = new Map<TokenPair, any>();
+						const apyPools = new Map<TokenPair, PoolReserves>();
 						apyPools.set(TokenPair.DAM_ETH, {
 							Reserve0: balances.uniswapDamTokenReserves.eth.toString(),
 							Reserve1: balances.uniswapDamTokenReserves.dam.toString(),
@@ -1067,7 +1070,7 @@ const CallToActionCard: React.FC = () => {
 									<Box display="inline-block" mb={1}>
 										<Box mb={1}>
 											<Typography component="div" color="textSecondary">
-												= {`${BNToDecimal(getMintAmount(), true)} ${mintableTokenShortName}`}
+												= {`${formatBigInt(getMintAmount(), true)} ${mintableTokenShortName}`}
 											</Typography>
 										</Box>
 										{getBottomRightText()}

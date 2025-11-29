@@ -142,11 +142,11 @@ const HodlClickerFaucets: React.FC<HodlClickerFaucetsProps> = ({
 
 					return sortedMarketAddresses.map((addr, index) => {
 						if (!balances) return null;
-						const amountBN = addr.mintAmount;
+						const amountBigInt = addr.mintAmount;
 						const rewardsPercent = addr.rewardsPercent === 0 ? 500 : addr.rewardsPercent;
-						const rewardsAmount = amountBN + (amountBN * BigInt(rewardsPercent)) / 10000n;
+						const rewardsAmount = amountBigInt + (amountBigInt * BigInt(rewardsPercent)) / 10000n;
 						const balanceInUsdc = getPriceToggle({
-							value: rewardsAmount - amountBN,
+							value: rewardsAmount - amountBigInt,
 							inputToken: Token.Mintable,
 							outputToken: Token.USDC,
 							balances,

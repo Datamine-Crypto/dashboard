@@ -4,7 +4,7 @@
  */
 
 import Big from 'big.js';
-import { parseBN } from '@/utils/mathHelpers';
+import { parseBigInt } from '@/utils/mathHelpers';
 import { getGasFees } from '@/web3/utils/web3Helpers';
 import { availableSwapTokens } from '@/web3/swap/performSwap';
 import { SwapOptions, SwapPlatformOptions, SwapQuote, SwapToken, SwapTokenDetails } from '@/web3/swap/swapOptions';
@@ -77,7 +77,7 @@ export const performSwapUniswapV2 = async (
 			})
 		: undefined;
 
-	const amountIn = parseBN(inputToken.amount).toString();
+	const amountIn = parseBigInt(inputToken.amount).toString();
 
 	const slippageTolerance = localConfig.slippage; // 1% slippage tolerance
 
