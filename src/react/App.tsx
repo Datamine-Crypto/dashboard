@@ -21,7 +21,7 @@ const CenteredLoading = lazy(() => import('@/react/elements/Fragments/CenteredLo
  */
 function App() {
 	return (
-		<React.Fragment>
+		<React.StrictMode>
 			{/* CssBaseline provides a consistent baseline for Material-UI components */}
 			<CssBaseline />
 			{/* ThemeProvider applies the custom Material-UI theme to the application */}
@@ -34,7 +34,7 @@ function App() {
 					</Suspense>
 				</ErrorBoundary>
 			</ThemeProvider>
-		</React.Fragment>
+		</React.StrictMode>
 	);
 }
 

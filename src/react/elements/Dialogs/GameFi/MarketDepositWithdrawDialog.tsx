@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { ImportExport } from '@mui/icons-material';
-// import BN from 'bn.js';
+
 import { getEcosystemConfig } from '@/app/configs/config';
 import { BNToDecimal } from '@/utils/mathHelpers';
 import { useAppStore } from '@/react/utils/appStore';
@@ -94,7 +94,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 		if (reason === 'backdropClick') {
 			return;
 		}
-		appDispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 
 	const getTokensToDepositField = () => {

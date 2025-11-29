@@ -302,7 +302,7 @@ export const MainDrawer: React.FC = () => {
 						href: button.href,
 						color: 'textPrimary',
 						onClick: () => {
-							appDispatch({ type: commonLanguage.commands.CloseDrawer });
+							appDispatch({ type: commonLanguage.commands.Drawer.Close });
 						},
 					};
 				}
@@ -320,7 +320,7 @@ export const MainDrawer: React.FC = () => {
 				return {
 					button: true,
 					onClick: () => {
-						appDispatch({ type: commonLanguage.commands.CloseDrawer });
+						appDispatch({ type: commonLanguage.commands.Drawer.Close });
 						button.onClick();
 					},
 				};
@@ -398,7 +398,7 @@ export const MainDrawer: React.FC = () => {
 		);
 	};
 	const handleDrawerToggle = () => {
-		appDispatch({ type: commonLanguage.commands.CloseDrawer });
+		appDispatch({ type: commonLanguage.commands.Drawer.Close });
 	};
 	return (
 		<nav className={classes.drawer} aria-label="mailbox folders">

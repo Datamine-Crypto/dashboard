@@ -6,7 +6,7 @@ import { getPublicClient } from '@/web3/utils/web3ProviderUtils';
 import { gameHodlClickerAbi } from '@/web3/abis/games/gameHodlClicker';
 import { Address } from 'viem';
 import { getPriceToggle } from '@/utils/mathHelpers';
-// import BN from 'bn.js';
+
 import { Diamond, AutoAwesome } from '@mui/icons-material';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { useShallow } from 'zustand/react/shallow';
@@ -96,7 +96,7 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 	};
 
 	const showDepositWithdrawDialog = () => {
-		appDispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
+		appDispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.MarketDepositWithdraw } });
 	};
 
 	// Access Market Data for "Collect All" functionality

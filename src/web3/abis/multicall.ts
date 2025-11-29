@@ -32,7 +32,7 @@ export const multicallAbi = [
 				type: 'bytes[]',
 			},
 		],
-		stateMutability: 'nonpayable',
+		stateMutability: 'view',
 		type: 'function',
 	},
 	{
@@ -85,7 +85,7 @@ export const multicallAbi = [
 				type: 'tuple[]',
 			},
 		],
-		stateMutability: 'nonpayable',
+		stateMutability: 'view',
 		type: 'function',
 	},
 	{
@@ -249,7 +249,7 @@ export const multicallAbi = [
 				type: 'tuple[]',
 			},
 		],
-		stateMutability: 'nonpayable',
+		stateMutability: 'view',
 		type: 'function',
 	},
 	{
@@ -307,7 +307,7 @@ export const multicallAbi = [
 				type: 'tuple[]',
 			},
 		],
-		stateMutability: 'nonpayable',
+		stateMutability: 'view',
 		type: 'function',
 	},
 ] as const;

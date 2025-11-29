@@ -51,14 +51,14 @@ const UnlockDialog: React.FC = () => {
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
 		appDispatch({
-			type: commonLanguage.commands.UnlockDamTokens,
+			type: commonLanguage.commands.Flux.UnlockDamTokens,
 		});
 	};
 	const onClose = () => {
-		appDispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const onCloseError = () => {
-		appDispatch({ type: commonLanguage.commands.DismissError });
+		appDispatch({ type: commonLanguage.commands.Dialog.DismissError });
 	};
 	const getAmountLostAlert = () => {
 		if (!balances) {

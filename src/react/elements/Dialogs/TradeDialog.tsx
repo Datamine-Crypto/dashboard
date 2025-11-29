@@ -17,7 +17,7 @@ import {
 import React from 'react';
 import { KeyboardArrowDown } from '@mui/icons-material';
 import { Grid } from '@mui/system';
-// import BN from 'bn.js';
+
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
@@ -97,7 +97,7 @@ const TradeDialog: React.FC = () => {
 		if (reason === 'backdropClick') {
 			return;
 		}
-		appDispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const onFlipSwap = () => {
 		appDispatch({ type: commonLanguage.commands.Swap.FlipSwap });
@@ -119,12 +119,12 @@ const TradeDialog: React.FC = () => {
 				connectionMethod,
 				targetEcosystemConfig.layer === Layer.Layer2 ? '0xa4b1' : '0x1'
 			);
-			appDispatch({ type: commonLanguage.commands.ReinitializeWeb3, payload: { targetEcosystem } });
+			appDispatch({ type: commonLanguage.commands.Web3.Reinitialize, payload: { targetEcosystem } });
 			return;
 		}
 		if (!selectedAddress) {
 			if (hasWeb3 === null) {
-				appDispatch({ type: commonLanguage.commands.Initialize, payload: { address: null } });
+				appDispatch({ type: commonLanguage.commands.Web3.Initialize, payload: { address: null } });
 			} else {
 				window.location.href = '#dashboard';
 				onClose();

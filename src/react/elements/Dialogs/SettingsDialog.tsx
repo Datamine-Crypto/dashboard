@@ -214,7 +214,7 @@ const SettingsDialog: React.FC = () => {
 
 	const { ecosystemName } = getEcosystemConfig(ecosystem);
 	const onClose = () => {
-		appDispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const getCurrencyDropdown = () => {
 		const menuItems = currencyCodes.map((currency, currencyInded) => {

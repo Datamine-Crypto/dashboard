@@ -44,7 +44,7 @@ export const findWeb3Instance = async ({ state, query, dispatch }: QueryHandler<
 		const subscribeToNetworkChanges = (dispatch: ReducerDispatch) => {
 			const reinitializeWeb3 = () => {
 				dispatch({
-					type: commonLanguage.commands.ReinitializeWeb3,
+					type: commonLanguage.commands.Web3.Reinitialize,
 					payload: { targetEcosystem: state.targetEcosystem },
 				});
 			};

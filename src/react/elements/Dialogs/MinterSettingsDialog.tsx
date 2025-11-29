@@ -64,7 +64,7 @@ const MintSettingsDialog: React.FC = () => {
 		if (reason === 'backdropClick') {
 			return;
 		}
-		appDispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const getDelegatedMinterBox = () => {
 		return (

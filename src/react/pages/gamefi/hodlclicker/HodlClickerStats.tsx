@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Card, CardContent, Typography, Grid, useTheme } from '@mui/material';
 import { Whatshot, AttachMoney, LocalGasStation } from '@mui/icons-material';
-// import BN from 'bn.js';
 
 interface HodlClickerStatsProps {
 	summary: {

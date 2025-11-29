@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Diamond, ImportExport, Mouse } from '@mui/icons-material';
-// import BN from 'bn.js';
+
 import { getEcosystemConfig } from '@/app/configs/config';
 
 import { DialogType, Game, Token } from '@/app/interfaces';
@@ -141,9 +141,9 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		e.preventDefault();
 		if (!selectedAddress) {
 			if (hasWeb3 === null) {
-				dispatch({ type: commonLanguage.commands.Initialize, payload: { address: null } });
+				dispatch({ type: commonLanguage.commands.Web3.Initialize, payload: { address: null } });
 			} else {
-				dispatch({ type: commonLanguage.commands.ConnectToWallet });
+				dispatch({ type: commonLanguage.commands.Web3.ConnectToWallet });
 			}
 			return;
 		}
@@ -152,18 +152,18 @@ const MarketCollectRewardsDialog: React.FC = () => {
 			return;
 		}
 		if (isDepositRequired) {
-			dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
+			dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.MarketDepositWithdraw } });
 		}
 	};
 	const showDepositWithdrawDialog = () => {
-		dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
+		dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.MarketDepositWithdraw } });
 	};
 	const onClose = (event: any = undefined, reason: any = undefined) => {
 		// Prevent closing by clicking outside dialog
 		if (reason === 'backdropClick') {
 			return;
 		}
-		dispatch({ type: commonLanguage.commands.CloseDialog });
+		dispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const getLearnMoreBurningLink = () => {
 		if (!isHelpPageEnabled) {
@@ -248,7 +248,7 @@ const MarketCollectRewardsDialog: React.FC = () => {
 			return false;
 		}
 		if (isDepositRequired) {
-			dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
+			dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.MarketDepositWithdraw } });
 			return false;
 		}
 		dispatch({

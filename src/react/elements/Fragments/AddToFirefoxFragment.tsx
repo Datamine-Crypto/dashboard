@@ -25,7 +25,7 @@ const AddToFirefoxFragment: React.FC = () => {
 		try {
 			addToMetamask(ecosystem);
 			appDispatch({
-				type: commonLanguage.commands.ShowDialog,
+				type: commonLanguage.commands.Dialog.Show,
 				payload: {
 					dialog: DialogType.TitleMessage,
 					dialogParams: {

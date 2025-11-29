@@ -93,7 +93,7 @@ const DamLockDialog: React.FC = () => {
 		};
 		const computedMinterAddress = getMinterAddress();
 		appDispatch({
-			type: commonLanguage.commands.LockInDamTokens,
+			type: commonLanguage.commands.Flux.LockInDamTokens,
 			payload: {
 				amount,
 				minterAddress: computedMinterAddress,
@@ -105,7 +105,7 @@ const DamLockDialog: React.FC = () => {
 		if (reason === 'backdropClick') {
 			return;
 		}
-		appDispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const getDelegatedMinterBox = () => {
 		if (minterType !== MintingAddressType.DelegatedMinter) {

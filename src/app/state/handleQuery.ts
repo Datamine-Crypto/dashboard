@@ -24,11 +24,11 @@ export const queryHandlers = {
 	 * Finds and initializes the Web3 provider (MetaMask).
 	 * It sets up listeners for account and network changes to keep the app state synced.
 	 */
-	[commonLanguage.queries.FindWeb3Instance]: findWeb3Instance,
+	[commonLanguage.queries.Web3.FindWeb3Instance]: findWeb3Instance,
 	/**
 	 * Enables the Web3 provider, requesting account access from the user if necessary.
 	 */
-	[commonLanguage.queries.EnableWeb3]: enableWeb3,
+	[commonLanguage.queries.Web3.EnableWeb3]: enableWeb3,
 
 	/**
 	 * Fetches all relevant on-chain data for the current user account in a single batch request using multicall.
@@ -38,21 +38,21 @@ export const queryHandlers = {
 	/**
 	 * Authorizes the FLUX contract to spend the user's DAM tokens.
 	 */
-	[commonLanguage.queries.GetAuthorizeFluxOperatorResponse]: getAuthorizeFluxOperatorResponse,
+	[commonLanguage.queries.Flux.GetAuthorizeOperatorResponse]: getAuthorizeFluxOperatorResponse,
 	/**
 	 * Locks a specified amount of DAM tokens to start minting FLUX.
 	 */
-	[commonLanguage.queries.GetLockInDamTokensResponse]: getLockInDamTokensResponse,
+	[commonLanguage.queries.Flux.GetLockInDamTokensResponse]: getLockInDamTokensResponse,
 	/**
 	 * Mints available FLUX tokens.
 	 */
-	[commonLanguage.queries.GetMintFluxResponse]: getMintFluxResponse,
+	[commonLanguage.queries.Flux.GetMintResponse]: getMintFluxResponse,
 
-	[commonLanguage.queries.GetSetMintSettingsResponse]: getSetMintSettingsResponse,
+	[commonLanguage.queries.Flux.GetSetMintSettingsResponse]: getSetMintSettingsResponse,
 	/**
 	 * Burns a specified amount of FLUX tokens to increase the minting multiplier.
 	 */
-	[commonLanguage.queries.GetBurnFluxResponse]: getBurnFluxResponse,
+	[commonLanguage.queries.Flux.GetBurnResponse]: getBurnFluxResponse,
 	/**
 	 * Burns tokens through the Datamine Market to collect rewards from other validators.
 	 */
@@ -72,7 +72,7 @@ export const queryHandlers = {
 	/**
 	 * Unlocks all previously locked DAM tokens.
 	 */
-	[commonLanguage.queries.GetUnlockDamTokensResponse]: getUnlockDamTokensResponse,
+	[commonLanguage.queries.Flux.GetUnlockDamTokensResponse]: getUnlockDamTokensResponse,
 
 	/**
 	 * Throttles requests for swap output quotes to prevent excessive calls while the user is typing.
@@ -85,7 +85,7 @@ export const queryHandlers = {
 	/**
 	 * Executes a token swap.
 	 */
-	[commonLanguage.queries.GetTradeResponse]: getTradeResponse,
+	[commonLanguage.queries.Swap.GetTradeResponse]: getTradeResponse,
 };
 
 export default queryHandlers;

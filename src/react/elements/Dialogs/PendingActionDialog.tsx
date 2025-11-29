@@ -79,43 +79,43 @@ const PendingActionDialog: React.FC<Params> = React.memo(function PendingActionD
 
 		for (const query of queries) {
 			switch (query.type) {
-				case commonLanguage.queries.FindWeb3Instance:
+				case commonLanguage.queries.Web3.FindWeb3Instance:
 					return {
 						title: 'Looking for Web3 Connection',
 						message: `Trying to find a Web3 compatible wallet to connect to (ex: Metamask). This process should take a couple 1-5 seconds.`,
 					};
-				case commonLanguage.queries.EnableWeb3:
+				case commonLanguage.queries.Web3.EnableWeb3:
 					return {
 						title: 'Awaiting Wallet Connection',
 						message: `Before you can continue please select an account in ${getConnectionMethodName()}. If your wallet is locked please unlock it first.`,
 						showHideButton: true,
 					};
-				case commonLanguage.queries.GetAuthorizeFluxOperatorResponse:
+				case commonLanguage.queries.Flux.GetAuthorizeOperatorResponse:
 					return {
 						title: 'Awaiting Authorization Response',
 						message: getConfirmationMessage(`Enabling of ${mintableTokenShortName} validator`),
 					};
-				case commonLanguage.queries.GetBurnFluxResponse:
+				case commonLanguage.queries.Flux.GetBurnResponse:
 					return {
 						title: `Awaiting ${mintableTokenShortName} Burn Confirmation`,
 						message: getConfirmationMessage(`${mintableTokenShortName} Burning`),
 					};
-				case commonLanguage.queries.GetLockInDamTokensResponse:
+				case commonLanguage.queries.Flux.GetLockInDamTokensResponse:
 					return {
 						title: 'Awaiting Validator Start Confirmation',
 						message: getConfirmationMessage('Validator Starting'),
 					};
-				case commonLanguage.queries.GetMintFluxResponse:
+				case commonLanguage.queries.Flux.GetMintResponse:
 					return {
 						title: 'Awaiting Minting Confirmation',
 						message: getConfirmationMessage(`${mintableTokenShortName} Minting`),
 					};
-				case commonLanguage.queries.GetUnlockDamTokensResponse:
+				case commonLanguage.queries.Flux.GetUnlockDamTokensResponse:
 					return {
 						title: 'Awaiting Validator Stop Confirmation',
 						message: getConfirmationMessage('Validator Stopping'),
 					};
-				case commonLanguage.queries.GetTradeResponse:
+				case commonLanguage.queries.Swap.GetTradeResponse:
 					return {
 						title: 'Awaiting Trade Confirmation',
 						message: getConfirmationMessage(`Trade`),

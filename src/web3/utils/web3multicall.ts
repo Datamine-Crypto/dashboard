@@ -37,14 +37,14 @@ export const encodeMulticall = (multicallParams: Record<string, MultiCallParams>
 		.filter(([key, multicallParam]) => {
 			return multicallParam !== undefined;
 		})
-		.map(([key, multicallParam]) => [
-			multicallParam.address,
-			encodeFunctionData({
+		.map(([key, multicallParam]) => ({
+			target: multicallParam.address as `0x${string}`,
+			callData: encodeFunctionData({
 				abi: [multicallParam.function.signature],
 				functionName: multicallParam.function.signature.name,
 				args: multicallParam.function.parameters,
 			}),
-		]);
+		}));
 };
 
 /**

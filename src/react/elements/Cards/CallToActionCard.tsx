@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Big from 'big.js';
-// import BN from 'bn.js';
+
 import { useAppStore } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import {
@@ -281,7 +281,7 @@ const CallToActionCard: React.FC = () => {
 										onFocus={(e) => e.target.select()}
 										value={forecastSettings.forecastAmount}
 										onChange={(e) =>
-											dispatch({ type: commonLanguage.commands.ForecastSetAmount, payload: e.target.value })
+											dispatch({ type: commonLanguage.commands.Forecasting.SetAmount, payload: e.target.value })
 										}
 									/>
 								</>
@@ -301,7 +301,7 @@ const CallToActionCard: React.FC = () => {
 							return;
 						}
 						const showBurnDialog = () => {
-							dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Burn } });
+							dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.Burn } });
 						};
 						const getButton = () => {
 							const isDisabled = !isCurrentAddress || addressDetails.fluxBalance === 0n;
@@ -514,7 +514,7 @@ const CallToActionCard: React.FC = () => {
 											// 	},
 											// 	mobilePaper: { className: classes.datePicker },
 											// }}
-											onChange={(date: any) => {
+											onChange={(date) => {
 												if (date) {
 													date = date.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
 													const currentDate = dayjs()
@@ -524,7 +524,7 @@ const CallToActionCard: React.FC = () => {
 														.set('millisecond', 0);
 													const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 12);
 													dispatch({
-														type: commonLanguage.commands.ForecastSetStartBlocks,
+														type: commonLanguage.commands.Forecasting.SetStartBlocks,
 														payload: blocksDiff.toString(),
 													});
 												}
@@ -626,7 +626,7 @@ const CallToActionCard: React.FC = () => {
 														.set('millisecond', 0);
 													const blocksDiff = date.diff(currentDate, 'minutes') * (60 / 12);
 													dispatch({
-														type: commonLanguage.commands.ForecastSetBlocks,
+														type: commonLanguage.commands.Forecasting.SetBlocks,
 														payload: blocksDiff.toString(),
 													});
 												}
@@ -687,7 +687,7 @@ const CallToActionCard: React.FC = () => {
 									min={10000 * minBurnMultiplier}
 									max={10000 * maxBurnMultiplier}
 									onChange={(event: any, newValue: number | number[]) => {
-										dispatch({ type: commonLanguage.commands.ForecastSetBurn, payload: newValue as number });
+										dispatch({ type: commonLanguage.commands.Forecasting.SetBurn, payload: newValue as number });
 									}}
 								/>
 							);
@@ -739,7 +739,7 @@ const CallToActionCard: React.FC = () => {
 									min={10000}
 									max={30000}
 									onChange={(event: any, newValue: number | number[]) => {
-										dispatch({ type: commonLanguage.commands.ForecastSetTime, payload: newValue as number });
+										dispatch({ type: commonLanguage.commands.Forecasting.SetTime, payload: newValue as number });
 									}}
 								/>
 							);
@@ -789,7 +789,7 @@ const CallToActionCard: React.FC = () => {
 										onFocus={(e) => e.target.select()}
 										value={forecastSettings.forecastBurnAmount}
 										onChange={(e) =>
-											dispatch({ type: commonLanguage.commands.ForecastSetBurnAmount, payload: e.target.value })
+											dispatch({ type: commonLanguage.commands.Forecasting.SetBurnAmount, payload: e.target.value })
 										}
 									/>
 								</>
@@ -811,7 +811,7 @@ const CallToActionCard: React.FC = () => {
 										onFocus={(e) => e.target.select()}
 										value={forecastSettings.forecastTimeAmount}
 										onChange={(e) =>
-											dispatch({ type: commonLanguage.commands.ForecastSetTimeAmount, payload: e.target.value })
+											dispatch({ type: commonLanguage.commands.Forecasting.SetTimeAmount, payload: e.target.value })
 										}
 									/>
 								</>
@@ -901,7 +901,7 @@ const CallToActionCard: React.FC = () => {
 												size="small"
 												value={forecastSettings.forecastFluxPrice}
 												onChange={(e) =>
-													dispatch({ type: commonLanguage.commands.ForecastSetFluxPrice, payload: e.target.value })
+													dispatch({ type: commonLanguage.commands.Forecasting.SetFluxPrice, payload: e.target.value })
 												}
 											/>
 										</Box>
@@ -1027,7 +1027,7 @@ const CallToActionCard: React.FC = () => {
 												<Switch
 													checked={forecastSettings.enabled}
 													color="secondary"
-													onChange={() => dispatch({ type: commonLanguage.commands.ToggleForecastMode })}
+													onChange={() => dispatch({ type: commonLanguage.commands.Forecasting.ToggleMode })}
 												/>
 											}
 											label={
@@ -1173,7 +1173,7 @@ const CallToActionCard: React.FC = () => {
 									payload: { game: isPlayingGameDatamineGems ? Game.DatamineGems : Game.HodlClicker },
 								});
 							} else {
-								dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Mint } });
+								dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.Mint } });
 							}
 						},
 						learnMoreHref: isHelpPageEnabled ? '#help/dashboard/mintFluxTokens' : undefined,
@@ -1194,7 +1194,7 @@ const CallToActionCard: React.FC = () => {
 				action: <>Start Validator</>,
 				actionIcon: <LockIcon />,
 				onClick: () => {
-					dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.LockIn } });
+					dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.LockIn } });
 				},
 				learnMoreHref: isHelpPageEnabled ? '#help/dashboard/startingDecentralizedMint' : undefined,
 			};
@@ -1217,7 +1217,7 @@ const CallToActionCard: React.FC = () => {
 									<Switch
 										checked={forecastSettings.enabled}
 										color="secondary"
-										onChange={() => dispatch({ type: commonLanguage.commands.ToggleForecastMode })}
+										onChange={() => dispatch({ type: commonLanguage.commands.Forecasting.ToggleMode })}
 									/>
 								}
 								label={
@@ -1256,7 +1256,7 @@ const CallToActionCard: React.FC = () => {
 			action: <>Enable</>,
 			actionIcon: <PowerSettingsNewIcon />,
 			onClick: () => {
-				dispatch({ type: commonLanguage.commands.AuthorizeFluxOperator });
+				dispatch({ type: commonLanguage.commands.Flux.AuthorizeOperator });
 			},
 			learnMoreHref: isHelpPageEnabled ? '#help/onboarding/connectingMetamask' : undefined,
 		};

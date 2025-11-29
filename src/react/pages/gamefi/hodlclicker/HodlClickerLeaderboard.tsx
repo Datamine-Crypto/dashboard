@@ -12,7 +12,7 @@ import {
 	useTheme,
 } from '@mui/material';
 import { EmojiEvents } from '@mui/icons-material';
-// import BN from 'bn.js';
+
 import { Token } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
 

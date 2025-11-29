@@ -7,7 +7,7 @@ import { gameHodlClickerAbi } from '@/web3/abis/games/gameHodlClicker';
 import { Address } from 'viem';
 import dayjs from 'dayjs';
 import { getPriceToggle } from '@/utils/mathHelpers';
-// import BN from 'bn.js';
+
 import { useAppStore } from '@/react/utils/appStore';
 import { useShallow } from 'zustand/react/shallow';
 import { Token } from '@/app/interfaces';

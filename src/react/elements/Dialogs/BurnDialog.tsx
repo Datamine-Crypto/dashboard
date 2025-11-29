@@ -60,7 +60,7 @@ const BurnDialog: React.FC = () => {
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
 		appDispatch({
-			type: commonLanguage.commands.BurnFluxTokens,
+			type: commonLanguage.commands.Flux.Burn,
 			payload: { amount, address: targetAddress },
 		});
 	};
@@ -69,7 +69,7 @@ const BurnDialog: React.FC = () => {
 		if (reason === 'backdropClick') {
 			return;
 		}
-		appDispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const getDelegatedMinterBox = () => {
 		return (

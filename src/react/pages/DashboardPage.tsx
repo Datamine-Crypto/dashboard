@@ -254,7 +254,7 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 								variant="outlined"
 								color="secondary"
 								size="large"
-								onClick={() => appDispatch({ type: commonLanguage.commands.ConnectToWallet })}
+								onClick={() => appDispatch({ type: commonLanguage.commands.Web3.ConnectToWallet })}
 							>
 								{getWalletIcon()}
 								{isMetaMask() ? 'Connect Using MetaMask' : 'Connect To Wallet'}
@@ -374,7 +374,7 @@ const DashboardPage: React.FC<Props> = ({ address }) => {
 									color="secondary"
 									onClick={() => {
 										appDispatch({
-											type: commonLanguage.commands.ShowDialog,
+											type: commonLanguage.commands.Dialog.Show,
 											payload: { dialog: DialogType.ClientSettings },
 										});
 									}}

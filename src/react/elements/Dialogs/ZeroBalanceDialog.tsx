@@ -33,7 +33,7 @@ const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
 	const config = getConfig(ecosystem);
 	const { mintableTokenShortName, lockableTokenShortName, ecosystemName, layer } = config;
 	const onClose = () => {
-		appDispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const onContinue = () => {
 		appDispatch({

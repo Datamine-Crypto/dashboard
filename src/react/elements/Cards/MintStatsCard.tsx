@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useAppStore } from '@/react/utils/appStore';
 import { BNToDecimal, getBlocksRemaining } from '@/utils/mathHelpers';
-// import BN from 'bn.js';
+
 import { DialogType } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { LockOpen } from '@mui/icons-material';
@@ -47,7 +47,7 @@ const MintStatsCard: React.FC = () => {
 	};
 
 	const showUnlockDialog = () => {
-		dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Unlock } });
+		dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.Unlock } });
 	};
 
 	const getLockedInAmount = () => {

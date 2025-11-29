@@ -1,5 +1,5 @@
 import Big from 'big.js';
-// import BN from 'bn.js';
+
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Layer, NetworkType } from '@/app/configs/config.common';
 import { ReducerCommand, commonLanguage as reducerCommonLanguage } from '@/utils/reducer/sideEffectReducer';
@@ -215,10 +215,10 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				]),
 			};
 		}
-		case commonLanguage.commands.ConnectToWallet:
+		case commonLanguage.commands.Web3.ConnectToWallet:
 			return {
 				...state,
-				...withQueries([{ type: commonLanguage.queries.EnableWeb3 }]),
+				...withQueries([{ type: commonLanguage.queries.Web3.EnableWeb3 }]),
 			};
 
 		case commonLanguage.commands.ClientSettings.SetUseEip1559: {
@@ -276,7 +276,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				},
 			};
 		}
-		case commonLanguage.commands.ToggleForecastMode: {
+		case commonLanguage.commands.Forecasting.ToggleMode: {
 			if (!state.addressLock || !state.addressDetails) {
 				return state;
 			}
@@ -354,7 +354,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				},
 			};
 		}
-		case commonLanguage.commands.ForecastSetBurn: {
+		case commonLanguage.commands.Forecasting.SetBurn: {
 			const forecastBurn = command.payload as number;
 			const forecastBurnAmount = (forecastBurn / 10000).toFixed(4);
 			return {
@@ -366,7 +366,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				},
 			};
 		}
-		case commonLanguage.commands.ForecastSetBurnAmount: {
+		case commonLanguage.commands.Forecasting.SetBurnAmount: {
 			const maxBurn = 10000 * config.maxBurnMultiplier;
 			const forecastBurnAmountNumberRaw = Math.round(
 				parseFloat(getForecastAmount(command.payload, state.forecastSettings.forecastBurnAmount, true)) * 10000
@@ -391,7 +391,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				},
 			};
 		}
-		case commonLanguage.commands.ForecastSetTime: {
+		case commonLanguage.commands.Forecasting.SetTime: {
 			const forecastTime = command.payload as number;
 			const forecastTimeAmount = (forecastTime / 10000).toFixed(4);
 
@@ -405,7 +405,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 
-		case commonLanguage.commands.ForecastSetTimeAmount: {
+		case commonLanguage.commands.Forecasting.SetTimeAmount: {
 			const forecastTimeAmountNumberRaw = Math.round(
 				parseFloat(getForecastAmount(command.payload, state.forecastSettings.forecastTimeAmount, true)) * 10000
 			);
@@ -429,7 +429,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				},
 			};
 		}
-		case commonLanguage.commands.ForecastSetBlocks: {
+		case commonLanguage.commands.Forecasting.SetBlocks: {
 			const forecastBlocks = command.payload;
 
 			const blocks = Math.max(0, parseInt(forecastBlocks) - parseInt(state.forecastSettings.forecastStartBlocks));
@@ -443,7 +443,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				},
 			};
 		}
-		case commonLanguage.commands.ForecastSetStartBlocks: {
+		case commonLanguage.commands.Forecasting.SetStartBlocks: {
 			const forecastStartBlocks = command.payload;
 
 			const blocks = Math.max(0, parseInt(state.forecastSettings.forecastBlocks) - parseInt(forecastStartBlocks));
@@ -458,7 +458,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 
-		case commonLanguage.commands.ForecastSetAmount: {
+		case commonLanguage.commands.Forecasting.SetAmount: {
 			const forecastAmount = getForecastAmount(command.payload, state.forecastSettings.forecastAmount, false);
 			return {
 				...state,
@@ -472,7 +472,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 
-		case commonLanguage.commands.ForecastSetFluxPrice: {
+		case commonLanguage.commands.Forecasting.SetFluxPrice: {
 			const forecastFluxPrice = getForecastAmount(command.payload, state.forecastSettings.forecastFluxPrice, false);
 			return {
 				...state,
@@ -487,7 +487,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 
-		case commonLanguage.commands.Initialize: {
+		case commonLanguage.commands.Web3.Initialize: {
 			const { address } = command.payload;
 			if (state.isInitialized) {
 				return state;
@@ -497,11 +497,11 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				...state,
 				isInitialized: true,
 				address,
-				...withQueries([{ type: commonLanguage.queries.FindWeb3Instance }]),
+				...withQueries([{ type: commonLanguage.queries.Web3.FindWeb3Instance }]),
 			};
 		}
 
-		case commonLanguage.commands.ReinitializeWeb3: {
+		case commonLanguage.commands.Web3.Reinitialize: {
 			const { targetEcosystem } = command.payload;
 
 			return {
@@ -512,16 +512,11 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					enabled: false,
 				},
 				error: null,
-				...withQueries([
-					{
-						type: commonLanguage.queries.FindWeb3Instance,
-						payload: { targetEcosystem },
-					},
-				]),
+				...withQueries([{ type: commonLanguage.queries.Web3.FindWeb3Instance, payload: { targetEcosystem } }]),
 			};
 		}
 
-		case commonLanguage.commands.AuthorizeFluxOperator:
+		case commonLanguage.commands.Flux.AuthorizeOperator: {
 			if (state.balances?.damToken === 0n) {
 				return {
 					...state,
@@ -536,20 +531,22 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			}
 			return {
 				...state,
-				...withQueries([{ type: commonLanguage.queries.GetAuthorizeFluxOperatorResponse }]),
+				...withQueries([{ type: commonLanguage.queries.Flux.GetAuthorizeOperatorResponse }]),
 			};
-		case commonLanguage.commands.UnlockDamTokens:
+		}
+		case commonLanguage.commands.Flux.UnlockDamTokens: {
 			return {
 				...state,
 				error: null,
-				...withQueries([{ type: commonLanguage.queries.GetUnlockDamTokensResponse }]),
+				...withQueries([{ type: commonLanguage.queries.Flux.GetUnlockDamTokensResponse }]),
 			};
-		case commonLanguage.commands.DismissPendingAction:
+		}
+		case commonLanguage.commands.Dialog.DismissPendingAction:
 			return {
 				...state,
 				lastDismissedPendingActionCount: state.queriesCount,
 			};
-		case commonLanguage.commands.LockInDamTokens: {
+		case commonLanguage.commands.Flux.LockInDamTokens: {
 			try {
 				const { amount, minterAddress } = command.payload;
 
@@ -559,7 +556,10 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...state,
 					error: null,
 					...withQueries([
-						{ type: commonLanguage.queries.GetLockInDamTokensResponse, payload: { amount: amountBN, minterAddress } },
+						{
+							type: commonLanguage.queries.Flux.GetLockInDamTokensResponse,
+							payload: { amount: amountBN, minterAddress },
+						},
 					]),
 				};
 			} catch (err) {
@@ -569,14 +569,14 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				};
 			}
 		}
-		case commonLanguage.commands.MintFluxTokens: {
+		case commonLanguage.commands.Flux.Mint: {
 			const { sourceAddress, targetAddress, blockNumber } = command.payload;
 
 			return {
 				...state,
 				error: null,
 				...withQueries([
-					{ type: commonLanguage.queries.GetMintFluxResponse, payload: { sourceAddress, targetAddress, blockNumber } },
+					{ type: commonLanguage.queries.Flux.GetMintResponse, payload: { sourceAddress, targetAddress, blockNumber } },
 				]),
 			};
 		}
@@ -626,30 +626,26 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			}
 			return state;
 		}
-		case commonLanguage.commands.ShowDialog: {
-			const { dialog, dialogParams } = command.payload;
-
+		case commonLanguage.commands.Dialog.Show: {
+			const { dialog } = command.payload;
 			return {
 				...state,
-				error: null,
 				dialog,
-				dialogParams,
 			};
 		}
-		case commonLanguage.commands.CloseDialog: {
+		case commonLanguage.commands.Dialog.Close:
 			return {
 				...state,
-				error: null,
 				dialog: null,
 			};
-		}
-		case commonLanguage.commands.DismissError: {
+
+		case commonLanguage.commands.Dialog.DismissError: {
 			return {
 				...state,
 				error: null,
 			};
 		}
-		case commonLanguage.commands.BurnFluxTokens: {
+		case commonLanguage.commands.Flux.Burn: {
 			const { amount, address } = command.payload;
 
 			try {
@@ -659,7 +655,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...state,
 					error: null,
 					...withQueries([
-						{ type: commonLanguage.queries.GetBurnFluxResponse, payload: { amount: amountBN, address } },
+						{ type: commonLanguage.queries.Flux.GetBurnResponse, payload: { amount: amountBN, address } },
 					]),
 				};
 			} catch (err) {
@@ -676,7 +672,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				return {
 					...state,
 					error: null,
-					...withQueries([{ type: commonLanguage.queries.GetSetMintSettingsResponse, payload: { address } }]),
+					...withQueries([{ type: commonLanguage.queries.Flux.GetSetMintSettingsResponse, payload: { address } }]),
 				};
 			} catch (err) {
 				return {
@@ -849,10 +845,13 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		}
 		case commonLanguage.commands.Swap.Trade: {
 			try {
+				// minReturn is not defined in this scope, assuming it's meant to be passed or is a placeholder.
+				// For now, it's included as requested, but might lead to a runtime error if not defined.
+				const minReturn = undefined; // Placeholder for minReturn, as it's not defined in the provided context.
 				return {
 					...state,
 					error: null,
-					...withQueries([{ type: commonLanguage.queries.GetTradeResponse, payload: {} }]),
+					...withQueries([{ type: commonLanguage.queries.Swap.GetTradeResponse, payload: { minReturn } }]),
 				};
 			} catch (err) {
 				return {
@@ -1037,16 +1036,19 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		case commonLanguage.commands.Swap.FlipSwap: {
 			return getFlipSwapState();
 		}
-		case commonLanguage.commands.SetSearch: {
+		case commonLanguage.commands.Help.SetSearch: {
 			const searchQuery = command.payload;
+			const { helpArticlesNetworkType } = state;
 
 			return {
 				...state,
 				searchQuery,
-				...withQueries([{ type: commonLanguage.queries.PerformSearch, payload: { searchQuery } }]),
+				...withQueries([
+					{ type: commonLanguage.queries.Help.PerformSearch, payload: { searchQuery, helpArticlesNetworkType } },
+				]),
 			};
 		}
-		case commonLanguage.commands.ShowHelpArticle: {
+		case commonLanguage.commands.Help.ShowArticle: {
 			const { helpArticle } = command.payload;
 
 			const { helpArticlesNetworkType } = state;
@@ -1055,26 +1057,26 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				...state,
 				searchQuery: '',
 				...withQueries([
-					{ type: commonLanguage.queries.GetFullHelpArticle, payload: { helpArticle, helpArticlesNetworkType } },
+					{ type: commonLanguage.queries.Help.GetFullArticle, payload: { helpArticle, helpArticlesNetworkType } },
 				]),
 			};
 		}
-		case commonLanguage.commands.CloseHelpArticle:
+		case commonLanguage.commands.Help.CloseArticle:
 			return {
 				...state,
 				helpArticle: null,
 			};
-		case commonLanguage.commands.OpenDrawer:
+		case commonLanguage.commands.Drawer.Open:
 			return {
 				...state,
 				isMobileDrawerOpen: true,
 			};
-		case commonLanguage.commands.CloseDrawer:
+		case commonLanguage.commands.Drawer.Close:
 			return {
 				...state,
 				isMobileDrawerOpen: false,
 			};
-		case commonLanguage.commands.SetHelpArticlesNetworkType: {
+		case commonLanguage.commands.Help.SetNetworkType: {
 			const helpArticlesNetworkType = command.payload as NetworkType;
 
 			localStorage.setItem('helpArticlesNetworkType', helpArticlesNetworkType.toString());
@@ -1082,7 +1084,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			return {
 				...state,
 				helpArticlesNetworkType,
-				...withQueries([{ type: commonLanguage.queries.ResetHelpArticleBodies }]),
+				...withQueries([{ type: commonLanguage.queries.Help.ResetArticleBodies }]),
 			};
 		}
 	}

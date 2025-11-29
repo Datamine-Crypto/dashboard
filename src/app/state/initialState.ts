@@ -1,4 +1,3 @@
-// import BN from 'bn.js';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, NetworkType } from '@/app/configs/config.common';
 import { HelpArticle } from '@/app/helpArticles';

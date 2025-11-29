@@ -54,7 +54,7 @@ export const performSwapUniswapV2 = async (
 	const uniswapV2RouterContract = getContract({
 		address: uniswapv2routerAddress as Address,
 		abi: uniswapV2RouterABI,
-		client: { public: publicClient, wallet: walletClient },
+		client: { public: publicClient, wallet: walletClient ?? undefined },
 	});
 
 	const inputTokenDetails = availableSwapTokens.find(
@@ -73,7 +73,7 @@ export const performSwapUniswapV2 = async (
 		? getContract({
 				address: inputAddress as Address,
 				abi: inputTokenDetails.abi,
-				client: { public: publicClient, wallet: walletClient },
+				client: { public: publicClient, wallet: walletClient ?? undefined },
 			})
 		: undefined;
 

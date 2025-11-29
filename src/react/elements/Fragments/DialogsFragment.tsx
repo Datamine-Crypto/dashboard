@@ -26,7 +26,7 @@ const DialogsFragment: React.FC = () => {
 
 	const getDialog = () => {
 		const onClose = () => {
-			appDispatch({ type: commonLanguage.commands.CloseDialog });
+			appDispatch({ type: commonLanguage.commands.Dialog.Close });
 		};
 		if (!dialog) {
 			return null;

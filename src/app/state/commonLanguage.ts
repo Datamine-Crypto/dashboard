@@ -14,38 +14,49 @@
 // This separation ensures that the reducer remains pure (no side effects inside the reducer) and that all async logic is centralized and testable.
 export const commonLanguage = {
 	commands: {
-		Initialize: 'INITIALIZE',
-		ConnectToWallet: 'CONNECT_TO_WALLET',
 		RefreshAccountState: 'REFRESH_ACCOUNT_STATE',
 		UpdateAddress: 'UPDATE_ADDRESS',
-		AuthorizeFluxOperator: 'AUTHORIZE_FLUX_OPERATOR',
-		LockInDamTokens: 'LOCK_IN_DAM_TOKENS',
-		MintFluxTokens: 'MINT_FLUX_TOKENS',
-		ShowDialog: 'SHOW_DIALOG',
-		CloseDialog: 'CLOSE_DIALOG',
-		DismissError: 'DISMISS_ERROR',
-		BurnFluxTokens: 'BURN_FLUX_TOKENS',
-		UnlockDamTokens: 'UNLOCK_DAM_TOKENS',
-		DismissPendingAction: 'DISMISS_PENDING_ACTION',
+		UpdateEcosystem: 'UPDATE_ECOSYSTEM',
 		CopyAnalytics: 'COPY_ANALYTICS',
+		SetMinterSettings: 'SET_MINTER_SETTINGS',
 
-		ToggleForecastMode: 'TOGGLE_FORECAST_MODE',
-		ForecastSetAmount: 'TOGGLE_SET_AMOUNT',
-		ForecastSetBlocks: 'TOGGLE_SET_BLOCKS',
-		ForecastSetStartBlocks: 'TOGGLE_SET_START_BLOCKS',
-		ForecastSetBurn: 'TOGGLE_SET_BURN',
-		ForecastSetBurnAmount: 'FORECAST_SET_BURN_AMOUNT',
-		ForecastSetTime: 'TOGGLE_SET_TIME',
-		ForecastSetTimeAmount: 'FORECAST_SET_TIME_AMOUNT',
-		ForecastSetFluxPrice: 'FORECAST_SET_FLUX_PRICE',
+		Dialog: {
+			Show: 'SHOW_DIALOG',
+			Close: 'CLOSE_DIALOG',
+			DismissError: 'DISMISS_ERROR',
+			DismissPendingAction: 'DISMISS_PENDING_ACTION',
+		},
+		Flux: {
+			AuthorizeOperator: 'AUTHORIZE_FLUX_OPERATOR',
+			LockInDamTokens: 'LOCK_IN_DAM_TOKENS',
+			Mint: 'MINT_FLUX_TOKENS',
+			Burn: 'BURN_FLUX_TOKENS',
+			UnlockDamTokens: 'UNLOCK_DAM_TOKENS',
+		},
 
-		SetSearch: 'SET_SEARCH',
-		ShowHelpArticle: 'SHOW_HELP_ARTICLE',
-		CloseHelpArticle: 'CLOSE_HELP_ARTICLE',
-		SetHelpArticlesNetworkType: 'SET_HELP_ARTICLES_NETWORK_TYPE',
+		Forecasting: {
+			ToggleMode: 'TOGGLE_FORECAST_MODE',
+			SetAmount: 'TOGGLE_SET_AMOUNT',
+			SetBlocks: 'TOGGLE_SET_BLOCKS',
+			SetStartBlocks: 'TOGGLE_SET_START_BLOCKS',
+			SetBurn: 'TOGGLE_SET_BURN',
+			SetBurnAmount: 'FORECAST_SET_BURN_AMOUNT',
+			SetTime: 'TOGGLE_SET_TIME',
+			SetTimeAmount: 'FORECAST_SET_TIME_AMOUNT',
+			SetFluxPrice: 'FORECAST_SET_FLUX_PRICE',
+		},
 
-		CloseDrawer: 'CLOSE_DRAWER',
-		OpenDrawer: 'OPEN_DRAWER',
+		Help: {
+			SetSearch: 'SET_SEARCH',
+			ShowArticle: 'SHOW_HELP_ARTICLE',
+			CloseArticle: 'CLOSE_HELP_ARTICLE',
+			SetNetworkType: 'SET_HELP_ARTICLES_NETWORK_TYPE',
+		},
+
+		Drawer: {
+			Close: 'CLOSE_DRAWER',
+			Open: 'OPEN_DRAWER',
+		},
 
 		ClientSettings: {
 			SetPriceMultiplier: 'CLIENT_SETTINGS_SET_PRICE_MULTIPLIER',
@@ -53,14 +64,15 @@ export const commonLanguage = {
 			SetCurrency: 'SET_CURRENCY',
 		},
 
-		UpdateEcosystem: 'UPDATE_ECOSYSTEM',
-		/**
-		 * Sometimes we want to re-initialzie web3 specifically when changing networks (Ex: ETH->Arbitrum)
-		 * When initializing web3 on different network, we properly update current ecosystem (Ex: Changing DAM L1->LOCK L2)
-		 */
-		ReinitializeWeb3: 'REINITILIZE_WEB3',
-
-		SetMinterSettings: 'SET_MINTER_SETTINGS',
+		Web3: {
+			Initialize: 'INITIALIZE',
+			ConnectToWallet: 'CONNECT_TO_WALLET',
+			/**
+			 * Sometimes we want to re-initialzie web3 specifically when changing networks (Ex: ETH->Arbitrum)
+			 * When initializing web3 on different network, we properly update current ecosystem (Ex: Changing DAM L1->LOCK L2)
+			 */
+			Reinitialize: 'REINITILIZE_WEB3',
+		},
 
 		Swap: {
 			Trade: 'SWAP:TRADE',
@@ -82,24 +94,29 @@ export const commonLanguage = {
 		},
 	},
 	queries: {
-		FindWeb3Instance: 'FIND_WEB3_INSTANCE',
-		EnableWeb3: 'ENABLE_WEB3',
 		FindAccountState: 'FIND_ACCOUNT_STATE',
+		Web3: {
+			FindWeb3Instance: 'FIND_WEB3_INSTANCE',
+			EnableWeb3: 'ENABLE_WEB3',
+		},
 
-		GetAuthorizeFluxOperatorResponse: 'GET_AUTHORIZE_FLUX_OPERATOR_RESPONSE',
-		GetLockInDamTokensResponse: 'GET_LOCK_IN_DAM_TOKENS_RESPONSE',
-		GetMintFluxResponse: 'GET_MINT_FLUX_RESPONSE',
-		GetBurnFluxResponse: 'GET_BURN_FLUX_RESPONSE',
-		GetSetMintSettingsResponse: 'GET_SET_MINT_SETTINGS_RESPONSE',
-		GetUnlockDamTokensResponse: 'GET_UNLOCK_DAM_TOKENS_RESPONSE',
-		GetTradeResponse: 'GET_TRADE_RESPONSE',
+		Flux: {
+			GetAuthorizeOperatorResponse: 'GET_AUTHORIZE_FLUX_OPERATOR_RESPONSE',
+			GetLockInDamTokensResponse: 'GET_LOCK_IN_DAM_TOKENS_RESPONSE',
+			GetMintResponse: 'GET_MINT_FLUX_RESPONSE',
+			GetBurnResponse: 'GET_BURN_FLUX_RESPONSE',
+			GetSetMintSettingsResponse: 'GET_SET_MINT_SETTINGS_RESPONSE',
+			GetUnlockDamTokensResponse: 'GET_UNLOCK_DAM_TOKENS_RESPONSE',
+		},
 
-		PerformSearch: 'PERFORM_SEARCH',
-
-		GetFullHelpArticle: 'GET_FULL_HELP_ARTICLE',
-		ResetHelpArticleBodies: 'RESET_HELP_ARTICLE_BODIES',
+		Help: {
+			PerformSearch: 'PERFORM_SEARCH',
+			GetFullArticle: 'GET_FULL_HELP_ARTICLE',
+			ResetArticleBodies: 'RESET_HELP_ARTICLE_BODIES',
+		},
 
 		Swap: {
+			GetTradeResponse: 'GET_TRADE_RESPONSE',
 			GetOutputQuote: 'SWAP:GET_OUTPUT_QUOTE',
 			ThrottleGetOutputQuote: 'SWAP:THROTTLE_GET_OUTPUT_QUOTE',
 		},

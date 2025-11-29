@@ -14,6 +14,7 @@ import HodlClickerEvents from '@/react/pages/gamefi/hodlclicker/HodlClickerEvent
 import { getNetworkDropdown } from '@/react/elements/Fragments/EcosystemDropdown';
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import { switchNetwork } from '@/web3/utils/web3Helpers';
+import { tss } from 'tss-react/mui';
 
 interface CenterContent {
 	title: React.ReactNode;
@@ -21,7 +22,7 @@ interface CenterContent {
 	content?: React.ReactNode;
 }
 
-const useStyles = tss.create(({ theme }) => ({
+const useStyles = tss.create(() => ({
 	fullScreenSplash: {
 		display: 'block',
 		alignContent: 'center',
@@ -58,7 +59,7 @@ const HodlClickerPage: React.FC = () => {
 
 	useEffect(() => {
 		// When the app starts initialize web3 connection
-		appDispatch({ type: commonLanguage.commands.Initialize, payload: { address: null } });
+		appDispatch({ type: commonLanguage.commands.Web3.Initialize, payload: { address: null } });
 		if (isDevLogEnabled()) {
 			import('vconsole').then((VConsoleModule) => {
 				const VConsole = VConsoleModule.default;
@@ -148,7 +149,7 @@ const HodlClickerPage: React.FC = () => {
 								variant="outlined"
 								color="secondary"
 								size="large"
-								onClick={() => appDispatch({ type: commonLanguage.commands.ConnectToWallet })}
+								onClick={() => appDispatch({ type: commonLanguage.commands.Web3.ConnectToWallet })}
 							>
 								{getWalletIcon()}
 								Enter Network
@@ -214,7 +215,7 @@ const HodlClickerPage: React.FC = () => {
 									const targetEcosystem = Ecosystem.Lockquidity;
 									await switchNetwork(targetEcosystem, connectionMethod, '0xa4b1');
 									localStorage.setItem('targetEcosystem', targetEcosystem);
-									appDispatch({ type: commonLanguage.commands.ReinitializeWeb3, payload: { targetEcosystem } });
+									appDispatch({ type: commonLanguage.commands.Web3.Reinitialize, payload: { targetEcosystem } });
 								}}
 							>
 								Switch To Arbitum (L2)

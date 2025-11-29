@@ -30,7 +30,7 @@ const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
 
 	const filterOptions = (options: any, { inputValue }: any) => options;
 	const onChange = (event: any, helpArticle: HelpArticle) => {
-		appDispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle } });
+		appDispatch({ type: commonLanguage.commands.Help.ShowArticle, payload: { helpArticle } });
 	};
 
 	return (
@@ -55,7 +55,9 @@ const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
 					//label="Search Help Articles (ex: How To Mint FLUX) ..."
 					placeholder={isBigSearch ? 'Search Help Articles ...' : 'Search Help Articles ...'}
 					//value={searchQuery}
-					onChange={(e) => appDispatch({ type: commonLanguage.commands.SetSearch, payload: (e.target as any).value })}
+					onChange={(e) =>
+						appDispatch({ type: commonLanguage.commands.Help.SetSearch, payload: (e.target as any).value })
+					}
 					autoComplete="off"
 					autoFocus={isBigSearch}
 					variant="outlined"

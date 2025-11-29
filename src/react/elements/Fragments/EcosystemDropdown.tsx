@@ -60,7 +60,7 @@ export const getNetworkDropdown = ({ ecosystem, connectionMethod, dispatch, widt
 						);
 						localStorage.setItem('targetEcosystem', targetEcosystem);
 
-						dispatch({ type: commonLanguage.commands.ReinitializeWeb3, payload: { targetEcosystem } });
+						dispatch({ type: commonLanguage.commands.Web3.Reinitialize, payload: { targetEcosystem } });
 
 						//dispatch({ type: commonLanguage.commands.RefreshAccountState, payload: { forceRefresh: true } })
 

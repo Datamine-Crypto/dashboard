@@ -148,7 +148,7 @@ export const useRouter = (dispatch: ReducerDispatch, ecosystem: Ecosystem) => {
 					document.title = `Get Started - ${ecosystemName}`;
 					break;
 				case Page.HodlClicker:
-					document.title = `Hodl Clicker - ${ecosystemName}`;
+					document.title = `HODL Clicker - ${ecosystemName}`;
 					break;
 				default:
 					document.title = `${ecosystemSlogan} - ${ecosystemName}`;
@@ -163,7 +163,7 @@ export const useRouter = (dispatch: ReducerDispatch, ecosystem: Ecosystem) => {
 							address: pageDetails.address,
 						},
 					});
-					dispatch({ type: commonLanguage.commands.Initialize, payload: { address: pageDetails.address } });
+					dispatch({ type: commonLanguage.commands.Web3.Initialize, payload: { address: pageDetails.address } });
 					if (isDevLogEnabled() && !isVConsoleInitialized) {
 						isVConsoleInitialized = true;
 						import('vconsole').then((VConsoleModule) => {
@@ -178,7 +178,7 @@ export const useRouter = (dispatch: ReducerDispatch, ecosystem: Ecosystem) => {
 					);
 					if (helpArticle) {
 						dispatch({
-							type: commonLanguage.commands.ShowHelpArticle,
+							type: commonLanguage.commands.Help.ShowArticle,
 							payload: {
 								helpArticle,
 							},

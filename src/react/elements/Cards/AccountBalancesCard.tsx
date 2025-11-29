@@ -9,10 +9,8 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import { OpenInNew, Stop, Whatshot, Settings } from '@mui/icons-material';
 // Interfaces for dialog types, Flux address details, lock, token details, and token enum
 import { DialogType, Token } from '@/app/interfaces';
-// Helper functions for BN to decimal conversion, burn ratio calculation, and price toggling
+// Helper functions for decimal conversion, burn ratio calculation, and price toggling
 import { BNToDecimal, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers';
-// BN.js library for handling large numbers
-// import BN from 'bn.js';
 // Styling utility from tss-react
 import { tss } from 'tss-react/mui';
 // Ecosystem configuration getter
@@ -86,7 +84,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 	 * Displays the mint dialog by dispatching a SHOW_DIALOG command.
 	 */
 	const showMintDialog = () => {
-		dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Mint } });
+		dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.Mint } });
 	};
 	/**
 	 * Renders the delegated minter address and a tooltip explaining its role.
@@ -129,7 +127,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 	const getFluxBalance = () => {
 		const getBurnButton = () => {
 			const showBurnDialog = () => {
-				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Burn } });
+				dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.Burn } });
 			};
 			const getButton = () => {
 				const isDisabled = !isCurrentAddress || addressDetails.fluxBalance === 0n;
@@ -214,10 +212,10 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 	const getDamLockedIn = () => {
 		const getUnlockButton = () => {
 			const showUnlockDialog = () => {
-				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Unlock } });
+				dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.Unlock } });
 			};
 			const showMintSettingsDialog = () => {
-				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MintSettings } });
+				dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.MintSettings } });
 			};
 			if (addressLock.amount === 0n) {
 				return;

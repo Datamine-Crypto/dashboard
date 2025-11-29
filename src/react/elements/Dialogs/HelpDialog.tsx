@@ -338,7 +338,7 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 					</LightTooltip>
 					<IconButton
 						aria-label="close"
-						onClick={() => appDispatch({ type: commonLanguage.commands.CloseHelpArticle })}
+						onClick={() => appDispatch({ type: commonLanguage.commands.Help.CloseArticle })}
 					>
 						<Close />
 					</IconButton>
@@ -387,7 +387,7 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 						color="secondary"
 						size="large"
 						variant="outlined"
-						onClick={() => appDispatch({ type: commonLanguage.commands.CloseHelpArticle })}
+						onClick={() => appDispatch({ type: commonLanguage.commands.Help.CloseArticle })}
 					>
 						Close
 					</Button>

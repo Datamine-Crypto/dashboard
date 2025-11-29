@@ -129,7 +129,7 @@ const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
 					<Box sx={{ display: { xs: 'block', lg: 'none' } /*lgUp*/ }}>
 						<Box ml={1}>
 							<Tooltip title="Open Menu">
-								<IconButton onClick={() => appDispatch({ type: commonLanguage.commands.OpenDrawer })}>
+								<IconButton onClick={() => appDispatch({ type: commonLanguage.commands.Drawer.Open })}>
 									<Menu />
 								</IconButton>
 							</Tooltip>

@@ -41,7 +41,7 @@ const MintDialog: React.FC = () => {
 	const onSubmit = async (e: any) => {
 		e.preventDefault();
 		appDispatch({
-			type: commonLanguage.commands.MintFluxTokens,
+			type: commonLanguage.commands.Flux.Mint,
 			payload: {
 				sourceAddress: displayedAddress,
 				targetAddress: address,
@@ -55,11 +55,11 @@ const MintDialog: React.FC = () => {
 		if (reason === 'backdropClick') {
 			return;
 		}
-		appDispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 
 	const onCloseError = () => {
-		appDispatch({ type: commonLanguage.commands.DismissError });
+		appDispatch({ type: commonLanguage.commands.Dialog.DismissError });
 	};
 
 	return (

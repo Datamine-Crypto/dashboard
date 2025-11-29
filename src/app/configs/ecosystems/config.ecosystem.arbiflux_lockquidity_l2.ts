@@ -30,7 +30,7 @@ export const getArbiFluxLockquidityEcosystemConfig = () => {
 		// Market contract address for Time-in-Market (TIM)
 		marketAddress: '0xe948c8417DD2f8e7dfc88ac3F50b3F89Db7c29Dd',
 
-		// Hodl Clicker: Rush game address
+		// HODL Clicker: Rush game address
 		gameHodlClickerAddress: '0x012C2a83f854Bd016074195d06611785eF8D27E0',
 
 		// Batch Minter Address
