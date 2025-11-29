@@ -46,7 +46,6 @@ import lockquidityLogo from '@/react/svgs/lockquidity.svg';
 import damLogo from '@/react/svgs/logo.svg';
 import { DialogType, Game, Token } from '@/app/interfaces';
 import { formatMoney } from '@/utils/formatMoney';
-import { getApy, TokenPair } from '@/utils/getApy';
 import { getRequiredFluxToBurn, getRequiredFluxToBurnDecimal, numberWithCommas } from '@/utils/mathHelpers';
 import {
 	formatBigInt,
@@ -64,11 +63,6 @@ import { dispatch as appDispatch } from '@/react/utils/appStore';
 import { LocalizationProviderProps } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePickerProps } from '@mui/x-date-pickers/MobileDatePicker';
 import { AdapterDayjs as AdapterDayjsType } from '@mui/x-date-pickers/AdapterDayjs';
-
-interface PoolReserves {
-	Reserve0: string;
-	Reserve1: string;
-}
 
 const useStyles = tss.create(({ theme }) => ({
 	progressBarLeft: {
@@ -180,12 +174,12 @@ const CallToActionCard: React.FC = () => {
 		isArbitrumOnlyToken,
 		lockableTokenShortName,
 		mintableTokenShortName,
-		isTokenLogoEnabled,
+
 		maxBurnMultiplier,
 		minBurnMultiplier,
 		mintableTokenMintPerBlockDivisor,
 		mintableTokenPriceDecimals,
-		mintableTokenContractAddress,
+
 		batchMinterAddress,
 	} = getConfig(ecosystem);
 	const { isHelpPageEnabled } = navigation;
@@ -644,10 +638,6 @@ const CallToActionCard: React.FC = () => {
 						if (forecastSettings.enabled) {
 							const blocksRemaining = getBlocksRemaining(forecastSettings.blocks, 0, 0, 'None', false);
 							const getForecastedDate = () => {
-								const blocksDuration = Math.max(
-									0,
-									forecastSettings.blocks + (addressLock.lastMintBlockNumber - addressDetails.blockNumber)
-								); // This number comes from migration (28 days approx)
 								return null;
 							};
 							return (
@@ -803,12 +793,6 @@ const CallToActionCard: React.FC = () => {
 						return getFormattedMultiplier(addressDetails.addressTimeMultiplier);
 					};
 					const getBurnBonusDescription = () => {
-						const getTargetBurnMultiplier = () => {
-							if (forecastSettings.enabled) {
-								return Math.floor(forecastSettings.forecastBurn / 10000);
-							}
-							return 1;
-						};
 						const getTargetBurnMultiplierDecimal = () => {
 							if (forecastSettings.enabled) {
 								return forecastSettings.forecastBurn / 10000;
@@ -945,48 +929,7 @@ const CallToActionCard: React.FC = () => {
 						});
 						return `($ ${usdcAmount} USD)`;
 					};
-					const getApyHeader = () => {
-						if (
-							!balances ||
-							!balances.uniswapDamTokenReserves ||
-							!balances.uniswapFluxTokenReserves ||
-							!balances.uniswapUsdcEthTokenReserves
-						) {
-							return null;
-						}
-						const apyPools = new Map<TokenPair, PoolReserves>();
-						apyPools.set(TokenPair.DAM_ETH, {
-							Reserve0: balances.uniswapDamTokenReserves.eth.toString(),
-							Reserve1: balances.uniswapDamTokenReserves.dam.toString(),
-						});
-						apyPools.set(TokenPair.FLUX_ETH, {
-							Reserve0: balances.uniswapFluxTokenReserves.flux.toString(),
-							Reserve1: balances.uniswapFluxTokenReserves.eth.toString(),
-						});
-						apyPools.set(TokenPair.USDC_ETH, {
-							Reserve0: balances.uniswapUsdcEthTokenReserves.usdc.toString(),
-							Reserve1: balances.uniswapUsdcEthTokenReserves.eth.toString(),
-						});
-						const getBurnMultiplier = () => {
-							return minBurnMultiplier;
-						};
-						const burnMultiplier = getBurnMultiplier();
-						const apy = getApy(ecosystem, apyPools);
-						if (!apy) {
-							return null;
-						}
-						const actualApy = apy.apyPercent.noBurn * burnMultiplier;
-						if (!actualApy) {
-							return null;
-						}
-						return (
-							<>
-								<Typography component="div" color="textSecondary" display="inline">
-									&nbsp;({actualApy.toFixed(2)}% Base APY)
-								</Typography>
-							</>
-						);
-					};
+
 					const getBottomRightText = () => {
 						/*if (forecastSettings.enabled) {
 							return;
@@ -1004,10 +947,7 @@ const CallToActionCard: React.FC = () => {
 						title: (
 							<>
 								<Grid container justifyContent="space-between">
-									<Grid>
-										Liquidity Dashboard{getMintHeaderLabel()}
-										{/*getApyHeader()*/}
-									</Grid>
+									<Grid>Liquidity Dashboard{getMintHeaderLabel()}</Grid>
 									<Grid>
 										<FormControlLabel
 											value="start"

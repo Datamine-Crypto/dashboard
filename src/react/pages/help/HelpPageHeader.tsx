@@ -18,7 +18,7 @@ interface HelpPageHeaderProps {
 	ecosystem: Ecosystem;
 }
 
-const HelpPageHeader: React.FC<HelpPageHeaderProps> = ({ dispatch, ecosystem }) => {
+const HelpPageHeader: React.FC<HelpPageHeaderProps> = () => {
 	const { classes } = useStyles();
 
 	return (

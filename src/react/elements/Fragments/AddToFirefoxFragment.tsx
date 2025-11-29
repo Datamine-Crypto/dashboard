@@ -46,7 +46,7 @@ const AddToFirefoxFragment: React.FC = () => {
 					},
 				},
 			});
-		} catch (err) {
+		} catch {
 			// Silently fail if adding tokens fails
 		}
 		return false;

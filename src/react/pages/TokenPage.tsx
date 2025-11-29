@@ -33,10 +33,10 @@ const TokenPage: React.FC = () => {
 		}))
 	);
 	// Animation states
-	const [animateDAM, setAnimateDAM] = useState(false);
-	const [animateFLUX, setAnimateFLUX] = useState(false);
-	const [animateArbiFLUX, setAnimateArbiFLUX] = useState(false);
-	const [animateLOCK, setAnimateLOCK] = useState(false);
+	const [animateDAM] = useState(false);
+	const [animateFLUX] = useState(false);
+	const [animateArbiFLUX] = useState(false);
+
 	/**
 	 * Navigates the user to the dashboard page.
 	 */

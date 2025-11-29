@@ -87,7 +87,7 @@ export const getDepositMarketResponse: QueryHandler<AppState, GetDepositMarketRe
 	}
 	const selectedAddress = await getSelectedAddress();
 
-	const { address, amount } = query.payload!;
+	const { amount } = query.payload!;
 
 	const contracts = getContracts(publicClient, state.ecosystem);
 
@@ -118,7 +118,7 @@ export const getDepositMarketResponse: QueryHandler<AppState, GetDepositMarketRe
 		devLog('authorizeOperatorResponse:', authorizeOperatorResponse);
 	}
 
-	const depositResponse = await marketContract.marketDeposit({
+	await marketContract.marketDeposit({
 		amountToDeposit: amount,
 		rewardsPercent,
 		from: selectedAddress as string,
@@ -130,7 +130,7 @@ export const getDepositMarketResponse: QueryHandler<AppState, GetDepositMarketRe
 /**
  * Refreshes market addresses and other game-related data.
  */
-export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async ({ state, query }) => {
+export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async ({ state }) => {
 	const { ecosystem, game } = state;
 	const publicClient = getPublicClient();
 	if (!publicClient) {
@@ -316,7 +316,7 @@ export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async (
 /**
  * Withdraws all accumulated rewards from the Datamine Market.
  */
-export const getWithdrawMarketResponse: QueryHandler<AppState> = async ({ state, query }) => {
+export const getWithdrawMarketResponse: QueryHandler<AppState> = async ({ state }) => {
 	const { ecosystem, game } = state;
 	const publicClient = getPublicClient();
 	if (!publicClient) {

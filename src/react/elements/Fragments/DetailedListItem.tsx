@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import React, { ReactNode } from 'react';
 import { tss } from 'tss-react/mui';
 
-const useStyles = tss.create(({ theme }) => ({
+const useStyles = tss.create(() => ({
 	cardMobile: {
 		background: '#202336',
 		overflowX: 'auto',

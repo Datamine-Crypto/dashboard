@@ -57,14 +57,14 @@ const BurnDialog: React.FC = () => {
 	const { mintableTokenShortName, navigation, ecosystemName } = getEcosystemConfig(ecosystem);
 	const { isHelpPageEnabled } = navigation;
 
-	const onSubmit = async (e: any) => {
+	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		appDispatch({
 			type: commonLanguage.commands.Flux.Burn,
 			payload: { amount, address: targetAddress },
 		});
 	};
-	const onClose = (event: any = undefined, reason: any = undefined) => {
+	const onClose = () => {
 		// Prevent closing by clicking outside dialog
 		if (reason === 'backdropClick') {
 			return;

@@ -44,7 +44,7 @@ interface ComboBoxProps {
 	swapTokenDetails: SwapTokenDetails[];
 	swapOperation: SwapOperation;
 }
-const useStyles = tss.create(({ theme }) => ({
+const useStyles = tss.create(() => ({
 	topLeftPrices: {
 		color: '#FFF',
 	},
@@ -92,17 +92,13 @@ const TradeDialog: React.FC = () => {
 		(inputTokenDetails.layer !== null && inputTokenDetails.layer !== layer) ||
 		(outputTokenDetails.layer !== null && outputTokenDetails.layer !== layer);
 
-	const onClose = (event: any = undefined, reason: any = undefined) => {
-		// Prevent closing by clicking outside dialog
-		if (reason === 'backdropClick') {
-			return;
-		}
+	const onClose = () => {
 		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const onFlipSwap = () => {
 		appDispatch({ type: commonLanguage.commands.Swap.FlipSwap });
 	};
-	const onSubmit = async (e: any) => {
+	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (isLayerMismatch) {
 			// Clear the input amount (since the tokens will change)
@@ -151,7 +147,7 @@ const TradeDialog: React.FC = () => {
 		);
 	};
 	const getCombobox = ({ value, label, swapToken, swapTokenDetails, swapOperation }: ComboBoxProps) => {
-		const handleChangeAmount = (e: any) => {
+		const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
 			//@todo add logic for output amount edit
 			if (swapOperation !== SwapOperation.Input) {
 				return;
@@ -163,7 +159,7 @@ const TradeDialog: React.FC = () => {
 				},
 			});
 		};
-		const handleTokenChange = (e: any) => {
+		const handleTokenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 			appDispatch({
 				type: commonLanguage.commands.Swap.SetToken,
 				payload: {
@@ -451,7 +447,7 @@ const TradeDialog: React.FC = () => {
 						</Typography>
 					</>
 				);
-			} catch (err) {
+			} catch {
 				return baseLabel;
 			}
 		};

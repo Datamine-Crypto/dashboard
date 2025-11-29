@@ -72,7 +72,7 @@ const DamLockDialog: React.FC = () => {
 		return null;
 	}
 
-	const onSubmit = async (e: any) => {
+	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		const getMinterAddress = () => {
 			switch (minterType) {
@@ -100,11 +100,7 @@ const DamLockDialog: React.FC = () => {
 			},
 		});
 	};
-	const onClose = (event: any = undefined, reason: any = undefined) => {
-		// Prevent closing by clicking outside dialog
-		if (reason === 'backdropClick') {
-			return;
-		}
+	const onClose = () => {
 		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const getDelegatedMinterBox = () => {

@@ -68,15 +68,6 @@ export enum LiquidityPoolButtonType {
 	ExtraLargeButton = 'ExtraLargeButton',
 	TextLink = 'TextLink',
 }
-interface TradePool {
-	name: string;
-	links: {
-		info: string;
-		buy: string;
-		addLiquidity: string;
-	};
-	layer: number;
-}
 
 interface Params {
 	buttonType: LiquidityPoolButtonType;
@@ -85,16 +76,12 @@ interface Params {
 	contents?: React.ReactElement;
 	ecosystem: Ecosystem;
 }
-const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, hideIcon, contents, ecosystem }) => {
+const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosystem }) => {
 	const { liquidityPoolGroups } = getEcosystemConfig(ecosystem);
 
 	const { classes } = useStyles();
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-	const [tradeAnchorEl, setTradeAnchorEl] = React.useState<null | HTMLElement>(null);
-
-	const [tradePool, setTradePool] = React.useState<TradePool | null>(null);
 
 	const handleClick = (event: React.MouseEvent<any>) => {
 		event.preventDefault();
@@ -103,11 +90,8 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, hideIcon, content
 
 	const handleClose = () => {
 		setAnchorEl(null);
-		setTradeAnchorEl(null);
 	};
-	const handleCloseTrade = () => {
-		setTradeAnchorEl(null);
-	};
+
 	const getButton = () => {
 		const getSize = () => {
 			switch (buttonType) {
@@ -185,13 +169,6 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, hideIcon, content
 								<Chip size="small" label="HOT🔥" variant="outlined" />
 							</Box>
 						);
-					};
-
-					const handleTradeClick = (event: React.MouseEvent<any>) => {
-						event.preventDefault();
-
-						setTradePool(pool);
-						setTradeAnchorEl(event.currentTarget);
 					};
 
 					const getTradeButton = () => {

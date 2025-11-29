@@ -8,7 +8,6 @@ import {
 	DialogContent,
 	DialogTitle,
 	Divider,
-	Link,
 	Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
@@ -27,12 +26,7 @@ import { getNetworkDropdown } from '@/react/elements/Fragments/EcosystemDropdown
 import Big from 'big.js';
 import { devLog } from '@/utils/devLog';
 import { useShallow } from 'zustand/react/shallow';
-enum BlockReason {
-	IsPaused,
-	MinBlockNotMet,
-	NoBlocksToMint,
-	MinAmountNotMet,
-}
+
 const MarketCollectRewardsDialog: React.FC = () => {
 	const {
 		balances,
@@ -74,15 +68,6 @@ const MarketCollectRewardsDialog: React.FC = () => {
 	const selectedAddress = (address ?? selectedAddressFromStore) as string;
 	const dispatch = appDispatch;
 
-	const localConfig = {
-		/**
-		 * Metamask added some strange block caching to requests and the only current way to work around this
-		 * is to leave the Metamask window open. Then the latest block numbers are used for queries.
-		 *
-		 * So if we don't get a new block in ~60 seconds then show a warning (as a new block should be generated every 12 sec)
-		 */
-		blockLagWarningTimeout: 60 * 1000, // 5 blocks (12 sec each)
-	};
 	const [showBlockLagWarning, setShowBlockLagWarning] = useState(false);
 	useEffect(() => {
 		// Reset warning on a new block
@@ -90,15 +75,13 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		// Set a timer to show the warning if no new block arrives
 		const timer = setTimeout(() => {
 			setShowBlockLagWarning(true);
-		}, localConfig.blockLagWarningTimeout); // 36 seconds
+		}, 60 * 1000); // 36 seconds
 		// Cleanup timer on component unmount or when targetBlock changes
 		return () => {
 			clearTimeout(timer);
 		};
 	}, [marketAddresses?.targetBlock]);
-	const { mintableTokenShortName, navigation, ecosystemName, marketAddress, gameHodlClickerAddress } =
-		getEcosystemConfig(ecosystem);
-	const { isHelpPageEnabled } = navigation;
+	const { mintableTokenShortName, marketAddress, gameHodlClickerAddress } = getEcosystemConfig(ecosystem);
 	const getGameAddress = () => {
 		switch (game) {
 			case Game.DatamineGems:
@@ -137,7 +120,7 @@ const MarketCollectRewardsDialog: React.FC = () => {
 	};
 	const isDepositRequired =
 		isGameRequiringBalance() && currentAddressMarketAddress && currentAddressMarketAddress.rewardsAmount === 0n;
-	const onSubmit = async (e: any) => {
+	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!selectedAddress) {
 			if (hasWeb3 === null) {
@@ -158,27 +141,10 @@ const MarketCollectRewardsDialog: React.FC = () => {
 	const showDepositWithdrawDialog = () => {
 		dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.MarketDepositWithdraw } });
 	};
-	const onClose = (event: any = undefined, reason: any = undefined) => {
-		// Prevent closing by clicking outside dialog
-		if (reason === 'backdropClick') {
-			return;
-		}
+	const onClose = () => {
 		dispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
-	const getLearnMoreBurningLink = () => {
-		if (!isHelpPageEnabled) {
-			return null;
-		}
-		return (
-			<>
-				{' '}
-				<Link color="textSecondary" href="#help/dashboard/burningFluxTokens" rel="noopener noreferrer" target="_blank">
-					Click here
-				</Link>{' '}
-				to learn more about {mintableTokenShortName} market.
-			</>
-		);
-	};
+
 	const getDepositWithdrawButton = () => {
 		if (!selectedAddress) {
 			return null;

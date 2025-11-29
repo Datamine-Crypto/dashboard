@@ -95,7 +95,8 @@ export interface MarketWithdrawAllParams {
  * Retrieves a Web3 provider instance.
  * It attempts to detect common providers like MetaMask, Trust Wallet, or a generic Web3 provider.
  */
-export const getWeb3Provider = async ({ ecosystem }: { ecosystem: Ecosystem }) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getWeb3Provider = async ({ ecosystem: _ecosystem }: { ecosystem: Ecosystem }) => {
 	const { ethereum } = window;
 	if (ethereum) {
 		devLog('found window.ethereum provider:');
@@ -107,7 +108,7 @@ export const getWeb3Provider = async ({ ecosystem }: { ecosystem: Ecosystem }) =
 		const detectEthereumProvider = (await import('@metamask/detect-provider')).default;
 		const provider = await detectEthereumProvider();
 		return provider;
-	} catch (err) {
+	} catch {
 		// Silently fail if can't detect provider
 	}
 
@@ -179,7 +180,7 @@ export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: Conn
 						params: [{ chainId: chainIdHex }],
 					});
 				}
-			} catch (addError) {
+			} catch {
 				// handle "add" error
 			}
 		}
@@ -310,7 +311,7 @@ export const rethrowWeb3Error = (err: any) => {
 			let jsonData = null;
 			try {
 				jsonData = JSON.parse(splitError[1]);
-			} catch (err) {
+			} catch {
 				// Silently fail
 			}
 			tryThrowError(jsonData);
@@ -340,7 +341,7 @@ export const getGasFees = async (publicClient: PublicClient) => {
 	try {
 		const fees = await publicClient.estimateFeesPerGas();
 		return fees;
-	} catch (err) {
+	} catch {
 		// Fallback or handle error if needed, but Viem's estimateFeesPerGas handles EIP-1559 vs Legacy automatically mostly.
 		// If it fails, we might want to try getGasPrice as fallback for very old chains, but Arbitrum supports EIP-1559.
 		const gasPrice = await publicClient.getGasPrice();

@@ -138,8 +138,6 @@ export const MainDrawer: React.FC = () => {
 
 	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem);
 	const {
-		isL1PageEnabled,
-		isL2PageEnabled,
 		isCommunityPageEnabled,
 		isAnalyticsPagesEnabled,
 		ecosystemButtonlabel,
@@ -147,7 +145,7 @@ export const MainDrawer: React.FC = () => {
 		isHelpPageEnabled,
 	} = navigation;
 	//const { classes } = useStyles() ;
-	const { cx, classes } = useStyles();
+	const { classes } = useStyles();
 	const isBigDrawerOpen = true;
 	const getL2Page = () => {
 		return [

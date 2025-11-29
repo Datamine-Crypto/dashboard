@@ -99,12 +99,6 @@ export const getPriceToggleBig = ({
 	const ethReserve = new Big(balances.uniswapUsdcEthTokenReserves.eth.toString(10)).div(div18);
 	const ethPrice = usdcReserve.div(ethReserve);
 
-	const damReserve = new Big(balances.uniswapDamTokenReserves.dam.toString(10)).div(div18);
-	const damEthReserve = new Big(balances.uniswapDamTokenReserves.eth.toString(10)).div(div18);
-
-	const fluxReserve = new Big(balances.uniswapFluxTokenReserves.flux.toString(10)).div(div18);
-	const fluxEthReserve = new Big(balances.uniswapFluxTokenReserves.eth.toString(10)).div(div18);
-
 	const getResult = () => {
 		if (inputToken === Token.ETH && outputToken === Token.USDC) {
 			const price = ethPrice.mul(valueBig.div(div18)).toFixed(!!round || round === 0 ? round : 2);
@@ -157,7 +151,6 @@ export const getPriceToggleBig = ({
  * A Big.js constant representing 10^18, commonly used for converting raw token amounts
  * (which are typically 18 decimal places) to human-readable decimal values.
  */
-const bigDecimalDividor = new Big(10).pow(18);
 
 /**
  * Calculates the percentage of `bnA` relative to `bnB` or `bnA + bnB`.

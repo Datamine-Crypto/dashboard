@@ -32,7 +32,7 @@ interface CenterContent {
 	message: ReactNode;
 	content?: ReactNode;
 }
-const useStyles = tss.create(({ theme }) => ({
+const useStyles = tss.create(() => ({
 	fullScreenSplash: {
 		minHeight: '100vh',
 		display: 'flex',
@@ -44,29 +44,20 @@ const useStyles = tss.create(({ theme }) => ({
 interface Props {
 	address: string | null;
 }
-const DashboardPage: React.FC<Props> = ({ address }) => {
+const DashboardPage: React.FC<Props> = () => {
 	const { classes } = useStyles();
-	const {
-		addressDetails,
-		isLate,
-		isInitialized,
-		hasWeb3,
-		selectedAddress,
-		isIncorrectNetwork,
-		connectionMethod,
-		ecosystem,
-	} = useAppStore(
-		useShallow((state) => ({
-			addressDetails: state.addressDetails,
-			isLate: state.isLate,
-			isInitialized: state.isInitialized,
-			hasWeb3: state.hasWeb3,
-			selectedAddress: state.selectedAddress,
-			isIncorrectNetwork: state.isIncorrectNetwork,
-			connectionMethod: state.connectionMethod,
-			ecosystem: state.ecosystem,
-		}))
-	);
+	const { addressDetails, isLate, isInitialized, hasWeb3, selectedAddress, isIncorrectNetwork, ecosystem } =
+		useAppStore(
+			useShallow((state) => ({
+				addressDetails: state.addressDetails,
+				isLate: state.isLate,
+				isInitialized: state.isInitialized,
+				hasWeb3: state.hasWeb3,
+				selectedAddress: state.selectedAddress,
+				isIncorrectNetwork: state.isIncorrectNetwork,
+				ecosystem: state.ecosystem,
+			}))
+		);
 
 	const config = getEcosystemConfig(ecosystem);
 	const {

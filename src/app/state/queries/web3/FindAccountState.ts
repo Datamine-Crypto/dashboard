@@ -14,7 +14,7 @@ import { SwapToken } from '@/web3/swap/swapOptions';
  * Fetches all relevant on-chain data for the current user account in a single batch request using multicall.
  * This includes balances, contract details, and Uniswap pool reserves.
  */
-export const findAccountState: QueryHandler<AppState> = async ({ state, query }) => {
+export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 	const { address, ecosystem } = state;
 	const publicClient = getPublicClient();
 

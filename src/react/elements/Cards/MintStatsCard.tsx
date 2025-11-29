@@ -1,40 +1,32 @@
-import { Box, Button, Card, CardContent, Divider, Typography } from '@mui/material';
+import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useAppStore } from '@/react/utils/appStore';
-import { formatBigInt, getBlocksRemaining } from '@/utils/mathHelpers';
+import { getBlocksRemaining } from '@/utils/mathHelpers';
 
-import { DialogType } from '@/app/interfaces';
-import { commonLanguage } from '@/app/state/commonLanguage';
-import { LockOpen } from '@mui/icons-material';
 import Big from 'big.js';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { getRequiredFluxToBurn } from '@/utils/mathHelpers';
 import DetailedListItem from '@/react/elements/Fragments/DetailedListItem';
 import { useShallow } from 'zustand/react/shallow';
-import { dispatch as appDispatch } from '@/react/utils/appStore';
 
 const MintStatsCard: React.FC = () => {
-	const { address, selectedAddress, addressLock, addressDetails, addressTokenDetails, balances, ecosystem } =
-		useAppStore(
-			useShallow((state) => ({
-				address: state.address,
-				selectedAddress: state.selectedAddress,
-				addressLock: state.addressLock,
-				addressDetails: state.addressDetails,
-				addressTokenDetails: state.addressTokenDetails,
-				balances: state.balances,
-				ecosystem: state.ecosystem,
-			}))
-		);
-	const dispatch = appDispatch;
+	const { selectedAddress, addressLock, addressDetails, addressTokenDetails, balances, ecosystem } = useAppStore(
+		useShallow((state) => ({
+			selectedAddress: state.selectedAddress,
+			addressLock: state.addressLock,
+			addressDetails: state.addressDetails,
+			addressTokenDetails: state.addressTokenDetails,
+			balances: state.balances,
+			ecosystem: state.ecosystem,
+		}))
+	);
 
 	if (!addressLock || !addressDetails || !addressTokenDetails || !selectedAddress || !balances) {
 		return null;
 	}
 
-	const displayedAddress = address ?? selectedAddress;
 	const { mintableTokenShortName, maxBurnMultiplier, minBurnMultiplier } = getEcosystemConfig(ecosystem);
 
 	const getBlockDuration = (startBlockNumber: number) => {
@@ -44,43 +36,6 @@ const MintStatsCard: React.FC = () => {
 			hours: `~${hoursDuration.toFixed(2)} hours`,
 			blocks: `(${blocksDuration} block${blocksDuration > 1 ? 's' : ''})`,
 		};
-	};
-
-	const showUnlockDialog = () => {
-		dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.Unlock } });
-	};
-
-	const getLockedInAmount = () => {
-		return `${formatBigInt(addressLock.amount, true)} DAM`;
-	};
-
-	const getDamLockedInHeader = () => {
-		const getUnlockButton = () => {
-			if (addressLock.amount === 0n) {
-				return;
-			}
-			if (displayedAddress !== selectedAddress) {
-				return;
-			}
-			return (
-				<Box px={2} display="inline-block">
-					<Button
-						size="small"
-						variant="outlined"
-						onClick={() => showUnlockDialog()}
-						startIcon={<LockOpen style={{ color: '#0FF' }} />}
-					>
-						Unlock DAM
-					</Button>
-				</Box>
-			);
-		};
-		return (
-			<>
-				DAM Powering Validators
-				{getUnlockButton()}
-			</>
-		);
 	};
 
 	const getLastMint = () => {
@@ -111,7 +66,6 @@ const MintStatsCard: React.FC = () => {
 		return null;
 	}
 
-	const { myRatio } = addressTokenDetails;
 	const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({
 		addressDetails,
 		addressLock,

@@ -34,10 +34,10 @@ export const encodeMulticall = (multicallParams: Record<string, MultiCallParams>
 	const multicallEntries = Object.entries(multicallParams);
 
 	return multicallEntries
-		.filter(([key, multicallParam]) => {
+		.filter(([, multicallParam]) => {
 			return multicallParam !== undefined;
 		})
-		.map(([key, multicallParam]) => ({
+		.map(([, multicallParam]) => ({
 			target: multicallParam.address as `0x${string}`,
 			callData: encodeFunctionData({
 				abi: [multicallParam.function.signature],
@@ -69,7 +69,7 @@ export const decodeMulticall = (
 	const multicallEntries = Object.entries<MultiCallParams>(multicallParams);
 
 	const decodedResults = multicallEntries
-		.filter(([key, multicallParam]) => {
+		.filter(([, multicallParam]) => {
 			return multicallParam !== undefined;
 		})
 		.reduce((results, [key, multicallParam], index) => {

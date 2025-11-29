@@ -14,7 +14,7 @@ let thottleGetOutputQuoteTimeout: ReturnType<typeof setTimeout> | undefined;
 /**
  * Throttles requests for swap output quotes to prevent excessive calls while the user is typing.
  */
-export const throttleGetOutputQuote: QueryHandler<AppState> = async ({ state, query, dispatch }) => {
+export const throttleGetOutputQuote: QueryHandler<AppState> = async ({ dispatch }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		return;
@@ -30,7 +30,7 @@ export const throttleGetOutputQuote: QueryHandler<AppState> = async ({ state, qu
 /**
  * Fetches the expected output amount for a given token swap.
  */
-export const getOutputQuote: QueryHandler<AppState> = async ({ state, query }) => {
+export const getOutputQuote: QueryHandler<AppState> = async ({ state }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		return;
@@ -71,7 +71,7 @@ export const getOutputQuote: QueryHandler<AppState> = async ({ state, query }) =
 /**
  * Executes a token swap.
  */
-export const getTradeResponse: QueryHandler<AppState> = async ({ state, query }) => {
+export const getTradeResponse: QueryHandler<AppState> = async ({ state }) => {
 	const publicClient = getPublicClient();
 	const walletClient = getWalletClient();
 	if (!publicClient || !walletClient) {

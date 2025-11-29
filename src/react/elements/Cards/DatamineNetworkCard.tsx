@@ -9,10 +9,9 @@ import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
 
 const DatamineNetworkCard: React.FC = () => {
-	const { addressLock, address, selectedAddress } = useAppStore(
+	const { addressLock, selectedAddress } = useAppStore(
 		useShallow((state) => ({
 			addressLock: state.addressLock,
-			address: state.address,
 			selectedAddress: state.selectedAddress,
 		}))
 	);
@@ -21,7 +20,6 @@ const DatamineNetworkCard: React.FC = () => {
 	if (!addressLock || !selectedAddress) {
 		return null;
 	}
-	const displayedAddress = address ?? selectedAddress;
 
 	const getButton = () => {
 		const disabledText = false; //!isCurrentAddress ? <>Select the <Box fontWeight="bold" display="inline">Delegated Minter Address</Box> account in your wallet to mint for this address.</> : null;

@@ -8,7 +8,8 @@ import { getBaseConfig } from '@/app/configs/config.base';
  * @returns A partial configuration object containing the overrides.
  */
 export const getConfigOverrides = (
-	baseConfig: ReturnType<typeof getBaseConfig>
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	_baseConfig: ReturnType<typeof getBaseConfig>
 ): Partial<ReturnType<typeof getBaseConfig>> => {
 	return {
 		// Example of override (your token doesn't have liquidity pools):

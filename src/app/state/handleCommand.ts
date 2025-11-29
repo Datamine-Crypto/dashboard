@@ -265,7 +265,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 						priceMultiplierAmount,
 					},
 				};
-			} catch (err) {
+			} catch {
 				return state;
 			}
 		}
@@ -567,7 +567,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 						},
 					]),
 				};
-			} catch (err) {
+			} catch {
 				return {
 					...state,
 					error: commonLanguage.errors.InvalidNumber,
@@ -669,7 +669,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 						},
 					]),
 				};
-			} catch (err) {
+			} catch {
 				return {
 					...state,
 					error: commonLanguage.errors.InvalidNumber,
@@ -690,7 +690,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 						},
 					]),
 				};
-			} catch (err) {
+			} catch {
 				return {
 					...state,
 					error: commonLanguage.errors.InvalidNumber,
@@ -858,7 +858,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					error: null,
 					...withQueries([{ type: commonLanguage.queries.Market.GetRefreshMarketAddressesResponse, payload: {} }]),
 				};
-			} catch (err) {
+			} catch {
 				return {
 					...state,
 					error: commonLanguage.errors.InvalidNumber,
@@ -875,7 +875,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					error: null,
 					...withQueries([{ type: commonLanguage.queries.Swap.GetTradeResponse, payload: { minReturn } }]),
 				};
-			} catch (err) {
+			} catch {
 				return {
 					...state,
 					error: commonLanguage.errors.InvalidNumber,

@@ -29,7 +29,7 @@ interface Params {
 	ecosystem: Ecosystem;
 }
 
-const useStyles = tss.create(({ theme }) => ({
+const useStyles = tss.create(() => ({
 	highlightedText: {
 		color: datamineTheme.classes.palette.highlight,
 	},

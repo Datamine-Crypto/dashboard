@@ -41,7 +41,7 @@ const copyToClipBoard = function (text: string) {
 			//Chrome
 			navigator.clipboard.writeText(text).then(
 				function () {},
-				function (err) {
+				function () {
 					copyToClipboardRaw(text);
 				}
 			);
@@ -51,7 +51,7 @@ const copyToClipBoard = function (text: string) {
 		} else {
 			copyToClipboardRaw(text);
 		}
-	} catch (ex) {
+	} catch {
 		copyToClipboardRaw(text);
 	}
 };

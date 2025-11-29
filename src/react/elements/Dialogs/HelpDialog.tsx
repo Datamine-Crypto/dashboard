@@ -279,7 +279,7 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 		return <img src={clearSrc} alt={alt} title={alt} className={className} style={style} />;
 	};
 	const code = (props: CodeParams) => {
-		const { className, value, children } = props;
+		const { className, children } = props;
 
 		const getComponent = ({ type, props }: LanguageComponentParams) => {
 			switch (type) {

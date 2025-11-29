@@ -78,7 +78,7 @@ export const getSelectedAddress = async () => {
 		if (addresses.length > 0) {
 			return addresses[0];
 		}
-	} catch (err) {
+	} catch {
 		// Silently fail
 	}
 
@@ -106,7 +106,7 @@ export const preselectAddress = async () => {
 			preselectedAddress = addresses[0];
 			return addresses;
 		}
-	} catch (err) {
+	} catch {
 		// Silently fail if can't find any addresses or enable() fails
 	}
 

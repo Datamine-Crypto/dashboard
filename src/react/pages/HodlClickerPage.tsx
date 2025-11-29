@@ -6,7 +6,7 @@ import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem, Layer } from '@/app/configs/config.common';
+import { Ecosystem } from '@/app/configs/config.common';
 import metamaskIcon from '@/react/svgs/metamask.svg';
 import { isDevLogEnabled } from '@/utils/devLog';
 import { useShallow } from 'zustand/react/shallow';
@@ -32,19 +32,8 @@ const useStyles = tss.create(() => ({
 
 const HodlClickerPage: React.FC = () => {
 	const { classes } = useStyles();
-	const {
-		addressDetails,
-		isLate,
-		isInitialized,
-		hasWeb3,
-		selectedAddress,
-		isIncorrectNetwork,
-		connectionMethod,
-		ecosystem,
-	} = useAppStore(
+	const { isInitialized, hasWeb3, selectedAddress, isIncorrectNetwork, connectionMethod, ecosystem } = useAppStore(
 		useShallow((state) => ({
-			addressDetails: state.addressDetails,
-			isLate: state.isLate,
 			isInitialized: state.isInitialized,
 			hasWeb3: state.hasWeb3,
 			selectedAddress: state.selectedAddress,
@@ -187,8 +176,6 @@ const HodlClickerPage: React.FC = () => {
 				</>
 			);
 		}
-
-		const isL2 = config.layer === Layer.Layer2;
 
 		if (ecosystem !== Ecosystem.Lockquidity) {
 			return (

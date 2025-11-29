@@ -150,14 +150,14 @@ const Particle = React.memo(function Particle({ color, delay, duration, targetX,
 // --- GemItem Component (Memoized) ---
 interface GemItemProps {
 	gemContent: Gem | null;
-	itemIndex: number;
+
 	onAttemptCollect: (gem: Gem) => void;
 	currentGemValues: Record<string, number>;
 }
 
 const GemItem = React.memo(function GemItem({
 	gemContent,
-	itemIndex,
+
 	onAttemptCollect,
 	currentGemValues,
 }: GemItemProps) {
@@ -553,10 +553,6 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 		[onAttemptCollectGem, handleActualGemCollection, grid, gemValuesConfig]
 	);
 
-	const handleResetSettingsToDefault = useCallback(() => {
-		setGemValuesConfig(DEFAULT_GEM_VALUES);
-	}, []);
-
 	const handleOpenSettingsDialog = () => {
 		setEditableGemValues(
 			Object.entries(gemValuesConfig).reduce(
@@ -703,7 +699,6 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 					>
 						<GemItem
 							gemContent={gemInCell}
-							itemIndex={index}
 							onAttemptCollect={handleGemInteractionAttempt}
 							currentGemValues={gemValuesConfig}
 						/>

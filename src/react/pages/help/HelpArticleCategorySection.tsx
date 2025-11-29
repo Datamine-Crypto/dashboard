@@ -1,18 +1,9 @@
 import { Box, List, ListItemButton } from '@mui/material';
 import React from 'react';
 
-import { theme as datamineTheme } from '@/react/utils/theme';
 import { HelpArticle } from '@/app/helpArticles';
-import { tss } from 'tss-react/mui';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
-
-const useStyles = tss.create(() => ({
-	helpCategoryHeader: {
-		color: datamineTheme.classes.palette.highlight,
-		background: 'none',
-	},
-}));
 
 interface HelpArticleCategorySectionProps {
 	dispatch: ReducerDispatch;
@@ -21,8 +12,6 @@ interface HelpArticleCategorySectionProps {
 }
 
 const HelpArticleCategorySection: React.FC<HelpArticleCategorySectionProps> = ({ dispatch, filteredArticles }) => {
-	const { classes } = useStyles();
-
 	const getHelpListItems = () => {
 		return filteredArticles.map((helpArticle: HelpArticle, index: number) => {
 			return (

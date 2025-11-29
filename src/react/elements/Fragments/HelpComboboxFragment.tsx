@@ -6,7 +6,7 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';
 
-const useStyles = tss.create(({ theme }) => ({
+const useStyles = tss.create(() => ({
 	big: {
 		width: '100%',
 	},
@@ -28,7 +28,7 @@ const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
 		}))
 	);
 
-	const filterOptions = (options: HelpArticle[], { inputValue }: { inputValue: string }) => options;
+	const filterOptions = (options: HelpArticle[]) => options;
 	const onChange = (event: React.SyntheticEvent, helpArticle: HelpArticle | null) => {
 		if (helpArticle) {
 			appDispatch({ type: commonLanguage.commands.Help.ShowArticle, payload: { helpArticle } });

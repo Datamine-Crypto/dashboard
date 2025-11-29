@@ -26,7 +26,7 @@ import { useShallow } from 'zustand/react/shallow';
  * Styles for the AccountBalancesCard component.
  * Defines styles for address display and detailed list items container.
  */
-const useStyles = tss.create(({ theme }) => ({
+const useStyles = tss.create(() => ({
 	address: {
 		fontSize: '0.7rem',
 		letterSpacing: 0,
@@ -67,25 +67,20 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 		lockableTokenFullName,
 		mintableTokenShortName,
 		lockableTokenShortName,
-		isLiquidityPoolsEnabled,
 		mintableTokenPriceDecimals,
-		isLiquidityPoolAdditionalButtonsEnabled,
-		liquidityPoolType,
 		batchMinterAddress,
 	} = config;
 	const { myRatio } = addressTokenDetails;
 	const { minterAddress } = addressLock;
 	// Check if the selected address is the delegated minter (case-insensitive)
-	const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase();
+
 	// Check if the displayed address is the currently selected address
 	const isCurrentAddress = selectedAddress?.toLowerCase() === displayedAddress?.toLowerCase();
 	const isSelfMinter = addressLock.minterAddress === displayedAddress;
 	/**
 	 * Displays the mint dialog by dispatching a SHOW_DIALOG command.
 	 */
-	const showMintDialog = () => {
-		dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.Mint } });
-	};
+
 	/**
 	 * Renders the delegated minter address and a tooltip explaining its role.
 	 * Returns null if no tokens are locked.

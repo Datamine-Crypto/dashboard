@@ -25,7 +25,7 @@ const GlobalCard: React.FC = () => {
 
 	const { lockableTokenShortName, mintableTokenShortName, mintableTokenPriceDecimals, layer } =
 		getEcosystemConfig(ecosystem);
-	const { globalRatio, blockNumber } = addressTokenDetails;
+	const { globalRatio } = addressTokenDetails;
 
 	const getBurnedUsdc = () => {
 		const balanceInUsdc = `$ ${getPriceToggle({ value: addressDetails.globalBurnedAmount, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;

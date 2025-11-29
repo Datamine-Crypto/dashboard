@@ -140,7 +140,7 @@ const HodlClickerFaucets: React.FC<HodlClickerFaucetsProps> = ({
 					// Scale bars to the Average Value (100% = Average)
 					const scaleMax = avgGemValue || 0;
 
-					return sortedMarketAddresses.map((addr, index) => {
+					return sortedMarketAddresses.map((addr) => {
 						if (!balances) return null;
 						const amountBigInt = addr.mintAmount;
 						const rewardsPercent = addr.rewardsPercent === 0 ? 500 : addr.rewardsPercent;

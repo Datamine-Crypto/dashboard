@@ -20,7 +20,7 @@ type CustomTooltipProps = TooltipProps;
  */
 const LightTooltip = styled(({ className, ...props }: CustomTooltipProps) => (
 	<Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
+))(() => ({
 	[`& .${tooltipClasses.tooltip}`]: {
 		backgroundColor: '#272936',
 		color: '#fff',

@@ -19,6 +19,7 @@ export const commonLanguage = {
 		UpdateEcosystem: 'UPDATE_ECOSYSTEM',
 		CopyAnalytics: 'COPY_ANALYTICS',
 		SetMinterSettings: 'SET_MINTER_SETTINGS',
+		DisplayAccessLinks: 'DISPLAY_ACCESS_LINKS',
 
 		Dialog: {
 			Show: 'SHOW_DIALOG',

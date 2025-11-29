@@ -21,7 +21,7 @@ export const getNetworkDropdown = ({ ecosystem, connectionMethod, dispatch, widt
 	const ecosystemMenuItems = [];
 
 	for (const [ecosystemName, ecosystemConfig] of ecosystems) {
-		const { lockableTokenShortName, ecosystemLogoSvg, mintableTokenShortName, layer } = ecosystemConfig;
+		const { lockableTokenShortName, ecosystemLogoSvg, mintableTokenShortName } = ecosystemConfig;
 		if (hideEcosystems.some((hideEcosystem) => hideEcosystem === ecosystemName)) {
 			continue;
 		}

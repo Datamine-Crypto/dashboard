@@ -6,7 +6,6 @@ import {
 	DialogContent,
 	DialogTitle,
 	Divider,
-	Link,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -49,21 +48,16 @@ const MintSettingsDialog: React.FC = () => {
 		return null;
 	}
 
-	const { mintableTokenShortName, navigation } = getEcosystemConfig(ecosystem);
-	const { isHelpPageEnabled } = navigation;
+	const { mintableTokenShortName } = getEcosystemConfig(ecosystem);
 
-	const onSubmit = async (e: any) => {
+	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		appDispatch({
 			type: commonLanguage.commands.SetMinterSettings,
 			payload: { address: targetAddress },
 		});
 	};
-	const onClose = (event: any = undefined, reason: any = undefined) => {
-		// Prevent closing by clicking outside dialog
-		if (reason === 'backdropClick') {
-			return;
-		}
+	const onClose = () => {
 		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const getDelegatedMinterBox = () => {
@@ -82,20 +76,7 @@ const MintSettingsDialog: React.FC = () => {
 			</Box>
 		);
 	};
-	const getLearnMoreBurningLink = () => {
-		if (!isHelpPageEnabled) {
-			return null;
-		}
-		return (
-			<>
-				{' '}
-				<Link color="textSecondary" href="#help/dashboard/burningFluxTokens" rel="noopener noreferrer" target="_blank">
-					Click here
-				</Link>{' '}
-				to learn more about {mintableTokenShortName} burning.
-			</>
-		);
-	};
+
 	return (
 		<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 			<form onSubmit={onSubmit}>

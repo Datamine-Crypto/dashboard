@@ -39,14 +39,7 @@ export const performSwapUniswapV2 = async (
 	swapOptions: SwapOptions,
 	swapPlatformOptions: UniswapV2SwapPlatformOptions
 ) => {
-	const {
-		publicClient,
-		walletClient,
-		inputToken,
-		outputToken,
-		onlyGetQuote = false,
-		onlyCheckTradeValidity = false,
-	} = swapOptions;
+	const { publicClient, walletClient, inputToken, onlyGetQuote = false, onlyCheckTradeValidity = false } = swapOptions;
 
 	const { uniswapV2RouterABI, uniswapv2routerAddress } = swapPlatformOptions;
 

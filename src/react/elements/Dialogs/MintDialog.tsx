@@ -38,7 +38,7 @@ const MintDialog: React.FC = () => {
 	const displayedAddress = address ?? selectedAddress;
 	const { mintableTokenShortName } = getEcosystemConfig(ecosystem);
 
-	const onSubmit = async (e: any) => {
+	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		appDispatch({
 			type: commonLanguage.commands.Flux.Mint,
@@ -50,11 +50,7 @@ const MintDialog: React.FC = () => {
 		});
 	};
 
-	const onClose = (event: any = undefined, reason: any = undefined) => {
-		// Prevent closing by clicking outside dialog
-		if (reason === 'backdropClick') {
-			return;
-		}
+	const onClose = () => {
 		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 

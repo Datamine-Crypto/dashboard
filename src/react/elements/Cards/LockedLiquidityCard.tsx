@@ -13,7 +13,7 @@ import LightTooltip from '@/react/elements/LightTooltip';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';
 
-const useStyles = tss.create(({ theme }) => ({
+const useStyles = tss.create(() => ({
 	address: {
 		fontSize: '0.7rem',
 		letterSpacing: 0,
@@ -33,7 +33,7 @@ const LockedLiquidityCard: React.FC = () => {
 		return null;
 	}
 
-	const { mintableTokenShortName, layer, mintableSushiSwapL2EthPair } = getEcosystemConfig(ecosystem) as any; // temp for mintableSushiSwapL2EthPair
+	const { mintableTokenShortName, layer, mintableSushiSwapL2EthPair } = getEcosystemConfig(ecosystem);
 	const { lockedLiquidityUniAmount, lockedLiquidtyUniTotalSupply, uniswapFluxTokenReserves } = balances;
 	const percentLockedLiquidity = Number((lockedLiquidityUniAmount * 1000000n) / lockedLiquidtyUniTotalSupply) / 10000;
 

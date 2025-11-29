@@ -1,4 +1,4 @@
-import { Build, Menu } from '@mui/icons-material';
+import { Menu } from '@mui/icons-material';
 import { AppBar, Box, Card, CardActionArea, IconButton, Link, Toolbar, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
@@ -60,24 +60,17 @@ interface AppBarProps {
 }
 const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
 	//const { state: socketState, dispatch: socketDispatch } = useContext(SocketContext)
-	const { ecosystem, selectedAddress } = useAppStore(
+	const { ecosystem } = useAppStore(
 		useShallow((state) => ({
 			ecosystem: state.ecosystem,
-			selectedAddress: state.selectedAddress,
 		}))
 	);
 
 	//const { state: socketState, dispatch: socketDispatch } = useContext(SocketContext)
 	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem);
 	const { isHelpPageEnabled } = navigation;
-	const { cx, classes } = useStyles();
-	const userSessionState = {
-		isDrawerOpen: false,
-		isLoggedIn: false,
-		balance: 0,
-		usdBalance: 0,
-		theme: 'ThemeDark',
-	};
+	const { classes } = useStyles();
+
 	const isToggleEnabled = false;
 	const getSearchTextField = () => {
 		if (!isHelpPageEnabled) {
@@ -94,7 +87,7 @@ const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
 						color="inherit"
 						aria-label="Open drawer"
 						//onClick={userSessionActions.drawerOpen}
-						className={clsx(classes.menuButton, userSessionState.isDrawerOpen && classes.menuButtonHidden)}
+						className={clsx(classes.menuButton)}
 					>
 						<Menu />
 					</IconButton>
@@ -117,13 +110,7 @@ const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
 						</CardActionArea>
 					</Card>
 				</Link>
-				{isToggleEnabled && (
-					<Tooltip title="Settings (Coming Soon)">
-						<IconButton color="inherit" /*onClick={userSessionActions.toggleTheme}*/>
-							<Build />
-						</IconButton>
-					</Tooltip>
-				)}
+
 				<nav className={classes.nav}>
 					{getSearchTextField()}
 					<Box sx={{ display: { xs: 'block', lg: 'none' } /*lgUp*/ }}>

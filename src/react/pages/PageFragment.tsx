@@ -26,7 +26,7 @@ const HomePage = lazy(() => import('@/react/pages/HomePage'));
 const RealtimeRewardsGameFiPage = lazy(() => import('@/react/pages/gamefi/RealtimeRewardsGameFiPage'));
 const HodlClickerRushGameFiPage = lazy(() => import('@/react/pages/gamefi/HodlClickerRushGameFiPage'));
 
-const useStyles = tss.create(({ theme }) => ({
+const useStyles = tss.create(() => ({
 	pageContainer: {
 		display: 'flex',
 		//height: '100vh',
@@ -57,15 +57,14 @@ const useStyles = tss.create(({ theme }) => ({
  */
 const PageFragment: React.FC = () => {
 	const { classes } = useStyles();
-	const { helpArticle, helpArticlesNetworkType, ecosystem } = useAppStore(
+	const { helpArticle, ecosystem } = useAppStore(
 		useShallow((state) => ({
 			helpArticle: state.helpArticle,
-			helpArticlesNetworkType: state.helpArticlesNetworkType,
 			ecosystem: state.ecosystem,
 		}))
 	);
 
-	const count = useRouter(appDispatch, ecosystem);
+	useRouter(appDispatch, ecosystem);
 	/**
 	 * Renders the appropriate page component based on the current route.
 	 * @returns The React component for the current page.

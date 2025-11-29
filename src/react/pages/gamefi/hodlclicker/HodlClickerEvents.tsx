@@ -1,4 +1,5 @@
-import { Box, useTheme } from '@mui/material';
+// Debug comment
+import { Box } from '@mui/material';
 import React, { useEffect, useState, useMemo } from 'react';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
@@ -46,7 +47,7 @@ interface EventLog {
 
 const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 	const [logs, setLogs] = useState<EventLog[]>([]);
-	const theme = useTheme();
+
 	const { balances } = useAppStore(
 		useShallow((state) => ({
 			balances: state.balances,
@@ -189,7 +190,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 	}, [logs, balances]);
 
 	// Calculate 24h Summary and Chart Data
-	const { summary, chartData, maxBurnedUSD, totalTransactions, dateRange, chartTitle } = useMemo(() => {
+	const { summary, chartData, maxBurnedUSD, totalTransactions, chartTitle } = useMemo(() => {
 		const now = Math.floor(Date.now() / 1000);
 		const oneDayAgo = now - 24 * 3600;
 
