@@ -48,7 +48,7 @@ const DialogsFragment: React.FC = () => {
 			case DialogType.ZeroDam:
 				return <ZeroBalanceDialog dialogType={dialog} />;
 			case DialogType.TitleMessage: {
-				const { title, message } = dialogParams;
+				const { title, message } = dialogParams as { title: string; message: string };
 				return <MessageDialog title={title} message={message} open={true} onClose={onClose} />;
 			}
 			case DialogType.ClientSettings: {

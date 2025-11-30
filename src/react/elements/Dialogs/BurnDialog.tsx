@@ -64,7 +64,7 @@ const BurnDialog: React.FC = () => {
 			payload: { amount, address: targetAddress },
 		});
 	};
-	const onClose = () => {
+	const onClose = (_event: object, reason?: string) => {
 		// Prevent closing by clicking outside dialog
 		if (reason === 'backdropClick') {
 			return;

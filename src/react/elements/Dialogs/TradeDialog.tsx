@@ -92,7 +92,11 @@ const TradeDialog: React.FC = () => {
 		(inputTokenDetails.layer !== null && inputTokenDetails.layer !== layer) ||
 		(outputTokenDetails.layer !== null && outputTokenDetails.layer !== layer);
 
-	const onClose = () => {
+	const onClose = (_event?: object, reason?: string) => {
+		// Prevent closing by clicking outside dialog
+		if (reason === 'backdropClick') {
+			return;
+		}
 		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const onFlipSwap = () => {

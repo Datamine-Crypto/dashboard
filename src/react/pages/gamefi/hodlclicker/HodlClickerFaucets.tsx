@@ -36,7 +36,7 @@ interface HodlClickerFaucetsProps {
 	selectedFilter: GemFilterType;
 	onFilterChange: (filter: GemFilterType) => void;
 	sortedMarketAddresses: AddressLockDetailsViewModel[];
-	balances: Balances;
+	balances: Balances | null;
 	truncateAddress: (address: string) => string;
 }
 

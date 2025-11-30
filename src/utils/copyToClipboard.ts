@@ -36,6 +36,12 @@ const copyToClipboardRaw = (str: string) => {
  * If that fails or is not available, it falls back to a method that uses a temporary textarea element.
  * @param text The text to be copied to the clipboard.
  */
+interface IEWindow extends Window {
+	clipboardData: {
+		setData: (format: string, data: string) => void;
+	};
+}
+
 const copyToClipBoard = function (text: string) {
 	try {
 		if (navigator.clipboard != undefined) {
@@ -46,11 +52,9 @@ const copyToClipBoard = function (text: string) {
 					copyToClipboardRaw(text);
 				}
 			);
-		} else if ((window as unknown as { clipboardData: any }).clipboardData) {
-			// eslint-disable-line @typescript-eslint/no-explicit-any
-
+		} else if ((window as unknown as IEWindow).clipboardData) {
 			// Internet Explorer
-			(window as unknown as { clipboardData: any }).clipboardData.setData('Text', text); // eslint-disable-line @typescript-eslint/no-explicit-any
+			(window as unknown as IEWindow).clipboardData.setData('Text', text);
 		} else {
 			copyToClipboardRaw(text);
 		}

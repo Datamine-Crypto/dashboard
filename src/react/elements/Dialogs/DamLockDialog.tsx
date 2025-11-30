@@ -100,7 +100,11 @@ const DamLockDialog: React.FC = () => {
 			},
 		});
 	};
-	const onClose = () => {
+	const onClose = (_event: object, reason?: string) => {
+		// Prevent closing by clicking outside dialog
+		if (reason === 'backdropClick') {
+			return;
+		}
 		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const getDelegatedMinterBox = () => {

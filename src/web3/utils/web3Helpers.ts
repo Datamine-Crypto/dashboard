@@ -3,7 +3,7 @@ import { Ecosystem } from '@/app/configs/config.common';
 import { devLog } from '@/utils/devLog';
 import { ConnectionMethod } from '@/app/interfaces';
 import { getPublicClient, getWalletClient } from '@/web3/utils/web3ProviderUtils';
-import { Address, PublicClient } from 'viem';
+import { Address, PublicClient, EIP1193Provider } from 'viem';
 import { arbitrum } from 'viem/chains';
 
 /**
@@ -91,6 +91,15 @@ export interface MarketWithdrawAllParams {
 	from: string;
 }
 
+interface TrustWalletProvider {
+	isTrust: boolean;
+	request: (request: { method: string; params?: Array<unknown> }) => Promise<unknown>;
+}
+
+interface Web3Provider {
+	currentProvider: unknown;
+}
+
 /**
  * Retrieves a Web3 provider instance.
  * It attempts to detect common providers like MetaMask, Trust Wallet, or a generic Web3 provider.
@@ -114,7 +123,7 @@ export const getWeb3Provider = async ({ ecosystem: _ecosystem }: { ecosystem: Ec
 
 	// Trustwallet provider
 	{
-		const { trustwallet } = window as unknown as { trustwallet?: { Provider: any } }; // eslint-disable-line @typescript-eslint/no-explicit-any
+		const { trustwallet } = window as unknown as { trustwallet?: { Provider: TrustWalletProvider } };
 		if (trustwallet && trustwallet.Provider) {
 			return trustwallet.Provider;
 		}
@@ -122,7 +131,7 @@ export const getWeb3Provider = async ({ ecosystem: _ecosystem }: { ecosystem: Ec
 
 	// For generic web3
 	{
-		const web3 = (window as unknown as { web3?: { currentProvider: any } }).web3; // eslint-disable-line @typescript-eslint/no-explicit-any
+		const web3 = (window as unknown as { web3?: Web3Provider }).web3;
 		if (web3 && web3.currentProvider) {
 			return web3.currentProvider;
 		}
@@ -136,7 +145,7 @@ export const getWeb3Provider = async ({ ecosystem: _ecosystem }: { ecosystem: Ec
  */
 export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: ConnectionMethod, chainId: string) => {
 	const walletClient = getWalletClient();
-	const ethereum = await getWeb3Provider({ ecosystem });
+	const ethereum = (await getWeb3Provider({ ecosystem })) as EIP1193Provider;
 
 	if (!ethereum && !walletClient) {
 		alert('Failed switching network, no Web3 provider found');
@@ -205,9 +214,9 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 	} = config;
 
 	const walletClient = getWalletClient();
-	const ethereum = await getWeb3Provider({
+	const ethereum = (await getWeb3Provider({
 		ecosystem,
-	});
+	})) as EIP1193Provider;
 
 	if (!walletClient && !ethereum) {
 		alert('Failed adding to Metamask, no Web3 provider found');
@@ -364,10 +373,15 @@ export const getGasFees = async (publicClient: PublicClient) => {
  * 3. **Simulation First**: For write operations, we *always* run `contract.simulate` first. This ensures the transaction will likely succeed before asking the user to sign it, saving them gas fees on failed transactions.
  * 4. **Gas Estimation**: It automatically handles gas estimation (via `getGasFees`) to ensure transactions are mined reliably.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type GenericContractFunction = (...args: any[]) => Promise<unknown>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type GenericContractWriteFunction = (...args: any[]) => Promise<`0x${string}`>;
+
 interface GenericContract {
-	read: Record<string, (...args: any[]) => Promise<unknown>>; // eslint-disable-line @typescript-eslint/no-explicit-any
-	write: Record<string, (...args: any[]) => Promise<`0x${string}`>>; // eslint-disable-line @typescript-eslint/no-explicit-any
-	simulate: Record<string, (...args: any[]) => Promise<unknown>>; // eslint-disable-line @typescript-eslint/no-explicit-any
+	read: Record<string, GenericContractFunction>;
+	write: Record<string, GenericContractWriteFunction>;
+	simulate: Record<string, GenericContractFunction>;
 }
 
 export const withWeb3 = (contract: GenericContract) => {

@@ -39,7 +39,7 @@ interface EventLog {
 
 interface Props {
 	logs: EventLog[];
-	balances: Balances;
+	balances?: Balances | null;
 	truncateAddress: (address: string) => string;
 }
 

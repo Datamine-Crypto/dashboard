@@ -29,7 +29,7 @@ interface EventLog {
 
 interface HodlClickerFeedProps {
 	logs: EventLog[];
-	balances: Balances;
+	balances?: Balances | null;
 	truncateAddress: (address: string) => string;
 }
 
