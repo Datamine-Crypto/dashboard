@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { handleCommand as handleAppCommand } from '@/app/state/handleCommand';
 import { AppState, initialState } from '@/app/state/initialState';
-import { sideEffectReducer, commonLanguage, handleQueries } from '@/utils/reducer/sideEffectReducer';
+import { sideEffectReducer, commonLanguage, handleQueries, ReducerCommand } from '@/utils/reducer/sideEffectReducer';
 import { handleQueryResponse as handleAppQueryResponse } from '@/app/state/handleQueryResponse';
 import { queryHandlers } from '@/app/state/handleQuery';
 
@@ -14,7 +14,7 @@ const reducer = sideEffectReducer<AppState>({
 
 export const useAppStore = create<AppState>(() => initialState);
 
-export const dispatch = (action: any) => {
+export const dispatch = (action: ReducerCommand) => {
 	const currentState = useAppStore.getState();
 
 	// state + action = newState (run the action through "handleCommand")

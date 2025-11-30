@@ -40,8 +40,6 @@ export default tseslint.config(
 			'unused-imports': unusedImports,
 		},
 		rules: {
-			'@typescript-eslint/no-explicit-any': 'off', // ~197 "any" usages
-
 			'react/prop-types': 'off', // RECOMMENDED: for React with Typescript: Turn off prop-types rule as TypeScript is used instead
 			'unused-imports/no-unused-imports': 'error', // RECOMMENDED: Throw errors on any unused imports
 		},

@@ -120,11 +120,11 @@ const useStyles = tss.create(({ theme }) => ({
 interface CodeParams {
 	className: string;
 	value: string;
-	children: any;
+	children: string;
 }
 interface LanguageComponentParams {
 	type: string;
-	props: any;
+	props: Record<string, unknown>;
 }
 enum ComponentType {
 	AddToMetamask = 'AddToMetamask',
@@ -162,12 +162,12 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 		); // Trim - from end of text
 	};
 
-	const heading = (props: React.PropsWithChildren<{ node?: any; level?: number }>, level: number) => {
-		const variant = `h${level}` as any;
+	const heading = (props: { node?: unknown; children?: React.ReactNode; level?: number }, level: number) => {
+		const variant = `h${level}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 		const getId = () => {
-			if (props.node && props.node.children.length > 0) {
-				return slugify(props.node.children[0].value);
+			if (props.node && (props.node as { children: { value: string }[] }).children.length > 0) {
+				return slugify((props.node as { children: { value: string }[] }).children[0].value);
 			}
 			return;
 		};
@@ -246,7 +246,7 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 		const alt = (props.alt as string) || '';
 
 		const getImageOverrides = () => {
-			const style = {} as any;
+			const style: React.CSSProperties = {};
 			let className = classes.image; // Default class for all images
 
 			// Add custom styles
@@ -371,7 +371,7 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 									hr: thematicBreak,
 									a: link,
 									li: listItem,
-									code: code as any,
+									code: code as React.ElementType,
 									img: image,
 								}}
 							>

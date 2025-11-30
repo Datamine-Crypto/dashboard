@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 
 import dayjs from 'dayjs';
-import { Token } from '@/app/interfaces';
+import { Balances, Token } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
 import HodlClickerChart from './HodlClickerChart';
 
@@ -29,7 +29,7 @@ interface EventLog {
 
 interface HodlClickerFeedProps {
 	logs: EventLog[];
-	balances: any;
+	balances: Balances;
 	truncateAddress: (address: string) => string;
 }
 

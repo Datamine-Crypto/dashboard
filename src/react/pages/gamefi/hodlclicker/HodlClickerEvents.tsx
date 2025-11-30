@@ -45,6 +45,14 @@ interface EventLog {
 	timestamp: number; // Unix timestamp in seconds
 }
 
+interface RawLog {
+	eventName: string;
+	args: TokensBurnedArgs;
+	logIndex: number | bigint;
+	blockNumber: bigint;
+	transactionHash: string;
+}
+
 const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 	const [logs, setLogs] = useState<EventLog[]>([]);
 
@@ -61,7 +69,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 
 		if (!publicClient || !address) return;
 
-		const processLogs = async (rawLogs: any[], isHistory: boolean = false) => {
+		const processLogs = async (rawLogs: RawLog[], isHistory: boolean = false) => {
 			const eventsOfInterest = ['TokensBurned'];
 
 			// Filter and format logs
@@ -115,7 +123,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 		const fetchHistory = async () => {
 			try {
 				const currentBlock = await publicClient.getBlockNumber();
-				let collectedLogs: any[] = [];
+				let collectedLogs: RawLog[] = [];
 				const targetCount = 100; // Fetch more for charts
 
 				const isL1 = ecosystem === Ecosystem.Flux;
@@ -136,7 +144,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 						toBlock,
 					});
 
-					collectedLogs = [...logs, ...collectedLogs];
+					collectedLogs = [...(logs as unknown as RawLog[]), ...collectedLogs];
 					toBlock = fromBlock - 1n;
 					iterations++;
 				}
@@ -153,7 +161,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 			address,
 			abi: gameHodlClickerAbi,
 			eventName: 'TokensBurned',
-			onLogs: (logs) => processLogs(logs, false),
+			onLogs: (logs) => processLogs(logs as unknown as RawLog[], false),
 		});
 
 		return () => {

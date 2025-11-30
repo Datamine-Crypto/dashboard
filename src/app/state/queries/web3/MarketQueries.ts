@@ -1,4 +1,4 @@
-import { Game } from '@/app/interfaces';
+import { Game, MarketAddresses } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { AppState } from '@/app/state/initialState';
 import { withWeb3 } from '@/web3/utils/web3Helpers';
@@ -41,7 +41,7 @@ export const getMarketBurnFluxResponse: QueryHandler<AppState, GetMarketBurnFlux
 		return;
 	}
 
-	const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market : contracts.gameHodlClicker);
+	const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market! : contracts.gameHodlClicker!);
 
 	if (gems.length === 1) {
 		const gem = gems[0];
@@ -99,9 +99,9 @@ export const getDepositMarketResponse: QueryHandler<AppState, GetDepositMarketRe
 		return;
 	}
 
-	const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market : contracts.gameHodlClicker);
+	const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market! : contracts.gameHodlClicker!);
 
-	const fluxToken = withWeb3(contracts.fluxToken);
+	const fluxToken = withWeb3(contracts.fluxToken!);
 
 	const rewardsPercent = 500; // 5.00%, @todo customize via UI
 
@@ -126,6 +126,17 @@ export const getDepositMarketResponse: QueryHandler<AppState, GetDepositMarketRe
 		minBurnAmount: 0n, //@todo customize via UI
 	});
 };
+
+/**
+ * Refreshes market addresses and other game-related data.
+ */
+export interface GetRefreshMarketAddressesResponse {
+	marketAddresses: MarketAddresses;
+	currentAddressMintableBalance: bigint;
+	game: Game;
+	totalContractRewardsAmount: bigint;
+	totalContractLockedAmount: bigint;
+}
 
 /**
  * Refreshes market addresses and other game-related data.
@@ -178,7 +189,9 @@ export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async (
 								name: 'totalContractRewardsAmount',
 								type: 'function',
 								inputs: [],
-							},
+								outputs: [{ type: 'uint256', name: '' }],
+								stateMutability: 'view',
+							} as const,
 							parameters: [],
 						},
 
@@ -196,7 +209,9 @@ export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async (
 								name: 'totalContractLockedAmount',
 								type: 'function',
 								inputs: [],
-							},
+								outputs: [{ type: 'uint256', name: '' }],
+								stateMutability: 'view',
+							} as const,
 							parameters: [],
 						},
 
@@ -228,7 +243,9 @@ export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async (
 							name: 'targetAddress',
 						},
 					],
-				},
+					outputs: [{ type: 'uint256', name: '' }],
+					stateMutability: 'view',
+				} as const,
 				parameters: [selectedAddress],
 			},
 
@@ -253,7 +270,25 @@ export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async (
 							name: 'addressesToQuery',
 						},
 					],
-				},
+					outputs: [
+						{
+							type: 'tuple[]',
+							name: 'addressData',
+							components: [
+								{ type: 'address', name: 'currentAddress' },
+								{ type: 'uint256', name: 'mintAmount' },
+								{ type: 'uint256', name: 'rewardsAmount' },
+								{ type: 'uint256', name: 'rewardsPercent' },
+								{ type: 'uint256', name: 'minBlockNumber' },
+								{ type: 'uint256', name: 'minBurnAmount' },
+								{ type: 'bool', name: 'isPaused' },
+								{ type: 'address', name: 'minterAddress' },
+							],
+						},
+						{ type: 'uint256', name: 'targetBlock' },
+					],
+					stateMutability: 'view',
+				} as const,
 				parameters: [uniqueAddressesToFetch],
 			},
 
@@ -294,7 +329,12 @@ export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async (
 	};
 
 	const { marketAddresses, currentAddressMintableBalance, totalContractRewardsAmount, totalContractLockedAmount } =
-		decodeMulticall(multicallEncodedResults, multicallData);
+		decodeMulticall(multicallEncodedResults, multicallData) as {
+			marketAddresses: MarketAddresses;
+			currentAddressMintableBalance: bigint;
+			totalContractRewardsAmount: bigint;
+			totalContractLockedAmount: bigint;
+		};
 
 	devLog(
 		'GetRefreshMarketAddressesResponse:',
@@ -332,7 +372,7 @@ export const getWithdrawMarketResponse: QueryHandler<AppState> = async ({ state 
 		return;
 	}
 
-	const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market : contracts.gameHodlClicker);
+	const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market! : contracts.gameHodlClicker!);
 
 	const withdrawResponse = await marketContract.marketWithdrawAll({
 		from: selectedAddress as string,

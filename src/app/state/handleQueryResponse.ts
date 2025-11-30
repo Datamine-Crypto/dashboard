@@ -8,7 +8,26 @@ import { formatBigInt } from '@/utils/mathHelpers';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { AppState } from '@/app/state/initialState';
 import { createWithWithQueries } from '@/utils/reducer/reducerHelpers';
-import { ConnectionMethod, DialogType } from '@/app/interfaces';
+import {
+	ConnectionMethod,
+	DialogType,
+	Balances,
+	SwapTokenBalances,
+	FluxAddressLock,
+	FluxAddressDetails,
+	FluxAddressTokenDetails,
+} from '@/app/interfaces';
+import { HelpArticle } from '@/app/helpArticles';
+import { GetRefreshMarketAddressesResponse } from '@/app/state/queries/web3/MarketQueries';
+
+interface FindAccountStateResponse {
+	balances: Balances | null;
+	swapTokenBalances: SwapTokenBalances | null;
+	selectedAddress: string | null;
+	addressLock: FluxAddressLock | null;
+	addressDetails: FluxAddressDetails | null;
+	addressTokenDetails: FluxAddressTokenDetails | null;
+}
 
 /**
  * Handles responses from asynchronous queries executed by Web3Bindings.
@@ -35,7 +54,11 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				};
 			}
 
-			const { selectedAddress, networkType, chainId } = response;
+			const { selectedAddress, networkType, chainId } = response as {
+				selectedAddress: string;
+				networkType: string;
+				chainId: number;
+			};
 
 			const isArbitrumMainnet = chainId === 42161;
 			devLog('FindWeb3Instance reducer isArbitrumMainnet:', {
@@ -104,7 +127,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				return state;
 			}
 
-			const { selectedAddress } = response;
+			const { selectedAddress } = response as { selectedAddress: string };
 
 			const connectionMethod = ConnectionMethod.MetaMask;
 
@@ -139,7 +162,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				//marketAddressLock,
 				//currentAddressMarketAddressLock,
 				//currentAddressMintableBalance,
-			} = response;
+			} = response as FindAccountStateResponse;
 
 			const getBlancesWithForecasting = () => {
 				if (!balances) {
@@ -172,7 +195,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 					error: err instanceof Error ? err.message : String(err),
 				};
 			}
-			const { minterAddress } = response;
+			const { minterAddress } = response as { minterAddress: string };
 
 			const dialog =
 				minterAddress.toLowerCase() === config.batchMinterAddress?.toLowerCase() ? DialogType.MintSettings : null;
@@ -245,7 +268,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				};
 			}
 
-			const { gems }: { gems: Gem[] } = response;
+			const { gems }: { gems: Gem[] } = response as { gems: Gem[] };
 
 			const totalDollarAmountOfGems = gems.reduce((total, gem) => total + gem.dollarAmount, 0);
 
@@ -293,7 +316,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				game,
 				totalContractRewardsAmount,
 				totalContractLockedAmount,
-			} = response;
+			} = response as GetRefreshMarketAddressesResponse;
 
 			return {
 				...state,
@@ -352,20 +375,20 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 		case commonLanguage.queries.Help.PerformSearch: {
 			return {
 				...state,
-				helpArticles: response,
+				helpArticles: response as HelpArticle[],
 			};
 		}
 		case commonLanguage.queries.Help.GetFullArticle: {
 			return {
 				...state,
-				helpArticle: response,
+				helpArticle: response as HelpArticle,
 			};
 		}
 		case commonLanguage.queries.Swap.GetOutputQuote: {
 			if (err) {
 				return {
 					...state,
-					error: err,
+					error: err instanceof Error ? err.message : String(err),
 				};
 			}
 

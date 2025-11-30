@@ -1,4 +1,13 @@
-import { createPublicClient, createWalletClient, custom, getContract, PublicClient, WalletClient, Address } from 'viem';
+import {
+	createPublicClient,
+	createWalletClient,
+	custom,
+	getContract,
+	PublicClient,
+	WalletClient,
+	Address,
+	EIP1193Provider,
+} from 'viem';
 import { damAbi as damTokenAbi } from '@/web3/abis/dam';
 import { fluxAbi as fluxTokenAbi } from '@/web3/abis/flux';
 import { batchMinterAbi } from '@/web3/abis/batchMinter';
@@ -29,7 +38,7 @@ let publicClient: PublicClient | null = null;
  */
 let preselectedAddress: Address | null = null;
 
-export const setWeb3Provider = (provider: any, ecosystem: Ecosystem) => {
+export const setWeb3Provider = (provider: EIP1193Provider, ecosystem: Ecosystem) => {
 	if (provider) {
 		const config = getEcosystemConfig(ecosystem);
 		const chain = config.layer === Layer.Layer1 ? mainnet : arbitrum;

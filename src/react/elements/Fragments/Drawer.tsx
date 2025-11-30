@@ -69,7 +69,7 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 	// necessary for content to be below app bar
 	toolbar: {
-		...(theme.mixins.toolbar as any),
+		...(theme.mixins.toolbar as any), // eslint-disable-line @typescript-eslint/no-explicit-any
 		marginTop: theme.spacing(2),
 	},
 	content: {
@@ -127,6 +127,18 @@ const useStyles = tss.create(({ theme }) => ({
 		paddingBottom: theme.spacing(2),
 	},
 }));
+
+interface DrawerButton {
+	isDivider?: boolean;
+	isBasicDivider?: boolean;
+	title?: React.ReactNode;
+	icon?: React.ReactNode;
+	href?: string;
+	className?: string;
+	onClick?: () => void;
+	expandIcon?: boolean;
+	expandedIcon?: boolean;
+}
 
 export const MainDrawer: React.FC = () => {
 	const { ecosystem, isMobileDrawerOpen } = useAppStore(
@@ -281,7 +293,7 @@ export const MainDrawer: React.FC = () => {
 			}
 			return <ExpandLess />;
 		};
-		const drawerButtons = buttons.map((button: any, index: number) => {
+		const drawerButtons = buttons.map((button: DrawerButton, index: number) => {
 			if (button.isDivider) {
 				return (
 					<Box my={2} key={index}>
@@ -319,7 +331,7 @@ export const MainDrawer: React.FC = () => {
 					button: true,
 					onClick: () => {
 						appDispatch({ type: commonLanguage.commands.Drawer.Close });
-						button.onClick();
+						button.onClick?.();
 					},
 				};
 			};
@@ -327,11 +339,7 @@ export const MainDrawer: React.FC = () => {
 				<>
 					{/* This ListItemIcon is unclickable and has no hover effect */}
 					<ListItem disablePadding>
-						<ListItemButton
-							key={button.title || index}
-							className={button.className}
-							{...(getListButtonItemProps() as any)}
-						>
+						<ListItemButton key={index} className={button.className} {...getListButtonItemProps()}>
 							<ListItemIcon style={{ minWidth: 40 }}>{button.icon}</ListItemIcon>
 							<ListItemText primary={button.title} />
 							{getExpandIcon(!!button.expandIcon)}

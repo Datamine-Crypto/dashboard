@@ -103,7 +103,7 @@ const HodlClickerPage: React.FC = () => {
 
 	const getConnectWalletButton = () => {
 		const isMetaMask = () => {
-			const ethereum = (window as any).ethereum;
+			const ethereum = (window as unknown as { ethereum: { isMetaMask: boolean } }).ethereum;
 			if (!ethereum || !ethereum.isMetaMask) {
 				return false;
 			}

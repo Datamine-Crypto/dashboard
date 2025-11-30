@@ -9,6 +9,7 @@ import { devLog } from '@/utils/devLog';
 import { decodeMulticall, encodeMulticall, MultiCallParams, EncodedMulticallResults } from '@/web3/utils/web3multicall';
 import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/web3ProviderUtils';
 import { SwapToken } from '@/web3/swap/swapOptions';
+import { FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '@/app/interfaces';
 
 /**
  * Fetches all relevant on-chain data for the current user account in a single batch request using multicall.
@@ -73,7 +74,13 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								name: 'getReserves',
 								type: 'function',
 								inputs: [],
-							},
+								outputs: [
+									{ type: 'uint112', name: 'reserve0' },
+									{ type: 'uint112', name: 'reserve1' },
+									{ type: 'uint32', name: 'blockTimestampLast' },
+								],
+								stateMutability: 'view',
+							} as const,
 							parameters: [],
 						},
 
@@ -102,7 +109,17 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 							name: 'slot0',
 							type: 'function',
 							inputs: [],
-						},
+							outputs: [
+								{ type: 'uint160', name: 'sqrtPriceX96' },
+								{ type: 'int24', name: 'tick' },
+								{ type: 'uint16', name: 'observationIndex' },
+								{ type: 'uint16', name: 'observationCardinality' },
+								{ type: 'uint16', name: 'observationCardinalityNext' },
+								{ type: 'uint8', name: 'feeProtocol' },
+								{ type: 'bool', name: 'unlocked' },
+							],
+							stateMutability: 'view',
+						} as const,
 						parameters: [],
 					},
 
@@ -131,7 +148,13 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								name: 'getReserves',
 								type: 'function',
 								inputs: [],
-							},
+								outputs: [
+									{ type: 'uint112', name: 'reserve0' },
+									{ type: 'uint112', name: 'reserve1' },
+									{ type: 'uint32', name: 'blockTimestampLast' },
+								],
+								stateMutability: 'view',
+							} as const,
 							parameters: [],
 						},
 
@@ -167,7 +190,17 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 							name: 'slot0',
 							type: 'function',
 							inputs: [],
-						},
+							outputs: [
+								{ type: 'uint160', name: 'sqrtPriceX96' },
+								{ type: 'int24', name: 'tick' },
+								{ type: 'uint16', name: 'observationIndex' },
+								{ type: 'uint16', name: 'observationCardinality' },
+								{ type: 'uint16', name: 'observationCardinalityNext' },
+								{ type: 'uint8', name: 'feeProtocol' },
+								{ type: 'bool', name: 'unlocked' },
+							],
+							stateMutability: 'view',
+						} as const,
 						parameters: [],
 					},
 
@@ -198,7 +231,9 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 							name: 'totalSupply',
 							type: 'function',
 							inputs: [],
-						},
+							outputs: [{ type: 'uint256', name: '' }],
+							stateMutability: 'view',
+						} as const,
 						parameters: [],
 					},
 
@@ -221,7 +256,9 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 									name: 'targetAddress',
 								},
 							],
-						},
+							outputs: [{ type: 'uint256', name: '' }],
+							stateMutability: 'view',
+						} as const,
 						parameters: [config.lockedLiquidityUniswapAddress],
 					},
 
@@ -282,7 +319,9 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 									name: 'targetAddress',
 								},
 							],
-						},
+							outputs: [{ type: 'uint256', name: '' }],
+							stateMutability: 'view',
+						} as const,
 						parameters: [addressToFetch],
 					},
 
@@ -325,7 +364,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 							return BigInt(positions);
 						},
 					},
-				},
+				},*/
 				currentAddressMarketAddressLock: {
 					address: config.marketAddress,
 					function: {
@@ -338,8 +377,16 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 									name: 'address',
 								},
 							],
-						},
-						parameters: [selectedAddress],
+							outputs: [
+								{ type: 'uint256', name: 'amount' },
+								{ type: 'uint256', name: 'burnedAmount' },
+								{ type: 'uint256', name: 'blockNumber' },
+								{ type: 'uint256', name: 'lastMintBlockNumber' },
+								{ type: 'address', name: 'minterAddress' },
+							],
+							stateMutability: 'view',
+						} as const,
+						parameters: [addressToFetch],
 					},
 
 					returns: {
@@ -360,7 +407,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 							};
 						},
 					},
-				},*/
+				},
 			};
 		};
 
@@ -378,7 +425,9 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								name: 'addr',
 							},
 						],
-					},
+						outputs: [{ type: 'uint256', name: 'balance' }],
+						stateMutability: 'view',
+					} as const,
 					parameters: [addressToFetch],
 				},
 
@@ -398,7 +447,17 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 						name: 'slot0',
 						type: 'function',
 						inputs: [],
-					},
+						outputs: [
+							{ type: 'uint160', name: 'sqrtPriceX96' },
+							{ type: 'int24', name: 'tick' },
+							{ type: 'uint16', name: 'observationIndex' },
+							{ type: 'uint16', name: 'observationCardinality' },
+							{ type: 'uint16', name: 'observationCardinalityNext' },
+							{ type: 'uint8', name: 'feeProtocol' },
+							{ type: 'bool', name: 'unlocked' },
+						],
+						stateMutability: 'view',
+					} as const,
 					parameters: [],
 				},
 
@@ -437,7 +496,9 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 						name: 'totalSupply',
 						type: 'function',
 						inputs: [],
-					},
+						outputs: [{ type: 'uint256', name: '' }],
+						stateMutability: 'view',
+					} as const,
 					parameters: [],
 				},
 
@@ -457,7 +518,9 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 						name: 'totalSupply',
 						type: 'function',
 						inputs: [],
-					},
+						outputs: [{ type: 'uint256', name: '' }],
+						stateMutability: 'view',
+					} as const,
 					parameters: [],
 				},
 
@@ -482,7 +545,15 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								name: 'targetAddress',
 							},
 						],
-					},
+						outputs: [
+							{ type: 'uint256', name: '' },
+							{ type: 'bool', name: '' },
+							{ type: 'uint256', name: '' },
+							{ type: 'uint256', name: '' },
+							{ type: 'uint256', name: '' },
+						],
+						stateMutability: 'view',
+					} as const,
 					parameters: [addressToFetch],
 				},
 
@@ -519,7 +590,15 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								name: 'address',
 							},
 						],
-					},
+						outputs: [
+							{ type: 'uint256', name: 'amount' },
+							{ type: 'uint256', name: 'burnedAmount' },
+							{ type: 'uint256', name: 'blockNumber' },
+							{ type: 'uint256', name: 'lastMintBlockNumber' },
+							{ type: 'address', name: 'minterAddress' },
+						],
+						stateMutability: 'view',
+					} as const,
 					parameters: [addressToFetch],
 				},
 
@@ -557,7 +636,17 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								name: 'targetAddress',
 							},
 						],
-					},
+						outputs: [
+							{ type: 'uint256', name: '' },
+							{ type: 'uint256', name: '' },
+							{ type: 'uint256', name: '' },
+							{ type: 'uint256', name: '' },
+							{ type: 'uint256', name: '' },
+							{ type: 'uint256', name: '' },
+							{ type: 'uint256', name: '' },
+						],
+						stateMutability: 'view',
+					} as const,
 					parameters: [addressToFetch],
 				},
 
@@ -603,7 +692,9 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								name: 'targetAddress',
 							},
 						],
-					},
+						outputs: [{ type: 'uint256', name: '' }],
+						stateMutability: 'view',
+					} as const,
 					parameters: [getDamSupplyAddress()],
 				},
 
@@ -631,7 +722,9 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								name: 'targetAddress',
 							},
 						],
-					},
+						outputs: [{ type: 'uint256', name: '' }],
+						stateMutability: 'view',
+					} as const,
 					parameters: [getFluxSupplyAddress()],
 				},
 
@@ -656,7 +749,9 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								name: 'targetAddress',
 							},
 						],
-					},
+						outputs: [{ type: 'uint256', name: '' }],
+						stateMutability: 'view',
+					} as const,
 					parameters: ['0xcEe284F754E854890e311e3280b767F80797180d'], // This doesn't really do anything when on L2 since the balance would be 0 (extra call that can be removed in the future)
 				},
 
@@ -681,7 +776,9 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								name: 'targetAddress',
 							},
 						],
-					},
+						outputs: [{ type: 'uint256', name: '' }],
+						stateMutability: 'view',
+					} as const,
 					parameters: [getFluxSupplyAddress()],
 				},
 
@@ -706,7 +803,9 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								name: 'targetAddress',
 							},
 						],
-					},
+						outputs: [{ type: 'uint256', name: '' }],
+						stateMutability: 'view',
+					} as const,
 					parameters: [getDamSupplyAddress()],
 				},
 
@@ -760,7 +859,25 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 			//marketAddressLock,
 			//currentAddressMarketAddressLock,
 			//currentAddressMintableBalance,
-		} = multicallDecodedResults;
+		} = multicallDecodedResults as {
+			ethBalance: bigint;
+			uniswapUsdcEthTokenReserves: { usdc: bigint; eth: bigint };
+			fluxTotalSupply: bigint;
+			damTotalSupply: bigint;
+			addressTokenDetails: FluxAddressTokenDetails;
+			addressLock: FluxAddressLock;
+			addressDetails: FluxAddressDetails;
+			uniswapDamTokenReservesV3: { slot0: { sqrtPriceX96: string }; reserve0: string; reserve1: string };
+			liquidityDamV3: string;
+			uniswapFluxTokenReservesV3: { slot0: { sqrtPriceX96: string }; reserve0: string; reserve1: string };
+			uniswapFluxBalance: string;
+			arbitrumBridgeBalance: string;
+			wrappedEthFluxUniswapAddressBalance: string;
+			wrappedEthDamUniswapAddressBalance: string;
+			lockedLiquidtyUniTotalSupply: bigint;
+			lockedLiquidityUniAmount: bigint;
+			otherEcosystemTokenBalance: bigint;
+		};
 
 		devLog('FindAccountState batch request success', multicallDecodedResults);
 
@@ -793,7 +910,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 			const price0 = new Big(1).div(price1);
 
 			const damAvailable = new Big(liquidityDamV3 as string).div(new Big(10).pow(18));
-			const ethAvailable = new Big(wrappedEthDamUniswapAddressBalance).div(new Big(10).pow(18));
+			const ethAvailable = new Big(wrappedEthDamUniswapAddressBalance as string).div(new Big(10).pow(18));
 
 			return {
 				eth: BigInt(ethAvailable.mul(100).toFixed(0)) * 10n ** 16n,
@@ -805,7 +922,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 		const fixedUniswapDamTokenReservesV3 = getV3ReservesDAM();
 
 		const getV3ReservesFLUX = () => {
-			const { slot0, reserve0, reserve1 } = uniswapFluxTokenReservesV3 as any;
+			const { slot0, reserve0, reserve1 } = uniswapFluxTokenReservesV3;
 
 			if (isArbitrumMainnet) {
 				const ethAvailable = new Big(reserve0);
@@ -829,7 +946,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 			const price0 = new Big(1).div(price1);
 
 			const fluxAvailable = new Big(uniswapFluxBalance as string).div(new Big(10).pow(18));
-			const ethAvailable = new Big(wrappedEthFluxUniswapAddressBalance).div(new Big(10).pow(18));
+			const ethAvailable = new Big(wrappedEthFluxUniswapAddressBalance as string).div(new Big(10).pow(18));
 
 			return {
 				eth: BigInt(ethAvailable.mul(100).toFixed(0)) * 10n ** 16n,

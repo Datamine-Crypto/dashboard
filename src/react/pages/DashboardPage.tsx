@@ -204,7 +204,7 @@ const DashboardPage: React.FC<Props> = () => {
 		 * @returns True if MetaMask is detected, false otherwise.
 		 */
 		const isMetaMask = () => {
-			const ethereum = (window as any).ethereum;
+			const ethereum = (window as unknown as { ethereum: { isMetaMask: boolean } }).ethereum;
 			if (!ethereum || !ethereum.isMetaMask) {
 				return false;
 			}
@@ -279,7 +279,7 @@ const DashboardPage: React.FC<Props> = () => {
 							<Link
 								aria-controls="advanced-options"
 								aria-haspopup="true"
-								onClick={(e: any) => setAnchorEl(e.currentTarget)}
+								onClick={(e: React.MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget)}
 								color="textSecondary"
 							>
 								Block {addressDetails.blockNumber}

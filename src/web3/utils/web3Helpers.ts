@@ -114,7 +114,7 @@ export const getWeb3Provider = async ({ ecosystem: _ecosystem }: { ecosystem: Ec
 
 	// Trustwallet provider
 	{
-		const { trustwallet } = window;
+		const { trustwallet } = window as unknown as { trustwallet?: { Provider: any } }; // eslint-disable-line @typescript-eslint/no-explicit-any
 		if (trustwallet && trustwallet.Provider) {
 			return trustwallet.Provider;
 		}
@@ -122,7 +122,7 @@ export const getWeb3Provider = async ({ ecosystem: _ecosystem }: { ecosystem: Ec
 
 	// For generic web3
 	{
-		const web3 = window.web3;
+		const web3 = (window as unknown as { web3?: { currentProvider: any } }).web3; // eslint-disable-line @typescript-eslint/no-explicit-any
 		if (web3 && web3.currentProvider) {
 			return web3.currentProvider;
 		}
@@ -283,29 +283,31 @@ const commonLanguage = {
 /**
  * Attempts to extract a more human-readable error message from a raw Web3 error object
  */
-export const rethrowWeb3Error = (err: any) => {
+export const rethrowWeb3Error = (err: unknown) => {
 	devLog(err);
-	if (err.message) {
-		const extractedError = err.message.match(/"message":[ ]{0,1}"(.+)"/);
+	const error = err as Error;
+	if (error.message) {
+		const extractedError = error.message.match(/"message":[ ]{0,1}"(.+)"/);
 		if (!!extractedError && !!extractedError[1]) {
 			throw extractedError[1].replace('execution reverted: ', '');
 		}
 
-		const tryThrowError = (jsonData: any) => {
-			if (jsonData && jsonData.data) {
-				for (const [, errorDetails] of Object.entries(jsonData.data)) {
+		const tryThrowError = (jsonData: unknown) => {
+			const data = jsonData as { data?: Record<string, { reason?: string }>; message?: string };
+			if (data && data.data) {
+				for (const [, errorDetails] of Object.entries(data.data)) {
 					const details = errorDetails as { reason?: string };
 					if (details?.reason) {
 						throw details.reason;
 					}
 				}
-				if (jsonData.data.message) {
-					throw jsonData.data.message;
+				if (data.message) {
+					throw data.message;
 				}
 			}
 		};
 
-		const splitError = err.message.split(/\n(.+)/);
+		const splitError = error.message.split(/\n(.+)/);
 
 		if (splitError.length === 3) {
 			let jsonData = null;
@@ -317,12 +319,12 @@ export const rethrowWeb3Error = (err: any) => {
 			tryThrowError(jsonData);
 		}
 
-		if (err && err.data) {
+		if (err && (err as { data?: unknown }).data) {
 			tryThrowError(err);
 		}
 
 		console.log('Unhandled exception:', err);
-		throw err.message;
+		throw error.message;
 	}
 
 	console.log('Unhandled exception:', err);
@@ -362,7 +364,13 @@ export const getGasFees = async (publicClient: PublicClient) => {
  * 3. **Simulation First**: For write operations, we *always* run `contract.simulate` first. This ensures the transaction will likely succeed before asking the user to sign it, saving them gas fees on failed transactions.
  * 4. **Gas Estimation**: It automatically handles gas estimation (via `getGasFees`) to ensure transactions are mined reliably.
  */
-export const withWeb3 = (contract: any) => {
+interface GenericContract {
+	read: Record<string, (...args: any[]) => Promise<unknown>>; // eslint-disable-line @typescript-eslint/no-explicit-any
+	write: Record<string, (...args: any[]) => Promise<`0x${string}`>>; // eslint-disable-line @typescript-eslint/no-explicit-any
+	simulate: Record<string, (...args: any[]) => Promise<unknown>>; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export const withWeb3 = (contract: GenericContract) => {
 	if (!contract) {
 		throw commonLanguage.errors.UnknownContract;
 	}
@@ -637,13 +645,16 @@ export const withWeb3 = (contract: any) => {
 	};
 };
 
-export const makeBatchRequest = (web3: any, calls: any) => {
+export const makeBatchRequest = (
+	web3: unknown,
+	calls: { call: () => Promise<unknown>; callback: (res: unknown) => unknown }[]
+) => {
 	// This function was used for batching calls.
 	// Viem supports multicall natively or we can use Promise.all for parallel calls.
 	// Given the usage, we might not need this anymore if we use multicall contract.
 	// But if it's used elsewhere, we should adapt it.
 	// For now, let's just return Promise.all
-	const promises = calls.map(({ call, callback }: any) => {
+	const promises = calls.map(({ call, callback }) => {
 		return call().then(callback);
 	});
 	return Promise.all(promises);

@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { SportsScore, MoreVert, DirectionsRun } from '@mui/icons-material';
 
-import { Token, AddressLockDetailsViewModel } from '@/app/interfaces';
+import { Token, AddressLockDetailsViewModel, Balances } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
 
 export enum GemFilterType {
@@ -36,7 +36,7 @@ interface HodlClickerFaucetsProps {
 	selectedFilter: GemFilterType;
 	onFilterChange: (filter: GemFilterType) => void;
 	sortedMarketAddresses: AddressLockDetailsViewModel[];
-	balances: any;
+	balances: Balances;
 	truncateAddress: (address: string) => string;
 }
 

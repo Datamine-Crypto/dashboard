@@ -22,7 +22,12 @@ export enum TokenPair {
  * @param pools A Map containing liquidity pool data for different token pairs.
  * @returns An object containing APY percentages (no burn, max burn) and token prices, or null if data is incomplete.
  */
-export const getApy = (ecosystem: Ecosystem, pools: Map<TokenPair, any>) => {
+interface PoolData {
+	Reserve0: string;
+	Reserve1: string;
+}
+
+export const getApy = (ecosystem: Ecosystem, pools: Map<TokenPair, PoolData>) => {
 	const { mintableTokenMintPerBlockDivisor } = getEcosystemConfig(ecosystem);
 	const damPool = pools.get(TokenPair.DAM_ETH);
 	const fluxPool = pools.get(TokenPair.FLUX_ETH);

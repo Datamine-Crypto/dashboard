@@ -200,7 +200,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 								aria-label="action"
 								name="action"
 								value={action}
-								onChange={(event) => setAction((event.target as any).value)}
+								onChange={(event) => setAction(event.target.value as Action)}
 							>
 								<FormControlLabel
 									value={Action.Deposit}

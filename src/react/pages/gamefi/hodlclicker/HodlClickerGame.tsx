@@ -18,6 +18,13 @@ import { getNetworkDropdown } from '@/react/elements/Fragments/EcosystemDropdown
 // Sub-components
 import HodlClickerFaucets, { GemFilterType } from './HodlClickerFaucets';
 
+interface Gem {
+	id: string;
+	ethereumAddress: string;
+	dollarAmount: number;
+	error?: string;
+}
+
 interface Props {
 	ecosystem: Ecosystem;
 	avgGemValue: number | null;
@@ -169,7 +176,7 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 		const marketData = games[Game.HodlClicker];
 		if (!marketData || !marketData.marketAddresses) return [];
 
-		const gems: any[] = []; // Using any to avoid complex type imports if Gem isn't easily available, but better to match structure
+		const gems: Gem[] = [];
 		// We need to map marketAddresses to Gem structure expected by MarketBurnFluxTokens
 		// Gem interface: { id: string; dollarAmount: number; ethereumAddress: string; ... }
 
@@ -304,13 +311,13 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 						address,
 						abi: gameHodlClickerAbi,
 						functionName: 'burnTokens',
-						args: [amountToBurn, gem.ethereumAddress],
+						args: [amountToBurn, gem.ethereumAddress as Address],
 						account: selectedAddress as Address,
 					});
 				} else {
 					const requests = availableGems.map((gem) => ({
 						amountToBurn: amountToBurn,
-						burnToAddress: gem.ethereumAddress,
+						burnToAddress: gem.ethereumAddress as Address,
 					}));
 					gasEstimate = await publicClient.estimateContractGas({
 						address,

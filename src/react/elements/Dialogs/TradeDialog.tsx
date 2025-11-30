@@ -38,7 +38,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
 
 interface ComboBoxProps {
-	value: any;
+	value: string;
 	label: React.ReactNode;
 	swapToken: SwapToken | null;
 	swapTokenDetails: SwapTokenDetails[];
@@ -488,7 +488,7 @@ const TradeDialog: React.FC = () => {
 					<Box mt={3} mb={3}>
 						<Box>
 							{getCombobox({
-								value: swapState.input.amount,
+								value: swapState.input.amount || '',
 								label: getComboboxLabel(swapState.input, 'You trade', false),
 								swapToken: swapState.input.swapToken,
 								swapTokenDetails: inputTokens,

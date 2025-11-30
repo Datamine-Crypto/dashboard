@@ -135,8 +135,8 @@ const useStyles = tss.create(({ theme }) => ({
  * Dependencies for the date picker, dynamically loaded.
  */
 interface DatePickerDependencies {
-	LocalizationProvider: React.ElementType<LocalizationProviderProps<any>> | null;
-	MobileDatePicker: React.ElementType<MobileDatePickerProps<any>> | null;
+	LocalizationProvider: React.ElementType<LocalizationProviderProps<Dayjs>> | null;
+	MobileDatePicker: React.ElementType<MobileDatePickerProps<Dayjs>> | null;
 	AdapterDayjs: typeof AdapterDayjsType | null;
 }
 

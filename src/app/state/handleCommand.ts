@@ -1,16 +1,20 @@
 import Big from 'big.js';
 
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Layer, NetworkType } from '@/app/configs/config.common';
-import { ReducerCommand, commonLanguage as reducerCommonLanguage } from '@/utils/reducer/sideEffectReducer';
+import { Ecosystem, Layer, NetworkType } from '@/app/configs/config.common';
+import {
+	ReducerCommand,
+	ReducerQuery,
+	commonLanguage as reducerCommonLanguage,
+} from '@/utils/reducer/sideEffectReducer';
 import copyToClipBoard from '@/utils/copyToClipboard';
 import { devLog } from '@/utils/devLog';
 import { availableSwapTokens } from '@/web3/swap/performSwap';
-import { SwapOperation, SwapToken } from '@/web3/swap/swapOptions';
+import { SwapOperation, SwapToken, SwapTokenWithAmount } from '@/web3/swap/swapOptions';
 import { formatBigInt, getPriceToggle, parseBigInt } from '@/utils/mathHelpers';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { AppState } from '@/app/state/initialState';
-import { DialogType, Token } from '@/app/interfaces';
+import { DialogType, Game, Token } from '@/app/interfaces';
 import { createWithWithQueries, localConfig } from '@/utils/reducer/reducerHelpers';
 import { GetBurnFluxResponseQuery } from '@/app/state/queries/web3/GetBurnFluxResponse';
 import { GetLockInDamTokensResponseQuery } from '@/app/state/queries/web3/GetLockInDamTokensResponse';
@@ -132,7 +136,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		// Core functionality of sideEffectReducer
 		// Note we're using reducerCommonLanguage instead of commonLanguage
 		case reducerCommonLanguage.commands.QueueQueries: {
-			const { queries } = command.payload;
+			const { queries } = command.payload as { queries: ReducerQuery[] };
 
 			return {
 				...state,
@@ -142,7 +146,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		}
 
 		case commonLanguage.commands.UpdateEcosystem: {
-			const { ecosystem: newEcosystem } = command.payload;
+			const { ecosystem: newEcosystem } = command.payload as { ecosystem: Ecosystem };
 
 			const stateEcosystemConfig = getEcosystemConfig(state.ecosystem);
 			const newEcosystemConfig = getEcosystemConfig(newEcosystem);
@@ -163,7 +167,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 		case commonLanguage.commands.UpdateAddress: {
-			const { address } = command.payload;
+			const { address } = command.payload as { address: string };
 
 			if (address === state.address) {
 				return state;
@@ -183,7 +187,15 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		}
 
 		case commonLanguage.commands.RefreshAccountState: {
-			const { updateEthBalance, closeDialog, forceRefresh = false } = command.payload || {};
+			const {
+				updateEthBalance,
+				closeDialog,
+				forceRefresh = false,
+			} = (command.payload || {}) as {
+				updateEthBalance?: boolean;
+				closeDialog?: boolean;
+				forceRefresh?: boolean;
+			};
 
 			// Apply throttling (only if we're not refreshing ETH balance. ETH balance updates usually happen at important times so think of it like "forced refresh")
 			const currentTimestampMs = Date.now();
@@ -227,9 +239,9 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 
 		case commonLanguage.commands.ClientSettings.SetUseEip1559: {
-			const useEip1559 = command.payload;
+			const useEip1559 = command.payload as boolean;
 
-			localStorage.setItem('clientSettingsUseEip1559', command.payload.toString());
+			localStorage.setItem('clientSettingsUseEip1559', useEip1559.toString());
 
 			return {
 				...state,
@@ -243,13 +255,13 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		case commonLanguage.commands.ClientSettings.SetPriceMultiplier: {
 			try {
 				const priceMultiplierAmount = getForecastAmount(
-					command.payload,
+					command.payload as string,
 					state.clientSettings.priceMultiplierAmount,
 					false
 				);
 
 				const priceMultiplier = parseFloat(
-					getForecastAmount(command.payload, state.clientSettings.priceMultiplierAmount, true)
+					getForecastAmount(command.payload as string, state.clientSettings.priceMultiplierAmount, true)
 				);
 				if (priceMultiplier > 100000) {
 					return state;
@@ -270,7 +282,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			}
 		}
 		case commonLanguage.commands.ClientSettings.SetCurrency: {
-			const currency = command.payload;
+			const currency = command.payload as string;
 			localStorage.setItem('clientSettingsCurrency', currency);
 
 			return {
@@ -282,7 +294,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 		case commonLanguage.commands.Forecasting.ToggleMode: {
-			if (!state.addressLock || !state.addressDetails) {
+			if (!state.addressLock || !state.addressDetails || !state.balances) {
 				return state;
 			}
 
@@ -374,7 +386,8 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		case commonLanguage.commands.Forecasting.SetBurnAmount: {
 			const maxBurn = 10000 * config.maxBurnMultiplier;
 			const forecastBurnAmountNumberRaw = Math.round(
-				parseFloat(getForecastAmount(command.payload, state.forecastSettings.forecastBurnAmount, true)) * 10000
+				parseFloat(getForecastAmount(command.payload as string, state.forecastSettings.forecastBurnAmount, true)) *
+					10000
 			);
 			const forecastBurn = Math.max(10000, Math.min(maxBurn, forecastBurnAmountNumberRaw));
 
@@ -383,7 +396,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					return (forecastBurn / 10000).toFixed(4);
 				}
 
-				return getForecastAmount(command.payload, state.forecastSettings.forecastBurnAmount, false);
+				return getForecastAmount(command.payload as string, state.forecastSettings.forecastBurnAmount, false);
 			};
 			const forecastBurnAmount = getForecastBurnAmount();
 
@@ -412,7 +425,8 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 
 		case commonLanguage.commands.Forecasting.SetTimeAmount: {
 			const forecastTimeAmountNumberRaw = Math.round(
-				parseFloat(getForecastAmount(command.payload, state.forecastSettings.forecastTimeAmount, true)) * 10000
+				parseFloat(getForecastAmount(command.payload as string, state.forecastSettings.forecastTimeAmount, true)) *
+					10000
 			);
 			const forecastTime = Math.max(10000, Math.min(100000, forecastTimeAmountNumberRaw));
 
@@ -421,7 +435,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					return (forecastTime / 10000).toFixed(4);
 				}
 
-				return getForecastAmount(command.payload, state.forecastSettings.forecastTimeAmount, false);
+				return getForecastAmount(command.payload as string, state.forecastSettings.forecastTimeAmount, false);
 			};
 			const forecastTimeAmount = getForecastTimeAmount();
 
@@ -435,7 +449,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 		case commonLanguage.commands.Forecasting.SetBlocks: {
-			const forecastBlocks = command.payload;
+			const forecastBlocks = command.payload as string;
 
 			const blocks = Math.max(0, parseInt(forecastBlocks) - parseInt(state.forecastSettings.forecastStartBlocks));
 
@@ -449,7 +463,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 		case commonLanguage.commands.Forecasting.SetStartBlocks: {
-			const forecastStartBlocks = command.payload;
+			const forecastStartBlocks = command.payload as string;
 
 			const blocks = Math.max(0, parseInt(state.forecastSettings.forecastBlocks) - parseInt(forecastStartBlocks));
 
@@ -464,21 +478,30 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		}
 
 		case commonLanguage.commands.Forecasting.SetAmount: {
-			const forecastAmount = getForecastAmount(command.payload, state.forecastSettings.forecastAmount, false);
+			const forecastAmount = getForecastAmount(command.payload as string, state.forecastSettings.forecastAmount, false);
 			return {
 				...state,
 				forecastSettings: {
 					...state.forecastSettings,
 					forecastAmount,
 					amount:
-						BigInt(getForecastAmount(command.payload, state.forecastSettings.forecastAmount, true).toString()) *
+						BigInt(
+							getForecastAmount(command.payload as string, state.forecastSettings.forecastAmount, true).toString()
+						) *
 						10n ** 18n,
 				},
 			};
 		}
 
 		case commonLanguage.commands.Forecasting.SetFluxPrice: {
-			const forecastFluxPrice = getForecastAmount(command.payload, state.forecastSettings.forecastFluxPrice, false);
+			const forecastFluxPrice = getForecastAmount(
+				command.payload as string,
+				state.forecastSettings.forecastFluxPrice,
+				false
+			);
+			if (!state.balances) {
+				return state;
+			}
 			return {
 				...state,
 				forecastSettings: {
@@ -493,7 +516,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		}
 
 		case commonLanguage.commands.Web3.Initialize: {
-			const { address } = command.payload;
+			const { address } = command.payload as { address: string };
 			if (state.isInitialized) {
 				return state;
 			}
@@ -507,7 +530,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		}
 
 		case commonLanguage.commands.Web3.Reinitialize: {
-			const { targetEcosystem } = command.payload;
+			const { targetEcosystem } = command.payload as { targetEcosystem: Ecosystem };
 
 			return {
 				...state,
@@ -553,7 +576,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		case commonLanguage.commands.Flux.LockInDamTokens: {
 			try {
-				const { amount, minterAddress } = command.payload;
+				const { amount, minterAddress } = command.payload as { amount: string; minterAddress: string };
 
 				const amountBigInt = parseBigInt(amount);
 
@@ -575,7 +598,11 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			}
 		}
 		case commonLanguage.commands.Flux.Mint: {
-			const { sourceAddress, targetAddress, blockNumber } = command.payload;
+			const { sourceAddress, targetAddress, blockNumber } = command.payload as {
+				sourceAddress: string;
+				targetAddress: string;
+				blockNumber: string;
+			};
 
 			return {
 				...state,
@@ -635,7 +662,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			return state;
 		}
 		case commonLanguage.commands.Dialog.Show: {
-			const { dialog } = command.payload;
+			const { dialog } = command.payload as { dialog: DialogType };
 			return {
 				...state,
 				dialog,
@@ -654,7 +681,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 		case commonLanguage.commands.Flux.Burn: {
-			const { amount, address } = command.payload;
+			const { amount, address } = command.payload as { amount: string; address: string };
 
 			try {
 				const amountBigInt = parseBigInt(amount);
@@ -677,7 +704,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			}
 		}
 		case commonLanguage.commands.SetMinterSettings: {
-			const { address } = command.payload;
+			const { address } = command.payload as { address: string };
 
 			try {
 				return {
@@ -700,7 +727,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 
 		// We can specify which game to open and show a dilog in the same state change
 		case commonLanguage.commands.Market.ShowGameDialog: {
-			const { game } = command.payload;
+			const { game } = command.payload as { game: Game };
 
 			return {
 				...state,
@@ -713,14 +740,14 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 		case commonLanguage.commands.Market.UpdateGame: {
-			const { game } = command.payload;
+			const { game } = command.payload as { game: Game };
 			return {
 				...state,
 				game,
 			};
 		}
 		case commonLanguage.commands.Market.AddGemAddress: {
-			const { address } = command.payload;
+			const { address } = command.payload as { address: string };
 
 			const ecosystemAddresses = state.market.gemAddresses[state.ecosystem];
 
@@ -747,7 +774,10 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 		case commonLanguage.commands.Market.MarketBurnFluxTokens: {
-			const { amountToBurn, gems } = command.payload;
+			const { amountToBurn, gems } = command.payload as {
+				amountToBurn: string;
+				gems: import('@/react/elements/Fragments/DatamineGemsGame').Gem[];
+			};
 
 			try {
 				/*if (!state.marketAddressLock) {
@@ -760,7 +790,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					...withQueries([
 						{
 							type: commonLanguage.queries.Market.GetMarketBurnFluxResponse,
-							payload: { amountToBurn, gems } as GetMarketBurnFluxResponseQuery,
+							payload: { amountToBurn: parseBigInt(amountToBurn), gems } as GetMarketBurnFluxResponseQuery,
 						},
 					]),
 				};
@@ -781,7 +811,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			}
 		}
 		case commonLanguage.commands.Market.DepositTokens: {
-			const { amount, address } = command.payload;
+			const { amount, address } = command.payload as { amount: string; address: string };
 
 			try {
 				const amountBigInt = parseBigInt(amount);
@@ -847,7 +877,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		}
 		case commonLanguage.commands.Market.RefreshMarketAddresses: {
 			try {
-				const { game } = command.payload || {};
+				const { game } = (command.payload || {}) as { game?: Game };
 				// if (!state.web3) {
 				// 	return state;
 				// }
@@ -883,10 +913,10 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			}
 		}
 		case commonLanguage.commands.Swap.ShowTradeDialog: {
-			const { input } = command.payload;
+			const { input } = command.payload as { input: SwapTokenWithAmount };
 
 			const getInput = () => {
-				if (!input || !input.swapToken || input === '0') {
+				if (!input || !input.swapToken) {
 					return {
 						swapToken: null,
 						amount: '',
@@ -926,9 +956,10 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 
 			const outputState = getOutput();
 
-			const ecosystem = getSwapTokenEcosystem(
-				inputState.swapToken === SwapToken.ETH ? outputState.swapToken : inputState.swapToken
-			);
+			const ecosystem =
+				inputState.swapToken && outputState.swapToken
+					? getSwapTokenEcosystem(inputState.swapToken === SwapToken.ETH ? outputState.swapToken : inputState.swapToken)
+					: state.ecosystem;
 
 			return {
 				...state,
@@ -953,7 +984,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 		case commonLanguage.commands.Swap.SetAmount: {
-			const { amount } = command.payload;
+			const { amount } = command.payload as { amount: string };
 
 			/**
 			 * Every time the amount is updated we'll queue an update but it'll be throttled
@@ -989,7 +1020,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 		case commonLanguage.commands.Swap.SetToken: {
-			const { swapOperation, swapToken } = command.payload;
+			const { swapOperation, swapToken } = command.payload as { swapOperation: SwapOperation; swapToken: SwapToken };
 
 			switch (swapOperation) {
 				case SwapOperation.Input: {
@@ -1059,7 +1090,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			return getFlipSwapState();
 		}
 		case commonLanguage.commands.Help.SetSearch: {
-			const searchQuery = command.payload;
+			const searchQuery = command.payload as string;
 			const { helpArticlesNetworkType } = state;
 
 			return {
@@ -1071,7 +1102,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 		case commonLanguage.commands.Help.ShowArticle: {
-			const { helpArticle } = command.payload;
+			const { helpArticle } = command.payload as { helpArticle: import('@/app/helpArticles').HelpArticle };
 
 			const { helpArticlesNetworkType } = state;
 

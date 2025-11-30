@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { EmojiEvents } from '@mui/icons-material';
 
-import { Token } from '@/app/interfaces';
+import { Balances, Token } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
 
 interface TokensBurnedArgs {
@@ -39,7 +39,7 @@ interface EventLog {
 
 interface Props {
 	logs: EventLog[];
-	balances: any; // Using any for Balances to avoid complex imports, or import Balances if possible
+	balances: Balances;
 	truncateAddress: (address: string) => string;
 }
 

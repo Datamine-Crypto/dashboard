@@ -83,7 +83,7 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosyst
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-	const handleClick = (event: React.MouseEvent<any>) => {
+	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
 		event.preventDefault();
 		setAnchorEl(event.currentTarget);
 	};

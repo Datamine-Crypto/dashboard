@@ -48,7 +48,7 @@ const UnlockDialog: React.FC = () => {
 	}
 
 	const { mintableTokenShortName, lockableTokenShortName } = getConfig(ecosystem);
-	const onSubmit = async (e: any) => {
+	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		appDispatch({
 			type: commonLanguage.commands.Flux.UnlockDamTokens,

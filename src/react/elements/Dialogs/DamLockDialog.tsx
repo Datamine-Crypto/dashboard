@@ -261,7 +261,7 @@ const DamLockDialog: React.FC = () => {
 								aria-label="gender"
 								name="gender1"
 								value={minterType}
-								onChange={(event) => setMinterType((event.target as any).value)}
+								onChange={(event) => setMinterType(event.target.value as MintingAddressType)}
 							>
 								{getGameHodlClickerOption()}
 								{getMarketOption()}

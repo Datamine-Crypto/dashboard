@@ -47,7 +47,7 @@ export interface SwapTokenDetails {
 	longName: string;
 	address: string;
 	abi?: Abi | readonly unknown[];
-	logo: any;
+	logo: string;
 	ecosystem: Ecosystem | null;
 
 	/**
@@ -66,7 +66,7 @@ export interface SwapOptions {
 
 	publicClient: PublicClient;
 	walletClient?: WalletClient | null;
-	web3provider: any;
+	web3provider: unknown;
 
 	/**
 	 * If set to true swap will only ensure it won't fail
