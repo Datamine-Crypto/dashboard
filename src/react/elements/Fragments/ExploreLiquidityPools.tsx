@@ -11,7 +11,6 @@ import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
 
 const useStyles = tss.create(({ theme }) => ({
 	chip: {
@@ -69,46 +68,30 @@ export enum LiquidityPoolButtonType {
 	ExtraLargeButton = 'ExtraLargeButton',
 	TextLink = 'TextLink',
 }
-interface TradePool {
-	name: string;
-	links: {
-		info: string;
-		buy: string;
-		addLiquidity: string;
-	};
-	layer: number;
-}
-interface RenderProps {
+
+interface Params {
 	buttonType: LiquidityPoolButtonType;
 	hideIcon?: boolean;
 
 	contents?: React.ReactElement;
 	ecosystem: Ecosystem;
-	dispatch: ReducerDispatch;
 }
-const Render: React.FC<RenderProps> = React.memo(({ buttonType, contents, ecosystem, dispatch }) => {
+const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosystem }) => {
 	const { liquidityPoolGroups } = getEcosystemConfig(ecosystem);
 
 	const { classes } = useStyles();
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-	const [tradeAnchorEl, setTradeAnchorEl] = React.useState<null | HTMLElement>(null);
-
-	const [tradePool, setTradePool] = React.useState<TradePool | null>(null);
-
-	const handleClick = (event: React.MouseEvent<any>) => {
+	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
 		event.preventDefault();
 		setAnchorEl(event.currentTarget);
 	};
 
 	const handleClose = () => {
 		setAnchorEl(null);
-		setTradeAnchorEl(null);
 	};
-	const handleCloseTrade = () => {
-		setTradeAnchorEl(null);
-	};
+
 	const getButton = () => {
 		const getSize = () => {
 			switch (buttonType) {
@@ -188,18 +171,11 @@ const Render: React.FC<RenderProps> = React.memo(({ buttonType, contents, ecosys
 						);
 					};
 
-					const handleTradeClick = (event: React.MouseEvent<any>) => {
-						event.preventDefault();
-
-						setTradePool(pool);
-						setTradeAnchorEl(event.currentTarget);
-					};
-
 					const getTradeButton = () => {
 						// Tokens below are all tokens that support built-in swaps
 						if (pool.isBuiltinSwapEnabled) {
 							const showTradeDialog = () => {
-								dispatch({
+								appDispatch({
 									type: commonLanguage.commands.Swap.ShowTradeDialog,
 									payload: {
 										input: {
@@ -336,25 +312,6 @@ const Render: React.FC<RenderProps> = React.memo(({ buttonType, contents, ecosys
 				{getMenuItems()}
 			</Menu>
 		</>
-	);
-});
-
-interface Params {
-	buttonType: LiquidityPoolButtonType;
-	hideIcon?: boolean;
-
-	contents?: React.ReactElement;
-	ecosystem: Ecosystem;
-}
-const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, hideIcon, contents, ecosystem }) => {
-	return (
-		<Render
-			buttonType={buttonType}
-			hideIcon={hideIcon}
-			contents={contents}
-			ecosystem={ecosystem}
-			dispatch={appDispatch}
-		/>
 	);
 };
 

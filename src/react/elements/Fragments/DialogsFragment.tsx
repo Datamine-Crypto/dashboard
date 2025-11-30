@@ -10,21 +10,23 @@ import MintDialog from '@/react/elements/Dialogs/MintDialog';
 import SettingsDialog from '@/react/elements/Dialogs/SettingsDialog';
 import TradeDialog from '@/react/elements/Dialogs/TradeDialog';
 import UnlockDialog from '@/react/elements/Dialogs/UnlockDialog';
-//import WalletConnectRpcDialog from '@/react/elements/Dialogs/WalletConnectRpcDialog';
 import MintSettingsDialog from '@/react/elements/Dialogs/MinterSettingsDialog';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
+
 const MarketCollectRewardsDialog = lazy(() => import('@/react/elements/Dialogs/GameFi/MarketCollectRewardsDialog'));
 const ZeroBalanceDialog = lazy(() => import('@/react/elements/Dialogs/ZeroBalanceDialog'));
-interface Props {
-	dispatch: ReducerDispatch;
-	dialog: DialogType | null;
-	dialogParams: any;
-}
-const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
+
+const DialogsFragment: React.FC = () => {
+	const { dialog, dialogParams } = useAppStore(
+		useShallow((state) => ({
+			dialog: state.dialog,
+			dialogParams: state.dialogParams,
+		}))
+	);
+
 	const getDialog = () => {
 		const onClose = () => {
-			dispatch({ type: commonLanguage.commands.CloseDialog });
+			appDispatch({ type: commonLanguage.commands.Dialog.Close });
 		};
 		if (!dialog) {
 			return null;
@@ -46,14 +48,12 @@ const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
 			case DialogType.ZeroDam:
 				return <ZeroBalanceDialog dialogType={dialog} />;
 			case DialogType.TitleMessage: {
-				const { title, message } = dialogParams;
+				const { title, message } = dialogParams as { title: string; message: string };
 				return <MessageDialog title={title} message={message} open={true} onClose={onClose} />;
 			}
 			case DialogType.ClientSettings: {
 				return <SettingsDialog />;
 			}
-			/*case DialogType.WalletConnectRpc:
-				return <WalletConnectRpcDialog />;*/
 			// Market dialogs
 			case DialogType.MarketCollectRewards:
 				return <MarketCollectRewardsDialog />;
@@ -62,20 +62,5 @@ const Render: React.FC<Props> = ({ dialog, dialogParams, dispatch }) => {
 		}
 	};
 	return getDialog();
-};
-interface Params {}
-/**
- * This fragment contains all the dialogs in one place
- * Help Dialog is excluded as it's a seperate system
- */
-const DialogsFragment: React.FC<Params> = () => {
-	const { dialog, dialogParams } = useAppStore(
-		useShallow((state) => ({
-			dialog: state.dialog,
-			dialogParams: state.dialogParams,
-		}))
-	);
-
-	return <Render dialog={dialog} dialogParams={dialogParams} dispatch={appDispatch} />;
 };
 export default DialogsFragment;

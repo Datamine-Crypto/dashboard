@@ -1,15 +1,33 @@
-import BN from 'bn.js';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
 import { Gem } from '@/react/elements/Fragments/DatamineGemsGame';
 import { ReducerQueryHandler } from '@/utils/reducer/sideEffectReducer';
 import { devLog } from '@/utils/devLog';
 import { SwapQuote } from '@/web3/swap/swapOptions';
-import { BNToDecimal } from '@/utils/mathHelpers';
+import { formatBigInt } from '@/utils/mathHelpers';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { AppState } from '@/app/state/initialState';
 import { createWithWithQueries } from '@/utils/reducer/reducerHelpers';
-import { ConnectionMethod, DialogType } from '@/app/interfaces';
+import {
+	ConnectionMethod,
+	DialogType,
+	Balances,
+	SwapTokenBalances,
+	FluxAddressLock,
+	FluxAddressDetails,
+	FluxAddressTokenDetails,
+} from '@/app/interfaces';
+import { HelpArticle } from '@/app/helpArticles';
+import { GetRefreshMarketAddressesResponse } from '@/app/state/queries/web3/MarketQueries';
+
+interface FindAccountStateResponse {
+	balances: Balances | null;
+	swapTokenBalances: SwapTokenBalances | null;
+	selectedAddress: string | null;
+	addressLock: FluxAddressLock | null;
+	addressDetails: FluxAddressDetails | null;
+	addressTokenDetails: FluxAddressTokenDetails | null;
+}
 
 /**
  * Handles responses from asynchronous queries executed by Web3Bindings.
@@ -26,16 +44,21 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 	const withQueries = createWithWithQueries(state);
 
 	switch (query.type) {
-		case commonLanguage.queries.FindWeb3Instance: {
+		case commonLanguage.queries.Web3.FindWeb3Instance: {
 			if (err) {
-				devLog('FindWeb3Instance reducer err:', { err, message: (err as any).message });
+				const errorMessage = err instanceof Error ? err.message : String(err);
+				devLog('FindWeb3Instance reducer err:', { err, message: errorMessage });
 				return {
 					...state,
 					hasWeb3: false,
 				};
 			}
 
-			const { selectedAddress, networkType, chainId } = response;
+			const { selectedAddress, networkType, chainId } = response as {
+				selectedAddress: string;
+				networkType: string;
+				chainId: number;
+			};
 
 			const isArbitrumMainnet = chainId === 42161;
 			devLog('FindWeb3Instance reducer isArbitrumMainnet:', {
@@ -99,15 +122,14 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				),
 			};
 		}
-		case commonLanguage.queries.EnableWeb3: /*case commonLanguage.queries.EnableWalletConnect:*/ {
+		case commonLanguage.queries.Web3.EnableWeb3: {
 			if (err) {
 				return state;
 			}
 
-			const { selectedAddress } = response;
+			const { selectedAddress } = response as { selectedAddress: string };
 
 			const connectionMethod = ConnectionMethod.MetaMask;
-			//query.type === commonLanguage.queries.EnableWeb3 ? ConnectionMethod.MetaMask : ConnectionMethod.WalletConnect;
 
 			return {
 				...state,
@@ -140,7 +162,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				//marketAddressLock,
 				//currentAddressMarketAddressLock,
 				//currentAddressMintableBalance,
-			} = response;
+			} = response as FindAccountStateResponse;
 
 			const getBlancesWithForecasting = () => {
 				if (!balances) {
@@ -166,14 +188,14 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				//currentAddressMintableBalance,
 			};
 		}
-		case commonLanguage.queries.GetLockInDamTokensResponse: {
+		case commonLanguage.queries.Flux.GetLockInDamTokensResponse: {
 			if (err) {
 				return {
 					...state,
-					error: err,
+					error: err instanceof Error ? err.message : String(err),
 				};
 			}
-			const { minterAddress } = response;
+			const { minterAddress } = response as { minterAddress: string };
 
 			const dialog =
 				minterAddress.toLowerCase() === config.batchMinterAddress?.toLowerCase() ? DialogType.MintSettings : null;
@@ -184,11 +206,11 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
 			};
 		}
-		case commonLanguage.queries.GetMintFluxResponse: {
+		case commonLanguage.queries.Flux.GetMintResponse: {
 			if (err) {
 				return {
 					...state,
-					error: err,
+					error: err instanceof Error ? err.message : String(err),
 				};
 			}
 
@@ -198,20 +220,20 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
 			};
 		}
-		case commonLanguage.queries.GetBurnFluxResponse:
-		case commonLanguage.queries.GetSetMintSettingsResponse:
+		case commonLanguage.queries.Flux.GetBurnResponse:
+		case commonLanguage.queries.Flux.GetSetMintSettingsResponse:
 		case commonLanguage.queries.Market.GetDepositMarketResponse:
 		case commonLanguage.queries.Market.GetWithdrawMarketResponse: {
 			if (err) {
-				if ((err as any).message) {
+				if (err instanceof Error) {
 					return {
 						...state,
-						error: (err as any).message,
+						error: err.message,
 					};
 				}
 				return {
 					...state,
-					error: err,
+					error: String(err),
 				};
 			}
 
@@ -223,15 +245,15 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 		}
 		case commonLanguage.queries.Market.GetMarketBurnFluxResponse: {
 			if (err) {
-				if ((err as any).message) {
+				if (err instanceof Error) {
 					return {
 						...state,
-						error: (err as any).message,
+						error: err.message,
 					};
 				}
 				return {
 					...state,
-					error: err,
+					error: String(err),
 				};
 			}
 
@@ -246,7 +268,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				};
 			}
 
-			const { gems }: { gems: Gem[] } = response;
+			const { gems }: { gems: Gem[] } = response as { gems: Gem[] };
 
 			const totalDollarAmountOfGems = gems.reduce((total, gem) => total + gem.dollarAmount, 0);
 
@@ -272,15 +294,15 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 		}
 		case commonLanguage.queries.Market.GetRefreshMarketAddressesResponse: {
 			if (err) {
-				if ((err as any).message) {
+				if (err instanceof Error) {
 					return {
 						...state,
-						error: (err as any).message,
+						error: err.message,
 					};
 				}
 				return {
 					...state,
-					error: err,
+					error: String(err),
 				};
 			}
 
@@ -294,7 +316,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				game,
 				totalContractRewardsAmount,
 				totalContractLockedAmount,
-			} = response;
+			} = response as GetRefreshMarketAddressesResponse;
 
 			return {
 				...state,
@@ -310,11 +332,11 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				},
 			};
 		}
-		case commonLanguage.queries.GetTradeResponse: {
+		case commonLanguage.queries.Swap.GetTradeResponse: {
 			if (err) {
 				return {
 					...state,
-					error: err,
+					error: err instanceof Error ? err.message : String(err),
 				};
 			}
 
@@ -324,11 +346,11 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
 			};
 		}
-		case commonLanguage.queries.GetUnlockDamTokensResponse: {
+		case commonLanguage.queries.Flux.GetUnlockDamTokensResponse: {
 			if (err) {
 				return {
 					...state,
-					error: err,
+					error: err instanceof Error ? err.message : String(err),
 				};
 			}
 
@@ -339,7 +361,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 			};
 		}
 
-		case commonLanguage.queries.GetAuthorizeFluxOperatorResponse: {
+		case commonLanguage.queries.Flux.GetAuthorizeOperatorResponse: {
 			if (err) {
 				return state;
 			}
@@ -350,23 +372,23 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 			};
 		}
 
-		case commonLanguage.queries.PerformSearch: {
+		case commonLanguage.queries.Help.PerformSearch: {
 			return {
 				...state,
-				helpArticles: response,
+				helpArticles: response as HelpArticle[],
 			};
 		}
-		case commonLanguage.queries.GetFullHelpArticle: {
+		case commonLanguage.queries.Help.GetFullArticle: {
 			return {
 				...state,
-				helpArticle: response,
+				helpArticle: response as HelpArticle,
 			};
 		}
 		case commonLanguage.queries.Swap.GetOutputQuote: {
 			if (err) {
 				return {
 					...state,
-					error: err,
+					error: err instanceof Error ? err.message : String(err),
 				};
 			}
 
@@ -380,12 +402,11 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 			devLog('swapQuote:', swapQuote);
 			return {
 				...state,
-				//BNToDecimal(
 				swapState: {
 					...state.swapState,
 					output: {
 						...state.swapState.output,
-						amount: `${BNToDecimal(new BN(swapQuote.out.minAmount))}`,
+						amount: `${formatBigInt(BigInt(swapQuote.out.minAmount))}`,
 					},
 				},
 			};

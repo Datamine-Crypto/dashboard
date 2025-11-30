@@ -55,12 +55,7 @@ const useStyles = tss.create(({ theme }) => ({
 			fontSize: '1rem',
 		},
 	},
-	playIcon: {
-		fontSize: 200,
-		opacity: 0.2,
-		marginLeft: -100,
-		marginTop: -100,
-	},
+
 	oldCoin: {
 		width: 128,
 		position: 'relative',
@@ -76,10 +71,10 @@ interface Props {
 	isVideoVisible?: boolean;
 	ecosystem: Ecosystem;
 }
-const Header: React.FC<Props> = React.memo(({ isSubPage, isVideoVisible, ecosystem }) => {
+const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoVisible, ecosystem }) {
 	const { classes } = useStyles();
 
-	const { isLiquidityPoolsEnabled, navigation, ecosystemName } = getEcosystemConfig(ecosystem);
+	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem);
 	const { isHelpPageEnabled } = navigation;
 
 	const navigateDashboard = () => {

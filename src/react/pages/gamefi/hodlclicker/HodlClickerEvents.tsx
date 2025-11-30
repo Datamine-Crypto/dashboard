@@ -1,13 +1,14 @@
-import { Box, useTheme } from '@mui/material';
+// Debug comment
+import { Box } from '@mui/material';
 import React, { useEffect, useState, useMemo } from 'react';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { getPublicClient } from '@/web3/utils/web3ProviderUtils';
-import gameHodlClickerAbi from '@/web3/abis/games/gameHodlClicker.json';
+import { gameHodlClickerAbi } from '@/web3/abis/games/gameHodlClicker';
 import { Address } from 'viem';
 import dayjs from 'dayjs';
 import { getPriceToggle } from '@/utils/mathHelpers';
-import BN from 'bn.js';
+
 import { useAppStore } from '@/react/utils/appStore';
 import { useShallow } from 'zustand/react/shallow';
 import { Token } from '@/app/interfaces';
@@ -44,9 +45,17 @@ interface EventLog {
 	timestamp: number; // Unix timestamp in seconds
 }
 
+interface RawLog {
+	eventName: string;
+	args: TokensBurnedArgs;
+	logIndex: number | bigint;
+	blockNumber: bigint;
+	transactionHash: string;
+}
+
 const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 	const [logs, setLogs] = useState<EventLog[]>([]);
-	const theme = useTheme();
+
 	const { balances } = useAppStore(
 		useShallow((state) => ({
 			balances: state.balances,
@@ -60,7 +69,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 
 		if (!publicClient || !address) return;
 
-		const processLogs = async (rawLogs: any[], isHistory: boolean = false) => {
+		const processLogs = async (rawLogs: RawLog[], isHistory: boolean = false) => {
 			const eventsOfInterest = ['TokensBurned'];
 
 			// Filter and format logs
@@ -114,7 +123,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 		const fetchHistory = async () => {
 			try {
 				const currentBlock = await publicClient.getBlockNumber();
-				let collectedLogs: any[] = [];
+				let collectedLogs: RawLog[] = [];
 				const targetCount = 100; // Fetch more for charts
 
 				const isL1 = ecosystem === Ecosystem.Flux;
@@ -135,7 +144,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 						toBlock,
 					});
 
-					collectedLogs = [...logs, ...collectedLogs];
+					collectedLogs = [...(logs as unknown as RawLog[]), ...collectedLogs];
 					toBlock = fromBlock - 1n;
 					iterations++;
 				}
@@ -152,7 +161,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 			address,
 			abi: gameHodlClickerAbi,
 			eventName: 'TokensBurned',
-			onLogs: (logs) => processLogs(logs, false),
+			onLogs: (logs) => processLogs(logs as unknown as RawLog[], false),
 		});
 
 		return () => {
@@ -169,10 +178,10 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 			const recentLogs = logs.slice(0, 50);
 
 			const totalJackpotUSD = recentLogs.reduce((acc, log) => {
-				const jackpotBN = new BN(log.args.jackpotAmount.toString());
+				const jackpotBigInt = log.args.jackpotAmount;
 				const jackpotUSD = parseFloat(
 					getPriceToggle({
-						value: jackpotBN,
+						value: jackpotBigInt,
 						inputToken: Token.Mintable,
 						outputToken: Token.USDC,
 						balances,
@@ -189,18 +198,15 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 	}, [logs, balances]);
 
 	// Calculate 24h Summary and Chart Data
-	const { summary, chartData, maxBurnedUSD, totalTransactions, dateRange, chartTitle } = useMemo(() => {
+	const { summary, chartData, maxBurnedUSD, totalTransactions, chartTitle } = useMemo(() => {
 		const now = Math.floor(Date.now() / 1000);
 		const oneDayAgo = now - 24 * 3600;
 
 		const recentLogs = logs.filter((log) => log.timestamp >= oneDayAgo);
 
-		const totalBurned = recentLogs.reduce(
-			(acc, log) => acc.add(new BN(log.args.amountActuallyBurned.toString())),
-			new BN(0)
-		);
-		const totalJackpot = recentLogs.reduce((acc, log) => acc.add(new BN(log.args.jackpotAmount.toString())), new BN(0));
-		const totalTip = recentLogs.reduce((acc, log) => acc.add(new BN(log.args.totalTipAmount.toString())), new BN(0));
+		const totalBurned = recentLogs.reduce((acc, log) => acc + log.args.amountActuallyBurned, 0n);
+		const totalJackpot = recentLogs.reduce((acc, log) => acc + log.args.jackpotAmount, 0n);
+		const totalTip = recentLogs.reduce((acc, log) => acc + log.args.totalTipAmount, 0n);
 
 		// Chart Data: Bucket by hour
 		const buckets: { [key: string]: { burnedUSD: number; txCount: number } } = {};
@@ -211,11 +217,11 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 				buckets[hourTimestamp] = { burnedUSD: 0, txCount: 0 };
 			}
 
-			const burnedBN = new BN(log.args.amountActuallyBurned.toString());
+			const burnedBigInt = log.args.amountActuallyBurned;
 			let burnedUSD = 0;
 			if (balances) {
 				const usdStr = getPriceToggle({
-					value: burnedBN,
+					value: burnedBigInt,
 					inputToken: Token.Mintable,
 					outputToken: Token.USDC,
 					balances,
@@ -272,7 +278,7 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 		};
 	}, [logs, balances]);
 
-	const getUSDValue = (value: BN, round: number = 2) => {
+	const getUSDValue = (value: bigint, round: number = 2) => {
 		if (!balances) return '0.00';
 		return getPriceToggle({
 			value,

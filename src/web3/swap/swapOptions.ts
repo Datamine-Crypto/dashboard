@@ -3,13 +3,13 @@
  * It provides a standardized structure for handling swap operations, tokens, and platform-specific details.
  */
 
-import { PublicClient } from 'viem';
+import { PublicClient, Abi, WalletClient } from 'viem';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
 
 /**
  * A base interface for platform-specific swap options. It can be extended for different DEXs.
  */
-export interface SwapPlatformOptions {}
+export type SwapPlatformOptions = object;
 
 /**
  * An enumeration of all tokens that can be used in a swap.
@@ -46,8 +46,8 @@ export interface SwapTokenDetails {
 	shortName: string;
 	longName: string;
 	address: string;
-	abi?: any;
-	logo: any;
+	abi?: Abi | readonly unknown[];
+	logo: string;
 	ecosystem: Ecosystem | null;
 
 	/**
@@ -65,8 +65,8 @@ export interface SwapOptions {
 	swapPlatform: SwapPlatform;
 
 	publicClient: PublicClient;
-	walletClient?: any; // Using any to avoid circular dependency or import issues if WalletClient is not exported from viem (it is, but let's be safe or just import it)
-	web3provider: any;
+	walletClient?: WalletClient | null;
+	web3provider: unknown;
 
 	/**
 	 * If set to true swap will only ensure it won't fail
@@ -87,7 +87,7 @@ export interface SwapOptions {
  * Represents a token involved in a swap, including the amount to be swapped.
  */
 export interface SwapTokenWithAmount {
-	amount: string;
+	amount: string | null | undefined;
 	swapToken: SwapToken | null;
 }
 

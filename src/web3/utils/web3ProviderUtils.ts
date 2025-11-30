@@ -1,11 +1,20 @@
-import { createPublicClient, createWalletClient, custom, getContract, PublicClient, WalletClient, Address } from 'viem';
-import damTokenAbi from '@/web3/abis/dam.json';
-import fluxTokenAbi from '@/web3/abis/flux.json';
-import batchMinterAbi from '@/web3/abis/batchMinter.json';
-import marketAbi from '@/web3/abis/market.json';
-import gameHodlClickerAbi from '@/web3/abis/games/gameHodlClicker.json';
-import multicallAbi from '@/web3/abis/multicall.json';
-import uniswapPairV3Abi from '@/web3/abis/uniswapPairV3.json';
+import {
+	createPublicClient,
+	createWalletClient,
+	custom,
+	getContract,
+	PublicClient,
+	WalletClient,
+	Address,
+	EIP1193Provider,
+} from 'viem';
+import { damAbi as damTokenAbi } from '@/web3/abis/dam';
+import { fluxAbi as fluxTokenAbi } from '@/web3/abis/flux';
+import { batchMinterAbi } from '@/web3/abis/batchMinter';
+import { marketAbi } from '@/web3/abis/games/datamineGems';
+import { gameHodlClickerAbi } from '@/web3/abis/games/gameHodlClicker';
+import { multicallAbi } from '@/web3/abis/multicall';
+import { uniswapPairV3Abi } from '@/web3/abis/uniswapPairV3';
 
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
@@ -29,7 +38,7 @@ let publicClient: PublicClient | null = null;
  */
 let preselectedAddress: Address | null = null;
 
-export const setWeb3Provider = (provider: any, ecosystem: Ecosystem) => {
+export const setWeb3Provider = (provider: EIP1193Provider | null, ecosystem: Ecosystem) => {
 	if (provider) {
 		const config = getEcosystemConfig(ecosystem);
 		const chain = config.layer === Layer.Layer1 ? mainnet : arbitrum;
@@ -78,7 +87,7 @@ export const getSelectedAddress = async () => {
 		if (addresses.length > 0) {
 			return addresses[0];
 		}
-	} catch (err) {
+	} catch {
 		// Silently fail
 	}
 
@@ -106,7 +115,7 @@ export const preselectAddress = async () => {
 			preselectedAddress = addresses[0];
 			return addresses;
 		}
-	} catch (err) {
+	} catch {
 		// Silently fail if can't find any addresses or enable() fails
 	}
 
@@ -125,10 +134,10 @@ export const preselectAddress = async () => {
  * @returns An object containing all necessary contract instances.
  */
 export const getContracts = (publicClient: PublicClient, ecosystem: Ecosystem) => {
-	const config = getEcosystemConfig(ecosystem) as any;
+	const config = getEcosystemConfig(ecosystem);
 
 	// Helper to create contract
-	const createContract = (address: string, abi: any) => {
+	const createContract = <TAbi extends readonly unknown[]>(address: string | null | undefined, abi: TAbi) => {
 		if (!address || address === '0x0') return null;
 		return getContract({
 			address: address as Address,

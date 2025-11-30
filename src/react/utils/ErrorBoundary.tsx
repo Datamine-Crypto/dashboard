@@ -34,12 +34,12 @@ interface ErrorState {
  * logs those errors, and displays a fallback UI instead of the crashed component tree.
  * This prevents the entire application from crashing.
  */
-export default class ErrorBoundary extends React.Component<{}, ErrorState> {
+export default class ErrorBoundary extends React.Component<React.PropsWithChildren, ErrorState> {
 	/**
 	 * Constructs the ErrorBoundary component.
 	 * @param props The component props.
 	 */
-	constructor(props: any) {
+	constructor(props: React.PropsWithChildren) {
 		super(props);
 
 		this.state = {
@@ -98,7 +98,7 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 				);
 			};
 
-			const errorLines = typeof error === 'object' ? Object.entries(error) : [['Message', error as any]];
+			const errorLines = typeof error === 'object' ? Object.entries(error) : [['Message', String(error)]];
 			console.log('errorLines:', errorLines, error);
 
 			const errorLinesRows = errorLines.map(([key, value]) => (
@@ -182,6 +182,6 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 				</Container>
 			);
 		}
-		return (this.props as any).children;
+		return this.props.children;
 	}
 }

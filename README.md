@@ -250,44 +250,45 @@ The builds can be hosted in subfolders and do not perform external http calls fo
 
 ## 🤝 Vibe Code Contribute
 
-We welcome contributions from the community, and we're excited to introduce a new way to contribute that aligns with the "vibe coding" philosophy, powered by the Gemini CLI. This approach aims to streamline the development process, reduce friction, and allow you to focus on the creative aspects of building.
-
-### What is "Vibe Coding"?
-
-"Vibe coding" is about staying in a creative flow state, where the technical details and tedious tasks are handled by intelligent tools, allowing you to concentrate on the core problem-solving and innovation. With the Gemini CLI, you can interact with the codebase in a more intuitive and efficient manner.
-
-### How to Contribute with Gemini CLI
-
-1.  **Install Gemini CLI:** If you haven't already, install the Gemini CLI on your system. (Instructions for installation can be found in the Gemini CLI documentation).
-2.  **Clone the Repository:**
-    ```bash
-    git clone https://github.com/Datamine-Crypto/dashboard.git
-    ```
-3.  **Start Vibe Coding:** Launch the Gemini CLI within your cloned repository. The CLI will act as your intelligent co-pilot, understanding your intent and executing complex tasks with simple commands.
-    - **Intent-Driven Development:** Instead of manually navigating files and performing repetitive tasks, you can express your intentions directly to the CLI. For example:
-      - "Add a new feature to the dashboard."
-      - "Refactor this component for better performance."
-      - "Fix this bug in the smart contract interaction."
-      - "Update all help articles to include information about the LOCK token."
-    - **Automated Code Generation & Modification:** The Gemini CLI can read, search, and modify code across the entire project. It can help you:
-      - Generate new components or modules based on existing patterns.
-      - Apply consistent styling changes across multiple files.
-      - Perform complex refactoring operations with precision.
-      - Ensure adherence to project conventions and best practices.
-    - **Contextual Awareness:** The CLI maintains a deep understanding of the project's structure, dependencies, and coding style, ensuring that your contributions seamlessly integrate with the existing codebase.
-4.  **Create a Pull Request:** Once you've completed your changes with the help of the Gemini CLI:
-    - **Review Changes:** The CLI can help you review your changes and ensure everything is as expected.
-    - **Commit with Clarity:** The CLI can assist in crafting clear and concise commit messages.
-    - **Open a Pull Request:** Push your changes to your forked repository and open a pull request to the `main` branch.
-
-### Why Vibe Code?
-
-By leveraging the Gemini CLI, we aim to:
-
-- **Reduce Friction:** Minimize the time spent on mundane tasks, allowing you to focus on innovation.
-- **Accelerate Development:** Speed up the development cycle, bringing new features and improvements to the Datamine Network faster.
-- **Improve Code Quality:** Ensure consistency and adherence to coding standards with automated assistance.
-- **Foster Creativity:** Empower developers to stay in their creative flow, making contributions more enjoyable and impactful.
+We welcome contributions from the community, and we're excited to introduce a new way to contribute that aligns with the "vibe coding" philosophy, powered by Google Antigravity. This approach aims to streamline the development process, reduce friction, and allow you to focus on the creative aspects of building.
+ 
+ ### What is "Vibe Coding"?
+ 
+ "Vibe coding" is about staying in a creative flow state, where the technical details and tedious tasks are handled by intelligent tools, allowing you to concentrate on the core problem-solving and innovation. With Google Antigravity, you can interact with the codebase in a more intuitive and efficient manner.
+ 
+ ### How to Contribute with Google Antigravity
+ 
+ 1.  **Install Google Antigravity:** If you haven't already, install Google Antigravity on your system. (Instructions for installation can be found in the Google Antigravity documentation).
+ 2.  **Clone the Repository:**
+     ```bash
+     git clone https://github.com/Datamine-Crypto/dashboard.git
+     cd dashboard
+     ```
+ 3.  **Start Vibe Coding:** Launch Google Antigravity within your cloned repository. The tool will act as your intelligent co-pilot, understanding your intent and executing complex tasks with simple commands.
+     - **Intent-Driven Development:** Instead of manually navigating files and performing repetitive tasks, you can express your intentions directly. For example:
+       - "Add a new feature to the dashboard."
+       - "Refactor this component for better performance."
+       - "Fix this bug in the smart contract interaction."
+       - "Update all help articles to include information about the LOCK token."
+     - **Automated Code Generation & Modification:** Google Antigravity can read, search, and modify code across the entire project. It can help you:
+       - Generate new components or modules based on existing patterns.
+       - Apply consistent styling changes across multiple files.
+       - Perform complex refactoring operations with precision.
+       - Ensure adherence to project conventions and best practices.
+     - **Contextual Awareness:** The tool maintains a deep understanding of the project's structure, dependencies, and coding style, ensuring that your contributions seamlessly integrate with the existing codebase.
+ 4.  **Create a Pull Request:** Once you've completed your changes with the help of Google Antigravity:
+     - **Review Changes:** The tool can help you review your changes and ensure everything is as expected.
+     - **Commit with Clarity:** It can assist in crafting clear and concise commit messages.
+     - **Open a Pull Request:** Push your changes to your forked repository and open a pull request to the `main` branch.
+ 
+ ### Why Vibe Code?
+ 
+ By leveraging Google Antigravity, we aim to:
+ 
+ - **Reduce Friction:** Minimize the time spent on mundane tasks, allowing you to focus on innovation.
+ - **Accelerate Development:** Speed up the development cycle, bringing new features and improvements to the Datamine Network faster.
+ - **Improve Code Quality:** Ensure consistency and adherence to coding standards with automated assistance.
+ - **Foster Creativity:** Empower developers to stay in their creative flow, making contributions more enjoyable and impactful.
 
 Join us in building the future of DeFi with a truly modern and efficient development experience. We look forward to your "vibe coded" contributions! 🙏
 

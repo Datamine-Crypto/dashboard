@@ -12,7 +12,7 @@ Be sure to make your own suggestions to update GEMINI.md as you learn of new con
 
 The "Context Map" has been added to `README.md` right after the "Quick Start Guide" section. The "Context Map" represents a nested navigation of all the paths and concepts within the Datamine Network.
 
-This project is a React-based web application for interacting with the Datamine Network. It uses Material-UI for components and styling and Web3.js for blockchain interactions. The project is configured to work with multiple blockchain
+This project is a React-based web application for interacting with the Datamine Network. It uses Material-UI for components and styling and Viem for blockchain interactions. The project is configured to work with multiple blockchain
 ecosystems, as defined in the `src/configs/ecosystems` directory. The core logic is separated into three main directories: `react` for UI components, `utils` for utility functions, and `web3` for blockchain-related logic. The project uses
 Vite for building and development, with scripts defined in `package.json`.
 
@@ -100,15 +100,15 @@ Extra information help you understand the Datamine ecosystem better:
 
 #### 6. Key Smart Contracts and ABIs
 
-- `src/web3/abis/dam.json`: ABI for the Datamine (DAM) token contract.
-- `src/web3/abis/flux.json`: ABI for the Flux (FLUX) token contract.
-- `src/web3/abis/market.json`: ABI for the core Datamine Network market contract (minting, burning, staking).
-- `src/web3/abis/uniswapv2router.json`: ABI for the Uniswap V2 Router.
-- `src/web3/abis/uniswapPair.json`: ABI for Uniswap V2 Pair contracts.
-- `src/web3/abis/uniswapPairV3.json`: ABI for Uniswap V3 Pair contracts.
-- `src/web3/abis/multicall.json`: ABI for the Multicall contract.
-- `src/web3/abis/batchMinter.json`: ABI for the Batch Minter contract.
-- `src/web3/abis/games/gameHodlClicker.json`: ABI for the Hodl Clicker game contract.
+- `src/web3/abis/dam.ts`: ABI for the Datamine (DAM) token contract.
+- `src/web3/abis/flux.ts`: ABI for the Flux (FLUX) token contract.
+- `src/web3/abis/uniswapv2router.ts`: ABI for the Uniswap V2 Router.
+- `src/web3/abis/uniswapPair.ts`: ABI for Uniswap V2 Pair contracts.
+- `src/web3/abis/uniswapPairV3.ts`: ABI for Uniswap V3 Pair contracts.
+- `src/web3/abis/multicall.ts`: ABI for the Multicall contract.
+- `src/web3/abis/batchMinter.ts`: ABI for the Batch Minter contract.
+- `src/web3/abis/games/datamineGems.ts`: ABI for the core Datamine Network market contract (minting, burning, staking).
+- `src/web3/abis/games/gameHodlClicker.ts`: ABI for the HODL Clicker game contract.
 
 #### 7. Error Handling Strategy
 
@@ -200,45 +200,45 @@ Extra information help you understand the Datamine ecosystem better:
 
 # 🤝 Vibe Code Contribute
 
-We welcome contributions from the community, and we're excited to introduce a new way to contribute that aligns with the "vibe coding" philosophy, powered by the Gemini CLI. This approach aims to streamline the development process, reduce friction, and allow you to focus on the creative aspects of building.
-
-### What is "Vibe Coding"?
-
-"Vibe coding" is about staying in a creative flow state, where the technical details and tedious tasks are handled by intelligent tools, allowing you to concentrate on the core problem-solving and innovation. With the Gemini CLI, you can interact with the codebase in a more intuitive and efficient manner.
-
-### How to Contribute with Gemini CLI
-
-1.  **Install Gemini CLI:** If you haven't already, install the Gemini CLI on your system. (Instructions for installation can be found in the Gemini CLI documentation).
-2.  **Clone the Repository:**
-    ```bash
-    git clone https://github.com/Datamine-Crypto/dashboard.git
-    cd dashboard
-    ```
-3.  **Start Vibe Coding:** Launch the Gemini CLI within your cloned repository. The CLI will act as your intelligent co-pilot, understanding your intent and executing complex tasks with simple commands.
-    - **Intent-Driven Development:** Instead of manually navigating files and performing repetitive tasks, you can express your intentions directly to the CLI. For example:
-      - "Add a new feature to the dashboard."
-      - "Refactor this component for better performance."
-      - "Fix this bug in the smart contract interaction."
-      - "Update all help articles to include information about the LOCK token."
-    - **Automated Code Generation & Modification:** The Gemini CLI can read, search, and modify code across the entire project. It can help you:
-      - Generate new components or modules based on existing patterns.
-      - Apply consistent styling changes across multiple files.
-      - Perform complex refactoring operations with precision.
-      - Ensure adherence to project conventions and best practices.
-    - **Contextual Awareness:** The CLI maintains a deep understanding of the project's structure, dependencies, and coding style, ensuring that your contributions seamlessly integrate with the existing codebase.
-4.  **Create a Pull Request:** Once you've completed your changes with the help of the Gemini CLI:
-    - **Review Changes:** The CLI can help you review your changes and ensure everything is as expected.
-    - **Commit with Clarity:** The CLI can assist in crafting clear and concise commit messages.
-    - **Open a Pull Request:** Push your changes to your forked repository and open a pull request to the `main` branch.
-
-### Why Vibe Code?
-
-By leveraging the Gemini CLI, we aim to:
-
-- **Reduce Friction:** Minimize the time spent on mundane tasks, allowing you to focus on innovation.
-- **Accelerate Development:** Speed up the development cycle, bringing new features and improvements to the Datamine Network faster.
-- **Improve Code Quality:** Ensure consistency and adherence to coding standards with automated assistance.
-- **Foster Creativity:** Empower developers to stay in their creative flow, making contributions more enjoyable and impactful.
+We welcome contributions from the community, and we're excited to introduce a new way to contribute that aligns with the "vibe coding" philosophy, powered by Google Antigravity. This approach aims to streamline the development process, reduce friction, and allow you to focus on the creative aspects of building.
+ 
+ ### What is "Vibe Coding"?
+ 
+ "Vibe coding" is about staying in a creative flow state, where the technical details and tedious tasks are handled by intelligent tools, allowing you to concentrate on the core problem-solving and innovation. With Google Antigravity, you can interact with the codebase in a more intuitive and efficient manner.
+ 
+ ### How to Contribute with Google Antigravity
+ 
+ 1.  **Install Google Antigravity:** If you haven't already, install Google Antigravity on your system. (Instructions for installation can be found in the Google Antigravity documentation).
+ 2.  **Clone the Repository:**
+     ```bash
+     git clone https://github.com/Datamine-Crypto/dashboard.git
+     cd dashboard
+     ```
+ 3.  **Start Vibe Coding:** Launch Google Antigravity within your cloned repository. The tool will act as your intelligent co-pilot, understanding your intent and executing complex tasks with simple commands.
+     - **Intent-Driven Development:** Instead of manually navigating files and performing repetitive tasks, you can express your intentions directly. For example:
+       - "Add a new feature to the dashboard."
+       - "Refactor this component for better performance."
+       - "Fix this bug in the smart contract interaction."
+       - "Update all help articles to include information about the LOCK token."
+     - **Automated Code Generation & Modification:** Google Antigravity can read, search, and modify code across the entire project. It can help you:
+       - Generate new components or modules based on existing patterns.
+       - Apply consistent styling changes across multiple files.
+       - Perform complex refactoring operations with precision.
+       - Ensure adherence to project conventions and best practices.
+     - **Contextual Awareness:** The tool maintains a deep understanding of the project's structure, dependencies, and coding style, ensuring that your contributions seamlessly integrate with the existing codebase.
+ 4.  **Create a Pull Request:** Once you've completed your changes with the help of Google Antigravity:
+     - **Review Changes:** The tool can help you review your changes and ensure everything is as expected.
+     - **Commit with Clarity:** It can assist in crafting clear and concise commit messages.
+     - **Open a Pull Request:** Push your changes to your forked repository and open a pull request to the `main` branch.
+ 
+ ### Why Vibe Code?
+ 
+ By leveraging Google Antigravity, we aim to:
+ 
+ - **Reduce Friction:** Minimize the time spent on mundane tasks, allowing you to focus on innovation.
+ - **Accelerate Development:** Speed up the development cycle, bringing new features and improvements to the Datamine Network faster.
+ - **Improve Code Quality:** Ensure consistency and adherence to coding standards with automated assistance.
+ - **Foster Creativity:** Empower developers to stay in their creative flow, making contributions more enjoyable and impactful.
 
 ## src Folder Structure
 
@@ -273,7 +273,9 @@ The `src` directory is organized into the following main subdirectories:
       - `performSwap.ts`, `performSwapUniswapV2.ts`, `sampleQuoteSingleSwap.ts`, `swapOptions.ts`
   - **`src/web3/`**: Manages all blockchain interactions.
     - **`src/web3/abis/`**: ABI (Application Binary Interface) JSON files for smart contracts.
-      - `dam.json`, `flux.json`, `market.json`, `multicall.json`, `uniswapPair.json`, `uniswapPairV3.json`, `uniswapv2router.json`
+      - `dam.ts`, `flux.ts`, `multicall.ts`, `uniswapPair.ts`, `uniswapPairV3.ts`, `uniswapv2router.ts`
+      - **`src/web3/abis/games/`**:
+        - `datamineGems.ts`, `gameHodlClicker.ts`
 
 - **`src/svgs/`**: Contains SVG assets.
 
@@ -340,13 +342,13 @@ This map outlines the key concepts, components, and principles of the Datamine N
 - **📜 Smart Contracts & ABIs**
   - **📍 Location:** `src/web3/abis/`
   - **🔑 Key Contracts:**
-    - DAM Token (`dam.json`)
-    - FLUX Token (`flux.json`)
-    - Market Contract (`market.json`)
-    - Uniswap V2 Router (`uniswapv2router.json`)
-    - Uniswap Pair (`uniswapPair.json`)
-    - Uniswap Pair V3 (`uniswapPairV3.json`)
-    - Multicall (`multicall.json`)
+    - DAM Token (`dam.ts`)
+    - FLUX Token (`flux.ts`)
+    - Market Contract (`datamineGems.ts`)
+    - Uniswap V2 Router (`uniswapv2router.ts`)
+    - Uniswap Pair (`uniswapPair.ts`)
+    - Uniswap Pair V3 (`uniswapPairV3.ts`)
+    - Multicall (`multicall.ts`)
   - **🛡️ Security Features:** SafeMath, Mutex, Checks-Effects-Interactions, Modifiers (`preventSameBlock()`, `requireLocked()`), Immutable State Variables, ERC-1820 ERC777TokensRecipient
   - **🛠️ Core Functions:** `lock()`, `unlock()`, `burnToAddress()`, `mintToAddress()`
   - **🔍 View-Only Functions (Analytics):** `getMintAmount()`, `getAddressTimeMultiplier()`, `getAddressBurnMultiplier()`, `getAddressRatio()`, `getGlobalRatio()`
@@ -354,7 +356,7 @@ This map outlines the key concepts, components, and principles of the Datamine N
 
 - **🏗️ Application Architecture (High-Level)**
   - **🖥️ UI:** React components (`src/react/`)
-  - **🔗 Blockchain Interaction:** Web3.js, Web3Context, web3Reducer (`src/web3/`)
+  - **🔗 Blockchain Interaction:** Viem, Web3Context, web3Reducer (`src/web3/`)
   - **🧠 State Management:** `appStore.ts` (Zustand), `handleCommand.ts` and `handleQuery.ts` (Commands & Queries pattern), `sideEffectReducer.ts`
   - **🔧 Utilities:** Helper functions (`src/utils/`)
   - **⚙️ Configuration:** `src/app/configs/`

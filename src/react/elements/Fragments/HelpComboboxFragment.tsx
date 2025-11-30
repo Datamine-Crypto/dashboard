@@ -5,8 +5,8 @@ import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
-const useStyles = tss.create(({ theme }) => ({
+
+const useStyles = tss.create(() => ({
 	big: {
 		width: '100%',
 	},
@@ -14,19 +14,27 @@ const useStyles = tss.create(({ theme }) => ({
 		width: '100%',
 	},
 }));
-interface RenderProps {
-	isBigSearch?: boolean;
+
+interface Props {
 	id: string;
-	searchQuery: string;
-	dispatch: ReducerDispatch;
-	helpArticles: HelpArticle[];
+	isBigSearch?: boolean;
 }
-const Render: React.FC<RenderProps> = React.memo(({ id, isBigSearch, searchQuery, dispatch, helpArticles }) => {
+const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
 	const { classes } = useStyles();
-	const filterOptions = (options: any, { inputValue }: any) => options;
-	const onChange = (event: any, helpArticle: HelpArticle) => {
-		dispatch({ type: commonLanguage.commands.ShowHelpArticle, payload: { helpArticle } });
+	const { searchQuery, helpArticles } = useAppStore(
+		useShallow((state) => ({
+			searchQuery: state.searchQuery,
+			helpArticles: state.helpArticles,
+		}))
+	);
+
+	const filterOptions = (options: HelpArticle[]) => options;
+	const onChange = (event: React.SyntheticEvent, helpArticle: HelpArticle | null) => {
+		if (helpArticle) {
+			appDispatch({ type: commonLanguage.commands.Help.ShowArticle, payload: { helpArticle } });
+		}
 	};
+
 	return (
 		<Autocomplete
 			id={id}
@@ -41,7 +49,7 @@ const Render: React.FC<RenderProps> = React.memo(({ id, isBigSearch, searchQuery
 			groupBy={(option) => {
 				return SearchCategoryText[option.category];
 			}}
-			onChange={onChange as any}
+			onChange={onChange}
 			inputValue={searchQuery}
 			renderInput={(params) => (
 				<TextField
@@ -49,34 +57,12 @@ const Render: React.FC<RenderProps> = React.memo(({ id, isBigSearch, searchQuery
 					//label="Search Help Articles (ex: How To Mint FLUX) ..."
 					placeholder={isBigSearch ? 'Search Help Articles ...' : 'Search Help Articles ...'}
 					//value={searchQuery}
-					onChange={(e) => dispatch({ type: commonLanguage.commands.SetSearch, payload: (e.target as any).value })}
+					onChange={(e) => appDispatch({ type: commonLanguage.commands.Help.SetSearch, payload: e.target.value })}
 					autoComplete="off"
 					autoFocus={isBigSearch}
 					variant="outlined"
 				/>
 			)}
-		/>
-	);
-});
-interface Props {
-	id: string;
-	isBigSearch?: boolean;
-}
-const HelpComboboxFragment: React.FC<Props> = ({ id, isBigSearch }) => {
-	const { searchQuery, helpArticles } = useAppStore(
-		useShallow((state) => ({
-			searchQuery: state.searchQuery,
-			helpArticles: state.helpArticles,
-		}))
-	);
-
-	return (
-		<Render
-			id={id}
-			searchQuery={searchQuery}
-			dispatch={appDispatch}
-			helpArticles={helpArticles}
-			isBigSearch={isBigSearch}
 		/>
 	);
 };

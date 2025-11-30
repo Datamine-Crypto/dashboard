@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import React, { ReactNode } from 'react';
 import { tss } from 'tss-react/mui';
 
-const useStyles = tss.create(({ theme }) => ({
+const useStyles = tss.create(() => ({
 	cardMobile: {
 		background: '#202336',
 		overflowX: 'auto',
@@ -18,7 +18,8 @@ interface RenderProps {
 	description?: ReactNode;
 	buttons?: ReactNode[];
 }
-const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, description, buttons }) => {
+
+const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description, buttons }) => {
 	const theme = useTheme();
 	const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -171,10 +172,6 @@ const Render: React.FC<RenderProps> = React.memo(({ title, main, sub, descriptio
 			</Box>
 		</>
 	);
-});
-
-const DetailedListItem: React.FC<RenderProps> = (props) => {
-	return <Render {...props} />;
 };
 
 export default DetailedListItem;

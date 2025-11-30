@@ -26,7 +26,7 @@ const useStyles = tss.create(({ theme }) => ({
 interface Props {
 	ecosystem: Ecosystem;
 }
-const FooterFragment: React.FC<Props> = React.memo(({ ecosystem }) => {
+const FooterFragment: React.FC<Props> = React.memo(function FooterFragment({ ecosystem }) {
 	const { classes } = useStyles();
 	const { navigation, isLiquidityPoolsEnabled } = getEcosystemConfig(ecosystem);
 	const { isHelpPageEnabled } = navigation;

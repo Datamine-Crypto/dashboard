@@ -33,13 +33,13 @@ import {
 } from '@mui/icons-material';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem } from '@/app/configs/config.common';
+
 import discordWhiteLogo from '@/react/svgs/discordWhite.svg';
 import Logo from '@/react/svgs/logo.svg';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
+
 const drawerWidth = 280;
 const useStyles = tss.create(({ theme }) => ({
 	root: {
@@ -69,7 +69,7 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 	// necessary for content to be below app bar
 	toolbar: {
-		...(theme.mixins.toolbar as any),
+		...(theme.mixins.toolbar as any), // eslint-disable-line @typescript-eslint/no-explicit-any
 		marginTop: theme.spacing(2),
 	},
 	content: {
@@ -127,16 +127,29 @@ const useStyles = tss.create(({ theme }) => ({
 		paddingBottom: theme.spacing(2),
 	},
 }));
-interface RenderParams {
-	dispatch: ReducerDispatch;
-	isMobileDrawerOpen: boolean;
-	ecosystem: Ecosystem;
+
+interface DrawerButton {
+	isDivider?: boolean;
+	isBasicDivider?: boolean;
+	title?: React.ReactNode;
+	icon?: React.ReactNode;
+	href?: string;
+	className?: string;
+	onClick?: () => void;
+	expandIcon?: boolean;
+	expandedIcon?: boolean;
 }
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpen, ecosystem }) => {
+
+export const MainDrawer: React.FC = () => {
+	const { ecosystem, isMobileDrawerOpen } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+			isMobileDrawerOpen: state.isMobileDrawerOpen,
+		}))
+	);
+
 	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem);
 	const {
-		isL1PageEnabled,
-		isL2PageEnabled,
 		isCommunityPageEnabled,
 		isAnalyticsPagesEnabled,
 		ecosystemButtonlabel,
@@ -144,7 +157,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		isHelpPageEnabled,
 	} = navigation;
 	//const { classes } = useStyles() ;
-	const { cx, classes } = useStyles();
+	const { classes } = useStyles();
 	const isBigDrawerOpen = true;
 	const getL2Page = () => {
 		return [
@@ -280,7 +293,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			}
 			return <ExpandLess />;
 		};
-		const drawerButtons = buttons.map((button: any, index: number) => {
+		const drawerButtons = buttons.map((button: DrawerButton, index: number) => {
 			if (button.isDivider) {
 				return (
 					<Box my={2} key={index}>
@@ -299,7 +312,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 						href: button.href,
 						color: 'textPrimary',
 						onClick: () => {
-							dispatch({ type: commonLanguage.commands.CloseDrawer });
+							appDispatch({ type: commonLanguage.commands.Drawer.Close });
 						},
 					};
 				}
@@ -317,8 +330,8 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				return {
 					button: true,
 					onClick: () => {
-						dispatch({ type: commonLanguage.commands.CloseDrawer });
-						button.onClick();
+						appDispatch({ type: commonLanguage.commands.Drawer.Close });
+						button.onClick?.();
 					},
 				};
 			};
@@ -326,11 +339,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 				<>
 					{/* This ListItemIcon is unclickable and has no hover effect */}
 					<ListItem disablePadding>
-						<ListItemButton
-							key={button.title || index}
-							className={button.className}
-							{...(getListButtonItemProps() as any)}
-						>
+						<ListItemButton key={index} className={button.className} {...getListButtonItemProps()}>
 							<ListItemIcon style={{ minWidth: 40 }}>{button.icon}</ListItemIcon>
 							<ListItemText primary={button.title} />
 							{getExpandIcon(!!button.expandIcon)}
@@ -395,7 +404,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 		);
 	};
 	const handleDrawerToggle = () => {
-		dispatch({ type: commonLanguage.commands.CloseDrawer });
+		appDispatch({ type: commonLanguage.commands.Drawer.Close });
 	};
 	return (
 		<nav className={classes.drawer} aria-label="mailbox folders">
@@ -438,14 +447,4 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, isMobileDrawerOpe
 			</Box>
 		</nav>
 	);
-});
-export const MainDrawer: React.FC = () => {
-	const { ecosystem, isMobileDrawerOpen } = useAppStore(
-		useShallow((state) => ({
-			ecosystem: state.ecosystem,
-			isMobileDrawerOpen: state.isMobileDrawerOpen,
-		}))
-	);
-
-	return <Render isMobileDrawerOpen={isMobileDrawerOpen} dispatch={appDispatch} ecosystem={ecosystem} />;
 };

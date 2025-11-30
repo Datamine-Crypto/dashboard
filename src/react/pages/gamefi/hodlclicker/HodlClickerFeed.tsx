@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { Box, CircularProgress } from '@mui/material';
-import BN from 'bn.js';
+
 import dayjs from 'dayjs';
-import { Token } from '@/app/interfaces';
+import { Balances, Token } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
 import HodlClickerChart from './HodlClickerChart';
 
@@ -29,7 +29,7 @@ interface EventLog {
 
 interface HodlClickerFeedProps {
 	logs: EventLog[];
-	balances: any;
+	balances?: Balances | null;
 	truncateAddress: (address: string) => string;
 }
 
@@ -45,9 +45,9 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 			[blockNumber: string]: {
 				id: string;
 				timestamp: number;
-				burnedBN: BN;
-				jackpotBN: BN;
-				tipBN: BN;
+				burnedBigInt: bigint;
+				jackpotBigInt: bigint;
+				tipBigInt: bigint;
 				callers: Set<string>;
 				txCount: number;
 			};
@@ -58,18 +58,18 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 				groupedLogs[log.blockNumber] = {
 					id: log.id,
 					timestamp: log.timestamp,
-					burnedBN: new BN(0),
-					jackpotBN: new BN(0),
-					tipBN: new BN(0),
+					burnedBigInt: 0n,
+					jackpotBigInt: 0n,
+					tipBigInt: 0n,
 					callers: new Set(),
 					txCount: 0,
 				};
 			}
 
 			const group = groupedLogs[log.blockNumber];
-			group.burnedBN = group.burnedBN.add(new BN(log.args.amountActuallyBurned.toString()));
-			group.jackpotBN = group.jackpotBN.add(new BN(log.args.jackpotAmount.toString()));
-			group.tipBN = group.tipBN.add(new BN(log.args.totalTipAmount.toString()));
+			group.burnedBigInt = group.burnedBigInt + log.args.amountActuallyBurned;
+			group.jackpotBigInt = group.jackpotBigInt + log.args.jackpotAmount;
+			group.tipBigInt = group.tipBigInt + log.args.totalTipAmount;
 			group.callers.add(log.args.caller);
 			group.txCount += 1;
 		});
@@ -82,7 +82,7 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 
 			if (balances) {
 				const burnedUSDStr = getPriceToggle({
-					value: group.burnedBN,
+					value: group.burnedBigInt,
 					inputToken: Token.Mintable,
 					outputToken: Token.USDC,
 					balances,
@@ -92,7 +92,7 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 				burnedUSD = parseFloat(burnedUSDStr);
 
 				const jackpotRawStr = getPriceToggle({
-					value: group.jackpotBN,
+					value: group.jackpotBigInt,
 					inputToken: Token.Mintable,
 					outputToken: Token.USDC,
 					balances,
@@ -101,16 +101,16 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 				});
 				jackpotUSD = parseFloat(jackpotRawStr);
 				jackpotUSDStr = getPriceToggle({
-					value: group.jackpotBN,
+					value: group.jackpotBigInt,
 					inputToken: Token.Mintable,
 					outputToken: Token.USDC,
 					balances,
 					round: 4,
 				});
 
-				if (!group.tipBN.isZero()) {
+				if (group.tipBigInt !== 0n) {
 					tipUSDStr = getPriceToggle({
-						value: group.tipBN,
+						value: group.tipBigInt,
 						inputToken: Token.Mintable,
 						outputToken: Token.USDC,
 						balances,

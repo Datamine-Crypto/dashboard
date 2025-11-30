@@ -2,38 +2,32 @@ import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useAppStore } from '@/react/utils/appStore';
-import BN from 'bn.js';
+
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem, Layer, LiquidityPoolType } from '@/app/configs/config.common';
+import { Layer, LiquidityPoolType } from '@/app/configs/config.common';
 import sushiSwapLogo from '@/react/svgs/sushiSwap.svg';
 import uniswap from '@/react/svgs/uniswap.svg';
-import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/app/interfaces';
-import { BNToDecimal, getBNPercent, getPriceToggle } from '@/utils/mathHelpers';
+import { Token } from '@/app/interfaces';
+import { formatBigInt, formatBigIntPercent, getPriceToggle } from '@/utils/mathHelpers';
 import DetailedListItem from '@/react/elements/Fragments/DetailedListItem';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/react/elements/Fragments/ExploreLiquidityPools';
 import LightTooltip from '@/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
-import { Balances } from '@/app/interfaces';
-/**
- * Props for the Render component within RealtimeLiqudityCard.
- */
-interface RenderParams {
-	/** The balances of various tokens. */
-	balances: Balances;
-	/** Token-related details for the Flux address. */
-	addressTokenDetails: FluxAddressTokenDetails;
-	/** Detailed information about the Flux address. */
-	addressDetails: FluxAddressDetails;
-	/** The current ecosystem. */
-	ecosystem: Ecosystem;
-}
-/**
- * A memoized functional component that renders the Realtime Liquidity Card.
- * It displays real-time information about the liquidity of various tokens in Uniswap/SushiSwap pools,
- * including market caps and available liquidity.
- * @param params - Object containing balances, addressTokenDetails, addressDetails, and ecosystem.
- */
-const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, ecosystem }) => {
+
+const RealtimeLiqudityCard: React.FC = () => {
+	const { balances, addressTokenDetails, addressDetails, ecosystem } = useAppStore(
+		useShallow((state) => ({
+			balances: state.balances,
+			addressTokenDetails: state.addressTokenDetails,
+			addressDetails: state.addressDetails,
+			ecosystem: state.ecosystem,
+		}))
+	);
+
+	if (!balances || !addressTokenDetails || !addressDetails) {
+		return null;
+	}
+
 	const config = getEcosystemConfig(ecosystem);
 	const {
 		layer,
@@ -44,10 +38,11 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 	} = config;
 	const commaRegex = /(\d)(?=(\d{3})+(?!\d))/g;
 	const { uniswapDamTokenReserves, uniswapFluxTokenReserves } = balances;
+
 	const getAvailableLiquidity = (token: Token) => {
 		switch (token) {
 			case Token.Lockable: {
-				const damSupply = getBNPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false);
+				const damSupply = formatBigIntPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false);
 				return (
 					<>
 						{' '}
@@ -58,7 +53,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 				);
 			}
 			case Token.Mintable: {
-				const fluxSupply = getBNPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false);
+				const fluxSupply = formatBigIntPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false);
 				return (
 					<>
 						{' '}
@@ -70,14 +65,14 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 			}
 		}
 	};
-	const lockedPercent = getBNPercent(addressDetails.globalLockedAmount, balances.damTotalSupply, false);
-	const shortDamPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 4 })}`;
+
+	const shortDamPrice = `${getPriceToggle({ value: 1n * 10n ** 18n, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 4 })}`;
 	const actualDamMarketCap = `$ ${getPriceToggle({ value: balances.damTotalSupply, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
-	const circulatingDamMarketCap = `$ ${getPriceToggle({ value: balances.damTotalSupply.sub(addressDetails.globalLockedAmount), inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
-	const shortFluxPrice = `${getPriceToggle({ value: new BN(1).mul(new BN(10).pow(new BN(18))), inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: config.mintableTokenPriceDecimals })}`;
-	const actualFluxPrice = `$ ${shortFluxPrice} USD`;
+	const circulatingDamMarketCap = `$ ${getPriceToggle({ value: balances.damTotalSupply - addressDetails.globalLockedAmount, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
+	const shortFluxPrice = `${getPriceToggle({ value: 1n * 10n ** 18n, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: config.mintableTokenPriceDecimals })}`;
 	const actualFluxMarketCap = `$ ${getPriceToggle({ value: balances.fluxTotalSupply, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 	document.title = `${mintableTokenShortName}: $${shortFluxPrice} ${lockableTokenShortName}: $${shortDamPrice}`;
+
 	const getDamMarketCap = () => {
 		return (
 			<DetailedListItem
@@ -111,6 +106,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 			/>
 		);
 	};
+
 	const getDamEthAvailableLiquidity = () => {
 		const ethLiquidity = parseFloat(
 			getPriceToggle({
@@ -138,6 +134,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 			<DetailedListItem title={`${lockableTokenShortName} / ETH Total Liquidity:`} main={<>{damEthUsdcLiquidity}</>} />
 		);
 	};
+
 	const getDamAvailableLiquidity = () => {
 		const damEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapDamTokenReserves.dam, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return (
@@ -145,7 +142,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 				title={`${lockableTokenShortName} Available ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Liquidity :`}
 				main={
 					<>
-						{BNToDecimal(uniswapDamTokenReserves.dam, true, 18, 2)} {lockableTokenShortName}
+						{formatBigInt(uniswapDamTokenReserves.dam, true, 18, 2)} {lockableTokenShortName}
 					</>
 				}
 				sub={<>{damEthUsdcLiquidity}</>}
@@ -154,16 +151,18 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 			/>
 		);
 	};
+
 	const getDamAvailableLiquidityEth = () => {
 		const damEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapDamTokenReserves.eth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return (
 			<DetailedListItem
 				title={`${lockableTokenShortName} ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
-				main={<>{BNToDecimal(uniswapDamTokenReserves.eth, true, 18, 2)} ETH</>}
+				main={<>{formatBigInt(uniswapDamTokenReserves.eth, true, 18, 2)} ETH</>}
 				sub={<>{damEthUsdcLiquidity}</>}
 			/>
 		);
 	};
+
 	const getFluxMarketCap = () => {
 		return (
 			<DetailedListItem
@@ -180,6 +179,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 			/>
 		);
 	};
+
 	const getFluxEthAvailableLiquidity = () => {
 		const ethLiquidity = parseFloat(
 			getPriceToggle({
@@ -207,6 +207,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 			<DetailedListItem title={`${mintableTokenShortName} / ETH Total Liquidity:`} main={<>{fluxEthUsdcLiquidity}</>} />
 		);
 	};
+
 	const getFluxAvailableLiquidity = () => {
 		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapFluxTokenReserves.flux, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return (
@@ -214,7 +215,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 				title={`${mintableTokenShortName} Available ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Liquidity:`}
 				main={
 					<>
-						{BNToDecimal(uniswapFluxTokenReserves.flux, true, 18, 2)} {mintableTokenShortName}
+						{formatBigInt(uniswapFluxTokenReserves.flux, true, 18, 2)} {mintableTokenShortName}
 					</>
 				}
 				sub={<>{fluxEthUsdcLiquidity}</>}
@@ -223,6 +224,7 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 			/>
 		);
 	};
+
 	const getFluxAvailableLiquidityEth = () => {
 		const getPoolButton = () => {
 			if (!isLiquidityPoolAdditionalButtonsEnabled) {
@@ -266,18 +268,20 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 		return (
 			<DetailedListItem
 				title={`${mintableTokenShortName} / ETH ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
-				main={<>{BNToDecimal(uniswapFluxTokenReserves.eth, true, 18, 2)} ETH</>}
+				main={<>{formatBigInt(uniswapFluxTokenReserves.eth, true, 18, 2)} ETH</>}
 				sub={<>{fluxEthUsdcLiquidity}</>}
 				buttons={[getPoolButton()]}
 			/>
 		);
 	};
+
 	const getCardTitle = () => {
 		if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
 			return 'Realtime Available SushiSwap (L2) Liquidity';
 		}
 		return 'Realtime Available Uniswap Liquidity';
 	};
+
 	return (
 		<Card>
 			<CardContent>
@@ -313,27 +317,6 @@ const Render: React.FC<RenderParams> = React.memo(({ balances, addressDetails, e
 			</CardContent>
 		</Card>
 	);
-});
-const RealtimeLiqudityCard: React.FC = () => {
-	const { balances, addressTokenDetails, addressDetails, ecosystem } = useAppStore(
-		useShallow((state) => ({
-			balances: state.balances,
-			addressTokenDetails: state.addressTokenDetails,
-			addressDetails: state.addressDetails,
-			ecosystem: state.ecosystem,
-		}))
-	);
-
-	if (!balances || !addressTokenDetails || !addressDetails) {
-		return null;
-	}
-	return (
-		<Render
-			balances={balances}
-			addressTokenDetails={addressTokenDetails}
-			addressDetails={addressDetails}
-			ecosystem={ecosystem}
-		/>
-	);
 };
+
 export default RealtimeLiqudityCard;

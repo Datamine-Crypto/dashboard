@@ -3,59 +3,44 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useAppStore } from '@/react/utils/appStore';
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem, Layer } from '@/app/configs/config.common';
-import { FluxAddressDetails, FluxAddressTokenDetails, Token } from '@/app/interfaces';
-import { BNToDecimal, getBNPercent, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers';
-import { Balances } from '@/app/interfaces';
+import { Layer } from '@/app/configs/config.common';
+import { Token } from '@/app/interfaces';
+import { formatBigInt, formatBigIntPercent, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers';
 import DetailedListItem from '@/react/elements/Fragments/DetailedListItem';
 import { useShallow } from 'zustand/react/shallow';
 
-/**
- * Props for the Render component within GlobalCard.
- */
-interface RenderParams {
-	/** Detailed information about the Flux address. */
-	addressDetails: FluxAddressDetails;
-	/** Token-related details for the Flux address. */
-	addressTokenDetails: FluxAddressTokenDetails;
-	/** Balances of various tokens. */
-	balances: Balances;
-	/** The current ecosystem. */
-	ecosystem: Ecosystem;
-}
-/**
- * A memoized functional component that renders the Global Statistics card.
- * It displays global data such as token supply, burned amounts, locked amounts, and burn ratios.
- * @param params - Object containing addressDetails, addressTokenDetails, balances, and ecosystem.
- */
-const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressTokenDetails, balances, ecosystem }) => {
+const GlobalCard: React.FC = () => {
+	const { addressDetails, addressTokenDetails, balances, ecosystem } = useAppStore(
+		useShallow((state) => ({
+			addressDetails: state.addressDetails,
+			addressTokenDetails: state.addressTokenDetails,
+			balances: state.balances,
+			ecosystem: state.ecosystem,
+		}))
+	);
+
+	if (!addressDetails || !addressTokenDetails || !balances) {
+		return null;
+	}
+
 	const { lockableTokenShortName, mintableTokenShortName, mintableTokenPriceDecimals, layer } =
 		getEcosystemConfig(ecosystem);
-	const { globalRatio, blockNumber } = addressTokenDetails;
-	/**
-	 * Calculates and returns the USD value of the globally burned mintable tokens.
-	 * @returns A React element displaying the USD value.
-	 */
+	const { globalRatio } = addressTokenDetails;
+
 	const getBurnedUsdc = () => {
 		const balanceInUsdc = `$ ${getPriceToggle({ value: addressDetails.globalBurnedAmount, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return <>{balanceInUsdc}</>;
 	};
-	/**
-	 * Calculates and returns the percentage of burned mintable tokens relative to the total supply.
-	 * @returns A React element displaying the percentage.
-	 */
+
 	const getBurnPercent = () => {
-		const burnPercent = getBNPercent(addressDetails.globalBurnedAmount, balances.fluxTotalSupply, false);
+		const burnPercent = formatBigIntPercent(addressDetails.globalBurnedAmount, balances.fluxTotalSupply, false);
 		return (
 			<>
 				({burnPercent}% of minted {mintableTokenShortName})
 			</>
 		);
 	};
-	/**
-	 * Renders a DetailedListItem component for the current supply of the mintable token.
-	 * @returns A DetailedListItem component.
-	 */
+
 	const getFluxCurrentSupply = () => {
 		const balanceInUsdc = `$ ${getPriceToggle({ value: balances.fluxTotalSupply, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return (
@@ -63,24 +48,21 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 				title={`${mintableTokenShortName} Current Supply:`}
 				main={
 					<>
-						{BNToDecimal(balances.fluxTotalSupply, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
+						{formatBigInt(balances.fluxTotalSupply, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
 					</>
 				}
 				sub={<>{balanceInUsdc}</>}
 			/>
 		);
 	};
-	/**
-	 * Renders a DetailedListItem component for the globally burned mintable tokens.
-	 * @returns A DetailedListItem component.
-	 */
+
 	const getFluxBurned = () => {
 		return (
 			<DetailedListItem
 				title={`${mintableTokenShortName} Burned:`}
 				main={
 					<>
-						{BNToDecimal(addressDetails.globalBurnedAmount, true, 18, mintableTokenPriceDecimals)}{' '}
+						{formatBigInt(addressDetails.globalBurnedAmount, true, 18, mintableTokenPriceDecimals)}{' '}
 						{mintableTokenShortName}
 					</>
 				}
@@ -93,12 +75,9 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			/>
 		);
 	};
-	/**
-	 * Renders a DetailedListItem component for the globally locked-in lockable tokens.
-	 * @returns A DetailedListItem component.
-	 */
+
 	const getDamLockedIn = () => {
-		const lockedPercent = getBNPercent(addressDetails.globalLockedAmount, balances.damTotalSupply, false);
+		const lockedPercent = formatBigIntPercent(addressDetails.globalLockedAmount, balances.damTotalSupply, false);
 		const getLockedPercent = () => {
 			const balanceInUsdc = `$ ${getPriceToggle({ value: addressDetails.globalLockedAmount, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
 			return <>{balanceInUsdc}</>;
@@ -108,7 +87,7 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 				title={`${lockableTokenShortName} Powering Validators:`}
 				main={
 					<>
-						{BNToDecimal(addressDetails.globalLockedAmount, true, 18, 2)} {lockableTokenShortName}
+						{formatBigInt(addressDetails.globalLockedAmount, true, 18, 2)} {lockableTokenShortName}
 					</>
 				}
 				sub={<>{getLockedPercent()}</>}
@@ -121,15 +100,13 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			/>
 		);
 	};
-	/**
-	 * Renders a DetailedListItem component for the global burn ratio of mintable tokens.
-	 * @returns A DetailedListItem component.
-	 */
+
 	const getFluxBurnRatio = () => {
 		return (
 			<DetailedListItem title={`${mintableTokenShortName} Burn Ratio:`} main={getBurnRatio(globalRatio, ecosystem)} />
 		);
 	};
+
 	return (
 		<Card>
 			<CardContent>
@@ -157,31 +134,6 @@ const Render: React.FC<RenderParams> = React.memo(({ addressDetails, addressToke
 			</CardContent>
 		</Card>
 	);
-});
-/**
- * GlobalCard component that displays global statistics for the Datamine Network.
- * It fetches global data from the Web3Context and renders it using the Render component.
- */
-const GlobalCard: React.FC = () => {
-	const { addressDetails, addressTokenDetails, balances, ecosystem } = useAppStore(
-		useShallow((state) => ({
-			addressDetails: state.addressDetails,
-			addressTokenDetails: state.addressTokenDetails,
-			balances: state.balances,
-			ecosystem: state.ecosystem,
-		}))
-	);
-
-	if (!addressDetails || !addressTokenDetails || !balances) {
-		return null;
-	}
-	return (
-		<Render
-			addressDetails={addressDetails}
-			addressTokenDetails={addressTokenDetails}
-			balances={balances}
-			ecosystem={ecosystem}
-		/>
-	);
 };
+
 export default GlobalCard;

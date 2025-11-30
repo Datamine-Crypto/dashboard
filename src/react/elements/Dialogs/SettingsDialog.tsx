@@ -18,19 +18,13 @@ import {
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import { useAppStore } from '@/react/utils/appStore';
-import { ReducerDispatch, ClientSettings } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { AccessTime, Settings } from '@mui/icons-material';
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem } from '@/app/configs/config.common';
 import { formatMoney } from '@/utils/formatMoney';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
-interface RenderParams {
-	clientSettings: ClientSettings;
-	dispatch: ReducerDispatch;
-	ecosystem: Ecosystem;
-}
+
 const currencyCodes = [
 	'AED',
 	'AFN',
@@ -209,10 +203,18 @@ const currencyCodes = [
 	'ZAR',
 	'ZMW',
 ];
-const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, ecosystem }) => {
+
+const SettingsDialog: React.FC = () => {
+	const { clientSettings, ecosystem } = useAppStore(
+		useShallow((state) => ({
+			clientSettings: state.clientSettings,
+			ecosystem: state.ecosystem,
+		}))
+	);
+
 	const { ecosystemName } = getEcosystemConfig(ecosystem);
 	const onClose = () => {
-		dispatch({ type: commonLanguage.commands.CloseDialog });
+		appDispatch({ type: commonLanguage.commands.Dialog.Close });
 	};
 	const getCurrencyDropdown = () => {
 		const menuItems = currencyCodes.map((currency, currencyInded) => {
@@ -231,7 +233,7 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 					label="Currency"
 					value={clientSettings.currency}
 					onChange={(e) =>
-						dispatch({ type: commonLanguage.commands.ClientSettings.SetCurrency, payload: e.target.value })
+						appDispatch({ type: commonLanguage.commands.ClientSettings.SetCurrency, payload: e.target.value })
 					}
 				>
 					{menuItems}
@@ -262,7 +264,7 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 						checked={clientSettings.useEip1559}
 						color="secondary"
 						onChange={(e) =>
-							dispatch({ type: commonLanguage.commands.ClientSettings.SetUseEip1559, payload: e.target.checked })
+							appDispatch({ type: commonLanguage.commands.ClientSettings.SetUseEip1559, payload: e.target.checked })
 						}
 					/>
 				}
@@ -322,7 +324,10 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 								variant="outlined"
 								value={clientSettings.priceMultiplierAmount}
 								onChange={(e) =>
-									dispatch({ type: commonLanguage.commands.ClientSettings.SetPriceMultiplier, payload: e.target.value })
+									appDispatch({
+										type: commonLanguage.commands.ClientSettings.SetPriceMultiplier,
+										payload: e.target.value,
+									})
 								}
 								fullWidth
 							/>
@@ -343,15 +348,5 @@ const Render: React.FC<RenderParams> = React.memo(({ clientSettings, dispatch, e
 			</DialogActions>
 		</Dialog>
 	);
-});
-const SettingsDialog: React.FC = () => {
-	const { clientSettings, ecosystem } = useAppStore(
-		useShallow((state) => ({
-			clientSettings: state.clientSettings,
-			ecosystem: state.ecosystem,
-		}))
-	);
-
-	return <Render clientSettings={clientSettings} dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default SettingsDialog;

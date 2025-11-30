@@ -3,32 +3,24 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useAppStore } from '@/react/utils/appStore';
 import { Visibility, Whatshot } from '@mui/icons-material';
-import { FluxAddressLock } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import LightTooltip from '@/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
-/**
- * Props for the Render component within DatamineNetworkCard.
- */
-interface RenderParams {
-	/** The Flux address lock details. */
-	addressLock: FluxAddressLock;
-	/** The address currently being displayed. */
-	displayedAddress: string;
-	/** The currently selected address in the wallet. */
-	selectedAddress: string;
-	/** The dispatch function from the Web3Context. */
-	dispatch: ReducerDispatch;
-}
-/**
- * A memoized functional component that renders the Datamine Network Pro card.
- * This card provides information about the Datamine Network's burn-as-a-service concept
- * and allows users to display access links.
- * @param params - Object containing addressLock, displayedAddress, selectedAddress, and dispatch function.
- */
-const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
+
+const DatamineNetworkCard: React.FC = () => {
+	const { addressLock, selectedAddress } = useAppStore(
+		useShallow((state) => ({
+			addressLock: state.addressLock,
+			selectedAddress: state.selectedAddress,
+		}))
+	);
+	const dispatch = appDispatch;
+
+	if (!addressLock || !selectedAddress) {
+		return null;
+	}
+
 	const getButton = () => {
 		const disabledText = false; //!isCurrentAddress ? <>Select the <Box fontWeight="bold" display="inline">Delegated Minter Address</Box> account in your wallet to mint for this address.</> : null;
 		const button = (
@@ -60,6 +52,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 			</LightTooltip>
 		);
 	};
+
 	return (
 		<Card>
 			<CardContent>
@@ -101,26 +94,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch }) => {
 			</CardContent>
 		</Card>
 	);
-});
-const DatamineNetworkCard: React.FC = () => {
-	const { addressLock, address, selectedAddress } = useAppStore(
-		useShallow((state) => ({
-			addressLock: state.addressLock,
-			address: state.address,
-			selectedAddress: state.selectedAddress,
-		}))
-	);
-	if (!addressLock || !selectedAddress) {
-		return null;
-	}
-	const displayedAddress = address ?? selectedAddress;
-	return (
-		<Render
-			addressLock={addressLock}
-			selectedAddress={selectedAddress}
-			displayedAddress={displayedAddress}
-			dispatch={appDispatch}
-		/>
-	);
 };
+
 export default DatamineNetworkCard;

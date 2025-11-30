@@ -4,6 +4,7 @@ import { helpArticles } from '@/app/helpArticles';
 import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
+import { isDevLogEnabled } from '@/utils/devLog';
 
 export enum Page {
 	Dashboard,
@@ -105,6 +106,8 @@ export const getPageDetails = () => {
 	};
 };
 
+let isVConsoleInitialized = false;
+
 /**
  * Custom hook to handle routing based on URL hash changes.
  * @param dispatch - The reducer dispatch function to update application state.
@@ -145,7 +148,7 @@ export const useRouter = (dispatch: ReducerDispatch, ecosystem: Ecosystem) => {
 					document.title = `Get Started - ${ecosystemName}`;
 					break;
 				case Page.HodlClicker:
-					document.title = `Hodl Clicker - ${ecosystemName}`;
+					document.title = `HODL Clicker - ${ecosystemName}`;
 					break;
 				default:
 					document.title = `${ecosystemSlogan} - ${ecosystemName}`;
@@ -160,6 +163,14 @@ export const useRouter = (dispatch: ReducerDispatch, ecosystem: Ecosystem) => {
 							address: pageDetails.address,
 						},
 					});
+					dispatch({ type: commonLanguage.commands.Web3.Initialize, payload: { address: pageDetails.address } });
+					if (isDevLogEnabled() && !isVConsoleInitialized) {
+						isVConsoleInitialized = true;
+						import('vconsole').then((VConsoleModule) => {
+							const VConsole = VConsoleModule.default;
+							new VConsole();
+						});
+					}
 					break;
 				case Page.Help: {
 					const helpArticle = helpArticles.find(
@@ -167,7 +178,7 @@ export const useRouter = (dispatch: ReducerDispatch, ecosystem: Ecosystem) => {
 					);
 					if (helpArticle) {
 						dispatch({
-							type: commonLanguage.commands.ShowHelpArticle,
+							type: commonLanguage.commands.Help.ShowArticle,
 							payload: {
 								helpArticle,
 							},

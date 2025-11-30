@@ -71,7 +71,7 @@ export interface EcosystemConfig {
 	marketAddress: string | null;
 
 	/**
-	 * The address of the Hodl Clicker: Rush game.
+	 * The address of the HODL Clicker: Rush game.
 	 */
 	gameHodlClickerAddress: string | null;
 

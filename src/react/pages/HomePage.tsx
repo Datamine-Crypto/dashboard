@@ -14,7 +14,7 @@ interface Props {
  * It includes a Header (with optional video) and a Footer.
  * @param props - Object containing the current ecosystem.
  */
-const HomePage: React.FC<Props> = React.memo(({ ecosystem }) => {
+const HomePage: React.FC<Props> = React.memo(function HomePage({ ecosystem }) {
 	const { isHomepageVideoVisible } = getEcosystemConfig(ecosystem);
 	return (
 		<>

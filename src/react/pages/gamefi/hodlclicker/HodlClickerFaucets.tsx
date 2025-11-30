@@ -15,8 +15,8 @@ import {
 	SelectChangeEvent,
 } from '@mui/material';
 import { SportsScore, MoreVert, DirectionsRun } from '@mui/icons-material';
-import BN from 'bn.js';
-import { Token, AddressLockDetailsViewModel } from '@/app/interfaces';
+
+import { Token, AddressLockDetailsViewModel, Balances } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
 
 export enum GemFilterType {
@@ -36,7 +36,7 @@ interface HodlClickerFaucetsProps {
 	selectedFilter: GemFilterType;
 	onFilterChange: (filter: GemFilterType) => void;
 	sortedMarketAddresses: AddressLockDetailsViewModel[];
-	balances: any;
+	balances: Balances | null;
 	truncateAddress: (address: string) => string;
 }
 
@@ -140,13 +140,13 @@ const HodlClickerFaucets: React.FC<HodlClickerFaucetsProps> = ({
 					// Scale bars to the Average Value (100% = Average)
 					const scaleMax = avgGemValue || 0;
 
-					return sortedMarketAddresses.map((addr, index) => {
+					return sortedMarketAddresses.map((addr) => {
 						if (!balances) return null;
-						const amountBN = addr.mintAmount;
+						const amountBigInt = addr.mintAmount;
 						const rewardsPercent = addr.rewardsPercent === 0 ? 500 : addr.rewardsPercent;
-						const rewardsAmount = amountBN.add(amountBN.mul(new BN(rewardsPercent)).div(new BN(10000)));
+						const rewardsAmount = amountBigInt + (amountBigInt * BigInt(rewardsPercent)) / 10000n;
 						const balanceInUsdc = getPriceToggle({
-							value: rewardsAmount.sub(amountBN),
+							value: rewardsAmount - amountBigInt,
 							inputToken: Token.Mintable,
 							outputToken: Token.USDC,
 							balances,

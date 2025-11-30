@@ -29,15 +29,9 @@ import LightTooltip from '@/react/elements/LightTooltip';
 /**
  * Props for the Render component within HelpDialog.
  */
-interface RenderParams {
-	/** The dispatch function from the Web3Context. */
-	dispatch: ReducerDispatch;
-	/** The help article to display. */
-	helpArticle: HelpArticle;
-}
 
 // Dynamically import ReactMarkdown
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
+
 const ReactMarkdown = lazy(() => import('react-markdown'));
 
 enum ImageOption {
@@ -126,11 +120,11 @@ const useStyles = tss.create(({ theme }) => ({
 interface CodeParams {
 	className: string;
 	value: string;
-	children: any;
+	children: string;
 }
 interface LanguageComponentParams {
 	type: string;
-	props: any;
+	props: Record<string, unknown>;
 }
 enum ComponentType {
 	AddToMetamask = 'AddToMetamask',
@@ -141,14 +135,18 @@ enum ComponentType {
  * This dialog displays help articles formatted with Markdown, including dynamic content and styling.
  * @param params - Object containing dispatch function, helpArticle, and helpArticlesNetworkType.
  */
-const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) => {
+interface DialogProps {
+	helpArticle: HelpArticle;
+}
+
+const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 	const { classes } = useStyles();
 
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const onClose = () => {
-		//dispatch({ type: commonLanguage.commands.CloseDialog });
+		//appDispatch({ type: commonLanguage.commands.CloseDialog });
 	};
 
 	const slugify = (text: string) => {
@@ -164,12 +162,12 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 		); // Trim - from end of text
 	};
 
-	const heading = (props: any, level: number) => {
-		const variant = `h${level}` as any;
+	const heading = (props: { node?: unknown; children?: React.ReactNode; level?: number }, level: number) => {
+		const variant = `h${level}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 		const getId = () => {
-			if (props.node.children.length > 0) {
-				return slugify(props.node.children[0].value);
+			if (props.node && (props.node as { children: { value: string }[] }).children.length > 0) {
+				return slugify((props.node as { children: { value: string }[] }).children[0].value);
 			}
 			return;
 		};
@@ -181,14 +179,14 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 			</Typography>
 		);
 	};
-	const paragraph = (props: any) => {
+	const paragraph = (props: React.PropsWithChildren<unknown>) => {
 		return (
 			<Typography component="div" variant="body1" gutterBottom>
 				{props.children}
 			</Typography>
 		);
 	};
-	const listItem = (props: any) => {
+	const listItem = (props: React.PropsWithChildren<unknown>) => {
 		return (
 			<li>
 				<Typography component="div" variant="body1">
@@ -198,7 +196,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 		);
 	};
 
-	const thematicBreak = (props: any) => {
+	const thematicBreak = () => {
 		return (
 			<Box my={2}>
 				<Divider />
@@ -206,13 +204,14 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 		);
 	};
 
-	const link = (props: any) => {
-		const isRelativeElement = props.href.indexOf('#') === 0;
+	const link = (props: React.PropsWithChildren<{ href?: string }>) => {
+		const href = props.href || '';
+		const isRelativeElement = href.indexOf('#') === 0;
 
 		const onClick = (e: React.MouseEvent<HTMLElement>) => {
 			// For focusing elements on page
 			if (isRelativeElement) {
-				const elementId = props.href.replace('#', '');
+				const elementId = href.replace('#', '');
 				const documentToFocus = document.getElementById(elementId);
 				if (documentToFocus) {
 					documentToFocus.scrollIntoView();
@@ -235,19 +234,19 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 		};
 
 		return (
-			<Link href={props.href} title={props.href} target="_blank" rel="noopener noreferrer" onClick={onClick}>
+			<Link href={href} title={href} target="_blank" rel="noopener noreferrer" onClick={onClick}>
 				{getIcon()}
 				{props.children}
 			</Link>
 		);
 	};
 
-	const image = (props: any) => {
-		const src = props.src as string;
-		const alt = props.alt as string;
+	const image = (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
+		const src = (props.src as string) || '';
+		const alt = (props.alt as string) || '';
 
 		const getImageOverrides = () => {
-			const style = {} as any;
+			const style: React.CSSProperties = {};
 			let className = classes.image; // Default class for all images
 
 			// Add custom styles
@@ -280,7 +279,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 		return <img src={clearSrc} alt={alt} title={alt} className={className} style={style} />;
 	};
 	const code = (props: CodeParams) => {
-		const { className, value, children } = props;
+		const { className, children } = props;
 
 		const getComponent = ({ type, props }: LanguageComponentParams) => {
 			switch (type) {
@@ -338,7 +337,10 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 							<Launch />
 						</IconButton>
 					</LightTooltip>
-					<IconButton aria-label="close" onClick={() => dispatch({ type: commonLanguage.commands.CloseHelpArticle })}>
+					<IconButton
+						aria-label="close"
+						onClick={() => appDispatch({ type: commonLanguage.commands.Help.CloseArticle })}
+					>
 						<Close />
 					</IconButton>
 				</Box>
@@ -369,7 +371,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 									hr: thematicBreak,
 									a: link,
 									li: listItem,
-									code: code as any,
+									code: code as React.ElementType,
 									img: image,
 								}}
 							>
@@ -386,7 +388,7 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 						color="secondary"
 						size="large"
 						variant="outlined"
-						onClick={() => dispatch({ type: commonLanguage.commands.CloseHelpArticle })}
+						onClick={() => appDispatch({ type: commonLanguage.commands.Help.CloseArticle })}
 					>
 						Close
 					</Button>
@@ -394,13 +396,6 @@ const Render: React.FC<RenderParams> = React.memo(({ dispatch, helpArticle }) =>
 			</DialogActions>
 		</Dialog>
 	);
-});
-
-interface DialogProps {
-	helpArticle: HelpArticle;
-}
-const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
-	return <Render helpArticle={helpArticle} dispatch={appDispatch} />;
 };
 
 export default HelpDialog;

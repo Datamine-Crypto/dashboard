@@ -126,34 +126,41 @@ interface ParticleProps {
 	targetY: string;
 }
 
-const Particle: React.FC<ParticleProps> = React.memo(({ color, delay, duration, targetX, targetY }) => (
-	<Box
-		sx={{
-			position: 'absolute',
-			top: '50%',
-			left: '50%',
-			width: { xs: localConfig.particleBaseSizeXs, sm: localConfig.particleBaseSizeSm },
-			height: { xs: localConfig.particleBaseSizeXs, sm: localConfig.particleBaseSizeSm },
-			backgroundColor: color,
-			borderRadius: '50%',
-			boxShadow: `0 0 7px ${color}, 0 0 12px ${color}`,
-			'--target-x': targetX,
-			'--target-y': targetY,
-			animation: `${particleFlyOut} ${duration}s cubic-bezier(0.1, 0.7, 0.3, 1) ${delay}s forwards`,
-			pointerEvents: 'none',
-		}}
-	/>
-));
+const Particle = React.memo(function Particle({ color, delay, duration, targetX, targetY }: ParticleProps) {
+	return (
+		<Box
+			sx={{
+				position: 'absolute',
+				top: '50%',
+				left: '50%',
+				width: { xs: localConfig.particleBaseSizeXs, sm: localConfig.particleBaseSizeSm },
+				height: { xs: localConfig.particleBaseSizeXs, sm: localConfig.particleBaseSizeSm },
+				backgroundColor: color,
+				borderRadius: '50%',
+				boxShadow: `0 0 7px ${color}, 0 0 12px ${color}`,
+				'--target-x': targetX,
+				'--target-y': targetY,
+				animation: `${particleFlyOut} ${duration}s cubic-bezier(0.1, 0.7, 0.3, 1) ${delay}s forwards`,
+				pointerEvents: 'none',
+			}}
+		/>
+	);
+});
 
 // --- GemItem Component (Memoized) ---
 interface GemItemProps {
 	gemContent: Gem | null;
-	itemIndex: number;
+
 	onAttemptCollect: (gem: Gem) => void;
 	currentGemValues: Record<string, number>;
 }
 
-const GemItem: React.FC<GemItemProps> = React.memo(({ gemContent, itemIndex, onAttemptCollect, currentGemValues }) => {
+const GemItem = React.memo(function GemItem({
+	gemContent,
+
+	onAttemptCollect,
+	currentGemValues,
+}: GemItemProps) {
 	const commonPaperStyles = useMemo(
 		() => ({
 			width: { xs: 60, sm: 80, md: 100 },
@@ -546,10 +553,6 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 		[onAttemptCollectGem, handleActualGemCollection, grid, gemValuesConfig]
 	);
 
-	const handleResetSettingsToDefault = useCallback(() => {
-		setGemValuesConfig(DEFAULT_GEM_VALUES);
-	}, []);
-
 	const handleOpenSettingsDialog = () => {
 		setEditableGemValues(
 			Object.entries(gemValuesConfig).reduce(
@@ -696,7 +699,6 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 					>
 						<GemItem
 							gemContent={gemInCell}
-							itemIndex={index}
 							onAttemptCollect={handleGemInteractionAttempt}
 							currentGemValues={gemValuesConfig}
 						/>

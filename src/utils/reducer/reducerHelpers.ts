@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
  * @param state - The current state.
  * @returns A function that takes an array of queries and returns an object to be merged into the new state.
  */
-export const createWithWithQueries = (state: any) => {
+export const createWithWithQueries = (state: { queriesCount: number }) => {
 	const withQueries = (queries: ReducerQuery[]) => {
 		const queriesWithIds = queries.map((query) => {
 			return {

@@ -33,13 +33,7 @@ const useStyles = tss.create(() => ({
 		borderBottom: `1px solid ${datamineTheme.classes.palette.highlight}`,
 	},
 }));
-interface Props {}
-/**
- * HelpPage component that displays a knowledge base of help articles.
- * It allows users to browse articles by category and filter by user type and tags.
- * @param props - Component props (currently empty).
- */
-const HelpPage: React.FC<Props> = () => {
+const HelpPage: React.FC = () => {
 	const { classes } = useStyles();
 	const { ecosystem } = useAppStore(
 		useShallow((state) => ({

@@ -3,10 +3,10 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { getPublicClient } from '@/web3/utils/web3ProviderUtils';
-import gameHodlClickerAbi from '@/web3/abis/games/gameHodlClicker.json';
+import { gameHodlClickerAbi } from '@/web3/abis/games/gameHodlClicker';
 import { Address } from 'viem';
 import { getPriceToggle } from '@/utils/mathHelpers';
-import BN from 'bn.js';
+
 import { Diamond, AutoAwesome } from '@mui/icons-material';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { useShallow } from 'zustand/react/shallow';
@@ -17,6 +17,13 @@ import { getNetworkDropdown } from '@/react/elements/Fragments/EcosystemDropdown
 
 // Sub-components
 import HodlClickerFaucets, { GemFilterType } from './HodlClickerFaucets';
+
+interface Gem {
+	id: string;
+	ethereumAddress: string;
+	dollarAmount: number;
+	error?: string;
+}
 
 interface Props {
 	ecosystem: Ecosystem;
@@ -57,7 +64,7 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 			);
 			return test.toNumber() * 100;
 		};
-		if (totalContractLockedAmount.eq(new BN(0)) || currentAddressMarketAddress.rewardsAmount.eq(new BN(0))) {
+		if (totalContractLockedAmount === 0n || currentAddressMarketAddress.rewardsAmount === 0n) {
 			return <></>;
 		}
 		const balancePercentage = getBalancePercentage();
@@ -96,7 +103,7 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 	};
 
 	const showDepositWithdrawDialog = () => {
-		appDispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MarketDepositWithdraw } });
+		appDispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.MarketDepositWithdraw } });
 	};
 
 	// Access Market Data for "Collect All" functionality
@@ -169,7 +176,7 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 		const marketData = games[Game.HodlClicker];
 		if (!marketData || !marketData.marketAddresses) return [];
 
-		const gems: any[] = []; // Using any to avoid complex type imports if Gem isn't easily available, but better to match structure
+		const gems: Gem[] = [];
 		// We need to map marketAddresses to Gem structure expected by MarketBurnFluxTokens
 		// Gem interface: { id: string; dollarAmount: number; ethereumAddress: string; ... }
 
@@ -187,15 +194,15 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 			// We need 'balances' to calculate USD value.
 			if (!balances) return;
 
-			const amountBN = addr.mintAmount;
+			const amountBigInt = addr.mintAmount;
 			const rewardsPercent = addr.rewardsPercent === 0 ? 500 : addr.rewardsPercent;
-			const rewardsAmount = amountBN.add(amountBN.mul(new BN(rewardsPercent)).div(new BN(10000)));
+			const rewardsAmount = amountBigInt + (amountBigInt * BigInt(rewardsPercent)) / 10000n;
 			// For HodlClicker (Game 2), dollar amount is divided by 2?
 			// In MarketCollectRewardsDialog: dollarAmount: parseFloat(balanceInUsdc) / (game === Game.DatamineGems ? 1 : 2)
 			// So for HodlClicker it is / 2.
 
 			const balanceInUsdc = getPriceToggle({
-				value: rewardsAmount.sub(amountBN),
+				value: rewardsAmount - amountBigInt,
 				inputToken: Token.Mintable,
 				outputToken: Token.USDC,
 				balances,
@@ -229,7 +236,7 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 		appDispatch({
 			type: commonLanguage.commands.Market.MarketBurnFluxTokens,
 			payload: {
-				amountToBurn: new BN(0),
+				amountToBurn: 0n,
 				gems: availableGems,
 			},
 		});
@@ -251,11 +258,11 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 
 		return [...filteredAddresses].sort((a, b) => {
 			const getDollarAmount = (addr: AddressLockDetailsViewModel) => {
-				const amountBN = addr.mintAmount;
+				const amountBigInt = addr.mintAmount;
 				const rewardsPercent = addr.rewardsPercent === 0 ? 500 : addr.rewardsPercent;
-				const rewardsAmount = amountBN.add(amountBN.mul(new BN(rewardsPercent)).div(new BN(10000)));
+				const rewardsAmount = amountBigInt + (amountBigInt * BigInt(rewardsPercent)) / 10000n;
 				const balanceInUsdc = getPriceToggle({
-					value: rewardsAmount.sub(amountBN),
+					value: rewardsAmount - amountBigInt,
 					inputToken: Token.Mintable,
 					outputToken: Token.USDC,
 					balances,
@@ -304,13 +311,13 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 						address,
 						abi: gameHodlClickerAbi,
 						functionName: 'burnTokens',
-						args: [amountToBurn, gem.ethereumAddress],
+						args: [amountToBurn, gem.ethereumAddress as Address],
 						account: selectedAddress as Address,
 					});
 				} else {
 					const requests = availableGems.map((gem) => ({
 						amountToBurn: amountToBurn,
-						burnToAddress: gem.ethereumAddress,
+						burnToAddress: gem.ethereumAddress as Address,
 					}));
 					gasEstimate = await publicClient.estimateContractGas({
 						address,
@@ -325,7 +332,7 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 				const totalGasCost = gasEstimate * gasPrice;
 
 				const usdValue = getPriceToggle({
-					value: new BN(totalGasCost.toString()),
+					value: totalGasCost,
 					inputToken: Token.ETH,
 					outputToken: Token.USDC,
 					balances,

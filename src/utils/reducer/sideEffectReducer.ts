@@ -7,23 +7,23 @@
 /**
  * Defines the parameters required to create a `sideEffectReducer`.
  */
-interface SideEffectReducerParams {
+interface SideEffectReducerParams<T> {
 	/**
 	 * A function that processes the response of a query and returns the updated state.
 	 * This is where the state is modified based on the results of an asynchronous operation.
 	 */
-	handleQueryResponse: (data: ReducerQueryHandler<any>) => any;
+	handleQueryResponse: (data: ReducerQueryHandler<T>) => T;
 	/**
 	 * A function that handles direct state-modifying commands.
 	 * This is the core reducer logic for synchronous state updates.
 	 */
-	handleCommand: (state: any, data: any) => any;
+	handleCommand: (state: T, data: ReducerCommand) => T;
 }
 
 /**
  * Defines the parameters for the `handleQueries` function, which executes pending queries.
  */
-interface HandlerQueriesParams {
+interface HandlerQueriesParams<T> {
 	/**
 	 * The dispatch function from React's `useReducer`, used to dispatch actions
 	 * (e.g., `HANDLE_QUERY` for query responses).
@@ -32,23 +32,23 @@ interface HandlerQueriesParams {
 	/**
 	 * The current state of the application, from which pending queries are read.
 	 */
-	state: any;
+	state: T;
 	/**
 	 * An object containing functions that handle specific query types.
 	 * Each key is a query `type`, and its value is the corresponding handler function.
 	 */
-	queryHandlers: any;
+	queryHandlers: Record<string, QueryHandler<T>>;
 }
 
 /**
  * A function that dispatches an action to the reducer.
  */
-export type ReducerDispatch = (action: any) => void;
+export type ReducerDispatch = (action: ReducerCommand) => void;
 
 /**
  * Represents a synchronous command dispatched to the reducer to modify state.
  */
-export interface ReducerCommand {
+export interface ReducerCommand<P = unknown> {
 	/**
 	 * The type of the command, indicating the action to be performed.
 	 */
@@ -56,7 +56,7 @@ export interface ReducerCommand {
 	/**
 	 * The data associated with the command, used to update the state.
 	 */
-	payload: any;
+	payload?: P;
 }
 
 /**
@@ -66,11 +66,11 @@ interface ReducerQueryData {
 	/**
 	 * An error message if the query execution failed.
 	 */
-	err: string;
+	err?: unknown;
 	/**
 	 * The successful response data from the query.
 	 */
-	response: any;
+	response?: unknown;
 	/**
 	 * A reference to the original query that was executed.
 	 */
@@ -81,7 +81,7 @@ interface ReducerQueryData {
  * Represents an asynchronous query to be processed by the `sideEffectReducer`.
  * These queries typically trigger side effects like API calls.
  */
-export interface ReducerQuery {
+export interface ReducerQuery<P = unknown> {
 	/**
 	 * Optional: A unique identifier for the query, useful for tracking and removing pending queries.
 	 */
@@ -93,7 +93,7 @@ export interface ReducerQuery {
 	/**
 	 * Optional: The data associated with the query, passed to the query handler.
 	 */
-	payload?: any;
+	payload?: P;
 }
 
 /**
@@ -113,20 +113,18 @@ export interface ReducerQueryHandler<T> {
 /**
  * Defines the parameters passed to an individual query handler function.
  */
-export interface QueryHandler<T> {
-	/**
-	 * The current state of the reducer when the query is being executed.
-	 */
+export type QueryHandler<T, P = unknown> = (params: {
 	state: T;
-	/**
-	 * The specific query to be handled.
-	 */
-	query: ReducerQuery;
-	/**
-	 * The dispatch function, allowing query handlers to dispatch further actions
-	 * (e.g., to update loading states or show notifications).
-	 */
+	query: ReducerQuery<P>;
 	dispatch: ReducerDispatch;
+}) => Promise<unknown>;
+
+/**
+ * Interface representing the state shape required for side effects.
+ */
+interface SideEffectState {
+	query?: ReducerQuery[];
+	pendingQueries: ReducerQuery[];
 }
 
 /**
@@ -135,8 +133,8 @@ export interface QueryHandler<T> {
  * and dispatches a `HANDLE_QUERY` action with the result (success or error).
  * @param {HandlerQueriesParams} params - Object containing the current state, dispatch function, and query handlers.
  */
-const handleQueries = async ({ state, dispatch, queryHandlers }: HandlerQueriesParams) => {
-	const { query: queries } = state;
+const handleQueries = async <T>({ state, dispatch, queryHandlers }: HandlerQueriesParams<T>) => {
+	const { query: queries } = state as unknown as SideEffectState;
 	if (!queries) {
 		return;
 	}
@@ -177,19 +175,22 @@ const handleQueries = async ({ state, dispatch, queryHandlers }: HandlerQueriesP
  * @param {SideEffectReducerParams} params - Object containing `handleQueryResponse` and `handleCommand` functions.
  * @returns {Function} A reducer function that processes state based on commands and query responses.
  */
-const sideEffectReducer = (params: SideEffectReducerParams) => {
+const sideEffectReducer = <T>(params: SideEffectReducerParams<T>) => {
 	const { handleQueryResponse, handleCommand } = params;
 
-	return (state: any, data: any) => {
+	return (state: T, data: ReducerCommand) => {
 		const handleData = () => {
 			if (data.type === commonLanguage.commands.HandleQuery) {
-				const newState = handleQueryResponse({ state, payload: data.payload });
+				const payload = data.payload as ReducerQueryData;
+				const newState = handleQueryResponse({ state, payload });
 
 				// Remove query from pending queries;
-				const { query } = data.payload;
+				const { query } = payload;
 				const stateWithoutPendingQuery = {
 					...newState,
-					pendingQueries: newState.pendingQueries.filter((pendingQuery: ReducerQuery) => pendingQuery.id !== query.id),
+					pendingQueries: (newState as unknown as SideEffectState).pendingQueries.filter(
+						(pendingQuery: ReducerQuery) => pendingQuery.id !== query.id
+					),
 				};
 				return stateWithoutPendingQuery;
 			}

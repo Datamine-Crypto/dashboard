@@ -17,7 +17,7 @@ export const isDevLogEnabled = () => {
  * This allows other parts of the application to listen for and react to development logs.
  * @param args - The arguments to log.
  */
-export const devLog = (...args: any) => {
+export const devLog = (...args: unknown[]) => {
 	console.log(args);
 	if (!isDevLogEnabled()) {
 		return;

@@ -1,10 +1,9 @@
-import BN from 'bn.js';
 import { getEcosystemConfig as getConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { devLog } from '@/utils/devLog';
 import { ConnectionMethod } from '@/app/interfaces';
 import { getPublicClient, getWalletClient } from '@/web3/utils/web3ProviderUtils';
-import { Address, PublicClient } from 'viem';
+import { Address, PublicClient, EIP1193Provider } from 'viem';
 import { arbitrum } from 'viem/chains';
 
 /**
@@ -21,7 +20,7 @@ export interface AuthorizeOperatorParams {
 export interface LockParams {
 	minterAddress: string;
 	from: string;
-	amount: BN;
+	amount: bigint;
 }
 
 /**
@@ -39,7 +38,7 @@ export interface MintToAddressParams {
  */
 export interface BurnToAddressParams {
 	targetAddress: string;
-	amount: BN;
+	amount: bigint;
 	from: string;
 }
 
@@ -59,7 +58,7 @@ export interface UnlockParams {
  * Parameters for burning tokens within the Datamine Market contract.
  */
 export interface MarketBurnTokensParams {
-	amountToBurn: BN;
+	amountToBurn: bigint;
 	burnToAddress: string;
 	from: string;
 }
@@ -69,7 +68,7 @@ export interface MarketBurnTokensParams {
  * within the Datamine Market contract.
  */
 export interface MarketBatchBurnTokensParams {
-	amountToBurn: BN;
+	amountToBurn: bigint;
 	addresses: string[];
 	from: string;
 }
@@ -78,11 +77,11 @@ export interface MarketBatchBurnTokensParams {
  * Parameters for depositing tokens into the Datamine Market contract.
  */
 export interface MarketDepositParams {
-	amountToDeposit: BN;
+	amountToDeposit: bigint;
 	rewardsPercent: number;
 	from: string;
-	minBlockNumber: BN;
-	minBurnAmount: BN;
+	minBlockNumber: bigint;
+	minBurnAmount: bigint;
 }
 
 /**
@@ -92,43 +91,57 @@ export interface MarketWithdrawAllParams {
 	from: string;
 }
 
+interface TrustWalletProvider {
+	isTrust: boolean;
+	request: (request: { method: string; params?: Array<unknown> }) => Promise<unknown>;
+}
+
+interface Web3Provider {
+	currentProvider: unknown;
+}
+
 /**
  * Retrieves a Web3 provider instance.
  * It attempts to detect common providers like MetaMask, Trust Wallet, or a generic Web3 provider.
  */
-export const getWeb3Provider = async ({ ecosystem }: { ecosystem: Ecosystem }) => {
-	const { ethereum } = window as any;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getWeb3Provider = async ({
+	ecosystem: _ecosystem,
+}: {
+	ecosystem: Ecosystem;
+}): Promise<EIP1193Provider | null> => {
+	const { ethereum } = window;
 	if (ethereum) {
 		devLog('found window.ethereum provider:');
-		return ethereum;
+		return ethereum as EIP1193Provider;
 	}
 
 	try {
 		// Dynamically import detectEthereumProvider
 		const detectEthereumProvider = (await import('@metamask/detect-provider')).default;
 		const provider = await detectEthereumProvider();
-		return provider;
-	} catch (err) {
+		return provider as unknown as EIP1193Provider;
+	} catch {
 		// Silently fail if can't detect provider
 	}
 
 	// Trustwallet provider
 	{
-		const { trustwallet } = window as any;
+		const { trustwallet } = window as unknown as { trustwallet?: { Provider: TrustWalletProvider } };
 		if (trustwallet && trustwallet.Provider) {
-			return trustwallet.Provider;
+			return trustwallet.Provider as unknown as EIP1193Provider;
 		}
 	}
 
 	// For generic web3
 	{
-		const web3 = (window as any).web3;
+		const web3 = (window as unknown as { web3?: Web3Provider }).web3;
 		if (web3 && web3.currentProvider) {
-			return web3.currentProvider;
+			return web3.currentProvider as EIP1193Provider;
 		}
 	}
 
-	return ethereum as any;
+	return ethereum as EIP1193Provider;
 };
 
 /**
@@ -136,7 +149,7 @@ export const getWeb3Provider = async ({ ecosystem }: { ecosystem: Ecosystem }) =
  */
 export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: ConnectionMethod, chainId: string) => {
 	const walletClient = getWalletClient();
-	const ethereum = await getWeb3Provider({ ecosystem });
+	const ethereum = (await getWeb3Provider({ ecosystem })) as EIP1193Provider;
 
 	if (!ethereum && !walletClient) {
 		alert('Failed switching network, no Web3 provider found');
@@ -157,7 +170,7 @@ export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: Conn
 		}
 	} catch (err) {
 		// This error code indicates that the chain has not been added to MetaMask.
-		if ((err as any).code === 4902) {
+		if (err && typeof err === 'object' && 'code' in err && (err as { code: number }).code === 4902) {
 			try {
 				if (walletClient) {
 					await walletClient.addChain({ chain: arbitrum }); // Assuming Arbitrum for now as per original code
@@ -180,7 +193,7 @@ export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: Conn
 						params: [{ chainId: chainIdHex }],
 					});
 				}
-			} catch (addError) {
+			} catch {
 				// handle "add" error
 			}
 		}
@@ -188,6 +201,9 @@ export const switchNetwork = async (ecosystem: Ecosystem, connectionMethod: Conn
 	}
 };
 
+/**
+ * Adds the project's main tokens (DAM and FLUX) to the user's MetaMask wallet.
+ */
 /**
  * Adds the project's main tokens (DAM and FLUX) to the user's MetaMask wallet.
  */
@@ -201,13 +217,46 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 		mintableTokenLogoFileName,
 	} = config;
 
-	const ethereum = await getWeb3Provider({
+	const walletClient = getWalletClient();
+	const ethereum = (await getWeb3Provider({
 		ecosystem,
-	});
-	if (!ethereum) {
+	})) as EIP1193Provider;
+
+	if (!walletClient && !ethereum) {
 		alert('Failed adding to Metamask, no Web3 provider found');
 		return;
 	}
+
+	const addToken = async (address: string, symbol: string, decimals: number, image: string) => {
+		try {
+			if (walletClient) {
+				await walletClient.watchAsset({
+					type: 'ERC20',
+					options: {
+						address,
+						symbol,
+						decimals,
+						image,
+					},
+				});
+			} else {
+				await ethereum.request({
+					method: 'wallet_watchAsset',
+					params: {
+						type: 'ERC20',
+						options: {
+							address,
+							symbol,
+							decimals,
+							image,
+						},
+					},
+				});
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const addDam = () => {
 		const tokenAddress = config.lockableTokenContractAddress;
@@ -215,20 +264,7 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 		const tokenDecimals = 18;
 		const tokenImage = `${dashboardAbsoluteUrl}/logos/${lockableTokenLogoFileName}.png`;
 
-		ethereum
-			.request({
-				method: 'wallet_watchAsset',
-				params: {
-					type: 'ERC20',
-					options: {
-						address: tokenAddress,
-						symbol: tokenSymbol,
-						decimals: tokenDecimals,
-						image: tokenImage,
-					},
-				},
-			})
-			.catch(console.error);
+		addToken(tokenAddress, tokenSymbol, tokenDecimals, tokenImage);
 	};
 
 	const addFlux = () => {
@@ -237,20 +273,7 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 		const tokenDecimals = 18;
 		const tokenImage = `${dashboardAbsoluteUrl}/logos/${mintableTokenLogoFileName}.png`;
 
-		ethereum
-			.request({
-				method: 'wallet_watchAsset',
-				params: {
-					type: 'ERC20',
-					options: {
-						address: tokenAddress,
-						symbol: tokenSymbol,
-						decimals: tokenDecimals,
-						image: tokenImage,
-					},
-				},
-			})
-			.catch(console.error);
+		addToken(tokenAddress, tokenSymbol, tokenDecimals, tokenImage);
 	};
 
 	const addTokens = () => {
@@ -273,45 +296,48 @@ const commonLanguage = {
 /**
  * Attempts to extract a more human-readable error message from a raw Web3 error object
  */
-export const rethrowWeb3Error = (err: any) => {
+export const rethrowWeb3Error = (err: unknown) => {
 	devLog(err);
-	if (err.message) {
-		const extractedError = err.message.match(/"message":[ ]{0,1}"(.+)"/);
+	const error = err as Error;
+	if (error.message) {
+		const extractedError = error.message.match(/"message":[ ]{0,1}"(.+)"/);
 		if (!!extractedError && !!extractedError[1]) {
 			throw extractedError[1].replace('execution reverted: ', '');
 		}
 
-		const tryThrowError = (jsonData: any) => {
-			if (jsonData && jsonData.data) {
-				for (const [, errorDetails] of Object.entries(jsonData.data) as any) {
-					if (errorDetails?.reason) {
-						throw errorDetails.reason;
+		const tryThrowError = (jsonData: unknown) => {
+			const data = jsonData as { data?: Record<string, { reason?: string }>; message?: string };
+			if (data && data.data) {
+				for (const [, errorDetails] of Object.entries(data.data)) {
+					const details = errorDetails as { reason?: string };
+					if (details?.reason) {
+						throw details.reason;
 					}
 				}
-				if (jsonData.data.message) {
-					throw jsonData.data.message;
+				if (data.message) {
+					throw data.message;
 				}
 			}
 		};
 
-		const splitError = err.message.split(/\n(.+)/);
+		const splitError = error.message.split(/\n(.+)/);
 
 		if (splitError.length === 3) {
 			let jsonData = null;
 			try {
 				jsonData = JSON.parse(splitError[1]);
-			} catch (err) {
+			} catch {
 				// Silently fail
 			}
 			tryThrowError(jsonData);
 		}
 
-		if (err && err.data) {
+		if (err && (err as { data?: unknown }).data) {
 			tryThrowError(err);
 		}
 
 		console.log('Unhandled exception:', err);
-		throw err.message;
+		throw error.message;
 	}
 
 	console.log('Unhandled exception:', err);
@@ -321,40 +347,46 @@ export const rethrowWeb3Error = (err: any) => {
 /**
  * Retrieves the estimated gas fees.
  */
+/**
+ * Retrieves the estimated gas fees.
+ */
 export const getGasFees = async (publicClient: PublicClient) => {
 	if (!publicClient) return {};
 
-	const block = await publicClient.getBlock();
-	const baseFeePerGas = block.baseFeePerGas;
-
-	if (!baseFeePerGas) {
+	try {
+		const fees = await publicClient.estimateFeesPerGas();
+		return fees;
+	} catch {
+		// Fallback or handle error if needed, but Viem's estimateFeesPerGas handles EIP-1559 vs Legacy automatically mostly.
+		// If it fails, we might want to try getGasPrice as fallback for very old chains, but Arbitrum supports EIP-1559.
 		const gasPrice = await publicClient.getGasPrice();
 		return { gasPrice };
 	}
-
-	const maxPriorityFeePerGas = (baseFeePerGas * 15n) / 100n; // 15%
-	const maxFeePerGas = baseFeePerGas + maxPriorityFeePerGas;
-
-	const useEip1559 =
-		!localStorage.getItem('clientSettingsUseEip1559') || localStorage.getItem('clientSettingsUseEip1559') === 'true';
-
-	if (!useEip1559) {
-		// Fallback to gasPrice if EIP-1559 is disabled by user setting
-		// But Viem defaults to EIP-1559 if chain supports it.
-		// If user explicitly wants legacy, we might need to use gasPrice.
-		// For now, let's return maxFeePerGas as gasPrice if needed, or just return EIP-1559 params.
-		// Actually, if useEip1559 is false, we should return gasPrice.
-		const gasPrice = await publicClient.getGasPrice();
-		return { gasPrice };
-	}
-
-	return { maxFeePerGas, maxPriorityFeePerGas };
 };
 
 /**
  * A higher-order function that wraps a Viem contract instance with helper functions.
+ *
+ * CONCEPT: **Abstraction Layer for Smart Contract Interactions**
+ * Instead of calling `contract.read.methodName()` or `contract.write.methodName()` directly in our React components,
+ * we wrap these calls in this factory function.
+ *
+ * WHY?
+ * 1. **Simplified API**: It exposes a clean, type-safe API (e.g., `lock({ amount })`) that abstracts away the complexity of gas estimation, simulation, and transaction waiting.
+ * 2. **Error Handling**: It centralizes error handling (using `rethrowWeb3Error`) so we can provide consistent, human-readable error messages across the app.
+ * 3. **Simulation First**: For write operations, we *always* run `contract.simulate` first. This ensures the transaction will likely succeed before asking the user to sign it, saving them gas fees on failed transactions.
+ * 4. **Gas Estimation**: It automatically handles gas estimation (via `getGasFees`) to ensure transactions are mined reliably.
  */
-export const withWeb3 = (contract: any) => {
+interface GenericContract {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	read: any;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	write: any;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	simulate: any;
+}
+
+export const withWeb3 = (contract: GenericContract | null | undefined) => {
 	if (!contract) {
 		throw commonLanguage.errors.UnknownContract;
 	}
@@ -629,13 +661,16 @@ export const withWeb3 = (contract: any) => {
 	};
 };
 
-export const makeBatchRequest = (web3: any, calls: any) => {
+export const makeBatchRequest = (
+	web3: unknown,
+	calls: { call: () => Promise<unknown>; callback: (res: unknown) => unknown }[]
+) => {
 	// This function was used for batching calls.
 	// Viem supports multicall natively or we can use Promise.all for parallel calls.
 	// Given the usage, we might not need this anymore if we use multicall contract.
 	// But if it's used elsewhere, we should adapt it.
 	// For now, let's just return Promise.all
-	const promises = calls.map(({ call, callback }: any) => {
+	const promises = calls.map(({ call, callback }) => {
 		return call().then(callback);
 	});
 	return Promise.all(promises);

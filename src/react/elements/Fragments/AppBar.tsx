@@ -1,4 +1,4 @@
-import { Build, Menu } from '@mui/icons-material';
+import { Menu } from '@mui/icons-material';
 import { AppBar, Box, Card, CardActionArea, IconButton, Link, Toolbar, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
@@ -7,12 +7,12 @@ import DamLogo from '@/react/svgs/logo.svg';
 import Grid from '@mui/material/Grid';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem } from '@/app/configs/config.common';
+
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import HelpComboboxFragment from '@/react/elements/Fragments/HelpComboboxFragment';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
+
 const useStyles = tss.create(({ theme }) => ({
 	toolbar: {
 		paddingRight: 24, // keep right padding when drawer closed
@@ -55,24 +55,22 @@ const useStyles = tss.create(({ theme }) => ({
 		alignItems: 'center',
 	},
 }));
-interface INavProps {
+interface AppBarProps {
 	sidebar: boolean;
-	dispatch: ReducerDispatch;
-	selectedAddress: string | null;
-	ecosystem: Ecosystem;
 }
-const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }) => {
+const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
+	//const { state: socketState, dispatch: socketDispatch } = useContext(SocketContext)
+	const { ecosystem } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+		}))
+	);
+
 	//const { state: socketState, dispatch: socketDispatch } = useContext(SocketContext)
 	const { navigation, ecosystemName } = getEcosystemConfig(ecosystem);
 	const { isHelpPageEnabled } = navigation;
-	const { cx, classes } = useStyles();
-	const userSessionState = {
-		isDrawerOpen: false,
-		isLoggedIn: false,
-		balance: 0,
-		usdBalance: 0,
-		theme: 'ThemeDark',
-	};
+	const { classes } = useStyles();
+
 	const isToggleEnabled = false;
 	const getSearchTextField = () => {
 		if (!isHelpPageEnabled) {
@@ -89,7 +87,7 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 						color="inherit"
 						aria-label="Open drawer"
 						//onClick={userSessionActions.drawerOpen}
-						className={clsx(classes.menuButton, userSessionState.isDrawerOpen && classes.menuButtonHidden)}
+						className={clsx(classes.menuButton)}
 					>
 						<Menu />
 					</IconButton>
@@ -112,19 +110,13 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 						</CardActionArea>
 					</Card>
 				</Link>
-				{isToggleEnabled && (
-					<Tooltip title="Settings (Coming Soon)">
-						<IconButton color="inherit" /*onClick={userSessionActions.toggleTheme}*/>
-							<Build />
-						</IconButton>
-					</Tooltip>
-				)}
+
 				<nav className={classes.nav}>
 					{getSearchTextField()}
 					<Box sx={{ display: { xs: 'block', lg: 'none' } /*lgUp*/ }}>
 						<Box ml={1}>
 							<Tooltip title="Open Menu">
-								<IconButton onClick={() => appDispatch({ type: commonLanguage.commands.OpenDrawer })}>
+								<IconButton onClick={() => appDispatch({ type: commonLanguage.commands.Drawer.Open })}>
 									<Menu />
 								</IconButton>
 							</Tooltip>
@@ -134,18 +126,5 @@ const Render: React.FC<INavProps> = React.memo(({ sidebar, dispatch, ecosystem }
 			</Toolbar>
 		</AppBar>
 	);
-});
-interface AppBarProps {
-	sidebar: boolean;
-}
-const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
-	const { ecosystem, selectedAddress } = useAppStore(
-		useShallow((state) => ({
-			ecosystem: state.ecosystem,
-			selectedAddress: state.selectedAddress,
-		}))
-	);
-
-	return <Render sidebar={sidebar} dispatch={appDispatch} selectedAddress={selectedAddress} ecosystem={ecosystem} />;
 };
 export default MainAppBar;

@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Divider, Link, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-// Web3 context for accessing blockchain state and dispatch functions
+// AppStore for accessing blockchain state and dispatch functions
 import { dispatch, useAppStore } from '@/react/utils/appStore';
 // Balances and common language constants from the Web3 reducer
 import { commonLanguage } from '@/app/state/commonLanguage';
@@ -9,10 +9,8 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import { OpenInNew, Stop, Whatshot, Settings } from '@mui/icons-material';
 // Interfaces for dialog types, Flux address details, lock, token details, and token enum
 import { DialogType, Token } from '@/app/interfaces';
-// Helper functions for BN to decimal conversion, burn ratio calculation, and price toggling
-import { BNToDecimal, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers';
-// BN.js library for handling large numbers
-import BN from 'bn.js';
+// Helper functions for decimal conversion, burn ratio calculation, and price toggling
+import { formatBigInt, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers';
 // Styling utility from tss-react
 import { tss } from 'tss-react/mui';
 // Ecosystem configuration getter
@@ -28,7 +26,7 @@ import { useShallow } from 'zustand/react/shallow';
  * Styles for the AccountBalancesCard component.
  * Defines styles for address display and detailed list items container.
  */
-const useStyles = tss.create(({ theme }) => ({
+const useStyles = tss.create(() => ({
 	address: {
 		fontSize: '0.7rem',
 		letterSpacing: 0,
@@ -40,9 +38,9 @@ const useStyles = tss.create(({ theme }) => ({
 
 /**
  * AccountBalancesCard component displays the balances and related information for the currently selected Web3 account.
- * It fetches data from the Web3Context and renders various sub-components to show token balances, locked amounts, and actions like burning or unlocking tokens.
+ * It fetches data from the AppStore and renders various sub-components to show token balances, locked amounts, and actions like burning or unlocking tokens.
  */
-export const AccountBalancesCard: React.FC = React.memo(() => {
+export const AccountBalancesCard: React.FC = React.memo(function AccountBalancesCard() {
 	const { addressLock, selectedAddress, address, addressDetails, balances, addressTokenDetails, ecosystem } =
 		useAppStore(
 			useShallow((state) => ({
@@ -69,31 +67,26 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 		lockableTokenFullName,
 		mintableTokenShortName,
 		lockableTokenShortName,
-		isLiquidityPoolsEnabled,
 		mintableTokenPriceDecimals,
-		isLiquidityPoolAdditionalButtonsEnabled,
-		liquidityPoolType,
 		batchMinterAddress,
 	} = config;
 	const { myRatio } = addressTokenDetails;
 	const { minterAddress } = addressLock;
 	// Check if the selected address is the delegated minter (case-insensitive)
-	const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase();
+
 	// Check if the displayed address is the currently selected address
 	const isCurrentAddress = selectedAddress?.toLowerCase() === displayedAddress?.toLowerCase();
 	const isSelfMinter = addressLock.minterAddress === displayedAddress;
 	/**
 	 * Displays the mint dialog by dispatching a SHOW_DIALOG command.
 	 */
-	const showMintDialog = () => {
-		dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Mint } });
-	};
+
 	/**
 	 * Renders the delegated minter address and a tooltip explaining its role.
 	 * Returns null if no tokens are locked.
 	 */
 	const getDelegatedMinterAddress = () => {
-		if (new BN(addressLock.amount).isZero()) {
+		if (addressLock.amount === 0n) {
 			return null;
 		}
 		const getSuffix = () => {
@@ -129,10 +122,10 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 	const getFluxBalance = () => {
 		const getBurnButton = () => {
 			const showBurnDialog = () => {
-				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Burn } });
+				dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.Burn } });
 			};
 			const getButton = () => {
-				const isDisabled = !isCurrentAddress || addressDetails.fluxBalance.isZero();
+				const isDisabled = !isCurrentAddress || addressDetails.fluxBalance === 0n;
 				const button = (
 					<Button
 						disabled={isDisabled}
@@ -145,7 +138,7 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 						Burn {mintableTokenShortName}
 					</Button>
 				);
-				if (addressDetails.fluxBalance.isZero()) {
+				if (addressDetails.fluxBalance === 0n) {
 					return (
 						<LightTooltip title={`This address must have ${mintableTokenShortName} tokens to burn.`}>
 							<Box display="inline-block">{button}</Box>
@@ -172,7 +165,7 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 		const getFluxAmount = () => {
 			return (
 				<>
-					{BNToDecimal(balances.fluxToken, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
+					{formatBigInt(balances.fluxToken, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
 				</>
 			);
 		};
@@ -196,7 +189,7 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 		const getDamBalance = () => {
 			return (
 				<>
-					{BNToDecimal(balances.damToken, true, 18, 2)} {lockableTokenShortName}
+					{formatBigInt(balances.damToken, true, 18, 2)} {lockableTokenShortName}
 				</>
 			);
 		};
@@ -214,12 +207,12 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 	const getDamLockedIn = () => {
 		const getUnlockButton = () => {
 			const showUnlockDialog = () => {
-				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.Unlock } });
+				dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.Unlock } });
 			};
 			const showMintSettingsDialog = () => {
-				dispatch({ type: commonLanguage.commands.ShowDialog, payload: { dialog: DialogType.MintSettings } });
+				dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.MintSettings } });
 			};
-			if (new BN(addressLock.amount).isZero()) {
+			if (addressLock.amount === 0n) {
 				return;
 			}
 			const getStopMintButton = () => {
@@ -274,7 +267,7 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 		const getLockedInAmount = () => {
 			return (
 				<>
-					{BNToDecimal(addressLock.amount, true, 18, 4)} {lockableTokenShortName}
+					{formatBigInt(addressLock.amount, true, 18, 4)} {lockableTokenShortName}
 				</>
 			);
 		};
@@ -304,7 +297,7 @@ export const AccountBalancesCard: React.FC = React.memo(() => {
 		const getFluxBurnedBalance = () => {
 			return (
 				<>
-					{BNToDecimal(addressLock.burnedAmount, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
+					{formatBigInt(addressLock.burnedAmount, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
 				</>
 			);
 		};

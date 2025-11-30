@@ -25,7 +25,6 @@ interface HodlClickerChartProps {
 	chartTitle: string;
 	averageValue?: number;
 	hideTotalTransactions?: boolean;
-	hideTooltipTxCount?: boolean;
 }
 
 const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
@@ -83,7 +82,7 @@ const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
 						/>
 					)}
 
-					{chartData.map((data, index) => {
+					{chartData.map((data) => {
 						const heightPercent = maxValue > 0 ? (data.value / maxValue) * 100 : 0;
 						const isAboveAverage = averageValue !== undefined && data.value > averageValue;
 

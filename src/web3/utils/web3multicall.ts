@@ -1,6 +1,6 @@
 // This utility leverages the Multicall contract to aggregate multiple read-only contract calls into a single blockchain transaction.
 // This significantly reduces network overhead and improves application performance by minimizing RPC requests.
-import { encodeFunctionData, decodeAbiParameters, parseAbiParameter, Hex } from 'viem';
+import { encodeFunctionData, decodeAbiParameters, parseAbiParameter, Hex, AbiItem } from 'viem';
 
 /**
  * This file provides functions to encode and decode multicall requests, a technique to batch multiple
@@ -15,13 +15,13 @@ export interface MultiCallParams {
 	address: string;
 	/** The function to call, including its signature and parameters. */
 	function: {
-		signature: any;
-		parameters: any[];
+		signature: AbiItem;
+		parameters: unknown[];
 	};
 	/** The expected return types and a callback to process the results. */
 	returns: {
 		params: string[];
-		callback: (...params: any[]) => any;
+		callback: (...params: any[]) => unknown; // eslint-disable-line @typescript-eslint/no-explicit-any
 	};
 }
 
@@ -34,17 +34,17 @@ export const encodeMulticall = (multicallParams: Record<string, MultiCallParams>
 	const multicallEntries = Object.entries(multicallParams);
 
 	return multicallEntries
-		.filter(([key, multicallParam]) => {
+		.filter(([, multicallParam]) => {
 			return multicallParam !== undefined;
 		})
-		.map(([key, multicallParam]) => [
-			multicallParam.address,
-			encodeFunctionData({
+		.map(([, multicallParam]) => ({
+			target: multicallParam.address as `0x${string}`,
+			callData: encodeFunctionData({
 				abi: [multicallParam.function.signature],
-				functionName: multicallParam.function.signature.name,
+				functionName: (multicallParam.function.signature as { name: string }).name,
 				args: multicallParam.function.parameters,
 			}),
-		]);
+		}));
 };
 
 /**
@@ -69,32 +69,35 @@ export const decodeMulticall = (
 	const multicallEntries = Object.entries<MultiCallParams>(multicallParams);
 
 	const decodedResults = multicallEntries
-		.filter(([key, multicallParam]) => {
+		.filter(([, multicallParam]) => {
 			return multicallParam !== undefined;
 		})
-		.reduce((results, [key, multicallParam], index) => {
-			const encodedReturnData = encodedMulticallResults.returnData[index];
+		.reduce(
+			(results, [key, multicallParam], index) => {
+				const encodedReturnData = encodedMulticallResults.returnData[index];
 
-			// If the return data is empty or 0x, we can't decode it.
-			// This might happen if the call failed within the multicall.
-			if (!encodedReturnData || encodedReturnData === '0x') {
+				// If the return data is empty or 0x, we can't decode it.
+				// This might happen if the call failed within the multicall.
+				if (!encodedReturnData || encodedReturnData === '0x') {
+					return {
+						...results,
+						[key]: null, // Or handle error appropriately
+					};
+				}
+
+				const decodedParams = decodeAbiParameters(
+					multicallParam.returns.params.map((type) => parseAbiParameter(type)),
+					encodedReturnData
+				);
+
+				const result = multicallParam.returns.callback(...decodedParams);
 				return {
 					...results,
-					[key]: null, // Or handle error appropriately
+					[key]: result,
 				};
-			}
-
-			const decodedParams = decodeAbiParameters(
-				multicallParam.returns.params.map((type) => parseAbiParameter(type)),
-				encodedReturnData
-			);
-
-			const result = multicallParam.returns.callback(...decodedParams);
-			return {
-				...results,
-				[key]: result,
-			};
-		}, {} as any);
+			},
+			{} as Record<string, unknown>
+		);
 
 	return decodedResults;
 };

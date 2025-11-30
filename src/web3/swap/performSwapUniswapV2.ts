@@ -4,17 +4,19 @@
  */
 
 import Big from 'big.js';
-import { parseBN } from '@/utils/mathHelpers';
+import { parseBigInt } from '@/utils/mathHelpers';
 import { getGasFees } from '@/web3/utils/web3Helpers';
 import { availableSwapTokens } from '@/web3/swap/performSwap';
 import { SwapOptions, SwapPlatformOptions, SwapQuote, SwapToken, SwapTokenDetails } from '@/web3/swap/swapOptions';
-import { getContract, Address } from 'viem';
+import { getContract, Address, GetContractReturnType, PublicClient, WalletClient } from 'viem';
+import { uniswapv2routerAbi } from '@/web3/abis/uniswapv2router';
+import { fluxAbi } from '@/web3/abis/flux';
 
 /**
  * Defines the platform-specific options required for a Uniswap V2 swap.
  */
 export interface UniswapV2SwapPlatformOptions extends SwapPlatformOptions {
-	uniswapV2RouterABI: any;
+	uniswapV2RouterABI: typeof uniswapv2routerAbi;
 	uniswapv2routerAddress: string;
 }
 
@@ -37,14 +39,7 @@ export const performSwapUniswapV2 = async (
 	swapOptions: SwapOptions,
 	swapPlatformOptions: UniswapV2SwapPlatformOptions
 ) => {
-	const {
-		publicClient,
-		walletClient,
-		inputToken,
-		outputToken,
-		onlyGetQuote = false,
-		onlyCheckTradeValidity = false,
-	} = swapOptions;
+	const { publicClient, walletClient, inputToken, onlyGetQuote = false, onlyCheckTradeValidity = false } = swapOptions;
 
 	const { uniswapV2RouterABI, uniswapv2routerAddress } = swapPlatformOptions;
 
@@ -52,7 +47,7 @@ export const performSwapUniswapV2 = async (
 	const uniswapV2RouterContract = getContract({
 		address: uniswapv2routerAddress as Address,
 		abi: uniswapV2RouterABI,
-		client: { public: publicClient, wallet: walletClient },
+		client: { public: publicClient, wallet: walletClient ?? undefined },
 	});
 
 	const inputTokenDetails = availableSwapTokens.find(
@@ -71,16 +66,16 @@ export const performSwapUniswapV2 = async (
 		? getContract({
 				address: inputAddress as Address,
 				abi: inputTokenDetails.abi,
-				client: { public: publicClient, wallet: walletClient },
+				client: { public: publicClient, wallet: walletClient ?? undefined },
 			})
 		: undefined;
 
-	const amountIn = parseBN(inputToken.amount).toString();
+	const amountIn = parseBigInt(inputToken.amount).toString();
 
 	const slippageTolerance = localConfig.slippage; // 1% slippage tolerance
 
 	// Get the quote for swapping DAI to ETH
-	const path = [inputAddress, outputAddress];
+	const path = [inputAddress, outputAddress] as Address[];
 
 	const amountsOut = (await uniswapV2RouterContract.read.getAmountsOut([BigInt(amountIn), path])) as bigint[];
 
@@ -111,8 +106,6 @@ export const performSwapUniswapV2 = async (
 	const accounts = await walletClient.getAddresses();
 	const account = accounts[0];
 
-	const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getGasFees(publicClient);
-
 	// ETH would not have a contract and no allowance is necessary
 	if (inputTokenContract) {
 		// Check existing allowance
@@ -136,13 +129,19 @@ export const performSwapUniswapV2 = async (
 				{ account }
 			);
 
-			const hash = await (inputTokenContract as any).write.approve(
+			const hash = await (
+				inputTokenContract as unknown as GetContractReturnType<
+					typeof fluxAbi,
+					{ public: PublicClient; wallet: WalletClient }
+				>
+			).write.approve(
 				[
-					uniswapv2routerAddress, // Address of the spender (Uniswap V2 Router)
+					uniswapv2routerAddress as Address, // Address of the spender (Uniswap V2 Router)
 					BigInt(amountIn), // Amount of DAI to allow the router to spend
 				],
 				{
 					account,
+					chain: walletClient.chain,
 					...fees,
 				}
 			);
@@ -195,7 +194,12 @@ export const performSwapUniswapV2 = async (
 		const fees = await getGasFees(publicClient);
 		switch (inputToken.swapToken) {
 			case SwapToken.ETH:
-				return await (uniswapV2RouterContract as any).write.swapExactETHForTokens(
+				return await (
+					uniswapV2RouterContract as unknown as GetContractReturnType<
+						typeof uniswapv2routerAbi,
+						{ public: PublicClient; wallet: WalletClient }
+					>
+				).write.swapExactETHForTokens(
 					[
 						BigInt(amountOutMin), // Pass amountOutMin as a string
 						path,
@@ -204,13 +208,19 @@ export const performSwapUniswapV2 = async (
 					],
 					{
 						account,
+						chain: walletClient.chain,
 						value: BigInt(amountIn), // Only for ETH -> X swap
 						...fees,
 					}
 				);
 
 			default:
-				return await (uniswapV2RouterContract as any).write.swapExactTokensForETH(
+				return await (
+					uniswapV2RouterContract as unknown as GetContractReturnType<
+						typeof uniswapv2routerAbi,
+						{ public: PublicClient; wallet: WalletClient }
+					>
+				).write.swapExactTokensForETH(
 					[
 						BigInt(amountIn), // Only for X -> ETH swap
 						BigInt(amountOutMin), // Pass amountOutMin as a string
@@ -220,6 +230,7 @@ export const performSwapUniswapV2 = async (
 					],
 					{
 						account,
+						chain: walletClient.chain,
 						...fees,
 					}
 				);

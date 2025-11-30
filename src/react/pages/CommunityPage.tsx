@@ -5,12 +5,12 @@ import { LinkedIn, Timeline, Twitter } from '@mui/icons-material';
 import discordLogo from '@/react/svgs/discord.svg';
 import mediumLogo from '@/react/svgs/medium.svg';
 import { theme as datamineTheme } from '@/react/utils/theme';
-import { Ecosystem } from '@/app/configs/config.common';
-import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
+
+import { useAppStore } from '@/react/utils/appStore';
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';
-import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
+
 const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
 		[theme.breakpoints.down('sm')]: {
@@ -99,17 +99,15 @@ interface PointParams {
 	mt?: number;
 	mb?: number;
 }
-interface RenderProps {
-	dispatch: ReducerDispatch;
-	ecosystem: Ecosystem;
-}
-/**
- * A memoized functional component that renders the main content of the Community Page.
- * It displays various social and community links for the Datamine Network.
- * @param props - Object containing the ecosystem.
- */
-const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
+
+const CommunityPage: React.FC = () => {
 	const { classes } = useStyles();
+	const { ecosystem } = useAppStore(
+		useShallow((state) => ({
+			ecosystem: state.ecosystem,
+		}))
+	);
+
 	/**
 	 * Generates a styled point element for displaying information with an icon, title, and content.
 	 * @param params - Object containing title, content, icon, and optional margin top/bottom.
@@ -233,6 +231,7 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 			</>
 		);
 	};
+
 	return (
 		<>
 			<Box mt={8}>
@@ -292,20 +291,5 @@ const Render: React.FC<RenderProps> = React.memo(({ ecosystem }) => {
 			<FooterFragment ecosystem={ecosystem} />
 		</>
 	);
-});
-interface Props {}
-/**
- * CommunityPage component that displays information about the Datamine Network community.
- * It fetches the current ecosystem from Web3Context and passes it to the Render component.
- * @param props - Component props (currently empty).
- */
-const CommunityPage: React.FC<Props> = () => {
-	const { ecosystem } = useAppStore(
-		useShallow((state) => ({
-			ecosystem: state.ecosystem,
-		}))
-	);
-
-	return <Render dispatch={appDispatch} ecosystem={ecosystem} />;
 };
 export default CommunityPage;

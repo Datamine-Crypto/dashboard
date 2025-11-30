@@ -1,4 +1,3 @@
-import BN from 'bn.js';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, NetworkType } from '@/app/configs/config.common';
 import { HelpArticle } from '@/app/helpArticles';
@@ -112,7 +111,7 @@ export const initialState = {
 	//#endregion
 
 	forecastSettings: {
-		amount: new BN(0),
+		amount: 0n,
 		enabled: false,
 		blocks: 0,
 
@@ -122,8 +121,8 @@ export const initialState = {
 		forecastTime: 0,
 		forecastTimeAmount: '0',
 
-		forecastAmount: '0',
-		forecastBlocks: '0',
+		forecastAmount: '0', // This is used as Big in some places, but string in initial state.
+		forecastBlocks: '0', // Used as number in some places, string in initial
 		forecastStartBlocks: '0',
 		forecastFluxPrice: '',
 		alreadyMintedBlocks: 0,
@@ -140,7 +139,7 @@ export const initialState = {
 	addressDetails: null as FluxAddressDetails | null,
 	addressTokenDetails: null as FluxAddressTokenDetails | null,
 	dialog: null as DialogType | null,
-	dialogParams: undefined as any,
+	dialogParams: undefined as Record<string, unknown> | undefined,
 
 	lastDismissedPendingActionCount: 0,
 
@@ -185,19 +184,19 @@ export const initialState = {
 
 	//@todo merge these into market: {}
 	//marketAddressLock: null,
-	currentAddressMintableBalance: null as BN | null,
+	currentAddressMintableBalance: null as bigint | null,
 	//urrentAddressMarketAddressLock: null,
 
 	games: {
 		[Game.DatamineGems]: {
 			marketAddresses: null as MarketAddresses | null,
-			totalContractRewardsAmount: null as BN | null,
-			totalContractLockedAmount: null as BN | null,
+			totalContractRewardsAmount: null as bigint | null,
+			totalContractLockedAmount: null as bigint | null,
 		},
 		[Game.HodlClicker]: {
 			marketAddresses: null as MarketAddresses | null,
-			totalContractRewardsAmount: null as BN | null,
-			totalContractLockedAmount: null as BN | null,
+			totalContractRewardsAmount: null as bigint | null,
+			totalContractLockedAmount: null as bigint | null,
 		},
 	},
 

@@ -13,6 +13,7 @@
 // }
 
 interface Window {
-	web3?: any;
-	ethereum?: any;
+	web3?: unknown;
+	ethereum?: unknown;
+	trustwallet?: unknown;
 }
