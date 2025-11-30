@@ -15,14 +15,14 @@ export interface GetBurnFluxResponseQuery {
 /**
  * Burns a specified amount of FLUX tokens to increase the minting multiplier.
  */
-export const getBurnFluxResponse: QueryHandler<AppState, GetBurnFluxResponseQuery> = async ({ state, query }) => {
+export const getBurnFluxResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;
 	}
 	const selectedAddress = await getSelectedAddress();
 
-	const { address, amount } = query.payload!;
+	const { address, amount } = query.payload as GetBurnFluxResponseQuery;
 
 	const contracts = getContracts(publicClient, state.ecosystem);
 

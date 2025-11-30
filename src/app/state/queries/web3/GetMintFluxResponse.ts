@@ -18,14 +18,14 @@ export interface GetMintFluxResponseQuery {
 /**
  * Mints available FLUX tokens.
  */
-export const getMintFluxResponse: QueryHandler<AppState, GetMintFluxResponseQuery> = async ({ state, query }) => {
+export const getMintFluxResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;
 	}
 	const selectedAddress = await getSelectedAddress();
 
-	const { sourceAddress, targetAddress, blockNumber } = query.payload!;
+	const { sourceAddress, targetAddress, blockNumber } = query.payload as GetMintFluxResponseQuery;
 
 	const contracts = getContracts(publicClient, state.ecosystem);
 	const config = getEcosystemConfig(state.ecosystem);

@@ -20,10 +20,7 @@ export interface GetMarketBurnFluxResponseQuery {
 /**
  * Burns tokens through the Datamine Market to collect rewards from other validators.
  */
-export const getMarketBurnFluxResponse: QueryHandler<AppState, GetMarketBurnFluxResponseQuery> = async ({
-	state,
-	query,
-}) => {
+export const getMarketBurnFluxResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const { ecosystem, game } = state;
 	const publicClient = getPublicClient();
 	if (!publicClient) {
@@ -31,7 +28,7 @@ export const getMarketBurnFluxResponse: QueryHandler<AppState, GetMarketBurnFlux
 	}
 	const selectedAddress = await getSelectedAddress();
 
-	const { gems, amountToBurn } = query.payload!;
+	const { gems, amountToBurn } = query.payload as GetMarketBurnFluxResponseQuery;
 
 	const contracts = getContracts(publicClient, state.ecosystem);
 
@@ -76,10 +73,7 @@ export interface GetDepositMarketResponseQuery {
 /**
  * Deposits tokens into the Datamine Market to be available for public burning.
  */
-export const getDepositMarketResponse: QueryHandler<AppState, GetDepositMarketResponseQuery> = async ({
-	state,
-	query,
-}) => {
+export const getDepositMarketResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const { ecosystem, game } = state;
 	const publicClient = getPublicClient();
 	if (!publicClient) {
@@ -87,7 +81,7 @@ export const getDepositMarketResponse: QueryHandler<AppState, GetDepositMarketRe
 	}
 	const selectedAddress = await getSelectedAddress();
 
-	const { amount } = query.payload!;
+	const { amount } = query.payload as GetDepositMarketResponseQuery;
 
 	const contracts = getContracts(publicClient, state.ecosystem);
 

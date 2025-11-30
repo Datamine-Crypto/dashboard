@@ -38,7 +38,7 @@ let publicClient: PublicClient | null = null;
  */
 let preselectedAddress: Address | null = null;
 
-export const setWeb3Provider = (provider: EIP1193Provider, ecosystem: Ecosystem) => {
+export const setWeb3Provider = (provider: EIP1193Provider | null, ecosystem: Ecosystem) => {
 	if (provider) {
 		const config = getEcosystemConfig(ecosystem);
 		const chain = config.layer === Layer.Layer1 ? mainnet : arbitrum;

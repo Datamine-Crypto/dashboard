@@ -105,18 +105,22 @@ interface Web3Provider {
  * It attempts to detect common providers like MetaMask, Trust Wallet, or a generic Web3 provider.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWeb3Provider = async ({ ecosystem: _ecosystem }: { ecosystem: Ecosystem }) => {
+export const getWeb3Provider = async ({
+	ecosystem: _ecosystem,
+}: {
+	ecosystem: Ecosystem;
+}): Promise<EIP1193Provider | null> => {
 	const { ethereum } = window;
 	if (ethereum) {
 		devLog('found window.ethereum provider:');
-		return ethereum;
+		return ethereum as EIP1193Provider;
 	}
 
 	try {
 		// Dynamically import detectEthereumProvider
 		const detectEthereumProvider = (await import('@metamask/detect-provider')).default;
 		const provider = await detectEthereumProvider();
-		return provider;
+		return provider as unknown as EIP1193Provider;
 	} catch {
 		// Silently fail if can't detect provider
 	}
@@ -125,7 +129,7 @@ export const getWeb3Provider = async ({ ecosystem: _ecosystem }: { ecosystem: Ec
 	{
 		const { trustwallet } = window as unknown as { trustwallet?: { Provider: TrustWalletProvider } };
 		if (trustwallet && trustwallet.Provider) {
-			return trustwallet.Provider;
+			return trustwallet.Provider as unknown as EIP1193Provider;
 		}
 	}
 
@@ -133,11 +137,11 @@ export const getWeb3Provider = async ({ ecosystem: _ecosystem }: { ecosystem: Ec
 	{
 		const web3 = (window as unknown as { web3?: Web3Provider }).web3;
 		if (web3 && web3.currentProvider) {
-			return web3.currentProvider;
+			return web3.currentProvider as EIP1193Provider;
 		}
 	}
 
-	return ethereum;
+	return ethereum as EIP1193Provider;
 };
 
 /**
@@ -373,18 +377,16 @@ export const getGasFees = async (publicClient: PublicClient) => {
  * 3. **Simulation First**: For write operations, we *always* run `contract.simulate` first. This ensures the transaction will likely succeed before asking the user to sign it, saving them gas fees on failed transactions.
  * 4. **Gas Estimation**: It automatically handles gas estimation (via `getGasFees`) to ensure transactions are mined reliably.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type GenericContractFunction = (...args: any[]) => Promise<unknown>;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type GenericContractWriteFunction = (...args: any[]) => Promise<`0x${string}`>;
-
 interface GenericContract {
-	read: Record<string, GenericContractFunction>;
-	write: Record<string, GenericContractWriteFunction>;
-	simulate: Record<string, GenericContractFunction>;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	read: any;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	write: any;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	simulate: any;
 }
 
-export const withWeb3 = (contract: GenericContract) => {
+export const withWeb3 = (contract: GenericContract | null | undefined) => {
 	if (!contract) {
 		throw commonLanguage.errors.UnknownContract;
 	}

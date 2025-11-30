@@ -48,7 +48,7 @@ export const findWeb3Instance: QueryHandler<AppState> = async ({ state, dispatch
 					payload: { targetEcosystem: state.targetEcosystem },
 				});
 			};
-			provider.on('networkChanged', reinitializeWeb3); // [DEPRECATED] networkChanged is deprecated for chainChanged
+
 			provider.on('chainChanged', reinitializeWeb3);
 		};
 		subscribeToNetworkChanges(dispatch);

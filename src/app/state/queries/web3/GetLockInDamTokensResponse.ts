@@ -16,17 +16,14 @@ export interface GetLockInDamTokensResponseQuery {
 /**
  * Locks a specified amount of DAM tokens to start minting FLUX.
  */
-export const getLockInDamTokensResponse: QueryHandler<AppState, GetLockInDamTokensResponseQuery> = async ({
-	state,
-	query,
-}) => {
+export const getLockInDamTokensResponse: QueryHandler<AppState> = async ({ state, query }) => {
 	const publicClient = getPublicClient();
 	if (!publicClient) {
 		throw commonLanguage.errors.Web3NotFound;
 	}
 	const selectedAddress = await getSelectedAddress();
 
-	const { amount, minterAddress } = query.payload!;
+	const { amount, minterAddress } = query.payload as GetLockInDamTokensResponseQuery;
 
 	const contracts = getContracts(publicClient, state.ecosystem);
 
