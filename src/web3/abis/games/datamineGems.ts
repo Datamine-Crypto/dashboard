@@ -1,18 +1,93 @@
 export const marketAbi = [
 	{
+		inputs: [{ internalType: 'address', name: '_fluxTokenAddress', type: 'address' }],
+		stateMutability: 'nonpayable',
+		type: 'constructor',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{ indexed: true, internalType: 'address', name: 'caller', type: 'address' },
+			{ indexed: false, internalType: 'uint256', name: 'amountToBurnInput', type: 'uint256' },
+			{ indexed: true, internalType: 'address', name: 'burnToAddress', type: 'address' },
+			{ indexed: false, internalType: 'bytes', name: 'errorData', type: 'bytes' },
+		],
+		name: 'AttemptedBurnFailed',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{ indexed: true, internalType: 'address', name: 'user', type: 'address' },
+			{ indexed: false, internalType: 'uint256', name: 'amountDeposited', type: 'uint256' },
+			{ indexed: false, internalType: 'uint256', name: 'rewardsPercent', type: 'uint256' },
+			{ indexed: false, internalType: 'uint256', name: 'totalRewardsAmount', type: 'uint256' },
+			{ indexed: false, internalType: 'uint256', name: 'minBlockNumber', type: 'uint256' },
+			{ indexed: false, internalType: 'uint256', name: 'minBurnAmount', type: 'uint256' },
+		],
+		name: 'Deposited',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{ indexed: true, internalType: 'address', name: 'caller', type: 'address' },
+			{ indexed: true, internalType: 'address', name: 'targetAddress', type: 'address' },
+			{ indexed: false, internalType: 'uint256', name: 'currentBlock', type: 'uint256' },
+		],
+		name: 'NormalMint',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{ indexed: true, internalType: 'address', name: 'user', type: 'address' },
+			{ indexed: false, internalType: 'bool', name: 'isPaused', type: 'bool' },
+		],
+		name: 'PausedChanged',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{ indexed: true, internalType: 'address', name: 'burnToAddress', type: 'address' },
+			{ indexed: true, internalType: 'address', name: 'caller', type: 'address' },
+			{ indexed: false, internalType: 'uint256', name: 'amountActuallyBurned', type: 'uint256' },
+			{ indexed: false, internalType: 'uint256', name: 'amountToReceive', type: 'uint256' },
+			{ indexed: false, internalType: 'uint256', name: 'currentBlock', type: 'uint256' },
+			{ indexed: false, internalType: 'uint256', name: 'amountToMint', type: 'uint256' },
+		],
+		name: 'TokensBurned',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{ indexed: true, internalType: 'address', name: 'user', type: 'address' },
+			{ indexed: false, internalType: 'uint256', name: 'amount', type: 'uint256' },
+		],
+		name: 'Withdrawn',
+		type: 'event',
+	},
+	{
+		inputs: [{ internalType: 'address', name: '', type: 'address' }],
+		name: 'addressLocks',
+		outputs: [
+			{ internalType: 'uint256', name: 'rewardsAmount', type: 'uint256' },
+			{ internalType: 'uint256', name: 'rewardsPercent', type: 'uint256' },
+			{ internalType: 'uint256', name: 'minBlockNumber', type: 'uint256' },
+			{ internalType: 'bool', name: 'isPaused', type: 'bool' },
+			{ internalType: 'uint256', name: 'minBurnAmount', type: 'uint256' },
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
 		inputs: [
 			{
 				components: [
-					{
-						internalType: 'uint256',
-						name: 'amountToBurn',
-						type: 'uint256',
-					},
-					{
-						internalType: 'address',
-						name: 'burnToAddress',
-						type: 'address',
-					},
+					{ internalType: 'uint256', name: 'amountToBurn', type: 'uint256' },
+					{ internalType: 'address', name: 'burnToAddress', type: 'address' },
 				],
 				internalType: 'struct DatamineTimRewardsVersionTwo.BurnRequest[]',
 				name: 'requests',
@@ -23,26 +98,10 @@ export const marketAbi = [
 		outputs: [
 			{
 				components: [
-					{
-						internalType: 'uint256',
-						name: 'actualAmountBurned',
-						type: 'uint256',
-					},
-					{
-						internalType: 'address',
-						name: 'burnToAddress',
-						type: 'address',
-					},
-					{
-						internalType: 'uint256',
-						name: 'amountToMint',
-						type: 'uint256',
-					},
-					{
-						internalType: 'uint256',
-						name: 'tipAmount',
-						type: 'uint256',
-					},
+					{ internalType: 'uint256', name: 'actualAmountBurned', type: 'uint256' },
+					{ internalType: 'address', name: 'burnToAddress', type: 'address' },
+					{ internalType: 'uint256', name: 'amountToMint', type: 'uint256' },
+					{ internalType: 'uint256', name: 'tipAmount', type: 'uint256' },
 				],
 				internalType: 'struct DatamineTimRewardsVersionTwo.BurnOperationResult[]',
 				name: '',
@@ -54,76 +113,14 @@ export const marketAbi = [
 	},
 	{
 		inputs: [
-			{
-				internalType: 'address',
-				name: '_fluxTokenAddress',
-				type: 'address',
-			},
-		],
-		stateMutability: 'nonpayable',
-		type: 'constructor',
-	},
-	{
-		anonymous: false,
-		inputs: [
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'caller',
-				type: 'address',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'amountToBurnInput',
-				type: 'uint256',
-			},
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'burnToAddress',
-				type: 'address',
-			},
-			{
-				indexed: false,
-				internalType: 'bytes',
-				name: 'errorData',
-				type: 'bytes',
-			},
-		],
-		name: 'AttemptedBurnFailed',
-		type: 'event',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'uint256',
-				name: '_amountToBurnInput',
-				type: 'uint256',
-			},
-			{
-				internalType: 'address',
-				name: 'burnToAddress',
-				type: 'address',
-			},
+			{ internalType: 'uint256', name: '_amountToBurnInput', type: 'uint256' },
+			{ internalType: 'address', name: 'burnToAddress', type: 'address' },
 		],
 		name: 'burnTokens',
 		outputs: [
-			{
-				internalType: 'uint256',
-				name: 'actualAmountBurned',
-				type: 'uint256',
-			},
-			{
-				internalType: 'uint256',
-				name: 'amountToMintValue',
-				type: 'uint256',
-			},
-			{
-				internalType: 'uint256',
-				name: 'tipAmountValue',
-				type: 'uint256',
-			},
+			{ internalType: 'uint256', name: 'actualAmountBurned', type: 'uint256' },
+			{ internalType: 'uint256', name: 'amountToMintValue', type: 'uint256' },
+			{ internalType: 'uint256', name: 'tipAmountValue', type: 'uint256' },
 		],
 		stateMutability: 'nonpayable',
 		type: 'function',
@@ -132,16 +129,8 @@ export const marketAbi = [
 		inputs: [
 			{
 				components: [
-					{
-						internalType: 'uint256',
-						name: 'amountToBurn',
-						type: 'uint256',
-					},
-					{
-						internalType: 'address',
-						name: 'burnToAddress',
-						type: 'address',
-					},
+					{ internalType: 'uint256', name: 'amountToBurn', type: 'uint256' },
+					{ internalType: 'address', name: 'burnToAddress', type: 'address' },
 				],
 				internalType: 'struct DatamineTimRewardsVersionTwo.BurnRequest[]',
 				name: 'requests',
@@ -152,26 +141,10 @@ export const marketAbi = [
 		outputs: [
 			{
 				components: [
-					{
-						internalType: 'uint256',
-						name: 'actualAmountBurned',
-						type: 'uint256',
-					},
-					{
-						internalType: 'address',
-						name: 'burnToAddress',
-						type: 'address',
-					},
-					{
-						internalType: 'uint256',
-						name: 'amountToMint',
-						type: 'uint256',
-					},
-					{
-						internalType: 'uint256',
-						name: 'tipAmount',
-						type: 'uint256',
-					},
+					{ internalType: 'uint256', name: 'actualAmountBurned', type: 'uint256' },
+					{ internalType: 'address', name: 'burnToAddress', type: 'address' },
+					{ internalType: 'uint256', name: 'amountToMint', type: 'uint256' },
+					{ internalType: 'uint256', name: 'tipAmount', type: 'uint256' },
 				],
 				internalType: 'struct DatamineTimRewardsVersionTwo.BurnOperationResult[]',
 				name: '',
@@ -182,27 +155,18 @@ export const marketAbi = [
 		type: 'function',
 	},
 	{
+		inputs: [],
+		name: 'defaultRewardsPercent',
+		outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
 		inputs: [
-			{
-				internalType: 'uint256',
-				name: 'amountToDeposit',
-				type: 'uint256',
-			},
-			{
-				internalType: 'uint256',
-				name: 'rewardsPercent',
-				type: 'uint256',
-			},
-			{
-				internalType: 'uint256',
-				name: 'minBlockNumber',
-				type: 'uint256',
-			},
-			{
-				internalType: 'uint256',
-				name: 'minBurnAmount',
-				type: 'uint256',
-			},
+			{ internalType: 'uint256', name: 'amountToDeposit', type: 'uint256' },
+			{ internalType: 'uint256', name: 'rewardsPercent', type: 'uint256' },
+			{ internalType: 'uint256', name: 'minBlockNumber', type: 'uint256' },
+			{ internalType: 'uint256', name: 'minBurnAmount', type: 'uint256' },
 		],
 		name: 'deposit',
 		outputs: [],
@@ -210,354 +174,63 @@ export const marketAbi = [
 		type: 'function',
 	},
 	{
-		anonymous: false,
-		inputs: [
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'user',
-				type: 'address',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'amountDeposited',
-				type: 'uint256',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'rewardsPercent',
-				type: 'uint256',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'totalRewardsAmount',
-				type: 'uint256',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'minBlockNumber',
-				type: 'uint256',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'minBurnAmount',
-				type: 'uint256',
-			},
-		],
-		name: 'Deposited',
-		type: 'event',
+		inputs: [],
+		name: 'fluxToken',
+		outputs: [{ internalType: 'contract IFluxToken', name: '', type: 'address' }],
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
-		anonymous: false,
-		inputs: [
+		inputs: [{ internalType: 'address[]', name: 'addressesToQuery', type: 'address[]' }],
+		name: 'getAddressLockDetailsBatch',
+		outputs: [
 			{
-				indexed: true,
-				internalType: 'address',
-				name: 'caller',
-				type: 'address',
+				components: [
+					{ internalType: 'address', name: 'targetAddress', type: 'address' },
+					{ internalType: 'uint256', name: 'amountToMint', type: 'uint256' },
+					{ internalType: 'uint256', name: 'rewardsAmount', type: 'uint256' },
+					{ internalType: 'uint256', name: 'rewardsPercent', type: 'uint256' },
+					{ internalType: 'uint256', name: 'minBlockNumber', type: 'uint256' },
+					{ internalType: 'uint256', name: 'minBurnAmount', type: 'uint256' },
+					{ internalType: 'bool', name: 'isPaused', type: 'bool' },
+					{ internalType: 'address', name: 'minterAddressFromFluxToken', type: 'address' },
+				],
+				internalType: 'struct DatamineTimRewardsVersionTwo.AddressLockDetails[]',
+				name: 'details',
+				type: 'tuple[]',
 			},
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'targetAddress',
-				type: 'address',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'currentBlock',
-				type: 'uint256',
-			},
+			{ internalType: 'uint256', name: 'currentBlockNumber', type: 'uint256' },
 		],
-		name: 'NormalMint',
-		type: 'event',
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: 'targetAddress',
-				type: 'address',
-			},
-		],
+		inputs: [{ internalType: 'address', name: 'targetAddress', type: 'address' }],
 		name: 'normalMintToAddress',
 		outputs: [],
 		stateMutability: 'nonpayable',
 		type: 'function',
 	},
 	{
-		anonymous: false,
-		inputs: [
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'user',
-				type: 'address',
-			},
-			{
-				indexed: false,
-				internalType: 'bool',
-				name: 'isPaused',
-				type: 'bool',
-			},
-		],
-		name: 'PausedChanged',
-		type: 'event',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'bool',
-				name: 'isPaused',
-				type: 'bool',
-			},
-		],
+		inputs: [{ internalType: 'bool', name: 'isPaused', type: 'bool' }],
 		name: 'setPaused',
 		outputs: [],
 		stateMutability: 'nonpayable',
 		type: 'function',
 	},
 	{
-		anonymous: false,
 		inputs: [
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'burnToAddress',
-				type: 'address',
-			},
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'caller',
-				type: 'address',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'amountActuallyBurned',
-				type: 'uint256',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'amountToReceive',
-				type: 'uint256',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'currentBlock',
-				type: 'uint256',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'amountToMint',
-				type: 'uint256',
-			},
-		],
-		name: 'TokensBurned',
-		type: 'event',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: 'operator',
-				type: 'address',
-			},
-			{
-				internalType: 'address',
-				name: 'from',
-				type: 'address',
-			},
-			{
-				internalType: 'address',
-				name: 'to',
-				type: 'address',
-			},
-			{
-				internalType: 'uint256',
-				name: 'amount',
-				type: 'uint256',
-			},
-			{
-				internalType: 'bytes',
-				name: 'userData',
-				type: 'bytes',
-			},
-			{
-				internalType: 'bytes',
-				name: 'operatorData',
-				type: 'bytes',
-			},
+			{ internalType: 'address', name: 'operator', type: 'address' },
+			{ internalType: 'address', name: 'from', type: 'address' },
+			{ internalType: 'address', name: 'to', type: 'address' },
+			{ internalType: 'uint256', name: 'amount', type: 'uint256' },
+			{ internalType: 'bytes', name: 'userData', type: 'bytes' },
+			{ internalType: 'bytes', name: 'operatorData', type: 'bytes' },
 		],
 		name: 'tokensReceived',
 		outputs: [],
 		stateMutability: 'nonpayable',
 		type: 'function',
 	},
-	{
-		inputs: [],
-		name: 'withdrawAll',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
-	{
-		anonymous: false,
-		inputs: [
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'user',
-				type: 'address',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'amount',
-				type: 'uint256',
-			},
-		],
-		name: 'Withdrawn',
-		type: 'event',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: '',
-				type: 'address',
-			},
-		],
-		name: 'addressLocks',
-		outputs: [
-			{
-				internalType: 'uint256',
-				name: 'rewardsAmount',
-				type: 'uint256',
-			},
-			{
-				internalType: 'uint256',
-				name: 'rewardsPercent',
-				type: 'uint256',
-			},
-			{
-				internalType: 'uint256',
-				name: 'minBlockNumber',
-				type: 'uint256',
-			},
-			{
-				internalType: 'bool',
-				name: 'isPaused',
-				type: 'bool',
-			},
-			{
-				internalType: 'uint256',
-				name: 'minBurnAmount',
-				type: 'uint256',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'defaultRewardsPercent',
-		outputs: [
-			{
-				internalType: 'uint256',
-				name: '',
-				type: 'uint256',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'fluxToken',
-		outputs: [
-			{
-				internalType: 'contract IFluxToken',
-				name: '',
-				type: 'address',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'address[]',
-				name: 'addressesToQuery',
-				type: 'address[]',
-			},
-		],
-		name: 'getAddressLockDetailsBatch',
-		outputs: [
-			{
-				components: [
-					{
-						internalType: 'address',
-						name: 'targetAddress',
-						type: 'address',
-					},
-					{
-						internalType: 'uint256',
-						name: 'amountToMint',
-						type: 'uint256',
-					},
-					{
-						internalType: 'uint256',
-						name: 'rewardsAmount',
-						type: 'uint256',
-					},
-					{
-						internalType: 'uint256',
-						name: 'rewardsPercent',
-						type: 'uint256',
-					},
-					{
-						internalType: 'uint256',
-						name: 'minBlockNumber',
-						type: 'uint256',
-					},
-					{
-						internalType: 'uint256',
-						name: 'minBurnAmount',
-						type: 'uint256',
-					},
-					{
-						internalType: 'bool',
-						name: 'isPaused',
-						type: 'bool',
-					},
-					{
-						internalType: 'address',
-						name: 'minterAddressFromFluxToken',
-						type: 'address',
-					},
-				],
-				internalType: 'struct DatamineTimRewardsVersionTwo.AddressLockDetails[]',
-				name: 'details',
-				type: 'tuple[]',
-			},
-			{
-				internalType: 'uint256',
-				name: 'currentBlockNumber',
-				type: 'uint256',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
+	{ inputs: [], name: 'withdrawAll', outputs: [], stateMutability: 'nonpayable', type: 'function' },
 ] as const;

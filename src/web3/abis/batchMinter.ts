@@ -1,51 +1,21 @@
 export const batchMinterAbi = [
 	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: '_fluxTokenAddress',
-				type: 'address',
-			},
-		],
+		inputs: [{ internalType: 'address', name: '_fluxTokenAddress', type: 'address' }],
 		stateMutability: 'nonpayable',
 		type: 'constructor',
 	},
+	{ inputs: [], name: 'ReentrancyGuardReentrantCall', type: 'error' },
 	{
-		inputs: [],
-		name: 'ReentrancyGuardReentrantCall',
-		type: 'error',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: '',
-				type: 'address',
-			},
-		],
+		inputs: [{ internalType: 'address', name: '', type: 'address' }],
 		name: 'addressMintSettings',
-		outputs: [
-			{
-				internalType: 'address',
-				name: 'delegatedMinter',
-				type: 'address',
-			},
-		],
+		outputs: [{ internalType: 'address', name: 'delegatedMinter', type: 'address' }],
 		stateMutability: 'view',
 		type: 'function',
 	},
 	{
 		inputs: [
-			{
-				internalType: 'address',
-				name: 'burnToAddress',
-				type: 'address',
-			},
-			{
-				internalType: 'uint256[]',
-				name: 'blockNumbers',
-				type: 'uint256[]',
-			},
+			{ internalType: 'address', name: 'burnToAddress', type: 'address' },
+			{ internalType: 'uint256[]', name: 'blockNumbers', type: 'uint256[]' },
 		],
 		name: 'batchBurn',
 		outputs: [],
@@ -55,33 +25,15 @@ export const batchMinterAbi = [
 	{
 		inputs: [],
 		name: 'fluxToken',
-		outputs: [
-			{
-				internalType: 'contract IFluxToken',
-				name: '',
-				type: 'address',
-			},
-		],
+		outputs: [{ internalType: 'contract IFluxToken', name: '', type: 'address' }],
 		stateMutability: 'view',
 		type: 'function',
 	},
 	{
 		inputs: [
-			{
-				internalType: 'address',
-				name: 'burnToAddress',
-				type: 'address',
-			},
-			{
-				internalType: 'uint256',
-				name: 'blockNumber',
-				type: 'uint256',
-			},
-			{
-				internalType: 'address',
-				name: 'targetAddress',
-				type: 'address',
-			},
+			{ internalType: 'address', name: 'burnToAddress', type: 'address' },
+			{ internalType: 'uint256', name: 'blockNumber', type: 'uint256' },
+			{ internalType: 'address', name: 'targetAddress', type: 'address' },
 		],
 		name: 'normalMintTo',
 		outputs: [],
@@ -89,13 +41,7 @@ export const batchMinterAbi = [
 		type: 'function',
 	},
 	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: 'delegatedMinter',
-				type: 'address',
-			},
-		],
+		inputs: [{ internalType: 'address', name: 'delegatedMinter', type: 'address' }],
 		name: 'setDelegatedMinter',
 		outputs: [],
 		stateMutability: 'nonpayable',
@@ -103,36 +49,12 @@ export const batchMinterAbi = [
 	},
 	{
 		inputs: [
-			{
-				internalType: 'address',
-				name: 'operator',
-				type: 'address',
-			},
-			{
-				internalType: 'address',
-				name: 'from',
-				type: 'address',
-			},
-			{
-				internalType: 'address',
-				name: 'to',
-				type: 'address',
-			},
-			{
-				internalType: 'uint256',
-				name: 'amount',
-				type: 'uint256',
-			},
-			{
-				internalType: 'bytes',
-				name: 'userData',
-				type: 'bytes',
-			},
-			{
-				internalType: 'bytes',
-				name: 'operatorData',
-				type: 'bytes',
-			},
+			{ internalType: 'address', name: 'operator', type: 'address' },
+			{ internalType: 'address', name: 'from', type: 'address' },
+			{ internalType: 'address', name: 'to', type: 'address' },
+			{ internalType: 'uint256', name: 'amount', type: 'uint256' },
+			{ internalType: 'bytes', name: 'userData', type: 'bytes' },
+			{ internalType: 'bytes', name: 'operatorData', type: 'bytes' },
 		],
 		name: 'tokensReceived',
 		outputs: [],
