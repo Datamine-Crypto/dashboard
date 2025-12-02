@@ -1096,10 +1096,14 @@ const CallToActionCard: React.FC = () => {
 						actionIcon: <RedeemIcon />,
 						onClick: () => {
 							if (isPlayingGame) {
-								dispatch({
-									type: commonLanguage.commands.Market.ShowGameDialog,
-									payload: { game: isPlayingGameDatamineGems ? Game.DatamineGems : Game.HodlClicker },
-								});
+								if (isPlayingGameDatamineGems) {
+									dispatch({
+										type: commonLanguage.commands.Market.ShowGameDialog,
+										payload: { game: Game.DatamineGems },
+									});
+								} else {
+									window.location.href = '#hodlclicker';
+								}
 							} else {
 								dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.Mint } });
 							}

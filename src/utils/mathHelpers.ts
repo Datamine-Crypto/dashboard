@@ -175,7 +175,10 @@ export const formatBigIntPercent = (bnA: bigint, bnB: bigint, shouldAdd = true) 
  * @param {string} unformattedInput - The decimal string to convert (e.g., "1.3").
  * @returns {bigint} The converted BigInt.
  */
-export const parseBigInt = (unformattedInput?: string | null) => {
+export const parseBigInt = (unformattedInput?: string | bigint | null) => {
+	if (typeof unformattedInput === 'bigint') {
+		return unformattedInput;
+	}
 	if (!unformattedInput) {
 		throw new Error('Invalid input');
 	}

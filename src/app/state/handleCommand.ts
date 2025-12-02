@@ -21,6 +21,8 @@ import { GetLockInDamTokensResponseQuery } from '@/app/state/queries/web3/GetLoc
 import { GetMintFluxResponseQuery } from '@/app/state/queries/web3/GetMintFluxResponse';
 import { GetSetMintSettingsResponseQuery } from '@/app/state/queries/web3/batchMinter/GetSetMintSettingsResponse';
 import { GetMarketBurnFluxResponseQuery, GetDepositMarketResponseQuery } from '@/app/state/queries/web3/MarketQueries';
+import { Gem } from '@/react/elements/Fragments/DatamineGemsGame';
+import { HelpArticle } from '@/app/helpArticles';
 
 /**
  * Handles synchronous commands dispatched by the UI or other parts of the application.
@@ -776,7 +778,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		case commonLanguage.commands.Market.MarketBurnFluxTokens: {
 			const { amountToBurn, gems } = command.payload as {
 				amountToBurn: string;
-				gems: import('@/react/elements/Fragments/DatamineGemsGame').Gem[];
+				gems: Gem[];
 			};
 
 			try {
@@ -1102,7 +1104,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			};
 		}
 		case commonLanguage.commands.Help.ShowArticle: {
-			const { helpArticle } = command.payload as { helpArticle: import('@/app/helpArticles').HelpArticle };
+			const { helpArticle } = command.payload as { helpArticle: HelpArticle };
 
 			const { helpArticlesNetworkType } = state;
 
