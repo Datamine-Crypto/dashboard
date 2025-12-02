@@ -103,8 +103,7 @@
 		"prettier": "^3.7.3",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.48.0",
-		"vconsole": "^3.15.1",
-		"vite": "^7.2.4",
+		"vite": "^7.2.6",
 		"vite-bundle-visualizer": "^1.2.1",
 		"vite-plugin-mkcert": "^1.17.9"
 	},
