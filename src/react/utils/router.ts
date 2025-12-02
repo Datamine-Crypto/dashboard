@@ -4,7 +4,6 @@ import { helpArticles } from '@/app/helpArticles';
 import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
-import { isDevLogEnabled } from '@/utils/devLog';
 
 export enum Page {
 	Dashboard,
@@ -106,8 +105,6 @@ export const getPageDetails = () => {
 	};
 };
 
-let isVConsoleInitialized = false;
-
 /**
  * Custom hook to handle routing based on URL hash changes.
  * @param dispatch - The reducer dispatch function to update application state.
@@ -164,13 +161,6 @@ export const useRouter = (dispatch: ReducerDispatch, ecosystem: Ecosystem) => {
 						},
 					});
 					dispatch({ type: commonLanguage.commands.Web3.Initialize, payload: { address: pageDetails.address } });
-					if (isDevLogEnabled() && !isVConsoleInitialized) {
-						isVConsoleInitialized = true;
-						import('vconsole').then((VConsoleModule) => {
-							const VConsole = VConsoleModule.default;
-							new VConsole();
-						});
-					}
 					break;
 				case Page.Help: {
 					const helpArticle = helpArticles.find(

@@ -8,7 +8,6 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import metamaskIcon from '@/react/svgs/metamask.svg';
-import { isDevLogEnabled } from '@/utils/devLog';
 import { useShallow } from 'zustand/react/shallow';
 import HodlClickerEvents from '@/react/pages/gamefi/hodlclicker/HodlClickerEvents';
 import { getNetworkDropdown } from '@/react/elements/Fragments/EcosystemDropdown';
@@ -49,12 +48,6 @@ const HodlClickerPage: React.FC = () => {
 	useEffect(() => {
 		// When the app starts initialize web3 connection
 		appDispatch({ type: commonLanguage.commands.Web3.Initialize, payload: { address: null } });
-		if (isDevLogEnabled()) {
-			import('vconsole').then((VConsoleModule) => {
-				const VConsole = VConsoleModule.default;
-				new VConsole();
-			});
-		}
 	}, []);
 
 	const getLoadingIndicator = () => {
