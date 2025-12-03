@@ -104,8 +104,9 @@ interface Web3Provider {
  * Retrieves a Web3 provider instance.
  * It attempts to detect common providers like MetaMask, Trust Wallet, or a generic Web3 provider.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 export const getWeb3Provider = async ({
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	ecosystem: _ecosystem,
 }: {
 	ecosystem: Ecosystem;
@@ -353,15 +354,7 @@ export const rethrowWeb3Error = (err: unknown) => {
 export const getGasFees = async (publicClient: PublicClient) => {
 	if (!publicClient) return {};
 
-	try {
-		const fees = await publicClient.estimateFeesPerGas();
-		return fees;
-	} catch {
-		// Fallback or handle error if needed, but Viem's estimateFeesPerGas handles EIP-1559 vs Legacy automatically mostly.
-		// If it fails, we might want to try getGasPrice as fallback for very old chains, but Arbitrum supports EIP-1559.
-		const gasPrice = await publicClient.getGasPrice();
-		return { gasPrice };
-	}
+	// Do not estimate fees, instead each transaction will be estimated on its own
 };
 
 /**
