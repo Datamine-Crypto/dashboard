@@ -20,9 +20,16 @@ import { dispatch as appDispatch } from '@/react/utils/appStore';
 import MessageDialog from '@/react/elements/Dialogs/MessageDialog';
 
 const MintDialog: React.FC = () => {
-	const { selectedAddress, addressDetails, error, ecosystem } = useAppStore(
+	const {
+		selectedAddress,
+		address: initialAddress,
+		addressDetails,
+		error,
+		ecosystem,
+	} = useAppStore(
 		useShallow((state) => ({
 			selectedAddress: state.selectedAddress,
+			address: state.address,
 			addressDetails: state.addressDetails,
 			error: state.error,
 			ecosystem: state.ecosystem,
@@ -35,7 +42,7 @@ const MintDialog: React.FC = () => {
 		return null;
 	}
 
-	const displayedAddress = address ?? selectedAddress;
+	const displayedAddress = initialAddress ?? selectedAddress;
 	const { mintableTokenShortName } = getEcosystemConfig(ecosystem);
 
 	const onSubmit = async (e: React.FormEvent) => {
