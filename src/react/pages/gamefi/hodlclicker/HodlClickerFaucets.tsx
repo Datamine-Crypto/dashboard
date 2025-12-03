@@ -59,7 +59,12 @@ const HodlClickerFaucets: React.FC<HodlClickerFaucetsProps> = ({
 					<SportsScore sx={{ mr: 1, color: theme.palette.warning.main }} />
 					<Typography variant="subtitle1" fontWeight="bold">
 						Ready Faucets{' '}
-						<Typography component="span" variant="subtitle1" color="textSecondary">
+						<Typography
+							component="span"
+							variant="subtitle1"
+							color="textSecondary"
+							sx={{ display: { xs: 'block', sm: 'inline' } }}
+						>
 							(Average: ${avgGemValue?.toFixed(4) || '0.000'})
 						</Typography>
 					</Typography>
