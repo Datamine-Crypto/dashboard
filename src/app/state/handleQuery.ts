@@ -15,6 +15,7 @@ import {
 	getWithdrawMarketResponse,
 } from '@/app/state/queries/web3/MarketQueries';
 import { throttleGetOutputQuote, getOutputQuote, getTradeResponse } from '@/app/state/queries/web3/swap/SwapQueries';
+import { getFullHelpArticle } from '@/app/state/queries/web3/help/GetFullHelpArticle';
 
 // This module executes the asynchronous Web3 operations requested by the sideEffectReducer.
 // Each function here corresponds to a specific blockchain interaction (e.g., minting, swapping, reading contract data).
@@ -86,6 +87,11 @@ export const queryHandlers = {
 	 * Executes a token swap.
 	 */
 	[commonLanguage.queries.Swap.GetTradeResponse]: getTradeResponse,
+
+	/**
+	 * Executes a token swap.
+	 */
+	[commonLanguage.queries.Help.GetFullArticle]: getFullHelpArticle,
 };
 
 export default queryHandlers;
