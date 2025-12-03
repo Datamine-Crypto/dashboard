@@ -1,4 +1,4 @@
-import { Box, Button, Typography, useTheme, Alert } from '@mui/material';
+import { Box, Button, Typography, useTheme, Alert, Grid } from '@mui/material';
 import React, { useEffect, useState, useMemo } from 'react';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
@@ -358,43 +358,62 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 	return (
 		<Box>
 			{/* Header: Dropdown & Staked Balance */}
-			<Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-				{getNetworkDropdown({
-					ecosystem,
-					connectionMethod: useAppStore.getState().connectionMethod,
-					dispatch: appDispatch,
-					width: 300,
-				})}
-
-				<Box display="flex" alignItems="center" gap={2}>
-					<Box textAlign="right">
-						<Typography variant="caption" display="block" color="textSecondary">
-							Your Staked Balance
-						</Typography>
-						<Typography variant="h6" fontWeight="bold" color="textPrimary">
-							{currentAddressMarketAddress && balances
-								? '$' +
-									getPriceToggle({
-										value: currentAddressMarketAddress.rewardsAmount,
-										inputToken: Token.Mintable,
-										outputToken: Token.USDC,
-										balances,
-										round: 4,
-									})
-								: '$0.00'}
-						</Typography>
-					</Box>
-					<Button
-						variant="outlined"
-						color="secondary"
-						startIcon={<Diamond />}
-						onClick={showDepositWithdrawDialog}
-						size="small"
+			<Grid container alignItems="center" justifyContent="center" rowSpacing={1} columnSpacing={1}>
+				<Grid
+					size={{ xs: 12, sm: 6 }}
+					sx={{ display: { xs: 'flex', md: 'block' }, justifyContent: { xs: 'center', md: 'flex-start' } }}
+				>
+					{getNetworkDropdown({
+						ecosystem,
+						connectionMethod: useAppStore.getState().connectionMethod,
+						dispatch: appDispatch,
+						width: 300,
+					})}
+				</Grid>
+				<Grid size={{ xs: 12, md: 6 }}>
+					<Grid
+						container
+						justifyContent="center"
+						sx={{
+							justifyContent: 'space-between',
+							alignItems: 'center',
+						}}
+						rowSpacing={1}
+						columnSpacing={1}
 					>
-						Stake / Unstake
-					</Button>
-				</Box>
-			</Box>
+						<Grid size={{ xs: 6 }}>
+							<Box textAlign="right">
+								<Typography variant="caption" display="block" color="textSecondary">
+									Your Staked Balance
+								</Typography>
+								<Typography variant="h6" fontWeight="bold" color="textPrimary">
+									{currentAddressMarketAddress && balances
+										? '$' +
+											getPriceToggle({
+												value: currentAddressMarketAddress.rewardsAmount,
+												inputToken: Token.Mintable,
+												outputToken: Token.USDC,
+												balances,
+												round: 4,
+											})
+										: '$0.00'}
+								</Typography>
+							</Box>
+						</Grid>
+						<Grid size={{ xs: 6 }}>
+							<Button
+								variant="outlined"
+								color="secondary"
+								startIcon={<Diamond />}
+								onClick={showDepositWithdrawDialog}
+								size="small"
+							>
+								Stake / Unstake
+							</Button>
+						</Grid>
+					</Grid>
+				</Grid>
+			</Grid>
 
 			{getRewardsAlert()}
 
