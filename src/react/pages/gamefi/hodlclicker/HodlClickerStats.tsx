@@ -31,8 +31,8 @@ const HodlClickerStats: React.FC<HodlClickerStatsProps> = ({ summary, getUSDValu
 					sx={{ opacity: 0.7, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}
 				></Typography>
 				<Grid container spacing={3}>
-					<Grid size={{ xs: 12, md: 4 }}>
-						<Box display="flex" alignItems="center">
+					<Grid size={{ xs: 12, sm: 4 }}>
+						<Box display="flex" alignItems="center" justifyContent={{ xs: 'center', md: 'flex-start' }}>
 							<Whatshot sx={{ mr: 2, fontSize: 48, opacity: 0.9, color: theme.palette.warning.main }} />
 							<Box>
 								<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
@@ -44,8 +44,8 @@ const HodlClickerStats: React.FC<HodlClickerStatsProps> = ({ summary, getUSDValu
 							</Box>
 						</Box>
 					</Grid>
-					<Grid size={{ xs: 12, md: 4 }}>
-						<Box display="flex" alignItems="center">
+					<Grid size={{ xs: 12, sm: 4 }}>
+						<Box display="flex" alignItems="center" justifyContent={{ xs: 'center', md: 'flex-start' }}>
 							<AttachMoney sx={{ mr: 2, fontSize: 48, opacity: 0.9, color: theme.palette.success.main }} />
 							<Box>
 								<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
@@ -57,8 +57,8 @@ const HodlClickerStats: React.FC<HodlClickerStatsProps> = ({ summary, getUSDValu
 							</Box>
 						</Box>
 					</Grid>
-					<Grid size={{ xs: 12, md: 4 }}>
-						<Box display="flex" alignItems="center">
+					<Grid size={{ xs: 12, sm: 4 }}>
+						<Box display="flex" alignItems="center" justifyContent={{ xs: 'center', md: 'flex-start' }}>
 							<LocalGasStation sx={{ mr: 2, fontSize: 48, opacity: 0.9, color: theme.palette.info.main }} />
 							<Box>
 								<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
