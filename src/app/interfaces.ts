@@ -140,6 +140,10 @@ export enum DialogType {
 	MarketDepositWithdraw = 'MARKET_DEPOSIT_WITHDRAW',
 	/** Dialog for managing things like delegated minter */
 	MintSettings = 'MINT_SETTINGS',
+	/** Dialog for GameFi settings (like ability to pause minting or change reward thresholds) */
+	GameSettings = 'GAME_SETTINGS',
+	/** Dialog for pausing or resuming GameFi games */
+	PauseResumeGame = 'PAUSE_RESUME_GAME',
 }
 
 export enum Game {
@@ -180,6 +184,39 @@ export interface AddressLockDetailsViewModel {
 
 	minterAddress: string;
 	//prevBlockMintAmount: bigint;
+}
+export interface AddressLockDetailsViewModel {
+	currentAddress: string;
+	mintAmount: bigint;
+	rewardsAmount: bigint;
+
+	/**
+	 * This would need to be divided by 10000
+	 */
+	rewardsPercent: number;
+
+	minBlockNumber: number;
+	minBurnAmount: bigint;
+	isPaused: boolean;
+
+	//lastMintBlockNumber: number;
+	//mintPerBlock: bigint;
+
+	minterAddress: string;
+	//prevBlockMintAmount: bigint;
+}
+
+export interface HodlClickerAddressLockDetailsViewModel {
+	rewardsAmount: bigint;
+
+	/**
+	 * This would need to be divided by 10000
+	 */
+	rewardsPercent: number;
+
+	minBlockNumber: number;
+	minBurnAmount: bigint;
+	isPaused: boolean;
 }
 
 /**

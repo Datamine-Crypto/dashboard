@@ -16,6 +16,7 @@ import {
 	FluxAddressLock,
 	FluxAddressDetails,
 	FluxAddressTokenDetails,
+	HodlClickerAddressLockDetailsViewModel,
 } from '@/app/interfaces';
 import { HelpArticle } from '@/app/helpArticles';
 import { GetRefreshMarketAddressesResponse } from '@/app/state/queries/web3/MarketQueries';
@@ -27,6 +28,7 @@ interface FindAccountStateResponse {
 	addressLock: FluxAddressLock | null;
 	addressDetails: FluxAddressDetails | null;
 	addressTokenDetails: FluxAddressTokenDetails | null;
+	currentAddressHodlClickerAddressLock: HodlClickerAddressLockDetailsViewModel | null;
 }
 
 /**
@@ -159,6 +161,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				addressLock,
 				addressDetails,
 				addressTokenDetails,
+				currentAddressHodlClickerAddressLock,
 				//marketAddressLock,
 				//currentAddressMarketAddressLock,
 				//currentAddressMintableBalance,
@@ -183,6 +186,7 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				addressDetails,
 				addressTokenDetails,
 				swapTokenBalances,
+				currentAddressHodlClickerAddressLock,
 				//marketAddressLock,
 				//currentAddressMarketAddressLock,
 				//currentAddressMintableBalance,

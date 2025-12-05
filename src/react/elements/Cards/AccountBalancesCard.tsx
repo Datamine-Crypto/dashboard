@@ -6,7 +6,7 @@ import { dispatch, useAppStore } from '@/react/utils/appStore';
 // Balances and common language constants from the Web3 reducer
 import { commonLanguage } from '@/app/state/commonLanguage';
 // Material-UI icons for external links, stop, and whatshot
-import { OpenInNew, Stop, Whatshot, Settings } from '@mui/icons-material';
+import { OpenInNew, Stop, Whatshot, Settings, Pause, PlayArrow } from '@mui/icons-material';
 // Interfaces for dialog types, Flux address details, lock, token details, and token enum
 import { DialogType, Token } from '@/app/interfaces';
 // Helper functions for decimal conversion, burn ratio calculation, and price toggling
@@ -41,18 +41,27 @@ const useStyles = tss.create(() => ({
  * It fetches data from the AppStore and renders various sub-components to show token balances, locked amounts, and actions like burning or unlocking tokens.
  */
 export const AccountBalancesCard: React.FC = React.memo(function AccountBalancesCard() {
-	const { addressLock, selectedAddress, address, addressDetails, balances, addressTokenDetails, ecosystem } =
-		useAppStore(
-			useShallow((state) => ({
-				addressLock: state.addressLock,
-				selectedAddress: state.selectedAddress,
-				address: state.address,
-				addressDetails: state.addressDetails,
-				balances: state.balances,
-				addressTokenDetails: state.addressTokenDetails,
-				ecosystem: state.ecosystem,
-			}))
-		);
+	const {
+		addressLock,
+		selectedAddress,
+		address,
+		addressDetails,
+		balances,
+		addressTokenDetails,
+		ecosystem,
+		currentAddressHodlClickerAddressLock,
+	} = useAppStore(
+		useShallow((state) => ({
+			addressLock: state.addressLock,
+			selectedAddress: state.selectedAddress,
+			address: state.address,
+			addressDetails: state.addressDetails,
+			balances: state.balances,
+			addressTokenDetails: state.addressTokenDetails,
+			ecosystem: state.ecosystem,
+			currentAddressHodlClickerAddressLock: state.currentAddressHodlClickerAddressLock,
+		}))
+	);
 	const { classes } = useStyles();
 
 	// Render nothing if essential data is not yet available
@@ -69,6 +78,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 		lockableTokenShortName,
 		mintableTokenPriceDecimals,
 		batchMinterAddress,
+		gameHodlClickerAddress,
 	} = config;
 	const { myRatio } = addressTokenDetails;
 	const { minterAddress } = addressLock;
@@ -212,6 +222,9 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 			const showMintSettingsDialog = () => {
 				dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.MintSettings } });
 			};
+			const showPauseResumeGameDialog = () => {
+				dispatch({ type: commonLanguage.commands.Dialog.Show, payload: { dialog: DialogType.PauseResumeGame } });
+			};
 			if (addressLock.amount === 0n) {
 				return;
 			}
@@ -258,9 +271,41 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 				}
 				return stopMintButton;
 			};
+			const getGameSettingsButton = () => {
+				// TODO: implement game settings
+				return false;
+			};
+			const getPauseResumeGameButton = () => {
+				if (minterAddress?.toLowerCase() !== gameHodlClickerAddress?.toLowerCase()) {
+					return;
+				}
+				const isPaused = currentAddressHodlClickerAddressLock?.isPaused === true;
+
+				const stopMintButton = (
+					<Button
+						disabled={!isCurrentAddress}
+						size="small"
+						variant="outlined"
+						onClick={() => showPauseResumeGameDialog()}
+						startIcon={isPaused ? <PlayArrow style={{ color: '#0FF' }} /> : <Pause style={{ color: '#0FF' }} />}
+					>
+						{isPaused ? 'Resume' : 'Pause'} Game
+					</Button>
+				);
+				if (!isCurrentAddress) {
+					return (
+						<LightTooltip
+							title={`You must select ${displayedAddress} account in your wallet to pause/resume the game for this address. Current account: ${selectedAddress}`}
+						>
+							<Box display="inline-block">{stopMintButton}</Box>
+						</LightTooltip>
+					);
+				}
+				return stopMintButton;
+			};
 			return (
 				<Box mx={1} display="inline-block">
-					{getStopMintButton()} {getMintSettingsButton()}
+					{getStopMintButton()} {getMintSettingsButton()} {getGameSettingsButton()} {getPauseResumeGameButton()}
 				</Box>
 			);
 		};

@@ -196,9 +196,9 @@ export const parseBigInt = (unformattedInput?: string | bigint | null) => {
  * @param {number} [round=0] - The number of decimal places to round the final output to.
  * @returns {string | null} The converted decimal string, or null if the input number is null.
  */
-export const formatBigInt = (number?: bigint | null, addCommas = false, decimals = 18, round = 0) => {
+export const formatBigInt = (number?: bigint | null, addCommas = false, decimals = 18, round = 0): string => {
 	if (!number) {
-		return null;
+		return '0';
 	}
 
 	const getFinalAmount = () => {

@@ -15,6 +15,7 @@ import {
 	SwapTokenBalances,
 	MarketAddresses,
 	MarketDetails,
+	HodlClickerAddressLockDetailsViewModel,
 } from '@/app/interfaces';
 
 const getDefaultEcosystem = () => {
@@ -205,8 +206,10 @@ export const initialState = {
 		gemsCollected: getMarketGemsCollected(),
 	} as MarketDetails,
 
-	// By default Datamine Gems will be selected as the game, the UI will change the game on selection and update this variable
-	game: Game.DatamineGems,
+	// By default Hodl Clicker will be selected as the game, the UI will change the game on selection and update this variable
+	game: Game.HodlClicker,
+
+	currentAddressHodlClickerAddressLock: null as HodlClickerAddressLockDetailsViewModel | null,
 };
 
 export type AppState = typeof initialState;

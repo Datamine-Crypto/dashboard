@@ -12,6 +12,7 @@ import TradeDialog from '@/react/elements/Dialogs/TradeDialog';
 import UnlockDialog from '@/react/elements/Dialogs/UnlockDialog';
 import MintSettingsDialog from '@/react/elements/Dialogs/MinterSettingsDialog';
 import { useShallow } from 'zustand/react/shallow';
+import PauseResumeGameDialog from '@/react/elements/Dialogs/GameFi/PauseResumeGameDialog';
 
 const MarketCollectRewardsDialog = lazy(() => import('@/react/elements/Dialogs/GameFi/MarketCollectRewardsDialog'));
 const ZeroBalanceDialog = lazy(() => import('@/react/elements/Dialogs/ZeroBalanceDialog'));
@@ -42,6 +43,9 @@ const DialogsFragment: React.FC = () => {
 				return <UnlockDialog />;
 			case DialogType.MintSettings:
 				return <MintSettingsDialog />;
+			case DialogType.PauseResumeGame:
+				return <PauseResumeGameDialog />;
+
 			case DialogType.Trade:
 				return <TradeDialog />;
 			case DialogType.ZeroEth:

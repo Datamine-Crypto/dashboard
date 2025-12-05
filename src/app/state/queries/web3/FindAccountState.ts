@@ -9,7 +9,12 @@ import { devLog } from '@/utils/devLog';
 import { decodeMulticall, encodeMulticall, MultiCallParams, EncodedMulticallResults } from '@/web3/utils/web3multicall';
 import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/web3ProviderUtils';
 import { SwapToken } from '@/web3/swap/swapOptions';
-import { FluxAddressDetails, FluxAddressLock, FluxAddressTokenDetails } from '@/app/interfaces';
+import {
+	FluxAddressDetails,
+	FluxAddressLock,
+	FluxAddressTokenDetails,
+	HodlClickerAddressLockDetailsViewModel,
+} from '@/app/interfaces';
 
 /**
  * Fetches all relevant on-chain data for the current user account in a single batch request using multicall.
@@ -335,38 +340,14 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 			};
 		};
 
-		const getMarketCall = (): Record<string, MultiCallParams> => {
-			if (!config.marketAddress || config.marketAddress === '0x0') {
+		const getHodlClickerAddressLock = (): Record<string, MultiCallParams> => {
+			if (!config.gameHodlClickerAddress || config.gameHodlClickerAddress === '0x0') {
 				return {};
 			}
 
 			return {
-				/*
-				currentAddressMintableBalance: {
-					address: config.mintableTokenContractAddress, //@change this
-					function: {
-						signature: {
-							name: 'balanceOf',
-							type: 'function',
-							inputs: [
-								{
-									type: 'address',
-									name: 'targetAddress',
-								},
-							],
-						},
-						parameters: [selectedAddress],
-					},
-
-					returns: {
-						params: ['uint256'],
-						callback: (positions: string) => {
-							return BigInt(positions);
-						},
-					},
-				},*/
-				currentAddressMarketAddressLock: {
-					address: config.marketAddress,
+				currentAddressHodlClickerAddressLock: {
+					address: config.gameHodlClickerAddress,
 					function: {
 						signature: {
 							name: 'addressLocks',
@@ -378,11 +359,11 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								},
 							],
 							outputs: [
-								{ type: 'uint256', name: 'amount' },
-								{ type: 'uint256', name: 'burnedAmount' },
-								{ type: 'uint256', name: 'blockNumber' },
-								{ type: 'uint256', name: 'lastMintBlockNumber' },
-								{ type: 'address', name: 'minterAddress' },
+								{ type: 'uint256', name: 'rewardsAmount' },
+								{ type: 'uint256', name: 'rewardsPercent' },
+								{ type: 'uint256', name: 'minBlockNumber' },
+								{ type: 'bool', name: 'isPaused' },
+								{ type: 'uint256', name: 'minBurnAmount' },
 							],
 							stateMutability: 'view',
 						} as const,
@@ -395,7 +376,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 							rewardsAmount: string,
 							rewardsPercent: string,
 							minBlockNumber: string,
-							isPaused: string,
+							isPaused: boolean,
 							minBurnAmount: string
 						) => {
 							return {
@@ -404,7 +385,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 								minBlockNumber: Number(minBlockNumber),
 								isPaused: isPaused,
 								minBurnAmount: BigInt(minBurnAmount),
-							};
+							} as HodlClickerAddressLockDetailsViewModel;
 						},
 					},
 				},
@@ -621,7 +602,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 					},
 				},
 			},
-			...getMarketCall(),
+			...getHodlClickerAddressLock(),
 
 			// FLUX: Address details
 			addressDetails: {
@@ -857,7 +838,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 
 			otherEcosystemTokenBalance,
 			//marketAddressLock,
-			//currentAddressMarketAddressLock,
+			currentAddressHodlClickerAddressLock,
 			//currentAddressMintableBalance,
 		} = multicallDecodedResults as {
 			ethBalance: bigint;
@@ -877,6 +858,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 			lockedLiquidtyUniTotalSupply: bigint;
 			lockedLiquidityUniAmount: bigint;
 			otherEcosystemTokenBalance: bigint;
+			currentAddressHodlClickerAddressLock: HodlClickerAddressLockDetailsViewModel;
 		};
 
 		devLog('FindAccountState batch request success', multicallDecodedResults);
@@ -1051,6 +1033,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 			addressLock,
 			addressDetails,
 			addressTokenDetails,
+			currentAddressHodlClickerAddressLock,
 		};
 	};
 
