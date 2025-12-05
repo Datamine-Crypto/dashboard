@@ -612,6 +612,42 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 		}
 	};
 
+	const setPaused = async ({ isPaused, from }: { isPaused: boolean; from: string }) => {
+		try {
+			if (!publicClient || !walletClient) throw new Error('No client');
+			await contract.simulate.setPaused([isPaused], { account: from as Address });
+
+			const fees = await getGasFees(publicClient);
+			const hash = await contract.write.setPaused([isPaused], {
+				account: from as Address,
+				...fees,
+			});
+
+			return await waitForReceipt(hash);
+		} catch (err) {
+			rethrowWeb3Error(err);
+		}
+	};
+
+	const batchNormalMintTo = async ({ sourceAddress, targetAddress, blockNumber, from }: MintToAddressParams) => {
+		try {
+			if (!publicClient || !walletClient) throw new Error('No client');
+			await contract.simulate.normalMintTo([sourceAddress, blockNumber, targetAddress], {
+				account: from as Address,
+			});
+
+			const fees = await getGasFees(publicClient);
+			const hash = await contract.write.normalMintTo([sourceAddress, blockNumber, targetAddress], {
+				account: from as Address,
+				...fees,
+			});
+
+			return await waitForReceipt(hash);
+		} catch (err) {
+			rethrowWeb3Error(err);
+		}
+	};
+
 	return {
 		getBalanceOf,
 		authorizeOperator,
@@ -633,24 +669,8 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 		marketBatchBurnTokens,
 		marketDeposit,
 		marketWithdrawAll,
-		batchNormalMintTo: async ({ sourceAddress, targetAddress, blockNumber, from }: MintToAddressParams) => {
-			try {
-				if (!publicClient || !walletClient) throw new Error('No client');
-				await contract.simulate.normalMintTo([sourceAddress, blockNumber, targetAddress], {
-					account: from as Address,
-				});
-
-				const fees = await getGasFees(publicClient);
-				const hash = await contract.write.normalMintTo([sourceAddress, blockNumber, targetAddress], {
-					account: from as Address,
-					...fees,
-				});
-
-				return await waitForReceipt(hash);
-			} catch (err) {
-				rethrowWeb3Error(err);
-			}
-		},
+		setPaused,
+		batchNormalMintTo,
 	};
 };
 

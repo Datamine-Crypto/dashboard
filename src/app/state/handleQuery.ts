@@ -16,7 +16,8 @@ import {
 } from '@/app/state/queries/web3/MarketQueries';
 import { throttleGetOutputQuote, getOutputQuote, getTradeResponse } from '@/app/state/queries/web3/swap/SwapQueries';
 import { getFullHelpArticle } from '@/app/state/queries/web3/help/GetFullHelpArticle';
-
+import { getPauseGameResponse } from '@/app/state/queries/web3/gamefi/GetPauseGameResponse';
+import { getResumeGameResponse } from './queries/web3/gamefi/GetResumeGameResponse';
 // This module executes the asynchronous Web3 operations requested by the sideEffectReducer.
 // Each function here corresponds to a specific blockchain interaction (e.g., minting, swapping, reading contract data).
 // It's crucial that these functions handle network errors and return results back to the reducer for state updates.
@@ -92,6 +93,16 @@ export const queryHandlers = {
 	 * Executes a token swap.
 	 */
 	[commonLanguage.queries.Help.GetFullArticle]: getFullHelpArticle,
+
+	/**
+	 * Pauses current GameFi game
+	 */
+	[commonLanguage.queries.GameFi.GetPauseGameResponse]: getPauseGameResponse,
+
+	/**
+	 * Resumes current GameFi game
+	 */
+	[commonLanguage.queries.GameFi.GetResumeGameResponse]: getResumeGameResponse,
 };
 
 export default queryHandlers;

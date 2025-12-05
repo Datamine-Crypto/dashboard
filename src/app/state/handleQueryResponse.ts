@@ -350,6 +350,8 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
 			};
 		}
+		case commonLanguage.queries.GameFi.GetPauseGameResponse:
+		case commonLanguage.queries.GameFi.GetResumeGameResponse:
 		case commonLanguage.queries.Flux.GetUnlockDamTokensResponse: {
 			if (err) {
 				return {

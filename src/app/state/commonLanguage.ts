@@ -93,6 +93,10 @@ export const commonLanguage = {
 			ShowGameDialog: 'SHOW_GAME_DIALOG',
 			UpdateGame: 'UPDATE_GAME',
 		},
+		GameFi: {
+			PauseGame: 'GAMEFI_PAUSE_GAME',
+			ResumeGame: 'GAMEFI_RESUME_GAME',
+		},
 	},
 	queries: {
 		FindAccountState: 'FIND_ACCOUNT_STATE',
@@ -126,6 +130,10 @@ export const commonLanguage = {
 			GetDepositMarketResponse: 'GET_DEPOSIT_MARKET_RESPONSE',
 			GetWithdrawMarketResponse: 'GET_WITHDRAW_MARKET_RESPONSE',
 			GetRefreshMarketAddressesResponse: 'GET_REFRESH_MARKET_ADDRESSES_RESPONSE',
+		},
+		GameFi: {
+			GetPauseGameResponse: 'GET_GAMEFI_PAUSE_GAME_RESPONSE',
+			GetResumeGameResponse: 'GET_GAMEFI_RESUME_GAME_RESPONSE',
 		},
 	},
 	errors: {

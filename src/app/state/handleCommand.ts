@@ -571,6 +571,20 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 				...withQueries([{ type: commonLanguage.queries.Flux.GetUnlockDamTokensResponse }]),
 			};
 		}
+		case commonLanguage.commands.GameFi.PauseGame: {
+			return {
+				...state,
+				error: null,
+				...withQueries([{ type: commonLanguage.queries.GameFi.GetPauseGameResponse }]),
+			};
+		}
+		case commonLanguage.commands.GameFi.ResumeGame: {
+			return {
+				...state,
+				error: null,
+				...withQueries([{ type: commonLanguage.queries.GameFi.GetResumeGameResponse }]),
+			};
+		}
 		case commonLanguage.commands.Dialog.DismissPendingAction:
 			return {
 				...state,

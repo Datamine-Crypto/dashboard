@@ -30,7 +30,7 @@ const GamePauseResumeDialog: React.FC = () => {
 	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		appDispatch({
-			type: commonLanguage.commands.Flux.UnlockDamTokens,
+			type: isPaused ? commonLanguage.commands.GameFi.ResumeGame : commonLanguage.commands.GameFi.PauseGame,
 		});
 	};
 	const onClose = () => {
