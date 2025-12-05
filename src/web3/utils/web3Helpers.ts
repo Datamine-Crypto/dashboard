@@ -351,7 +351,7 @@ export const rethrowWeb3Error = (err: unknown) => {
 /**
  * Retrieves the estimated gas fees.
  */
-export const getGasFees = async (publicClient: PublicClient) => {
+export const getGasFees = async (publicClient?: PublicClient | null) => {
 	if (!publicClient) return {};
 
 	// Do not estimate fees, instead each transaction will be estimated on its own
@@ -385,7 +385,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 	}
 
 	const publicClient = getPublicClient();
-	const walletClient = getWalletClient();
 
 	const waitForReceipt = async (hash: `0x${string}`) => {
 		if (!publicClient) throw new Error('No public client');
@@ -397,7 +396,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 	};
 
 	const authorizeOperator = async ({ operator, from }: AuthorizeOperatorParams) => {
-		if (!publicClient || !walletClient) throw new Error('No client');
 		const fees = await getGasFees(publicClient);
 		const hash = await contract.write.authorizeOperator([operator], {
 			account: from as Address,
@@ -444,7 +442,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 
 	const lock = async ({ minterAddress, amount, from }: LockParams) => {
 		try {
-			if (!publicClient || !walletClient) throw new Error('No client');
 			// Simulate first
 			await contract.simulate.lock([minterAddress, amount.toString()], { account: from as Address });
 
@@ -462,7 +459,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 
 	const unlockDamTokens = async ({ from }: UnlockParams) => {
 		try {
-			if (!publicClient || !walletClient) throw new Error('No client');
 			await contract.simulate.unlock([], { account: from as Address });
 
 			const fees = await getGasFees(publicClient);
@@ -479,7 +475,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 
 	const mintToAddress = async ({ sourceAddress, targetAddress, blockNumber, from }: MintToAddressParams) => {
 		try {
-			if (!publicClient || !walletClient) throw new Error('No client');
 			await contract.simulate.mintToAddress([sourceAddress, targetAddress, blockNumber], { account: from as Address });
 
 			const fees = await getGasFees(publicClient);
@@ -496,7 +491,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 
 	const burnToAddress = async ({ targetAddress, amount, from }: BurnToAddressParams) => {
 		try {
-			if (!publicClient || !walletClient) throw new Error('No client');
 			await contract.simulate.burnToAddress([targetAddress, amount.toString()], { account: from as Address });
 
 			const fees = await getGasFees(publicClient);
@@ -513,7 +507,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 
 	const setDelegatedMinter = async ({ delegatedMinterAddress, from }: SetDelegatedMinterParams) => {
 		try {
-			if (!publicClient || !walletClient) throw new Error('No client');
 			await contract.simulate.setDelegatedMinter([delegatedMinterAddress], { account: from as Address });
 
 			const fees = await getGasFees(publicClient);
@@ -531,7 +524,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 	const marketBurnTokens = async ({ amountToBurn, burnToAddress, from }: MarketBurnTokensParams) => {
 		devLog('burn:', { amountToBurn, burnToAddress, from });
 		try {
-			if (!publicClient || !walletClient) throw new Error('No client');
 			await contract.simulate.burnTokens([amountToBurn.toString(), burnToAddress], { account: from as Address });
 
 			const fees = await getGasFees(publicClient);
@@ -551,7 +543,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 		try {
 			const burnRequest = addresses.map((address: string) => [amountToBurn.toString(), address]);
 
-			if (!publicClient || !walletClient) throw new Error('No client');
 			await contract.simulate.burnTokensFromAddresses([burnRequest], { account: from as Address });
 
 			const fees = await getGasFees(publicClient);
@@ -574,7 +565,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 		minBurnAmount,
 	}: MarketDepositParams) => {
 		try {
-			if (!publicClient || !walletClient) throw new Error('No client');
 			await contract.simulate.deposit(
 				[amountToDeposit.toString(), rewardsPercent, minBlockNumber.toString(), minBurnAmount.toString()],
 				{ account: from as Address }
@@ -597,7 +587,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 
 	const marketWithdrawAll = async ({ from }: MarketWithdrawAllParams) => {
 		try {
-			if (!publicClient || !walletClient) throw new Error('No client');
 			await contract.simulate.withdrawAll([], { account: from as Address });
 
 			const fees = await getGasFees(publicClient);
@@ -614,7 +603,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 
 	const setPaused = async ({ isPaused, from }: { isPaused: boolean; from: string }) => {
 		try {
-			if (!publicClient || !walletClient) throw new Error('No client');
 			await contract.simulate.setPaused([isPaused], { account: from as Address });
 
 			const fees = await getGasFees(publicClient);
@@ -631,7 +619,6 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 
 	const batchNormalMintTo = async ({ sourceAddress, targetAddress, blockNumber, from }: MintToAddressParams) => {
 		try {
-			if (!publicClient || !walletClient) throw new Error('No client');
 			await contract.simulate.normalMintTo([sourceAddress, blockNumber, targetAddress], {
 				account: from as Address,
 			});
