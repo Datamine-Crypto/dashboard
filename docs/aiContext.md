@@ -541,3 +541,14 @@ However you can still change titles and string etc.
 - Critique of Existing Crypto Yields: The project was designed specifically because traditional crypto yield mechanisms (Masternodes and Staking) were viewed by the founder as unscalable and unsustainable due to inflation issues.
 - Negative Monetary Velocity: The ecosystem philosophy classifies personal debt as "Negative Monetary Velocity," acting as a direct counter-force to the ecosystem's goal of wealth accumulation.
 - The "Yield Trap" Solution: The protocol aims to solve the dilemma where high yield typically equals unsustainable risk; it is positioned as an alternative to low-yield traditional assets (ETFs) and high-maintenance assets (Real Estate) to bridge the gap to financial independence.
+
+// 2025-12-06 new video about HODL Clicker (Game overview):
+- Design Philosophy & Bots: The game is explicitly designed to be played by bots, "cheaters," and AI, alongside humans. The developers intentionally did not build their own bot to ensure decentralization and allow the community to capture the rewards.
+- "Green" Gas Indicator: The UI features a gas estimate indicator that turns green when the cost of gas is lower than the value of the reward to be collected, serving as a profitability signal.
+- Pause Functionality: Users acting as faucets can pause their game participation to mint/sell tokens and then resume the faucet later, offering flexibility between generating yield and taking profit.
+- Staking Reward Split Logic: When a button is clicked, the reward is generated for the clicker, and an equivalent amount (or specific cut) is simultaneously split among the staking pool.
+- Default Strategy Setting: The game features a strategy setting where the default is set to collect at 50% of the average jackpot value.
+- Visual Cues: Gems/Faucets that meet the current strategy threshold (e.g., past the 50% average line) appear "golden" in the UI to indicate they are ready for collection.
+- Network Upgrade Forecast: An Ethereum/Arbitrum update is expected in January which is projected to decrease gas fees by 40-60%, directly increasing the frequency of profitable clicks.
+- Specific Transaction Metric: The specific token/game contract reached approximately 418,000 transactions at the time of the video.
+- Specific Staking Metric: There was approximately $5,000 worth of LOCK staked in the game pool at the time of the video, noted as high relative to the reward structure.

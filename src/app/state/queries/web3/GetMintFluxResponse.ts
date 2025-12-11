@@ -32,9 +32,18 @@ export const getMintFluxResponse: QueryHandler<AppState> = async ({ state, query
 	const getResponse = async () => {
 		const minterAddress = state.addressLock?.minterAddress;
 
-		if (config.batchMinterAddress?.toLowerCase() === minterAddress?.toLowerCase()) {
+		if (config.gameHodlClickerAddress?.toLowerCase() === minterAddress?.toLowerCase()) {
+			const gameHodlClicker = withWeb3(contracts.gameHodlClicker);
+
+			// HODL Clicker (when playing HODL Clicker and game is paused)
+			return await gameHodlClicker.normalMintToAddress({
+				targetAddress,
+				from: selectedAddress as string,
+			});
+		} else if (config.batchMinterAddress?.toLowerCase() === minterAddress?.toLowerCase()) {
 			const batchMinter = withWeb3(contracts.batchMinter);
 
+			// Batch Minter (Smart Account compatible minting)
 			return await batchMinter.batchNormalMintTo({
 				sourceAddress,
 				targetAddress,
@@ -44,6 +53,7 @@ export const getMintFluxResponse: QueryHandler<AppState> = async ({ state, query
 		} else {
 			const fluxToken = withWeb3(contracts.fluxToken);
 
+			// Legacy Minting (Directly from FLUX Token contract)
 			return await fluxToken.mintToAddress({
 				sourceAddress,
 				targetAddress,

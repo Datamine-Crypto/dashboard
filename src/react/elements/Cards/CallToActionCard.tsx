@@ -152,6 +152,7 @@ const CallToActionCard: React.FC = () => {
 		clientSettings,
 		ecosystem,
 		connectionMethod,
+		currentAddressHodlClickerAddressLock,
 	} = useAppStore(
 		useShallow((state) => ({
 			addressLock: state.addressLock,
@@ -164,6 +165,7 @@ const CallToActionCard: React.FC = () => {
 			clientSettings: state.clientSettings,
 			ecosystem: state.ecosystem,
 			connectionMethod: state.connectionMethod,
+			currentAddressHodlClickerAddressLock: state.currentAddressHodlClickerAddressLock,
 		}))
 	);
 	const { classes } = useStyles();
@@ -182,6 +184,9 @@ const CallToActionCard: React.FC = () => {
 
 		batchMinterAddress,
 	} = getConfig(ecosystem);
+
+	const isPaused = currentAddressHodlClickerAddressLock?.isPaused;
+
 	const { isHelpPageEnabled } = navigation;
 	const ecosystemConfig = getEcosystemConfig(ecosystem);
 	const isArbitrumMainnet = ecosystemConfig.layer === Layer.Layer2;
@@ -263,6 +268,7 @@ const CallToActionCard: React.FC = () => {
 				if (isLocked || isForecastingModeEnabled) {
 					const { minterAddress } = addressLock;
 					const isDelegatedMinter = selectedAddress?.toLowerCase() === minterAddress?.toLowerCase();
+
 					const isBatchMinter = batchMinterAddress && minterAddress?.toLowerCase() === batchMinterAddress.toLowerCase();
 					const getLockedInAmountArea = () => {
 						const getAmount = () => {
@@ -836,15 +842,26 @@ const CallToActionCard: React.FC = () => {
 							return <>This option will be available once you start your validator in this address.</>;
 						}
 						if (!isDelegatedMinter && !isBatchMinter) {
-							return (
-								<>
-									Select the{' '}
-									<Box fontWeight="bold" display="inline">
-										Delegated Minter Address
-									</Box>{' '}
-									account in your wallet to mint for this address.
-								</>
-							);
+							if (isPlayingGame) {
+								if (!isCurrentAddress) {
+									return (
+										<>
+											You must select <strong>{displayedAddress}</strong> to mint from (as that is the address playing
+											the game)
+										</>
+									);
+								}
+							} else {
+								return (
+									<>
+										Select the{' '}
+										<Box fontWeight="bold" display="inline">
+											Delegated Minter Address
+										</Box>{' '}
+										account in your wallet to mint for this address.
+									</>
+								);
+							}
 						}
 						if (isForecastingModeEnabled) {
 							return <>You must disable forecasting mode to mint.</>;
@@ -1095,7 +1112,7 @@ const CallToActionCard: React.FC = () => {
 						action: <>Mint {mintableTokenShortName}</>,
 						actionIcon: <RedeemIcon />,
 						onClick: () => {
-							if (isPlayingGame) {
+							if (isPlayingGame && !isPaused) {
 								if (isPlayingGameDatamineGems) {
 									dispatch({
 										type: commonLanguage.commands.Market.ShowGameDialog,
@@ -1201,7 +1218,8 @@ const CallToActionCard: React.FC = () => {
 	const getButton = () => {
 		const lockedInDamAmount = addressLock.amount;
 		const isLocked = lockedInDamAmount !== 0n;
-		if (isPlayingGame && isLocked) {
+
+		if (isPlayingGame && isLocked && !isPaused) {
 			return (
 				<Button
 					color="secondary"
@@ -1214,7 +1232,7 @@ const CallToActionCard: React.FC = () => {
 						</Box>
 					}
 				>
-					Collect Rewards
+					Go To Game
 				</Button>
 			);
 		}

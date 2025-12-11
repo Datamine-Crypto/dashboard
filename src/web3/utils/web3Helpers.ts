@@ -634,6 +634,23 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 			rethrowWeb3Error(err);
 		}
 	};
+	const normalMintToAddress = async ({ targetAddress, from }: { targetAddress: string; from: string }) => {
+		try {
+			await contract.simulate.normalMintToAddress([targetAddress], {
+				account: from as Address,
+			});
+
+			const fees = await getGasFees(publicClient);
+			const hash = await contract.write.normalMintToAddress([targetAddress], {
+				account: from as Address,
+				...fees,
+			});
+
+			return await waitForReceipt(hash);
+		} catch (err) {
+			rethrowWeb3Error(err);
+		}
+	};
 
 	return {
 		getBalanceOf,
@@ -658,6 +675,7 @@ export const withWeb3 = (contract: GenericContract | null | undefined) => {
 		marketWithdrawAll,
 		setPaused,
 		batchNormalMintTo,
+		normalMintToAddress,
 	};
 };
 
