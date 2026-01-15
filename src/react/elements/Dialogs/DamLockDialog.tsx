@@ -186,7 +186,7 @@ const DamLockDialog: React.FC = () => {
 					control={<Radio color="secondary" />}
 					label={
 						<>
-							I want to mint my own ${mintableTokenShortName} tokens{' '}
+							I want to mint my own {mintableTokenShortName} tokens{' '}
 							<Typography component="div" color="textSecondary" display="inline" variant="body2">
 								(Or delegate other address)
 							</Typography>
