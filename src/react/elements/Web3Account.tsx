@@ -70,7 +70,11 @@ const Web3Account: React.FC = () => {
 			return null;
 		}
 		return (
-			<Box my={3}>
+			<Box
+				sx={{
+					my: 3,
+				}}
+			>
 				<RealtimeLiqudityCard />
 			</Box>
 		);
@@ -78,21 +82,41 @@ const Web3Account: React.FC = () => {
 
 	return (
 		<>
-			<Box my={3}>
+			<Box
+				sx={{
+					my: 3,
+				}}
+			>
 				<CallToActionCard />
 			</Box>
 			<Box className={classes.cardsContainer}>
 				{getRealtimeLiqudityCard()}
-				<Box my={3}>
+				<Box
+					sx={{
+						my: 3,
+					}}
+				>
 					<MintStatsCard />
 				</Box>
-				<Box my={3}>
+				<Box
+					sx={{
+						my: 3,
+					}}
+				>
 					<AccountBalancesCard />
 				</Box>
-				<Box my={3}>
+				<Box
+					sx={{
+						my: 3,
+					}}
+				>
 					<LockedLiquidityCard />
 				</Box>
-				<Box my={3}>
+				<Box
+					sx={{
+						my: 3,
+					}}
+				>
 					<GlobalCard />
 				</Box>
 			</Box>

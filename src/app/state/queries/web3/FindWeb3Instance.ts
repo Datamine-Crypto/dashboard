@@ -19,7 +19,7 @@ import {
 export const findWeb3Instance: QueryHandler<AppState> = async ({ state, dispatch }) => {
 	const provider = await getWeb3Provider({ ecosystem: state.ecosystem });
 	devLog('Found provider:', { provider, ecosystem: state.ecosystem });
-	setWeb3Provider(provider, state.ecosystem);
+	await setWeb3Provider(provider);
 
 	if (provider) {
 		const publicClient = getPublicClient();

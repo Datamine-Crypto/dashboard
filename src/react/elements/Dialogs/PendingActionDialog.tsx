@@ -60,12 +60,22 @@ const PendingActionDialog: React.FC<Params> = React.memo(function PendingActionD
 				<>
 					<Typography component="div" gutterBottom={true}>
 						Your{' '}
-						<Box fontWeight="bold" display="inline">
+						<Box
+							sx={{
+								fontWeight: 'bold',
+								display: 'inline',
+							}}
+						>
 							{transactionType}
 						</Box>{' '}
 						transaction is pending. Please wait while it&apos;s broadcasted to Ethereum network.
 					</Typography>
-					<Box mt={3} mb={4}>
+					<Box
+						sx={{
+							mt: 3,
+							mb: 4,
+						}}
+					>
 						<Typography component="div" gutterBottom={true}>
 							This blockchain confirmation may take around 12 seconds or longer depending on your gas configuration.
 						</Typography>
@@ -139,7 +149,12 @@ const PendingActionDialog: React.FC<Params> = React.memo(function PendingActionD
 
 		return (
 			<DialogActions>
-				<Box mr={2} display="inline-block">
+				<Box
+					sx={{
+						mr: 2,
+						display: 'inline-block',
+					}}
+				>
 					<Button onClick={onClose} color="secondary" size="large" variant="outlined">
 						Dismiss
 					</Button>
@@ -151,10 +166,26 @@ const PendingActionDialog: React.FC<Params> = React.memo(function PendingActionD
 	return (
 		<Dialog open={open} aria-labelledby="alert-dialog-title">
 			<DialogTitle id="alert-dialog-title">
-				<Box display="flex" justifyContent="space-between">
-					<Box display="flex" alignItems="center" alignContent="center">
+				<Box
+					sx={{
+						display: 'flex',
+						justifyContent: 'space-between',
+					}}
+				>
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							alignContent: 'center',
+						}}
+					>
 						{title}
-						<Box display="flex" pl={1}>
+						<Box
+							sx={{
+								display: 'flex',
+								pl: 1,
+							}}
+						>
 							<HourglassEmpty style={{ color: '#0ff' }} />
 						</Box>
 					</Box>
@@ -164,7 +195,11 @@ const PendingActionDialog: React.FC<Params> = React.memo(function PendingActionD
 			</DialogTitle>
 			<DialogContent>
 				{message}
-				<Box my={3}>
+				<Box
+					sx={{
+						my: 3,
+					}}
+				>
 					<LinearProgress color="secondary" />
 				</Box>
 			</DialogContent>

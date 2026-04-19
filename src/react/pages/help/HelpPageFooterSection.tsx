@@ -28,10 +28,21 @@ const HelpPageFooterSection: React.FC<HelpPageFooterSectionProps> = ({ ecosystem
 	};
 
 	return (
-		<Box my={6}>
+		<Box
+			sx={{
+				my: 6,
+			}}
+		>
 			<Container>
 				<Typography component="div" variant="h6" align="left" color="textSecondary" paragraph>
-					<Typography component="div" display="inline" variant="h6" color="textPrimary">
+					<Typography
+						component="div"
+						variant="h6"
+						color="textPrimary"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						Still can&apos;t find what you are looking for? {getAdditionalHelpText()}
 					</Typography>
 				</Typography>

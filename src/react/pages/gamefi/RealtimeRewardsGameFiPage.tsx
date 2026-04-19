@@ -114,8 +114,21 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 		<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 			<CardMedia component="img" image="./images/datamineGems.png" alt="Datamine Gems" />
 			{/* Header Section: Title, Subtitle, and Start Game Button */}
-			<Box textAlign="center" mb={6}>
-				<Typography variant="h6" color="text.secondary" paragraph sx={{ mb: 3, mt: 3 }}>
+			<Box
+				sx={{
+					textAlign: 'center',
+					mb: 6,
+				}}
+			>
+				<Typography
+					variant="h6"
+					paragraph
+					sx={{
+						color: 'text.secondary',
+						mb: 3,
+						mt: 3,
+					}}
+				>
 					Unearth valuable rewards! Click gems in real-time in the ultimate #GameFi experience.
 				</Typography>
 				<Button
@@ -144,7 +157,14 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 			</Box>
 			{/* Introduction Section: "What is Datamine Gems?" */}
 			<Section>
-				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold' }}>
+				<Typography
+					variant="h4"
+					gutterBottom
+					sx={{
+						textAlign: 'center',
+						fontWeight: 'bold',
+					}}
+				>
 					What is{' '}
 					<GradientText as="span" variant="h4" sx={{ display: 'inline' }}>
 						Datamine Gems
@@ -153,9 +173,12 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 				</Typography>
 				<Typography
 					variant="body1"
-					color="text.secondary"
-					textAlign="center"
-					sx={{ maxWidth: '750px', margin: '0 auto 20px auto' }}
+					sx={{
+						color: 'text.secondary',
+						textAlign: 'center',
+						maxWidth: '750px',
+						margin: '0 auto 20px auto',
+					}}
 				>
 					Datamine Gems is a thrilling GameFi experience where you click on dynamically spawning gems to earn real
 					rewards. It combines the excitement of discovery with the power of decentralized finance. Simple, engaging,
@@ -164,11 +187,19 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 			</Section>
 			{/* Key Features Section */}
 			<Section>
-				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold', mb: 5 }}>
+				<Typography
+					variant="h4"
+					gutterBottom
+					sx={{
+						textAlign: 'center',
+						fontWeight: 'bold',
+						mb: 5,
+					}}
+				>
 					Why You&apos;ll Love Collecting Gems
 				</Typography>
 				{/* Grid layout for features - using MUI v7.10 <Grid size={{...}}> syntax */}
-				<Grid container spacing={4} alignItems="stretch">
+				<Grid container spacing={4} sx={{ alignItems: 'stretch' }}>
 					{' '}
 					{/* alignItems="stretch" makes cards in a row same height */}
 					{features.map((feature, index) => (
@@ -187,7 +218,12 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 								>
 									{feature.title}
 								</Typography>
-								<Typography variant="body2" color="text.secondary">
+								<Typography
+									variant="body2"
+									sx={{
+										color: 'text.secondary',
+									}}
+								>
 									{feature.description}
 								</Typography>
 							</FeatureCard>
@@ -197,16 +233,31 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 			</Section>
 			{/* Ecosystem Impact Section */}
 			<Section>
-				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold', mb: 1 }}>
+				<Typography
+					variant="h4"
+					gutterBottom
+					sx={{
+						textAlign: 'center',
+						fontWeight: 'bold',
+						mb: 1,
+					}}
+				>
 					<GradientText as="span" variant="h4" sx={{ display: 'inline' }}>
 						Powering the Ecosystem:
 					</GradientText>
 				</Typography>
-				<Typography variant="h5" gutterBottom textAlign="center" sx={{ mb: 4 }}>
+				<Typography
+					variant="h5"
+					gutterBottom
+					sx={{
+						textAlign: 'center',
+						mb: 4,
+					}}
+				>
 					The Drive for Unmatched Efficiency
 				</Typography>
 				{/* alignItems changed from "center" to "start" */}
-				<Grid container spacing={4} alignItems="start">
+				<Grid container spacing={4} sx={{ alignItems: 'start' }}>
 					<Grid size={{ xs: 12, md: 6 }}>
 						{' '}
 						{/* Responsive grid item */}
@@ -217,7 +268,13 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 							<Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
 								Boosting Monetary Velocity
 							</Typography>
-							<Typography variant="body1" color="text.secondary" paragraph>
+							<Typography
+								variant="body1"
+								paragraph
+								sx={{
+									color: 'text.secondary',
+								}}
+							>
 								Datamine Gems isn&apos;t just about fun; it&apos;s a catalyst for enhancing the entire Datamine Network.
 								Our efficiency updates, including a new smart contract for autonomous multi-address yield collection,
 								are designed to significantly increase monetary velocity.
@@ -234,12 +291,25 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 							<Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
 								Maximizing Validator Rewards
 							</Typography>
-							<Typography variant="body1" color="text.secondary" paragraph>
+							<Typography
+								variant="body1"
+								paragraph
+								sx={{
+									color: 'text.secondary',
+								}}
+							>
 								More on-chain interactions from gem collections mean better, more consistent rewards for our valued
 								validators. Datamine Gems provides a constant stream of activity, boosting APY and reinforcing the
 								health of our decentralized monetary system.
 							</Typography>
-							<Typography variant="body1" color="text.secondary" paragraph sx={{ fontStyle: 'italic' }}>
+							<Typography
+								variant="body1"
+								paragraph
+								sx={{
+									color: 'text.secondary',
+									fontStyle: 'italic',
+								}}
+							>
 								This is GameFi with a purpose: driving efficiency, stability, and rewards throughout the Datamine
 								ecosystem.
 							</Typography>
@@ -261,7 +331,12 @@ const RealtimeRewardsGameFiPage: React.FC = () => {
 
 	return (
 		<Box>
-			<Box mt={6} pt={4}>
+			<Box
+				sx={{
+					mt: 6,
+					pt: 4,
+				}}
+			>
 				<Box
 					sx={{
 						minHeight: '100vh',

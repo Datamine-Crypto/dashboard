@@ -54,7 +54,14 @@ const MintStatsCard: React.FC = () => {
 				title="Last Mint:"
 				main={<>{duration.hours}</>}
 				description={
-					<Typography component="div" color="textSecondary" display="inline" variant="body2">
+					<Typography
+						component="div"
+						color="textSecondary"
+						variant="body2"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						{duration.blocks}
 					</Typography>
 				}
@@ -81,7 +88,14 @@ const MintStatsCard: React.FC = () => {
 				title="Started Mint Age:"
 				main={<>{duration.hours}</>}
 				description={
-					<Typography component="div" color="textSecondary" display="inline" variant="body2">
+					<Typography
+						component="div"
+						color="textSecondary"
+						variant="body2"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						{duration.blocks}
 					</Typography>
 				}
@@ -101,13 +115,23 @@ const MintStatsCard: React.FC = () => {
 			targetMultiplier: new Big('1'),
 		});
 		return (
-			<Box my={2}>
+			<Box
+				sx={{
+					my: 2,
+				}}
+			>
 				<DetailedListItem
 					title={
 						isTargetReached ? (
 							<>
 								{mintableTokenShortName} {maxBurnMultiplier}x Bonus Reserves (
-								<Typography component="div" color="secondary" display="inline">
+								<Typography
+									component="div"
+									color="secondary"
+									sx={{
+										display: 'inline',
+									}}
+								>
 									OVERBURNED
 								</Typography>
 								)
@@ -134,7 +158,13 @@ const MintStatsCard: React.FC = () => {
 					isTargetReached ? (
 						<>
 							{mintableTokenShortName} {maxBurnMultiplier}x Bonus Reserves (
-							<Typography component="div" color="secondary" display="inline">
+							<Typography
+								component="div"
+								color="secondary"
+								sx={{
+									display: 'inline',
+								}}
+							>
 								OVERBURNED
 							</Typography>
 							)
@@ -167,7 +197,14 @@ const MintStatsCard: React.FC = () => {
 				)}
 				description={
 					<>
-						<Typography component="div" color="textSecondary" display="inline" variant="body2">
+						<Typography
+							component="div"
+							color="textSecondary"
+							variant="body2"
+							sx={{
+								display: 'inline',
+							}}
+						>
 							{getBlocksRemaining(
 								addressLock.blockNumber,
 								161280 + 5760,
@@ -186,14 +223,19 @@ const MintStatsCard: React.FC = () => {
 	return (
 		<Card>
 			<CardContent>
-				<Grid container justifyContent="space-between" alignItems="center">
+				<Grid container sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
 					<Grid>
 						<Typography variant="h5" component="h2">
 							{mintableTokenShortName} Minting Statistics
 						</Typography>
 					</Grid>
 				</Grid>
-				<Box mt={1} mb={2}>
+				<Box
+					sx={{
+						mt: 1,
+						mb: 2,
+					}}
+				>
 					<Divider />
 				</Box>
 				<Grid container>

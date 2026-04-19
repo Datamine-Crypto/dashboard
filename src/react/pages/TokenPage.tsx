@@ -56,7 +56,12 @@ const TokenPage: React.FC = () => {
 	};
 	return (
 		<Box>
-			<Box mt={6} pt={4}>
+			<Box
+				sx={{
+					mt: 6,
+					pt: 4,
+				}}
+			>
 				<Box
 					sx={{
 						minHeight: '100vh',
@@ -65,8 +70,12 @@ const TokenPage: React.FC = () => {
 						p: 3,
 					}}
 				>
-					<Box mb={2}>
-						<Grid container spacing={4} justifyContent="center" alignItems="center">
+					<Box
+						sx={{
+							mb: 2,
+						}}
+					>
+						<Grid container spacing={4} sx={{ justifyContent: 'center', alignItems: 'center' }}>
 							{getLiqudityPoolsButton()}
 							<Grid>
 								<Button

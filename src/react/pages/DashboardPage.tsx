@@ -83,7 +83,12 @@ const DashboardPage: React.FC<Props> = () => {
 						<>
 							This Subdomain of {ecosystemName} Dashboard only works on Ethereum Ropsten Testnet. Please change your
 							network provider to{' '}
-							<Box fontWeight="bold" display="inline">
+							<Box
+								sx={{
+									fontWeight: 'bold',
+									display: 'inline',
+								}}
+							>
 								&quot;Ropsten Test Network&quot;
 							</Box>
 						</>
@@ -97,7 +102,12 @@ const DashboardPage: React.FC<Props> = () => {
 				message: (
 					<>
 						Currently {ecosystemName} Dashboard only works on {errorTitle}. Please change your network provider to{' '}
-						<Box fontWeight="bold" display="inline">
+						<Box
+							sx={{
+								fontWeight: 'bold',
+								display: 'inline',
+							}}
+						>
 							{errorTitle} L2
 						</Box>
 					</>
@@ -109,7 +119,14 @@ const DashboardPage: React.FC<Props> = () => {
 			return null;
 		}
 		return (
-			<Box alignItems="center" justifyContent="center" display="flex" style={{ height: '100vh' }}>
+			<Box
+				style={{ height: '100vh' }}
+				sx={{
+					alignItems: 'center',
+					justifyContent: 'center',
+					display: 'flex',
+				}}
+			>
 				<CircularProgress color="secondary" />
 			</Box>
 		);
@@ -130,11 +147,26 @@ const DashboardPage: React.FC<Props> = () => {
 	const getCenterContent = ({ title, message, content }: CenterContent) => {
 		return (
 			<Box className={classes.fullScreenSplash}>
-				<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-					<Grid container justifyContent="center">
+				<Box
+					sx={{
+						mt: 8 + 6,
+						mb: 6,
+						alignItems: 'center',
+						justifyContent: 'center',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					<Grid container sx={{ justifyContent: 'center' }}>
 						<Grid>{getLogo()}</Grid>
 					</Grid>
-					<Box mt={3} mb={6} textAlign="center">
+					<Box
+						sx={{
+							mt: 3,
+							mb: 6,
+							textAlign: 'center',
+						}}
+					>
 						<Typography component="div" variant="h5" color="textPrimary" gutterBottom>
 							{title}
 						</Typography>
@@ -160,11 +192,26 @@ const DashboardPage: React.FC<Props> = () => {
 		};
 		return (
 			<Box className={classes.fullScreenSplash}>
-				<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-					<Grid container justifyContent="center">
+				<Box
+					sx={{
+						mt: 8 + 6,
+						mb: 6,
+						alignItems: 'center',
+						justifyContent: 'center',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					<Grid container sx={{ justifyContent: 'center' }}>
 						<Grid>{getLogo()}</Grid>
 					</Grid>
-					<Box mt={3} mb={6} textAlign="center">
+					<Box
+						sx={{
+							mt: 3,
+							mb: 6,
+							textAlign: 'center',
+						}}
+					>
 						<Typography component="div" variant="h5" color="textPrimary" gutterBottom>
 							You must have an Ethereum based wallet to continue...
 						</Typography>
@@ -172,8 +219,17 @@ const DashboardPage: React.FC<Props> = () => {
 							We recommend MetaMask extension or Brave browser.
 						</Typography>
 					</Box>
-					<Box mb={3}>
-						<Box display="inline-block" mr={3}>
+					<Box
+						sx={{
+							mb: 3,
+						}}
+					>
+						<Box
+							sx={{
+								display: 'inline-block',
+								mr: 3,
+							}}
+						>
 							<Button
 								variant="outlined"
 								color="secondary"
@@ -182,7 +238,12 @@ const DashboardPage: React.FC<Props> = () => {
 								rel="noopener noreferrer"
 								target="_blank"
 							>
-								<Box mr={1} display="inline">
+								<Box
+									sx={{
+										mr: 1,
+										display: 'inline',
+									}}
+								>
 									<img src={metamaskIcon} alt="Metamask" width="24" height="24" style={{ verticalAlign: 'middle' }} />
 								</Box>
 								Install MetaMask
@@ -219,18 +280,38 @@ const DashboardPage: React.FC<Props> = () => {
 				return null;
 			}
 			return (
-				<Box mr={1} display="inline">
+				<Box
+					sx={{
+						mr: 1,
+						display: 'inline',
+					}}
+				>
 					<img src={metamaskIcon} alt="Metamask" width="24" height="24" style={{ verticalAlign: 'middle' }} />
 				</Box>
 			);
 		};
 		return (
 			<Box className={classes.fullScreenSplash}>
-				<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-					<Grid container justifyContent="center">
+				<Box
+					sx={{
+						mt: 8 + 6,
+						mb: 6,
+						alignItems: 'center',
+						justifyContent: 'center',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					<Grid container sx={{ justifyContent: 'center' }}>
 						<Grid>{getLogo()}</Grid>
 					</Grid>
-					<Box mt={3} mb={6} textAlign="center">
+					<Box
+						sx={{
+							mt: 3,
+							mb: 6,
+							textAlign: 'center',
+						}}
+					>
 						<Typography component="div" variant="h5" color="textPrimary" gutterBottom>
 							Connect to Ethereum Network
 						</Typography>
@@ -240,7 +321,12 @@ const DashboardPage: React.FC<Props> = () => {
 						</Typography>
 					</Box>
 					<Box>
-						<Box display="inline-block" mr={3}>
+						<Box
+							sx={{
+								display: 'inline-block',
+								mr: 3,
+							}}
+						>
 							<Button
 								variant="outlined"
 								color="secondary"
@@ -275,7 +361,11 @@ const DashboardPage: React.FC<Props> = () => {
 					{' '}
 					-{' '}
 					<LightTooltip title={`Click to show Address Export Options`}>
-						<Box display="inline-block">
+						<Box
+							sx={{
+								display: 'inline-block',
+							}}
+						>
 							<Link
 								aria-controls="advanced-options"
 								aria-haspopup="true"
@@ -294,8 +384,20 @@ const DashboardPage: React.FC<Props> = () => {
 				return;
 			}
 			return (
-				<Box mr={3} display="inline">
-					<Typography component="div" color="error" variant="body2" display="inline">
+				<Box
+					sx={{
+						mr: 3,
+						display: 'inline',
+					}}
+				>
+					<Typography
+						component="div"
+						color="error"
+						variant="body2"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						{config.network.typeDisplay}
 					</Typography>
 				</Box>
@@ -314,9 +416,19 @@ const DashboardPage: React.FC<Props> = () => {
 					open={true}
 				>
 					<Alert severity="warning">
-						<Box fontWeight="bold">Ethereum Latency Warning</Box>
+						<Box
+							sx={{
+								fontWeight: 'bold',
+							}}
+						>
+							Ethereum Latency Warning
+						</Box>
 						Failed Fetching Last Block
-						<Box mt={1}>
+						<Box
+							sx={{
+								mt: 1,
+							}}
+						>
 							<Button
 								variant="outlined"
 								color="secondary"
@@ -356,8 +468,12 @@ const DashboardPage: React.FC<Props> = () => {
 			}
 			return (
 				<Grid>
-					<Box mr={3}>
-						<Grid container alignItems="center">
+					<Box
+						sx={{
+							mr: 3,
+						}}
+					>
+						<Grid container sx={{ alignItems: 'center' }}>
 							<Grid>
 								<Button
 									size="small"
@@ -370,7 +486,11 @@ const DashboardPage: React.FC<Props> = () => {
 										});
 									}}
 								>
-									<Box mr={0.5}>
+									<Box
+										sx={{
+											mr: 0.5,
+										}}
+									>
 										<Settings style={{ verticalAlign: 'middle', marginRight: 8 }} />
 									</Box>
 									Settings
@@ -391,7 +511,11 @@ const DashboardPage: React.FC<Props> = () => {
 			}
 			return (
 				<Grid>
-					<Box mr={3}>
+					<Box
+						sx={{
+							mr: 3,
+						}}
+					>
 						<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallText} ecosystem={ecosystem} />
 					</Box>
 				</Grid>
@@ -399,13 +523,25 @@ const DashboardPage: React.FC<Props> = () => {
 		};
 		const getFooter = () => {
 			return (
-				<Box mt={6} pb={6} mx={4} display="flex" justifyContent="space-between">
+				<Box
+					sx={{
+						mt: 6,
+						pb: 6,
+						mx: 4,
+						display: 'flex',
+						justifyContent: 'space-between',
+					}}
+				>
 					<Typography component="div" color="textSecondary" variant="body2">
-						<Grid container alignItems="center">
+						<Grid container sx={{ alignItems: 'center' }}>
 							{getSettingsButton()}
 							{getLiquidityPoolsButton()}
 							<Grid>
-								<Box mr={3}>
+								<Box
+									sx={{
+										mr: 3,
+									}}
+								>
 									<Link href="#terms" color="textSecondary">
 										MIT License
 									</Link>
@@ -425,7 +561,11 @@ const DashboardPage: React.FC<Props> = () => {
 		return (
 			<>
 				{getLateError()}
-				<Box mt={11}>
+				<Box
+					sx={{
+						mt: 11,
+					}}
+				>
 					<Web3Account />
 					{getFooter()}
 				</Box>

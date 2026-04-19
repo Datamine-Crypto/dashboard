@@ -47,15 +47,27 @@ const GamePauseResumeDialog: React.FC = () => {
 					{isPaused ? 'Resume GameFi Participation?' : 'Pause GameFi Participation?'}
 				</DialogTitle>
 				<DialogContent>
-					<Box my={2}>
+					<Box
+						sx={{
+							my: 2,
+						}}
+					>
 						<Divider />
 					</Box>
-					<Box mb={6}>
+					<Box
+						sx={{
+							mb: 6,
+						}}
+					>
 						<Typography component="div" gutterBottom={true}>
 							You can pause/resume your game at any time <strong>without any penalties</strong>. Use this feature to
 							mint {mintableTokenShortName} tokens to any Ethereum address.
 						</Typography>
-						<Box my={3}>
+						<Box
+							sx={{
+								my: 3,
+							}}
+						>
 							<Typography component="div" gutterBottom={true}>
 								You will not lose any time bonus for pause/resume toggling. You will most likely use this feature when
 								you need a bit of extra liquidity (selling minted tokens) and resuming the game back.
@@ -63,7 +75,12 @@ const GamePauseResumeDialog: React.FC = () => {
 						</Box>
 						<Typography component="div" style={{ color: theme.classes.palette.highlight }}>
 							Important Note:{' '}
-							<Box fontWeight="bold" display="inline">
+							<Box
+								sx={{
+									fontWeight: 'bold',
+									display: 'inline',
+								}}
+							>
 								Your address will not show up in GameFi leaderboard while paused and only you can mint tokens while
 								paused.
 							</Box>
@@ -71,8 +88,18 @@ const GamePauseResumeDialog: React.FC = () => {
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Box mb={1} mr={2}>
-						<Box mr={2} display="inline-block">
+					<Box
+						sx={{
+							mb: 1,
+							mr: 2,
+						}}
+					>
+						<Box
+							sx={{
+								mr: 2,
+								display: 'inline-block',
+							}}
+						>
 							<Button onClick={onClose}>Cancel</Button>
 						</Box>
 						<Button type="submit" color="secondary" size="large" variant="outlined">

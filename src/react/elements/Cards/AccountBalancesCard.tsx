@@ -108,7 +108,14 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 							: `The address that locked-in ${lockableTokenFullName} tokens delegated this address to mint ${mintableTokenShortName} tokens.`
 					}
 				>
-					<Typography color="textSecondary" component="span" display="inline" variant="body2">
+					<Typography
+						color="textSecondary"
+						component="span"
+						variant="body2"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						{isSelfMinter ? ' (Self Minter)' : ' (Delegated Minter)'}
 					</Typography>
 				</LightTooltip>
@@ -118,7 +125,12 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 			<DetailedListItem
 				title={`Minter Address:`}
 				main={
-					<Box className={classes.address} display="inline-block">
+					<Box
+						className={classes.address}
+						sx={{
+							display: 'inline-block',
+						}}
+					>
 						{addressLock.minterAddress}
 					</Box>
 				}
@@ -151,7 +163,13 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 				if (addressDetails.fluxBalance === 0n) {
 					return (
 						<LightTooltip title={`This address must have ${mintableTokenShortName} tokens to burn.`}>
-							<Box display="inline-block">{button}</Box>
+							<Box
+								sx={{
+									display: 'inline-block',
+								}}
+							>
+								{button}
+							</Box>
 						</LightTooltip>
 					);
 				}
@@ -160,14 +178,25 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 						<LightTooltip
 							title={`You must select this account in your wallet to Burn ${mintableTokenShortName} for this address.`}
 						>
-							<Box display="inline-block">{button}</Box>
+							<Box
+								sx={{
+									display: 'inline-block',
+								}}
+							>
+								{button}
+							</Box>
 						</LightTooltip>
 					);
 				}
 				return button;
 			};
 			return (
-				<Box mx={1} display="inline-block">
+				<Box
+					sx={{
+						mx: 1,
+						display: 'inline-block',
+					}}
+				>
 					{getButton()}
 				</Box>
 			);
@@ -245,7 +274,13 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 						<LightTooltip
 							title={`You must select ${displayedAddress} account in your wallet to stop a validator for this address. Current account: ${selectedAddress}`}
 						>
-							<Box display="inline-block">{stopMintButton}</Box>
+							<Box
+								sx={{
+									display: 'inline-block',
+								}}
+							>
+								{stopMintButton}
+							</Box>
 						</LightTooltip>
 					);
 				}
@@ -297,14 +332,25 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 						<LightTooltip
 							title={`You must select ${displayedAddress} account in your wallet to pause/resume the game for this address. Current account: ${selectedAddress}`}
 						>
-							<Box display="inline-block">{stopMintButton}</Box>
+							<Box
+								sx={{
+									display: 'inline-block',
+								}}
+							>
+								{stopMintButton}
+							</Box>
 						</LightTooltip>
 					);
 				}
 				return stopMintButton;
 			};
 			return (
-				<Box mx={1} display="inline-block">
+				<Box
+					sx={{
+						mx: 1,
+						display: 'inline-block',
+					}}
+				>
 					{getStopMintButton()} {getMintSettingsButton()} {getGameSettingsButton()} {getPauseResumeGameButton()}
 				</Box>
 			);
@@ -361,7 +407,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 	return (
 		<Card>
 			<CardContent>
-				<Grid container justifyContent="space-between" alignItems="center">
+				<Grid container sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
 					<Grid>
 						<Typography variant="h5" component="h2">
 							Address Balances
@@ -376,10 +422,14 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 									target="_blank"
 									className={classes.address}
 								>
-									<Grid container direction="row" justifyContent="center" alignItems="center">
+									<Grid container direction="row" sx={{ justifyContent: 'center', alignItems: 'center' }}>
 										<Grid>{displayedAddress}</Grid>
 										<Grid>
-											<Box ml={0.5}>
+											<Box
+												sx={{
+													ml: 0.5,
+												}}
+											>
 												<OpenInNew fontSize="small" />
 											</Box>
 										</Grid>
@@ -389,7 +439,12 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 						</Typography>
 					</Grid>
 				</Grid>
-				<Box mt={1} mb={1}>
+				<Box
+					sx={{
+						mt: 1,
+						mb: 1,
+					}}
+				>
 					<Divider />
 				</Box>
 				<Grid container>

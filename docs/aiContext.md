@@ -559,3 +559,40 @@ However you can still change titles and string etc.
 - Pivot to Bot-First Philosophy: The UI/UX and game design are explicitly intended for bots rather than humans. The goal is to have bots trigger the contract every 12 seconds (Ethereum block time) to maximize transactional throughput and leaderboard ranking.
 - Gas vs. Reward Break-Even: There is a specific economic equilibrium currently occurring where gas costs (~$0.027) roughly match the click rewards (~$0.03). Activity is expected to scale exponentially if gas fees drop below $0.01.
 - Updated Inflation Metric: LOCK yearly supply inflation has dropped from an initial ~800% to currently 110% in one year.
+
+// 2026-01-14 new video about hitting 100% inflation milestone:
+
+Inflation & Tokenomics Data
+
+- LOCK token has officially reached the 100% inflation milestone (down from 700% the previous year).
+- Projected LOCK inflation is ~50% for next year, followed by ~33% the year after.
+- Current FLUX (L1) inflation is approximately 40% (higher than the expected 20% due to early volatility and heavy burning relative to pool size).
+- Projected FLUX (L1) inflation is expected to drop to 20% within the next 5 years.
+- The Base APY for locking DAM to mint FLUX is currently 3.52%.
+
+Liquidity & Ecosystem Structure
+
+- LOCK liquidity is 96% permanent (inside the liquidity pool), meaning only ~4% of supply is currently outside the pool.
+- Passive Growth Scenario: If Ethereum price reaches $15,000, the ecosystem's total liquidity would passively grow to approximately $500,000 without any additional user deposits.
+- DAM "Whale" Metric: Theoretically, there can only ever be ~16 people in the world who hold 1 million DAM tokens (approx. 5% of supply).
+
+Future Concepts & Strategy
+
+- "Liquidity Vibrations": A potential future concept involving a marketing token with distributed liquidity pools (e.g., against USD, BTC, ETH) to create high volatility ("vibrations") specifically to attract arbitrage bots.
+- Target Audience Shift: The primary target audience for LOCK is explicitly defined as arbitrage bots and future liquidity-based ETFs, rather than retail buyers on centralized exchanges.
+- Marketing Strategy: The project validates that a dedicated "marketing token" is likely unnecessary unless organic growth stalls completely, prioritizing on-chain mechanics over traditional marketing.
+
+// 2026-01-16 New video breaking down DAM & FLUX prices going down
+
+New Ecosystem Facts & Metrics
+
+- FLUX Inflation Reality: FLUX yearly supply inflation is currently sitting at 40%. This is higher than the projected 20%, attributed to sustained market pressure.
+- FLUX Liquidity Composition: Total FLUX liquidity (combining Layer 1 and Layer 2) is approximately $49,000. This liquidity is roughly a 50/50 split between the developer and community members.
+- Supply Expansion: The circulating supply of FLUX has roughly doubled over the last year (moving from ~700,000 to ~2.1 million range), indicating the ecosystem is still in a high-growth phase despite the 5-year age.
+- Yield Discrepancy (Market Inefficiency): A significant discrepancy exists in passive yield:
+  - DAM: Offers only ~3% APY (if not burning FLUX), yet price demand remains high.
+  - FLUX: Offers ~25% APY (via ArbiFLUX minting incentives).
+  - Insight: The developer suggests DAM may be overvalued relative to FLUX given the yield difference, or that the market is pricing in DAM's scarcity heavily over its utility yield.
+- LOCK Inflation Milestone: LOCK yearly supply inflation has officially broken below 100%, currently sitting at 97.86%. It is projected to drop to 50% later this year.
+- GameFi Bot Dominance: The "Day One Gems" (HODL Clicker) rewards are currently being captured almost entirely by a single bot. This highlights a lack of competition and a massive opportunity for other users to deploy simple automation to share these rewards.
+- Liquidity Provider (LP) Economics: Due to the high volatility of LOCK, Liquidity Providers are generating significant revenue from the 1% swap fees. The developer notes that holding the liquidity position (and earning fees on the churn) has often outperformed simply holding the token.

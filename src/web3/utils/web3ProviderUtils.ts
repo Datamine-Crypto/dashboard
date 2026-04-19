@@ -38,10 +38,11 @@ let publicClient: PublicClient | null = null;
  */
 let preselectedAddress: Address | null = null;
 
-export const setWeb3Provider = (provider: EIP1193Provider | null, ecosystem: Ecosystem) => {
+export const setWeb3Provider = async (provider: EIP1193Provider | null) => {
 	if (provider) {
-		const config = getEcosystemConfig(ecosystem);
-		const chain = config.layer === Layer.Layer1 ? mainnet : arbitrum;
+		const chainIdHex = await provider.request({ method: 'eth_chainId' });
+		const currentChainId = parseInt(chainIdHex as string, 16);
+		const chain = currentChainId === 42161 ? arbitrum : mainnet;
 
 		walletClient = createWalletClient({
 			chain,
@@ -200,4 +201,24 @@ export const subscribeToBlockUpdates = (publicClient: PublicClient, dispatch: Re
 	setInterval(() => {
 		dispatch({ type: commonLanguage.commands.RefreshAccountState });
 	}, localConfig.blockUpdatesIntervalMs);
+};
+
+/**
+ * Possibly override the current ecosystem once we figure out what network we're on
+ * For example if we're on L1 and last known ecosystem selected was L2 then change it to L1 and user doesn't have to refresh anything
+ * @todo the ecosystems are hard-coded here just change it to have some setting for which ecosystem is "default" for that layer (or pick first one from the layers)
+ */
+export const getCorrectedEcosystem = (ecosystem: Ecosystem, isArbitrumMainnet: boolean) => {
+	const ecosystemConfig = getEcosystemConfig(ecosystem);
+	// Default to Flux (L1) if not on Arbitrum
+	if (ecosystemConfig.layer == Layer.Layer2 && !isArbitrumMainnet) {
+		return Ecosystem.Flux;
+	}
+	// Default to Lockquidity (L2) if  on Arbitrum
+	if (ecosystemConfig.layer == Layer.Layer1 && isArbitrumMainnet) {
+		return Ecosystem.Lockquidity;
+	}
+
+	// Return whatever user selected last
+	return ecosystem;
 };

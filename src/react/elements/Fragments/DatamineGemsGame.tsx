@@ -231,10 +231,22 @@ const GemItem = React.memo(function GemItem({
 			if (gemContent.error) {
 				return (
 					<React.Fragment>
-						<Typography variant="caption" display="block" color="error">
+						<Typography
+							variant="caption"
+							color="error"
+							sx={{
+								display: 'block',
+							}}
+						>
 							{gemContent.error}
 						</Typography>
-						<Typography variant="caption" display="block" color="error">
+						<Typography
+							variant="caption"
+							color="error"
+							sx={{
+								display: 'block',
+							}}
+						>
 							Address: {trimmedAddress}
 						</Typography>
 					</React.Fragment>
@@ -244,10 +256,20 @@ const GemItem = React.memo(function GemItem({
 			if (isClickable) {
 				return (
 					<React.Fragment>
-						<Typography variant="caption" display="block">
+						<Typography
+							variant="caption"
+							sx={{
+								display: 'block',
+							}}
+						>
 							Click to Collect Reward: ${gemContent.dollarAmount.toFixed(localConfig.dollarDecimalPlaces)}
 						</Typography>
-						<Typography variant="caption" display="block">
+						<Typography
+							variant="caption"
+							sx={{
+								display: 'block',
+							}}
+						>
 							Address: {trimmedAddress}
 						</Typography>
 					</React.Fragment>
@@ -257,11 +279,21 @@ const GemItem = React.memo(function GemItem({
 			if (showProgressBar && progressTargetTierName) {
 				return (
 					<React.Fragment>
-						<Typography variant="caption" display="block">
+						<Typography
+							variant="caption"
+							sx={{
+								display: 'block',
+							}}
+						>
 							Progress to ${progressTargetTierConfiguredValue.toFixed(localConfig.dollarDecimalPlaces)} reward:{' '}
 							{Math.floor(computedProgress)}%
 						</Typography>
-						<Typography variant="caption" display="block">
+						<Typography
+							variant="caption"
+							sx={{
+								display: 'block',
+							}}
+						>
 							Address: {trimmedAddress}
 						</Typography>
 					</React.Fragment>
@@ -271,16 +303,37 @@ const GemItem = React.memo(function GemItem({
 			if (displayTier) {
 				return (
 					<React.Fragment>
-						<Typography variant="caption" display="block">
+						<Typography
+							variant="caption"
+							sx={{
+								display: 'block',
+							}}
+						>
 							{displayTier.name} Gem
 						</Typography>
-						<Typography variant="caption" display="block">
+						<Typography
+							variant="caption"
+							sx={{
+								display: 'block',
+							}}
+						>
 							Value: ${gemContent.dollarAmount.toFixed(localConfig.dollarDecimalPlaces)}
 						</Typography>
-						<Typography variant="caption" display="block">
+						<Typography
+							variant="caption"
+							sx={{
+								display: 'block',
+							}}
+						>
 							Address: {trimmedAddress}
 						</Typography>
-						<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
+						<Typography
+							variant="caption"
+							sx={{
+								display: 'block',
+								opacity: 0.7,
+							}}
+						>
 							(Cannot collect)
 						</Typography>
 					</React.Fragment>
@@ -365,8 +418,8 @@ const GemItem = React.memo(function GemItem({
 					<Typography
 						variant="caption"
 						component="div"
-						color="text.secondary"
 						sx={{
+							color: 'text.secondary',
 							position: 'absolute',
 							top: '50%',
 							left: '50%',
@@ -684,7 +737,6 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 					</IconButton>
 				</Box>
 			</Box>
-
 			<Grid
 				container
 				spacing={{ xs: 1, sm: 1.5 }}
@@ -705,7 +757,6 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 					</Grid>
 				))}
 			</Grid>
-
 			<Box
 				sx={{
 					display: 'flex',
@@ -718,11 +769,16 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 				<Typography variant="body1" sx={{ mr: { sm: 2 }, mb: { xs: 1, sm: 0 }, fontWeight: 'medium' }}>
 					Gems Collected: {gemsCollected} {/* Use prop */}
 				</Typography>
-				<Typography variant="body1" color="success.main" sx={{ fontWeight: 'medium' }}>
+				<Typography
+					variant="body1"
+					sx={{
+						color: 'success.main',
+						fontWeight: 'medium',
+					}}
+				>
 					Total Collected: ${totalCollectedBalance.toFixed(localConfig.dollarDecimalPlaces)} {/* Use prop */}
 				</Typography>
 			</Box>
-
 			{/* Settings Dialog */}
 			<Dialog open={isSettingsDialogOpen} onClose={handleCloseSettingsDialog} fullWidth maxWidth="xs">
 				<DialogTitle>Gem Value Settings</DialogTitle>
@@ -756,7 +812,6 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 					</Button>
 				</DialogActions>
 			</Dialog>
-
 			{/* Add Gem by Address Dialog */}
 			<Dialog open={isAddGemDialogOpen} onClose={handleCloseAddGemDialog} fullWidth maxWidth="sm">
 				<DialogTitle>Add Gem by Address</DialogTitle>

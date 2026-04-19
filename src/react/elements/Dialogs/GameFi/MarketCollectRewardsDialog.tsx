@@ -156,7 +156,12 @@ const MarketCollectRewardsDialog: React.FC = () => {
 				variant="outlined"
 				onClick={() => showDepositWithdrawDialog()}
 				startIcon={
-					<Box display="flex" style={{ color: '#0ff' }}>
+					<Box
+						style={{ color: '#0ff' }}
+						sx={{
+							display: 'flex',
+						}}
+					>
 						<ImportExport style={{ color: '#00ffff' }} />
 					</Box>
 				}
@@ -300,13 +305,29 @@ const MarketCollectRewardsDialog: React.FC = () => {
 			<>
 				<Box>
 					My Ethereum Address:{' '}
-					<Typography variant="body2" display="inline" color="textSecondary">
+					<Typography
+						variant="body2"
+						color="textSecondary"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						{selectedAddress}
 					</Typography>
 				</Box>
-				<Box my={1}>
+				<Box
+					sx={{
+						my: 1,
+					}}
+				>
 					{game === Game.HodlClicker ? 'Staked Game' : 'Game'} Balance:{' '}
-					<Typography variant="body2" display="inline" color="textSecondary">
+					<Typography
+						variant="body2"
+						color="textSecondary"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						$ {balanceInUsdc} ( {formatBigInt(rewardsAmount, true, 18, 6)} {mintableTokenShortName} )
 					</Typography>
 				</Box>
@@ -359,7 +380,13 @@ const MarketCollectRewardsDialog: React.FC = () => {
 			<>
 				<Alert severity="success">
 					[Tier {tier}] Passive Staking:{' '}
-					<Typography variant="body2" display="inline" color="textSecondary">
+					<Typography
+						variant="body2"
+						color="textSecondary"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						<strong>
 							Earning {balancePercentage.toFixed(4)}% of all rewards collected {emoji}
 						</strong>
@@ -417,7 +444,11 @@ const MarketCollectRewardsDialog: React.FC = () => {
 			return;
 		}
 		return (
-			<Box mb={3}>
+			<Box
+				sx={{
+					mb: 3,
+				}}
+			>
 				<Alert severity="info">{infoText}</Alert>
 			</Box>
 		);
@@ -436,7 +467,11 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		return (
 			showBlockLagWarning &&
 			marketAddresses?.targetBlock && (
-				<Box my={2}>
+				<Box
+					sx={{
+						my: 2,
+					}}
+				>
 					<Alert severity="warning">
 						<strong>Metamask Block Lag Detected:</strong> Click Metamask extension icon and leave the popup showing.
 						This will update the gem rewards in realtime.
@@ -449,8 +484,19 @@ const MarketCollectRewardsDialog: React.FC = () => {
 		<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 			<form onSubmit={onSubmit}>
 				<DialogTitle id="form-dialog-title">
-					<Box display="flex" alignItems="center" alignContent="center">
-						<Box display="flex" pr={1}>
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							alignContent: 'center',
+						}}
+					>
+						<Box
+							sx={{
+								display: 'flex',
+								pr: 1,
+							}}
+						>
 							{getGameIcon()}
 						</Box>
 						{getGameName()}
@@ -458,8 +504,21 @@ const MarketCollectRewardsDialog: React.FC = () => {
 					</Box>
 				</DialogTitle>
 				<DialogContent>
-					<Box display="flex" justifyContent={'space-between'} alignItems="center" mt={1}>
-						<Box display="flex" alignItems="center" mr={2}>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							mt: 1,
+						}}
+					>
+						<Box
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								mr: 2,
+							}}
+						>
 							{getNetworkDropdown({
 								ecosystem,
 								connectionMethod,
@@ -468,17 +527,29 @@ const MarketCollectRewardsDialog: React.FC = () => {
 						</Box>
 						{getDepositWithdrawButton()}
 					</Box>
-					<Box my={2}></Box>
+					<Box
+						sx={{
+							my: 2,
+						}}
+					></Box>
 					{getBalances()}
 					{getRewardsAlert()}
 					{getLagWarning()}
-					<Box my={3}>
+					<Box
+						sx={{
+							my: 3,
+						}}
+					>
 						<Divider />
 					</Box>
 					{getError()}
 					{getInfoAlertElement()}
 					{getGameElement()}
-					<Box mt={2}>
+					<Box
+						sx={{
+							mt: 2,
+						}}
+					>
 						<Divider />
 					</Box>
 				</DialogContent>
@@ -490,7 +561,12 @@ const MarketCollectRewardsDialog: React.FC = () => {
 					<Box>
 						{' '}
 						{/* This Box groups the buttons to keep them together on the right */}
-						<Box display="inline-block" mr={1}>
+						<Box
+							sx={{
+								display: 'inline-block',
+								mr: 1,
+							}}
+						>
 							{' '}
 							{/* Margin between buttons */}
 							{/*<Button onClick={refreshAddresses}  >

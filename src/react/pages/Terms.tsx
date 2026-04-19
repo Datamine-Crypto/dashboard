@@ -74,11 +74,19 @@ const Terms: React.FC<Props> = React.memo(function Terms({ ecosystem }) {
 
 	return (
 		<>
-			<Box mt={8}>
+			<Box
+				sx={{
+					mt: 8,
+				}}
+			>
 				<Header isSubPage={true} ecosystem={ecosystem} />
 
 				<Paper className={classes.paperBorders}>
-					<Box py={6}>
+					<Box
+						sx={{
+							py: 6,
+						}}
+					>
 						<Container style={{ lineHeight: '2rem' }}>
 							<p>
 								You are browsing a build of {ecosystemName} Decentralized Dashboard:{' '}
@@ -116,7 +124,6 @@ const Terms: React.FC<Props> = React.memo(function Terms({ ecosystem }) {
 					</Box>
 				</Paper>
 			</Box>
-
 			<FooterFragment ecosystem={ecosystem} />
 		</>
 	);

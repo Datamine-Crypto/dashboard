@@ -63,12 +63,24 @@ const HelpPage: React.FC = () => {
 		<>
 			<HelpPageHeader dispatch={appDispatch} ecosystem={ecosystem} />
 			<Paper className={classes.paperBorders}>
-				<Box py={6}>
+				<Box
+					sx={{
+						py: 6,
+					}}
+				>
 					<Container>
-						<Box mb={3}>
+						<Box
+							sx={{
+								mb: 3,
+							}}
+						>
 							<HelpComboboxFragment id="main-search" isBigSearch={true} />
 						</Box>
-						<Box mb={3}>
+						<Box
+							sx={{
+								mb: 3,
+							}}
+						>
 							<Typography variant="subtitle1" gutterBottom>
 								Filter by User Type:
 							</Typography>
@@ -83,7 +95,12 @@ const HelpPage: React.FC = () => {
 									value={UserTypeFilter.All}
 									control={<Radio />}
 									label={
-										<Box display="flex" alignItems="center">
+										<Box
+											sx={{
+												display: 'flex',
+												alignItems: 'center',
+											}}
+										>
 											<PublicIcon style={{ marginRight: 8 }} />
 											All Articles
 										</Box>
@@ -93,7 +110,12 @@ const HelpPage: React.FC = () => {
 									value={UserTypeFilter.NewUser}
 									control={<Radio />}
 									label={
-										<Box display="flex" alignItems="center">
+										<Box
+											sx={{
+												display: 'flex',
+												alignItems: 'center',
+											}}
+										>
 											<RocketLaunchIcon style={{ marginRight: 8 }} />
 											New User
 										</Box>
@@ -103,7 +125,12 @@ const HelpPage: React.FC = () => {
 									value={UserTypeFilter.ExistingUser}
 									control={<Radio />}
 									label={
-										<Box display="flex" alignItems="center">
+										<Box
+											sx={{
+												display: 'flex',
+												alignItems: 'center',
+											}}
+										>
 											<AccountCircleIcon style={{ marginRight: 8 }} />
 											Existing User
 										</Box>
@@ -111,7 +138,11 @@ const HelpPage: React.FC = () => {
 								/>
 							</RadioGroup>
 						</Box>
-						<Box mb={3}>
+						<Box
+							sx={{
+								mb: 3,
+							}}
+						>
 							<Typography variant="subtitle1" gutterBottom>
 								Filter by Tag:
 							</Typography>

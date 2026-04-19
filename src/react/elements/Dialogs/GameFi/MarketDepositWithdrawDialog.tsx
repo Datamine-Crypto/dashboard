@@ -98,7 +98,11 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 			return;
 		}
 		return (
-			<Box my={1}>
+			<Box
+				sx={{
+					my: 1,
+				}}
+			>
 				<TextField
 					autoFocus
 					id="name"
@@ -149,9 +153,20 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 		<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 			<form onSubmit={onSubmit}>
 				<DialogTitle id="form-dialog-title">
-					<Box display="flex" alignItems="center" alignContent="center">
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							alignContent: 'center',
+						}}
+					>
 						{game === Game.DatamineGems ? 'Deposit/Withdraw' : 'Stake/Unstake'} Game Balance
-						<Box display="flex" pl={1}>
+						<Box
+							sx={{
+								display: 'flex',
+								pl: 1,
+							}}
+						>
 							<ImportExport style={{ color: '#00ffff' }} />
 						</Box>
 					</Box>
@@ -159,41 +174,76 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 				<DialogContent>
 					<Box>
 						My Address:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{selectedAddress}
 						</Box>
 					</Box>
-					<Box my={1}>
+					<Box
+						sx={{
+							my: 1,
+						}}
+					>
 						My Address Balance{' '}
 						<Typography variant="body2" color="textSecondary" component="span">
 							(Depositable)
 						</Typography>
 						:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{formatBigInt(currentAddressMintableBalance, true)} {mintableTokenShortName}
 						</Box>
 					</Box>
-					<Box my={1}>
+					<Box
+						sx={{
+							my: 1,
+						}}
+					>
 						{game === Game.DatamineGems ? 'My' : 'Staked'} Game Balance{' '}
 						<Typography variant="body2" color="textSecondary" component="span">
 							(Withdrawable)
 						</Typography>
 						:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{formatBigInt(rewardsAmount, true)} {mintableTokenShortName}
 						</Box>
 					</Box>
-					<Box my={2}>
+					<Box
+						sx={{
+							my: 2,
+						}}
+					>
 						<Divider />
 					</Box>
-					<Box mb={4}>
+					<Box
+						sx={{
+							mb: 4,
+						}}
+					>
 						<Typography component="div">
 							To continue select how many {mintableTokenShortName} tokens you wish to{' '}
 							{game === Game.DatamineGems ? 'add to your game balance' : 'stake'}. You can withdraw 100%+ of your game
 							balance back to your address at any time.
 						</Typography>
 					</Box>
-					<Box my={3}>
+					<Box
+						sx={{
+							my: 3,
+						}}
+					>
 						<FormControl component="fieldset">
 							<FormLabel component="legend">Action To Perform:</FormLabel>
 							<RadioGroup
@@ -217,13 +267,27 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 						</FormControl>
 					</Box>
 					{getTokensToDepositField()}
-					<Box mt={2}>
+					<Box
+						sx={{
+							mt: 2,
+						}}
+					>
 						<Divider />
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Box mb={1} mr={2}>
-						<Box mr={2} display="inline-block">
+					<Box
+						sx={{
+							mb: 1,
+							mr: 2,
+						}}
+					>
+						<Box
+							sx={{
+								mr: 2,
+								display: 'inline-block',
+							}}
+						>
 							<Button onClick={onClose}>Cancel</Button>
 						</Box>
 						<Button type="submit" color="secondary" size="large" variant="outlined">

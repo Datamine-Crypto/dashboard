@@ -112,18 +112,28 @@ export default class ErrorBoundary extends React.Component<React.PropsWithChildr
 
 			return (
 				<Box
-					alignItems="center"
-					justifyContent="center"
-					display="flex"
-					flexDirection="column"
 					style={{ height: '100vh' }}
+					sx={{
+						alignItems: 'center',
+						justifyContent: 'center',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
 				>
-					<Box my={6}>
-						<Grid container justifyContent="center">
+					<Box
+						sx={{
+							my: 6,
+						}}
+					>
+						<Grid container sx={{ justifyContent: 'center' }}>
 							<Grid>{getLogo()}</Grid>
 						</Grid>
 
-						<Box my={3}>
+						<Box
+							sx={{
+								my: 3,
+							}}
+						>
 							<Grid
 								container
 								direction="column"
@@ -133,7 +143,11 @@ export default class ErrorBoundary extends React.Component<React.PropsWithChildr
 								}}
 							>
 								<Grid>
-									<Box my={3}>
+									<Box
+										sx={{
+											my: 3,
+										}}
+									>
 										<Typography variant="h4" color="primary">
 											Something went wrong:
 										</Typography>
@@ -146,7 +160,11 @@ export default class ErrorBoundary extends React.Component<React.PropsWithChildr
 								</Grid>
 							</Grid>
 						</Box>
-						<Box mt={6}>
+						<Box
+							sx={{
+								mt: 6,
+							}}
+						>
 							<TableContainer component={Paper}>
 								<Table aria-label="simple table">
 									<TableHead>
@@ -159,7 +177,12 @@ export default class ErrorBoundary extends React.Component<React.PropsWithChildr
 								</Table>
 							</TableContainer>
 						</Box>
-						<Box mt={3} mb={6}>
+						<Box
+							sx={{
+								mt: 3,
+								mb: 6,
+							}}
+						>
 							{getStack()}
 						</Box>
 					</Box>
@@ -178,7 +201,13 @@ export default class ErrorBoundary extends React.Component<React.PropsWithChildr
 			// You can render any custom fallback UI
 			return (
 				<Container maxWidth="md">
-					<Box my={3}>{getErrorMessage()}</Box>
+					<Box
+						sx={{
+							my: 3,
+						}}
+					>
+						{getErrorMessage()}
+					</Box>
 				</Container>
 			);
 		}
