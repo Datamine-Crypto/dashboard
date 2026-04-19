@@ -1,5 +1,4 @@
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem, Layer } from '@/app/configs/config.common';
 import { Gem } from '@/react/elements/Fragments/DatamineGemsGame';
 import { ReducerQueryHandler } from '@/utils/reducer/sideEffectReducer';
 import { devLog } from '@/utils/devLog';
@@ -20,6 +19,7 @@ import {
 } from '@/app/interfaces';
 import { HelpArticle } from '@/app/helpArticles';
 import { GetRefreshMarketAddressesResponse } from '@/app/state/queries/web3/MarketQueries';
+import { getCorrectedEcosystem } from '@/web3/utils/web3ProviderUtils';
 
 interface FindAccountStateResponse {
 	balances: Balances | null;
@@ -71,28 +71,9 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				targetEcosystem: state.targetEcosystem,
 			});
 
-			/**
-			 * Possibly override the current ecosystem once we figure out what network we're on
-			 * For example if we're on L1 and last known ecosystem selected was L2 then change it to L1 and user doesn't have to refresh anything
-			 * @todo the ecosystems are hard-coded here just change it to have some setting for which ecosystem is "default" for that layer (or pick first one from the layers)
-			 */
-			const getUpdatedEcosystem = (ecosystem: Ecosystem) => {
-				const ecosystemConfig = getEcosystemConfig(ecosystem);
-				// Default to Flux (L1) if not on Arbitrum
-				if (ecosystemConfig.layer == Layer.Layer2 && !isArbitrumMainnet) {
-					return Ecosystem.Flux;
-				}
-				// Default to Lockquidity (L2) if  on Arbitrum
-				if (ecosystemConfig.layer == Layer.Layer1 && isArbitrumMainnet) {
-					return Ecosystem.Lockquidity;
-				}
-
-				// Return whatever user selected last
-				return ecosystem;
-			};
 			const updatedEcosystem = !state.targetEcosystem
-				? getUpdatedEcosystem(state.ecosystem)
-				: getUpdatedEcosystem(state.targetEcosystem);
+				? getCorrectedEcosystem(state.ecosystem, isArbitrumMainnet)
+				: getCorrectedEcosystem(state.targetEcosystem, isArbitrumMainnet);
 
 			const isUnsupportedNetwork = config.isArbitrumOnlyToken && !isArbitrumMainnet;
 

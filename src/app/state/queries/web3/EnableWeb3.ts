@@ -14,10 +14,11 @@ import {
  * Enables the Web3 provider, requesting account access from the user if necessary.
  */
 export const enableWeb3: QueryHandler<AppState> = async ({ state, dispatch }) => {
-	const publicClient = getPublicClient();
+	let publicClient = getPublicClient();
 	if (!publicClient) {
 		devLog('EnableWeb3 web3provider is missing?');
-		setWeb3Provider(await getWeb3Provider({ ecosystem: state.ecosystem }), state.ecosystem);
+		await setWeb3Provider(await getWeb3Provider({ ecosystem: state.ecosystem }));
+		publicClient = getPublicClient();
 	}
 
 	// Checks to see if user has selectedAddress. If not we'll call eth_requestAccounts and select first one
