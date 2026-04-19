@@ -560,7 +560,6 @@ const CallToActionCard: React.FC = () => {
 								return (
 									<LocalizationProvider dateAdapter={AdapterDayjs}>
 										<MobileDatePicker
-											enableAccessibleFieldDOMStructure={false}
 											closeOnSelect={true}
 											value={value}
 											label="From"
@@ -579,21 +578,14 @@ const CallToActionCard: React.FC = () => {
 													});
 												}
 											}}
-											slots={{
-												textField: (props) => (
-													<TextField
-														{...props}
-														type="text"
-														name="startBlocks"
-														size="small"
-														inputProps={{
-															...props.inputProps,
-															...removeAutocompleteProps,
-														}}
-													/>
-												),
-											}}
 											slotProps={{
+												textField: {
+													type: 'text',
+													name: 'startBlocks',
+													size: 'small',
+													inputProps: removeAutocompleteProps,
+													// eslint-disable-next-line @typescript-eslint/no-explicit-any
+												} as any,
 												mobilePaper: { className: classes.datePicker },
 											}}
 										/>
@@ -655,7 +647,6 @@ const CallToActionCard: React.FC = () => {
 								return (
 									<LocalizationProvider dateAdapter={AdapterDayjs}>
 										<MobileDatePicker
-											enableAccessibleFieldDOMStructure={false}
 											closeOnSelect={true}
 											label="To"
 											value={value}
@@ -674,18 +665,16 @@ const CallToActionCard: React.FC = () => {
 													});
 												}
 											}}
-											slots={{
-												textField: (props) => (
-													<TextField
-														{...props}
-														type="text"
-														name="endBlocks"
-														size="small"
-														inputProps={{ ...props.inputProps, ...removeAutocompleteProps }}
-													/>
-												),
+											slotProps={{
+												textField: {
+													type: 'text',
+													name: 'endBlocks',
+													size: 'small',
+													inputProps: removeAutocompleteProps,
+													// eslint-disable-next-line @typescript-eslint/no-explicit-any
+												} as any,
+												mobilePaper: { className: classes.datePicker },
 											}}
-											slotProps={{ mobilePaper: { className: classes.datePicker } }}
 										/>
 									</LocalizationProvider>
 								);
