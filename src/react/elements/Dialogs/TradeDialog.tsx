@@ -174,7 +174,7 @@ const TradeDialog: React.FC = () => {
 		};
 		const isDisabled = !selectedAddress || swapOperation === SwapOperation.Output || isLayerMismatch;
 		return (
-			<Grid container alignItems="center">
+			<Grid container sx={{ alignItems: 'center' }}>
 				<Grid size="grow">
 					<TextField
 						type="text"
@@ -225,7 +225,11 @@ const TradeDialog: React.FC = () => {
 			return;
 		}
 		return (
-			<Box my={2}>
+			<Box
+				sx={{
+					my: 2,
+				}}
+			>
 				<Alert severity={!hasWeb3 || !selectedAddress ? 'info' : 'warning'}>{errorText}</Alert>
 			</Box>
 		);
@@ -381,7 +385,11 @@ const TradeDialog: React.FC = () => {
 		};
 		return (
 			<>
-				<Box mb={3}>
+				<Box
+					sx={{
+						mb: 3,
+					}}
+				>
 					<Typography component="div" gutterBottom={true}>
 						Your tradable account balances
 						<Typography variant="body2" color="textSecondary">
@@ -391,8 +399,7 @@ const TradeDialog: React.FC = () => {
 				</Box>
 				<Grid
 					container
-					justifyContent="space-between"
-					alignItems="left"
+					sx={{ justifyContent: 'space-between', alignItems: 'left' }}
 					spacing={3}
 					className={classes.topLeftPricesContainer}
 				>
@@ -413,7 +420,12 @@ const TradeDialog: React.FC = () => {
 				return;
 			}
 			return (
-				<Box display={'inline-block'} ml={1}>
+				<Box
+					sx={{
+						display: 'inline-block',
+						ml: 1,
+					}}
+				>
 					<CircularProgress size={14} />
 				</Box>
 			);
@@ -466,9 +478,20 @@ const TradeDialog: React.FC = () => {
 		<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 			<form onSubmit={onSubmit}>
 				<DialogTitle id="form-dialog-title">
-					<Box display="flex" alignItems="center" alignContent="center">
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							alignContent: 'center',
+						}}
+					>
 						Trade Datamine Ecosystem tokens
-						<Box display="flex" pl={1}>
+						<Box
+							sx={{
+								display: 'flex',
+								pl: 1,
+							}}
+						>
 							<img
 								src={uniswap}
 								width={24}
@@ -481,7 +504,11 @@ const TradeDialog: React.FC = () => {
 				</DialogTitle>
 				<DialogContent>
 					{getBalances()}
-					<Box my={3}>
+					<Box
+						sx={{
+							my: 3,
+						}}
+					>
 						<Divider />
 					</Box>
 					<Typography component="div" gutterBottom={true}>
@@ -489,7 +516,12 @@ const TradeDialog: React.FC = () => {
 							? 'Please confirm your trade instructions below:'
 							: 'You will be able to trade after connecting to Web3:'}
 					</Typography>
-					<Box mt={3} mb={3}>
+					<Box
+						sx={{
+							mt: 3,
+							mb: 3,
+						}}
+					>
 						<Box>
 							{getCombobox({
 								value: swapState.input.amount || '',
@@ -499,7 +531,12 @@ const TradeDialog: React.FC = () => {
 								swapOperation: SwapOperation.Input,
 							})}
 						</Box>
-						<Box display="flex" justifyContent="center">
+						<Box
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+							}}
+						>
 							<IconButton onClick={onFlipSwap}>
 								<KeyboardArrowDown />
 							</IconButton>
@@ -512,19 +549,38 @@ const TradeDialog: React.FC = () => {
 							swapOperation: SwapOperation.Output,
 						})}
 						{getErrorMesage()}
-						<Box mt={1} mb={4}>
+						<Box
+							sx={{
+								mt: 1,
+								mb: 4,
+							}}
+						>
 							<Typography component="div" variant="caption">
 								* Trading is powered by a decentralized Uniswap protocol. {getLearnMoreBurningLink()}
 							</Typography>
 						</Box>
 					</Box>
-					<Box mt={2}>
+					<Box
+						sx={{
+							mt: 2,
+						}}
+					>
 						<Divider />
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Box mb={1} mr={2}>
-						<Box mr={2} display="inline-block">
+					<Box
+						sx={{
+							mb: 1,
+							mr: 2,
+						}}
+					>
+						<Box
+							sx={{
+								mr: 2,
+								display: 'inline-block',
+							}}
+						>
 							<Button onClick={onClose}>Cancel</Button>
 						</Box>
 						<Button type="submit" color="secondary" size="large" variant="outlined">

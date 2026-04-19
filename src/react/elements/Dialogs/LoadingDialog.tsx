@@ -12,7 +12,11 @@ const LoadingDialog: React.FC = React.memo(function LoadingDialog() {
 			}}
 		>
 			<DialogContent>
-				<Box my={3}>
+				<Box
+					sx={{
+						my: 3,
+					}}
+				>
 					<CircularProgress style={{ color: '#0ff' }} />
 				</Box>
 			</DialogContent>

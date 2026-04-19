@@ -93,7 +93,13 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 		return (
 			<Alert severity="success" sx={{ mt: 2 }}>
 				[Tier {tier}] Passive Staking:{' '}
-				<Typography variant="body2" display="inline" color="textSecondary">
+				<Typography
+					variant="body2"
+					color="textSecondary"
+					sx={{
+						display: 'inline',
+					}}
+				>
 					<strong>
 						Earning {balancePercentage.toFixed(4)}% of all rewards collected {emoji}
 					</strong>
@@ -358,7 +364,7 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 	return (
 		<Box>
 			{/* Header: Dropdown & Staked Balance */}
-			<Grid container alignItems="center" justifyContent="center" rowSpacing={1} columnSpacing={1}>
+			<Grid container sx={{ justifyContent: 'center', alignItems: 'center' }} rowSpacing={1} columnSpacing={1}>
 				<Grid
 					size={{ xs: 12, sm: 6 }}
 					sx={{ display: { xs: 'flex', md: 'block' }, justifyContent: { xs: 'center', md: 'flex-start' } }}
@@ -373,7 +379,6 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 				<Grid size={{ xs: 12, md: 6 }}>
 					<Grid
 						container
-						justifyContent="center"
 						sx={{
 							justifyContent: 'space-between',
 							alignItems: 'center',
@@ -382,11 +387,27 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 						columnSpacing={1}
 					>
 						<Grid size={{ xs: 6 }}>
-							<Box textAlign="right">
-								<Typography variant="caption" display="block" color="textSecondary">
+							<Box
+								sx={{
+									textAlign: 'right',
+								}}
+							>
+								<Typography
+									variant="caption"
+									color="textSecondary"
+									sx={{
+										display: 'block',
+									}}
+								>
 									Your Staked Balance
 								</Typography>
-								<Typography variant="h6" fontWeight="bold" color="textPrimary">
+								<Typography
+									variant="h6"
+									color="textPrimary"
+									sx={{
+										fontWeight: 'bold',
+									}}
+								>
 									{currentAddressMarketAddress && balances
 										? '$' +
 											getPriceToggle({
@@ -414,10 +435,17 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 					</Grid>
 				</Grid>
 			</Grid>
-
 			{getRewardsAlert()}
-
-			<Box mt={4} mb={4} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+			<Box
+				sx={{
+					mt: 4,
+					mb: 4,
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}
+			>
 				<Button
 					variant="contained"
 					size="large"
@@ -481,7 +509,6 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 					</Typography>
 				)}
 			</Box>
-
 			{/* Ready Faucets List */}
 			<HodlClickerFaucets
 				avgGemValue={avgGemValue}

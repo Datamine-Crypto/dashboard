@@ -112,7 +112,11 @@ const DamLockDialog: React.FC = () => {
 			return;
 		}
 		return (
-			<Box my={1}>
+			<Box
+				sx={{
+					my: 1,
+				}}
+			>
 				<TextField
 					autoFocus
 					id="name"
@@ -137,7 +141,14 @@ const DamLockDialog: React.FC = () => {
 			}
 			return (
 				<>
-					<Typography component="div" color="secondary" display="inline" variant="body2">
+					<Typography
+						component="div"
+						color="secondary"
+						variant="body2"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						(Recommended)
 					</Typography>
 				</>
@@ -148,9 +159,20 @@ const DamLockDialog: React.FC = () => {
 				value={MintingAddressType.GameDatamineGems}
 				control={<Radio color="secondary" />}
 				label={
-					<Box display="flex" alignItems="center">
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+						}}
+					>
 						<Diamond style={{ color: '#0FF' }} />
-						<Box ml={0.5}>Datamine Gems (V2): Legacy Recompounding {getRecommendedText()}</Box>
+						<Box
+							sx={{
+								ml: 0.5,
+							}}
+						>
+							Datamine Gems (V2): Legacy Recompounding {getRecommendedText()}
+						</Box>
 					</Box>
 				}
 			/>
@@ -165,11 +187,27 @@ const DamLockDialog: React.FC = () => {
 				value={MintingAddressType.GameHodlClicker}
 				control={<Radio color="secondary" />}
 				label={
-					<Box display="flex" alignItems="center">
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+						}}
+					>
 						<MouseIcon style={{ color: '#0FF' }} />
-						<Box ml={0.5}>
+						<Box
+							sx={{
+								ml: 0.5,
+							}}
+						>
 							HODL Clicker (V3): Automatic Recompounding{' '}
-							<Typography component="div" color="secondary" display="inline" variant="body2">
+							<Typography
+								component="div"
+								color="secondary"
+								variant="body2"
+								sx={{
+									display: 'inline',
+								}}
+							>
 								(Recommended)
 							</Typography>
 						</Box>
@@ -187,7 +225,14 @@ const DamLockDialog: React.FC = () => {
 					label={
 						<>
 							I want to mint my own {mintableTokenShortName} tokens{' '}
-							<Typography component="div" color="textSecondary" display="inline" variant="body2">
+							<Typography
+								component="div"
+								color="textSecondary"
+								variant="body2"
+								sx={{
+									display: 'inline',
+								}}
+							>
 								(Or delegate other address)
 							</Typography>
 						</>
@@ -209,7 +254,14 @@ const DamLockDialog: React.FC = () => {
 					label={
 						<>
 							Another address mints {mintableTokenShortName} on my behalf{' '}
-							<Typography component="div" color="textSecondary" display="inline" variant="body2">
+							<Typography
+								component="div"
+								color="textSecondary"
+								variant="body2"
+								sx={{
+									display: 'inline',
+								}}
+							>
 								(Delegated Minter)
 							</Typography>
 						</>
@@ -225,26 +277,52 @@ const DamLockDialog: React.FC = () => {
 				<DialogContent>
 					<Box>
 						From Address:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{selectedAddress}
 						</Box>
 					</Box>
-					<Box my={1}>
+					<Box
+						sx={{
+							my: 1,
+						}}
+					>
 						Current Balance:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{formatBigInt(balances.damToken, true)} {lockableTokenShortName}
 						</Box>
 					</Box>
-					<Box my={2}>
+					<Box
+						sx={{
+							my: 2,
+						}}
+					>
 						<Divider />
 					</Box>
-					<Box mb={4}>
+					<Box
+						sx={{
+							mb: 4,
+						}}
+					>
 						<Typography component="div">
 							To continue select how many {lockableTokenShortName} tokens you wish to start your validator with. You can
 							stop your validator to get 100% of {lockableTokenShortName} tokens back at any time.
 						</Typography>
 					</Box>
-					<Box my={1}>
+					<Box
+						sx={{
+							my: 1,
+						}}
+					>
 						<TextField
 							autoFocus
 							id="name"
@@ -258,7 +336,11 @@ const DamLockDialog: React.FC = () => {
 							fullWidth
 						/>
 					</Box>
-					<Box my={3}>
+					<Box
+						sx={{
+							my: 3,
+						}}
+					>
 						<FormControl component="fieldset">
 							<FormLabel component="legend">Minting Address</FormLabel>
 							<RadioGroup
@@ -275,13 +357,27 @@ const DamLockDialog: React.FC = () => {
 						</FormControl>
 					</Box>
 					{getDelegatedMinterBox()}
-					<Box mt={2}>
+					<Box
+						sx={{
+							mt: 2,
+						}}
+					>
 						<Divider />
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Box mb={1} mr={2}>
-						<Box mr={2} display="inline-block">
+					<Box
+						sx={{
+							mb: 1,
+							mr: 2,
+						}}
+					>
+						<Box
+							sx={{
+								mr: 2,
+								display: 'inline-block',
+							}}
+						>
 							<Button onClick={onClose}>Cancel</Button>
 						</Box>
 						<Button type="submit" color="secondary" size="large" variant="outlined">

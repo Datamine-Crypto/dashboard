@@ -86,10 +86,27 @@ const HodlClickerLeaderboard: React.FC<Props> = ({ logs, balances, truncateAddre
 	if (leaderboardData.length === 0) return null;
 
 	return (
-		<Box mt={4} mb={4}>
-			<Box display="flex" alignItems="center" mb={2}>
+		<Box
+			sx={{
+				mt: 4,
+				mb: 4,
+			}}
+		>
+			<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					mb: 2,
+				}}
+			>
 				<EmojiEvents sx={{ color: theme.palette.warning.main, mr: 1, fontSize: 28 }} />
-				<Typography variant="h5" fontWeight="bold" color="textPrimary">
+				<Typography
+					variant="h5"
+					color="textPrimary"
+					sx={{
+						fontWeight: 'bold',
+					}}
+				>
 					Jackpot Leaderboard
 				</Typography>
 			</Box>
@@ -109,7 +126,12 @@ const HodlClickerLeaderboard: React.FC<Props> = ({ logs, balances, truncateAddre
 						{leaderboardData.map((row, index) => (
 							<TableRow key={row.address} hover>
 								<TableCell>
-									<Typography fontWeight="bold" color={index < 3 ? 'primary' : 'textSecondary'}>
+									<Typography
+										color={index < 3 ? 'primary' : 'textSecondary'}
+										sx={{
+											fontWeight: 'bold',
+										}}
+									>
 										#{index + 1}
 									</Typography>
 								</TableCell>
@@ -127,7 +149,12 @@ const HodlClickerLeaderboard: React.FC<Props> = ({ logs, balances, truncateAddre
 								</TableCell>
 								<TableCell align="right">{row.wins}</TableCell>
 								<TableCell align="right">
-									<Typography fontWeight="bold" color="success.main">
+									<Typography
+										sx={{
+											fontWeight: 'bold',
+											color: 'success.main',
+										}}
+									>
 										${row.usdValue.toFixed(4)}
 									</Typography>
 								</TableCell>

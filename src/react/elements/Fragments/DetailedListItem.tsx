@@ -32,8 +32,14 @@ const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description
 
 			return (
 				<>
-					&nbsp;
-					<Typography component="div" color="textSecondary" variant="body2" display="inline">
+					<Typography
+						component="div"
+						color="textSecondary"
+						variant="body2"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						/
 					</Typography>{' '}
 					{sub}
@@ -44,7 +50,12 @@ const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description
 			<>
 				<Box sx={{ display: { xs: 'none', md: 'block' } /*smDown*/ }}>
 					<Grid>
-						<Typography component="div" display="inline">
+						<Typography
+							component="div"
+							sx={{
+								display: 'inline',
+							}}
+						>
 							{main}
 							{getSub()}
 						</Typography>{' '}
@@ -53,7 +64,12 @@ const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description
 				</Box>
 				<Box sx={{ display: { xs: 'block', md: 'none' } /*mdUp*/ }}>
 					<Grid size={{ xs: 12 }}>
-						<Typography component="div" display="inline">
+						<Typography
+							component="div"
+							sx={{
+								display: 'inline',
+							}}
+						>
 							{main}
 						</Typography>
 					</Grid>
@@ -69,7 +85,12 @@ const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description
 		return (
 			<>
 				<Grid>
-					<Typography component="div" display="inline">
+					<Typography
+						component="div"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						{sub}
 					</Typography>
 				</Grid>
@@ -103,9 +124,15 @@ const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description
 
 		return (
 			<Grid>
-				<Grid container alignItems="center">
+				<Grid container sx={{ alignItems: 'center' }}>
 					<Grid>
-						<Box height={36} display="flex" alignItems="center">
+						<Box
+							sx={{
+								height: 36,
+								display: 'flex',
+								alignItems: 'center',
+							}}
+						>
 							<Typography component="div" color="textSecondary" variant="body2">
 								{title}
 							</Typography>
@@ -126,7 +153,13 @@ const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description
 				return (
 					<>
 						<Grid>
-							<Box my={1}>{button}</Box>
+							<Box
+								sx={{
+									my: 1,
+								}}
+							>
+								{button}
+							</Box>
 						</Grid>
 					</>
 				);
@@ -135,11 +168,20 @@ const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description
 
 		return (
 			<>
-				<Box width="100%" my={1}>
+				<Box
+					sx={{
+						width: '100%',
+						my: 1,
+					}}
+				>
 					<Divider />
 				</Box>
-				<Box width="100%">
-					<Grid container direction="column" justifyContent="center" alignItems="center">
+				<Box
+					sx={{
+						width: '100%',
+					}}
+				>
+					<Grid container direction="column" sx={{ justifyContent: 'center', alignItems: 'center' }}>
 						{getButtonElements()}
 					</Grid>
 				</Box>
@@ -161,10 +203,18 @@ const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description
 	};
 	return (
 		<>
-			<Box mb={isSmDown ? 2 : 0}>
+			<Box
+				sx={{
+					mb: isSmDown ? 2 : 0,
+				}}
+			>
 				<Card elevation={isSmDown ? 1 : 0} className={isSmDown ? classes.cardMobile : undefined}>
-					<Box p={1}>
-						<Grid container spacing={isSmDown ? 1 : 0} direction={'column'} alignItems="stretch">
+					<Box
+						sx={{
+							p: 1,
+						}}
+					>
+						<Grid container spacing={isSmDown ? 1 : 0} direction={'column'} sx={{ alignItems: 'stretch' }}>
 							{getLayout()}
 						</Grid>
 					</Box>

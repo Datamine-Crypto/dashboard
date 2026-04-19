@@ -54,10 +54,27 @@ const HodlClickerFaucets: React.FC<HodlClickerFaucetsProps> = ({
 
 	return (
 		<Paper sx={{ p: 3, mb: 4, bgcolor: 'background.paper', border: `1px solid ${theme.palette.divider}` }}>
-			<Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
-				<Box display="flex" alignItems="center">
+			<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+					mb: 2,
+				}}
+			>
+				<Box
+					sx={{
+						display: 'flex',
+						alignItems: 'center',
+					}}
+				>
 					<SportsScore sx={{ mr: 1, color: theme.palette.warning.main }} />
-					<Typography variant="subtitle1" fontWeight="bold">
+					<Typography
+						variant="subtitle1"
+						sx={{
+							fontWeight: 'bold',
+						}}
+					>
 						Ready Faucets{' '}
 						<Typography
 							component="span"
@@ -69,7 +86,13 @@ const HodlClickerFaucets: React.FC<HodlClickerFaucetsProps> = ({
 						</Typography>
 					</Typography>
 				</Box>
-				<Box display="flex" alignItems="center" gap={1}>
+				<Box
+					sx={{
+						display: 'flex',
+						alignItems: 'center',
+						gap: 1,
+					}}
+				>
 					<Typography variant="caption" color="textSecondary">
 						Goal: &gt;= ${minGemValue.toFixed(4)}
 					</Typography>
@@ -94,8 +117,19 @@ const HodlClickerFaucets: React.FC<HodlClickerFaucetsProps> = ({
 						horizontal: 'right',
 					}}
 				>
-					<Box p={2} minWidth={250}>
-						<Typography variant="subtitle2" gutterBottom fontWeight="bold">
+					<Box
+						sx={{
+							p: 2,
+							minWidth: 250,
+						}}
+					>
+						<Typography
+							variant="subtitle2"
+							gutterBottom
+							sx={{
+								fontWeight: 'bold',
+							}}
+						>
 							Filter Settings
 						</Typography>
 						<FormControl fullWidth size="small">
@@ -169,7 +203,14 @@ const HodlClickerFaucets: React.FC<HodlClickerFaucetsProps> = ({
 						const isWinner = dollarAmount >= minGemValue;
 
 						return (
-							<Box key={addr.currentAddress} mb={1} display="flex" alignItems="center">
+							<Box
+								key={addr.currentAddress}
+								sx={{
+									mb: 1,
+									display: 'flex',
+									alignItems: 'center',
+								}}
+							>
 								<Typography variant="caption" sx={{ width: 80, fontFamily: 'monospace' }}>
 									{truncateAddress(addr.currentAddress)}
 								</Typography>

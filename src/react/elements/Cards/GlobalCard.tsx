@@ -68,7 +68,14 @@ const GlobalCard: React.FC = () => {
 				}
 				sub={<>{getBurnedUsdc()}</>}
 				description={
-					<Typography component="div" variant="body2" color="textSecondary" display="inline">
+					<Typography
+						component="div"
+						variant="body2"
+						color="textSecondary"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						{getBurnPercent()}
 					</Typography>
 				}
@@ -92,7 +99,14 @@ const GlobalCard: React.FC = () => {
 				}
 				sub={<>{getLockedPercent()}</>}
 				description={
-					<Typography component="div" variant="body2" color="textSecondary" display="inline">
+					<Typography
+						component="div"
+						variant="body2"
+						color="textSecondary"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						{' '}
 						({lockedPercent}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)
 					</Typography>
@@ -110,14 +124,19 @@ const GlobalCard: React.FC = () => {
 	return (
 		<Card>
 			<CardContent>
-				<Grid container justifyContent="space-between" alignItems="center">
+				<Grid container sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
 					<Grid>
 						<Typography variant="h5" component="h2">
 							Global Statistics
 						</Typography>
 					</Grid>
 				</Grid>
-				<Box mt={1} mb={2}>
+				<Box
+					sx={{
+						mt: 1,
+						mb: 2,
+					}}
+				>
 					<Divider />
 				</Box>
 				<Grid container>

@@ -83,11 +83,26 @@ const UnlockDialog: React.FC = () => {
 		const amount = unmintedUsdAmount * clientSettings.priceMultiplier;
 		const moneyAmount = formatMoney({ amount, currency: clientSettings.currency });
 		return (
-			<Box mt={3}>
+			<Box
+				sx={{
+					mt: 3,
+				}}
+			>
 				<Alert severity="error">
-					<Box mb={1} fontWeight="bold">
+					<Box
+						sx={{
+							mb: 1,
+							fontWeight: 'bold',
+						}}
+					>
 						WARNING: YOU ARE ABOUT TO LOSE{' '}
-						<Box style={{ color: '#0FF' }} fontSize="1.1rem" display="inline">
+						<Box
+							style={{ color: '#0FF' }}
+							sx={{
+								fontSize: '1.1rem',
+								display: 'inline',
+							}}
+						>
 							{moneyAmount} {clientSettings.currency}
 						</Box>{' '}
 						IN UNMINTED {mintableTokenShortName}. IF YOU CONTINUE THIS UNMINTED AMOUNT WILL BE LOST!
@@ -106,21 +121,44 @@ const UnlockDialog: React.FC = () => {
 				<DialogContent>
 					<Box>
 						Tokens To Return:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{amount} {lockableTokenShortName}
 						</Box>
 					</Box>
-					<Box my={2}>
+					<Box
+						sx={{
+							my: 2,
+						}}
+					>
 						<Divider />
 					</Box>
-					<Box mb={6}>
+					<Box
+						sx={{
+							mb: 6,
+						}}
+					>
 						<Typography component="div" gutterBottom={true}>
 							You can stop your validator at any time to get 100% of your {lockableTokenShortName} tokens back.
 						</Typography>
-						<Box my={3}>
+						<Box
+							sx={{
+								my: 3,
+							}}
+						>
 							<Typography component="div" gutterBottom={true}>
 								Please note that stopping a validator will cause you to lose your current{' '}
-								<Box fontWeight="fontWeightBold" display="inline" style={{ whiteSpace: 'nowrap' }}>
+								<Box
+									style={{ whiteSpace: 'nowrap' }}
+									sx={{
+										fontWeight: 'fontWeightBold',
+										display: 'inline',
+									}}
+								>
 									{getFormattedMultiplier(addressDetails.addressTimeMultiplier)}
 								</Box>{' '}
 								time bonus. Restarting a validator will reset the time bonus.
@@ -128,7 +166,12 @@ const UnlockDialog: React.FC = () => {
 						</Box>
 						<Typography component="div" style={{ color: theme.classes.palette.highlight }}>
 							Important Note:{' '}
-							<Box fontWeight="bold" display="inline">
+							<Box
+								sx={{
+									fontWeight: 'bold',
+									display: 'inline',
+								}}
+							>
 								Any unminted {mintableTokenShortName} tokens will be lost.
 							</Box>
 						</Typography>
@@ -136,8 +179,18 @@ const UnlockDialog: React.FC = () => {
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Box mb={1} mr={2}>
-						<Box mr={2} display="inline-block">
+					<Box
+						sx={{
+							mb: 1,
+							mr: 2,
+						}}
+					>
+						<Box
+							sx={{
+								mr: 2,
+								display: 'inline-block',
+							}}
+						>
 							<Button onClick={onClose}>Cancel</Button>
 						</Box>
 						<Button type="submit" color="secondary" size="large" variant="outlined">

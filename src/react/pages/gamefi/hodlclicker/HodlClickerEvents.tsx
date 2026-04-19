@@ -298,10 +298,8 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 		<Box>
 			{/* Game Interaction Section */}
 			<HodlClickerGame ecosystem={ecosystem} avgGemValue={avgGemValue} truncateAddress={truncateAddress} />
-
 			{/* Daily Summary Stats */}
 			<HodlClickerStats summary={summary} getUSDValue={getUSDValue} />
-
 			{/* Leaderboard */}
 			<HodlClickerLeaderboard logs={logs} balances={balances} truncateAddress={truncateAddress} />
 			{/* Collect History Chart */}
@@ -311,9 +309,12 @@ const HodlClickerEvents: React.FC<Props> = ({ ecosystem }) => {
 				totalTransactions={totalTransactions}
 				chartTitle={chartTitle}
 			/>
-
 			{/* Horizontal Timeline */}
-			<Box mb={6}>
+			<Box
+				sx={{
+					mb: 6,
+				}}
+			>
 				<HodlClickerFeed logs={logs} balances={balances} truncateAddress={truncateAddress} />
 			</Box>
 		</Box>

@@ -115,11 +115,21 @@ const CommunityPage: React.FC = () => {
 	 */
 	const getPoint = ({ title, content, icon, mt, mb }: PointParams) => {
 		return (
-			<Box mt={mt !== undefined ? mt : 4} mb={mb !== undefined ? mb : 4}>
-				<Grid container spacing={3} justifyContent="center" className={classes.point}>
+			<Box
+				sx={{
+					mt: mt !== undefined ? mt : 4,
+					mb: mb !== undefined ? mb : 4,
+				}}
+			>
+				<Grid container spacing={3} sx={{ justifyContent: 'center' }} className={classes.point}>
 					<Grid>{icon}</Grid>
 					<Grid size={{ md: 8, lg: 10 }}>
-						<Box mb={1} mt={1}>
+						<Box
+							sx={{
+								mb: 1,
+								mt: 1,
+							}}
+						>
 							<Typography component="div" variant="h4" color="textPrimary">
 								{title}
 							</Typography>
@@ -154,7 +164,14 @@ const CommunityPage: React.FC = () => {
 									<>
 										This Discord community is moderated by Datamine Ecosystem Smart Contact &amp; Analytics Architects.
 										Here you can find regular development &amp; social updates for Datamine Network.{' '}
-										<Typography component="div" variant="h6" color="textPrimary" display="inline">
+										<Typography
+											component="div"
+											variant="h6"
+											color="textPrimary"
+											sx={{
+												display: 'inline',
+											}}
+										>
 											Currently this is the most active community.
 										</Typography>
 									</>
@@ -234,8 +251,17 @@ const CommunityPage: React.FC = () => {
 
 	return (
 		<>
-			<Box mt={8}>
-				<Box mt={6} mb={6}>
+			<Box
+				sx={{
+					mt: 8,
+				}}
+			>
+				<Box
+					sx={{
+						mt: 6,
+						mb: 6,
+					}}
+				>
 					<Container>
 						<Typography
 							component="div"
@@ -245,7 +271,15 @@ const CommunityPage: React.FC = () => {
 							paragraph
 							className={classes.titleSlogan}
 						>
-							<Typography component="h3" variant="h3" color="textPrimary" gutterBottom display="block">
+							<Typography
+								component="h3"
+								variant="h3"
+								color="textPrimary"
+								gutterBottom
+								sx={{
+									display: 'block',
+								}}
+							>
 								Datamine Decentralized Community
 							</Typography>
 							<Typography variant="h6" color="textPrimary" gutterBottom>
@@ -261,16 +295,34 @@ const CommunityPage: React.FC = () => {
 						</Typography>
 					</Container>
 				</Box>
-				<Box mb={6}>
+				<Box
+					sx={{
+						mb: 6,
+					}}
+				>
 					<Paper className={classes.paperBorders}>
-						<Box py={3}>
+						<Box
+							sx={{
+								py: 3,
+							}}
+						>
 							<Container>
-								<Box mb={6}>{getSocialPoints()}</Box>
+								<Box
+									sx={{
+										mb: 6,
+									}}
+								>
+									{getSocialPoints()}
+								</Box>
 							</Container>
 						</Box>
 					</Paper>
 				</Box>
-				<Box my={6}>
+				<Box
+					sx={{
+						my: 6,
+					}}
+				>
 					<Container>
 						<Typography
 							component="div"
@@ -280,7 +332,14 @@ const CommunityPage: React.FC = () => {
 							paragraph
 							className={classes.titleSlogan}
 						>
-							<Typography component="div" display="inline" variant="h6" color="textPrimary">
+							<Typography
+								component="div"
+								variant="h6"
+								color="textPrimary"
+								sx={{
+									display: 'inline',
+								}}
+							>
 								Want your community listed here? Reach out to one of the existing communities in the list and you can
 								join our decentralization efforts.
 							</Typography>

@@ -105,9 +105,14 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosyst
 			case LiquidityPoolButtonType.SmallText:
 				return (
 					<Link underline="hover" color="secondary" href="#" onClick={handleClick}>
-						<Grid container alignItems="center" justifyContent="center">
+						<Grid container sx={{ justifyContent: 'center', alignItems: 'center' }}>
 							<Grid>
-								<Box mr={0.5} className={classes.logoContainer}>
+								<Box
+									className={classes.logoContainer}
+									sx={{
+										mr: 0.5,
+									}}
+								>
 									<img src={uniswapLogo} style={{ left: 14 }} />
 									<img src={sushiSwapLogo} style={{ left: -9 }} />
 								</Box>
@@ -130,9 +135,14 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosyst
 						aria-haspopup="true"
 						onClick={handleClick}
 					>
-						<Grid container alignItems="center" justifyContent="center">
+						<Grid container sx={{ justifyContent: 'center', alignItems: 'center' }}>
 							<Grid>
-								<Box mr={1} className={classes.logoContainer}>
+								<Box
+									className={classes.logoContainer}
+									sx={{
+										mr: 1,
+									}}
+								>
 									<img
 										src={uniswapLogo}
 										style={{ left: buttonType == LiquidityPoolButtonType.SmallButton ? 18 : 14 }}
@@ -165,7 +175,12 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosyst
 						}
 
 						return (
-							<Box ml={1} display="inline-block">
+							<Box
+								sx={{
+									ml: 1,
+									display: 'inline-block',
+								}}
+							>
 								<Chip size="small" label="HOT🔥" variant="outlined" />
 							</Box>
 						);
@@ -211,15 +226,20 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosyst
 						<MenuItem key={index} style={{ cursor: 'default' }} className={classes.menuItem}>
 							<Grid
 								container
-								alignItems="center"
-								justifyContent="space-between"
+								sx={{ justifyContent: 'space-between', alignItems: 'center' }}
 								spacing={2}
 								className={classes.buttonsGroup}
 							>
 								<Grid>
 									<Grid container>
 										<Grid>
-											<Box pl={1} pr={2} display="inline">
+											<Box
+												sx={{
+													pl: 1,
+													pr: 2,
+													display: 'inline',
+												}}
+											>
 												<img src={pool.image} width={32} height={32} style={{ verticalAlign: 'middle' }} />
 											</Box>
 										</Grid>
@@ -232,10 +252,20 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosyst
 								<Grid>
 									<Grid container spacing={2} className={classes.buttonsContainer}>
 										<Grid className={classes.buttonGridItem}>
-											<Box ml={3}>{getTradeButton()}</Box>
+											<Box
+												sx={{
+													ml: 3,
+												}}
+											>
+												{getTradeButton()}
+											</Box>
 										</Grid>
 										<Grid className={classes.buttonGridItem}>
-											<Box ml={1}>
+											<Box
+												sx={{
+													ml: 1,
+												}}
+											>
 												<Button
 													size="large"
 													variant="outlined"
@@ -269,7 +299,11 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosyst
 				}
 
 				return (
-					<Box my={1}>
+					<Box
+						sx={{
+							my: 1,
+						}}
+					>
 						<Divider />
 					</Box>
 				);
@@ -277,7 +311,13 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosyst
 
 			return (
 				<Box key={index}>
-					<Box ml={2} mt={2} mb={1}>
+					<Box
+						sx={{
+							ml: 2,
+							mt: 2,
+							mb: 1,
+						}}
+					>
 						<Typography component="div" variant="body2" color="textSecondary">
 							{index === 0 ? `Ethereum L1:` : `Arbitrum L2:`}
 						</Typography>
@@ -300,13 +340,29 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosyst
 				anchorOrigin={{ vertical: 0, horizontal: 'left' }}
 				transformOrigin={{ vertical: -50, horizontal: 'left' }}
 			>
-				<Box mx={2} my={2}>
+				<Box
+					sx={{
+						mx: 2,
+						my: 2,
+					}}
+				>
 					Our Liquidity Pools{' '}
-					<Typography component="div" variant="body2" color="textSecondary" display="inline">
+					<Typography
+						component="div"
+						variant="body2"
+						color="textSecondary"
+						sx={{
+							display: 'inline',
+						}}
+					>
 						(Liquidity Providers earn on every trade)
 					</Typography>
 				</Box>
-				<Box my={1}>
+				<Box
+					sx={{
+						my: 1,
+					}}
+				>
 					<Divider />
 				</Box>
 				{getMenuItems()}

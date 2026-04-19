@@ -62,7 +62,12 @@ const GameSettingsDialog: React.FC = () => {
 	};
 	const getDelegatedMinterBox = () => {
 		return (
-			<Box mt={1} mb={3}>
+			<Box
+				sx={{
+					mt: 1,
+					mb: 3,
+				}}
+			>
 				<TextField
 					id="name"
 					label="Minter Address (Which address can mint from this validator)"
@@ -81,9 +86,20 @@ const GameSettingsDialog: React.FC = () => {
 		<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 			<form onSubmit={onSubmit}>
 				<DialogTitle id="form-dialog-title">
-					<Box display="flex" alignItems="center" alignContent="center">
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							alignContent: 'center',
+						}}
+					>
 						Game Settings
-						<Box display="flex" pl={1}>
+						<Box
+							sx={{
+								display: 'flex',
+								pl: 1,
+							}}
+						>
 							<Settings style={{ color: '#00ffff' }} />
 						</Box>
 					</Box>
@@ -91,37 +107,73 @@ const GameSettingsDialog: React.FC = () => {
 				<DialogContent>
 					<Box>
 						Minter Address:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{selectedAddress}
 						</Box>
 					</Box>
-					<Box my={1}>
+					<Box
+						sx={{
+							my: 1,
+						}}
+					>
 						Current Balance:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{formatBigInt(balances.fluxToken, true)} {mintableTokenShortName}
 						</Box>
 					</Box>
-					<Box my={3}>
+					<Box
+						sx={{
+							my: 3,
+						}}
+					>
 						<Divider />
 					</Box>
 					<Typography component="div" gutterBottom={true}>
 						Below you can specify who can mint from your account. By default the address that locks-in the{' '}
 						{mintableTokenShortName} gets to mint from that address.
 					</Typography>
-					<Box my={4}>
+					<Box
+						sx={{
+							my: 4,
+						}}
+					>
 						<Typography component="div">
 							You can pick any Ethereum address to mint for you instead (delegated minting). For example you can put
 							your mobile phone wallet address to mint on the go!
 						</Typography>
 					</Box>
 					{getDelegatedMinterBox()}
-					<Box mt={2}>
+					<Box
+						sx={{
+							mt: 2,
+						}}
+					>
 						<Divider />
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Box mb={1} mr={2}>
-						<Box mr={2} display="inline-block">
+					<Box
+						sx={{
+							mb: 1,
+							mr: 2,
+						}}
+					>
+						<Box
+							sx={{
+								mr: 2,
+								display: 'inline-block',
+							}}
+						>
 							<Button onClick={onClose}>Cancel</Button>
 						</Box>
 						<Button type="submit" color="secondary" size="large" variant="outlined">

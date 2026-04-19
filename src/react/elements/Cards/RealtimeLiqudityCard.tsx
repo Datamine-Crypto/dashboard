@@ -46,7 +46,14 @@ const RealtimeLiqudityCard: React.FC = () => {
 				return (
 					<>
 						{' '}
-						<Typography component="div" variant="body2" color="textSecondary" display="inline">
+						<Typography
+							component="div"
+							variant="body2"
+							color="textSecondary"
+							sx={{
+								display: 'inline',
+							}}
+						>
 							({damSupply}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)
 						</Typography>
 					</>
@@ -57,7 +64,14 @@ const RealtimeLiqudityCard: React.FC = () => {
 				return (
 					<>
 						{' '}
-						<Typography component="div" variant="body2" color="textSecondary" display="inline">
+						<Typography
+							component="div"
+							variant="body2"
+							color="textSecondary"
+							sx={{
+								display: 'inline',
+							}}
+						>
 							({fluxSupply}% of current supply)
 						</Typography>
 					</>
@@ -78,16 +92,31 @@ const RealtimeLiqudityCard: React.FC = () => {
 			<DetailedListItem
 				title={
 					<>
-						<Box display="inline">
+						<Box
+							sx={{
+								display: 'inline',
+							}}
+						>
 							{lockableTokenShortName} Realtime Market Cap{layer === Layer.Layer2 ? ' (on L2)' : ''}:
 						</Box>
 					</>
 				}
 				main={
 					<>
-						<Box display="inline">
+						<Box
+							sx={{
+								display: 'inline',
+							}}
+						>
 							{circulatingDamMarketCap}{' '}
-							<Typography component="div" variant="body2" color="textSecondary" display="inline">
+							<Typography
+								component="div"
+								variant="body2"
+								color="textSecondary"
+								sx={{
+									display: 'inline',
+								}}
+							>
 								(Circulating)
 							</Typography>
 						</Box>
@@ -95,9 +124,20 @@ const RealtimeLiqudityCard: React.FC = () => {
 				}
 				sub={
 					<>
-						<Box display="inline">
+						<Box
+							sx={{
+								display: 'inline',
+							}}
+						>
 							{actualDamMarketCap}{' '}
-							<Typography component="div" variant="body2" color="textSecondary" display="inline">
+							<Typography
+								component="div"
+								variant="body2"
+								color="textSecondary"
+								sx={{
+									display: 'inline',
+								}}
+							>
 								(Total)
 							</Typography>
 						</Box>
@@ -168,12 +208,24 @@ const RealtimeLiqudityCard: React.FC = () => {
 			<DetailedListItem
 				title={
 					<>
-						<Box display="inline">{mintableTokenShortName} Realtime Market Cap: </Box>
+						<Box
+							sx={{
+								display: 'inline',
+							}}
+						>
+							{mintableTokenShortName} Realtime Market Cap:{' '}
+						</Box>
 					</>
 				}
 				main={
 					<>
-						<Box display="inline">{actualFluxMarketCap}</Box>
+						<Box
+							sx={{
+								display: 'inline',
+							}}
+						>
+							{actualFluxMarketCap}
+						</Box>
 					</>
 				}
 			/>
@@ -259,7 +311,12 @@ const RealtimeLiqudityCard: React.FC = () => {
 				return <LightTooltip title={getAddToPoolTooltip()}>{button}</LightTooltip>;
 			};
 			return (
-				<Box mx={1} display="inline-block">
+				<Box
+					sx={{
+						mx: 1,
+						display: 'inline-block',
+					}}
+				>
 					{getButton()}
 				</Box>
 			);
@@ -285,7 +342,7 @@ const RealtimeLiqudityCard: React.FC = () => {
 	return (
 		<Card>
 			<CardContent>
-				<Grid container justifyContent="space-between" alignItems="center">
+				<Grid container sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
 					<Grid>
 						<LightTooltip title="Our realtime global liquidity is fetched from Uniswap on-chain data through a smart contract">
 							<Typography variant="h5" component="h2">
@@ -297,7 +354,12 @@ const RealtimeLiqudityCard: React.FC = () => {
 						<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.SmallButton} ecosystem={ecosystem} />
 					</Grid>
 				</Grid>
-				<Box mt={1} mb={1}>
+				<Box
+					sx={{
+						mt: 1,
+						mb: 1,
+					}}
+				>
 					<Divider />
 				</Box>
 				<Grid container>

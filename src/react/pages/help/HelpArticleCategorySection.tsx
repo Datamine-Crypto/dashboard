@@ -20,7 +20,13 @@ const HelpArticleCategorySection: React.FC<HelpArticleCategorySectionProps> = ({
 					key={index}
 					onClick={() => dispatch({ type: commonLanguage.commands.Help.ShowArticle, payload: { helpArticle } })}
 				>
-					<Box pl={1}>• {helpArticle.title}</Box>
+					<Box
+						sx={{
+							pl: 1,
+						}}
+					>
+						• {helpArticle.title}
+					</Box>
 				</ListItemButton>
 			);
 		});

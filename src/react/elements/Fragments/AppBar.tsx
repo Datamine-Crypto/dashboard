@@ -95,14 +95,27 @@ const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
 				<Link href="#">
 					<Card elevation={0}>
 						<CardActionArea className={classes.logoArea}>
-							<Grid container alignItems="center">
+							<Grid container sx={{ alignItems: 'center' }}>
 								<Grid>
-									<Box mr={2} mt={0.5}>
+									<Box
+										sx={{
+											mr: 2,
+											mt: 0.5,
+										}}
+									>
 										<img src={DamLogo} width="54" height="54" alt="Datemine Network" />
 									</Box>
 								</Grid>
 								<Grid>
-									<Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+									<Typography
+										component="h1"
+										variant="h6"
+										noWrap
+										className={classes.title}
+										sx={{
+											color: 'inherit',
+										}}
+									>
 										<Box sx={{ display: { xs: 'none', md: 'block' } /*smDown*/ }}>{ecosystemName}</Box>
 									</Typography>
 								</Grid>
@@ -114,7 +127,11 @@ const MainAppBar: React.FC<AppBarProps> = ({ sidebar }) => {
 				<nav className={classes.nav}>
 					{getSearchTextField()}
 					<Box sx={{ display: { xs: 'block', lg: 'none' } /*lgUp*/ }}>
-						<Box ml={1}>
+						<Box
+							sx={{
+								ml: 1,
+							}}
+						>
 							<Tooltip title="Open Menu">
 								<IconButton onClick={() => appDispatch({ type: commonLanguage.commands.Drawer.Open })}>
 									<Menu />

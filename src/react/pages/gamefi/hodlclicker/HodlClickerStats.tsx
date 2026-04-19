@@ -32,39 +32,90 @@ const HodlClickerStats: React.FC<HodlClickerStatsProps> = ({ summary, getUSDValu
 				></Typography>
 				<Grid container spacing={3}>
 					<Grid size={{ xs: 12, sm: 4 }}>
-						<Box display="flex" alignItems="center" justifyContent={{ xs: 'center', md: 'flex-start' }}>
+						<Box
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: { xs: 'center', md: 'flex-start' },
+							}}
+						>
 							<Whatshot sx={{ mr: 2, fontSize: 48, opacity: 0.9, color: theme.palette.warning.main }} />
 							<Box>
-								<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
+								<Typography
+									variant="caption"
+									sx={{
+										display: 'block',
+										opacity: 0.7,
+									}}
+								>
 									LOCK Burned (USD)
 								</Typography>
-								<Typography variant="h4" fontWeight="bold">
+								<Typography
+									variant="h4"
+									sx={{
+										fontWeight: 'bold',
+									}}
+								>
 									${getUSDValue(summary.totalBurned)}
 								</Typography>
 							</Box>
 						</Box>
 					</Grid>
 					<Grid size={{ xs: 12, sm: 4 }}>
-						<Box display="flex" alignItems="center" justifyContent={{ xs: 'center', md: 'flex-start' }}>
+						<Box
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: { xs: 'center', md: 'flex-start' },
+							}}
+						>
 							<AttachMoney sx={{ mr: 2, fontSize: 48, opacity: 0.9, color: theme.palette.success.main }} />
 							<Box>
-								<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
+								<Typography
+									variant="caption"
+									sx={{
+										display: 'block',
+										opacity: 0.7,
+									}}
+								>
 									Jackpot Wins (USD)
 								</Typography>
-								<Typography variant="h4" fontWeight="bold">
+								<Typography
+									variant="h4"
+									sx={{
+										fontWeight: 'bold',
+									}}
+								>
 									${getUSDValue(summary.totalJackpot)}
 								</Typography>
 							</Box>
 						</Box>
 					</Grid>
 					<Grid size={{ xs: 12, sm: 4 }}>
-						<Box display="flex" alignItems="center" justifyContent={{ xs: 'center', md: 'flex-start' }}>
+						<Box
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: { xs: 'center', md: 'flex-start' },
+							}}
+						>
 							<LocalGasStation sx={{ mr: 2, fontSize: 48, opacity: 0.9, color: theme.palette.info.main }} />
 							<Box>
-								<Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
+								<Typography
+									variant="caption"
+									sx={{
+										display: 'block',
+										opacity: 0.7,
+									}}
+								>
 									Tips Paid (USD)
 								</Typography>
-								<Typography variant="h4" fontWeight="bold">
+								<Typography
+									variant="h4"
+									sx={{
+										fontWeight: 'bold',
+									}}
+								>
 									${getUSDValue(summary.totalTip)}
 								</Typography>
 							</Box>

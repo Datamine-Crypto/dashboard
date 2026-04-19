@@ -92,7 +92,11 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 
 	const getArrow = () => {
 		return (
-			<Box display="inline">
+			<Box
+				sx={{
+					display: 'inline',
+				}}
+			>
 				<ArrowRight fontSize="large" className={classes.arrow} />
 			</Box>
 		);
@@ -105,8 +109,10 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 					variant="h3"
 					color="textPrimary"
 					gutterBottom
-					display="block"
 					className={classes.title}
+					sx={{
+						display: 'block',
+					}}
 				>
 					The MIT License {getArrow()}
 				</Typography>
@@ -118,8 +124,10 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 				variant="h3"
 				color="textPrimary"
 				gutterBottom
-				display="block"
 				className={classes.title}
+				sx={{
+					display: 'block',
+				}}
 			>
 				The Yield-Bearing <span className={classes.proofOfBurn}>Cryptocurrency</span> {/*getArrow()*/}
 			</Typography>
@@ -129,9 +137,17 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 	const getSubHeader = () => {
 		if (isSubPage) {
 			return (
-				<Box mt={4}>
-					<Box mt={3}>
-						<Grid container spacing={3} justifyContent="center">
+				<Box
+					sx={{
+						mt: 4,
+					}}
+				>
+					<Box
+						sx={{
+							mt: 3,
+						}}
+					>
+						<Grid container spacing={3} sx={{ justifyContent: 'center' }}>
 							<Grid>
 								<Button variant="text" href="#">
 									Homepage
@@ -168,8 +184,12 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 				);
 			};
 			return (
-				<Box mt={3}>
-					<Grid container spacing={3} justifyContent="center">
+				<Box
+					sx={{
+						mt: 3,
+					}}
+				>
+					<Grid container spacing={3} sx={{ justifyContent: 'center' }}>
 						<Grid>
 							<Button
 								variant="text"
@@ -216,8 +236,12 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 			);
 		};
 		return (
-			<Box mt={5}>
-				<Grid container spacing={4} justifyContent="center" alignItems="center">
+			<Box
+				sx={{
+					mt: 5,
+				}}
+			>
+				<Grid container spacing={4} sx={{ justifyContent: 'center', alignItems: 'center' }}>
 					{getLiqudityPoolsButton()}
 					<Grid>
 						<Button
@@ -244,10 +268,19 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 		}
 
 		return (
-			<Box mt={5} mb={3}>
-				<Grid container justifyContent="center">
+			<Box
+				sx={{
+					mt: 5,
+					mb: 3,
+				}}
+			>
+				<Grid container sx={{ justifyContent: 'center' }}>
 					<Grid>
-						<Box display="inline-block">
+						<Box
+							sx={{
+								display: 'inline-block',
+							}}
+						>
 							<Card elevation={3}>
 								<LightTooltip title={`Watch How ${ecosystemName} Works`} placement="top">
 									<CardActionArea href="https://youtu.be/VBiLrx8Nkl4" target="_blank" rel="noopener noreferrer">
@@ -266,9 +299,11 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 	const getHeader = () => {
 		return (
 			<>
-				<Grid container spacing={4} justifyContent="center" alignItems="center">
-					<Grid className={classes.logoContainer}>{getLogo()}</Grid>
-					<Grid size={{ md: 8, lg: 8 }}>
+				<Grid container spacing={4} sx={{ justifyContent: 'center', alignItems: 'center' }}>
+					<Grid size={{ xs: 12, md: 12, lg: 'auto' }} className={classes.logoContainer}>
+						{getLogo()}
+					</Grid>
+					<Grid size={{ xs: 12, md: 12, lg: 'grow' }}>
 						<Box>
 							{getTitle()}
 							<Typography
@@ -279,12 +314,25 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 								paragraph
 								className={classes.titleSlogan}
 							>
-								<Typography component="div" display="inline" variant="h5" color="textPrimary">
+								<Typography
+									component="div"
+									variant="h5"
+									color="textPrimary"
+									sx={{
+										display: 'inline',
+									}}
+								>
 									Datamine Ecosystem:
 								</Typography>{' '}
 								Pioneering{' '}
 								<LightTooltip title={defiTitle}>
-									<Box display="inline-block">DeFi&apos;s</Box>
+									<Box
+										sx={{
+											display: 'inline-block',
+										}}
+									>
+										DeFi&apos;s
+									</Box>
 								</LightTooltip>{' '}
 								with inflation-resistant cryptocurrency, leveraging the secondary functionality of money to generate
 								sustainable yield and permanent liquidity.
@@ -293,7 +341,6 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 						</Box>
 					</Grid>
 				</Grid>
-
 				{getSubHeader()}
 			</>
 		);
@@ -301,7 +348,12 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 
 	return (
 		<>
-			<Box mt={6} mb={6}>
+			<Box
+				sx={{
+					mt: 6,
+					mb: 6,
+				}}
+			>
 				<Container>{getHeader()}</Container>
 			</Box>
 		</>

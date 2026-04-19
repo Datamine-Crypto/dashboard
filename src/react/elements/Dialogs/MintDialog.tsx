@@ -74,9 +74,20 @@ const MintDialog: React.FC = () => {
 			{error ? <MessageDialog open={true} title="Error" message={error} onClose={onCloseError} /> : null}
 			<form onSubmit={onSubmit}>
 				<DialogTitle id="form-dialog-title">
-					<Box display="flex" alignItems="center" alignContent="center">
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							alignContent: 'center',
+						}}
+					>
 						Collect {mintableTokenShortName} Yield
-						<Box display="flex" pl={1}>
+						<Box
+							sx={{
+								display: 'flex',
+								pl: 1,
+							}}
+						>
 							<Redeem style={{ color: '#0ff' }} />
 						</Box>
 					</Box>
@@ -84,29 +95,56 @@ const MintDialog: React.FC = () => {
 				<DialogContent>
 					<Box>
 						From Address:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{displayedAddress}
 						</Box>
 					</Box>
-					<Box my={1}>
+					<Box
+						sx={{
+							my: 1,
+						}}
+					>
 						Total Yield: ~
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{formatBigInt(addressDetails.mintAmount, true)} {mintableTokenShortName}
 						</Box>
 					</Box>
-					<Box my={3}>
+					<Box
+						sx={{
+							my: 3,
+						}}
+					>
 						<Divider />
 					</Box>
 					<Typography component="div" gutterBottom={true}>
 						To continue specify where you want to collect these {mintableTokenShortName} tokens. You can specify any
 						Ethereum-based address.
 					</Typography>
-					<Box my={3}>
+					<Box
+						sx={{
+							my: 3,
+						}}
+					>
 						<Typography component="div">
 							Your generated {mintableTokenShortName} yield will be sent to the following address:
 						</Typography>
 					</Box>
-					<Box mt={3} mb={6}>
+					<Box
+						sx={{
+							mt: 3,
+							mb: 6,
+						}}
+					>
 						<TextField
 							autoFocus
 							id="name"
@@ -120,13 +158,27 @@ const MintDialog: React.FC = () => {
 							fullWidth
 						/>
 					</Box>
-					<Box mt={2}>
+					<Box
+						sx={{
+							mt: 2,
+						}}
+					>
 						<Divider />
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Box mb={1} mr={2}>
-						<Box mr={2} display="inline-block">
+					<Box
+						sx={{
+							mb: 1,
+							mr: 2,
+						}}
+					>
+						<Box
+							sx={{
+								mr: 2,
+								display: 'inline-block',
+							}}
+						>
 							<Button onClick={onClose}>Cancel</Button>
 						</Box>
 						<Button type="submit" color="secondary" size="large" variant="outlined">

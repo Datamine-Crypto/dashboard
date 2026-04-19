@@ -39,9 +39,21 @@ const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
 
 	return (
 		<Paper sx={{ p: 3, mb: 3, bgcolor: 'background.paper' }}>
-			<Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					mb: 2,
+				}}
+			>
 				<Typography variant="h6">{chartTitle}</Typography>
-				<Box display="flex" gap={1}>
+				<Box
+					sx={{
+						display: 'flex',
+						gap: 1,
+					}}
+				>
 					{averageValue !== undefined && (
 						<Chip
 							label={`Avg: $${averageValue.toFixed(4)}`}
@@ -57,13 +69,15 @@ const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
 			</Box>
 			<Box sx={{ overflowX: 'auto', pb: 1 }}>
 				<Box
-					height={200}
-					display="flex"
-					alignItems="stretch"
 					sx={{
+						height: 200,
+						display: 'flex',
+						alignItems: 'stretch',
 						pt: 2,
 						position: 'relative',
-						minWidth: Math.max(100, chartData.length * 10), // Ensure minimum width per bar
+
+						// Ensure minimum width per bar
+						minWidth: Math.max(100, chartData.length * 10),
 					}}
 				>
 					{/* Average Line */}
@@ -90,12 +104,27 @@ const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
 							<Tooltip
 								key={data.id || data.timestamp}
 								title={
-									<Box textAlign="center">
-										<Typography variant="body2" fontWeight="bold">
+									<Box
+										sx={{
+											textAlign: 'center',
+										}}
+									>
+										<Typography
+											variant="body2"
+											sx={{
+												fontWeight: 'bold',
+											}}
+										>
 											{data.time}
 										</Typography>
 										{data.formattedValue && (
-											<Typography variant="body2" color="warning.main" fontWeight="bold">
+											<Typography
+												variant="body2"
+												sx={{
+													color: 'warning.main',
+													fontWeight: 'bold',
+												}}
+											>
 												{data.formattedValue}
 											</Typography>
 										)}
@@ -103,9 +132,11 @@ const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
 											<Typography
 												key={idx}
 												variant={item.variant || 'caption'}
-												display="block"
 												color={item.color || 'text.secondary'}
-												fontWeight={item.fontWeight || 'normal'}
+												sx={{
+													display: 'block',
+													fontWeight: item.fontWeight || 'normal',
+												}}
 											>
 												{item.label ? `${item.label}: ` : ''}
 												{item.value}
@@ -144,7 +175,13 @@ const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
 					})}
 				</Box>
 			</Box>
-			<Box display="flex" justifyContent="space-between" mt={1}>
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					mt: 1,
+				}}
+			>
 				<Typography variant="caption" color="textSecondary">
 					{chartData.length > 0 ? chartData[0].time : ''}
 				</Typography>

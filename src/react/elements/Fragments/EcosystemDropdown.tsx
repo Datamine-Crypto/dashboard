@@ -28,9 +28,13 @@ export const getNetworkDropdown = ({ ecosystem, connectionMethod, dispatch, widt
 
 		ecosystemMenuItems.push(
 			<MenuItem value={ecosystemName}>
-				<Grid container direction="row" justifyContent="flex-start" alignItems="center">
+				<Grid container direction="row" sx={{ justifyContent: 'flex-start', alignItems: 'center' }}>
 					<Grid style={{ lineHeight: 0 }}>
-						<Box mr={1}>
+						<Box
+							sx={{
+								mr: 1,
+							}}
+						>
 							<img src={ecosystemLogoSvg} width="24" height="24" />
 						</Box>
 					</Grid>
@@ -43,7 +47,11 @@ export const getNetworkDropdown = ({ ecosystem, connectionMethod, dispatch, widt
 	}
 
 	return (
-		<Box mr={1}>
+		<Box
+			sx={{
+				mr: 1,
+			}}
+		>
 			<FormControl size="small" variant="outlined" fullWidth style={{ width }}>
 				<InputLabel id="network-type">Ecosystem</InputLabel>
 				<Select

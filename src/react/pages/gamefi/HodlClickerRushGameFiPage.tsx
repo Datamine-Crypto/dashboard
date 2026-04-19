@@ -114,8 +114,21 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 				style={{ borderRadius: 30 }}
 			/>
 			{/* Header Section: Title, Subtitle, and Start Game Button */}
-			<Box textAlign="center" mb={6}>
-				<Typography variant="h6" color="text.secondary" paragraph sx={{ mb: 3, mt: 3 }}>
+			<Box
+				sx={{
+					textAlign: 'center',
+					mb: 6,
+				}}
+			>
+				<Typography
+					variant="h6"
+					paragraph
+					sx={{
+						color: 'text.secondary',
+						mb: 3,
+						mt: 3,
+					}}
+				>
 					Click your way to victory! The ultimate #GameFi experience where every click counts.
 				</Typography>
 				<Button
@@ -144,7 +157,14 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 			</Box>
 			{/* Introduction Section: "What is HODL Clicker: Rush?" */}
 			<Section>
-				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold' }}>
+				<Typography
+					variant="h4"
+					gutterBottom
+					sx={{
+						textAlign: 'center',
+						fontWeight: 'bold',
+					}}
+				>
 					What is{' '}
 					<GradientText as="span" variant="h4" sx={{ display: 'inline' }}>
 						HODL Clicker
@@ -153,9 +173,12 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 				</Typography>
 				<Typography
 					variant="body1"
-					color="text.secondary"
-					textAlign="center"
-					sx={{ maxWidth: '750px', margin: '0 auto 20px auto' }}
+					sx={{
+						color: 'text.secondary',
+						textAlign: 'center',
+						maxWidth: '750px',
+						margin: '0 auto 20px auto',
+					}}
 				>
 					HODL Clicker is a revolutionary GameFi experience where you can start earning rewards with zero initial
 					tokens. It&apos;s a true play-to-earn model that&apos;s fun, engaging, and rewards participation.
@@ -163,11 +186,19 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 			</Section>
 			{/* Key Features Section */}
 			<Section>
-				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold', mb: 5 }}>
+				<Typography
+					variant="h4"
+					gutterBottom
+					sx={{
+						textAlign: 'center',
+						fontWeight: 'bold',
+						mb: 5,
+					}}
+				>
 					Why You&apos;ll Love HODL Clicker
 				</Typography>
 				{/* Grid layout for features - using MUI v7.10 <Grid size={{...}}> syntax */}
-				<Grid container spacing={4} alignItems="stretch">
+				<Grid container spacing={4} sx={{ alignItems: 'stretch' }}>
 					{' '}
 					{/* alignItems="stretch" makes cards in a row same height */}
 					{features.map((feature, index) => (
@@ -186,7 +217,12 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 								>
 									{feature.title}
 								</Typography>
-								<Typography variant="body2" color="text.secondary">
+								<Typography
+									variant="body2"
+									sx={{
+										color: 'text.secondary',
+									}}
+								>
 									{feature.description}
 								</Typography>
 							</FeatureCard>
@@ -196,16 +232,31 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 			</Section>
 			{/* Ecosystem Impact Section */}
 			<Section>
-				<Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold', mb: 1 }}>
+				<Typography
+					variant="h4"
+					gutterBottom
+					sx={{
+						textAlign: 'center',
+						fontWeight: 'bold',
+						mb: 1,
+					}}
+				>
 					<GradientText as="span" variant="h4" sx={{ display: 'inline' }}>
 						Powering the Ecosystem:
 					</GradientText>
 				</Typography>
-				<Typography variant="h5" gutterBottom textAlign="center" sx={{ mb: 4 }}>
+				<Typography
+					variant="h5"
+					gutterBottom
+					sx={{
+						textAlign: 'center',
+						mb: 4,
+					}}
+				>
 					The Drive for Unmatched Efficiency
 				</Typography>
 				{/* alignItems changed from "center" to "start" */}
-				<Grid container spacing={4} alignItems="start">
+				<Grid container spacing={4} sx={{ alignItems: 'start' }}>
 					<Grid size={{ xs: 12, md: 6 }}>
 						{' '}
 						{/* Responsive grid item */}
@@ -216,7 +267,13 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 							<Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
 								Boosting Monetary Velocity
 							</Typography>
-							<Typography variant="body1" color="text.secondary" paragraph>
+							<Typography
+								variant="body1"
+								paragraph
+								sx={{
+									color: 'text.secondary',
+								}}
+							>
 								HODL Clicker isn&apos;t just about fun; it&apos;s a catalyst for enhancing the entire Datamine Network.
 								Our efficiency updates, including a new smart contract for autonomous multi-address minting, are
 								designed to significantly increase monetary velocity.
@@ -233,12 +290,25 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 							<Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
 								Maximizing Validator Rewards
 							</Typography>
-							<Typography variant="body1" color="text.secondary" paragraph>
+							<Typography
+								variant="body1"
+								paragraph
+								sx={{
+									color: 'text.secondary',
+								}}
+							>
 								More on-chain interactions from the game mean better, more consistent rewards for our valued validators.
 								HODL Clicker provides a constant stream of activity, boosting APY and reinforcing the health of our
 								decentralized monetary system.
 							</Typography>
-							<Typography variant="body1" color="text.secondary" paragraph sx={{ fontStyle: 'italic' }}>
+							<Typography
+								variant="body1"
+								paragraph
+								sx={{
+									color: 'text.secondary',
+									fontStyle: 'italic',
+								}}
+							>
 								This is GameFi with a purpose: driving efficiency, stability, and rewards throughout the Datamine
 								ecosystem.
 							</Typography>
@@ -259,7 +329,12 @@ const HodlClickerRushGameFiPage: React.FC = () => {
 
 	return (
 		<Box>
-			<Box mt={6} pt={4}>
+			<Box
+				sx={{
+					mt: 6,
+					pt: 4,
+				}}
+			>
 				<Box
 					sx={{
 						minHeight: '100vh',

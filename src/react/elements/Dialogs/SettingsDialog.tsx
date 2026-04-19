@@ -248,7 +248,11 @@ const SettingsDialog: React.FC = () => {
 			includeCurrencySuffix: true,
 		});
 		return (
-			<Box textAlign="center">
+			<Box
+				sx={{
+					textAlign: 'center',
+				}}
+			>
 				<Typography component="div" variant="h6">
 					1 USD = {exchangedAmount}
 				</Typography>
@@ -270,7 +274,7 @@ const SettingsDialog: React.FC = () => {
 				}
 				label={
 					<>
-						<Grid container alignItems="center">
+						<Grid container sx={{ alignItems: 'center' }}>
 							<Grid>
 								{clientSettings.useEip1559 ? (
 									<Typography component="div" color="secondary">
@@ -281,7 +285,12 @@ const SettingsDialog: React.FC = () => {
 								)}
 							</Grid>
 							<Grid>
-								<Box ml={0.5} display="flex">
+								<Box
+									sx={{
+										ml: 0.5,
+										display: 'flex',
+									}}
+								>
 									<AccessTime color={clientSettings.useEip1559 ? 'secondary' : undefined} />
 								</Box>
 							</Grid>
@@ -295,9 +304,20 @@ const SettingsDialog: React.FC = () => {
 	return (
 		<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 			<DialogTitle id="form-dialog-title">
-				<Box display="flex" alignItems="center" alignContent="center">
+				<Box
+					sx={{
+						display: 'flex',
+						alignItems: 'center',
+						alignContent: 'center',
+					}}
+				>
 					Settings
-					<Box display="flex" pl={1}>
+					<Box
+						sx={{
+							display: 'flex',
+							pl: 1,
+						}}
+					>
 						<Settings style={{ color: '#0ff' }} />
 					</Box>
 				</Box>
@@ -305,14 +325,27 @@ const SettingsDialog: React.FC = () => {
 			<DialogContent>
 				Customize the look and feel of the {ecosystemName} Decentralized Dashboard! Your settings are saved instantly on
 				any change.
-				<Box my={3}>
+				<Box
+					sx={{
+						my: 3,
+					}}
+				>
 					<Divider />
 				</Box>
 				{getTransactionTypeToggle()}
-				<Box my={2}>
+				<Box
+					sx={{
+						my: 2,
+					}}
+				>
 					<Divider />
 				</Box>
-				<Box mt={3} mb={3}>
+				<Box
+					sx={{
+						mt: 3,
+						mb: 3,
+					}}
+				>
 					<Grid container spacing={2}>
 						<Grid size={{ xs: 12, md: 6 }}>{getCurrencyDropdown()}</Grid>
 						<Grid size={{ xs: 12, md: 6 }}>
@@ -335,12 +368,21 @@ const SettingsDialog: React.FC = () => {
 					</Grid>
 				</Box>
 				{getExchangeRateDetails()}
-				<Box mt={2}>
+				<Box
+					sx={{
+						mt: 2,
+					}}
+				>
 					<Divider />
 				</Box>
 			</DialogContent>
 			<DialogActions>
-				<Box mb={1} mr={2}>
+				<Box
+					sx={{
+						mb: 1,
+						mr: 2,
+					}}
+				>
 					<Button type="submit" color="secondary" size="large" variant="outlined" onClick={onClose}>
 						Close
 					</Button>

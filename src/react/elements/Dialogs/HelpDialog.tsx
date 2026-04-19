@@ -198,7 +198,11 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 
 	const thematicBreak = () => {
 		return (
-			<Box my={2}>
+			<Box
+				sx={{
+					my: 2,
+				}}
+			>
 				<Divider />
 			</Box>
 		);
@@ -285,7 +289,11 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 			switch (type) {
 				case ComponentType.AddToMetamask:
 					return (
-						<Box my={3}>
+						<Box
+							sx={{
+								my: 3,
+							}}
+						>
 							<Card>
 								<CardActions>
 									<Box>
@@ -344,13 +352,28 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 						<Close />
 					</IconButton>
 				</Box>
-				<Box display="flex" alignItems="center" alignContent="center">
+				<Box
+					sx={{
+						display: 'flex',
+						alignItems: 'center',
+						alignContent: 'center',
+					}}
+				>
 					{title}
 				</Box>
-				<Box pt={1}>
+				<Box
+					sx={{
+						pt: 1,
+					}}
+				>
 					<Typography component="div" variant="body2" color="textSecondary">
 						Category:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{categoryHeader}
 						</Box>
 					</Typography>
@@ -358,7 +381,12 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 			</DialogTitle>
 			<DialogContent dividers={true}>
 				<DialogContentText>
-					<Box py={1} className={`${classes.markdownContainer} ${helpArticle.className}`}>
+					<Box
+						className={`${classes.markdownContainer} ${helpArticle.className}`}
+						sx={{
+							py: 1,
+						}}
+					>
 						<Suspense fallback={<CenteredLoading />}>
 							{' '}
 							{/* Or any other suitable fallback */}
@@ -382,7 +410,12 @@ const HelpDialog: React.FC<DialogProps> = ({ helpArticle }) => {
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Box my={1} mr={2}>
+				<Box
+					sx={{
+						my: 1,
+						mr: 2,
+					}}
+				>
 					<Button
 						type="button"
 						color="secondary"

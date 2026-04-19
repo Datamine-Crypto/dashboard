@@ -73,8 +73,13 @@ const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
 			case DialogType.ZeroDam:
 				return (
 					<>
-						Current {lockableTokenShortName} Balance:{' '}
-						<Box display="inline" fontWeight="bold">
+						Current {lockableTokenShortName}Balance:{' '}
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'bold',
+							}}
+						>
 							{getDamBalance()}
 						</Box>
 					</>
@@ -83,7 +88,12 @@ const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
 		return (
 			<>
 				Current Ethereum Balance:{' '}
-				<Box display="inline" fontWeight="bold">
+				<Box
+					sx={{
+						display: 'inline',
+						fontWeight: 'bold',
+					}}
+				>
 					{getEthBalance()}
 				</Box>
 			</>
@@ -100,19 +110,34 @@ const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
 		if (dialogType === DialogType.ZeroDam) {
 			return (
 				<>
-					<Box mb={3} mr={2}>
+					<Box
+						sx={{
+							mb: 3,
+							mr: 2,
+						}}
+					>
 						<Button type="submit" onClick={onContinue} size="large">
 							Close
 						</Button>
 					</Box>
-					<Box mb={3} mr={2}>
+					<Box
+						sx={{
+							mb: 3,
+							mr: 2,
+						}}
+					>
 						<ExploreLiquidityPools buttonType={LiquidityPoolButtonType.LargeButton} ecosystem={ecosystem} />
 					</Box>
 				</>
 			);
 		}
 		return (
-			<Box mb={3} mr={2}>
+			<Box
+				sx={{
+					mb: 3,
+					mr: 2,
+				}}
+			>
 				<Button type="submit" onClick={onContinue} color="secondary" size="large" variant="outlined">
 					I Understand
 				</Button>
@@ -123,15 +148,28 @@ const ZeroBalanceDialog: React.FC<DialogParams> = ({ dialogType }) => {
 		<Dialog open={true} onClose={onClose} aria-labelledby="alert-dialog-title">
 			<DialogTitle id="alert-dialog-title">{getTitle()}</DialogTitle>
 			<DialogContent>
-				<Box mb={4}>
+				<Box
+					sx={{
+						mb: 4,
+					}}
+				>
 					<Typography component="div" gutterBottom>
 						{getBody()}{' '}
-						<Box display="inline" fontWeight="bold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'bold',
+							}}
+						>
 							{selectedAddress}
 						</Box>{' '}
 						account.{' '}
 					</Typography>
-					<Box mt={3}>
+					<Box
+						sx={{
+							mt: 3,
+						}}
+					>
 						<Typography component="div" gutterBottom>
 							{getBalance()}
 						</Typography>

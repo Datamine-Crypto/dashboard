@@ -73,7 +73,12 @@ const BurnDialog: React.FC = () => {
 	};
 	const getDelegatedMinterBox = () => {
 		return (
-			<Box mt={1} mb={3}>
+			<Box
+				sx={{
+					mt: 1,
+					mb: 3,
+				}}
+			>
 				<TextField
 					id="name"
 					label="Ethereum Address (Target address of the burn for yield)"
@@ -105,9 +110,20 @@ const BurnDialog: React.FC = () => {
 		<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
 			<form onSubmit={onSubmit}>
 				<DialogTitle id="form-dialog-title">
-					<Box display="flex" alignItems="center" alignContent="center">
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							alignContent: 'center',
+						}}
+					>
 						Burn {mintableTokenShortName} tokens for Yield
-						<Box display="flex" pl={1}>
+						<Box
+							sx={{
+								display: 'flex',
+								pl: 1,
+							}}
+						>
 							<Whatshot style={{ color: '#ff9b00' }} />
 						</Box>
 					</Box>
@@ -115,30 +131,57 @@ const BurnDialog: React.FC = () => {
 				<DialogContent>
 					<Box>
 						From Address:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{selectedAddress}
 						</Box>
 					</Box>
-					<Box my={1}>
+					<Box
+						sx={{
+							my: 1,
+						}}
+					>
 						Current Balance:{' '}
-						<Box display="inline" fontWeight="fontWeightBold">
+						<Box
+							sx={{
+								display: 'inline',
+								fontWeight: 'fontWeightBold',
+							}}
+						>
 							{formatBigInt(balances.fluxToken, true)} {mintableTokenShortName}
 						</Box>
 					</Box>
-					<Box my={3}>
+					<Box
+						sx={{
+							my: 3,
+						}}
+					>
 						<Divider />
 					</Box>
 					<Typography component="div" gutterBottom={true}>
 						To continue select how many {mintableTokenShortName} tokens you wish to burn to generate yield. You can
 						target any Ethereum based address that current is an active {ecosystemName} Validator.
 					</Typography>
-					<Box my={4}>
+					<Box
+						sx={{
+							my: 4,
+						}}
+					>
 						<Typography component="div">
 							Burning {mintableTokenShortName} (as a secondary function of money) permanently increases your{' '}
 							{mintableTokenShortName} yield generation rate on the destination address. {getLearnMoreBurningLink()}
 						</Typography>
 					</Box>
-					<Box mt={3} mb={3}>
+					<Box
+						sx={{
+							mt: 3,
+							mb: 3,
+						}}
+					>
 						<TextField
 							autoFocus
 							id="name"
@@ -153,13 +196,27 @@ const BurnDialog: React.FC = () => {
 						/>
 					</Box>
 					{getDelegatedMinterBox()}
-					<Box mt={2}>
+					<Box
+						sx={{
+							mt: 2,
+						}}
+					>
 						<Divider />
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Box mb={1} mr={2}>
-						<Box mr={2} display="inline-block">
+					<Box
+						sx={{
+							mb: 1,
+							mr: 2,
+						}}
+					>
+						<Box
+							sx={{
+								mr: 2,
+								display: 'inline-block',
+							}}
+						>
 							<Button onClick={onClose}>Cancel</Button>
 						</Box>
 						<Button type="submit" color="secondary" size="large" variant="outlined">

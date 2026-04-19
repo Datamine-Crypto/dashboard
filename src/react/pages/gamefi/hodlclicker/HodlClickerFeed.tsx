@@ -158,7 +158,13 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 	return (
 		<>
 			{logs.length === 0 ? (
-				<Box display="flex" justifyContent="center" p={4}>
+				<Box
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						p: 4,
+					}}
+				>
 					<CircularProgress color="secondary" />
 				</Box>
 			) : (

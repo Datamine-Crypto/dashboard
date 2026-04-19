@@ -53,7 +53,14 @@ const LockedLiquidityCard: React.FC = () => {
 				return (
 					<>
 						{' '}
-						<Typography component="div" variant="body2" color="textSecondary" display="inline">
+						<Typography
+							component="div"
+							variant="body2"
+							color="textSecondary"
+							sx={{
+								display: 'inline',
+							}}
+						>
 							({damSupply}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)
 						</Typography>
 					</>
@@ -64,7 +71,14 @@ const LockedLiquidityCard: React.FC = () => {
 				return (
 					<>
 						{' '}
-						<Typography component="div" variant="body2" color="textSecondary" display="inline">
+						<Typography
+							component="div"
+							variant="body2"
+							color="textSecondary"
+							sx={{
+								display: 'inline',
+							}}
+						>
 							({fluxSupply}% of current supply)
 						</Typography>
 					</>
@@ -108,7 +122,7 @@ const LockedLiquidityCard: React.FC = () => {
 	return (
 		<Card>
 			<CardContent>
-				<Grid container justifyContent="space-between" alignItems="center">
+				<Grid container sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
 					<Grid>
 						<Typography component="div" variant="h5">
 							<LightTooltip title="This liquidity is permanently locked in the Uniswap v2 pool. This form of liquidity is locked-in to the ecosystem and can not be removed.">
@@ -125,10 +139,14 @@ const LockedLiquidityCard: React.FC = () => {
 									target="_blank"
 									className={classes.address}
 								>
-									<Grid container direction="row" justifyContent="center" alignItems="center">
+									<Grid container direction="row" sx={{ justifyContent: 'center', alignItems: 'center' }}>
 										<Grid>View On Arbiscan</Grid>
 										<Grid>
-											<Box ml={0.5}>
+											<Box
+												sx={{
+													ml: 0.5,
+												}}
+											>
 												<OpenInNew fontSize="small" />
 											</Box>
 										</Grid>
@@ -138,7 +156,12 @@ const LockedLiquidityCard: React.FC = () => {
 						</Typography>
 					</Grid>
 				</Grid>
-				<Box mt={1} mb={2}>
+				<Box
+					sx={{
+						mt: 1,
+						mb: 2,
+					}}
+				>
 					<Divider />
 				</Box>
 				<Grid container>

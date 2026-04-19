@@ -34,8 +34,19 @@ const AddToFirefoxFragment: React.FC = () => {
 							<>
 								To display {lockableTokenShortName} &amp; {mintableTokenShortName} balances in Metamask, click Add
 								Tokens in Metamask window/popup to add our tokens to your Metamask as in the example below:
-								<Box mt={3}>
-									<Grid container alignItems="center" justifyContent="center" alignContent="center">
+								<Box
+									sx={{
+										mt: 3,
+									}}
+								>
+									<Grid
+										container
+										sx={{
+											alignContent: 'center',
+											justifyContent: 'center',
+											alignItems: 'center',
+										}}
+									>
 										<Grid>
 											<CardMedia component="img" image="./images/addTokens.png" style={{ maxWidth: 343 }} />
 										</Grid>

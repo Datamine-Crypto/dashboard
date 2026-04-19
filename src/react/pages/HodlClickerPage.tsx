@@ -58,7 +58,12 @@ const HodlClickerPage: React.FC = () => {
 				message: (
 					<>
 						Currently {ecosystemName} Dashboard only works on {errorTitle}. Please change your network provider to{' '}
-						<Box fontWeight="bold" display="inline">
+						<Box
+							sx={{
+								fontWeight: 'bold',
+								display: 'inline',
+							}}
+						>
 							{errorTitle} L2
 						</Box>
 					</>
@@ -70,7 +75,14 @@ const HodlClickerPage: React.FC = () => {
 			return null;
 		}
 		return (
-			<Box alignItems="center" justifyContent="center" display="flex" style={{ height: '100vh' }}>
+			<Box
+				style={{ height: '100vh' }}
+				sx={{
+					alignItems: 'center',
+					justifyContent: 'center',
+					display: 'flex',
+				}}
+			>
 				<CircularProgress color="secondary" />
 			</Box>
 		);
@@ -79,8 +91,23 @@ const HodlClickerPage: React.FC = () => {
 	const getCenterContent = ({ title, message, content }: CenterContent) => {
 		return (
 			<Box className={classes.fullScreenSplash}>
-				<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-					<Box mt={3} mb={6} textAlign="center">
+				<Box
+					sx={{
+						mt: 8 + 6,
+						mb: 6,
+						alignItems: 'center',
+						justifyContent: 'center',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					<Box
+						sx={{
+							mt: 3,
+							mb: 6,
+							textAlign: 'center',
+						}}
+					>
 						<Typography component="div" variant="h5" color="textPrimary" gutterBottom>
 							{title}
 						</Typography>
@@ -108,7 +135,12 @@ const HodlClickerPage: React.FC = () => {
 				return null;
 			}
 			return (
-				<Box mr={1} display="inline">
+				<Box
+					sx={{
+						mr: 1,
+						display: 'inline',
+					}}
+				>
 					<img src={metamaskIcon} alt="Metamask" width="24" height="24" style={{ verticalAlign: 'middle' }} />
 				</Box>
 			);
@@ -116,8 +148,23 @@ const HodlClickerPage: React.FC = () => {
 
 		return (
 			<Box className={classes.fullScreenSplash}>
-				<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-					<Box mt={3} mb={6} textAlign="center">
+				<Box
+					sx={{
+						mt: 8 + 6,
+						mb: 6,
+						alignItems: 'center',
+						justifyContent: 'center',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					<Box
+						sx={{
+							mt: 3,
+							mb: 6,
+							textAlign: 'center',
+						}}
+					>
 						<Typography component="div" variant="h5" color="textPrimary" gutterBottom>
 							Welcome to {ecosystemName} Machine
 						</Typography>
@@ -126,7 +173,12 @@ const HodlClickerPage: React.FC = () => {
 						</Typography>
 					</Box>
 					<Box>
-						<Box display="inline-block" mr={3}>
+						<Box
+							sx={{
+								display: 'inline-block',
+								mr: 3,
+							}}
+						>
 							<Button
 								variant="outlined"
 								color="secondary"
@@ -145,7 +197,13 @@ const HodlClickerPage: React.FC = () => {
 
 	const getEcosystemDropdown = () => {
 		return (
-			<Box mb={4} display="flex" justifyContent="center">
+			<Box
+				sx={{
+					mb: 4,
+					display: 'flex',
+					justifyContent: 'center',
+				}}
+			>
 				{getNetworkDropdown({
 					ecosystem,
 					connectionMethod,
@@ -173,8 +231,23 @@ const HodlClickerPage: React.FC = () => {
 		if (ecosystem !== Ecosystem.Lockquidity) {
 			return (
 				<Box className={classes.fullScreenSplash}>
-					<Box mt={8 + 6} mb={6} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-						<Box mt={3} mb={6} textAlign="center">
+					<Box
+						sx={{
+							mt: 8 + 6,
+							mb: 6,
+							alignItems: 'center',
+							justifyContent: 'center',
+							display: 'flex',
+							flexDirection: 'column',
+						}}
+					>
+						<Box
+							sx={{
+								mt: 3,
+								mb: 6,
+								textAlign: 'center',
+							}}
+						>
 							<Typography component="div" variant="h2" color="textPrimary" gutterBottom style={{ fontWeight: 'bold' }}>
 								One more step...
 							</Typography>
@@ -184,7 +257,13 @@ const HodlClickerPage: React.FC = () => {
 								You will need to switch to the right network to play.
 							</Typography>
 						</Box>
-						<Box mb={4} display="flex" justifyContent="center">
+						<Box
+							sx={{
+								mb: 4,
+								display: 'flex',
+								justifyContent: 'center',
+							}}
+						>
 							<Button
 								variant="outlined"
 								color="secondary"
@@ -208,8 +287,21 @@ const HodlClickerPage: React.FC = () => {
 
 		return (
 			<Box className={classes.fullScreenSplash}>
-				<Box mt={8 + 3} alignItems="center" justifyContent="center" display="flex" flexDirection="column">
-					<Box width="100%" maxWidth={800}>
+				<Box
+					sx={{
+						mt: 8 + 3,
+						alignItems: 'center',
+						justifyContent: 'center',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					<Box
+						sx={{
+							width: '100%',
+							maxWidth: 800,
+						}}
+					>
 						<HodlClickerEvents ecosystem={ecosystem} />
 					</Box>
 				</Box>

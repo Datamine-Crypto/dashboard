@@ -22,7 +22,7 @@ import {
 	Mouse as MouseIcon,
 	Equalizer as EqualizerIcon,
 	ExpandMore,
-	HelpOutline as HelpIcon,
+	HelpOutlined as HelpIcon,
 	Home as HomeIcon,
 	LocalLibrary as LocalLibraryIcon,
 	People as PeopleIcon,
@@ -296,7 +296,12 @@ export const MainDrawer: React.FC = () => {
 		const drawerButtons = buttons.map((button: DrawerButton, index: number) => {
 			if (button.isDivider) {
 				return (
-					<Box my={2} key={index}>
+					<Box
+						key={index}
+						sx={{
+							my: 2,
+						}}
+					>
 						<Divider />
 					</Box>
 				);
@@ -354,8 +359,12 @@ export const MainDrawer: React.FC = () => {
 				return null;
 			}
 			return (
-				<Box my={3}>
-					<Grid container justifyContent="center">
+				<Box
+					sx={{
+						my: 3,
+					}}
+				>
+					<Grid container sx={{ justifyContent: 'center' }}>
 						<Grid>
 							<Button
 								variant="contained"
@@ -381,10 +390,21 @@ export const MainDrawer: React.FC = () => {
 						<Link href="#">
 							<Card elevation={0}>
 								<CardActionArea className={classes.logoArea}>
-									<Box mr={2}>
+									<Box
+										sx={{
+											mr: 2,
+										}}
+									>
 										<img src={Logo} width="54" height="54" />
 									</Box>
-									<Typography component="div" color="inherit" noWrap className={classes.title}>
+									<Typography
+										component="div"
+										noWrap
+										className={classes.title}
+										sx={{
+											color: 'inherit',
+										}}
+									>
 										{ecosystemName}
 									</Typography>
 								</CardActionArea>
@@ -392,8 +412,17 @@ export const MainDrawer: React.FC = () => {
 						</Link>
 					</Box>
 				</div>
-				<Box height="100%">
-					<Grid container direction="column" justifyContent="space-between" className={classes.drawerGridContainer}>
+				<Box
+					sx={{
+						height: '100%',
+					}}
+				>
+					<Grid
+						container
+						direction="column"
+						sx={{ justifyContent: 'space-between' }}
+						className={classes.drawerGridContainer}
+					>
 						<Grid>
 							<List>{drawerButtons}</List>
 						</Grid>

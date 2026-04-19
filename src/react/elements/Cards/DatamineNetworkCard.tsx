@@ -31,7 +31,12 @@ const DatamineNetworkCard: React.FC = () => {
 				variant="outlined"
 				onClick={() => dispatch({ type: commonLanguage.commands.DisplayAccessLinks })}
 				startIcon={
-					<Box display="flex" style={{ color: '#0ff' }}>
+					<Box
+						style={{ color: '#0ff' }}
+						sx={{
+							display: 'flex',
+						}}
+					>
 						<Visibility />
 					</Box>
 				}
@@ -42,13 +47,25 @@ const DatamineNetworkCard: React.FC = () => {
 		if (disabledText) {
 			return (
 				<LightTooltip title={disabledText}>
-					<Box display="inline-block">{button}</Box>
+					<Box
+						sx={{
+							display: 'inline-block',
+						}}
+					>
+						{button}
+					</Box>
 				</LightTooltip>
 			);
 		}
 		return (
 			<LightTooltip title="Gain instant access to Datamine Network Pro and gain 2 additional 'Buddy' passes to share with your friends.">
-				<Box display="inline-block">{button}</Box>
+				<Box
+					sx={{
+						display: 'inline-block',
+					}}
+				>
+					{button}
+				</Box>
 			</LightTooltip>
 		);
 	};
@@ -56,29 +73,49 @@ const DatamineNetworkCard: React.FC = () => {
 	return (
 		<Card>
 			<CardContent>
-				<Grid container justifyContent="space-between" alignItems="center">
+				<Grid container sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
 					<Grid>
 						<Typography variant="h5" component="h2">
 							Datamine Network Pro
 						</Typography>
 					</Grid>
 				</Grid>
-				<Box mt={1} mb={2}>
+				<Box
+					sx={{
+						mt: 1,
+						mb: 2,
+					}}
+				>
 					<Divider />
 				</Box>
 				<Alert severity="info">
 					Every Ethereum Address can generate up to 3 Access Codes to Datamine Network Pro for FREE!
 				</Alert>
-				<Box mx={2} mt={3}>
+				<Box
+					sx={{
+						mx: 2,
+						mt: 3,
+					}}
+				>
 					In 2019 we&apos;ve showed the world our take on creating monetary velocity through burn incentives. As one of
 					the first deflation-resistant tokens in cryptocurrency space we&apos;ve paved the way for others to follow.
 				</Box>
-				<Box mx={2} mt={3}>
+				<Box
+					sx={{
+						mx: 2,
+						mt: 3,
+					}}
+				>
 					In 2023 we want to demonstrate how on-chain burn velocity can provide an alternative to costly &quot;Software
 					as a service (SaaS)&quot; business expenses. Our solution will demonstrate how startups with free product
 					offerings can scale through on-chain burning without resorting to advertising to scale!
 				</Box>
-				<Box mx={2} mt={3}>
+				<Box
+					sx={{
+						mx: 2,
+						mt: 3,
+					}}
+				>
 					Introducing our fresh take on &quot;as a service&quot; market segment:{' '}
 					<strong style={{ color: '#ff9b00' }}>
 						<Whatshot style={{ color: '#ff9b00', verticalAlign: 'middle' }} />
@@ -86,10 +123,21 @@ const DatamineNetworkCard: React.FC = () => {
 					</strong>{' '}
 					<Chip label="@todo add 'get more info' button here" variant="outlined" />
 				</Box>
-				<Box mx={2} mt={3}>
+				<Box
+					sx={{
+						mx: 2,
+						mt: 3,
+					}}
+				>
 					We&apos;ve already finished the feature but don&apos;t have much time to explain it yet (Datamine way of
 					working backwards). Click the &apos;Display Access Links&apos; below to start (they&apos;re free!).
-					<Box my={3}>{getButton()}</Box>
+					<Box
+						sx={{
+							my: 3,
+						}}
+					>
+						{getButton()}
+					</Box>
 				</Box>
 			</CardContent>
 		</Card>

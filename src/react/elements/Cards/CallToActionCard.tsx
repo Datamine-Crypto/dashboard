@@ -253,7 +253,13 @@ const CallToActionCard: React.FC = () => {
 		}
 		return (
 			<>
-				<Typography component="div" color="textSecondary" display="inline">
+				<Typography
+					component="div"
+					color="textSecondary"
+					sx={{
+						display: 'inline',
+					}}
+				>
 					&nbsp;(Arbitrum L2)
 				</Typography>
 			</>
@@ -324,7 +330,13 @@ const CallToActionCard: React.FC = () => {
 							if (addressDetails.fluxBalance === 0n) {
 								return (
 									<LightTooltip title={`This address must have ${mintableTokenShortName} tokens to burn.`}>
-										<Box display="inline-block">{button}</Box>
+										<Box
+											sx={{
+												display: 'inline-block',
+											}}
+										>
+											{button}
+										</Box>
 									</LightTooltip>
 								);
 							}
@@ -333,14 +345,25 @@ const CallToActionCard: React.FC = () => {
 									<LightTooltip
 										title={`You must select this account in your wallet to Burn ${mintableTokenShortName} for this address.`}
 									>
-										<Box display="inline-block">{button}</Box>
+										<Box
+											sx={{
+												display: 'inline-block',
+											}}
+										>
+											{button}
+										</Box>
 									</LightTooltip>
 								);
 							}
 							return button;
 						};
 						return (
-							<Box mx={1} display="inline-block">
+							<Box
+								sx={{
+									mx: 1,
+									display: 'inline-block',
+								}}
+							>
 								{getButton()}
 							</Box>
 						);
@@ -423,7 +446,13 @@ const CallToActionCard: React.FC = () => {
 								<LightTooltip title={getMintTooltip()}>
 									<Box>
 										{moneyAmount}{' '}
-										<Typography component="div" color="textSecondary" display="inline">
+										<Typography
+											component="div"
+											color="textSecondary"
+											sx={{
+												display: 'inline',
+											}}
+										>
 											{clientSettings.currency}
 										</Typography>
 									</Box>
@@ -442,10 +471,20 @@ const CallToActionCard: React.FC = () => {
 						const getBurnTooltip = () => {
 							return (
 								<>
-									<Box fontWeight="bold">
+									<Box
+										sx={{
+											fontWeight: 'bold',
+										}}
+									>
 										{fluxRequiredToBurn} {mintableTokenShortName}
 									</Box>
-									<Box fontWeight="bold">{fluxRequiredToBurnInUsdc}</Box>
+									<Box
+										sx={{
+											fontWeight: 'bold',
+										}}
+									>
+										{fluxRequiredToBurnInUsdc}
+									</Box>
 								</>
 							);
 						};
@@ -453,11 +492,17 @@ const CallToActionCard: React.FC = () => {
 							if (isTargetReached) {
 								return (
 									<>
-										You&apos;ve burned enough {mintableTokenShortName} for x10 burn bonus.{' '}
-										<Typography component="div" color="secondary" display="inline">
+										You&apos;ve burned enough {mintableTokenShortName}for x10 burn bonus.{' '}
+										<Typography
+											component="div"
+											color="secondary"
+											sx={{
+												display: 'inline',
+											}}
+										>
 											OVERBURNED
 										</Typography>{' '}
-										{mintableTokenShortName} remaining:{' '}
+										{mintableTokenShortName}remaining:{' '}
 									</>
 								);
 							}
@@ -471,10 +516,20 @@ const CallToActionCard: React.FC = () => {
 						return (
 							<>
 								{getDescription()}
-								<Box py={2}>
+								<Box
+									sx={{
+										py: 2,
+									}}
+								>
 									<Divider />
 								</Box>
-								<Box fontWeight="bold">{getBurnTooltip()}</Box>
+								<Box
+									sx={{
+										fontWeight: 'bold',
+									}}
+								>
+									{getBurnTooltip()}
+								</Box>
 							</>
 						);
 					};
@@ -547,7 +602,12 @@ const CallToActionCard: React.FC = () => {
 							};
 							return (
 								<>
-									<Box display="flex" alignItems="center">
+									<Box
+										sx={{
+											display: 'flex',
+											alignItems: 'center',
+										}}
+									>
 										{getBlocksDropdown()}
 									</Box>
 								</>
@@ -632,7 +692,12 @@ const CallToActionCard: React.FC = () => {
 							};
 							return (
 								<>
-									<Box display="flex" alignItems="center">
+									<Box
+										sx={{
+											display: 'flex',
+											alignItems: 'center',
+										}}
+									>
 										{getBlocksDropdown()}
 									</Box>
 								</>
@@ -673,7 +738,11 @@ const CallToActionCard: React.FC = () => {
 						}
 						const maxBurnBarWidth = 10000 * maxBurnMultiplier;
 						return (
-							<Box mt={0.5}>
+							<Box
+								sx={{
+									mt: 0.5,
+								}}
+							>
 								<Grid container>
 									<Grid
 										style={{
@@ -724,7 +793,11 @@ const CallToActionCard: React.FC = () => {
 							);
 						}
 						return (
-							<Box mt={0.5}>
+							<Box
+								sx={{
+									mt: 0.5,
+								}}
+							>
 								<Grid container>
 									<Grid style={{ width: `${Math.floor((addressDetails.addressTimeMultiplier / 30000) * 100)}%` }}>
 										<LightTooltip title="Your current bonus is permanent for duration of your started mint. If you stop your validator this bonus is reset.">
@@ -855,7 +928,12 @@ const CallToActionCard: React.FC = () => {
 								return (
 									<>
 										Select the{' '}
-										<Box fontWeight="bold" display="inline">
+										<Box
+											sx={{
+												fontWeight: 'bold',
+												display: 'inline',
+											}}
+										>
 											Delegated Minter Address
 										</Box>{' '}
 										account in your wallet to mint for this address.
@@ -878,7 +956,11 @@ const CallToActionCard: React.FC = () => {
 							if (forecastSettings.enabled) {
 								return (
 									<>
-										<Box display="flex">
+										<Box
+											sx={{
+												display: 'flex',
+											}}
+										>
 											<TextField
 												label="Price"
 												variant="outlined"
@@ -914,9 +996,15 @@ const CallToActionCard: React.FC = () => {
 						if (forecastSettings.enabled) {
 							return (
 								<>
-									Forecasted {forecastSettings.blocks.toFixed(0)} Unminted Blocks{' '}
+									Forecasted {forecastSettings.blocks.toFixed(0)}Unminted Blocks{' '}
 									<LightTooltip title="This estimated time is based on assumption that 1 Ethereum Block is genereated every 12 seconds">
-										<Box display="inline">({getUnmintedBlocksDuration()})</Box>
+										<Box
+											sx={{
+												display: 'inline',
+											}}
+										>
+											({getUnmintedBlocksDuration()})
+										</Box>
 									</LightTooltip>
 								</>
 							);
@@ -925,7 +1013,13 @@ const CallToActionCard: React.FC = () => {
 							<>
 								Unminted Blocks{' '}
 								<LightTooltip title="This estimated time is based on assumption that 1 Ethereum Block is genereated every 12 seconds">
-									<Box display="inline">({getUnmintedBlocksDuration()})</Box>
+									<Box
+										sx={{
+											display: 'inline',
+										}}
+									>
+										({getUnmintedBlocksDuration()})
+									</Box>
 								</LightTooltip>
 							</>
 						);
@@ -963,7 +1057,7 @@ const CallToActionCard: React.FC = () => {
 						disabledText: getDisabledText(),
 						title: (
 							<>
-								<Grid container justifyContent="space-between">
+								<Grid container sx={{ justifyContent: 'space-between' }}>
 									<Grid>Liquidity Dashboard{getMintHeaderLabel()}</Grid>
 									<Grid>
 										<FormControlLabel
@@ -977,9 +1071,13 @@ const CallToActionCard: React.FC = () => {
 											}
 											label={
 												<>
-													<Grid container alignItems="center">
+													<Grid container sx={{ alignItems: 'center' }}>
 														<Grid>
-															<Box mr={0.5}>
+															<Box
+																sx={{
+																	mr: 0.5,
+																}}
+															>
 																<DateRangeIcon color={forecastSettings.enabled ? 'secondary' : undefined} />
 															</Box>
 														</Grid>
@@ -1003,9 +1101,22 @@ const CallToActionCard: React.FC = () => {
 						),
 						bottomRightItem: (
 							<Grid>
-								<Box textAlign="right">
-									<Box display="inline-block" mb={1}>
-										<Box mb={1}>
+								<Box
+									sx={{
+										textAlign: 'right',
+									}}
+								>
+									<Box
+										sx={{
+											display: 'inline-block',
+											mb: 1,
+										}}
+									>
+										<Box
+											sx={{
+												mb: 1,
+											}}
+										>
 											<Typography component="div" color="textSecondary">
 												= {`${formatBigInt(getMintAmount(), true)} ${mintableTokenShortName}`}
 											</Typography>
@@ -1071,7 +1182,13 @@ const CallToActionCard: React.FC = () => {
 													<TableCell align="left">
 														<Typography component="div" color="textSecondary" variant="body1">
 															{mintableTokenShortName} Burn Multiplier{' '}
-															<Typography component="div" variant="body2" display="inline">
+															<Typography
+																component="div"
+																variant="body2"
+																sx={{
+																	display: 'inline',
+																}}
+															>
 																{getBurnBonusDescription()}
 															</Typography>
 															{getBurnButton()}
@@ -1089,7 +1206,13 @@ const CallToActionCard: React.FC = () => {
 													<TableCell align="left">
 														<Typography component="div" color="textSecondary" variant="body1">
 															Mint Age Multiplier{' '}
-															<Typography component="div" variant="body2" display="inline">
+															<Typography
+																component="div"
+																variant="body2"
+																sx={{
+																	display: 'inline',
+																}}
+															>
 																(Applied at time of mint, x3 max)
 															</Typography>
 														</Typography>
@@ -1133,7 +1256,12 @@ const CallToActionCard: React.FC = () => {
 				title: <>Start Validator</>,
 				body: (
 					<>
-						<Box mx={2} mt={3}>
+						<Box
+							sx={{
+								mx: 2,
+								mt: 3,
+							}}
+						>
 							{mintableTokenShortName} minting is enabled! You can now begin by clicking &quot;Start Validator&quot;
 							button below. After starting your validator you will instantly start generating {mintableTokenShortName}{' '}
 							tokens!
@@ -1157,7 +1285,7 @@ const CallToActionCard: React.FC = () => {
 		return {
 			title: (
 				<>
-					<Grid container justifyContent="space-between">
+					<Grid container sx={{ justifyContent: 'space-between' }}>
 						<Grid>Liquidity Dashboard {getMintHeaderLabel()}</Grid>
 						<Grid>
 							<FormControlLabel
@@ -1171,9 +1299,13 @@ const CallToActionCard: React.FC = () => {
 								}
 								label={
 									<>
-										<Grid container alignItems="center">
+										<Grid container sx={{ alignItems: 'center' }}>
 											<Grid>
-												<Box mr={0.5}>
+												<Box
+													sx={{
+														mr: 0.5,
+													}}
+												>
 													<DateRangeIcon />
 												</Box>
 											</Grid>
@@ -1197,7 +1329,12 @@ const CallToActionCard: React.FC = () => {
 			),
 			body: (
 				<>
-					<Box mx={2} mt={3}>
+					<Box
+						sx={{
+							mx: 2,
+							mt: 3,
+						}}
+					>
 						{getMintingText()}
 					</Box>
 				</>
@@ -1227,7 +1364,12 @@ const CallToActionCard: React.FC = () => {
 					variant="outlined"
 					onClick={() => ctaDetails.onClick()}
 					startIcon={
-						<Box display="flex" style={{ color: '#0ff' }}>
+						<Box
+							style={{ color: '#0ff' }}
+							sx={{
+								display: 'flex',
+							}}
+						>
 							{ctaDetails.actionIcon}
 						</Box>
 					}
@@ -1244,7 +1386,12 @@ const CallToActionCard: React.FC = () => {
 				variant="outlined"
 				onClick={() => ctaDetails.onClick()}
 				startIcon={
-					<Box display="flex" style={{ color: '#0ff' }}>
+					<Box
+						style={{ color: '#0ff' }}
+						sx={{
+							display: 'flex',
+						}}
+					>
 						{ctaDetails.actionIcon}
 					</Box>
 				}
@@ -1255,7 +1402,13 @@ const CallToActionCard: React.FC = () => {
 		if (disabledText) {
 			return (
 				<LightTooltip title={disabledText}>
-					<Box display="inline-block">{button}</Box>
+					<Box
+						sx={{
+							display: 'inline-block',
+						}}
+					>
+						{button}
+					</Box>
 				</LightTooltip>
 			);
 		}
@@ -1272,7 +1425,11 @@ const CallToActionCard: React.FC = () => {
 		// The link to Arbitrum bridge must be based on "L1" mintable token address
 		const { mintableTokenContractAddress } = ecosystemConfig;
 		return (
-			<Box mr={1}>
+			<Box
+				sx={{
+					mr: 1,
+				}}
+			>
 				<LightTooltip title="Click to open Arbitrum L2 Bridge">
 					<Button
 						size="small"
@@ -1313,9 +1470,21 @@ const CallToActionCard: React.FC = () => {
 			const actualFluxPrice = `$ ${shortFluxPrice}`;
 			return (
 				<>
-					<Box display="inline" className={classes.topLeftPrices}>
+					<Box
+						className={classes.topLeftPrices}
+						sx={{
+							display: 'inline',
+						}}
+					>
 						{getIcon(Token.Mintable)}{' '}
-						<Typography component="div" variant="body2" color="textSecondary" display="inline">
+						<Typography
+							component="div"
+							variant="body2"
+							color="textSecondary"
+							sx={{
+								display: 'inline',
+							}}
+						>
 							{mintableTokenShortName}:
 						</Typography>{' '}
 						{actualFluxPrice}
@@ -1328,9 +1497,21 @@ const CallToActionCard: React.FC = () => {
 			const actualDamPrice = `$ ${shortDamPrice}`;
 			return (
 				<>
-					<Box display="inline" className={classes.topLeftPrices}>
+					<Box
+						className={classes.topLeftPrices}
+						sx={{
+							display: 'inline',
+						}}
+					>
 						{getIcon(Token.Lockable)}{' '}
-						<Typography component="div" variant="body2" color="textSecondary" display="inline">
+						<Typography
+							component="div"
+							variant="body2"
+							color="textSecondary"
+							sx={{
+								display: 'inline',
+							}}
+						>
 							{lockableTokenShortName}:
 						</Typography>{' '}
 						{actualDamPrice}
@@ -1343,9 +1524,21 @@ const CallToActionCard: React.FC = () => {
 			const actualFluxPrice = `$ ${shortFluxPrice}`;
 			return (
 				<>
-					<Box display="inline" className={classes.topLeftPrices}>
+					<Box
+						className={classes.topLeftPrices}
+						sx={{
+							display: 'inline',
+						}}
+					>
 						{getIcon(Token.ETH)}{' '}
-						<Typography component="div" variant="body2" color="textSecondary" display="inline">
+						<Typography
+							component="div"
+							variant="body2"
+							color="textSecondary"
+							sx={{
+								display: 'inline',
+							}}
+						>
 							ETH:
 						</Typography>{' '}
 						{actualFluxPrice}
@@ -1357,8 +1550,7 @@ const CallToActionCard: React.FC = () => {
 			<>
 				<Grid
 					container
-					justifyContent="space-between"
-					alignItems="center"
+					sx={{ justifyContent: 'space-between', alignItems: 'center' }}
 					spacing={3}
 					className={classes.topLeftPricesContainer}
 				>
@@ -1374,7 +1566,12 @@ const CallToActionCard: React.FC = () => {
 			return null;
 		}
 		return (
-			<Box ml={2} display={'inline-block'}>
+			<Box
+				sx={{
+					ml: 2,
+					display: 'inline-block',
+				}}
+			>
 				<Link href={ctaDetails.learnMoreHref} rel="noopener noreferrer" target="_blank">
 					<Button size="large">Learn More</Button>
 				</Link>
@@ -1383,14 +1580,22 @@ const CallToActionCard: React.FC = () => {
 	};
 	return (
 		<>
-			<Box mb={1.5}>
-				<Grid container justifyContent="space-between" alignItems="center" className={classes.topContainer} spacing={3}>
+			<Box
+				sx={{
+					mb: 1.5,
+				}}
+			>
+				<Grid
+					container
+					sx={{ justifyContent: 'space-between', alignItems: 'center' }}
+					className={classes.topContainer}
+					spacing={3}
+				>
 					<Grid>{getRealtimePrices()}</Grid>
 					<Grid>
 						<Grid
 							container
-							justifyContent="flex-end"
-							alignItems="center"
+							sx={{ justifyContent: 'flex-end', alignItems: 'center' }}
 							className={classes.topRightContainer}
 							spacing={2}
 						>
@@ -1412,16 +1617,36 @@ const CallToActionCard: React.FC = () => {
 					<Typography variant="h5" component="h2">
 						{ctaDetails.title}
 					</Typography>
-					<Box mt={1} mb={1}>
+					<Box
+						sx={{
+							mt: 1,
+							mb: 1,
+						}}
+					>
 						<Divider />
 					</Box>
-					<Box mt={1}>{ctaDetails.body}</Box>
+					<Box
+						sx={{
+							mt: 1,
+						}}
+					>
+						{ctaDetails.body}
+					</Box>
 				</CardContent>
 				<CardActions>
-					<Box mx={2} width="100%">
-						<Grid container justifyContent="space-between" alignItems="flex-end">
+					<Box
+						sx={{
+							mx: 2,
+							width: '100%',
+						}}
+					>
+						<Grid container sx={{ justifyContent: 'space-between', alignItems: 'flex-end' }}>
 							<Grid>
-								<Box mb={2}>
+								<Box
+									sx={{
+										mb: 2,
+									}}
+								>
 									{getButton()}
 									{getLearnMoreButton()}
 								</Box>

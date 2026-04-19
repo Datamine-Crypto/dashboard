@@ -13,10 +13,21 @@ const MessageDialog: React.FC<Params> = React.memo(function MessageDialog({ open
 		<Dialog open={open} onClose={onClose} aria-labelledby="alert-dialog-title">
 			<DialogTitle id="alert-dialog-title">{title}</DialogTitle>
 			<DialogContent>
-				<Box mb={4}>{message}</Box>
+				<Box
+					sx={{
+						mb: 4,
+					}}
+				>
+					{message}
+				</Box>
 			</DialogContent>
 			<DialogActions>
-				<Box mb={1} mr={2}>
+				<Box
+					sx={{
+						mb: 1,
+						mr: 2,
+					}}
+				>
 					<Button onClick={onClose} color="secondary" size="large" variant="outlined">
 						Close
 					</Button>
