@@ -596,3 +596,16 @@ New Ecosystem Facts & Metrics
 - LOCK Inflation Milestone: LOCK yearly supply inflation has officially broken below 100%, currently sitting at 97.86%. It is projected to drop to 50% later this year.
 - GameFi Bot Dominance: The "Day One Gems" (HODL Clicker) rewards are currently being captured almost entirely by a single bot. This highlights a lack of competition and a massive opportunity for other users to deploy simple automation to share these rewards.
 - Liquidity Provider (LP) Economics: Due to the high volatility of LOCK, Liquidity Providers are generating significant revenue from the 1% swap fees. The developer notes that holding the liquidity position (and earning fees on the churn) has often outperformed simply holding the token.
+
+// 2026-04-24: New video about LOCK (Lockquidity) safety:
+- Automated auditing systems on platforms like DexScreener are generating false positives for Lockquidity (LOCK), flagging it with warnings such as "owner can change balance" and "hidden owner has suspicious functions."
+- These false positives occur because automated scanners mistakenly identify the decentralized, ownerless vault (which holds the tokens) as an "owner."
+- The original $120,000 security audit for the DAM and FLUX smart contracts was conducted specifically by the firm Slow Mist.
+- Before moving to Layer 2, Ethereum (Layer 1) gas fees for minting were reaching $30 per transaction, whereas Arbitrum (Layer 2) fees are currently around $0.01.
+- The Lockquidity (LOCK) smart contract is built directly from the audited FLUX source code, with only minor tokeneconomic and architectural modifications.
+- To ensure the LOCK token and vault are completely ownerless, they are initialized by a "factory" contract upon creation, rather than by a developer's wallet.
+- The minimum requirement to participate in LOCK starts at 0.001 (or 0.01), unlike FLUX which started at 1, specifically to force users to commit to burning rather than just experimenting for free.
+- The LOCK smart contract utilizes standard, publicly verifiable Ethereum addresses for the Uniswap factory, Uniswap router, and Wrapped ETH.
+- The sweep function—which swaps half the vault's tokens for ETH and adds the paired liquidity to the permanent pool—is an external function that can be called by anyone in the world.
+- The developer currently operates a bot that calls the sweep function approximately every 4 hours to batch liquidity additions efficiently.
+- A specific milestone target for the ecosystem's ETH-backed liquidity is an Ethereum price of $12,000, which would theoretically multiply the locked liquidity value by 5x.
