@@ -609,3 +609,28 @@ New Ecosystem Facts & Metrics
 - The sweep function—which swaps half the vault's tokens for ETH and adds the paired liquidity to the permanent pool—is an external function that can be called by anyone in the world.
 - The developer currently operates a bot that calls the sweep function approximately every 4 hours to batch liquidity additions efficiently.
 - A specific milestone target for the ecosystem's ETH-backed liquidity is an Ethereum price of $12,000, which would theoretically multiply the locked liquidity value by 5x.
+
+// 2026-05-12: First Burn-As-A-Service Community Project:
+
+- Integration for communities is handled simply by inviting a specific Discord bot to their server.
+- The system actively enriches simple links posted in Discord (e.g., pulling full content via the Twitter API) to generate complete, readable stories for SEO rather than just raw links.
+- Future content extraction integrations are planned for Medium.
+- The planned URL for the public-facing community web portal is community.datamine.network.
+- The technology stack for the new SEO portal utilizes Cloudflare and a D1 database.
+- The "Burn as a Service" pricing model pegs the required burn amount directly to the infrastructure and hosting costs incurred by that specific community's traffic (e.g., $5/month hosting cost equates to requesting a $300 burn for 5 years of service).
+- AI generation will specifically target casual/general chat channels to create monthly and yearly summaries, preserving historical community discussions and sentiment alongside official updates.
+
+// 2026-05-20: Datamine Community Blog Launched
+
+Based on the transcript provided, here are the new facts regarding the Datamine Network project and its latest SEO/infrastructure expansion:
+
+* **Public SEO Portal:** The project has launched a custom-built web portal that converts siloed Discord and Twitter data (6 years of history) into SEO-optimized, high-ranking blog pages.
+* **Content Volume:** The initial launch indexed 1,146 high-quality pages/posts, moving the project from "zero SEO" to a significant searchable footprint.
+* **Automated Roadmapping:** The new site features an AI-generated roadmap that summarized 6 years of community updates into a chronological history (2020–2026).
+* **Tech Stack:** The SEO frontend is built using Cloudflare workers, the D1 database, and R2 bucket storage for high-speed performance and global scaling.
+* **Discord Integration:** A custom Discord bot has been developed to automatically sync new community updates and discussions to the SEO portal in real-time.
+* **Media Conversion:** The system automatically converts social media links (like YouTube or Twitter URLs) into high-quality embedded content and hosts Discord images on a project-owned CDN.
+* **Bot Training:** The site’s `robots.txt` explicitly invites AI scrapers to crawl the content so that LLMs and AI search engines can be accurately trained on the ecosystem's tokenomics and data.
+* **Burn-as-a-Service (BaaS) for Communities:** The project is pivoting to offer this SEO infrastructure to other Discord communities. Instead of a traditional SaaS monthly fee, communities can pay a one-time "burn fee" (e.g., $300 in tokens) to secure their SEO hosting for years.
+* **Search Engine Optimization Features:** The portal utilizes advanced SEO techniques, including LD+JSON structured data and SEO-friendly URL structures, to maximize visibility on Google.
+* **Community Participation Model:** The primary goal of the "SaaS" side is not direct profit but to drive new participants into the Datamine Network through token burning and ecosystem interaction.
