@@ -42,7 +42,7 @@ export const getArbiFluxLockquidityEcosystemConfig = () => {
 		layer: Layer.Layer2,
 
 		// File names for token logos in the public/logos folder
-		lockableTokenLogoFileName: 'artbiFlux',
+		lockableTokenLogoFileName: 'arbiFlux',
 		mintableTokenLogoFileName: 'lock',
 		// Genesis timestamp for minting
 		timestampGenesis: 1728946539,

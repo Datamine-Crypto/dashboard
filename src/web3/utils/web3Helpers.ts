@@ -1,6 +1,7 @@
 import { getEcosystemConfig as getConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import { devLog } from '@/utils/devLog';
+import { getAbsoluteAssetUrl } from '@/utils/getAbsoluteAssetUrl';
 import { ConnectionMethod } from '@/app/interfaces';
 import { getPublicClient, getWalletClient } from '@/web3/utils/web3ProviderUtils';
 import { Address, PublicClient, EIP1193Provider } from 'viem';
@@ -213,7 +214,7 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 	const {
 		mintableTokenShortName,
 		lockableTokenShortName,
-		dashboardAbsoluteUrl,
+		dashboardAssetsBaseUrl,
 		lockableTokenLogoFileName,
 		mintableTokenLogoFileName,
 	} = config;
@@ -263,7 +264,7 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 		const tokenAddress = config.lockableTokenContractAddress;
 		const tokenSymbol = lockableTokenShortName.replace(' (L2)', '');
 		const tokenDecimals = 18;
-		const tokenImage = `${dashboardAbsoluteUrl}/logos/${lockableTokenLogoFileName}.png`;
+		const tokenImage = getAbsoluteAssetUrl(`logos/${lockableTokenLogoFileName}.png`, dashboardAssetsBaseUrl);
 
 		addToken(tokenAddress, tokenSymbol, tokenDecimals, tokenImage);
 	};
@@ -272,7 +273,7 @@ export const addToMetamask = async (ecosystem: Ecosystem) => {
 		const tokenAddress = config.mintableTokenContractAddress;
 		const tokenSymbol = `${mintableTokenShortName.replace(' (L2)', '')}`;
 		const tokenDecimals = 18;
-		const tokenImage = `${dashboardAbsoluteUrl}/logos/${mintableTokenLogoFileName}.png`;
+		const tokenImage = getAbsoluteAssetUrl(`logos/${mintableTokenLogoFileName}.png`, dashboardAssetsBaseUrl);
 
 		addToken(tokenAddress, tokenSymbol, tokenDecimals, tokenImage);
 	};

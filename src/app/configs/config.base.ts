@@ -159,9 +159,29 @@ export const getBaseConfig = (ecosystem: Ecosystem) => {
 		ecosystemSlogan: 'The Yield-Bearing Cryptocurrency',
 
 		/**
-		 * In a few places we'll have this absolute url to the dashboard (ex: Terms page and add to metamask button)
+		 * Absolute url to the project. Shown as a link on the Terms page.
+		 *
+		 * NOTE: this is the source repository, not a web host, so it must NOT be used to build
+		 * URLs for hosted files. Use `dashboardAssetsBaseUrl` for that.
 		 */
 		dashboardAbsoluteUrl: 'https://github.com/Datamine-Crypto/dashboard',
+
+		/**
+		 * Absolute base url for publicly hosted assets in `public/` (currently the token logos
+		 * that MetaMask displays when adding our tokens).
+		 *
+		 * MetaMask fetches these images itself, so a relative path or a repository URL will not
+		 * work — it needs a real, publicly reachable absolute URL ending in an image.
+		 *
+		 * Leave EMPTY to derive it automatically from wherever the dashboard is being served.
+		 * That is the recommended setting: this app builds with `base: './'` so it can be hosted
+		 * at any domain or subfolder, and auto-detection keeps the logos working in every case.
+		 *
+		 * Set an explicit value (ex: 'https://datamine.network') only if you want the images to
+		 * always be pulled from one canonical host — for example so that adding a token while
+		 * developing on localhost still records a permanent, publicly reachable image URL.
+		 */
+		dashboardAssetsBaseUrl: '',
 
 		/**
 		 * For your MIT license, what copyright year do you want to show

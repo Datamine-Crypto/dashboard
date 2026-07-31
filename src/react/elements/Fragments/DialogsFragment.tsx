@@ -52,7 +52,13 @@ const DialogsFragment: React.FC = () => {
 			case DialogType.ZeroDam:
 				return <ZeroBalanceDialog dialogType={dialog} />;
 			case DialogType.TitleMessage: {
-				const { title, message } = dialogParams as { title: string; message: string };
+				// Read defensively rather than destructuring: this runs during render, so a
+				// missing `dialogParams` would throw and take down the entire dialog tree
+				// instead of simply failing to show one dialog.
+				const { title, message } = (dialogParams ?? {}) as { title?: React.ReactNode; message?: React.ReactNode };
+				if (!title && !message) {
+					return null;
+				}
 				return <MessageDialog title={title} message={message} open={true} onClose={onClose} />;
 			}
 			case DialogType.ClientSettings: {

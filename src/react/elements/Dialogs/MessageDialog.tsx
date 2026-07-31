@@ -3,8 +3,9 @@ import React from 'react';
 
 interface Params {
 	open: boolean;
-	title: string;
-	message: string;
+	/** Accepts nodes, not just strings — callers pass rich JSX (images, links, layout). */
+	title?: React.ReactNode;
+	message?: React.ReactNode;
 	onClose: () => void;
 }
 

@@ -678,16 +678,25 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			return state;
 		}
 		case commonLanguage.commands.Dialog.Show: {
-			const { dialog } = command.payload as { dialog: DialogType };
+			// `dialogParams` must be carried through: dialogs such as DialogType.TitleMessage
+			// read their title/message from it, and dropping it here left them destructuring
+			// `undefined` at render time, which crashed the whole DialogsFragment tree.
+			const { dialog, dialogParams } = command.payload as {
+				dialog: DialogType;
+				dialogParams?: Record<string, unknown>;
+			};
 			return {
 				...state,
 				dialog,
+				dialogParams,
 			};
 		}
 		case commonLanguage.commands.Dialog.Close:
 			return {
 				...state,
 				dialog: null,
+				// Cleared alongside the dialog so stale params cannot leak into the next one.
+				dialogParams: undefined,
 			};
 
 		case commonLanguage.commands.Dialog.DismissError: {
