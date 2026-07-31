@@ -20,6 +20,7 @@ import { useAppStore } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
+import { appPalette } from '@/theme/appTheme';
 /**
  * Props for the Render component within BurnDialog.
  */
@@ -124,7 +125,7 @@ const BurnDialog: React.FC = () => {
 								pl: 1,
 							}}
 						>
-							<Whatshot style={{ color: '#ff9b00' }} />
+							<Whatshot style={{ color: appPalette.warning }} />
 						</Box>
 					</Box>
 				</DialogTitle>

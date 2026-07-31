@@ -63,6 +63,7 @@ import { dispatch as appDispatch } from '@/react/utils/appStore';
 import { LocalizationProviderProps } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePickerProps } from '@mui/x-date-pickers/MobileDatePicker';
 import { AdapterDayjs as AdapterDayjsType } from '@mui/x-date-pickers/AdapterDayjs';
+import { appPalette, colors } from '@/theme/appTheme';
 
 const useStyles = tss.create(({ theme }) => ({
 	progressBarLeft: {
@@ -91,28 +92,28 @@ const useStyles = tss.create(({ theme }) => ({
 		'& .MuiSlider-thumb': {
 			width: 26,
 			height: 26,
-			border: '2px solid #187a82',
+			border: `2px solid ${colors.TEAL_DARK}`,
 		},
 	},
 	datePicker: {
 		'& .MuiPickersDay-current': {
-			color: '#0FF',
+			color: appPalette.highlight,
 		},
 		'& .MuiPickersYear-yearSelected': {
-			color: '#0FF',
+			color: appPalette.highlight,
 		},
 		'& .MuiPickersDay-daySelected': {
-			backgroundColor: '#303030',
+			backgroundColor: `${colors.NEUTRAL_800}`,
 		},
 	},
 	tableContainer: {
 		'& .MuiTableCell-root': {
 			padding: 11,
-			borderBottomColor: '#32333d',
+			borderBottomColor: `${colors.NAVY_750}`,
 		},
 	},
 	topLeftPrices: {
-		color: '#FFF',
+		color: appPalette.textPrimary,
 	},
 	topLeftPricesContainer: {
 		[theme.breakpoints.down('sm')]: {
@@ -322,7 +323,7 @@ const CallToActionCard: React.FC = () => {
 									size="small"
 									variant="outlined"
 									onClick={() => showBurnDialog()}
-									startIcon={<WhatshotIcon style={{ color: '#ff9b00' }} />}
+									startIcon={<WhatshotIcon style={{ color: appPalette.warning }} />}
 								>
 									Burn {mintableTokenShortName}
 								</Button>
@@ -613,7 +614,7 @@ const CallToActionCard: React.FC = () => {
 									</Typography>
 								</TableCell>
 								<TableCell align="left">
-									<InsertInvitation style={{ color: '#00ffff', verticalAlign: 'middle' }} />
+									<InsertInvitation style={{ color: appPalette.highlight, verticalAlign: 'middle' }} />
 								</TableCell>
 								<TableCell component="th" scope="row" align="left">
 									{getStartArea()}
@@ -888,10 +889,10 @@ const CallToActionCard: React.FC = () => {
 								return (
 									<>
 										{' (~'}
-										<strong style={{ color: '#0FF' }}>
+										<strong style={{ color: appPalette.highlight }}>
 											{numberWithCommas(fluxRequiredToBurn.toFixed(4))} {mintableTokenShortName}
 										</strong>{' '}
-										/ <strong style={{ color: '#0FF' }}>${amountToBurnUsd}</strong> left to burn for x{' '}
+										/ <strong style={{ color: appPalette.highlight }}>${amountToBurnUsd}</strong> left to burn for x{' '}
 										{getTargetBurnMultiplierDecimal().toFixed(4)} burn multiplier{')'}
 									</>
 								);
@@ -973,7 +974,7 @@ const CallToActionCard: React.FC = () => {
 									</Typography>
 								</TableCell>
 								<TableCell align="left">
-									<AttachMoneyIcon style={{ color: '#00ffff' }} />
+									<AttachMoneyIcon style={{ color: appPalette.highlight }} />
 								</TableCell>
 								<TableCell component="th" scope="row" align="left">
 									{getPriceArea()}
@@ -1128,7 +1129,7 @@ const CallToActionCard: React.FC = () => {
 														</Typography>
 													</TableCell>
 													<TableCell align="left" style={{ width: 25 }}>
-														<LockIcon style={{ color: '#3fb57f', verticalAlign: 'middle' }} />
+														<LockIcon style={{ color: `${colors.GREEN_MUTED}`, verticalAlign: 'middle' }} />
 													</TableCell>
 													<TableCell
 														className={classes.formCell}
@@ -1147,7 +1148,7 @@ const CallToActionCard: React.FC = () => {
 														</Typography>
 													</TableCell>
 													<TableCell align="left">
-														<AddIcon style={{ color: '#00ffff', verticalAlign: 'middle' }} />
+														<AddIcon style={{ color: appPalette.highlight, verticalAlign: 'middle' }} />
 													</TableCell>
 													<TableCell component="th" scope="row" align="left">
 														x {(1 / 10 ** mintableTokenMintPerBlockDivisor).toFixed(mintableTokenMintPerBlockDivisor)}
@@ -1161,7 +1162,7 @@ const CallToActionCard: React.FC = () => {
 														</Typography>
 													</TableCell>
 													<TableCell align="left">
-														<AppsIcon style={{ color: '#00ffff', verticalAlign: 'middle' }} />
+														<AppsIcon style={{ color: appPalette.highlight, verticalAlign: 'middle' }} />
 													</TableCell>
 													<TableCell component="th" scope="row" align="left">
 														{getUnmintedBlocksArea()}
@@ -1185,7 +1186,7 @@ const CallToActionCard: React.FC = () => {
 														{getBurnSlider()}
 													</TableCell>
 													<TableCell align="left">
-														<WhatshotIcon style={{ color: '#ff9b00', verticalAlign: 'middle' }} />
+														<WhatshotIcon style={{ color: appPalette.warning, verticalAlign: 'middle' }} />
 													</TableCell>
 													<TableCell component="th" scope="row" align="left">
 														{getBurnMultiplierText()}
@@ -1208,7 +1209,7 @@ const CallToActionCard: React.FC = () => {
 														{getTimeSlider()}
 													</TableCell>
 													<TableCell align="left">
-														<AlarmIcon style={{ color: '#0ff', verticalAlign: 'middle' }} />
+														<AlarmIcon style={{ color: appPalette.highlight, verticalAlign: 'middle' }} />
 													</TableCell>
 													<TableCell component="th" scope="row" align="left">
 														{getTimeMultiplierText()}
@@ -1354,7 +1355,7 @@ const CallToActionCard: React.FC = () => {
 					onClick={() => ctaDetails.onClick()}
 					startIcon={
 						<Box
-							style={{ color: '#0ff' }}
+							style={{ color: appPalette.highlight }}
 							sx={{
 								display: 'flex',
 							}}
@@ -1376,7 +1377,7 @@ const CallToActionCard: React.FC = () => {
 				onClick={() => ctaDetails.onClick()}
 				startIcon={
 					<Box
-						style={{ color: '#0ff' }}
+						style={{ color: appPalette.highlight }}
 						sx={{
 							display: 'flex',
 						}}

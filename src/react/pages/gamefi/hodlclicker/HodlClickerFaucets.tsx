@@ -18,6 +18,7 @@ import { SportsScore, MoreVert, DirectionsRun } from '@mui/icons-material';
 
 import { Token, AddressLockDetailsViewModel, Balances } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
+import { rankTierColors } from '@/theme/appTheme';
 
 export enum GemFilterType {
 	PERCENT_90 = 'PERCENT_90',
@@ -223,7 +224,7 @@ const HodlClickerFaucets: React.FC<HodlClickerFaucetsProps> = ({
 											borderRadius: 5,
 											backgroundColor: theme.palette.grey[800],
 											'& .MuiLinearProgress-bar': {
-												backgroundColor: isWinner ? '#FFD700' : theme.palette.secondary.main, // Gold for winner
+												backgroundColor: isWinner ? rankTierColors.first : theme.palette.secondary.main, // Gold for winner
 											},
 										}}
 									/>
@@ -252,7 +253,7 @@ const HodlClickerFaucets: React.FC<HodlClickerFaucetsProps> = ({
 												left: `${progress}%`,
 												top: -12,
 												fontSize: 16,
-												color: '#FFD700', // Gold icon
+												color: rankTierColors.first, // Gold icon
 												transform: 'translateX(-50%)',
 											}}
 										/>

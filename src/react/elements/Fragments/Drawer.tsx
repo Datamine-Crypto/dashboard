@@ -39,6 +39,7 @@ import Logo from '@/react/svgs/logo.svg';
 import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
+import { appPalette, colors } from '@/theme/appTheme';
 
 const drawerWidth = 280;
 const useStyles = tss.create(({ theme }) => ({
@@ -101,7 +102,7 @@ const useStyles = tss.create(({ theme }) => ({
 	},
 	nested: {
 		paddingLeft: theme.spacing(4),
-		background: '#22242e',
+		background: appPalette.elevatedBackground,
 	},
 	logoArea: {
 		display: 'flex',
@@ -111,16 +112,16 @@ const useStyles = tss.create(({ theme }) => ({
 		flexGrow: 1,
 	},
 	parent: {
-		background: '#22242e',
+		background: appPalette.elevatedBackground,
 	},
 	drawerGridContainer: {
 		height: '100%',
 	},
 	discordButton: {
-		background: '#40486c',
+		background: appPalette.borderSubtle,
 		fontSize: '0.7rem',
 		'&:hover': {
-			background: '#333851',
+			background: `${colors.NAVY_700}`,
 		},
 	},
 	lastExpandedItem: {
@@ -325,7 +326,7 @@ export const MainDrawer: React.FC = () => {
 					return {
 						sx: {
 							'&:hover': {
-								backgroundColor: '#22242e',
+								backgroundColor: appPalette.elevatedBackground,
 								cursor: 'default',
 							},
 						},

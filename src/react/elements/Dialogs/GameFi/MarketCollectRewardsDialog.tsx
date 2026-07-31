@@ -26,6 +26,7 @@ import { getNetworkDropdown } from '@/react/elements/Fragments/EcosystemDropdown
 import Big from 'big.js';
 import { devLog } from '@/utils/devLog';
 import { useShallow } from 'zustand/react/shallow';
+import { appPalette } from '@/theme/appTheme';
 
 const MarketCollectRewardsDialog: React.FC = () => {
 	const {
@@ -102,9 +103,9 @@ const MarketCollectRewardsDialog: React.FC = () => {
 	const getGameIcon = () => {
 		switch (game) {
 			case Game.DatamineGems:
-				return <Diamond style={{ color: '#00ffff' }} />;
+				return <Diamond style={{ color: appPalette.highlight }} />;
 			case Game.HodlClicker:
-				return <Mouse style={{ color: '#00ffff' }} />;
+				return <Mouse style={{ color: appPalette.highlight }} />;
 		}
 	};
 	/**
@@ -157,12 +158,12 @@ const MarketCollectRewardsDialog: React.FC = () => {
 				onClick={() => showDepositWithdrawDialog()}
 				startIcon={
 					<Box
-						style={{ color: '#0ff' }}
+						style={{ color: appPalette.highlight }}
 						sx={{
 							display: 'flex',
 						}}
 					>
-						<ImportExport style={{ color: '#00ffff' }} />
+						<ImportExport style={{ color: appPalette.highlight }} />
 					</Box>
 				}
 			>

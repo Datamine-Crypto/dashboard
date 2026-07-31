@@ -17,6 +17,7 @@ import { getNetworkDropdown } from '@/react/elements/Fragments/EcosystemDropdown
 
 // Sub-components
 import HodlClickerFaucets, { GemFilterType } from './HodlClickerFaucets';
+import { colors, rankTierColors } from '@/theme/appTheme';
 
 interface Gem {
 	id: string;
@@ -449,7 +450,9 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 				<Button
 					variant="contained"
 					size="large"
-					startIcon={<AutoAwesome sx={{ fontSize: 28, color: availableGems.length > 0 ? '#009688' : 'inherit' }} />}
+					startIcon={
+						<AutoAwesome sx={{ fontSize: 28, color: availableGems.length > 0 ? `${colors.TEAL}` : 'inherit' }} />
+					}
 					onClick={handleCollectAll}
 					disabled={availableGems.length === 0}
 					sx={{
@@ -460,9 +463,9 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 						borderRadius: 3,
 						background:
 							availableGems.length > 0
-								? 'linear-gradient(45deg, #FFD700 30%, #FF8C00 90%)'
+								? `linear-gradient(45deg, ${rankTierColors.first} 30%, ${colors.ORANGE_DARK} 90%)`
 								: theme.palette.action.disabledBackground,
-						color: availableGems.length > 0 ? '#000' : theme.palette.text.disabled,
+						color: availableGems.length > 0 ? colors.BLACK : theme.palette.text.disabled,
 						boxShadow: availableGems.length > 0 ? '0 3px 5px 2px rgba(255, 105, 135, .3)' : 'none',
 						backfaceVisibility: 'hidden',
 						WebkitFontSmoothing: 'antialiased',

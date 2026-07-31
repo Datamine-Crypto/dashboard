@@ -19,13 +19,8 @@ import { Game } from '@/app/interfaces';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
+import { appPalette, colors } from '@/theme/appTheme';
 
-// Color palette
-const palette = {
-	highlight: '#0FF',
-	background: '#272936',
-	secondaryBackground: '#202336',
-}; // For constant APY stream
 // Define Props for the component, including the new onClick handler
 interface DatamineGemsLandingPageProps {
 	onStartGameClick?: () => void; // Optional onClick handler for the Start Game button
@@ -44,7 +39,7 @@ const FeatureCard = styled(Paper)(({ theme }) => ({
 	flexDirection: 'column',
 	alignItems: 'center',
 	justifyContent: 'center',
-	backgroundColor: alpha(theme.palette.background.paper, 0.6), // Semi-transparent background for glass effect
+	backgroundColor: alpha(theme.appPalette.background.paper, 0.6), // Semi-transparent background for glass effect
 	backdropFilter: 'blur(10px)', // Blur effect for the background
 	border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`, // Subtle border
 	borderRadius: (theme.shape.borderRadius as number) * 2, // More rounded corners
@@ -56,7 +51,7 @@ const FeatureCard = styled(Paper)(({ theme }) => ({
 }));
 // Styled component for the icons within feature cards
 const FeatureIconWrapper = styled(Avatar)(({ theme }) => ({
-	backgroundColor: theme.palette.background.default,
+	backgroundColor: theme.appPalette.background.default,
 	color: theme.palette.primary.light,
 	width: theme.spacing(8), // Larger icon avatar
 	height: theme.spacing(8),
@@ -147,7 +142,7 @@ const DatamineGemsLandingPage: React.FC<DatamineGemsLandingPageProps> = ({ onSta
 							transform: 'translateY(-3px)',
 							// Update hover boxShadow if needed, e.g., using success color
 							boxShadow: `0 12px 20px ${alpha(theme.palette.secondary.main, 0.4)}`,
-							background: '#0FF',
+							background: appPalette.highlight,
 						},
 					}}
 					onClick={onStartGameClick || (() => console.log('Start Game Clicked! (Datamine Gems)'))} // Use passed prop or default console log
@@ -340,8 +335,8 @@ const RealtimeRewardsGameFiPage: React.FC = () => {
 				<Box
 					sx={{
 						minHeight: '100vh',
-						bgcolor: palette.background,
-						color: '#f3f4f6',
+						bgcolor: appPalette.background,
+						color: colors.GRAY_100,
 						p: 3,
 					}}
 				>
@@ -351,7 +346,7 @@ const RealtimeRewardsGameFiPage: React.FC = () => {
 							mx: 'auto',
 							mb: 6,
 							p: 3,
-							bgcolor: palette.secondaryBackground,
+							bgcolor: appPalette.secondaryBackground,
 							borderRadius: 2,
 						}}
 					>

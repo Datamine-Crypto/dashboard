@@ -15,6 +15,7 @@ import { EmojiEvents } from '@mui/icons-material';
 
 import { Balances, Token } from '@/app/interfaces';
 import { getPriceToggle } from '@/utils/mathHelpers';
+import { rankTierColors } from '@/theme/appTheme';
 
 interface TokensBurnedArgs {
 	burnToAddress: string;
@@ -138,13 +139,13 @@ const HodlClickerLeaderboard: React.FC<Props> = ({ logs, balances, truncateAddre
 								<TableCell>
 									{truncateAddress(row.address)}
 									{index === 0 && (
-										<EmojiEvents sx={{ fontSize: 16, color: '#FFD700', ml: 1, verticalAlign: 'middle' }} />
+										<EmojiEvents sx={{ fontSize: 16, color: rankTierColors.first, ml: 1, verticalAlign: 'middle' }} />
 									)}
 									{index === 1 && (
-										<EmojiEvents sx={{ fontSize: 16, color: '#C0C0C0', ml: 1, verticalAlign: 'middle' }} />
+										<EmojiEvents sx={{ fontSize: 16, color: rankTierColors.second, ml: 1, verticalAlign: 'middle' }} />
 									)}
 									{index === 2 && (
-										<EmojiEvents sx={{ fontSize: 16, color: '#CD7F32', ml: 1, verticalAlign: 'middle' }} />
+										<EmojiEvents sx={{ fontSize: 16, color: rankTierColors.third, ml: 1, verticalAlign: 'middle' }} />
 									)}
 								</TableCell>
 								<TableCell align="right">{row.wins}</TableCell>

@@ -22,6 +22,7 @@ import { formatBigInt, getFormattedMultiplier, getPriceToggle } from '@/utils/ma
 import MessageDialog from '@/react/elements/Dialogs/MessageDialog';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
+import { appPalette } from '@/theme/appTheme';
 
 const localConfig = {
 	/**
@@ -97,7 +98,7 @@ const UnlockDialog: React.FC = () => {
 					>
 						WARNING: YOU ARE ABOUT TO LOSE{' '}
 						<Box
-							style={{ color: '#0FF' }}
+							style={{ color: appPalette.highlight }}
 							sx={{
 								fontSize: '1.1rem',
 								display: 'inline',

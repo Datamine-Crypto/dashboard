@@ -9,6 +9,7 @@ import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import Header from '@/react/elements/Fragments/Header';
 
 import { tss } from 'tss-react/mui';
+import { appPalette } from '@/theme/appTheme';
 const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
 		[theme.breakpoints.down('sm')]: {
@@ -41,7 +42,7 @@ const useStyles = tss.create(({ theme }) => ({
 		},
 	},
 	arrow: {
-		color: '#0ff',
+		color: appPalette.highlight,
 		fontSize: '2rem',
 		verticalAlign: 'middle',
 		[theme.breakpoints.down('md')]: {

@@ -36,6 +36,7 @@ import { useAppStore } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
+import { appPalette } from '@/theme/appTheme';
 
 interface ComboBoxProps {
 	value: string;
@@ -46,7 +47,7 @@ interface ComboBoxProps {
 }
 const useStyles = tss.create(() => ({
 	topLeftPrices: {
-		color: '#FFF',
+		color: appPalette.textPrimary,
 	},
 	topLeftPricesContainer: {
 		flexDirection: 'column',

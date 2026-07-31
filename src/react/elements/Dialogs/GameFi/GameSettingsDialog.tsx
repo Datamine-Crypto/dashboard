@@ -19,6 +19,7 @@ import { useAppStore } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
+import { appPalette } from '@/theme/appTheme';
 
 /**
  * BurnDialog component for burning Flux tokens.
@@ -100,7 +101,7 @@ const GameSettingsDialog: React.FC = () => {
 								pl: 1,
 							}}
 						>
-							<Settings style={{ color: '#00ffff' }} />
+							<Settings style={{ color: appPalette.highlight }} />
 						</Box>
 					</Box>
 				</DialogTitle>

@@ -13,12 +13,7 @@ import {
 import { alpha, Avatar, Container, styled, useTheme } from '@mui/material'; // Assuming MUI v7 imports are similar
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
-// Color palette
-const palette = {
-	highlight: '#0FF',
-	background: '#272936',
-	secondaryBackground: '#202336',
-}; // For constant APY stream
+import { appPalette, colors } from '@/theme/appTheme';
 // Define Props for the component, including the new onClick handler
 interface HodlClickerRushGameFiPageProps {
 	onStartGameClick?: () => void; // Optional onClick handler for the Start Game button
@@ -37,7 +32,7 @@ const FeatureCard = styled(Paper)(({ theme }) => ({
 	flexDirection: 'column',
 	alignItems: 'center',
 	justifyContent: 'center',
-	backgroundColor: alpha(theme.palette.background.paper, 0.6), // Semi-transparent background for glass effect
+	backgroundColor: alpha(theme.appPalette.background.paper, 0.6), // Semi-transparent background for glass effect
 	backdropFilter: 'blur(10px)', // Blur effect for the background
 	border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`, // Subtle border
 	borderRadius: (theme.shape.borderRadius as number) * 2, // More rounded corners
@@ -49,7 +44,7 @@ const FeatureCard = styled(Paper)(({ theme }) => ({
 }));
 // Styled component for the icons within feature cards
 const FeatureIconWrapper = styled(Avatar)(({ theme }) => ({
-	backgroundColor: theme.palette.background.default,
+	backgroundColor: theme.appPalette.background.default,
 	color: theme.palette.primary.light,
 	width: theme.spacing(8), // Larger icon avatar
 	height: theme.spacing(8),
@@ -147,7 +142,7 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 							transform: 'translateY(-3px)',
 							// Update hover boxShadow if needed, e.g., using success color
 							boxShadow: `0 12px 20px ${alpha(theme.palette.secondary.main, 0.4)}`,
-							background: '#0FF',
+							background: appPalette.highlight,
 						},
 					}}
 					onClick={onStartGameClick || (() => console.log('Start Game Clicked! (HODL Clicker Rush)'))} // Use passed prop or default console log
@@ -338,8 +333,8 @@ const HodlClickerRushGameFiPage: React.FC = () => {
 				<Box
 					sx={{
 						minHeight: '100vh',
-						bgcolor: palette.background,
-						color: '#f3f4f6',
+						bgcolor: appPalette.background,
+						color: colors.GRAY_100,
 						p: 3,
 					}}
 				>
@@ -349,7 +344,7 @@ const HodlClickerRushGameFiPage: React.FC = () => {
 							mx: 'auto',
 							mb: 6,
 							p: 3,
-							bgcolor: palette.secondaryBackground,
+							bgcolor: appPalette.secondaryBackground,
 							borderRadius: 2,
 						}}
 					>

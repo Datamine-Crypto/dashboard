@@ -24,6 +24,7 @@ import { useAppStore } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
+import { appPalette } from '@/theme/appTheme';
 
 enum MintingAddressType {
 	SelfMinter = 'SelfMinter',
@@ -165,7 +166,7 @@ const DamLockDialog: React.FC = () => {
 							alignItems: 'center',
 						}}
 					>
-						<Diamond style={{ color: '#0FF' }} />
+						<Diamond style={{ color: appPalette.highlight }} />
 						<Box
 							sx={{
 								ml: 0.5,
@@ -193,7 +194,7 @@ const DamLockDialog: React.FC = () => {
 							alignItems: 'center',
 						}}
 					>
-						<MouseIcon style={{ color: '#0FF' }} />
+						<MouseIcon style={{ color: appPalette.highlight }} />
 						<Box
 							sx={{
 								ml: 0.5,

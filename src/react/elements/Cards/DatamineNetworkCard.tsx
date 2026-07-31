@@ -7,6 +7,7 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import LightTooltip from '@/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
+import { appPalette } from '@/theme/appTheme';
 
 const DatamineNetworkCard: React.FC = () => {
 	const { addressLock, selectedAddress } = useAppStore(
@@ -32,7 +33,7 @@ const DatamineNetworkCard: React.FC = () => {
 				onClick={() => dispatch({ type: commonLanguage.commands.DisplayAccessLinks })}
 				startIcon={
 					<Box
-						style={{ color: '#0ff' }}
+						style={{ color: appPalette.highlight }}
 						sx={{
 							display: 'flex',
 						}}
@@ -117,8 +118,8 @@ const DatamineNetworkCard: React.FC = () => {
 					}}
 				>
 					Introducing our fresh take on &quot;as a service&quot; market segment:{' '}
-					<strong style={{ color: '#ff9b00' }}>
-						<Whatshot style={{ color: '#ff9b00', verticalAlign: 'middle' }} />
+					<strong style={{ color: appPalette.warning }}>
+						<Whatshot style={{ color: appPalette.warning, verticalAlign: 'middle' }} />
 						Burn-As-A-Service
 					</strong>{' '}
 					<Chip label="@todo add 'get more info' button here" variant="outlined" />

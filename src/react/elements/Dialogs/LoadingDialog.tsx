@@ -1,5 +1,6 @@
 import { Box, CircularProgress, Dialog, DialogContent } from '@mui/material';
 import React from 'react';
+import { appPalette } from '@/theme/appTheme';
 
 const LoadingDialog: React.FC = React.memo(function LoadingDialog() {
 	return (
@@ -17,7 +18,7 @@ const LoadingDialog: React.FC = React.memo(function LoadingDialog() {
 						my: 3,
 					}}
 				>
-					<CircularProgress style={{ color: '#0ff' }} />
+					<CircularProgress style={{ color: appPalette.highlight }} />
 				</Box>
 			</DialogContent>
 		</Dialog>

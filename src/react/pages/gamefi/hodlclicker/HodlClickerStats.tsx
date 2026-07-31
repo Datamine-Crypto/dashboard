@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Card, CardContent, Typography, Grid, useTheme } from '@mui/material';
 import { Whatshot, AttachMoney, LocalGasStation } from '@mui/icons-material';
+import { colors } from '@/theme/appTheme';
 
 interface HodlClickerStatsProps {
 	summary: {
@@ -18,7 +19,7 @@ const HodlClickerStats: React.FC<HodlClickerStatsProps> = ({ summary, getUSDValu
 		<Card
 			sx={{
 				mb: 4,
-				background: `linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%)`, // Much darker gradient
+				background: `linear-gradient(135deg, ${colors.BLACK_900} 0%, ${colors.BLACK_950} 100%)`, // Much darker gradient
 				border: `1px solid ${theme.palette.divider}`,
 				color: 'white',
 				boxShadow: 6,

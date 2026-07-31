@@ -1,3 +1,34 @@
+# ⚖️ Code Standards (non-negotiable)
+
+These rules apply to all new code and to any file you touch. If a rule conflicts with existing
+code in a file you are editing, fix the file rather than matching the old pattern.
+
+- **Rule 1 — NO hardcoded values.** Anything shared goes in a config; magic numbers become named
+  settings. If a literal appears in logic, ask what it means and name it.
+- **Rule 2 — Group by context into FEATURE FOLDERS** (parsing, evolution, simulation). Organise by
+  domain, not by technical type.
+- **Rule 3 — Reusability.** Code used in two places is almost always refactorable into a helper.
+  Extract it.
+- **Rule 5 — Configs MUST live in the feature folder they belong to.** One global config dump
+  becomes a junk drawer.
+- **Rule 6 — ALL variable names explicit.** `tokenOutput` not `to`; `liquidity` not `l`.
+- **Rule 7 — If logic can be orchestrated, BREAK IT UP** into logical helper groups. No monolithic
+  files; helpers carry the steps.
+- **Rule 8 — ZUSTAND over useState.** Prefer zustand slices unless the state is really truly small.
+  More than 2 `useState` calls in one component is the anti-pattern.
+- **Rule 9 — ALL colors/theme styles live in ONE shared theme file:** `src/theme/appTheme.ts`.
+  Zero color hexes or style literals inside components. Chart code imports hexes from the theme
+  file (single source of truth), and the theme file itself uses named color constants composed
+  into the palette.
+- **Rule 10 — REACT.MEMO where it makes sense.** Wrap pure-render components, list/item components
+  rendered N times, and expensive leaves (charts, heatmaps). Skip store-subscribed fast-updating
+  components, tiny one-liners, and orchestrator shells. Check every new component for which side
+  of that line it falls on.
+
+> Numbering follows the original rule list, which has no rule 4.
+
+---
+
 Read the information about this project in docs/aiContext.md and README.md files
 
 Source is located in `/src` folder. Read that folder as it contains a lot of comments which explain many concepts
@@ -28,12 +59,15 @@ This project is a web-based dashboard for the Datamine Network, built with React
 
 ## Core Technologies
 
-- **Framework:** React v19.2.0
-- **UI Library:** Material-UI (MUI) v7.3.5
-- **Blockchain Interaction:** Viem v2.40.0
-- **Language:** TypeScript v5.9.3
-- **Build Tool:** Vite v7.2.2
-- **Package Manager:** Yarn v4.10.3
+_Verified against `package.json` on 2026-07-31. Always prefer `package.json` over this list._
+
+- **Framework:** React v19.2.x
+- **UI Library:** Material-UI (MUI) v9.1.x
+- **Blockchain Interaction:** Viem v2.53.x (Web3.js is NOT used and is not a dependency)
+- **State Management:** zustand v5
+- **Language:** TypeScript v6.0.x
+- **Build Tool:** Vite v8.1.x
+- **Package Manager:** Yarn v4.17.x
 
 ## Key Architectural Patterns
 
@@ -61,8 +95,12 @@ Extra information help you understand the Datamine ecosystem better:
 
 #### 1. Styling Conventions & Theming
 
-- For styling we're using `tss-react` and `useStyles` from `tss.create()`
-- `src/react/styles.ts` contains our MUI themes
+- **`src/theme/appTheme.ts` is the single source of truth for all colors and theme styles** (Rule 9).
+  Named color constants are composed into the palette there and exported for use by components and
+  chart code. Components must not contain color hexes.
+- `src/react/utils/theme.ts` re-exports from `src/theme/appTheme.ts` for backwards compatibility.
+  New code should import from `src/theme/appTheme.ts` directly.
+- For component-level styling we use `tss-react` and `useStyles` from `tss.create()`.
 
 #### 2. State Management
 

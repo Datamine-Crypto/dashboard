@@ -19,13 +19,14 @@ import {
 import { grey, red } from '@mui/material/colors';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import LightTooltip from '@/react/elements/LightTooltip';
+import { colors, rankTierColors } from '@/theme/appTheme';
 
 // --- Types and Game Data ---
 export enum GemColor {
-	Bronze = '#CD7F32',
-	Silver = '#C0C0C0',
-	Gold = '#FFD700',
-	Epic = '#E040FB',
+	Bronze = rankTierColors.third,
+	Silver = rankTierColors.second,
+	Gold = rankTierColors.first,
+	Epic = colors.MAGENTA,
 }
 
 // --- Configuration Object ---

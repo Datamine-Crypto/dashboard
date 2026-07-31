@@ -24,6 +24,7 @@ import { getEcosystemConfig } from '@/app/configs/config';
 import { formatMoney } from '@/utils/formatMoney';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
+import { appPalette } from '@/theme/appTheme';
 
 const currencyCodes = [
 	'AED',
@@ -318,7 +319,7 @@ const SettingsDialog: React.FC = () => {
 							pl: 1,
 						}}
 					>
-						<Settings style={{ color: '#0ff' }} />
+						<Settings style={{ color: appPalette.highlight }} />
 					</Box>
 				</Box>
 			</DialogTitle>

@@ -21,6 +21,7 @@ import { ReducerQuery } from '@/utils/reducer/sideEffectReducer';
 import { theme as datamineTheme } from '@/react/utils/theme';
 
 import { tss } from 'tss-react/mui';
+import { appPalette } from '@/theme/appTheme';
 interface Params {
 	open: boolean;
 	connectionMethod: ConnectionMethod;
@@ -186,11 +187,11 @@ const PendingActionDialog: React.FC<Params> = React.memo(function PendingActionD
 								pl: 1,
 							}}
 						>
-							<HourglassEmpty style={{ color: '#0ff' }} />
+							<HourglassEmpty style={{ color: appPalette.highlight }} />
 						</Box>
 					</Box>
 
-					{/*<LightTooltip title="Click For Help &amp; Tips"><IconButton onClick={onClose} ><HelpOutlineIcon style={{ color: '#bfbfc3' }} /></IconButton></LightTooltip>*/}
+					{/*<LightTooltip title="Click For Help &amp; Tips"><IconButton onClick={onClose} ><HelpOutlineIcon style={{ color: colors.GRAY_350 }} /></IconButton></LightTooltip>*/}
 				</Box>
 			</DialogTitle>
 			<DialogContent>

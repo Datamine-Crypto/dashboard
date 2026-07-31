@@ -1,4 +1,5 @@
 import CircularProgress from '@mui/material/CircularProgress';
+import { appPalette } from '@/theme/appTheme';
 
 const CenteredLoading = () => (
 	<div
@@ -10,7 +11,7 @@ const CenteredLoading = () => (
 			width: '100%', // Full viewport width
 		}}
 	>
-		<CircularProgress style={{ color: '#0ff' }} />
+		<CircularProgress style={{ color: appPalette.highlight }} />
 	</div>
 );
 

@@ -25,6 +25,7 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import AddToFirefoxFragment from '@/react/elements/Fragments/AddToFirefoxFragment';
 import CenteredLoading from '@/react/elements/Fragments/CenteredLoading'; // Assuming you have a loading component
 import LightTooltip from '@/react/elements/LightTooltip';
+import { appPalette } from '@/theme/appTheme';
 
 /**
  * Props for the Render component within HelpDialog.
@@ -41,7 +42,7 @@ enum ImageOption {
 const useStyles = tss.create(({ theme }) => ({
 	markdownContainer: {
 		'& a': {
-			color: '#00FFFF',
+			color: appPalette.highlight,
 		},
 		'& .MuiTypography-gutterBottom': {
 			marginBottom: '0.75em',
@@ -112,7 +113,7 @@ const useStyles = tss.create(({ theme }) => ({
 		maxWidth: 912,
 		display: 'block',
 		margin: '16px auto',
-		border: '1px solid #00FFFF',
+		border: `1px solid ${appPalette.highlight}`,
 		borderRadius: 5,
 	},
 }));

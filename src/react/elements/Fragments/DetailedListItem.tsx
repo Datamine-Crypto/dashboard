@@ -3,10 +3,11 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import React, { ReactNode } from 'react';
 import { tss } from 'tss-react/mui';
+import { appPalette } from '@/theme/appTheme';
 
 const useStyles = tss.create(() => ({
 	cardMobile: {
-		background: '#202336',
+		background: appPalette.secondaryBackground,
 		overflowX: 'auto',
 	},
 }));

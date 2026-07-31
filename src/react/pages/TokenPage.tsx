@@ -18,13 +18,8 @@ import { useAppStore } from '@/react/utils/appStore';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/react/elements/Fragments/ExploreLiquidityPools';
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import { useShallow } from 'zustand/react/shallow';
+import { appPalette, colors } from '@/theme/appTheme';
 
-// Color palette
-const palette = {
-	highlight: '#0FF',
-	background: '#272936',
-	secondaryBackground: '#202336',
-};
 // Main component
 const TokenPage: React.FC = () => {
 	const { ecosystem } = useAppStore(
@@ -65,8 +60,8 @@ const TokenPage: React.FC = () => {
 				<Box
 					sx={{
 						minHeight: '100vh',
-						bgcolor: palette.background,
-						color: '#f3f4f6',
+						bgcolor: appPalette.background,
+						color: colors.GRAY_100,
 						p: 3,
 					}}
 				>
@@ -98,7 +93,7 @@ const TokenPage: React.FC = () => {
 							mx: 'auto',
 							mb: 6,
 							p: 3,
-							bgcolor: palette.secondaryBackground,
+							bgcolor: appPalette.secondaryBackground,
 							borderRadius: 2,
 						}}
 					>
@@ -107,27 +102,27 @@ const TokenPage: React.FC = () => {
 						</Typography>
 						<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 3 }}>
 							<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-								<ShieldIcon sx={{ color: palette.highlight, mr: 2, mt: 0.5 }} />
+								<ShieldIcon sx={{ color: appPalette.highlight, mr: 2, mt: 0.5 }} />
 								<Typography>
-									<Box component="span" sx={{ fontWeight: 'bold', color: palette.highlight }}>
+									<Box component="span" sx={{ fontWeight: 'bold', color: appPalette.highlight }}>
 										Manage Inflation:
 									</Box>{' '}
 									Keeps token supply balanced to maintain value.
 								</Typography>
 							</Box>
 							<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-								<BarChartIcon sx={{ color: palette.highlight, mr: 2, mt: 0.5 }} />
+								<BarChartIcon sx={{ color: appPalette.highlight, mr: 2, mt: 0.5 }} />
 								<Typography>
-									<Box component="span" sx={{ fontWeight: 'bold', color: palette.highlight }}>
+									<Box component="span" sx={{ fontWeight: 'bold', color: appPalette.highlight }}>
 										Promote Stability:
 									</Box>{' '}
 									Reduces market swings and increases liquidity.
 								</Typography>
 							</Box>
 							<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-								<TrendingUpIcon sx={{ color: palette.highlight, mr: 2, mt: 0.5 }} />
+								<TrendingUpIcon sx={{ color: appPalette.highlight, mr: 2, mt: 0.5 }} />
 								<Typography>
-									<Box component="span" sx={{ fontWeight: 'bold', color: palette.highlight }}>
+									<Box component="span" sx={{ fontWeight: 'bold', color: appPalette.highlight }}>
 										Reward Participation:
 									</Box>{' '}
 									Offers incentives for contributing to the ecosystem.
@@ -145,7 +140,7 @@ const TokenPage: React.FC = () => {
 							mx: 'auto',
 							mb: 6,
 							p: 3,
-							bgcolor: palette.secondaryBackground,
+							bgcolor: appPalette.secondaryBackground,
 							borderRadius: 2,
 						}}
 					>
@@ -170,13 +165,13 @@ const TokenPage: React.FC = () => {
 							</g>
 							{/* Arrow 1 */}
 							<g transform="translate(100, 100)">
-								<line x1="0" y1="0" x2="120" y2="0" stroke="#4b5563" strokeWidth="2" strokeDasharray="5,5" />
+								<line x1="0" y1="0" x2="120" y2="0" stroke={colors.GRAY_600} strokeWidth="2" strokeDasharray="5,5" />
 								<polygon
 									points="120,0 110,-5 110,5"
-									fill="#4b5563"
+									fill={colors.GRAY_600}
 									style={{ animation: animateDAM ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none' }}
 								/>
-								<text x="60" y="-10" textAnchor="middle" fill="#9ca3af" fontSize="12">
+								<text x="60" y="-10" textAnchor="middle" fill={appPalette.textMuted} fontSize="12">
 									Lock
 								</text>
 							</g>
@@ -189,13 +184,13 @@ const TokenPage: React.FC = () => {
 							</g>
 							{/* Arrow 2 */}
 							<g transform="translate(300, 100)">
-								<line x1="0" y1="0" x2="120" y2="0" stroke="#4b5563" strokeWidth="2" strokeDasharray="5,5" />
+								<line x1="0" y1="0" x2="120" y2="0" stroke={colors.GRAY_600} strokeWidth="2" strokeDasharray="5,5" />
 								<polygon
 									points="120,0 110,-5 110,5"
-									fill="#4b5563"
+									fill={colors.GRAY_600}
 									style={{ animation: animateFLUX ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none' }}
 								/>
-								<text x="60" y="-10" textAnchor="middle" fill="#9ca3af" fontSize="12">
+								<text x="60" y="-10" textAnchor="middle" fill={appPalette.textMuted} fontSize="12">
 									Bridge & Lock
 								</text>
 							</g>
@@ -208,13 +203,13 @@ const TokenPage: React.FC = () => {
 							</g>
 							{/* Arrow 3 */}
 							<g transform="translate(500, 100)">
-								<line x1="0" y1="0" x2="120" y2="0" stroke="#4b5563" strokeWidth="2" strokeDasharray="5,5" />
+								<line x1="0" y1="0" x2="120" y2="0" stroke={colors.GRAY_600} strokeWidth="2" strokeDasharray="5,5" />
 								<polygon
 									points="120,0 110,-5 110,5"
-									fill="#4b5563"
+									fill={colors.GRAY_600}
 									style={{ animation: animateArbiFLUX ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none' }}
 								/>
-								<text x="60" y="-10" textAnchor="middle" fill="#9ca3af" fontSize="12">
+								<text x="60" y="-10" textAnchor="middle" fill={appPalette.textMuted} fontSize="12">
 									Lock
 								</text>
 							</g>
@@ -234,8 +229,8 @@ const TokenPage: React.FC = () => {
 							<Card
 								sx={{
 									height: '100%',
-									bgcolor: palette.secondaryBackground,
-									borderLeft: `4px solid ${palette.highlight}`,
+									bgcolor: appPalette.secondaryBackground,
+									borderLeft: `4px solid ${appPalette.highlight}`,
 									borderRadius: 2,
 									boxShadow: 3,
 								}}
@@ -259,20 +254,20 @@ const TokenPage: React.FC = () => {
 											sx={{
 												fontSize: '1.5rem',
 												fontWeight: 'bold',
-												color: palette.highlight,
+												color: appPalette.highlight,
 											}}
 										>
 											DAM: The Foundation Token
 										</Typography>
 									</Box>
-									<Divider sx={{ my: 2, borderColor: '#374151' }} /> {/* border-gray-700 */}
+									<Divider sx={{ my: 2, borderColor: appPalette.border }} /> {/* border-gray-700 */}
 									<Box sx={{ ml: 1.5, display: 'flex', flexDirection: 'column', gap: 2 }}>
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 											<ArrowForwardIcon
-												sx={{ color: palette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }}
+												sx={{ color: appPalette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }}
 												fontSize="small"
 											/>
-											<Typography sx={{ color: '#e5e7eb' }}>
+											<Typography sx={{ color: appPalette.textSecondary }}>
 												{' '}
 												{/* text-gray-200 */}
 												<Box component="span" sx={{ fontWeight: 'bold' }}>
@@ -282,8 +277,11 @@ const TokenPage: React.FC = () => {
 											</Typography>
 										</Box>
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-											<ArrowForwardIcon sx={{ color: '#60a5fa', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
-											<Typography sx={{ color: '#e5e7eb' }}>
+											<ArrowForwardIcon
+												sx={{ color: appPalette.info, mr: 1, mt: 0.5, flexShrink: 0 }}
+												fontSize="small"
+											/>
+											<Typography sx={{ color: appPalette.textSecondary }}>
 												{' '}
 												{/* text-gray-200 */}
 												<Box component="span" sx={{ fontWeight: 'bold' }}>
@@ -296,13 +294,13 @@ const TokenPage: React.FC = () => {
 									<Box
 										sx={{
 											mt: 3,
-											bgcolor: palette.background,
+											bgcolor: appPalette.background,
 											p: 2,
 											borderRadius: 1,
 										}}
 									>
 										<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-											<Typography sx={{ color: '#9ca3af' }}>Supply Cap</Typography> {/* text-gray-400 */}
+											<Typography sx={{ color: appPalette.textMuted }}>Supply Cap</Typography> {/* text-gray-400 */}
 											<Typography sx={{ fontWeight: 'bold' }}>16,876,779 DAM</Typography>
 										</Box>
 										<Box sx={{ mt: 1, pt: 0.5, position: 'relative' }}>
@@ -310,7 +308,7 @@ const TokenPage: React.FC = () => {
 												sx={{
 													height: '8px', // h-2
 													borderRadius: '4px',
-													bgcolor: '#374151', // bg-gray-700
+													bgcolor: appPalette.border, // bg-gray-700
 													overflow: 'hidden',
 													display: 'flex',
 												}}
@@ -318,7 +316,7 @@ const TokenPage: React.FC = () => {
 												<Box
 													sx={{
 														width: '75%', // w-3/4
-														bgcolor: '#3b82f6', // bg-blue-500
+														bgcolor: colors.BLUE_600, // bg-blue-500
 														display: 'flex',
 														flexDirection: 'column',
 														justifyContent: 'center',
@@ -338,8 +336,8 @@ const TokenPage: React.FC = () => {
 							<Card
 								sx={{
 									height: '100%',
-									bgcolor: palette.secondaryBackground,
-									borderLeft: `4px solid ${palette.highlight}`,
+									bgcolor: appPalette.secondaryBackground,
+									borderLeft: `4px solid ${appPalette.highlight}`,
 									borderRadius: 2,
 									boxShadow: 3,
 								}}
@@ -363,20 +361,20 @@ const TokenPage: React.FC = () => {
 											sx={{
 												fontSize: '1.5rem',
 												fontWeight: 'bold',
-												color: palette.highlight,
+												color: appPalette.highlight,
 											}}
 										>
 											FLUX: The Layer 1 Utility Token
 										</Typography>
 									</Box>
-									<Divider sx={{ my: 2, borderColor: '#374151' }} /> {/* border-gray-700 */}
+									<Divider sx={{ my: 2, borderColor: appPalette.border }} /> {/* border-gray-700 */}
 									<Box sx={{ ml: 1.5, display: 'flex', flexDirection: 'column', gap: 2 }}>
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 											<ArrowForwardIcon
-												sx={{ color: palette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }}
+												sx={{ color: appPalette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }}
 												fontSize="small"
 											/>
-											<Typography sx={{ color: '#e5e7eb' }}>
+											<Typography sx={{ color: appPalette.textSecondary }}>
 												{' '}
 												{/* text-gray-200 */}
 												<Box component="span" sx={{ fontWeight: 'bold' }}>
@@ -386,8 +384,8 @@ const TokenPage: React.FC = () => {
 											</Typography>
 										</Box>
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-											<ArrowForwardIcon sx={{ color: '#a855f7', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
-											<Typography sx={{ color: '#e5e7eb' }}>
+											<ArrowForwardIcon sx={{ color: colors.PURPLE, mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
+											<Typography sx={{ color: appPalette.textSecondary }}>
 												{' '}
 												{/* text-gray-200 */}
 												<Box component="span" sx={{ fontWeight: 'bold' }}>
@@ -401,22 +399,22 @@ const TokenPage: React.FC = () => {
 									<Box
 										sx={{
 											mt: 3,
-											bgcolor: '#111827', // bg-gray-900
+											bgcolor: colors.GRAY_900, // bg-gray-900
 											p: 2,
 											borderRadius: 1,
 										}}
 									>
 										<Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-											<LockIcon sx={{ color: palette.highlight, mr: 1 }} fontSize="small" />
-											<Typography sx={{ color: '#e5e7eb' }}>Lock DAM</Typography>
-											<ArrowForwardIcon sx={{ color: '#6b7280', mx: 1 }} fontSize="small" />
-											<Typography sx={{ color: palette.highlight, fontWeight: 'bold' }}>Mint FLUX</Typography>
+											<LockIcon sx={{ color: appPalette.highlight, mr: 1 }} fontSize="small" />
+											<Typography sx={{ color: appPalette.textSecondary }}>Lock DAM</Typography>
+											<ArrowForwardIcon sx={{ color: appPalette.textDisabled, mx: 1 }} fontSize="small" />
+											<Typography sx={{ color: appPalette.highlight, fontWeight: 'bold' }}>Mint FLUX</Typography>
 										</Box>
 										<Box sx={{ display: 'flex', alignItems: 'center' }}>
-											<SyncIcon sx={{ color: palette.highlight, mr: 1 }} fontSize="small" />
-											<Typography sx={{ color: '#e5e7eb' }}>Burn FLUX</Typography>
-											<ArrowForwardIcon sx={{ color: '#6b7280', mx: 1 }} fontSize="small" />
-											<Typography sx={{ color: palette.highlight, fontWeight: 'bold' }}>Boost APY</Typography>
+											<SyncIcon sx={{ color: appPalette.highlight, mr: 1 }} fontSize="small" />
+											<Typography sx={{ color: appPalette.textSecondary }}>Burn FLUX</Typography>
+											<ArrowForwardIcon sx={{ color: appPalette.textDisabled, mx: 1 }} fontSize="small" />
+											<Typography sx={{ color: appPalette.highlight, fontWeight: 'bold' }}>Boost APY</Typography>
 										</Box>
 									</Box>
 								</CardContent>
@@ -427,8 +425,8 @@ const TokenPage: React.FC = () => {
 							<Card
 								sx={{
 									height: '100%',
-									bgcolor: palette.secondaryBackground,
-									borderLeft: `4px solid ${palette.highlight}`,
+									bgcolor: appPalette.secondaryBackground,
+									borderLeft: `4px solid ${appPalette.highlight}`,
 									borderRadius: 2,
 									boxShadow: 3,
 								}}
@@ -452,20 +450,20 @@ const TokenPage: React.FC = () => {
 											sx={{
 												fontSize: '1.5rem',
 												fontWeight: 'bold',
-												color: palette.highlight,
+												color: appPalette.highlight,
 											}}
 										>
 											ArbiFLUX: The Layer 2 Efficiency Token
 										</Typography>
 									</Box>
-									<Divider sx={{ my: 2, borderColor: '#374151' }} /> {/* border-gray-700 */}
+									<Divider sx={{ my: 2, borderColor: appPalette.border }} /> {/* border-gray-700 */}
 									<Box sx={{ ml: 1.5, display: 'flex', flexDirection: 'column', gap: 2 }}>
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 											<ArrowForwardIcon
-												sx={{ color: palette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }}
+												sx={{ color: appPalette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }}
 												fontSize="small"
 											/>
-											<Typography sx={{ color: '#e5e7eb' }}>
+											<Typography sx={{ color: appPalette.textSecondary }}>
 												{' '}
 												{/* text-gray-200 */}
 												<Box component="span" sx={{ fontWeight: 'bold' }}>
@@ -475,8 +473,8 @@ const TokenPage: React.FC = () => {
 											</Typography>
 										</Box>
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-											<ArrowForwardIcon sx={{ color: '#f472b6', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
-											<Typography sx={{ color: '#e5e7eb' }}>
+											<ArrowForwardIcon sx={{ color: colors.PINK, mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
+											<Typography sx={{ color: appPalette.textSecondary }}>
 												{' '}
 												{/* text-gray-200 */}
 												<Box component="span" sx={{ fontWeight: 'bold' }}>
@@ -490,19 +488,19 @@ const TokenPage: React.FC = () => {
 									<Box
 										sx={{
 											mt: 3,
-											bgcolor: '#111827', // bg-gray-900
+											bgcolor: colors.GRAY_900, // bg-gray-900
 											p: 2,
 											borderRadius: 1,
 										}}
 									>
 										<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-											<Typography sx={{ color: '#9ca3af' }}>Transaction Cost</Typography>
+											<Typography sx={{ color: appPalette.textMuted }}>Transaction Cost</Typography>
 											<Box sx={{ display: 'flex', alignItems: 'center' }}>
 												<Box
 													sx={{
 														px: 1,
 														py: 0.5,
-														bgcolor: '#581c87', // bg-purple-900
+														bgcolor: colors.PURPLE_DARK, // bg-purple-900
 														borderTopLeftRadius: '4px',
 														borderBottomLeftRadius: '4px',
 														fontSize: '0.75rem',
@@ -515,12 +513,12 @@ const TokenPage: React.FC = () => {
 													sx={{
 														px: 1,
 														py: 0.5,
-														bgcolor: '#831843', // bg-pink-900
+														bgcolor: colors.PINK_DARK, // bg-pink-900
 														borderTopRightRadius: '4px',
 														borderBottomRightRadius: '4px',
 														fontSize: '0.75rem',
 														fontWeight: 'bold',
-														color: palette.highlight, // Cyan highlight color
+														color: appPalette.highlight, // Cyan highlight color
 													}}
 												>
 													Layer 2 ↓98%
@@ -528,13 +526,13 @@ const TokenPage: React.FC = () => {
 											</Box>
 										</Box>
 										<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-											<Typography sx={{ color: '#9ca3af' }}>Transaction Speed</Typography>
+											<Typography sx={{ color: appPalette.textMuted }}>Transaction Speed</Typography>
 											<Box sx={{ display: 'flex', alignItems: 'center' }}>
 												<Box
 													sx={{
 														px: 1,
 														py: 0.5,
-														bgcolor: '#581c87', // bg-purple-900
+														bgcolor: colors.PURPLE_DARK, // bg-purple-900
 														borderTopLeftRadius: '4px',
 														borderBottomLeftRadius: '4px',
 														fontSize: '0.75rem',
@@ -547,12 +545,12 @@ const TokenPage: React.FC = () => {
 													sx={{
 														px: 1,
 														py: 0.5,
-														bgcolor: '#831843', // bg-pink-900
+														bgcolor: colors.PINK_DARK, // bg-pink-900
 														borderTopRightRadius: '4px',
 														borderBottomRightRadius: '4px',
 														fontSize: '0.75rem',
 														fontWeight: 'bold',
-														color: palette.highlight,
+														color: appPalette.highlight,
 													}}
 												>
 													Layer 2 ↑50x
@@ -568,8 +566,8 @@ const TokenPage: React.FC = () => {
 							<Card
 								sx={{
 									height: '100%',
-									bgcolor: palette.secondaryBackground,
-									borderLeft: `4px solid ${palette.highlight}`,
+									bgcolor: appPalette.secondaryBackground,
+									borderLeft: `4px solid ${appPalette.highlight}`,
 									borderRadius: 2,
 									boxShadow: 3,
 								}}
@@ -593,20 +591,20 @@ const TokenPage: React.FC = () => {
 											sx={{
 												fontSize: '1.5rem',
 												fontWeight: 'bold',
-												color: palette.highlight,
+												color: appPalette.highlight,
 											}}
 										>
 											LOCK: The Stability and Liquidity Token
 										</Typography>
 									</Box>
-									<Divider sx={{ my: 2, borderColor: '#374151' }} /> {/* border-gray-700 */}
+									<Divider sx={{ my: 2, borderColor: appPalette.border }} /> {/* border-gray-700 */}
 									<Box sx={{ ml: 1.5, display: 'flex', flexDirection: 'column', gap: 2 }}>
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 											<ArrowForwardIcon
-												sx={{ color: palette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }}
+												sx={{ color: appPalette.highlight, mr: 1, mt: 0.5, flexShrink: 0 }}
 												fontSize="small"
 											/>
-											<Typography sx={{ color: '#e5e7eb' }}>
+											<Typography sx={{ color: appPalette.textSecondary }}>
 												{' '}
 												{/* text-gray-200 */}
 												<Box component="span" sx={{ fontWeight: 'bold' }}>
@@ -616,8 +614,11 @@ const TokenPage: React.FC = () => {
 											</Typography>
 										</Box>
 										<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-											<ArrowForwardIcon sx={{ color: '#4ade80', mr: 1, mt: 0.5, flexShrink: 0 }} fontSize="small" />
-											<Typography sx={{ color: '#e5e7eb' }}>
+											<ArrowForwardIcon
+												sx={{ color: appPalette.success, mr: 1, mt: 0.5, flexShrink: 0 }}
+												fontSize="small"
+											/>
+											<Typography sx={{ color: appPalette.textSecondary }}>
 												{' '}
 												{/* text-gray-200 */}
 												<Box component="span" sx={{ fontWeight: 'bold' }}>
@@ -631,13 +632,13 @@ const TokenPage: React.FC = () => {
 									<Box
 										sx={{
 											mt: 3,
-											bgcolor: '#111827', // bg-gray-900
+											bgcolor: colors.GRAY_900, // bg-gray-900
 											p: 2,
 											borderRadius: 1,
 										}}
 									>
-										<Typography sx={{ color: '#e5e7eb', mb: 1 }}>
-											<Box component="span" sx={{ fontWeight: 'bold', color: palette.highlight }}>
+										<Typography sx={{ color: appPalette.textSecondary, mb: 1 }}>
+											<Box component="span" sx={{ fontWeight: 'bold', color: appPalette.highlight }}>
 												Permanent Liquidity Pool
 											</Box>
 										</Typography>
@@ -648,14 +649,14 @@ const TokenPage: React.FC = () => {
 												width="180"
 												height="40"
 												rx="5"
-												fill="#064e3b"
-												stroke="#10b981"
+												fill={colors.GREEN_900}
+												stroke={colors.EMERALD}
 												strokeWidth="1"
 											/>
-											<circle cx="50" cy="30" r="15" fill="#831843" opacity="0.7" />
-											<circle cx="70" cy="30" r="15" fill="#4c1d95" opacity="0.7" />
-											<circle cx="90" cy="30" r="15" fill="#1e3a8a" opacity="0.7" />
-											<text x="130" y="35" fill="#d1d5db" fontSize="12" textAnchor="middle">
+											<circle cx="50" cy="30" r="15" fill={colors.PINK_DARK} opacity="0.7" />
+											<circle cx="70" cy="30" r="15" fill={colors.PURPLE_DEEP} opacity="0.7" />
+											<circle cx="90" cy="30" r="15" fill={colors.BLUE_900} opacity="0.7" />
+											<text x="130" y="35" fill={colors.GRAY_300} fontSize="12" textAnchor="middle">
 												Reduced Volatility
 											</text>
 										</svg>
@@ -672,7 +673,7 @@ const TokenPage: React.FC = () => {
 							mt: 6,
 							mb: 6,
 							p: 3,
-							bgcolor: palette.secondaryBackground,
+							bgcolor: appPalette.secondaryBackground,
 							borderRadius: 2,
 						}}
 					>
@@ -690,7 +691,7 @@ const TokenPage: React.FC = () => {
 						>
 							<svg viewBox="0 0 24 24" width="24" height="24" style={{ marginRight: '8px' }}>
 								<path
-									fill={palette.highlight}
+									fill={appPalette.highlight}
 									d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4c1.86 0 3.41 1.28 3.86 3H8.14c.45-1.72 2-3 3.86-3zm0 14c-3.08-1.39-5.39-4.39-5.92-8h11.84c-.53 3.61-2.84 6.61-5.92 8z"
 								/>
 							</svg>
@@ -709,34 +710,34 @@ const TokenPage: React.FC = () => {
 							<Card
 								sx={{
 									flex: 1,
-									bgcolor: palette.background,
-									border: `1px solid ${palette.highlight}`,
+									bgcolor: appPalette.background,
+									border: `1px solid ${appPalette.highlight}`,
 									borderRadius: 2,
 								}}
 							>
 								<CardContent>
-									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 2, textAlign: 'center' }}>
+									<Typography sx={{ fontWeight: 'bold', color: appPalette.highlight, mb: 2, textAlign: 'center' }}>
 										DAM Token Audit
 									</Typography>
 									<Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
 										<svg width="80" height="80" viewBox="480 480 1040 1040">
-											<circle cx="1000" cy="1000" r="500" fill="#202336" />
+											<circle cx="1000" cy="1000" r="500" fill={appPalette.secondaryBackground} />
 											<path
-												fill="#fff"
+												fill={appPalette.textPrimary}
 												d="M806.39 855.43L695 919.9V790.96zM807.01 1000L695 1064.47V935.53zM806.39 1144.57L695 1209.04V1080.1zM810.92 1007.82v128.94l-112.01-64.47zM810.92 718.67l.65 128.94-112.04-64.47zM810.92 863.24l.65 128.95-112.04-64.47zM810.92 1152.39l.65 128.94-112.04-64.47zM820.69 847.61V718.67l111.35 64.47z"
 											/>
-											<path fill="#0ff" d="M820.69 1152.39l111.35 64.47-111.35 64.47z" />
+											<path fill={appPalette.highlight} d="M820.69 1152.39l111.35 64.47-111.35 64.47z" />
 											<path
-												fill="#fff"
+												fill={appPalette.textPrimary}
 												d="M825.25 855.43l111.35-64.47V919.9zM945.72 919.9V790.96l111.36 64.47zM945.72 935.53l111.36 64.47-111.36 64.47zM945.72 1080.1l111.36 64.47-111.36 64.47zM950.28 927.72l111.36-64.48v128.95zM1061.64 1007.82v128.94l-111.36-64.47zM1179.96 795.85v128.94l-111.35-64.47zM1300.47 860.32l-111.39 64.47-.5-128.94zM1189.08 1084.99l111.39 64.47-111.89 64.47zM1301.09 1004.89l-112.01 64.47V940.42zM1305 1012.7v128.94l-112.01-64.47zM1305 1157.94v128.95l-112.01-64.47zM1193.61 788.03L1305 723.56V852.5zM1305 868.13v128.94l-111.39-64.47z"
 											/>
 											<path
-												fill="#0ff"
+												fill={appPalette.highlight}
 												d="M1367.77 632.23c-94.09-94.1-224.18-152.34-367.77-152.33-143.59-.01-273.68 58.23-367.77 152.33-94.1 94.09-152.34 224.18-152.33 367.77-.01 143.59 58.23 273.68 152.33 367.77 94.09 94.1 224.18 152.34 367.77 152.33 143.59.01 273.68-58.23 367.77-152.33 94.1-94.09 152.34-224.18 152.33-367.77.01-143.59-58.23-273.68-152.33-367.77zm-14.07 721.47c-90.55 90.53-215.54 146.5-353.7 146.51-138.16-.01-263.15-55.97-353.7-146.51-90.54-90.55-146.5-215.54-146.51-353.7.01-138.16 55.97-263.15 146.51-353.7 90.55-90.54 215.54-146.5 353.7-146.51 138.16.01 263.15 55.97 353.7 146.51 90.53 90.55 146.5 215.54 146.51 353.7-.01 138.16-55.98 263.15-146.51 353.7z"
 											/>
 										</svg>
 									</Box>
-									<Typography sx={{ color: '#e5e7eb', mb: 2, textAlign: 'center' }}>
+									<Typography sx={{ color: appPalette.textSecondary, mb: 2, textAlign: 'center' }}>
 										The DAM token contract on Ethereum (L1) was audited by SlowMist in 2020. This audit was funded
 										entirely by the community.
 									</Typography>
@@ -747,10 +748,10 @@ const TokenPage: React.FC = () => {
 											target="_blank"
 											rel="noopener noreferrer"
 											sx={{
-												bgcolor: palette.highlight,
+												bgcolor: appPalette.highlight,
 												color: 'black',
 												'&:hover': {
-													bgcolor: '#00CCCC',
+													bgcolor: appPalette.highlightHover,
 												},
 											}}
 										>
@@ -762,44 +763,44 @@ const TokenPage: React.FC = () => {
 							<Card
 								sx={{
 									flex: 1,
-									bgcolor: palette.background,
-									border: `1px solid ${palette.highlight}`,
+									bgcolor: appPalette.background,
+									border: `1px solid ${appPalette.highlight}`,
 									borderRadius: 2,
 								}}
 							>
 								<CardContent>
-									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 2, textAlign: 'center' }}>
+									<Typography sx={{ fontWeight: 'bold', color: appPalette.highlight, mb: 2, textAlign: 'center' }}>
 										FLUX Token Audit
 									</Typography>
 									<Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
 										<svg width="80" height="80" viewBox="480 480 1040 1040">
 											<path
 												d="M1345.58 654.42c-88.41-88.43-210.65-143.15-345.58-143.14-134.93 0-257.17 54.72-345.58 143.14-88.43 88.41-143.15 210.65-143.14 345.58 0 134.93 54.72 257.17 143.14 345.58 88.41 88.43 210.65 143.15 345.58 143.14 134.93 0 257.17-54.72 345.58-143.14 88.43-88.41 143.15-210.65 143.14-345.58.01-134.93-54.71-257.17-143.14-345.58z"
-												fill="#202336"
+												fill={appPalette.secondaryBackground}
 											/>
 											<path
-												fill="#0ff"
+												fill={appPalette.highlight}
 												d="M1345.58 654.42c-88.41-88.43-210.65-143.15-345.58-143.14-134.93 0-257.17 54.72-345.58 143.14-88.43 88.41-143.15 210.65-143.14 345.58 0 134.93 54.72 257.17 143.14 345.58 88.41 88.43 210.65 143.15 345.58 143.14 134.93 0 257.17-54.72 345.58-143.14 88.43-88.41 143.15-210.65 143.14-345.58.01-134.93-54.71-257.17-143.14-345.58zm-13.22 677.94c-85.09 85.07-202.54 137.66-332.36 137.67-129.82 0-247.27-52.6-332.36-137.67-85.07-85.09-137.66-202.54-137.67-332.36 0-129.82 52.6-247.27 137.67-332.36 85.09-85.07 202.54-137.66 332.36-137.67 129.82 0 247.27 52.6 332.36 137.67 85.07 85.09 137.66 202.54 137.67 332.36-.01 129.82-52.6 247.27-137.67 332.36z"
 											/>
 											<path
-												fill="#fff"
+												fill={appPalette.textPrimary}
 												d="M933.75 896.55l112.67 65.22.51-130.43zM933.75 752.36l112.67 65.22.51-130.43zM1058.63 823.44l112.67 65.21.51-130.42zM1046.42 1123.81l-112.67 65.22 113.18 65.21z"
 											/>
 											<path
-												fill="#0ff"
+												fill={appPalette.highlight}
 												d="M933.12 1042.79l113.3 65.21V977.58zM1058.57 1120.04l113.3 65.21v-130.43zM808.39 972.98l113.29 65.22V907.77zM687.08 899.29l113.3 65.22V834.08z"
 											/>
 											<path
-												fill="#fff"
+												fill={appPalette.textPrimary}
 												d="M929.17 1050.69v130.43l113.3-65.21zM929.17 1197.61v130.42l113.3-65.21zM1041.84 823.44l-112.67-65.21v130.42zM1168.87 749.62l-112.67-65.21v130.43zM1296.32 823.44l-112.67-65.21v130.42z"
 											/>
 											<path
-												fill="#0ff"
+												fill={appPalette.highlight}
 												d="M929.17 904.46v130.43l112.67-65.22zM1052.76 980.56v130.43l112.68-65.22zM1179.79 1054.82v130.43l112.67-65.21zM808.7 834.08v130.43l112.67-65.22z"
 											/>
 										</svg>
 									</Box>
-									<Typography sx={{ color: '#e5e7eb', mb: 2, textAlign: 'center' }}>
+									<Typography sx={{ color: appPalette.textSecondary, mb: 2, textAlign: 'center' }}>
 										The FLUX token contract on Ethereum (L1) was audited by SlowMist in 2020, alongside DAM, as part of
 										the same engagement.
 									</Typography>
@@ -810,10 +811,10 @@ const TokenPage: React.FC = () => {
 											target="_blank"
 											rel="noopener noreferrer"
 											sx={{
-												bgcolor: palette.highlight,
+												bgcolor: appPalette.highlight,
 												color: 'black',
 												'&:hover': {
-													bgcolor: '#00CCCC',
+													bgcolor: appPalette.highlightHover,
 												},
 											}}
 										>
@@ -825,24 +826,24 @@ const TokenPage: React.FC = () => {
 							<Card
 								sx={{
 									flex: 1,
-									bgcolor: palette.background,
-									border: `1px solid ${palette.highlight}`,
+									bgcolor: appPalette.background,
+									border: `1px solid ${appPalette.highlight}`,
 									borderRadius: 2,
 								}}
 							>
 								<CardContent>
-									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 2, textAlign: 'center' }}>
+									<Typography sx={{ fontWeight: 'bold', color: appPalette.highlight, mb: 2, textAlign: 'center' }}>
 										Layer 2 Token Audit
 									</Typography>
 									<Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
 										<svg width="80" height="80" viewBox="0 0 24 24">
 											<path
-												fill={palette.highlight}
+												fill={appPalette.highlight}
 												d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"
 											/>
 										</svg>
 									</Box>
-									<Typography sx={{ color: '#e5e7eb', mb: 2, textAlign: 'center' }}>
+									<Typography sx={{ color: appPalette.textSecondary, mb: 2, textAlign: 'center' }}>
 										FLUX (L2), ArbiFLUX and Lockquidity were audited by Hacken in July 2026, returning 0 critical and 0
 										high-severity findings requiring remediation.
 									</Typography>
@@ -853,10 +854,10 @@ const TokenPage: React.FC = () => {
 											target="_blank"
 											rel="noopener noreferrer"
 											sx={{
-												bgcolor: palette.highlight,
+												bgcolor: appPalette.highlight,
 												color: 'black',
 												'&:hover': {
-													bgcolor: '#00CCCC',
+													bgcolor: appPalette.highlightHover,
 												},
 											}}
 										>
@@ -867,11 +868,11 @@ const TokenPage: React.FC = () => {
 							</Card>
 						</Box>
 						<Box sx={{ textAlign: 'center' }}>
-							<Typography sx={{ color: '#e5e7eb', mb: 1 }}>
+							<Typography sx={{ color: appPalette.textSecondary, mb: 1 }}>
 								<strong>What is audited:</strong> all four ecosystem tokens. DAM and FLUX on Ethereum (L1) by SlowMist,
 								and FLUX (L2), ArbiFLUX and Lockquidity on Arbitrum by Hacken.
 							</Typography>
-							<Typography sx={{ color: '#9ca3af', mb: 3, fontSize: '0.9rem' }}>
+							<Typography sx={{ color: appPalette.textMuted, mb: 3, fontSize: '0.9rem' }}>
 								<strong>What is not audited:</strong> our GameFi contracts &mdash; HODL Clicker: Rush, Datamine Market
 								and Batch Minter &mdash; have not yet been independently reviewed. They operate as delegated minters and
 								cannot access or unlock validator principal, a restriction enforced by the audited token contracts
@@ -883,7 +884,7 @@ const TokenPage: React.FC = () => {
 								target="_blank"
 								rel="noopener noreferrer"
 								variant="outlined"
-								sx={{ color: palette.highlight, borderColor: palette.highlight }}
+								sx={{ color: appPalette.highlight, borderColor: appPalette.highlight }}
 							>
 								Browse All Audit Reports
 							</Button>
@@ -897,7 +898,7 @@ const TokenPage: React.FC = () => {
 							mt: 6,
 							mb: 6,
 							p: 3,
-							bgcolor: palette.secondaryBackground,
+							bgcolor: appPalette.secondaryBackground,
 							borderRadius: 2,
 						}}
 					>
@@ -920,36 +921,36 @@ const TokenPage: React.FC = () => {
 							<Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', flexDirection: 'column' }}>
 								<Box
 									sx={{
-										bgcolor: palette.background,
+										bgcolor: appPalette.background,
 										p: 2,
 										borderRadius: 1,
 										mb: 2,
 										flex: 1, // Use flex to fill available space
 									}}
 								>
-									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 1 }}>
+									<Typography sx={{ fontWeight: 'bold', color: appPalette.highlight, mb: 1 }}>
 										Locking & Minting:
 									</Typography>
 									<Box sx={{ ml: 2 }}>
-										<Typography sx={{ color: '#d1d5db', mb: 0.5 }}>• Lock DAM to mint FLUX (Layer 1).</Typography>
-										<Typography sx={{ color: '#d1d5db', mb: 0.5 }}>
+										<Typography sx={{ color: colors.GRAY_300, mb: 0.5 }}>• Lock DAM to mint FLUX (Layer 1).</Typography>
+										<Typography sx={{ color: colors.GRAY_300, mb: 0.5 }}>
 											• Transfer FLUX to Layer 2 and lock it to mint ArbiFLUX.
 										</Typography>
-										<Typography sx={{ color: '#d1d5db' }}>• Lock ArbiFLUX to mint LOCK.</Typography>
+										<Typography sx={{ color: colors.GRAY_300 }}>• Lock ArbiFLUX to mint LOCK.</Typography>
 									</Box>
 								</Box>
 								<Box
 									sx={{
-										bgcolor: palette.background,
+										bgcolor: appPalette.background,
 										p: 2,
 										borderRadius: 1,
 										flex: 1, // Use flex to fill available space
 									}}
 								>
-									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 1 }}>
+									<Typography sx={{ fontWeight: 'bold', color: appPalette.highlight, mb: 1 }}>
 										Burning & Rewards:
 									</Typography>
-									<Typography sx={{ color: '#d1d5db', ml: 2 }}>
+									<Typography sx={{ color: colors.GRAY_300, ml: 2 }}>
 										Validators can burn FLUX, ArbiFLUX, or LOCK to boost minting rewards (APY), reduce supply, and
 										stabilize the system.
 									</Typography>
@@ -958,33 +959,33 @@ const TokenPage: React.FC = () => {
 							<Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', flexDirection: 'column' }}>
 								<Box
 									sx={{
-										bgcolor: palette.background,
+										bgcolor: appPalette.background,
 										p: 2,
 										borderRadius: 1,
 										mb: 2,
 										flex: 1, // Use flex to fill available space
 									}}
 								>
-									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 1 }}>
+									<Typography sx={{ fontWeight: 'bold', color: appPalette.highlight, mb: 1 }}>
 										Liquidity & Stability:
 									</Typography>
-									<Typography sx={{ color: '#d1d5db', ml: 2 }}>
+									<Typography sx={{ color: colors.GRAY_300, ml: 2 }}>
 										LOCK ensures market stability by contributing to a permanent liquidity pool, mitigating price swings
 										and increasing depth.
 									</Typography>
 								</Box>
 								<Box
 									sx={{
-										bgcolor: palette.background,
+										bgcolor: appPalette.background,
 										p: 2,
 										borderRadius: 1,
 										flex: 1, // Use flex to fill available space
 									}}
 								>
-									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 1 }}>
+									<Typography sx={{ fontWeight: 'bold', color: appPalette.highlight, mb: 1 }}>
 										Dynamic Monetary Policy:
 									</Typography>
-									<Typography sx={{ color: '#d1d5db', ml: 2 }}>
+									<Typography sx={{ color: colors.GRAY_300, ml: 2 }}>
 										Tokens interact dynamically, balancing inflation and deflation to adapt to market conditions.
 									</Typography>
 								</Box>
@@ -999,7 +1000,7 @@ const TokenPage: React.FC = () => {
 							mt: 6,
 							mb: 6,
 							p: 3,
-							bgcolor: palette.secondaryBackground,
+							bgcolor: appPalette.secondaryBackground,
 							borderRadius: 2,
 						}}
 					>
@@ -1019,7 +1020,7 @@ const TokenPage: React.FC = () => {
 								<Card
 									sx={{
 										height: '100%',
-										bgcolor: palette.background,
+										bgcolor: appPalette.background,
 										borderRadius: 1,
 									}}
 								>
@@ -1030,21 +1031,26 @@ const TokenPage: React.FC = () => {
 													cx="50"
 													cy="50"
 													r="40"
-													fill={palette.secondaryBackground}
-													stroke={palette.highlight}
+													fill={appPalette.secondaryBackground}
+													stroke={appPalette.highlight}
 													strokeWidth="2"
 												/>
-												<path d="M30,65 L45,50 L55,60 L70,35" stroke={palette.highlight} strokeWidth="4" fill="none" />
-												<circle cx="30" cy="65" r="5" fill={palette.highlight} />
-												<circle cx="45" cy="50" r="5" fill={palette.highlight} />
-												<circle cx="55" cy="60" r="5" fill={palette.highlight} />
-												<circle cx="70" cy="35" r="5" fill={palette.highlight} />
+												<path
+													d="M30,65 L45,50 L55,60 L70,35"
+													stroke={appPalette.highlight}
+													strokeWidth="4"
+													fill="none"
+												/>
+												<circle cx="30" cy="65" r="5" fill={appPalette.highlight} />
+												<circle cx="45" cy="50" r="5" fill={appPalette.highlight} />
+												<circle cx="55" cy="60" r="5" fill={appPalette.highlight} />
+												<circle cx="70" cy="35" r="5" fill={appPalette.highlight} />
 											</svg>
 										</Box>
 										<Typography
 											sx={{
 												fontWeight: 'bold',
-												color: palette.highlight,
+												color: appPalette.highlight,
 												textAlign: 'center',
 												mb: 1,
 											}}
@@ -1053,7 +1059,7 @@ const TokenPage: React.FC = () => {
 										</Typography>
 										<Typography
 											sx={{
-												color: '#d1d5db', // text-gray-300
+												color: colors.GRAY_300, // text-gray-300
 												textAlign: 'center',
 											}}
 										>
@@ -1066,7 +1072,7 @@ const TokenPage: React.FC = () => {
 								<Card
 									sx={{
 										height: '100%',
-										bgcolor: palette.background,
+										bgcolor: appPalette.background,
 										borderRadius: 1,
 									}}
 								>
@@ -1077,20 +1083,20 @@ const TokenPage: React.FC = () => {
 													cx="50"
 													cy="50"
 													r="40"
-													fill={palette.secondaryBackground}
-													stroke={palette.highlight}
+													fill={appPalette.secondaryBackground}
+													stroke={appPalette.highlight}
 													strokeWidth="2"
 												/>
-												<rect x="35" y="40" width="30" height="30" fill={palette.highlight} />
-												<path d="M50,30 L50,10" stroke={palette.highlight} strokeWidth="4" />
-												<path d="M50,30 L50,40" stroke={palette.highlight} strokeWidth="4" />
-												<circle cx="50" cy="30" r="5" fill={palette.highlight} />
+												<rect x="35" y="40" width="30" height="30" fill={appPalette.highlight} />
+												<path d="M50,30 L50,10" stroke={appPalette.highlight} strokeWidth="4" />
+												<path d="M50,30 L50,40" stroke={appPalette.highlight} strokeWidth="4" />
+												<circle cx="50" cy="30" r="5" fill={appPalette.highlight} />
 											</svg>
 										</Box>
 										<Typography
 											sx={{
 												fontWeight: 'bold',
-												color: palette.highlight,
+												color: appPalette.highlight,
 												textAlign: 'center',
 												mb: 1,
 											}}
@@ -1099,7 +1105,7 @@ const TokenPage: React.FC = () => {
 										</Typography>
 										<Typography
 											sx={{
-												color: '#d1d5db', // text-gray-300
+												color: colors.GRAY_300, // text-gray-300
 												textAlign: 'center',
 											}}
 										>
@@ -1113,7 +1119,7 @@ const TokenPage: React.FC = () => {
 								<Card
 									sx={{
 										height: '100%',
-										bgcolor: palette.background,
+										bgcolor: appPalette.background,
 										borderRadius: 1,
 									}}
 								>
@@ -1124,20 +1130,20 @@ const TokenPage: React.FC = () => {
 													cx="50"
 													cy="50"
 													r="40"
-													fill={palette.secondaryBackground}
-													stroke={palette.highlight}
+													fill={appPalette.secondaryBackground}
+													stroke={appPalette.highlight}
 													strokeWidth="2"
 												/>
-												<rect x="30" y="60" width="10" height="20" fill={palette.highlight} />
-												<rect x="45" y="50" width="10" height="30" fill={palette.highlight} />
-												<rect x="60" y="40" width="10" height="40" fill={palette.highlight} />
-												<path d="M30,60 L70,40" stroke={palette.highlight} strokeWidth="2" strokeDasharray="5,3" />
+												<rect x="30" y="60" width="10" height="20" fill={appPalette.highlight} />
+												<rect x="45" y="50" width="10" height="30" fill={appPalette.highlight} />
+												<rect x="60" y="40" width="10" height="40" fill={appPalette.highlight} />
+												<path d="M30,60 L70,40" stroke={appPalette.highlight} strokeWidth="2" strokeDasharray="5,3" />
 											</svg>
 										</Box>
 										<Typography
 											sx={{
 												fontWeight: 'bold',
-												color: palette.highlight,
+												color: appPalette.highlight,
 												textAlign: 'center',
 												mb: 1,
 											}}
@@ -1146,7 +1152,7 @@ const TokenPage: React.FC = () => {
 										</Typography>
 										<Typography
 											sx={{
-												color: '#d1d5db', // text-gray-300
+												color: colors.GRAY_300, // text-gray-300
 												textAlign: 'center',
 											}}
 										>

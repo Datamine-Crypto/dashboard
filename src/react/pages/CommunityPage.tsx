@@ -10,6 +10,7 @@ import { useAppStore } from '@/react/utils/appStore';
 import FooterFragment from '@/react/elements/Fragments/FooterFragment';
 import { tss } from 'tss-react/mui';
 import { useShallow } from 'zustand/react/shallow';
+import { appPalette } from '@/theme/appTheme';
 
 const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
@@ -42,7 +43,7 @@ const useStyles = tss.create(({ theme }) => ({
 		},
 	},
 	arrow: {
-		color: '#0ff',
+		color: appPalette.highlight,
 		fontSize: '2rem',
 		verticalAlign: 'middle',
 		[theme.breakpoints.down('md')]: {

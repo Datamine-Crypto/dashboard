@@ -21,6 +21,7 @@ import DetailedListItem from '@/react/elements/Fragments/DetailedListItem';
 // Custom light tooltip component
 import LightTooltip from '@/react/elements/LightTooltip';
 import { useShallow } from 'zustand/react/shallow';
+import { appPalette } from '@/theme/appTheme';
 
 /**
  * Styles for the AccountBalancesCard component.
@@ -155,7 +156,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 						variant="outlined"
 						color="secondary"
 						onClick={() => showBurnDialog()}
-						startIcon={<Whatshot style={{ color: '#ff9b00' }} />}
+						startIcon={<Whatshot style={{ color: appPalette.warning }} />}
 					>
 						Burn {mintableTokenShortName}
 					</Button>
@@ -264,7 +265,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 						size="small"
 						variant="outlined"
 						onClick={() => showUnlockDialog()}
-						startIcon={<Stop style={{ color: '#0FF' }} />}
+						startIcon={<Stop style={{ color: appPalette.highlight }} />}
 					>
 						Stop Mint
 					</Button>
@@ -296,7 +297,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 						size="small"
 						variant="outlined"
 						onClick={() => showMintSettingsDialog()}
-						startIcon={<Settings style={{ color: '#0FF' }} />}
+						startIcon={<Settings style={{ color: appPalette.highlight }} />}
 					>
 						Mint Settings
 					</Button>
@@ -322,7 +323,13 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 						size="small"
 						variant="outlined"
 						onClick={() => showPauseResumeGameDialog()}
-						startIcon={isPaused ? <PlayArrow style={{ color: '#0FF' }} /> : <Pause style={{ color: '#0FF' }} />}
+						startIcon={
+							isPaused ? (
+								<PlayArrow style={{ color: appPalette.highlight }} />
+							) : (
+								<Pause style={{ color: appPalette.highlight }} />
+							)
+						}
 					>
 						{isPaused ? 'Resume' : 'Pause'} Game
 					</Button>

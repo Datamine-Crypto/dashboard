@@ -12,6 +12,7 @@ import { useAppStore, dispatch as appDispatch } from '@/react/utils/appStore';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import HelpComboboxFragment from '@/react/elements/Fragments/HelpComboboxFragment';
 import { useShallow } from 'zustand/react/shallow';
+import { appPalette } from '@/theme/appTheme';
 
 const useStyles = tss.create(({ theme }) => ({
 	toolbar: {
@@ -24,8 +25,8 @@ const useStyles = tss.create(({ theme }) => ({
 		verticalAlign: 'middle',
 	},
 	appBar: {
-		backgroundColor: theme.palette.mode === 'dark' ? '#272936' : theme.palette.primary.main,
-		color: '#fff',
+		backgroundColor: theme.palette.mode === 'dark' ? appPalette.background : theme.palette.primary.main,
+		color: appPalette.textPrimary,
 		zIndex: theme.zIndex.drawer + 1,
 		transition: theme.transitions.create(['width', 'margin'], {
 			easing: theme.transitions.easing.sharp,

@@ -18,6 +18,7 @@ import { formatBigInt } from '@/utils/mathHelpers';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
 import MessageDialog from '@/react/elements/Dialogs/MessageDialog';
+import { appPalette } from '@/theme/appTheme';
 
 const MintDialog: React.FC = () => {
 	const {
@@ -88,7 +89,7 @@ const MintDialog: React.FC = () => {
 								pl: 1,
 							}}
 						>
-							<Redeem style={{ color: '#0ff' }} />
+							<Redeem style={{ color: appPalette.highlight }} />
 						</Box>
 					</Box>
 				</DialogTitle>

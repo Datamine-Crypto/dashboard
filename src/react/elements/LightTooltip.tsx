@@ -5,6 +5,7 @@
 
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import { appPalette } from '@/theme/appTheme';
 
 /**
  * Defines the props for the custom LightTooltip component.
@@ -22,18 +23,18 @@ const LightTooltip = styled(({ className, ...props }: CustomTooltipProps) => (
 	<Tooltip {...props} classes={{ popper: className }} />
 ))(() => ({
 	[`& .${tooltipClasses.tooltip}`]: {
-		backgroundColor: '#272936',
-		color: '#fff',
+		backgroundColor: appPalette.background,
+		color: appPalette.textPrimary,
 		boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12)',
 		padding: 16, // Equivalent to theme.spacing(2) if your base spacing unit is 8px
 		fontSize: 14,
-		border: '1px solid #0ff',
+		border: `1px solid ${appPalette.highlight}`,
 	},
 	// If you also want to style the arrow, you can add it here
 	[`& .${tooltipClasses.arrow}`]: {
-		color: '#272936', // Match the tooltip background
+		color: appPalette.background, // Match the tooltip background
 		'&:before': {
-			border: '1px solid #0ff', // Match the tooltip border
+			border: `1px solid ${appPalette.highlight}`, // Match the tooltip border
 		},
 	},
 }));

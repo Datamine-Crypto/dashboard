@@ -24,6 +24,7 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import { Game } from '@/app/interfaces';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
+import { appPalette } from '@/theme/appTheme';
 
 enum Action {
 	Deposit = 'Deposit',
@@ -167,7 +168,7 @@ const MarketDepositWithdrawDialog: React.FC = () => {
 								pl: 1,
 							}}
 						>
-							<ImportExport style={{ color: '#00ffff' }} />
+							<ImportExport style={{ color: appPalette.highlight }} />
 						</Box>
 					</Box>
 				</DialogTitle>

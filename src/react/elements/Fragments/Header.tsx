@@ -11,6 +11,7 @@ import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
 import LightTooltip from '@/react/elements/LightTooltip';
 import ExploreLiquidityPools, { LiquidityPoolButtonType } from '@/react/elements/Fragments/ExploreLiquidityPools';
+import { appPalette } from '@/theme/appTheme';
 
 const useStyles = tss.create(({ theme }) => ({
 	logoContainer: {
@@ -45,7 +46,7 @@ const useStyles = tss.create(({ theme }) => ({
 		},
 	},
 	arrow: {
-		color: '#0ff',
+		color: appPalette.highlight,
 		fontSize: '2rem',
 		verticalAlign: 'middle',
 		[theme.breakpoints.down('md')]: {
@@ -62,7 +63,7 @@ const useStyles = tss.create(({ theme }) => ({
 		left: 24,
 	},
 	proofOfBurn: {
-		color: '#0ff',
+		color: appPalette.highlight,
 	},
 }));
 
