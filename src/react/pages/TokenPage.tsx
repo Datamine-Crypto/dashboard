@@ -737,7 +737,8 @@ const TokenPage: React.FC = () => {
 										</svg>
 									</Box>
 									<Typography sx={{ color: '#e5e7eb', mb: 2, textAlign: 'center' }}>
-										The DAM token contract has been audited by SlowMist, a leading blockchain security firm.
+										The DAM token contract on Ethereum (L1) was audited by SlowMist in 2020. This audit was funded
+										entirely by the community.
 									</Typography>
 									<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 										<Button
@@ -799,7 +800,8 @@ const TokenPage: React.FC = () => {
 										</svg>
 									</Box>
 									<Typography sx={{ color: '#e5e7eb', mb: 2, textAlign: 'center' }}>
-										The FLUX token contract has been thoroughly audited by SlowMist to ensure security and reliability.
+										The FLUX token contract on Ethereum (L1) was audited by SlowMist in 2020, alongside DAM, as part of
+										the same engagement.
 									</Typography>
 									<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 										<Button
@@ -820,10 +822,72 @@ const TokenPage: React.FC = () => {
 									</Box>
 								</CardContent>
 							</Card>
+							<Card
+								sx={{
+									flex: 1,
+									bgcolor: palette.background,
+									border: `1px solid ${palette.highlight}`,
+									borderRadius: 2,
+								}}
+							>
+								<CardContent>
+									<Typography sx={{ fontWeight: 'bold', color: palette.highlight, mb: 2, textAlign: 'center' }}>
+										Layer 2 Token Audit
+									</Typography>
+									<Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+										<svg width="80" height="80" viewBox="0 0 24 24">
+											<path
+												fill={palette.highlight}
+												d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"
+											/>
+										</svg>
+									</Box>
+									<Typography sx={{ color: '#e5e7eb', mb: 2, textAlign: 'center' }}>
+										FLUX (L2), ArbiFLUX and Lockquidity were audited by Hacken in July 2026, returning 0 critical and 0
+										high-severity findings requiring remediation.
+									</Typography>
+									<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+										<Button
+											component="a"
+											href="https://github.com/Datamine-Crypto/white-paper/tree/master/audits"
+											target="_blank"
+											rel="noopener noreferrer"
+											sx={{
+												bgcolor: palette.highlight,
+												color: 'black',
+												'&:hover': {
+													bgcolor: '#00CCCC',
+												},
+											}}
+										>
+											View Audit Report
+										</Button>
+									</Box>
+								</CardContent>
+							</Card>
 						</Box>
-						<Typography sx={{ color: '#e5e7eb', textAlign: 'center' }}>
-							Security is a priority in the Datamine ecosystem, with audited contracts for the foundation tokens.
-						</Typography>
+						<Box sx={{ textAlign: 'center' }}>
+							<Typography sx={{ color: '#e5e7eb', mb: 1 }}>
+								<strong>What is audited:</strong> all four ecosystem tokens. DAM and FLUX on Ethereum (L1) by SlowMist,
+								and FLUX (L2), ArbiFLUX and Lockquidity on Arbitrum by Hacken.
+							</Typography>
+							<Typography sx={{ color: '#9ca3af', mb: 3, fontSize: '0.9rem' }}>
+								<strong>What is not audited:</strong> our GameFi contracts &mdash; HODL Clicker: Rush, Datamine Market
+								and Batch Minter &mdash; have not yet been independently reviewed. They operate as delegated minters and
+								cannot access or unlock validator principal, a restriction enforced by the audited token contracts
+								themselves.
+							</Typography>
+							<Button
+								component="a"
+								href="https://github.com/Datamine-Crypto/white-paper/tree/master/audits"
+								target="_blank"
+								rel="noopener noreferrer"
+								variant="outlined"
+								sx={{ color: palette.highlight, borderColor: palette.highlight }}
+							>
+								Browse All Audit Reports
+							</Button>
+						</Box>
 					</Paper>
 					{/* Integration Flow */}
 					<Paper

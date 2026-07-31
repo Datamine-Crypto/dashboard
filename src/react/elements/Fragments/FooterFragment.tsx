@@ -108,12 +108,12 @@ const FooterFragment: React.FC<Props> = React.memo(function FooterFragment({ eco
 										<Grid>
 											<Link
 												underline="hover"
-												href="https://github.com/Datamine-Crypto/white-paper/blob/master/audits/SlowMist%20-%20Smart%20Contract%20Security%20Audit%20Report%20-%20FluxToken.pdf"
+												href="https://github.com/Datamine-Crypto/white-paper/tree/master/audits"
 												rel="noopener noreferrer"
 												target="_blank"
 												color="textSecondary"
 											>
-												View Security Audit
+												Security Audits
 											</Link>
 										</Grid>
 										<Grid>
