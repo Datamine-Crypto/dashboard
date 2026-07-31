@@ -135,7 +135,13 @@ const CommunityPage: React.FC = () => {
 								{title}
 							</Typography>
 						</Box>
-						<Typography component="div" variant="h6" color="textSecondary" paragraph className={classes.featurePoint}>
+						<Typography
+							component="div"
+							variant="h6"
+							color="textSecondary"
+							sx={{ mb: 2 }}
+							className={classes.featurePoint}
+						>
 							{content}
 						</Typography>
 					</Grid>
@@ -269,7 +275,7 @@ const CommunityPage: React.FC = () => {
 							variant="h6"
 							align="left"
 							color="textSecondary"
-							paragraph
+							sx={{ mb: 2 }}
 							className={classes.titleSlogan}
 						>
 							<Typography
@@ -330,7 +336,7 @@ const CommunityPage: React.FC = () => {
 							variant="h6"
 							align="left"
 							color="textSecondary"
-							paragraph
+							sx={{ mb: 2 }}
 							className={classes.titleSlogan}
 						>
 							<Typography

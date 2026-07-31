@@ -136,8 +136,11 @@ const useStyles = tss.create(({ theme }) => ({
  * Dependencies for the date picker, dynamically loaded.
  */
 interface DatePickerDependencies {
-	LocalizationProvider: React.ElementType<LocalizationProviderProps<Dayjs>> | null;
-	MobileDatePicker: React.ElementType<MobileDatePickerProps<Dayjs>> | null;
+	// NOTE (x-date-pickers v9): `LocalizationProviderProps` is generic over the *locale* type,
+	// not the date type. AdapterDayjs uses string locales, so this is `string` rather than `Dayjs`.
+	LocalizationProvider: React.ElementType<LocalizationProviderProps<string>> | null;
+	// NOTE (x-date-pickers v9): `MobileDatePickerProps` is no longer generic.
+	MobileDatePicker: React.ElementType<MobileDatePickerProps> | null;
 	AdapterDayjs: typeof AdapterDayjsType | null;
 }
 
@@ -825,8 +828,8 @@ const CallToActionCard: React.FC = () => {
 										label="Burn Multiplier"
 										variant="outlined"
 										size="small"
-										inputProps={{
-											maxLength: 7,
+										slotProps={{
+											htmlInput: { maxLength: 7 },
 										}}
 										onFocus={(e) => e.target.select()}
 										value={forecastSettings.forecastBurnAmount}
@@ -847,8 +850,8 @@ const CallToActionCard: React.FC = () => {
 										label="Mint Age Multiplier"
 										variant="outlined"
 										size="small"
-										inputProps={{
-											maxLength: 7,
+										slotProps={{
+											htmlInput: { maxLength: 7 },
 										}}
 										onFocus={(e) => e.target.select()}
 										value={forecastSettings.forecastTimeAmount}

@@ -16,9 +16,10 @@
 		"noEmit": true, // Vite handles transpilation and bundling
 		"jsx": "react-jsx", // Or "react-jsxdev" for development specific transforms
 		// Add Vite client types and SVGR types
-		"baseUrl": ".",
+		// NOTE: `baseUrl` was removed ahead of TypeScript 7, which drops support for it.
+		// `paths` entries are now resolved relative to this tsconfig.json's own location.
 		"paths": {
-			"@/*": ["src/*"]
+			"@/*": ["./src/*"]
 		}
 	},
 	"include": ["src", "vite.config.ts"], // Include vite.config.ts if it's a .ts file

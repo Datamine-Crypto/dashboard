@@ -312,7 +312,7 @@ const Header: React.FC<Props> = React.memo(function Header({ isSubPage, isVideoV
 								variant="h5"
 								align="left"
 								color="textSecondary"
-								paragraph
+								sx={{ mb: 2 }}
 								className={classes.titleSlogan}
 							>
 								<Typography

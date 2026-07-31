@@ -22,12 +22,23 @@ import LightTooltip from '@/react/elements/LightTooltip';
 import { colors, rankTierColors } from '@/theme/appTheme';
 
 // --- Types and Game Data ---
-export enum GemColor {
-	Bronze = rankTierColors.third,
-	Silver = rankTierColors.second,
-	Gold = rankTierColors.first,
-	Epic = colors.MAGENTA,
-}
+/**
+ * Gem tier colors, sourced from the shared theme (Rule 9).
+ *
+ * This is a const object rather than a string `enum` on purpose: TypeScript
+ * requires string enum members to have *literal* initializers, so an enum
+ * cannot reference the theme. The const-object-plus-type pattern below keeps
+ * both `GemColor.Bronze` (value) and `GemColor` (type) working exactly as the
+ * enum did, while letting the colors stay in one place.
+ */
+export const GemColor = {
+	Bronze: rankTierColors.third,
+	Silver: rankTierColors.second,
+	Gold: rankTierColors.first,
+	Epic: colors.MAGENTA,
+} as const;
+
+export type GemColor = (typeof GemColor)[keyof typeof GemColor];
 
 // --- Configuration Object ---
 const localConfig = {
@@ -797,10 +808,12 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 									variant="outlined"
 									value={editableGemValues[tier.name] || ''}
 									onChange={(e) => handleEditableGemValueChange(tier.name, e.target.value)}
-									InputProps={{
-										startAdornment: <InputAdornment position="start">$</InputAdornment>,
+									slotProps={{
+										input: {
+											startAdornment: <InputAdornment position="start">$</InputAdornment>,
+										},
+										htmlInput: { step: '0.0001' },
 									}}
-									inputProps={{ step: '0.0001' }}
 								/>
 							</Box>
 						);
@@ -840,8 +853,8 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 						value={newGemEthereum}
 						onChange={(e) => setNewGemEthereum(e.target.value)}
 						autoComplete="off"
-						inputProps={{
-							autoComplete: 'off',
+						slotProps={{
+							htmlInput: { autoComplete: 'off' },
 						}}
 					/>
 				</DialogContent>

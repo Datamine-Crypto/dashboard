@@ -420,8 +420,7 @@ export const MainDrawer: React.FC = () => {
 				>
 					<Grid
 						container
-						direction="column"
-						sx={{ justifyContent: 'space-between' }}
+						sx={{ flexDirection: 'column', justifyContent: 'space-between' }}
 						className={classes.drawerGridContainer}
 					>
 						<Grid>
@@ -452,8 +451,8 @@ export const MainDrawer: React.FC = () => {
 					ModalProps={{
 						keepMounted: true, // Better open performance on mobile.
 					}}
-					PaperProps={{
-						elevation: 4,
+					slotProps={{
+						paper: { elevation: 4 },
 					}}
 					open={isMobileDrawerOpen}
 				>
@@ -468,8 +467,8 @@ export const MainDrawer: React.FC = () => {
 					}}
 					variant="permanent"
 					open={isBigDrawerOpen}
-					PaperProps={{
-						elevation: 4,
+					slotProps={{
+						paper: { elevation: 4 },
 					}}
 				>
 					{getDrawer()}

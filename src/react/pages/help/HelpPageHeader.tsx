@@ -39,7 +39,7 @@ const HelpPageHeader: React.FC<HelpPageHeaderProps> = () => {
 						variant="h6"
 						align="left"
 						color="textSecondary"
-						paragraph
+						sx={{ mb: 2 }}
 						className={classes.titleSlogan}
 					>
 						<Typography

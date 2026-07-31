@@ -16,7 +16,16 @@ export const multicallAbi = [
 			{ internalType: 'uint256', name: 'blockNumber', type: 'uint256' },
 			{ internalType: 'bytes[]', name: 'returnData', type: 'bytes[]' },
 		],
-		stateMutability: 'nonpayable',
+		// Declared `view` here deliberately, while Multicall2 declares it `nonpayable` on-chain.
+		//
+		// Solidity cannot mark `aggregate` as `view` because it performs arbitrary external
+		// calls, but the function does not mutate state and we only ever reach it through
+		// `eth_call` (never a transaction) -- see the two `multicall.read.aggregate` call sites.
+		//
+		// viem derives `contract.read.*` from ABI entries marked `view`/`pure`, so leaving this
+		// as `nonpayable` type-errors at every call site even though the call works at runtime.
+		// If this contract is ever invoked as a transaction, revert this to 'nonpayable'.
+		stateMutability: 'view',
 		type: 'function',
 	},
 	{

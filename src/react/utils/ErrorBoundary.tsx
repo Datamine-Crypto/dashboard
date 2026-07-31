@@ -136,8 +136,8 @@ export default class ErrorBoundary extends React.Component<React.PropsWithChildr
 						>
 							<Grid
 								container
-								direction="column"
 								sx={{
+									flexDirection: 'column',
 									justifyContent: 'center',
 									alignItems: 'center',
 								}}

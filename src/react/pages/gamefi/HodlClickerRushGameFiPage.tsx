@@ -32,7 +32,7 @@ const FeatureCard = styled(Paper)(({ theme }) => ({
 	flexDirection: 'column',
 	alignItems: 'center',
 	justifyContent: 'center',
-	backgroundColor: alpha(theme.appPalette.background.paper, 0.6), // Semi-transparent background for glass effect
+	backgroundColor: alpha(theme.palette.background.paper, 0.6), // Semi-transparent background for glass effect
 	backdropFilter: 'blur(10px)', // Blur effect for the background
 	border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`, // Subtle border
 	borderRadius: (theme.shape.borderRadius as number) * 2, // More rounded corners
@@ -44,7 +44,7 @@ const FeatureCard = styled(Paper)(({ theme }) => ({
 }));
 // Styled component for the icons within feature cards
 const FeatureIconWrapper = styled(Avatar)(({ theme }) => ({
-	backgroundColor: theme.appPalette.background.default,
+	backgroundColor: theme.palette.background.default,
 	color: theme.palette.primary.light,
 	width: theme.spacing(8), // Larger icon avatar
 	height: theme.spacing(8),
@@ -117,7 +117,6 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 			>
 				<Typography
 					variant="h6"
-					paragraph
 					sx={{
 						color: 'text.secondary',
 						mb: 3,
@@ -264,8 +263,8 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 							</Typography>
 							<Typography
 								variant="body1"
-								paragraph
 								sx={{
+									mb: 2,
 									color: 'text.secondary',
 								}}
 							>
@@ -287,8 +286,8 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 							</Typography>
 							<Typography
 								variant="body1"
-								paragraph
 								sx={{
+									mb: 2,
 									color: 'text.secondary',
 								}}
 							>
@@ -298,8 +297,8 @@ const HodlClickerRushLandingPage: React.FC<HodlClickerRushGameFiPageProps> = ({ 
 							</Typography>
 							<Typography
 								variant="body1"
-								paragraph
 								sx={{
+									mb: 2,
 									color: 'text.secondary',
 									fontStyle: 'italic',
 								}}

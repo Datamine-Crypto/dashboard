@@ -67,7 +67,7 @@ const FooterFragment: React.FC<Props> = React.memo(function FooterFragment({ eco
 						<Box>
 							<Grid container spacing={3} className={classes.gridContainer}>
 								<Grid>
-									<Grid container spacing={3} sx={{ justifyContent: 'center' }} direction="column">
+									<Grid container spacing={3} sx={{ flexDirection: 'column', justifyContent: 'center' }}>
 										{getGridItem()}
 										<Grid>
 											<Link
@@ -94,7 +94,7 @@ const FooterFragment: React.FC<Props> = React.memo(function FooterFragment({ eco
 									</Grid>
 								</Grid>
 								<Grid>
-									<Grid container spacing={3} sx={{ justifyContent: 'center' }} direction="column">
+									<Grid container spacing={3} sx={{ flexDirection: 'column', justifyContent: 'center' }}>
 										<Grid>
 											<Link underline="hover" href="#dashboard" color="textSecondary">
 												Liquidity Dashboard
@@ -103,7 +103,7 @@ const FooterFragment: React.FC<Props> = React.memo(function FooterFragment({ eco
 									</Grid>
 								</Grid>
 								<Grid>
-									<Grid container spacing={3} sx={{ justifyContent: 'center' }} direction="column">
+									<Grid container spacing={3} sx={{ flexDirection: 'column', justifyContent: 'center' }}>
 										{getLiquidityPoolsGrimItem()}
 										<Grid>
 											<Link

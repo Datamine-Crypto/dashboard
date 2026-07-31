@@ -182,7 +182,7 @@ const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description
 						width: '100%',
 					}}
 				>
-					<Grid container direction="column" sx={{ justifyContent: 'center', alignItems: 'center' }}>
+					<Grid container sx={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 						{getButtonElements()}
 					</Grid>
 				</Box>
@@ -215,7 +215,7 @@ const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description
 							p: 1,
 						}}
 					>
-						<Grid container spacing={isSmDown ? 1 : 0} direction={'column'} sx={{ alignItems: 'stretch' }}>
+						<Grid container spacing={isSmDown ? 1 : 0} sx={{ flexDirection: 'column', alignItems: 'stretch' }}>
 							{getLayout()}
 						</Grid>
 					</Box>
