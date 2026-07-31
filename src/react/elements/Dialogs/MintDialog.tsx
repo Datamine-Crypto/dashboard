@@ -17,7 +17,8 @@ import { getEcosystemConfig } from '@/app/configs/config';
 import { formatBigInt } from '@/utils/mathHelpers';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
-import MessageDialog from '@/react/elements/Dialogs/MessageDialog';
+import Web3ErrorDialog from '@/react/elements/Dialogs/Web3ErrorDialog';
+import { parseWeb3Error } from '@/errors/parseWeb3Error';
 import { appPalette } from '@/theme/appTheme';
 
 const MintDialog: React.FC = () => {
@@ -72,7 +73,7 @@ const MintDialog: React.FC = () => {
 
 	return (
 		<Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
-			{error ? <MessageDialog open={true} title="Error" message={error} onClose={onCloseError} /> : null}
+			{error ? <Web3ErrorDialog open={true} error={error} onClose={onCloseError} /> : null}
 			<form onSubmit={onSubmit}>
 				<DialogTitle id="form-dialog-title">
 					<Box
@@ -155,7 +156,9 @@ const MintDialog: React.FC = () => {
 							value={address}
 							onChange={(e) => setAddress(e.target.value)}
 							error={!!error}
-							helperText={error}
+							// Show the parsed summary rather than the raw error: an unmodified viem
+							// failure runs to several hundred characters of calldata under the field.
+							helperText={error ? parseWeb3Error(error).message : undefined}
 							fullWidth
 						/>
 					</Box>

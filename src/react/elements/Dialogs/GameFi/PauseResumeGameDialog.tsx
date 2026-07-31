@@ -6,7 +6,7 @@ import { commonLanguage } from '@/app/state/commonLanguage';
 import { getEcosystemConfig as getConfig } from '@/app/configs/config';
 
 import { theme } from '@/react/utils/theme';
-import MessageDialog from '@/react/elements/Dialogs/MessageDialog';
+import Web3ErrorDialog from '@/react/elements/Dialogs/Web3ErrorDialog';
 import { useShallow } from 'zustand/react/shallow';
 import { dispatch as appDispatch } from '@/react/utils/appStore';
 
@@ -41,7 +41,7 @@ const GamePauseResumeDialog: React.FC = () => {
 	};
 	return (
 		<Dialog open={true} onClose={onClose} aria-labelledby="alert-dialog-title">
-			{error ? <MessageDialog open={true} title="Error" message={error} onClose={onCloseError} /> : null}
+			{error ? <Web3ErrorDialog open={true} error={error} onClose={onCloseError} /> : null}
 			<form onSubmit={onSubmit}>
 				<DialogTitle id="alert-dialog-title">
 					{isPaused ? 'Resume GameFi Participation?' : 'Pause GameFi Participation?'}

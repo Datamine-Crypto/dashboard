@@ -90,6 +90,10 @@ export const colors = {
 	BRONZE: '#CD7F32',
 	ORANGE: '#FF9B00',
 	ORANGE_DARK: '#FF8C00',
+	/** Error / destructive state. */
+	RED: '#F87171',
+	/** Deep red used as the dark end of error-themed surfaces. */
+	RED_900: '#7F1D1D',
 	GREEN: '#4ADE80',
 	/** Desaturated green used for inline lock/secure icons. */
 	GREEN_MUTED: '#3FB57F',
@@ -156,6 +160,15 @@ export const appPalette = {
 	info: colors.BLUE,
 	/** Warning/attention state. */
 	warning: colors.ORANGE,
+	/** Error / failure state. */
+	error: colors.RED,
+
+	/** Surface tint behind an informational callout. */
+	infoSurface: colors.BLUE_900,
+	/** Surface tint behind a warning callout. */
+	warningSurface: colors.NEUTRAL_800,
+	/** Surface tint behind an error callout. */
+	errorSurface: colors.RED_900,
 } as const;
 
 /**
