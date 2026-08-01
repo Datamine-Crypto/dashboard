@@ -6,9 +6,24 @@ import { QueryHandler } from '@/utils/reducer/sideEffectReducer';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem, Layer } from '@/app/configs/config.common';
 import { devLog } from '@/utils/devLog';
-import { decodeMulticall, encodeMulticall, MultiCallParams, EncodedMulticallResults } from '@/web3/utils/web3multicall';
+import { decodeMulticall, encodeMulticall, EncodedMulticallResults } from '@/web3/utils/web3multicall';
 import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/web3ProviderUtils';
 import { SwapToken } from '@/web3/swap/swapOptions';
+import { FindAccountStateContext } from '@/app/state/queries/web3/findAccountState/calls/context';
+import {
+	getDamSupplyAddress,
+	getFluxSupplyAddress,
+	getHodlClickerAddressLock,
+	getLockedLiquidityBalanceCall,
+	getOtherEcosystemTokenBalance,
+	getUniswapDamPriceCall,
+	getUniswapFluxPriceCall,
+} from '@/app/state/queries/web3/findAccountState/calls/poolCalls';
+import {
+	getLockableTokenPoolReserves,
+	getMintableTokenPoolReserves,
+} from '@/app/state/queries/web3/findAccountState/decode/reserves';
+import { getUsdPriceFromUniswapV3EthPool } from '@/app/state/queries/web3/findAccountState/decode/uniswapV3Price';
 import {
 	FluxAddressDetails,
 	FluxAddressLock,
@@ -53,344 +68,8 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 
 		devLog('FindAccountState Making batch request:');
 
-		const getFluxSupplyAddress = () => {
-			if (isArbitrumMainnet) {
-				return config.mintableSushiSwapL2EthPair as string;
-			}
-
-			return config.mintableUniswapV3L1EthTokenContractAddress as string;
-		};
-		const getDamSupplyAddress = () => {
-			if (isArbitrumMainnet) {
-				return config.lockableSushiSwapL2EthPair as string;
-			}
-
-			return config.lockableUniswapV3L1EthTokenContractAddress as string;
-		};
-
-		const getUniswapFluxPriceCall = (): Record<string, MultiCallParams> => {
-			// On L2 we'll get the balance of pool from SushiSwap
-			if (isArbitrumMainnet) {
-				return {
-					uniswapFluxTokenReservesV3: {
-						address: config.mintableSushiSwapL2EthPair as string, //@todo change this
-						function: {
-							signature: {
-								name: 'getReserves',
-								type: 'function',
-								inputs: [],
-								outputs: [
-									{ type: 'uint112', name: 'reserve0' },
-									{ type: 'uint112', name: 'reserve1' },
-									{ type: 'uint32', name: 'blockTimestampLast' },
-								],
-								stateMutability: 'view',
-							} as const,
-							parameters: [],
-						},
-
-						returns: {
-							params: ['uint112', 'uint112'],
-							callback: (reserve0: bigint, reserve1: bigint) => {
-								return {
-									slot0: {
-										sqrtPriceX96: reserve0.toString(),
-									},
-									reserve0: reserve0.toString(),
-									reserve1: reserve1.toString(),
-								};
-							},
-						},
-					},
-				};
-			}
-
-			// On L1 we'll get the balance of pool from Uniswap v3
-			return {
-				uniswapFluxTokenReservesV3: {
-					address: config.mintableUniswapV3L1EthTokenContractAddress as string, //@todo change this
-					function: {
-						signature: {
-							name: 'slot0',
-							type: 'function',
-							inputs: [],
-							outputs: [
-								{ type: 'uint160', name: 'sqrtPriceX96' },
-								{ type: 'int24', name: 'tick' },
-								{ type: 'uint16', name: 'observationIndex' },
-								{ type: 'uint16', name: 'observationCardinality' },
-								{ type: 'uint16', name: 'observationCardinalityNext' },
-								{ type: 'uint8', name: 'feeProtocol' },
-								{ type: 'bool', name: 'unlocked' },
-							],
-							stateMutability: 'view',
-						} as const,
-						parameters: [],
-					},
-
-					returns: {
-						params: ['uint160'],
-						callback: (sqrtPriceX96: bigint) => {
-							return {
-								slot0: {
-									sqrtPriceX96: sqrtPriceX96.toString(),
-								},
-							};
-						},
-					},
-				},
-			};
-		};
-
-		const getUniswapDamPriceCall = (): Record<string, MultiCallParams> => {
-			// On L2 we'll get the balance of pool from SushiSwap
-			if (isArbitrumMainnet) {
-				return {
-					uniswapDamTokenReservesV3: {
-						address: config.lockableSushiSwapL2EthPair as string, //@todo change this
-						function: {
-							signature: {
-								name: 'getReserves',
-								type: 'function',
-								inputs: [],
-								outputs: [
-									{ type: 'uint112', name: 'reserve0' },
-									{ type: 'uint112', name: 'reserve1' },
-									{ type: 'uint32', name: 'blockTimestampLast' },
-								],
-								stateMutability: 'view',
-							} as const,
-							parameters: [],
-						},
-
-						returns: {
-							params: ['uint112', 'uint112'],
-							callback: (reserve0_bigint: bigint, reserve1_bigint: bigint) => {
-								let reserve0 = reserve0_bigint.toString();
-								let reserve1 = reserve1_bigint.toString();
-								// Swap pairs if you have created ETH / Lockable token instead
-								if (config.lockableSushiSwapL2EthPairSwapPairs) {
-									[reserve0, reserve1] = [reserve1, reserve0];
-								}
-
-								return {
-									slot0: {
-										sqrtPriceX96: reserve0,
-									},
-									reserve0,
-									reserve1,
-								};
-							},
-						},
-					},
-				};
-			}
-
-			// On L1 we'll get the balance of pool from Uniswap v3
-			return {
-				uniswapDamTokenReservesV3: {
-					address: config.lockableUniswapV3L1EthTokenContractAddress || '',
-					function: {
-						signature: {
-							name: 'slot0',
-							type: 'function',
-							inputs: [],
-							outputs: [
-								{ type: 'uint160', name: 'sqrtPriceX96' },
-								{ type: 'int24', name: 'tick' },
-								{ type: 'uint16', name: 'observationIndex' },
-								{ type: 'uint16', name: 'observationCardinality' },
-								{ type: 'uint16', name: 'observationCardinalityNext' },
-								{ type: 'uint8', name: 'feeProtocol' },
-								{ type: 'bool', name: 'unlocked' },
-							],
-							stateMutability: 'view',
-						} as const,
-						parameters: [],
-					},
-
-					returns: {
-						params: ['uint160'],
-						callback: (sqrtPriceX96: bigint) => {
-							return {
-								slot0: {
-									sqrtPriceX96: sqrtPriceX96.toString(),
-								},
-							};
-						},
-					},
-				},
-			};
-		};
-
-		const getLockedLiquidityBalanceCall = (): Record<string, MultiCallParams> => {
-			if (!config.lockedLiquidityUniswapAddress || !config.mintableSushiSwapL2EthPair) {
-				return {};
-			}
-
-			return {
-				lockedLiquidtyUniTotalSupply: {
-					address: config.mintableSushiSwapL2EthPair, //This points to UNI-V2 Token
-					function: {
-						signature: {
-							name: 'totalSupply',
-							type: 'function',
-							inputs: [],
-							outputs: [{ type: 'uint256', name: '' }],
-							stateMutability: 'view',
-						} as const,
-						parameters: [],
-					},
-
-					returns: {
-						params: ['uint256'],
-						callback: (totalSupply: bigint) => {
-							return totalSupply;
-						},
-					},
-				},
-				lockedLiquidityUniAmount: {
-					address: config.mintableSushiSwapL2EthPair, //This points to UNI-V2 Token
-					function: {
-						signature: {
-							name: 'balanceOf',
-							type: 'function',
-							inputs: [
-								{
-									type: 'address',
-									name: 'targetAddress',
-								},
-							],
-							outputs: [{ type: 'uint256', name: '' }],
-							stateMutability: 'view',
-						} as const,
-						parameters: [config.lockedLiquidityUniswapAddress],
-					},
-
-					returns: {
-						params: ['uint256'],
-						callback: (addressBalance: bigint) => {
-							return addressBalance;
-						},
-					},
-				},
-			};
-		};
-
-		/**
-		 * On ArbiFLUX ecostem this would return Lockquidity balance
-		 * Since we only know DAM + FLUX (or ArbiFLUX + LOCK) we need to get the "other" token balance too.
-		 * This is only needed in ArbiFLUX ecosystem (since in Lockquidity we can get ArbiFLUX balance from "lockable" balance)
-		 */
-		const getOtherEcosystemTokenBalance = (): Record<string, MultiCallParams> => {
-			const getOtherEcosystem = () => {
-				switch (state.ecosystem) {
-					case Ecosystem.ArbiFlux:
-						return Ecosystem.Lockquidity;
-					default:
-						return null;
-				}
-			};
-			const otherEcosystem = getOtherEcosystem();
-			if (!otherEcosystem) {
-				return {};
-			}
-
-			const otherEcosystemConfig = getEcosystemConfig(otherEcosystem);
-
-			const getAddress = () => {
-				switch (state.ecosystem) {
-					case Ecosystem.ArbiFlux:
-						return otherEcosystemConfig.mintableTokenContractAddress; // Get Lockquidity balance
-					default:
-						return null;
-				}
-			};
-			const address = getAddress();
-			if (!address) {
-				return {};
-			}
-
-			return {
-				otherEcosystemTokenBalance: {
-					address,
-					function: {
-						signature: {
-							name: 'balanceOf',
-							type: 'function',
-							inputs: [
-								{
-									type: 'address',
-									name: 'targetAddress',
-								},
-							],
-							outputs: [{ type: 'uint256', name: '' }],
-							stateMutability: 'view',
-						} as const,
-						parameters: [addressToFetch],
-					},
-
-					returns: {
-						params: ['uint256'],
-						callback: (addressBalance: bigint) => {
-							return addressBalance;
-						},
-					},
-				},
-			};
-		};
-
-		const getHodlClickerAddressLock = (): Record<string, MultiCallParams> => {
-			if (!config.gameHodlClickerAddress || config.gameHodlClickerAddress === '0x0') {
-				return {};
-			}
-
-			return {
-				currentAddressHodlClickerAddressLock: {
-					address: config.gameHodlClickerAddress,
-					function: {
-						signature: {
-							name: 'addressLocks',
-							type: 'function',
-							inputs: [
-								{
-									type: 'address',
-									name: 'address',
-								},
-							],
-							outputs: [
-								{ type: 'uint256', name: 'rewardsAmount' },
-								{ type: 'uint256', name: 'rewardsPercent' },
-								{ type: 'uint256', name: 'minBlockNumber' },
-								{ type: 'bool', name: 'isPaused' },
-								{ type: 'uint256', name: 'minBurnAmount' },
-							],
-							stateMutability: 'view',
-						} as const,
-						parameters: [addressToFetch],
-					},
-
-					returns: {
-						params: ['uint256', 'uint256', 'uint256', 'bool', 'uint256'],
-						callback: (
-							rewardsAmount: string,
-							rewardsPercent: string,
-							minBlockNumber: string,
-							isPaused: boolean,
-							minBurnAmount: string
-						) => {
-							return {
-								rewardsAmount: BigInt(rewardsAmount),
-								rewardsPercent: Number(rewardsPercent),
-								minBlockNumber: Number(minBlockNumber),
-								isPaused: isPaused,
-								minBurnAmount: BigInt(minBurnAmount),
-							} as HodlClickerAddressLockDetailsViewModel;
-						},
-					},
-				},
-			};
-		};
+		// Everything the multicall builders need, passed explicitly rather than captured.
+		const context: FindAccountStateContext = { config, ecosystem: state.ecosystem, isArbitrumMainnet, addressToFetch };
 
 		const multicallData = {
 			// ETH Balance
@@ -445,22 +124,12 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 				returns: {
 					params: ['uint160'],
 					callback: (sqrtPriceX96: bigint) => {
-						const getUsdPriceFromUniswapV3EthPool = (sqrtPriceX96: string, flipPrice: boolean) => {
-							const num = new Big(sqrtPriceX96).times(sqrtPriceX96);
-							const denom = new Big(2).pow(192);
-							const price1 = num.div(denom);
-							const price0 = new Big(1).div(price1);
+						// Arbitrum and mainnet order this pool's tokens differently, hence the flip flag.
+						const ethUsdPrice = getUsdPriceFromUniswapV3EthPool(sqrtPriceX96.toString(), !isArbitrumMainnet);
 
-							if (flipPrice) {
-								return new Big(10).pow(12).div(price1);
-							}
-
-							return new Big(10).pow(12).div(price0);
-						};
-
-						const ethUsdPrice = getUsdPriceFromUniswapV3EthPool(sqrtPriceX96.toString(), !isArbitrumMainnet); // Arbitrum is USDC/ETH and Mainnet is USDC/ETH
-
-						const usdcPriceLong = ethUsdPrice.mul(new Big(10).pow(6));
+						// A pool reporting no price yields zero rather than throwing. Consumers already
+						// treat a zero USDC reserve as "price unavailable" and render a loading state.
+						const usdcPriceLong = (ethUsdPrice ?? new Big(0)).mul(new Big(10).pow(6));
 
 						return {
 							usdc: BigInt(usdcPriceLong.toFixed(0)),
@@ -602,7 +271,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 					},
 				},
 			},
-			...getHodlClickerAddressLock(),
+			...getHodlClickerAddressLock(context),
 
 			// FLUX: Address details
 			addressDetails: {
@@ -658,7 +327,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 			},
 
 			// Uniswap: DAM Price
-			...getUniswapDamPriceCall(),
+			...getUniswapDamPriceCall(context),
 
 			// DAM: Total Supply of Uniswap
 			liquidityDamV3: {
@@ -676,7 +345,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 						outputs: [{ type: 'uint256', name: '' }],
 						stateMutability: 'view',
 					} as const,
-					parameters: [getDamSupplyAddress()],
+					parameters: [getDamSupplyAddress(context)],
 				},
 
 				returns: {
@@ -688,7 +357,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 			},
 
 			// Uniswap: FLUX Price
-			...getUniswapFluxPriceCall(),
+			...getUniswapFluxPriceCall(context),
 
 			// FLUX: Total Supply of Uniswap
 			uniswapFluxBalance: {
@@ -706,7 +375,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 						outputs: [{ type: 'uint256', name: '' }],
 						stateMutability: 'view',
 					} as const,
-					parameters: [getFluxSupplyAddress()],
+					parameters: [getFluxSupplyAddress(context)],
 				},
 
 				returns: {
@@ -760,7 +429,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 						outputs: [{ type: 'uint256', name: '' }],
 						stateMutability: 'view',
 					} as const,
-					parameters: [getFluxSupplyAddress()],
+					parameters: [getFluxSupplyAddress(context)],
 				},
 
 				returns: {
@@ -787,7 +456,7 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 						outputs: [{ type: 'uint256', name: '' }],
 						stateMutability: 'view',
 					} as const,
-					parameters: [getDamSupplyAddress()],
+					parameters: [getDamSupplyAddress(context)],
 				},
 
 				returns: {
@@ -798,8 +467,8 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 				},
 			},
 
-			...getLockedLiquidityBalanceCall(),
-			...getOtherEcosystemTokenBalance(),
+			...getLockedLiquidityBalanceCall(context),
+			...getOtherEcosystemTokenBalance(context),
 		};
 
 		const calls = encodeMulticall(multicallData);
@@ -863,81 +532,19 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 
 		devLog('FindAccountState batch request success', multicallDecodedResults);
 
-		const getV3ReservesDAM = () => {
-			const { slot0, reserve0, reserve1 } = uniswapDamTokenReservesV3 as {
-				slot0: { sqrtPriceX96: string };
-				reserve0: string;
-				reserve1: string;
-			};
+		const fixedUniswapDamTokenReservesV3 = getLockableTokenPoolReserves(
+			uniswapDamTokenReservesV3,
+			isArbitrumMainnet,
+			liquidityDamV3,
+			wrappedEthDamUniswapAddressBalance
+		);
 
-			if (isArbitrumMainnet) {
-				const ethAvailable = new Big(reserve1);
-				const damAvailable = new Big(reserve0);
-
-				const price1 = damAvailable.div(ethAvailable);
-				const price0 = new Big(1).div(price1);
-
-				return {
-					eth: BigInt(reserve0),
-					dam: BigInt(reserve1),
-					ethPrice: price1,
-					damPrice: price0,
-				};
-			}
-
-			const { sqrtPriceX96 } = slot0;
-			const num = new Big(sqrtPriceX96).times(sqrtPriceX96);
-			const denom = new Big(2).pow(192);
-			const price1 = num.div(denom);
-			const price0 = new Big(1).div(price1);
-
-			const damAvailable = new Big(liquidityDamV3 as string).div(new Big(10).pow(18));
-			const ethAvailable = new Big(wrappedEthDamUniswapAddressBalance as string).div(new Big(10).pow(18));
-
-			return {
-				eth: BigInt(ethAvailable.mul(100).toFixed(0)) * 10n ** 16n,
-				dam: BigInt(damAvailable.mul(100).toFixed(0)) * 10n ** 16n,
-				ethPrice: price0,
-				damPrice: price1,
-			};
-		};
-		const fixedUniswapDamTokenReservesV3 = getV3ReservesDAM();
-
-		const getV3ReservesFLUX = () => {
-			const { slot0, reserve0, reserve1 } = uniswapFluxTokenReservesV3;
-
-			if (isArbitrumMainnet) {
-				const ethAvailable = new Big(reserve0);
-				const fluxAvailable = new Big(reserve1);
-
-				const price1 = fluxAvailable.div(ethAvailable);
-				const price0 = new Big(1).div(price1);
-
-				return {
-					flux: BigInt(reserve0),
-					eth: BigInt(reserve1),
-					ethPrice: price1,
-					fluxPrice: price0,
-				};
-			}
-
-			const { sqrtPriceX96 } = slot0;
-			const num = new Big(sqrtPriceX96).times(sqrtPriceX96);
-			const denom = new Big(2).pow(192);
-			const price1 = num.div(denom);
-			const price0 = new Big(1).div(price1);
-
-			const fluxAvailable = new Big(uniswapFluxBalance as string).div(new Big(10).pow(18));
-			const ethAvailable = new Big(wrappedEthFluxUniswapAddressBalance as string).div(new Big(10).pow(18));
-
-			return {
-				eth: BigInt(ethAvailable.mul(100).toFixed(0)) * 10n ** 16n,
-				flux: BigInt(fluxAvailable.mul(100).toFixed(0)) * 10n ** 16n,
-				ethPrice: price1,
-				fluxPrice: price0,
-			};
-		};
-		const fixedUniswapFluxTokenReservesV3 = getV3ReservesFLUX();
+		const fixedUniswapFluxTokenReservesV3 = getMintableTokenPoolReserves(
+			uniswapFluxTokenReservesV3,
+			isArbitrumMainnet,
+			uniswapFluxBalance,
+			wrappedEthFluxUniswapAddressBalance
+		);
 
 		const getSwapTokenBalances = () => {
 			const getCurrentSwapTokenBalances = () => {
