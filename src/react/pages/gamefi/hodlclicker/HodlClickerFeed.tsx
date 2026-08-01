@@ -153,7 +153,7 @@ const HodlClickerFeed: React.FC<HodlClickerFeedProps> = ({ logs, balances, trunc
 			totalTransactions: logs.length,
 			averageBurnedUSD: averageJackpotUSD,
 		};
-	}, [logs, balances]);
+	}, [logs, balances, truncateAddress]);
 
 	return (
 		<>

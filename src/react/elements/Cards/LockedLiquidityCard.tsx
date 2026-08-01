@@ -137,6 +137,7 @@ const LockedLiquidityCard: React.FC = () => {
 									href={`https://arbiscan.io/token/${mintableSushiSwapL2EthPair}#balances`}
 									color="textSecondary"
 									target="_blank"
+									rel="noopener noreferrer"
 									className={classes.address}
 								>
 									<Grid container direction="row" sx={{ justifyContent: 'center', alignItems: 'center' }}>

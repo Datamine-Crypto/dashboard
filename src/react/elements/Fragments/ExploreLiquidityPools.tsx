@@ -145,11 +145,11 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosyst
 								>
 									<img
 										src={uniswapLogo}
-										style={{ left: buttonType == LiquidityPoolButtonType.SmallButton ? 18 : 14 }}
+										style={{ left: buttonType === LiquidityPoolButtonType.SmallButton ? 18 : 14 }}
 									/>
 									<img
 										src={sushiSwapLogo}
-										style={{ left: buttonType == LiquidityPoolButtonType.SmallButton ? -3 : -9 }}
+										style={{ left: buttonType === LiquidityPoolButtonType.SmallButton ? -3 : -9 }}
 									/>
 								</Box>
 							</Grid>

@@ -97,6 +97,19 @@ export const getPriceToggleBig = ({
 
 	const usdcReserve = new Big(balances.uniswapUsdcEthTokenReserves.usdc.toString(10)).div(div6);
 	const ethReserve = new Big(balances.uniswapUsdcEthTokenReserves.eth.toString(10)).div(div18);
+
+	// The check above only proves the reserves object EXISTS; its values can still be zero if a
+	// multicall decode failed, the pool address is misconfigured, or we read the wrong network.
+	// big.js throws on division by zero (it does not return Infinity), and this function runs
+	// during render in many components — so an unguarded divide here takes down the whole tree
+	// via the ErrorBoundary rather than degrading to a missing price.
+	//
+	// Both reserves are checked: a zero ETH reserve breaks `ethPrice` below, and a zero USDC
+	// reserve makes `ethPrice` itself zero, which breaks the forecast divide further down.
+	if (ethReserve.lte(0) || usdcReserve.lte(0)) {
+		return '*loading*';
+	}
+
 	const ethPrice = usdcReserve.div(ethReserve);
 
 	const getResult = () => {
@@ -415,7 +428,10 @@ export const getRequiredFluxToBurn = ({
 	const bottom = negative.mul(globalDamLockedIn).add(targetMultiplier.mul(myDamLockedIn));
 
 	const getFluxRequired = () => {
-		if (bottom == new Big(0)) {
+		// Must be `.eq()`, not `==`: big.js values are objects, so `==` compares references and
+		// is never true for two separate instances. The guard silently did nothing and the
+		// divide below threw "Division by zero" whenever `bottom` was zero.
+		if (bottom.eq(new Big(0))) {
 			return new Big(0);
 		}
 
@@ -423,8 +439,11 @@ export const getRequiredFluxToBurn = ({
 	};
 	const fluxRequired = getFluxRequired();
 
+	// Same big.js pitfall as the guard above: `==` compares object references and is never true
+	// for two separate instances, so this half of the condition never contributed. `isTargetReached`
+	// only ever became true via the burn-multiplier check on the right.
 	const isTargetReached =
-		fluxRequired == new Big(0) || addressDetails.addressBurnMultiplier === 10000 * maxBurnMultiplier;
+		fluxRequired.eq(new Big(0)) || addressDetails.addressBurnMultiplier === 10000 * maxBurnMultiplier;
 
 	const fluxRequiredBn = fluxRequired.abs().round(0).toFixed();
 	const fluxRequiredBigInt = BigInt(fluxRequiredBn);

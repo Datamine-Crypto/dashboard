@@ -259,7 +259,7 @@ const TradeDialog: React.FC = () => {
 		const layerBalances = swapTokenBalances[layer];
 		const getPrices = () => {
 			const getFluxPrice = (token: Token) => {
-				if (ecosystem != Ecosystem.Flux && ecosystem != Ecosystem.ArbiFlux) {
+				if (ecosystem !== Ecosystem.Flux && ecosystem !== Ecosystem.ArbiFlux) {
 					return;
 				}
 				const balance = layerBalances[SwapToken.FLUX];
@@ -278,7 +278,7 @@ const TradeDialog: React.FC = () => {
 				);
 			};
 			const getArbiFluxPrice = (token: Token) => {
-				if (ecosystem != Ecosystem.ArbiFlux && ecosystem != Ecosystem.Lockquidity) {
+				if (ecosystem !== Ecosystem.ArbiFlux && ecosystem !== Ecosystem.Lockquidity) {
 					return;
 				}
 				if (layer !== Layer.Layer2) {
@@ -300,7 +300,7 @@ const TradeDialog: React.FC = () => {
 				);
 			};
 			const getLockPrice = () => {
-				if (ecosystem != Ecosystem.Lockquidity) {
+				if (ecosystem !== Ecosystem.Lockquidity) {
 					return;
 				}
 				if (layer !== Layer.Layer2) {
@@ -377,9 +377,9 @@ const TradeDialog: React.FC = () => {
 			return (
 				<>
 					{getEthPrice()}
-					{getFluxPrice(ecosystem == Ecosystem.ArbiFlux ? Token.Lockable : Token.Mintable)}
+					{getFluxPrice(ecosystem === Ecosystem.ArbiFlux ? Token.Lockable : Token.Mintable)}
 					{getDamPrice()}
-					{getArbiFluxPrice(ecosystem == Ecosystem.ArbiFlux ? Token.Lockable : Token.Mintable)}
+					{getArbiFluxPrice(ecosystem === Ecosystem.ArbiFlux ? Token.Lockable : Token.Mintable)}
 					{getLockPrice()}
 				</>
 			);

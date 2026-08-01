@@ -227,7 +227,10 @@ const HodlClickerGame: React.FC<Props> = ({ ecosystem, avgGemValue, truncateAddr
 			});
 		});
 		return gems;
-	}, [games, balances]);
+		// `ecosystem` is required: this memo resolves `gameHodlClickerAddress` from the ecosystem
+		// config and filters gems against it. Without it, switching ecosystem kept filtering
+		// against the previous ecosystem's game contract until `games`/`balances` happened to change.
+	}, [games, balances, ecosystem]);
 
 	const availableGems = useMemo(() => {
 		return validGems.filter((gem) => gem.dollarAmount >= minGemValue);

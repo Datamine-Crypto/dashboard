@@ -14,6 +14,7 @@ import { formatBigInt, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers'
 // Styling utility from tss-react
 import { tss } from 'tss-react/mui';
 // Ecosystem configuration getter
+import { isSameAddress } from '@/utils/addressHelpers';
 import { getEcosystemConfig as getConfig } from '@/app/configs/config';
 // Ecosystem enum for type safety
 // Custom detailed list item component
@@ -86,8 +87,10 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 	// Check if the selected address is the delegated minter (case-insensitive)
 
 	// Check if the displayed address is the currently selected address
-	const isCurrentAddress = selectedAddress?.toLowerCase() === displayedAddress?.toLowerCase();
-	const isSelfMinter = addressLock.minterAddress === displayedAddress;
+	const isCurrentAddress = isSameAddress(selectedAddress, displayedAddress);
+	// `minterAddress` comes back checksummed from the contract while `displayedAddress` can
+	// originate from a URL or user input, so this must be compared case-insensitively.
+	const isSelfMinter = isSameAddress(addressLock.minterAddress, displayedAddress);
 	/**
 	 * Displays the mint dialog by dispatching a SHOW_DIALOG command.
 	 */
@@ -427,6 +430,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 									href={`#dashboard/${displayedAddress}`}
 									color="textSecondary"
 									target="_blank"
+									rel="noopener noreferrer"
 									className={classes.address}
 								>
 									<Grid container direction="row" sx={{ justifyContent: 'center', alignItems: 'center' }}>

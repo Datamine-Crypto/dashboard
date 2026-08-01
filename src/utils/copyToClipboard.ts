@@ -44,7 +44,9 @@ interface IEWindow extends Window {
 
 const copyToClipBoard = function (text: string) {
 	try {
-		if (navigator.clipboard != undefined) {
+		// Truthiness check on purpose: this must reject both `undefined` (API absent) and `null`.
+		// A strict `!== undefined` would let a null clipboard through and throw on `.writeText`.
+		if (navigator.clipboard) {
 			//Chrome
 			navigator.clipboard.writeText(text).then(
 				function () {},

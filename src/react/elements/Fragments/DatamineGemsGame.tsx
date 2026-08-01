@@ -57,6 +57,9 @@ const localConfig = {
 		{ name: 'Gold', color: GemColor.Gold, dollarAmount: 0.1, iconSize: { xs: 40, sm: 50, md: 60 } },
 		{ name: 'Epic', color: GemColor.Epic, dollarAmount: 0.25, iconSize: { xs: 48, sm: 60, md: 75 } },
 	] as const,
+	addGemEmptyError: 'Enter an Ethereum address to add a gem.',
+	addGemInvalidError:
+		'That does not look like a valid Ethereum address. It should start with 0x and be 42 characters long.',
 	localStorageKey: 'datamineGemsConfig',
 };
 
@@ -497,7 +500,7 @@ const GemItem = React.memo(function GemItem({
 interface DatamineGemsGameProps {
 	initialGems: GridState;
 	onAttemptCollectGem: (gem: Gem[]) => boolean;
-	onAddGem?: (ethereumAddress: string) => void;
+	onAddGem?: (ethereumAddress: string) => boolean | void;
 	gemsCollected: number; // New prop
 	totalCollectedBalance: number; // New prop
 }
@@ -535,6 +538,8 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 	const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false);
 	const [isAddGemDialogOpen, setIsAddGemDialogOpen] = useState(false);
 	const [newGemEthereum, setNewGemEthereum] = useState('');
+	// Local, ephemeral form validation message for the add-gem dialog.
+	const [addGemError, setAddGemError] = useState<string | null>(null);
 
 	const [editableGemValues, setEditableGemValues] = useState<Record<string, string>>(
 		Object.entries(gemValuesConfig).reduce(
@@ -615,7 +620,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 				handleActualGemCollection(gem, index);
 			}
 		},
-		[onAttemptCollectGem, handleActualGemCollection, grid, gemValuesConfig]
+		[onAttemptCollectGem, handleActualGemCollection, grid]
 	);
 
 	const handleOpenSettingsDialog = () => {
@@ -665,17 +670,32 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 	// --- Add Gem Dialog Logic ---
 	const handleOpenAddGemDialog = () => {
 		setNewGemEthereum('');
+		setAddGemError(null);
 		setIsAddGemDialogOpen(true);
 	};
 
 	const handleCloseAddGemDialog = () => {
 		setIsAddGemDialogOpen(false);
+		setAddGemError(null);
 	};
 
 	const handleConfirmAddGem = () => {
-		if (onAddGem && newGemEthereum.trim()) {
-			onAddGem(newGemEthereum.trim());
+		const candidateAddress = newGemEthereum.trim();
+
+		if (!onAddGem || !candidateAddress) {
+			setAddGemError(localConfig.addGemEmptyError);
+			return;
 		}
+
+		// `onAddGem` returns false when the address fails validation. Previously the dialog
+		// closed regardless, so an invalid address was rejected with no feedback at all —
+		// the gem simply never appeared and the user had no idea why.
+		const wasAdded = onAddGem(candidateAddress);
+		if (wasAdded === false) {
+			setAddGemError(localConfig.addGemInvalidError);
+			return;
+		}
+
 		handleCloseAddGemDialog();
 	};
 
@@ -851,7 +871,12 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 						fullWidth
 						variant="outlined"
 						value={newGemEthereum}
-						onChange={(e) => setNewGemEthereum(e.target.value)}
+						onChange={(e) => {
+							setNewGemEthereum(e.target.value);
+							setAddGemError(null);
+						}}
+						error={!!addGemError}
+						helperText={addGemError}
 						autoComplete="off"
 						slotProps={{
 							htmlInput: { autoComplete: 'off' },

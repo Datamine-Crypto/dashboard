@@ -211,11 +211,11 @@ export const subscribeToBlockUpdates = (publicClient: PublicClient, dispatch: Re
 export const getCorrectedEcosystem = (ecosystem: Ecosystem, isArbitrumMainnet: boolean) => {
 	const ecosystemConfig = getEcosystemConfig(ecosystem);
 	// Default to Flux (L1) if not on Arbitrum
-	if (ecosystemConfig.layer == Layer.Layer2 && !isArbitrumMainnet) {
+	if (ecosystemConfig.layer === Layer.Layer2 && !isArbitrumMainnet) {
 		return Ecosystem.Flux;
 	}
 	// Default to Lockquidity (L2) if  on Arbitrum
-	if (ecosystemConfig.layer == Layer.Layer1 && isArbitrumMainnet) {
+	if (ecosystemConfig.layer === Layer.Layer1 && isArbitrumMainnet) {
 		return Ecosystem.Lockquidity;
 	}
 

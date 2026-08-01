@@ -8,6 +8,7 @@ import {
 	commonLanguage as reducerCommonLanguage,
 } from '@/utils/reducer/sideEffectReducer';
 import copyToClipBoard from '@/utils/copyToClipboard';
+import { containsAddress, isSameAddress } from '@/utils/addressHelpers';
 import { devLog } from '@/utils/devLog';
 import { availableSwapTokens } from '@/web3/swap/performSwap';
 import { SwapOperation, SwapToken, SwapTokenWithAmount } from '@/web3/swap/swapOptions';
@@ -127,7 +128,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		const newEcosystemConfig = getEcosystemConfig(availableSwapToken.ecosystem);
 
 		// We don't want to change the ecosystem right away (this will be handled on page reload after user selects to swap network)
-		if (stateEcosystemConfig.layer != newEcosystemConfig.layer) {
+		if (stateEcosystemConfig.layer !== newEcosystemConfig.layer) {
 			return state.ecosystem;
 		}
 
@@ -155,7 +156,7 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 			devLog('stateEcosystemConfig:', stateEcosystemConfig, 'newEcosystemConfig:', newEcosystemConfig);
 
 			// We don't want to change the ecosystem right away (this will be handled on page reload after user selects to swap network)
-			if (stateEcosystemConfig.layer != newEcosystemConfig.layer) {
+			if (stateEcosystemConfig.layer !== newEcosystemConfig.layer) {
 				return state;
 			}
 
@@ -171,7 +172,9 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		case commonLanguage.commands.UpdateAddress: {
 			const { address } = command.payload as { address: string };
 
-			if (address === state.address) {
+			// Case-insensitive: the same address in a different casing is not a change, and
+			// treating it as one triggers a full refetch of on-chain state for no reason.
+			if (isSameAddress(address, state.address)) {
 				return state;
 			}
 
@@ -774,10 +777,13 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		case commonLanguage.commands.Market.AddGemAddress: {
 			const { address } = command.payload as { address: string };
 
-			const ecosystemAddresses = state.market.gemAddresses[state.ecosystem];
+			// Fall back to an empty list: `gemAddresses` is rehydrated from localStorage, so a
+			// value written by an older build may not carry every ecosystem key.
+			const ecosystemAddresses = state.market.gemAddresses[state.ecosystem] ?? [];
 
-			// Don't add duplicate addresses
-			if (ecosystemAddresses.some((ecosystemAddress) => ecosystemAddress === address)) {
+			// Don't add duplicate addresses. Compared case-insensitively so the same address
+			// pasted in checksummed and lowercase form is not stored twice.
+			if (containsAddress(ecosystemAddresses, address)) {
 				return state;
 			}
 

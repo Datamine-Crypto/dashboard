@@ -42,3 +42,6 @@ storybook-static/
 
 .pnp.cjs
 .pnp.loader.mjs
+# Environment files (leftovers from the Create React App era are no longer used;
+# Vite reads VITE_-prefixed vars via import.meta.env)
+.env

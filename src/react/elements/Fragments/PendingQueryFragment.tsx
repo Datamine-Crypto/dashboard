@@ -18,7 +18,7 @@ const PendingQueryFragment: React.FC = () => {
 	);
 
 	const getPendingQueryIndicator = () => {
-		if (pendingQueries.length === 0 || lastDismissedPendingActionCount == queriesCount) {
+		if (pendingQueries.length === 0 || lastDismissedPendingActionCount === queriesCount) {
 			return null;
 		}
 		const onClose = () => [appDispatch({ type: commonLanguage.commands.Dialog.DismissPendingAction })];

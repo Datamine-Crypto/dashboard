@@ -38,7 +38,7 @@ export const getMarketBurnFluxResponse: QueryHandler<AppState> = async ({ state,
 		return;
 	}
 
-	const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market! : contracts.gameHodlClicker!);
+	const marketContract = withWeb3(game === Game.DatamineGems ? contracts.market! : contracts.gameHodlClicker!);
 
 	if (gems.length === 1) {
 		const gem = gems[0];
@@ -93,7 +93,7 @@ export const getDepositMarketResponse: QueryHandler<AppState> = async ({ state, 
 		return;
 	}
 
-	const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market! : contracts.gameHodlClicker!);
+	const marketContract = withWeb3(game === Game.DatamineGems ? contracts.market! : contracts.gameHodlClicker!);
 
 	const fluxToken = withWeb3(contracts.fluxToken!);
 
@@ -159,7 +159,8 @@ export const getRefreshMarketAddressesResponse: QueryHandler<AppState> = async (
 
 	const marketAddressesToFetch = config.marketTopBurningaddresses[game];
 
-	const customGemAddresses = state.market.gemAddresses[ecosystem];
+	// Fall back to an empty list: rehydrated from localStorage, so a key may be absent.
+	const customGemAddresses = state.market.gemAddresses[ecosystem] ?? [];
 
 	// Always fetch selectedAddress so we can get details for it in UI (ex: total game balance)
 	const allAddressesToFetch = [selectedAddress, ...marketAddressesToFetch, ...customGemAddresses]
@@ -366,7 +367,7 @@ export const getWithdrawMarketResponse: QueryHandler<AppState> = async ({ state 
 		return;
 	}
 
-	const marketContract = withWeb3(game == Game.DatamineGems ? contracts.market! : contracts.gameHodlClicker!);
+	const marketContract = withWeb3(game === Game.DatamineGems ? contracts.market! : contracts.gameHodlClicker!);
 
 	const withdrawResponse = await marketContract.marketWithdrawAll({
 		from: selectedAddress as string,

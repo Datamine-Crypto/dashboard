@@ -54,25 +54,56 @@ const getHelpArticlesNetworkType = () => {
 
 const helpArticlesNetworkType = getHelpArticlesNetworkType();
 
-const getCustomMarketAddresses = () => {
-	const defaultCustomMarketAddresses = {
-		[Ecosystem.Flux]: [],
-		[Ecosystem.ArbiFlux]: [],
-		[Ecosystem.Lockquidity]: [],
-	};
+/** An empty gem-address map with every ecosystem key present. */
+const getEmptyGemAddresses = (): Record<string, string[]> => ({
+	[Ecosystem.Flux]: [],
+	[Ecosystem.ArbiFlux]: [],
+	[Ecosystem.Lockquidity]: [],
+});
 
-	const marketGemAddressesJson = localStorage.getItem('marketGemAddresses');
-	if (!marketGemAddressesJson) {
-		return defaultCustomMarketAddresses;
+/**
+ * Parses and validates the persisted gem-address map.
+ *
+ * Exported as a pure function so the validation can be exercised directly. It validates the
+ * SHAPE, not merely that the JSON parsed: localStorage is user-editable and survives across
+ * app versions, so syntactically valid JSON is no guarantee of a usable value. Consumers index
+ * straight into this map by ecosystem and then call array methods on the result, so a missing
+ * or non-array key would throw at runtime rather than degrade.
+ *
+ * @param rawJson The raw localStorage string, or null when unset.
+ * @returns A map guaranteed to contain every ecosystem key, each holding an array of strings.
+ */
+export const parseStoredGemAddresses = (rawJson: string | null): Record<string, string[]> => {
+	const defaults = getEmptyGemAddresses();
+	if (!rawJson) {
+		return defaults;
 	}
+
 	try {
-		const customAddresses = JSON.parse(marketGemAddressesJson);
-		return customAddresses;
+		const parsed = JSON.parse(rawJson);
+
+		if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+			devLog('marketGemAddresses ignored: not an object', parsed);
+			return defaults;
+		}
+
+		// Rebuilt from the defaults so every ecosystem key is guaranteed present, keeping only
+		// entries that are genuinely arrays of strings.
+		const validated = defaults;
+		for (const ecosystemKey of Object.keys(defaults)) {
+			const storedAddresses = (parsed as Record<string, unknown>)[ecosystemKey];
+			if (Array.isArray(storedAddresses)) {
+				validated[ecosystemKey] = storedAddresses.filter((entry): entry is string => typeof entry === 'string');
+			}
+		}
+		return validated;
 	} catch (err) {
-		devLog('defaultCustomMarketAddresses parse error:', err);
-		return defaultCustomMarketAddresses;
+		devLog('marketGemAddresses parse error:', err);
+		return defaults;
 	}
 };
+
+const getCustomMarketAddresses = () => parseStoredGemAddresses(localStorage.getItem('marketGemAddresses'));
 
 const getMarketGemsCollected = () => {
 	const defaultMarketGemsCollected = {
