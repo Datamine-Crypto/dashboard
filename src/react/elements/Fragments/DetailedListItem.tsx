@@ -20,7 +20,12 @@ interface RenderProps {
 	buttons?: ReactNode[];
 }
 
-const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description, buttons }) => {
+/**
+ * Memoized per Rule 10: this renders once per row across the balances and analytics cards and
+ * derives everything from props, so it should not re-render when an unrelated part of the
+ * surrounding card updates.
+ */
+const DetailedListItem = React.memo(function DetailedListItem({ title, main, sub, description, buttons }: RenderProps) {
 	const theme = useTheme();
 	const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -223,6 +228,6 @@ const DetailedListItem: React.FC<RenderProps> = ({ title, main, sub, description
 			</Box>
 		</>
 	);
-};
+});
 
 export default DetailedListItem;

@@ -27,14 +27,18 @@ interface HodlClickerChartProps {
 	hideTotalTransactions?: boolean;
 }
 
-const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
+/**
+ * Memoized per Rule 10: an expensive leaf. It recomputes chart geometry and redraws on every
+ * render, and sits inside a page that updates on a live feed.
+ */
+const HodlClickerChart = React.memo(function HodlClickerChart({
 	chartData,
 	maxValue,
 	totalTransactions,
 	chartTitle,
 	averageValue,
 	hideTotalTransactions,
-}) => {
+}: HodlClickerChartProps) {
 	const theme = useTheme();
 
 	return (
@@ -191,6 +195,6 @@ const HodlClickerChart: React.FC<HodlClickerChartProps> = ({
 			</Box>
 		</Paper>
 	);
-};
+});
 
 export default HodlClickerChart;

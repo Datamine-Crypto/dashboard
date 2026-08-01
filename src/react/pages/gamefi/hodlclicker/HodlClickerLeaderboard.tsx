@@ -44,7 +44,11 @@ interface Props {
 	truncateAddress: (address: string) => string;
 }
 
-const HodlClickerLeaderboard: React.FC<Props> = ({ logs, balances, truncateAddress }) => {
+/**
+ * Memoized per Rule 10: renders a full list from props while the surrounding game page updates
+ * frequently, so it should only re-render when the logs or balances themselves change.
+ */
+const HodlClickerLeaderboard = React.memo(function HodlClickerLeaderboard({ logs, balances, truncateAddress }: Props) {
 	const theme = useTheme();
 
 	const leaderboardData = useMemo(() => {
@@ -166,6 +170,6 @@ const HodlClickerLeaderboard: React.FC<Props> = ({ logs, balances, truncateAddre
 			</TableContainer>
 		</Box>
 	);
-};
+});
 
 export default HodlClickerLeaderboard;

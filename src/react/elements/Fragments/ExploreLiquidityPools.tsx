@@ -76,7 +76,10 @@ interface Params {
 	contents?: React.ReactElement;
 	ecosystem: Ecosystem;
 }
-const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosystem }) => {
+/**
+ * Memoized per Rule 10: a pure props-driven fragment reused across several pages and dialogs.
+ */
+const ExploreLiquidityPools = React.memo(function ExploreLiquidityPools({ buttonType, contents, ecosystem }: Params) {
 	const { liquidityPoolGroups } = getEcosystemConfig(ecosystem);
 
 	const { classes } = useStyles();
@@ -369,6 +372,6 @@ const ExploreLiquidityPools: React.FC<Params> = ({ buttonType, contents, ecosyst
 			</Menu>
 		</>
 	);
-};
+});
 
 export default ExploreLiquidityPools;
