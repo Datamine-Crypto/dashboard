@@ -224,7 +224,7 @@ export const MainDrawer: React.FC = () => {
 				title: 'Ecosystem Analytics',
 				icon: <EqualizerIcon />,
 				expandIcon: true,
-				href: 'https://datamine-crypto.github.io/datamine-pro-portal/',
+				href: 'https://analytics.datamine.network/',
 			},
 			{
 				isBasicDivider: true,
