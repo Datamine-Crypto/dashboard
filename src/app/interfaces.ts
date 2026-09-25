@@ -1,8 +1,7 @@
 import Big from 'big.js';
 
-import { Ecosystem, Layer } from '@/app/configs/config.common';
+import { Ecosystem } from '@/app/configs/config.common';
 import { ReducerDispatch } from '@/utils/reducer/sideEffectReducer';
-import { SwapToken, SwapTokenWithAmount } from '@/web3/swap/swapOptions';
 
 export type { ReducerDispatch };
 
@@ -128,8 +127,6 @@ export enum DialogType {
 	ZeroEth = 'ZERO_ETH',
 	/** Dialog displayed when the user has insufficient DAM for a transaction. */
 	ZeroDam = 'ZERO_DAM',
-	/** Dialog for performing token swaps (e.g., on Uniswap). */
-	Trade = 'TRADE',
 	/** Generic dialog for displaying a title and a message. */
 	TitleMessage = 'TITLE_MESSAGE',
 	/** Dialog for client-side application settings. */
@@ -245,6 +242,14 @@ interface UniswapReservesUsdcEth {
 	usdc: bigint;
 	eth: bigint;
 }
+/**
+ * Token amounts in the Lockable / Mintable pools (DAM / FLUX V3 on L1, ArbiFLUX / LOCK V4 on L2).
+ * `dam` is the lockable token and `flux` the mintable token. Both are zero when the ecosystem has no such pool.
+ */
+interface UniswapReservesDamFlux {
+	dam: bigint;
+	flux: bigint;
+}
 
 /**
  * Enum for forecasting multiplier types.
@@ -288,6 +293,7 @@ export interface Balances {
 	uniswapDamTokenReserves: UniswapReservesDam;
 	uniswapFluxTokenReserves: UniswapReservesFlux;
 	uniswapUsdcEthTokenReserves: UniswapReservesUsdcEth;
+	uniswapDamFluxTokenReserves: UniswapReservesDamFlux;
 	arbitrumBridgeBalance: bigint;
 
 	/**
@@ -307,31 +313,6 @@ export interface ClientSettings {
 	priceMultiplierAmount: string;
 	useEip1559: boolean;
 	currency: string;
-}
-
-/**
- * State for the token swap interface.
- */
-export interface SwapState {
-	input: SwapTokenWithAmount;
-	output: SwapTokenWithAmount;
-}
-
-/**
- * State for all swappable token balances across different layers.
- */
-export interface SwapTokenBalances {
-	[Layer.Layer1]: {
-		[SwapToken.DAM]: bigint;
-		[SwapToken.FLUX]: bigint;
-		[SwapToken.ETH]: bigint;
-	};
-	[Layer.Layer2]: {
-		[SwapToken.ArbiFLUX]: bigint;
-		[SwapToken.FLUX]: bigint;
-		[SwapToken.LOCK]: bigint;
-		[SwapToken.ETH]: bigint;
-	};
 }
 
 /**

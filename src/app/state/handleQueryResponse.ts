@@ -2,8 +2,6 @@ import { getEcosystemConfig } from '@/app/configs/config';
 import { Gem } from '@/react/elements/Fragments/DatamineGemsGame';
 import { ReducerQueryHandler } from '@/utils/reducer/sideEffectReducer';
 import { devLog } from '@/utils/devLog';
-import { SwapQuote } from '@/web3/swap/swapOptions';
-import { formatBigInt } from '@/utils/mathHelpers';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { AppState } from '@/app/state/initialState';
 import { createWithWithQueries } from '@/utils/reducer/reducerHelpers';
@@ -11,7 +9,6 @@ import {
 	ConnectionMethod,
 	DialogType,
 	Balances,
-	SwapTokenBalances,
 	FluxAddressLock,
 	FluxAddressDetails,
 	FluxAddressTokenDetails,
@@ -23,7 +20,6 @@ import { getCorrectedEcosystem } from '@/web3/utils/web3ProviderUtils';
 
 interface FindAccountStateResponse {
 	balances: Balances | null;
-	swapTokenBalances: SwapTokenBalances | null;
 	selectedAddress: string | null;
 	addressLock: FluxAddressLock | null;
 	addressDetails: FluxAddressDetails | null;
@@ -137,7 +133,6 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 
 			const {
 				balances,
-				swapTokenBalances,
 				selectedAddress,
 				addressLock,
 				addressDetails,
@@ -166,7 +161,6 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				addressLock,
 				addressDetails,
 				addressTokenDetails,
-				swapTokenBalances,
 				currentAddressHodlClickerAddressLock,
 				//marketAddressLock,
 				//currentAddressMarketAddressLock,
@@ -317,20 +311,6 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 				},
 			};
 		}
-		case commonLanguage.queries.Swap.GetTradeResponse: {
-			if (err) {
-				return {
-					...state,
-					error: err instanceof Error ? err.message : String(err),
-				};
-			}
-
-			return {
-				...state,
-				dialog: null,
-				...withQueries([{ type: commonLanguage.queries.FindAccountState }]),
-			};
-		}
 		case commonLanguage.queries.GameFi.GetPauseGameResponse:
 		case commonLanguage.queries.GameFi.GetResumeGameResponse:
 		case commonLanguage.queries.Flux.GetUnlockDamTokensResponse: {
@@ -369,33 +349,6 @@ export const handleQueryResponse = ({ state, payload }: ReducerQueryHandler<AppS
 			return {
 				...state,
 				helpArticle: response as HelpArticle,
-			};
-		}
-		case commonLanguage.queries.Swap.GetOutputQuote: {
-			if (err) {
-				return {
-					...state,
-					error: err instanceof Error ? err.message : String(err),
-				};
-			}
-
-			// If we get an empty response, don't update the output. This is useful for throttling
-			if (!response) {
-				return state;
-			}
-
-			const swapQuote = response as SwapQuote;
-
-			devLog('swapQuote:', swapQuote);
-			return {
-				...state,
-				swapState: {
-					...state.swapState,
-					output: {
-						...state.swapState.output,
-						amount: `${formatBigInt(BigInt(swapQuote.out.minAmount))}`,
-					},
-				},
 			};
 		}
 	}

@@ -140,7 +140,6 @@ Extra information help you understand the Datamine ecosystem better:
 
 - `src/web3/abis/dam.ts`: ABI for the Datamine (DAM) token contract.
 - `src/web3/abis/flux.ts`: ABI for the Flux (FLUX) token contract.
-- `src/web3/abis/uniswapv2router.ts`: ABI for the Uniswap V2 Router.
 - `src/web3/abis/uniswapPair.ts`: ABI for Uniswap V2 Pair contracts.
 - `src/web3/abis/uniswapPairV3.ts`: ABI for Uniswap V3 Pair contracts.
 - `src/web3/abis/multicall.ts`: ABI for the Multicall contract.
@@ -307,11 +306,9 @@ The `src` directory is organized into the following main subdirectories:
       - `CommunityPage.tsx`, `DashboardPage.tsx`, `HelpPage.tsx`, `OnboardingPage.tsx`, `PageFragment.tsx`, `RealtimeRewardsGameFiPage.tsx`, `Terms.tsx`, `TokenPage.tsx`
   - **`src/utils/`**: Collection of helper functions.
     - `copyToClipboard.ts`, `devLog.ts`, `formatMoney.ts`, `getApy.ts`, `web3multicall.ts`, `mathHelpers.ts`
-    - **`src/utils/swap/`**: Functions related to token swapping.
-      - `performSwap.ts`, `performSwapUniswapV2.ts`, `sampleQuoteSingleSwap.ts`, `swapOptions.ts`
   - **`src/web3/`**: Manages all blockchain interactions.
     - **`src/web3/abis/`**: ABI (Application Binary Interface) JSON files for smart contracts.
-      - `dam.ts`, `flux.ts`, `multicall.ts`, `uniswapPair.ts`, `uniswapPairV3.ts`, `uniswapv2router.ts`
+      - `dam.ts`, `flux.ts`, `multicall.ts`, `uniswapPair.ts`, `uniswapPairV3.ts`
       - **`src/web3/abis/games/`**:
         - `datamineGems.ts`, `gameHodlClicker.ts`
 
@@ -383,7 +380,6 @@ This map outlines the key concepts, components, and principles of the Datamine N
     - DAM Token (`dam.ts`)
     - FLUX Token (`flux.ts`)
     - Market Contract (`datamineGems.ts`)
-    - Uniswap V2 Router (`uniswapv2router.ts`)
     - Uniswap Pair (`uniswapPair.ts`)
     - Uniswap Pair V3 (`uniswapPairV3.ts`)
     - Multicall (`multicall.ts`)
@@ -421,15 +417,9 @@ This map outlines the key concepts, components, and principles of the Datamine N
 - The `encodeMulticall` function prepares the data for the multicall contract, and `decodeMulticall` parses the aggregated response.
 - This approach significantly improves performance by reducing the number of RPC calls to the blockchain.
 
-### Uniswap V2 Integration
+### Trading
 
-- The application integrates with Uniswap V2 for token swapping, with the core logic located in `src/utils/swap/`.
-- `performSwapUniswapV2.ts` handles the entire swap process, including:
-  - Fetching quotes using `getAmountsOut`.
-  - Calculating slippage tolerance.
-  - Checking and approving token allowances.
-  - Executing the swap transaction.
-- The `availableSwapTokens` array in `performSwap.ts` defines the tokens that can be swapped and their corresponding Uniswap V2 router addresses.
+- The dashboard has no built-in trading. Trade buttons in "Explore Liquidity Pools" link out to external sites (Uniswap, DefiLlama) through each pool's `links.buy` in `config.base.ts`.
 
 ### Gas Fee Estimation
 

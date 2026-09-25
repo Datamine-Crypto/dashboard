@@ -8,9 +8,9 @@ import { decodeMulticall, encodeMulticall, EncodedMulticallResults } from '@/web
 import { getContracts, getSelectedAddress, getPublicClient } from '@/web3/utils/web3ProviderUtils';
 import { FindAccountStateContext } from '@/app/state/queries/web3/findAccountState/calls/context';
 import { buildAccountMulticall } from '@/app/state/queries/web3/findAccountState/calls/accountCalls';
-import { getSwapTokenBalances } from '@/app/state/queries/web3/findAccountState/decode/swapBalances';
 
 import {
+	getLockableMintableV4PoolReserves,
 	getLockableTokenPoolReserves,
 	getMintableTokenPoolReserves,
 } from '@/app/state/queries/web3/findAccountState/decode/reserves';
@@ -97,7 +97,11 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 			lockedLiquidtyUniTotalSupply,
 			lockedLiquidityUniAmount,
 
-			otherEcosystemTokenBalance,
+			lockableMintablePoolLockableBalance,
+			lockableMintablePoolMintableBalance,
+			lockableMintableV4PoolSqrtPriceX96,
+			lockableMintableV4PoolLiquidity,
+
 			//marketAddressLock,
 			currentAddressHodlClickerAddressLock,
 			//currentAddressMintableBalance,
@@ -118,7 +122,10 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 			wrappedEthDamUniswapAddressBalance: string;
 			lockedLiquidtyUniTotalSupply: bigint;
 			lockedLiquidityUniAmount: bigint;
-			otherEcosystemTokenBalance: bigint;
+			lockableMintablePoolLockableBalance?: string;
+			lockableMintablePoolMintableBalance?: string;
+			lockableMintableV4PoolSqrtPriceX96?: string;
+			lockableMintableV4PoolLiquidity?: string;
 			currentAddressHodlClickerAddressLock: HodlClickerAddressLockDetailsViewModel;
 		};
 
@@ -138,15 +145,12 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 			wrappedEthFluxUniswapAddressBalance
 		);
 
-		const swapTokenBalances = getSwapTokenBalances({
-			ecosystem: state.ecosystem,
-			isArbitrumMainnet,
-			previousSwapTokenBalances: state.swapTokenBalances,
-			addressDetails,
-			addressTokenDetails,
-			ethBalance,
-			otherEcosystemTokenBalance,
-		});
+		const lockableMintableV4PoolReserves = getLockableMintableV4PoolReserves(
+			lockableMintableV4PoolSqrtPriceX96 ?? '0',
+			lockableMintableV4PoolLiquidity ?? '0',
+			config.lockableTokenContractAddress,
+			config.mintableTokenContractAddress
+		);
 
 		return {
 			balances: {
@@ -160,13 +164,17 @@ export const findAccountState: QueryHandler<AppState> = async ({ state }) => {
 				uniswapDamTokenReserves: fixedUniswapDamTokenReservesV3,
 				uniswapFluxTokenReserves: fixedUniswapFluxTokenReservesV3,
 				uniswapUsdcEthTokenReserves,
+				// Lockable / Mintable pools (V3 on L1, V4 on L2). Zero when the ecosystem has none.
+				uniswapDamFluxTokenReserves: {
+					dam: BigInt(lockableMintablePoolLockableBalance ?? 0) + lockableMintableV4PoolReserves.dam,
+					flux: BigInt(lockableMintablePoolMintableBalance ?? 0) + lockableMintableV4PoolReserves.flux,
+				},
 
 				arbitrumBridgeBalance: arbitrumBridgeBalance,
 
 				lockedLiquidtyUniTotalSupply,
 				lockedLiquidityUniAmount,
 			},
-			swapTokenBalances,
 			selectedAddress,
 			addressLock,
 			addressDetails,

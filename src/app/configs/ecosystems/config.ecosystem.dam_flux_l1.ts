@@ -35,6 +35,10 @@ export const getDamFluxEcosystemConfig = () => {
 		mintableTokenContractAddress: '0x469eda64aed3a3ad6f868c44564291aa415cb1d9',
 		// Uniswap V3 L1 ETH pair address for FLUX
 		mintableUniswapV3L1EthTokenContractAddress: '0x07aa6584385cca15c2c6e13a5599ffc2d177e33b',
+		// Uniswap V3 L1 DAM / FLUX pool address (1% fee tier)
+		lockableMintableUniswapV3L1PoolAddress: '0x722854152715D1ECaF42461eF8A76526Da9228CD',
+		lockableMintableUniswapV4PoolId: undefined,
+		uniswapV4StateViewAddress: undefined,
 
 		// Market contract address for Time-in-Market (TIM) - currently null for L1
 		marketAddress: null, // @todo

@@ -91,6 +91,24 @@ export interface EcosystemConfig {
 	mintableUniswapV3L1EthTokenContractAddress?: string;
 
 	/**
+	 * On Layer 1 (L1), this is the Uniswap V3 pool address for the Lockable / Mintable token pair (no ETH side).
+	 * Its token balances are added to the available liquidity of both tokens.
+	 */
+	lockableMintableUniswapV3L1PoolAddress?: string;
+
+	/**
+	 * Uniswap V4 pool ID (bytes32) for the Lockable / Mintable token pair (no ETH side).
+	 * V4 pools have no address of their own, so the pool is read through `uniswapV4StateViewAddress`.
+	 * Its token amounts are added to the available liquidity of both tokens.
+	 */
+	lockableMintableUniswapV4PoolId?: string;
+
+	/**
+	 * Uniswap V4 StateView contract (read-only pool state) on this ecosystem's chain.
+	 */
+	uniswapV4StateViewAddress?: string;
+
+	/**
 	 * On Layer 2 (L2), this is the Sushiswap pool address for the Lockable / ETH token pair.
 	 */
 	lockableSushiSwapL2EthPair?: string;

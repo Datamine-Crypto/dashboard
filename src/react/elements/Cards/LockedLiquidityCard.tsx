@@ -94,12 +94,12 @@ const LockedLiquidityCard: React.FC = () => {
 		return (
 			<DetailedListItem
 				title={`Perma-Locked Liquidity:`}
-				main={
+				main={<>{fluxEthUsdcLiquidity}</>}
+				sub={
 					<>
 						{formatBigInt(permaLockedMintableToken, true, 18, 2)} {mintableTokenShortName}
 					</>
 				}
-				sub={<>{fluxEthUsdcLiquidity}</>}
 				description={<>{getAvailableLiquidity(Token.Mintable)}</>}
 				buttons={[]}
 			/>
@@ -112,8 +112,8 @@ const LockedLiquidityCard: React.FC = () => {
 		return (
 			<DetailedListItem
 				title={`Perma-Locked ETH:`}
-				main={<>{formatBigInt(permaLockedEth, true, 18, 2)} ETH</>}
-				sub={<>{fluxEthUsdcLiquidity}</>}
+				main={<>{fluxEthUsdcLiquidity}</>}
+				sub={<>{formatBigInt(permaLockedEth, true, 18, 2)} ETH</>}
 				buttons={[]}
 			/>
 		);

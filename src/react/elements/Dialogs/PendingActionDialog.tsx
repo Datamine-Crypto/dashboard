@@ -111,6 +111,11 @@ const PendingActionDialog: React.FC<Params> = React.memo(function PendingActionD
 						title: `Awaiting ${mintableTokenShortName} Burn Confirmation`,
 						message: getConfirmationMessage(`${mintableTokenShortName} Burning`),
 					};
+				case commonLanguage.queries.Flux.GetSetMintSettingsResponse:
+					return {
+						title: 'Awaiting Minter Settings Confirmation',
+						message: getConfirmationMessage('Minter Settings Update'),
+					};
 				case commonLanguage.queries.Flux.GetLockInDamTokensResponse:
 					return {
 						title: 'Awaiting Validator Start Confirmation',
@@ -125,11 +130,6 @@ const PendingActionDialog: React.FC<Params> = React.memo(function PendingActionD
 					return {
 						title: 'Awaiting Validator Stop Confirmation',
 						message: getConfirmationMessage('Validator Stopping'),
-					};
-				case commonLanguage.queries.Swap.GetTradeResponse:
-					return {
-						title: 'Awaiting Trade Confirmation',
-						message: getConfirmationMessage(`Trade`),
 					};
 			}
 		}

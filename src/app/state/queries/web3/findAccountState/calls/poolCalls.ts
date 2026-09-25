@@ -1,5 +1,3 @@
-import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem } from '@/app/configs/config.common';
 import { MultiCallParams } from '@/web3/utils/web3multicall';
 import { HodlClickerAddressLockDetailsViewModel } from '@/app/interfaces';
 import { FindAccountStateContext } from '@/app/state/queries/web3/findAccountState/calls/context';
@@ -187,6 +185,118 @@ export const getUniswapDamPriceCall = (context: FindAccountStateContext): Record
 	};
 };
 
+/** ERC-20 `balanceOf` read, returned as a decimal string like the other pool balance reads. */
+const getTokenBalanceOfCall = (tokenAddress: string, holderAddress: string): MultiCallParams => {
+	return {
+		address: tokenAddress,
+		function: {
+			signature: {
+				name: 'balanceOf',
+				type: 'function',
+				inputs: [
+					{
+						type: 'address',
+						name: 'targetAddress',
+					},
+				],
+				outputs: [{ type: 'uint256', name: '' }],
+				stateMutability: 'view',
+			} as const,
+			parameters: [holderAddress],
+		},
+
+		returns: {
+			params: ['uint256'],
+			callback: (balance: bigint) => {
+				return balance.toString();
+			},
+		},
+	};
+};
+
+/**
+ * L1 only: token balances of the Lockable / Mintable Uniswap V3 pool (for example DAM / FLUX).
+ * These are added to the available liquidity of both tokens.
+ */
+export const getLockableMintablePoolBalanceCalls = (
+	context: FindAccountStateContext
+): Record<string, MultiCallParams> => {
+	const poolAddress = context.config.lockableMintableUniswapV3L1PoolAddress;
+	if (context.isArbitrumMainnet || !poolAddress) {
+		return {};
+	}
+
+	return {
+		lockableMintablePoolLockableBalance: getTokenBalanceOfCall(
+			context.config.lockableTokenContractAddress,
+			poolAddress
+		),
+		lockableMintablePoolMintableBalance: getTokenBalanceOfCall(
+			context.config.mintableTokenContractAddress,
+			poolAddress
+		),
+	};
+};
+
+/**
+ * Lockable / Mintable Uniswap V4 pool (for example ArbiFLUX / LOCK), read through the V4 StateView contract.
+ * Returns the pool price and in-range liquidity. Token amounts are derived in `getLockableMintableV4PoolReserves`.
+ */
+export const getLockableMintableV4PoolCalls = (context: FindAccountStateContext): Record<string, MultiCallParams> => {
+	const { lockableMintableUniswapV4PoolId: poolId, uniswapV4StateViewAddress: stateViewAddress } = context.config;
+	if (!poolId || !stateViewAddress) {
+		return {};
+	}
+
+	return {
+		lockableMintableV4PoolSqrtPriceX96: {
+			address: stateViewAddress,
+			function: {
+				signature: {
+					name: 'getSlot0',
+					type: 'function',
+					inputs: [{ type: 'bytes32', name: 'poolId' }],
+					outputs: [
+						{ type: 'uint160', name: 'sqrtPriceX96' },
+						{ type: 'int24', name: 'tick' },
+						{ type: 'uint24', name: 'protocolFee' },
+						{ type: 'uint24', name: 'lpFee' },
+					],
+					stateMutability: 'view',
+				} as const,
+				parameters: [poolId],
+			},
+
+			returns: {
+				params: ['uint160'],
+				callback: (sqrtPriceX96: bigint) => {
+					return sqrtPriceX96.toString();
+				},
+			},
+		},
+		lockableMintableV4PoolLiquidity: {
+			address: stateViewAddress,
+			function: {
+				signature: {
+					name: 'getLiquidity',
+					type: 'function',
+					inputs: [{ type: 'bytes32', name: 'poolId' }],
+					outputs: [{ type: 'uint128', name: 'liquidity' }],
+					stateMutability: 'view',
+				} as const,
+				parameters: [poolId],
+			},
+
+			returns: {
+				params: ['uint128'],
+				callback: (liquidity: bigint) => {
+					return liquidity.toString();
+				},
+			},
+		},
+	};
+};
+
 export const getLockedLiquidityBalanceCall = (context: FindAccountStateContext): Record<string, MultiCallParams> => {
 	if (!context.config.lockedLiquidityUniswapAddress || !context.config.mintableSushiSwapL2EthPair) {
 		return {};
@@ -229,70 +339,6 @@ export const getLockedLiquidityBalanceCall = (context: FindAccountStateContext):
 					stateMutability: 'view',
 				} as const,
 				parameters: [context.config.lockedLiquidityUniswapAddress],
-			},
-
-			returns: {
-				params: ['uint256'],
-				callback: (addressBalance: bigint) => {
-					return addressBalance;
-				},
-			},
-		},
-	};
-};
-
-/**
- * On ArbiFLUX ecostem this would return Lockquidity balance
- * Since we only know DAM + FLUX (or ArbiFLUX + LOCK) we need to get the "other" token balance too.
- * This is only needed in ArbiFLUX ecosystem (since in Lockquidity we can get ArbiFLUX balance from "lockable" balance)
- */
-
-export const getOtherEcosystemTokenBalance = (context: FindAccountStateContext): Record<string, MultiCallParams> => {
-	const getOtherEcosystem = () => {
-		switch (context.ecosystem) {
-			case Ecosystem.ArbiFlux:
-				return Ecosystem.Lockquidity;
-			default:
-				return null;
-		}
-	};
-	const otherEcosystem = getOtherEcosystem();
-	if (!otherEcosystem) {
-		return {};
-	}
-
-	const otherEcosystemConfig = getEcosystemConfig(otherEcosystem);
-
-	const getAddress = () => {
-		switch (context.ecosystem) {
-			case Ecosystem.ArbiFlux:
-				return otherEcosystemConfig.mintableTokenContractAddress; // Get Lockquidity balance
-			default:
-				return null;
-		}
-	};
-	const address = getAddress();
-	if (!address) {
-		return {};
-	}
-
-	return {
-		otherEcosystemTokenBalance: {
-			address,
-			function: {
-				signature: {
-					name: 'balanceOf',
-					type: 'function',
-					inputs: [
-						{
-							type: 'address',
-							name: 'targetAddress',
-						},
-					],
-					outputs: [{ type: 'uint256', name: '' }],
-					stateMutability: 'view',
-				} as const,
-				parameters: [context.addressToFetch],
 			},
 
 			returns: {

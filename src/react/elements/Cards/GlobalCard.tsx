@@ -46,12 +46,12 @@ const GlobalCard: React.FC = () => {
 		return (
 			<DetailedListItem
 				title={`${mintableTokenShortName} Current Supply:`}
-				main={
+				main={<>{balanceInUsdc}</>}
+				sub={
 					<>
 						{formatBigInt(balances.fluxTotalSupply, true, 18, mintableTokenPriceDecimals)} {mintableTokenShortName}
 					</>
 				}
-				sub={<>{balanceInUsdc}</>}
 			/>
 		);
 	};
@@ -60,13 +60,13 @@ const GlobalCard: React.FC = () => {
 		return (
 			<DetailedListItem
 				title={`${mintableTokenShortName} Burned:`}
-				main={
+				main={<>{getBurnedUsdc()}</>}
+				sub={
 					<>
 						{formatBigInt(addressDetails.globalBurnedAmount, true, 18, mintableTokenPriceDecimals)}{' '}
 						{mintableTokenShortName}
 					</>
 				}
-				sub={<>{getBurnedUsdc()}</>}
 				description={
 					<Typography
 						component="div"
@@ -92,12 +92,12 @@ const GlobalCard: React.FC = () => {
 		return (
 			<DetailedListItem
 				title={`${lockableTokenShortName} Powering Validators:`}
-				main={
+				main={<>{getLockedPercent()}</>}
+				sub={
 					<>
 						{formatBigInt(addressDetails.globalLockedAmount, true, 18, 2)} {lockableTokenShortName}
 					</>
 				}
-				sub={<>{getLockedPercent()}</>}
 				description={
 					<Typography
 						component="div"

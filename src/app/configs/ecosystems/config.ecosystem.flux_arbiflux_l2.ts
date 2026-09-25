@@ -73,6 +73,9 @@ export const getFluxArbiFluxEcosystemConfig = () => {
 
 		lockableUniswapV3L1EthTokenContractAddress: undefined,
 		mintableUniswapV3L1EthTokenContractAddress: undefined,
+		lockableMintableUniswapV3L1PoolAddress: undefined,
+		lockableMintableUniswapV4PoolId: undefined,
+		uniswapV4StateViewAddress: undefined,
 		lockedLiquidityUniswapAddress: undefined,
 		lockableSushiSwapL2EthPairSwapPairs: undefined,
 	} satisfies EcosystemConfig;

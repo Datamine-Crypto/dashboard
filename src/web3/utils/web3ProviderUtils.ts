@@ -180,12 +180,6 @@ export const localConfig = {
 	 * We'll add 200ms latency to capture the majority of blocks (they're ~12.06-12.09 on average so 200ms should be plenty)
 	 */
 	blockUpdatesIntervalMs: 12000 + 200,
-
-	/**
-	 * How often to reset the throttle for quote ouputs
-	 * This way when you're typing the amount you aren't fetching every keystroke (wait up to X miliseconds between each amount adjustmnet)
-	 */
-	thottleGetOutputQuoteMs: 1000,
 };
 
 /**

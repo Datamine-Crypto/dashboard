@@ -9,8 +9,6 @@ import uniswapLogo from '@/react/svgs/uniswap.svg';
 import { tss } from 'tss-react/mui';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
-import { dispatch as appDispatch } from '@/react/utils/appStore';
-import { commonLanguage } from '@/app/state/commonLanguage';
 
 const useStyles = tss.create(({ theme }) => ({
 	chip: {
@@ -190,27 +188,6 @@ const ExploreLiquidityPools = React.memo(function ExploreLiquidityPools({ button
 					};
 
 					const getTradeButton = () => {
-						// Tokens below are all tokens that support built-in swaps
-						if (pool.isBuiltinSwapEnabled) {
-							const showTradeDialog = () => {
-								appDispatch({
-									type: commonLanguage.commands.Swap.ShowTradeDialog,
-									payload: {
-										input: {
-											swapToken: pool.swapToken,
-										},
-									},
-								});
-								handleClose();
-							};
-
-							return (
-								<Button size="large" variant="outlined" color="secondary" onClick={showTradeDialog}>
-									Trade
-								</Button>
-							);
-						}
-
 						return (
 							<Button
 								size="large"

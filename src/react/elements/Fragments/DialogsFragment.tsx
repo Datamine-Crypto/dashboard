@@ -8,7 +8,6 @@ import MarketDepositWithdrawDialog from '@/react/elements/Dialogs/GameFi/MarketD
 import MessageDialog from '@/react/elements/Dialogs/MessageDialog';
 import MintDialog from '@/react/elements/Dialogs/MintDialog';
 import SettingsDialog from '@/react/elements/Dialogs/SettingsDialog';
-import TradeDialog from '@/react/elements/Dialogs/TradeDialog';
 import UnlockDialog from '@/react/elements/Dialogs/UnlockDialog';
 import MintSettingsDialog from '@/react/elements/Dialogs/MinterSettingsDialog';
 import { useShallow } from 'zustand/react/shallow';
@@ -46,8 +45,6 @@ const DialogsFragment: React.FC = () => {
 			case DialogType.PauseResumeGame:
 				return <PauseResumeGameDialog />;
 
-			case DialogType.Trade:
-				return <TradeDialog />;
 			case DialogType.ZeroEth:
 			case DialogType.ZeroDam:
 				return <ZeroBalanceDialog dialogType={dialog} />;

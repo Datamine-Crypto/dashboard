@@ -36,48 +36,41 @@ const RealtimeLiqudityCard: React.FC = () => {
 		isLiquidityPoolAdditionalButtonsEnabled,
 		liquidityPoolType,
 	} = config;
-	const commaRegex = /(\d)(?=(\d{3})+(?!\d))/g;
-	const { uniswapDamTokenReserves, uniswapFluxTokenReserves } = balances;
+	const { uniswapDamTokenReserves, uniswapFluxTokenReserves, uniswapDamFluxTokenReserves } = balances;
+	const poolName = liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap';
 
-	const getAvailableLiquidity = (token: Token) => {
-		switch (token) {
-			case Token.Lockable: {
-				const damSupply = formatBigIntPercent(balances.uniswapDamTokenReserves.dam, balances.damTotalSupply, false);
-				return (
-					<>
-						{' '}
-						<Typography
-							component="div"
-							variant="body2"
-							color="textSecondary"
-							sx={{
-								display: 'inline',
-							}}
-						>
-							({damSupply}% of {layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)
-						</Typography>
-					</>
-				);
+	// Available liquidity is the token side of the token / ETH pool plus the token side of the DAM / FLUX pool (L1 only)
+	const availableDamLiquidity = uniswapDamTokenReserves.dam + uniswapDamFluxTokenReserves.dam;
+	const availableFluxLiquidity = uniswapFluxTokenReserves.flux + uniswapDamFluxTokenReserves.flux;
+
+	const getAvailableLiquidityPercent = (token: Token) => {
+		const getSupplyText = () => {
+			switch (token) {
+				case Token.Lockable: {
+					const damSupply = formatBigIntPercent(availableDamLiquidity, balances.damTotalSupply, false);
+					return `(${damSupply}% of ${layer === Layer.Layer2 ? 'L2' : 'lifetime'} supply)`;
+				}
+				case Token.Mintable: {
+					const fluxSupply = formatBigIntPercent(availableFluxLiquidity, balances.fluxTotalSupply, false);
+					return `(${fluxSupply}% of current supply)`;
+				}
 			}
-			case Token.Mintable: {
-				const fluxSupply = formatBigIntPercent(balances.uniswapFluxTokenReserves.flux, balances.fluxTotalSupply, false);
-				return (
-					<>
-						{' '}
-						<Typography
-							component="div"
-							variant="body2"
-							color="textSecondary"
-							sx={{
-								display: 'inline',
-							}}
-						>
-							({fluxSupply}% of current supply)
-						</Typography>
-					</>
-				);
-			}
-		}
+		};
+		return (
+			<>
+				{' '}
+				<Typography
+					component="div"
+					variant="body2"
+					color="textSecondary"
+					sx={{
+						display: 'inline',
+					}}
+				>
+					{getSupplyText()}
+				</Typography>
+			</>
+		);
 	};
 
 	const shortDamPrice = `${getPriceToggle({ value: 1n * 10n ** 18n, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 4 })}`;
@@ -147,62 +140,6 @@ const RealtimeLiqudityCard: React.FC = () => {
 		);
 	};
 
-	const getDamEthAvailableLiquidity = () => {
-		const ethLiquidity = parseFloat(
-			getPriceToggle({
-				value: uniswapDamTokenReserves.eth,
-				inputToken: Token.ETH,
-				outputToken: Token.USDC,
-				balances,
-				round: 2,
-				removeCommas: true,
-			})
-		);
-		const damLiquidity = parseFloat(
-			getPriceToggle({
-				value: uniswapDamTokenReserves.dam,
-				inputToken: Token.Lockable,
-				outputToken: Token.USDC,
-				balances,
-				round: 2,
-				removeCommas: true,
-			})
-		);
-		const totalLiquidity = (damLiquidity + ethLiquidity).toFixed(2).replace(commaRegex, '$1,');
-		const damEthUsdcLiquidity = `$ ${totalLiquidity} USD`;
-		return (
-			<DetailedListItem title={`${lockableTokenShortName} / ETH Total Liquidity:`} main={<>{damEthUsdcLiquidity}</>} />
-		);
-	};
-
-	const getDamAvailableLiquidity = () => {
-		const damEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapDamTokenReserves.dam, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
-		return (
-			<DetailedListItem
-				title={`${lockableTokenShortName} Available ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Liquidity :`}
-				main={
-					<>
-						{formatBigInt(uniswapDamTokenReserves.dam, true, 18, 2)} {lockableTokenShortName}
-					</>
-				}
-				sub={<>{damEthUsdcLiquidity}</>}
-				description={<>{getAvailableLiquidity(Token.Lockable)}</>}
-				buttons={[]}
-			/>
-		);
-	};
-
-	const getDamAvailableLiquidityEth = () => {
-		const damEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapDamTokenReserves.eth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD`;
-		return (
-			<DetailedListItem
-				title={`${lockableTokenShortName} ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
-				main={<>{formatBigInt(uniswapDamTokenReserves.eth, true, 18, 2)} ETH</>}
-				sub={<>{damEthUsdcLiquidity}</>}
-			/>
-		);
-	};
-
 	const getFluxMarketCap = () => {
 		return (
 			<DetailedListItem
@@ -232,102 +169,66 @@ const RealtimeLiqudityCard: React.FC = () => {
 		);
 	};
 
-	const getFluxEthAvailableLiquidity = () => {
-		const ethLiquidity = parseFloat(
-			getPriceToggle({
-				value: uniswapFluxTokenReserves.eth,
-				inputToken: Token.ETH,
-				outputToken: Token.USDC,
-				balances,
-				round: 2,
-				removeCommas: true,
-			})
-		);
-		const fluxLiquidity = parseFloat(
-			getPriceToggle({
-				value: uniswapFluxTokenReserves.flux,
-				inputToken: Token.Mintable,
-				outputToken: Token.USDC,
-				balances,
-				round: 2,
-				removeCommas: true,
-			})
-		);
-		const totalLiquidity = (fluxLiquidity + ethLiquidity).toFixed(2).replace(commaRegex, '$1,');
-		const fluxEthUsdcLiquidity = `$ ${totalLiquidity} USD`;
+	const getPoolButton = () => {
+		if (!isLiquidityPoolAdditionalButtonsEnabled) {
+			return <></>;
+		}
+		const getButton = () => {
+			const getAddToPoolLink = () => {
+				if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
+					return `https://app.sushi.com/add/${config.mintableTokenContractAddress}/ETH`;
+				}
+				return `https://uniswap.exchange/add/${config.mintableTokenContractAddress}/ETH/10000`;
+			};
+			const button = (
+				<Link href={getAddToPoolLink()} target="_blank" rel="noopener noreferrer">
+					<Button size="small" variant="outlined" color="secondary">
+						<img
+							src={liquidityPoolType === LiquidityPoolType.SushiSwap ? sushiSwapLogo : uniswap}
+							width={24}
+							height={24}
+							style={{ verticalAlign: 'middle', marginRight: 8 }}
+						/>{' '}
+						Add To Pool
+					</Button>
+				</Link>
+			);
+			const getAddToPoolTooltip = () => {
+				if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
+					return `Add to ${mintableTokenShortName} / ETH SushiSwap Pool. Liquidity pool participants share 0.25% from each ${mintableTokenShortName} <-> ETH SushiSwap transaction! `;
+				}
+				return `Add to ${mintableTokenShortName} / ETH Uniswap Pool. Liquidity pool participants share 1.00% from each ${mintableTokenShortName} <-> ETH Uniswap transaction! `;
+			};
+			return <LightTooltip title={getAddToPoolTooltip()}>{button}</LightTooltip>;
+		};
 		return (
-			<DetailedListItem title={`${mintableTokenShortName} / ETH Total Liquidity:`} main={<>{fluxEthUsdcLiquidity}</>} />
+			<Box
+				sx={{
+					mx: 1,
+					display: 'inline-block',
+				}}
+			>
+				{getButton()}
+			</Box>
 		);
 	};
 
-	const getFluxAvailableLiquidity = () => {
-		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapFluxTokenReserves.flux, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
+	const getAvailableLiquidity = (token: Token.Lockable | Token.Mintable) => {
+		const isLockable = token === Token.Lockable;
+		const tokenShortName = isLockable ? lockableTokenShortName : mintableTokenShortName;
+		const availableLiquidity = isLockable ? availableDamLiquidity : availableFluxLiquidity;
+		const availableLiquidityUsd = `$ ${getPriceToggle({ value: availableLiquidity, inputToken: token, outputToken: Token.USDC, balances, round: 2 })} USD`;
 		return (
 			<DetailedListItem
-				title={`${mintableTokenShortName} Available ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Liquidity:`}
-				main={
+				title={`${tokenShortName} Available Liquidity (${poolName}):`}
+				main={<>{availableLiquidityUsd}</>}
+				sub={
 					<>
-						{formatBigInt(uniswapFluxTokenReserves.flux, true, 18, 2)} {mintableTokenShortName}
+						{formatBigInt(availableLiquidity, true, 18, 2)} {tokenShortName}
 					</>
 				}
-				sub={<>{fluxEthUsdcLiquidity}</>}
-				description={<>{getAvailableLiquidity(Token.Mintable)}</>}
-				buttons={[]}
-			/>
-		);
-	};
-
-	const getFluxAvailableLiquidityEth = () => {
-		const getPoolButton = () => {
-			if (!isLiquidityPoolAdditionalButtonsEnabled) {
-				return <></>;
-			}
-			const getButton = () => {
-				const getAddToPoolLink = () => {
-					if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
-						return `https://app.sushi.com/add/${config.mintableTokenContractAddress}/ETH`;
-					}
-					return `https://uniswap.exchange/add/${config.mintableTokenContractAddress}/ETH/10000`;
-				};
-				const button = (
-					<Link href={getAddToPoolLink()} target="_blank" rel="noopener noreferrer">
-						<Button size="small" variant="outlined" color="secondary">
-							<img
-								src={liquidityPoolType === LiquidityPoolType.SushiSwap ? sushiSwapLogo : uniswap}
-								width={24}
-								height={24}
-								style={{ verticalAlign: 'middle', marginRight: 8 }}
-							/>{' '}
-							Add To Pool
-						</Button>
-					</Link>
-				);
-				const getAddToPoolTooltip = () => {
-					if (liquidityPoolType === LiquidityPoolType.SushiSwap) {
-						return `Add to ${mintableTokenShortName} / ETH SushiSwap Pool. Liquidity pool participants share 0.25% from each ${mintableTokenShortName} <-> ETH SushiSwap transaction! `;
-					}
-					return `Add to ${mintableTokenShortName} / ETH Uniswap Pool. Liquidity pool participants share 1.00% from each ${mintableTokenShortName} <-> ETH Uniswap transaction! `;
-				};
-				return <LightTooltip title={getAddToPoolTooltip()}>{button}</LightTooltip>;
-			};
-			return (
-				<Box
-					sx={{
-						mx: 1,
-						display: 'inline-block',
-					}}
-				>
-					{getButton()}
-				</Box>
-			);
-		};
-		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: uniswapFluxTokenReserves.eth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD`;
-		return (
-			<DetailedListItem
-				title={`${mintableTokenShortName} / ETH ${liquidityPoolType === LiquidityPoolType.SushiSwap ? 'SushiSwap' : 'Uniswap'} Available ETH:`}
-				main={<>{formatBigInt(uniswapFluxTokenReserves.eth, true, 18, 2)} ETH</>}
-				sub={<>{fluxEthUsdcLiquidity}</>}
-				buttons={[getPoolButton()]}
+				description={<>{getAvailableLiquidityPercent(token)}</>}
+				buttons={isLockable ? [] : [getPoolButton()]}
 			/>
 		);
 	};
@@ -364,15 +265,11 @@ const RealtimeLiqudityCard: React.FC = () => {
 				</Box>
 				<Grid container>
 					<Grid size={{ xs: 12, md: 6 }}>
-						{getFluxAvailableLiquidity()}
-						{getFluxAvailableLiquidityEth()}
-						{getFluxEthAvailableLiquidity()}
+						{getAvailableLiquidity(Token.Mintable)}
 						{getFluxMarketCap()}
 					</Grid>
 					<Grid size={{ xs: 12, md: 6 }}>
-						{getDamAvailableLiquidity()}
-						{getDamAvailableLiquidityEth()}
-						{getDamEthAvailableLiquidity()}
+						{getAvailableLiquidity(Token.Lockable)}
 						{getDamMarketCap()}
 					</Grid>
 				</Grid>

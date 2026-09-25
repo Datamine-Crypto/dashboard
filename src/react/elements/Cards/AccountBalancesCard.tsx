@@ -219,8 +219,8 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 		return (
 			<DetailedListItem
 				title={`${mintableTokenShortName} Balance:`}
-				main={getFluxAmount()}
-				sub={getFluxAmountUSD()}
+				main={getFluxAmountUSD()}
+				sub={getFluxAmount()}
 				buttons={[getBurnButton()]}
 			/>
 		);
@@ -241,7 +241,7 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 			return <>{balanceInUsdc}</>;
 		};
 		return (
-			<DetailedListItem title={`${lockableTokenShortName} Balance:`} main={getDamBalance()} sub={getDamBalanceUSD()} />
+			<DetailedListItem title={`${lockableTokenShortName} Balance:`} main={getDamBalanceUSD()} sub={getDamBalance()} />
 		);
 	};
 	/**
@@ -379,8 +379,8 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 		return (
 			<DetailedListItem
 				title={`${lockableTokenShortName} Powering Validators:`}
-				main={getLockedInAmount()}
-				sub={getLockedInAmountUSD()}
+				main={getLockedInAmountUSD()}
+				sub={getLockedInAmount()}
 				buttons={[<>{getUnlockButton()}</>]}
 			/>
 		);
@@ -409,8 +409,8 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 		return (
 			<DetailedListItem
 				title={`${mintableTokenShortName} Burned:`}
-				main={getFluxBurnedBalance()}
-				sub={getFluxBurnedBalanceUSD()}
+				main={getFluxBurnedBalanceUSD()}
+				sub={getFluxBurnedBalance()}
 			/>
 		);
 	};

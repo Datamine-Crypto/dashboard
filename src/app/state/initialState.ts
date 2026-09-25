@@ -11,8 +11,6 @@ import {
 	FluxAddressDetails,
 	FluxAddressTokenDetails,
 	DialogType,
-	SwapState,
-	SwapTokenBalances,
 	MarketAddresses,
 	MarketDetails,
 	HodlClickerAddressLockDetailsViewModel,
@@ -200,19 +198,6 @@ export const initialState = {
 	},
 
 	lastAccountRefreshTimestampMs: 0,
-
-	swapState: {
-		input: {
-			swapToken: null,
-			amount: '',
-		},
-		output: {
-			swapToken: null,
-			amount: '',
-		},
-	} as SwapState,
-	swapTokenBalances: null as SwapTokenBalances | null,
-	lastSwapThrottle: null as number | null,
 
 	//@todo merge these into market: {}
 	//marketAddressLock: null,

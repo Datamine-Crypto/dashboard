@@ -128,7 +128,6 @@ This map outlines the key concepts, components, and principles of the Datamine N
     - DAM Token (`dam.json`)
     - FLUX Token (`flux.json`)
     - Market Contract (`market.json`)
-    - Uniswap V2 Router (`uniswapv2router.json`)
     - Uniswap Pair (`uniswapPair.json`)
     - Uniswap Pair V3 (`uniswapPairV3.json`)
     - Multicall (`multicall.json`)

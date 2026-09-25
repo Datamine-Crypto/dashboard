@@ -6,8 +6,9 @@ import {
 	getDamSupplyAddress,
 	getFluxSupplyAddress,
 	getHodlClickerAddressLock,
+	getLockableMintablePoolBalanceCalls,
+	getLockableMintableV4PoolCalls,
 	getLockedLiquidityBalanceCall,
-	getOtherEcosystemTokenBalance,
 	getUniswapDamPriceCall,
 	getUniswapFluxPriceCall,
 } from '@/app/state/queries/web3/findAccountState/calls/poolCalls';
@@ -420,7 +421,12 @@ export const buildAccountMulticall = (context: FindAccountStateContext): Record<
 			},
 		},
 
+		// DAM / FLUX Uniswap Pool: token balances (L1 only)
+		...getLockableMintablePoolBalanceCalls(context),
+
+		// ArbiFLUX / LOCK Uniswap V4 Pool: price and liquidity
+		...getLockableMintableV4PoolCalls(context),
+
 		...getLockedLiquidityBalanceCall(context),
-		...getOtherEcosystemTokenBalance(context),
 	};
 };

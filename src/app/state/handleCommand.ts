@@ -1,7 +1,7 @@
 import Big from 'big.js';
 
 import { getEcosystemConfig } from '@/app/configs/config';
-import { Ecosystem, Layer, NetworkType } from '@/app/configs/config.common';
+import { Ecosystem, NetworkType } from '@/app/configs/config.common';
 import {
 	ReducerCommand,
 	ReducerQuery,
@@ -10,9 +10,7 @@ import {
 import copyToClipBoard from '@/utils/copyToClipboard';
 import { containsAddress, isSameAddress } from '@/utils/addressHelpers';
 import { devLog } from '@/utils/devLog';
-import { availableSwapTokens } from '@/web3/swap/performSwap';
-import { SwapOperation, SwapToken, SwapTokenWithAmount } from '@/web3/swap/swapOptions';
-import { formatBigInt, getPriceToggle, parseBigInt } from '@/utils/mathHelpers';
+import { getPriceToggle, parseBigInt } from '@/utils/mathHelpers';
 import { commonLanguage } from '@/app/state/commonLanguage';
 import { AppState } from '@/app/state/initialState';
 import { DialogType, Game, Token } from '@/app/interfaces';
@@ -72,67 +70,6 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 		}
 
 		return amount;
-	};
-
-	const getSwapTokenBalance = (swapToken: SwapToken | null) => {
-		if (!state.swapTokenBalances) {
-			return null;
-		}
-
-		switch (swapToken) {
-			case SwapToken.LOCK:
-				return formatBigInt(state.swapTokenBalances[Layer.Layer2][SwapToken.LOCK] ?? null);
-			case SwapToken.FLUX:
-				return formatBigInt(state.swapTokenBalances[Layer.Layer2][SwapToken.FLUX] ?? null);
-			case SwapToken.ArbiFLUX:
-				return formatBigInt(state.swapTokenBalances[Layer.Layer2][SwapToken.ArbiFLUX] ?? null);
-			case SwapToken.ETH:
-				return formatBigInt(state.balances?.eth ?? null);
-		}
-	};
-	const getFlipSwapState = () => {
-		return {
-			...state,
-			swapState: {
-				input: {
-					...state.swapState.input,
-					swapToken: state.swapState.output.swapToken,
-				},
-				output: {
-					...state.swapState.output,
-					amount: '...',
-					swapToken: state.swapState.input.swapToken,
-				},
-			},
-			error: null,
-
-			...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }]),
-		};
-	};
-
-	/**
-	 * When showing the trade window (or chaning a token in the trade window) we want to change the ecosysetem
-	 * The change is required because we pull in balances & liquidity for that specific ecosystem
-	 */
-	const getSwapTokenEcosystem = (swapToken: SwapToken) => {
-		const availableSwapToken = availableSwapTokens.find(
-			(availableSwapToken) => availableSwapToken.swapToken === swapToken
-		);
-
-		// If we are switching to ETH then we don't need to change ecosystem
-		if (!availableSwapToken || !availableSwapToken.ecosystem) {
-			return state.ecosystem;
-		}
-
-		const stateEcosystemConfig = getEcosystemConfig(state.ecosystem);
-		const newEcosystemConfig = getEcosystemConfig(availableSwapToken.ecosystem);
-
-		// We don't want to change the ecosystem right away (this will be handled on page reload after user selects to swap network)
-		if (stateEcosystemConfig.layer !== newEcosystemConfig.layer) {
-			return state.ecosystem;
-		}
-
-		return newEcosystemConfig.ecosystem;
 	};
 
 	switch (command.type) {
@@ -925,200 +862,6 @@ export const handleCommand = (state: AppState, command: ReducerCommand) => {
 					error: commonLanguage.errors.InvalidNumber,
 				};
 			}
-		}
-		case commonLanguage.commands.Swap.Trade: {
-			try {
-				// minReturn is not defined in this scope, assuming it's meant to be passed or is a placeholder.
-				// For now, it's included as requested, but might lead to a runtime error if not defined.
-				const minReturn = undefined; // Placeholder for minReturn, as it's not defined in the provided context.
-				return {
-					...state,
-					error: null,
-					...withQueries([{ type: commonLanguage.queries.Swap.GetTradeResponse, payload: { minReturn } }]),
-				};
-			} catch {
-				return {
-					...state,
-					error: commonLanguage.errors.InvalidNumber,
-				};
-			}
-		}
-		case commonLanguage.commands.Swap.ShowTradeDialog: {
-			const { input } = command.payload as { input: SwapTokenWithAmount };
-
-			const getInput = () => {
-				if (!input || !input.swapToken) {
-					return {
-						swapToken: null,
-						amount: '',
-					};
-				}
-
-				const inputTokenBalance = getSwapTokenBalance(input.swapToken);
-
-				// If we don't have any of this token, most likely the person wants to buy it so inverse the swap and prefill ETH amount
-				if (inputTokenBalance === '0') {
-					return {
-						swapToken: SwapToken.ETH,
-						amount: '', // We don't want to prefill ETH amount, let user enter it getSwapTokenBalance(SwapToken.ETH)
-					};
-				}
-
-				return {
-					swapToken: input.swapToken,
-					amount: inputTokenBalance,
-				};
-			};
-			const inputState = getInput();
-
-			const getOutput = () => {
-				if (inputState.swapToken === SwapToken.ETH && input && input.swapToken) {
-					return {
-						swapToken: input.swapToken,
-						amount: '...',
-					};
-				}
-
-				return {
-					swapToken: SwapToken.ETH,
-					amount: '...',
-				};
-			};
-
-			const outputState = getOutput();
-
-			const ecosystem =
-				inputState.swapToken && outputState.swapToken
-					? getSwapTokenEcosystem(inputState.swapToken === SwapToken.ETH ? outputState.swapToken : inputState.swapToken)
-					: state.ecosystem;
-
-			return {
-				...state,
-				ecosystem,
-				error: null,
-				dialog: DialogType.Trade,
-				dialogParams: {},
-				swapState: {
-					input: inputState,
-					output: outputState,
-				},
-
-				...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }]),
-			};
-		}
-		case commonLanguage.commands.Swap.ResetThottleGetOutputQuote: {
-			return {
-				...state,
-				lastSwapThrottle: null,
-
-				...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }]),
-			};
-		}
-		case commonLanguage.commands.Swap.SetAmount: {
-			const { amount } = command.payload as { amount: string };
-
-			/**
-			 * Every time the amount is updated we'll queue an update but it'll be throttled
-			 * This means every new amount update (ex: key stroke) will reset the update timer
-			 * After a while ResetThrottleGetOutputQuote() above will be called and the actual quote executed
-			 */
-			const withGetOutputQuote = () => {
-				return {
-					lastSwapThrottle: Date.now(),
-
-					...withQueries([{ type: commonLanguage.queries.Swap.ThrottleGetOutputQuote }]),
-				};
-			};
-			const newAmount = getForecastAmount(amount, state.swapState.input.amount || '');
-
-			// No update necessary (Ex: invalid chartacters were stripped)
-			if (newAmount === state.swapState.input.amount) {
-				return state;
-			}
-
-			return {
-				...state,
-				swapState: {
-					...state.swapState,
-					input: {
-						...state.swapState.input,
-						amount: newAmount,
-					},
-				},
-				error: null,
-
-				...withGetOutputQuote(),
-			};
-		}
-		case commonLanguage.commands.Swap.SetToken: {
-			const { swapOperation, swapToken } = command.payload as { swapOperation: SwapOperation; swapToken: SwapToken };
-
-			switch (swapOperation) {
-				case SwapOperation.Input: {
-					if (swapToken === state.swapState.output.swapToken) {
-						return getFlipSwapState();
-					}
-
-					const inputToken = swapToken;
-					const outputToken = swapToken === SwapToken.ETH ? state.swapState.input.swapToken : SwapToken.ETH;
-
-					const ecosystem = getSwapTokenEcosystem(swapToken);
-
-					return {
-						...state,
-						ecosystem,
-						swapState: {
-							...state.swapState,
-							input: {
-								...state.swapState.input,
-								swapToken: inputToken,
-							},
-							output: {
-								...state.swapState.output,
-								swapToken: outputToken,
-							},
-						},
-						error: null,
-
-						...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }]),
-					};
-				}
-
-				case SwapOperation.Output: {
-					if (swapToken === state.swapState.input.swapToken) {
-						return getFlipSwapState();
-					}
-
-					const inputToken = swapToken === SwapToken.ETH ? state.swapState.output.swapToken : SwapToken.ETH;
-					const outputToken = swapToken;
-
-					const ecosystem = getSwapTokenEcosystem(swapToken);
-
-					return {
-						...state,
-						ecosystem,
-						swapState: {
-							...state.swapState,
-							input: {
-								...state.swapState.input,
-								swapToken: inputToken,
-							},
-							output: {
-								...state.swapState.output,
-								swapToken: outputToken,
-							},
-						},
-						error: null,
-
-						...withQueries([{ type: commonLanguage.queries.Swap.GetOutputQuote }]),
-					};
-				}
-			}
-
-			return state;
-		}
-		case commonLanguage.commands.Swap.FlipSwap: {
-			return getFlipSwapState();
 		}
 		case commonLanguage.commands.Help.SetSearch: {
 			const searchQuery = command.payload as string;

@@ -26,6 +26,10 @@ export const getArbiFluxLockquidityEcosystemConfig = () => {
 		mintableTokenContractAddress: '0x454F676D44DF315EEf9B5425178d5a8B524CEa03',
 		// Sushiswap L2 ETH pair address for LOCK
 		mintableSushiSwapL2EthPair: '0x0C93A1D3F68a0554d37F3e7AF3a1442a94405E7A',
+		// Uniswap V4 LOCK / ArbiFLUX pool ID (0.9% fee tier)
+		lockableMintableUniswapV4PoolId: '0x21ca8ee7e2673f5b4e8c658b9009c689f5e434e30e769cc957e805b303c87bd9',
+		// Uniswap V4 StateView contract on Arbitrum (used to read the V4 pool above)
+		uniswapV4StateViewAddress: '0x76fd297e2d437cd7f76d50f01afe6160f86e9990',
 
 		// Market contract address for Time-in-Market (TIM)
 		marketAddress: '0xe948c8417DD2f8e7dfc88ac3F50b3F89Db7c29Dd',
@@ -103,5 +107,6 @@ export const getArbiFluxLockquidityEcosystemConfig = () => {
 
 		lockableUniswapV3L1EthTokenContractAddress: undefined,
 		mintableUniswapV3L1EthTokenContractAddress: undefined,
+		lockableMintableUniswapV3L1PoolAddress: undefined,
 	} satisfies EcosystemConfig;
 };

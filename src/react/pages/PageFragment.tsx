@@ -112,7 +112,6 @@ const PageFragment: React.FC = () => {
 			return null;
 		}
 		//@todo helpArticle/helpArticlesNetworkType should be contained inside HelpDialog and get it's own state (instead of doing it here)
-		//Check out TradeDialog for an example
 		return <HelpDialog helpArticle={helpArticle} />;
 	};
 	/**

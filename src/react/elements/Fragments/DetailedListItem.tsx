@@ -38,6 +38,7 @@ const DetailedListItem = React.memo(function DetailedListItem({ title, main, sub
 
 			return (
 				<>
+					{' '}
 					<Typography
 						component="div"
 						color="textSecondary"

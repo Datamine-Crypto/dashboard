@@ -75,15 +75,6 @@ export const commonLanguage = {
 			Reinitialize: 'REINITILIZE_WEB3',
 		},
 
-		Swap: {
-			Trade: 'SWAP:TRADE',
-			SetAmount: 'SWAP:SET_AMOUNT',
-			SetToken: 'SWAP:SET_TOKEN',
-			ShowTradeDialog: 'SWAP:SHOW_TRADE_DIALOG',
-			FlipSwap: 'SWAP:FLIP',
-			ResetThottleGetOutputQuote: 'SWAP:RESET_THROTTLE_GET_OUTPUT_QUOTE',
-		},
-
 		Market: {
 			MarketBurnFluxTokens: 'MARKET_BURN_FLUX_TOKENS',
 			DepositTokens: 'MARKET_DEPOSIT_TOKENS',
@@ -120,11 +111,6 @@ export const commonLanguage = {
 			ResetArticleBodies: 'RESET_HELP_ARTICLE_BODIES',
 		},
 
-		Swap: {
-			GetTradeResponse: 'GET_TRADE_RESPONSE',
-			GetOutputQuote: 'SWAP:GET_OUTPUT_QUOTE',
-			ThrottleGetOutputQuote: 'SWAP:THROTTLE_GET_OUTPUT_QUOTE',
-		},
 		Market: {
 			GetMarketBurnFluxResponse: 'GET_BURN_FLUX_MARKET_RESPONSE',
 			GetDepositMarketResponse: 'GET_DEPOSIT_MARKET_RESPONSE',

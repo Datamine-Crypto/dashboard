@@ -14,12 +14,11 @@ import {
 	getRefreshMarketAddressesResponse,
 	getWithdrawMarketResponse,
 } from '@/app/state/queries/web3/MarketQueries';
-import { throttleGetOutputQuote, getOutputQuote, getTradeResponse } from '@/app/state/queries/web3/swap/SwapQueries';
 import { getFullHelpArticle } from '@/app/state/queries/web3/help/GetFullHelpArticle';
 import { getPauseGameResponse } from '@/app/state/queries/web3/gamefi/GetPauseGameResponse';
 import { getResumeGameResponse } from './queries/web3/gamefi/GetResumeGameResponse';
 // This module executes the asynchronous Web3 operations requested by the sideEffectReducer.
-// Each function here corresponds to a specific blockchain interaction (e.g., minting, swapping, reading contract data).
+// Each function here corresponds to a specific blockchain interaction (e.g., minting, burning, reading contract data).
 // It's crucial that these functions handle network errors and return results back to the reducer for state updates.
 export const queryHandlers = {
 	/**
@@ -77,20 +76,7 @@ export const queryHandlers = {
 	[commonLanguage.queries.Flux.GetUnlockDamTokensResponse]: getUnlockDamTokensResponse,
 
 	/**
-	 * Throttles requests for swap output quotes to prevent excessive calls while the user is typing.
-	 */
-	[commonLanguage.queries.Swap.ThrottleGetOutputQuote]: throttleGetOutputQuote,
-	/**
-	 * Fetches the expected output amount for a given token swap.
-	 */
-	[commonLanguage.queries.Swap.GetOutputQuote]: getOutputQuote,
-	/**
-	 * Executes a token swap.
-	 */
-	[commonLanguage.queries.Swap.GetTradeResponse]: getTradeResponse,
-
-	/**
-	 * Executes a token swap.
+	 * Fetches the full body of a help article.
 	 */
 	[commonLanguage.queries.Help.GetFullArticle]: getFullHelpArticle,
 

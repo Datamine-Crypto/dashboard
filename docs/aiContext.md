@@ -396,7 +396,7 @@ ABIs are **TypeScript modules, not JSON files** (they carry types for viem):
 - `src/web3/abis/games/datamineGems.ts` — Datamine Market / Gems contract
 - `src/web3/abis/games/gameHodlClicker.ts` — HODL Clicker: Rush
 - `src/web3/abis/multicall.ts` — Multicall
-- `src/web3/abis/uniswapv2router.ts`, `uniswapPair.ts`, `uniswapPairV3.ts` — DEX interfaces
+- `src/web3/abis/uniswapPair.ts`, `uniswapPairV3.ts` — DEX interfaces
 
 ### Smart Contracts - In-Depth Breakdown
 

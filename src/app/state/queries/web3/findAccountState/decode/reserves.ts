@@ -129,3 +129,44 @@ export const getMintableTokenPoolReserves = (
 		fluxPrice: priceOrZero(price0),
 	};
 };
+
+/** Uniswap V4 encodes the pool price as a Q64.96 fixed-point square root. */
+const Q96 = 2n ** 96n;
+
+/**
+ * Decodes the Lockable / Mintable Uniswap V4 pool into token amounts.
+ *
+ * V4 pools have no address of their own (all tokens sit in the shared PoolManager), so balances
+ * cannot be read with `balanceOf`. Instead the amounts are derived from in-range liquidity `L`
+ * and the current price, treating the liquidity as full range:
+ *   token0 = L / sqrtPrice, token1 = L * sqrtPrice
+ * This is exact for full-range positions. Concentrated positions would be overstated.
+ *
+ * V4 orders the two currencies by address, so the lower address is token0.
+ *
+ * @param sqrtPriceX96 The pool's `getSlot0` price, as a decimal string.
+ * @param liquidity The pool's in-range liquidity from `getLiquidity`, as a decimal string.
+ * @param lockableTokenAddress Lockable token contract address.
+ * @param mintableTokenAddress Mintable token contract address.
+ */
+export const getLockableMintableV4PoolReserves = (
+	sqrtPriceX96: string,
+	liquidity: string,
+	lockableTokenAddress: string,
+	mintableTokenAddress: string
+) => {
+	const sqrtPrice = BigInt(sqrtPriceX96);
+	const poolLiquidity = BigInt(liquidity);
+	if (sqrtPrice === 0n || poolLiquidity === 0n) {
+		return { dam: 0n, flux: 0n };
+	}
+
+	const token0Amount = (poolLiquidity * Q96) / sqrtPrice;
+	const token1Amount = (poolLiquidity * sqrtPrice) / Q96;
+
+	const isLockableToken0 = BigInt(lockableTokenAddress) < BigInt(mintableTokenAddress);
+	return {
+		dam: isLockableToken0 ? token0Amount : token1Amount,
+		flux: isLockableToken0 ? token1Amount : token0Amount,
+	};
+};

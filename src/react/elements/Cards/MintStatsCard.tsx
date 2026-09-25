@@ -140,12 +140,12 @@ const MintStatsCard: React.FC = () => {
 							`${mintableTokenShortName} to Burn For Average Bonus (${ecosystem === Ecosystem.Lockquidity ? 1 : 2}X):`
 						)
 					}
-					main={
+					main={<>{fluxRequiredToBurnInUsdc}</>}
+					sub={
 						<>
 							{fluxRequiredToBurn} {mintableTokenShortName}
 						</>
 					}
-					sub={<>{fluxRequiredToBurnInUsdc}</>}
 				/>
 			</Box>
 		);
@@ -173,12 +173,12 @@ const MintStatsCard: React.FC = () => {
 						`${mintableTokenShortName} to Burn For ${maxBurnMultiplier}x MAX Bonus:`
 					)
 				}
-				main={
+				main={<>{fluxRequiredToBurnInUsdc}</>}
+				sub={
 					<>
 						{fluxRequiredToBurn} {mintableTokenShortName}
 					</>
 				}
-				sub={<>{fluxRequiredToBurnInUsdc}</>}
 			/>
 		);
 	};
