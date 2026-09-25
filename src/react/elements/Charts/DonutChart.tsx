@@ -24,18 +24,23 @@ interface DonutChartProps {
 
 /** Outer size of the chart in px. */
 const CHART_SIZE = 168;
-/** Ring thickness in px. */
-const RING_WIDTH = 20;
-/** Ring thickness while a slice is hovered. */
-const RING_WIDTH_HOVER = 24;
+/**
+ * Ring thickness per slice in px, by size: the largest slice gets the first (thickest) width,
+ * the next largest the second, and so on. Smaller slices past the end use the last width.
+ */
+const RING_WIDTHS = [28, 20, 12];
+/** Extra ring thickness while a slice is hovered. */
+const RING_HOVER_GROWTH = 4;
 /** Surface-colored gap between slices, measured along the ring in px. */
 const SLICE_GAP = 2;
 /** Legend swatch size in px. */
 const SWATCH_SIZE = 10;
 const PERCENT_DECIMALS = 2;
 
-const RADIUS = (CHART_SIZE - RING_WIDTH_HOVER) / 2;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+/** Outer edge of every slice. Leaves room for the hover growth. */
+const OUTER_RADIUS = (CHART_SIZE - RING_HOVER_GROWTH) / 2;
+
+const getRingWidth = (sizeRank: number) => RING_WIDTHS[Math.min(sizeRank, RING_WIDTHS.length - 1)];
 
 const formatPercent = (fraction: number) => `${(fraction * 100).toFixed(PERCENT_DECIMALS)}%`;
 
@@ -48,7 +53,13 @@ const formatPercent = (fraction: number) => `${(fraction * 100).toFixed(PERCENT_
  * Memoized per Rule 10: an expensive leaf (SVG chart) that derives everything from props.
  */
 const DonutChart = React.memo(function DonutChart({ title, segments, centerValue, centerLabel }: DonutChartProps) {
-	const visibleSegments = segments.filter((segment) => segment.value > 0);
+	const nonEmptySegments = segments.filter((segment) => segment.value > 0);
+	// Rank by size (0 = largest) so the largest slice gets the thickest ring. Drawing order stays as given.
+	const sizeOrder = [...nonEmptySegments].sort((a, b) => b.value - a.value);
+	const visibleSegments = nonEmptySegments.map((segment) => ({
+		...segment,
+		ringWidth: getRingWidth(sizeOrder.indexOf(segment)),
+	}));
 	const total = visibleSegments.reduce((sum, segment) => sum + segment.value, 0);
 
 	const getTooltip = (segment: DonutSegment) => {
@@ -66,25 +77,31 @@ const DonutChart = React.memo(function DonutChart({ title, segments, centerValue
 	const getSlices = () => {
 		// A single slice is a full ring, so it gets no gap.
 		const gap = visibleSegments.length > 1 ? SLICE_GAP : 0;
-		let offset = 0;
+		// Share of the ring already drawn, 0 to 1
+		let startFraction = 0;
 
 		return visibleSegments.map((segment) => {
-			const arcLength = (segment.value / total) * CIRCUMFERENCE;
+			// Outer edges line up; thinner slices step in on the inside
+			const radius = OUTER_RADIUS - segment.ringWidth / 2;
+			const circumference = 2 * Math.PI * radius;
+			const fraction = segment.value / total;
+			const arcLength = fraction * circumference;
 			const slice = (
 				<LightTooltip key={segment.label} title={getTooltip(segment)} placement="top">
 					<circle
 						cx={CHART_SIZE / 2}
 						cy={CHART_SIZE / 2}
-						r={RADIUS}
+						r={radius}
 						fill="none"
 						stroke={segment.color}
-						strokeWidth={RING_WIDTH}
-						strokeDasharray={`${Math.max(arcLength - gap, 0)} ${CIRCUMFERENCE}`}
-						strokeDashoffset={-offset}
+						strokeWidth={segment.ringWidth}
+						strokeDasharray={`${Math.max(arcLength - gap, 0)} ${circumference}`}
+						strokeDashoffset={-startFraction * circumference}
+						style={{ '--ring-width': `${segment.ringWidth}px` } as React.CSSProperties}
 					/>
 				</LightTooltip>
 			);
-			offset += arcLength;
+			startFraction += fraction;
 			return slice;
 		});
 	};
@@ -146,7 +163,7 @@ const DonutChart = React.memo(function DonutChart({ title, segments, centerValue
 							sx={{
 								display: 'block',
 								'& circle': { transition: 'stroke-width 120ms' },
-								'& circle:hover': { strokeWidth: RING_WIDTH_HOVER },
+								'& circle:hover': { strokeWidth: `calc(var(--ring-width) + ${RING_HOVER_GROWTH}px)` },
 							}}
 						>
 							{/* Start slices at 12 o'clock and run clockwise */}
