@@ -124,7 +124,7 @@ const HodlClickerLeaderboard = React.memo(function HodlClickerLeaderboard({ logs
 							<TableCell>Rank</TableCell>
 							<TableCell>Address</TableCell>
 							<TableCell align="right">Wins</TableCell>
-							<TableCell align="right">Total Won (USD)</TableCell>
+							<TableCell align="right">Total Won</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>

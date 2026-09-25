@@ -65,6 +65,19 @@ export const getPriceToggle = ({ value, inputToken, outputToken, balances, round
 };
 
 /**
+ * Formats a token amount as a USD value with a `$` prefix and 2 decimals (e.g., "$55,501.52").
+ * @param {bigint} value - The token amount.
+ * @param {Token} inputToken - The token the amount is in.
+ * @param {Balances} balances - Current balances and reserves, used for price lookups.
+ * @param {boolean} [wholeDollars=false] - If true, drops the cents (rounds down), e.g. "$55,501".
+ * @returns {string} The formatted USD value.
+ */
+export const formatUsdValue = (value: bigint, inputToken: Token, balances: Balances, wholeDollars = false) => {
+	const usdValue = getPriceToggle({ value, inputToken, outputToken: Token.USDC, balances, round: 2 });
+	return `$${wholeDollars ? usdValue.split('.')[0] : usdValue}`;
+};
+
+/**
  * Formats a Big.js numeric value into a price string based on input and output tokens and current balances.
  * It calculates the price using Uniswap reserves and applies formatting options.
  * @param {PriceToggle} params - Object containing valueBig, inputToken, outputToken, balances, optional rounding, and comma removal.
@@ -236,16 +249,126 @@ export const formatBigInt = (number?: bigint | null, addCommas = false, decimals
 };
 
 /**
+ * Converts a token amount to a plain number for chart proportions (slice sizes).
+ * Not exact for large amounts, so never use it for displayed values.
+ * @param {bigint} amount - The token amount.
+ * @param {number} [decimals=18] - The token's decimals.
+ * @returns {number} The amount in whole tokens. Negative amounts return 0.
+ */
+export const bigIntToChartNumber = (amount: bigint, decimals = 18): number => {
+	if (amount <= 0n) {
+		return 0;
+	}
+	return Number(formatUnits(amount, decimals));
+};
+
+/**
  * Formats a burn ratio into a human-readable string (e.g., "X FLUX / 1 DAM").
  * @param {bigint} ratio - The bigint representing the burn ratio.
  * @param {Ecosystem} ecosystem - The current ecosystem to retrieve token short names for display.
  * @returns {string} A formatted string showing the burn ratio between mintable and lockable tokens.
  */
-export const getBurnRatio = (ratio: bigint, ecosystem: Ecosystem) => {
-	const { mintableTokenShortName, lockableTokenShortName } = getEcosystemConfig(ecosystem);
+/** Burn ratios from the contract are fixed-point numbers with 10 decimals. */
+export const BURN_RATIO_DECIMALS = 10;
 
-	return `${formatBigInt(ratio, true, 10, 5)} ${mintableTokenShortName} / 1 ${lockableTokenShortName}`;
+/** Inputs for burn multiplier simulation. All amounts are in whole tokens. */
+export interface BurnSimulationInputs {
+	/** Your current burn ratio (burned / locked). */
+	currentRatio: number;
+	myDamLockedIn: number;
+	globalFluxBurned: number;
+	globalDamLockedIn: number;
+	minBurnMultiplier: number;
+	maxBurnMultiplier: number;
+}
+
+/**
+ * Simulates the burn multiplier at a target burn ratio, using the same model as `getRequiredFluxToBurn`:
+ *   multiplier = min + min(yourRatio / globalRatio, max - min)
+ * Reaching a higher ratio means burning more, which also raises the global ratio, so the extra burn
+ * is added to the global total. A target below the current ratio is treated as the current ratio.
+ * @returns The multiplier (capped at the max), the uncapped multiplier (above the max when overburned),
+ *   and the extra tokens to burn to reach the target ratio.
+ */
+export const getSimulatedBurnMultiplier = (targetRatio: number, inputs: BurnSimulationInputs) => {
+	const { currentRatio, myDamLockedIn, globalFluxBurned, globalDamLockedIn, minBurnMultiplier, maxBurnMultiplier } =
+		inputs;
+	const ratio = Math.max(targetRatio, currentRatio);
+	const extraBurn = (ratio - currentRatio) * myDamLockedIn;
+	const globalRatio = globalDamLockedIn > 0 ? (globalFluxBurned + extraBurn) / globalDamLockedIn : 0;
+	if (globalRatio <= 0) {
+		return { multiplier: minBurnMultiplier, uncappedMultiplier: minBurnMultiplier, extraBurn };
+	}
+
+	const uncappedMultiplier = minBurnMultiplier + ratio / globalRatio;
+	return {
+		multiplier: Math.min(uncappedMultiplier, maxBurnMultiplier),
+		uncappedMultiplier,
+		extraBurn,
+	};
 };
+
+/**
+ * The burn ratio at which the multiplier reaches its maximum (solves the model above for the max).
+ * @returns The ratio, or null when the max can never be reached (your lock is too large a share of the global lock).
+ */
+export const getBurnRatioForMaxMultiplier = (inputs: BurnSimulationInputs) => {
+	const { currentRatio, myDamLockedIn, globalFluxBurned, globalDamLockedIn, minBurnMultiplier, maxBurnMultiplier } =
+		inputs;
+	const targetRatioShare = maxBurnMultiplier - minBurnMultiplier;
+	const denominator = globalDamLockedIn - targetRatioShare * myDamLockedIn;
+	if (denominator <= 0) {
+		return null;
+	}
+
+	return (targetRatioShare * (globalFluxBurned - currentRatio * myDamLockedIn)) / denominator;
+};
+
+/** Burn ratios above this show 2 decimals. Smaller ones show 5, so they stay readable. */
+const BURN_RATIO_SMALL_THRESHOLD = 0.1;
+const BURN_RATIO_DISPLAY_DECIMALS = 2;
+const BURN_RATIO_SMALL_DISPLAY_DECIMALS = 5;
+
+/**
+ * Formats a burn ratio given as a plain number (e.g. "2.67 FLUX / 1 DAM").
+ * @param {number} ratio - The ratio in whole tokens (burned / locked).
+ * @param {Ecosystem} ecosystem - The current ecosystem, for token short names.
+ * @returns {string} The formatted ratio.
+ */
+export const formatBurnRatioValue = (ratio: number, ecosystem: Ecosystem) => {
+	const { mintableTokenShortName, lockableTokenShortName } = getEcosystemConfig(ecosystem);
+	const decimals = ratio > BURN_RATIO_SMALL_THRESHOLD ? BURN_RATIO_DISPLAY_DECIMALS : BURN_RATIO_SMALL_DISPLAY_DECIMALS;
+
+	return `${numberWithCommas(ratio.toFixed(decimals))} ${mintableTokenShortName} / 1 ${lockableTokenShortName}`;
+};
+
+export const getBurnRatio = (ratio: bigint, ecosystem: Ecosystem) => {
+	return formatBurnRatioValue(Number(formatUnits(ratio, BURN_RATIO_DECIMALS)), ecosystem);
+};
+
+const HOURS_PER_DAY = 24;
+const DAYS_PER_YEAR = 365;
+
+/**
+ * Formats a duration in hours as hours (up to 24), days (up to 365) or years, e.g. "~4.39 years".
+ * @param {number} hours - The duration in hours.
+ * @returns {string} The formatted duration.
+ */
+export const formatHoursDuration = (hours: number) => {
+	if (hours <= HOURS_PER_DAY) {
+		return `~${hours.toFixed(2)} hours`;
+	}
+	const days = hours / HOURS_PER_DAY;
+	if (days <= DAYS_PER_YEAR) {
+		return `~${days.toFixed(2)} days`;
+	}
+	return `~${(days / DAYS_PER_YEAR).toFixed(2)} years`;
+};
+
+/**
+ * Blocks from lock-in until the full 3x time bonus: 161,280 blocks (~28 days) plus 5,760 blocks (~1 day).
+ */
+export const TIME_BONUS_FULL_BLOCKS = 161280 + 5760;
 
 /**
  * Calculates and formats the remaining time or blocks until a specific event.
@@ -270,32 +393,8 @@ export const getBlocksRemaining = (
 	}
 	const blocksDuration = Math.max(0, startBlockNumber + blockDuration - currentBlock); // This number comes from migration (28 days approx)
 
-	const getDuration = () => {
-		const hoursDuration = (blocksDuration * 12) / (60 * 60);
-		if (hoursDuration <= 24) {
-			return {
-				value: hoursDuration,
-				label: 'hours',
-			};
-		}
-		const daysDuration = hoursDuration / 24;
-		if (daysDuration <= 365) {
-			return {
-				value: daysDuration,
-				label: 'days',
-			};
-		}
-
-		return {
-			value: daysDuration / 365,
-			label: 'years',
-		};
-	};
-
-	const details = getDuration();
-
 	const blocksText = showBlocks ? ` (${blocksDuration} block${blocksDuration > 1 ? 's' : ''})` : '';
-	const durationText = showDuration ? `~${details?.value.toFixed(2)} ${details.label}` : '';
+	const durationText = showDuration ? formatHoursDuration((blocksDuration * 12) / (60 * 60)) : '';
 
 	return `${durationText}${blocksText}`;
 };
@@ -450,7 +549,7 @@ export const getRequiredFluxToBurn = ({
 
 	const fluxRequiredToBurn = formatBigInt(fluxRequiredBigInt, true, 18, mintableTokenPriceDecimals);
 
-	const fluxRequiredToBurnInUsdc = `$ ${getPriceToggle({ value: fluxRequiredBigInt, inputToken: Token.Mintable, outputToken: Token.USDC, balances })} USD`;
+	const fluxRequiredToBurnInUsdc = formatUsdValue(fluxRequiredBigInt, Token.Mintable, balances);
 
 	return {
 		fluxRequiredToBurn,

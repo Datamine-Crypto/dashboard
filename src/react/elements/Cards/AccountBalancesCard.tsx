@@ -10,7 +10,7 @@ import { OpenInNew, Stop, Whatshot, Settings, Pause, PlayArrow } from '@mui/icon
 // Interfaces for dialog types, Flux address details, lock, token details, and token enum
 import { DialogType, Token } from '@/app/interfaces';
 // Helper functions for decimal conversion, burn ratio calculation, and price toggling
-import { formatBigInt, getBurnRatio, getPriceToggle } from '@/utils/mathHelpers';
+import { formatBigInt, getPriceToggle } from '@/utils/mathHelpers';
 // Styling utility from tss-react
 import { tss } from 'tss-react/mui';
 // Ecosystem configuration getter
@@ -82,7 +82,6 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 		batchMinterAddress,
 		gameHodlClickerAddress,
 	} = config;
-	const { myRatio } = addressTokenDetails;
 	const { minterAddress } = addressLock;
 	// Check if the selected address is the delegated minter (case-insensitive)
 
@@ -213,14 +212,14 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 			);
 		};
 		const getFluxAmountUSD = () => {
-			const balanceInUsdc = `$ ${getPriceToggle({ value: balances.fluxToken, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
+			const balanceInUsdc = `$${getPriceToggle({ value: balances.fluxToken, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })}`;
 			return <>{balanceInUsdc}</>;
 		};
 		return (
 			<DetailedListItem
 				title={`${mintableTokenShortName} Balance:`}
 				main={getFluxAmountUSD()}
-				sub={getFluxAmount()}
+				mainTooltip={getFluxAmount()}
 				buttons={[getBurnButton()]}
 			/>
 		);
@@ -237,11 +236,15 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 			);
 		};
 		const getDamBalanceUSD = () => {
-			const balanceInUsdc = `$ ${getPriceToggle({ value: balances.damToken, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
+			const balanceInUsdc = `$${getPriceToggle({ value: balances.damToken, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })}`;
 			return <>{balanceInUsdc}</>;
 		};
 		return (
-			<DetailedListItem title={`${lockableTokenShortName} Balance:`} main={getDamBalanceUSD()} sub={getDamBalance()} />
+			<DetailedListItem
+				title={`${lockableTokenShortName} Balance:`}
+				main={getDamBalanceUSD()}
+				mainTooltip={getDamBalance()}
+			/>
 		);
 	};
 	/**
@@ -373,23 +376,17 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 			);
 		};
 		const getLockedInAmountUSD = () => {
-			const lockedInUsdc = `$ ${getPriceToggle({ value: addressLock.amount, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })} USD`;
+			const lockedInUsdc = `$${getPriceToggle({ value: addressLock.amount, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 2 })}`;
 			return <>{lockedInUsdc}</>;
 		};
 		return (
 			<DetailedListItem
 				title={`${lockableTokenShortName} Powering Validators:`}
 				main={getLockedInAmountUSD()}
-				sub={getLockedInAmount()}
+				mainTooltip={getLockedInAmount()}
 				buttons={[<>{getUnlockButton()}</>]}
 			/>
 		);
-	};
-	/**
-	 * Renders the FLUX/Mintable token burn ratio.
-	 */
-	const getFluxBurnRatio = () => {
-		return <DetailedListItem title={`${mintableTokenShortName} Burn Ratio:`} main={getBurnRatio(myRatio, ecosystem)} />;
 	};
 	/**
 	 * Renders the total amount of FLUX/Mintable tokens burned.
@@ -403,14 +400,14 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 			);
 		};
 		const getFluxBurnedBalanceUSD = () => {
-			const balanceInUsdc = `$ ${getPriceToggle({ value: addressLock.burnedAmount, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
+			const balanceInUsdc = `$${getPriceToggle({ value: addressLock.burnedAmount, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })}`;
 			return <>{balanceInUsdc}</>;
 		};
 		return (
 			<DetailedListItem
 				title={`${mintableTokenShortName} Burned:`}
 				main={getFluxBurnedBalanceUSD()}
-				sub={getFluxBurnedBalance()}
+				mainTooltip={getFluxBurnedBalance()}
 			/>
 		);
 	};
@@ -463,7 +460,6 @@ export const AccountBalancesCard: React.FC = React.memo(function AccountBalances
 						<Box>
 							{getFluxBalance()}
 							{getFluxBurned()}
-							{getFluxBurnRatio()}
 						</Box>
 					</Grid>
 					<Grid size={{ md: 6 }} className={classes.detailedListItemsContainer}>

@@ -5,7 +5,6 @@ import { useAppStore } from '@/react/utils/appStore';
 // Call to action card component
 import CallToActionCard from '@/react/elements/Cards/CallToActionCard';
 // Global statistics card component
-import GlobalCard from '@/react/elements/Cards/GlobalCard';
 // Styling utility from tss-react
 import { tss } from 'tss-react/mui';
 // Configuration for the current ecosystem
@@ -111,13 +110,6 @@ const Web3Account: React.FC = () => {
 					}}
 				>
 					<LockedLiquidityCard />
-				</Box>
-				<Box
-					sx={{
-						my: 3,
-					}}
-				>
-					<GlobalCard />
 				</Box>
 			</Box>
 		</>

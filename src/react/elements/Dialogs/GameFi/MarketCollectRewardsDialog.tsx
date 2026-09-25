@@ -329,7 +329,7 @@ const MarketCollectRewardsDialog: React.FC = () => {
 							display: 'inline',
 						}}
 					>
-						$ {balanceInUsdc} ( {formatBigInt(rewardsAmount, true, 18, 6)} {mintableTokenShortName} )
+						${balanceInUsdc} ( {formatBigInt(rewardsAmount, true, 18, 6)} {mintableTokenShortName} )
 					</Typography>
 				</Box>
 			</>

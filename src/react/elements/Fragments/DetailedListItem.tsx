@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import React, { ReactNode } from 'react';
 import { tss } from 'tss-react/mui';
 import { appPalette } from '@/theme/appTheme';
+import LightTooltip from '@/react/elements/LightTooltip';
 
 const useStyles = tss.create(() => ({
 	cardMobile: {
@@ -15,6 +16,8 @@ const useStyles = tss.create(() => ({
 interface RenderProps {
 	title?: ReactNode;
 	main: ReactNode;
+	/** Shown on hover over `main`, for example the token amount behind a USD value. */
+	mainTooltip?: ReactNode;
 	sub?: ReactNode;
 	description?: ReactNode;
 	buttons?: ReactNode[];
@@ -25,11 +28,29 @@ interface RenderProps {
  * derives everything from props, so it should not re-render when an unrelated part of the
  * surrounding card updates.
  */
-const DetailedListItem = React.memo(function DetailedListItem({ title, main, sub, description, buttons }: RenderProps) {
+const DetailedListItem = React.memo(function DetailedListItem({
+	title,
+	main,
+	mainTooltip,
+	sub,
+	description,
+	buttons,
+}: RenderProps) {
 	const theme = useTheme();
 	const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const { classes } = useStyles();
+	const getMain = () => {
+		if (!mainTooltip) {
+			return main;
+		}
+
+		return (
+			<LightTooltip title={mainTooltip}>
+				<Box component="span">{main}</Box>
+			</LightTooltip>
+		);
+	};
 	const getMainElement = () => {
 		const getSub = () => {
 			if (!sub) {
@@ -63,7 +84,7 @@ const DetailedListItem = React.memo(function DetailedListItem({ title, main, sub
 								display: 'inline',
 							}}
 						>
-							{main}
+							{getMain()}
 							{getSub()}
 						</Typography>{' '}
 						{description}
@@ -77,7 +98,7 @@ const DetailedListItem = React.memo(function DetailedListItem({ title, main, sub
 								display: 'inline',
 							}}
 						>
-							{main}
+							{getMain()}
 						</Typography>
 					</Grid>
 				</Box>

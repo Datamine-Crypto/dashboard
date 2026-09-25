@@ -49,7 +49,7 @@ const HodlClickerStats: React.FC<HodlClickerStatsProps> = ({ summary, getUSDValu
 										opacity: 0.7,
 									}}
 								>
-									LOCK Burned (USD)
+									LOCK Burned
 								</Typography>
 								<Typography
 									variant="h4"
@@ -79,7 +79,7 @@ const HodlClickerStats: React.FC<HodlClickerStatsProps> = ({ summary, getUSDValu
 										opacity: 0.7,
 									}}
 								>
-									Jackpot Wins (USD)
+									Jackpot Wins
 								</Typography>
 								<Typography
 									variant="h4"
@@ -109,7 +109,7 @@ const HodlClickerStats: React.FC<HodlClickerStatsProps> = ({ summary, getUSDValu
 										opacity: 0.7,
 									}}
 								>
-									Tips Paid (USD)
+									Tips Paid
 								</Typography>
 								<Typography
 									variant="h4"

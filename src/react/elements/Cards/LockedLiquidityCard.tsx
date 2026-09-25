@@ -90,12 +90,12 @@ const LockedLiquidityCard: React.FC = () => {
 	const getFluxAvailableLiquidity = () => {
 		const permaLockedMintableToken =
 			(uniswapFluxTokenReserves.flux * BigInt(Math.floor(percentLockedLiquidity * 100))) / 10000n;
-		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: permaLockedMintableToken, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })} USD`;
+		const fluxEthUsdcLiquidity = `$${getPriceToggle({ value: permaLockedMintableToken, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: 2 })}`;
 		return (
 			<DetailedListItem
 				title={`Perma-Locked Liquidity:`}
 				main={<>{fluxEthUsdcLiquidity}</>}
-				sub={
+				mainTooltip={
 					<>
 						{formatBigInt(permaLockedMintableToken, true, 18, 2)} {mintableTokenShortName}
 					</>
@@ -108,12 +108,12 @@ const LockedLiquidityCard: React.FC = () => {
 
 	const getFluxAvailableLiquidityEth = () => {
 		const permaLockedEth = (uniswapFluxTokenReserves.eth * BigInt(Math.floor(percentLockedLiquidity * 100))) / 10000n;
-		const fluxEthUsdcLiquidity = `$ ${getPriceToggle({ value: permaLockedEth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })} USD`;
+		const fluxEthUsdcLiquidity = `$${getPriceToggle({ value: permaLockedEth, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })}`;
 		return (
 			<DetailedListItem
 				title={`Perma-Locked ETH:`}
 				main={<>{fluxEthUsdcLiquidity}</>}
-				sub={<>{formatBigInt(permaLockedEth, true, 18, 2)} ETH</>}
+				mainTooltip={<>{formatBigInt(permaLockedEth, true, 18, 2)} ETH</>}
 				buttons={[]}
 			/>
 		);

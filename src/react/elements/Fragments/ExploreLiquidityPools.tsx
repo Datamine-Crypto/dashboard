@@ -3,7 +3,6 @@ import React from 'react';
 import { Box, Button, Chip, Divider, Link, Menu, MenuItem, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
-import sushiSwapLogo from '@/react/svgs/sushiSwap.svg';
 import uniswapLogo from '@/react/svgs/uniswap.svg';
 
 import { tss } from 'tss-react/mui';
@@ -41,13 +40,10 @@ const useStyles = tss.create(({ theme }) => ({
 		},
 	},
 	logoContainer: {
-		position: 'relative',
-		width: 47,
+		width: 32,
 		height: 32,
 		'& img': {
 			verticalAlign: 'middle',
-			position: 'absolute',
-			top: 0,
 			width: 32,
 			height: 32,
 		},
@@ -114,8 +110,7 @@ const ExploreLiquidityPools = React.memo(function ExploreLiquidityPools({ button
 										mr: 0.5,
 									}}
 								>
-									<img src={uniswapLogo} style={{ left: 14 }} />
-									<img src={sushiSwapLogo} style={{ left: -9 }} />
+									<img src={uniswapLogo} />
 								</Box>
 							</Grid>
 							<Grid>Explore Liquidity Pools</Grid>
@@ -144,14 +139,7 @@ const ExploreLiquidityPools = React.memo(function ExploreLiquidityPools({ button
 										mr: 1,
 									}}
 								>
-									<img
-										src={uniswapLogo}
-										style={{ left: buttonType === LiquidityPoolButtonType.SmallButton ? 18 : 14 }}
-									/>
-									<img
-										src={sushiSwapLogo}
-										style={{ left: buttonType === LiquidityPoolButtonType.SmallButton ? -3 : -9 }}
-									/>
+									<img src={uniswapLogo} />
 								</Box>
 							</Grid>
 							<Grid>Explore Liquidity Pools</Grid>

@@ -2,14 +2,22 @@ import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useAppStore } from '@/react/utils/appStore';
-import { getBlocksRemaining } from '@/utils/mathHelpers';
+import {
+	formatHoursDuration,
+	getBlocksRemaining,
+	getRequiredFluxToBurn,
+	TIME_BONUS_FULL_BLOCKS,
+} from '@/utils/mathHelpers';
 
 import Big from 'big.js';
 import { getEcosystemConfig } from '@/app/configs/config';
 import { Ecosystem } from '@/app/configs/config.common';
-import { getRequiredFluxToBurn } from '@/utils/mathHelpers';
-import DetailedListItem from '@/react/elements/Fragments/DetailedListItem';
+import ProgressBar from '@/react/elements/Charts/ProgressBar';
+import BurnRatioChart, { BurnRatioLegendItem } from '@/react/elements/Charts/BurnRatioChart';
 import { useShallow } from 'zustand/react/shallow';
+
+/** Contract multipliers are fixed-point with 4 decimals (10000 = 1x, 20000 = 2x). */
+const AVERAGE_BURN_MULTIPLIER = 20000;
 
 const MintStatsCard: React.FC = () => {
 	const { selectedAddress, addressLock, addressDetails, addressTokenDetails, balances, ecosystem } = useAppStore(
@@ -27,194 +35,121 @@ const MintStatsCard: React.FC = () => {
 		return null;
 	}
 
+	if (addressLock.amount === 0n) {
+		return null;
+	}
+
 	const { mintableTokenShortName, maxBurnMultiplier, minBurnMultiplier } = getEcosystemConfig(ecosystem);
 
 	const getBlockDuration = (startBlockNumber: number) => {
 		const blocksDuration = addressDetails.blockNumber - startBlockNumber;
 		const hoursDuration = (blocksDuration * 15) / (60 * 60);
 		return {
-			hours: `~${hoursDuration.toFixed(2)} hours`,
+			time: formatHoursDuration(hoursDuration),
 			blocks: `(${blocksDuration} block${blocksDuration > 1 ? 's' : ''})`,
 		};
 	};
 
-	const getLastMint = () => {
-		const getDuration = () => {
-			if (addressLock.blockNumber === addressLock.lastMintBlockNumber) {
-				return {
-					hours: 'No Mint Since Start',
-					blocks: undefined,
-				};
-			}
-			return getBlockDuration(addressLock.lastMintBlockNumber);
-		};
-		const duration = getDuration();
+	const getDurationLabel = (duration: { time: string; blocks?: string }) => {
 		return (
-			<DetailedListItem
-				title="Last Mint:"
-				main={<>{duration.hours}</>}
-				description={
-					<Typography
-						component="div"
-						color="textSecondary"
-						variant="body2"
-						sx={{
-							display: 'inline',
-						}}
-					>
-						{duration.blocks}
-					</Typography>
-				}
-			/>
+			<>
+				{duration.time}{' '}
+				<Typography component="span" variant="body2" color="textSecondary">
+					{duration.blocks}
+				</Typography>
+			</>
 		);
 	};
 
-	if (addressLock.amount === 0n) {
-		return null;
-	}
-
-	const { isTargetReached, fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({
-		addressDetails,
-		addressLock,
-		balances,
-		ecosystem,
-		targetMultiplier: new Big(maxBurnMultiplier - minBurnMultiplier),
-	});
-
-	const getDamLockinDuration = () => {
-		const duration = getBlockDuration(addressLock.blockNumber);
-		return (
-			<DetailedListItem
-				title="Started Mint Age:"
-				main={<>{duration.hours}</>}
-				description={
-					<Typography
-						component="div"
-						color="textSecondary"
-						variant="body2"
-						sx={{
-							display: 'inline',
-						}}
-					>
-						{duration.blocks}
-					</Typography>
-				}
-			/>
-		);
-	};
-
-	const getFluxToBurnFor2x = () => {
-		if (isTargetReached || addressDetails.addressBurnMultiplier >= 20000) {
-			return null;
+	const getLastMintLabel = () => {
+		if (addressLock.blockNumber === addressLock.lastMintBlockNumber) {
+			return 'No Mint Since Start';
 		}
-		const { fluxRequiredToBurn, fluxRequiredToBurnInUsdc } = getRequiredFluxToBurn({
+		return getDurationLabel(getBlockDuration(addressLock.lastMintBlockNumber));
+	};
+
+	/**
+	 * FLUX left to burn for the average and max burn bonus, shown in the burn ratio legend.
+	 * When the max is already reached, the max row shows the "bonus reserves" (burned beyond the max).
+	 */
+	const getBurnLegendItems = (): BurnRatioLegendItem[] => {
+		const maxBurn = getRequiredFluxToBurn({
+			addressDetails,
+			addressLock,
+			balances,
+			ecosystem,
+			targetMultiplier: new Big(maxBurnMultiplier - minBurnMultiplier),
+		});
+
+		const maxBurnItem: BurnRatioLegendItem = {
+			key: 'max',
+			name: maxBurn.isTargetReached ? (
+				<>
+					{mintableTokenShortName} {maxBurnMultiplier}x Bonus Reserves (
+					<Typography component="span" variant="body2" color="secondary">
+						OVERBURNED
+					</Typography>
+					)
+				</>
+			) : (
+				`${mintableTokenShortName} to Burn For ${maxBurnMultiplier}x MAX Bonus`
+			),
+			label: maxBurn.fluxRequiredToBurnInUsdc,
+			tooltip: `${maxBurn.fluxRequiredToBurn} ${mintableTokenShortName}`,
+		};
+
+		if (maxBurn.isTargetReached || addressDetails.addressBurnMultiplier >= AVERAGE_BURN_MULTIPLIER) {
+			return [maxBurnItem];
+		}
+
+		const averageBurn = getRequiredFluxToBurn({
 			addressDetails,
 			addressLock,
 			balances,
 			ecosystem,
 			targetMultiplier: new Big('1'),
 		});
-		return (
-			<Box
-				sx={{
-					my: 2,
-				}}
-			>
-				<DetailedListItem
-					title={
-						isTargetReached ? (
-							<>
-								{mintableTokenShortName} {maxBurnMultiplier}x Bonus Reserves (
-								<Typography
-									component="div"
-									color="secondary"
-									sx={{
-										display: 'inline',
-									}}
-								>
-									OVERBURNED
-								</Typography>
-								)
-							</>
-						) : (
-							`${mintableTokenShortName} to Burn For Average Bonus (${ecosystem === Ecosystem.Lockquidity ? 1 : 2}X):`
-						)
-					}
-					main={<>{fluxRequiredToBurnInUsdc}</>}
-					sub={
-						<>
-							{fluxRequiredToBurn} {mintableTokenShortName}
-						</>
-					}
-				/>
-			</Box>
-		);
+
+		return [
+			{
+				key: 'average',
+				name: `${mintableTokenShortName} to Burn For Average Bonus (${ecosystem === Ecosystem.Lockquidity ? 1 : 2}X)`,
+				label: averageBurn.fluxRequiredToBurnInUsdc,
+				tooltip: `${averageBurn.fluxRequiredToBurn} ${mintableTokenShortName}`,
+			},
+			maxBurnItem,
+		];
 	};
 
-	const getFluxToBurnForMaxBurn = () => {
-		return (
-			<DetailedListItem
-				title={
-					isTargetReached ? (
-						<>
-							{mintableTokenShortName} {maxBurnMultiplier}x Bonus Reserves (
-							<Typography
-								component="div"
-								color="secondary"
-								sx={{
-									display: 'inline',
-								}}
-							>
-								OVERBURNED
-							</Typography>
-							)
-						</>
-					) : (
-						`${mintableTokenShortName} to Burn For ${maxBurnMultiplier}x MAX Bonus:`
-					)
-				}
-				main={<>{fluxRequiredToBurnInUsdc}</>}
-				sub={
-					<>
-						{fluxRequiredToBurn} {mintableTokenShortName}
-					</>
-				}
-			/>
-		);
-	};
+	/**
+	 * Time bonus progress: from lock-in (mint age) to the full 3x time bonus, with the last mint in between.
+	 */
+	const getTimeBonusProgress = () => {
+		const elapsedBlocks = addressDetails.blockNumber - addressLock.blockNumber;
+		const isFullBonus = elapsedBlocks >= TIME_BONUS_FULL_BLOCKS;
+		const getRemaining = (showBlocks: boolean, showDuration: boolean) =>
+			getBlocksRemaining(
+				addressLock.blockNumber,
+				TIME_BONUS_FULL_BLOCKS,
+				addressDetails.blockNumber,
+				'Awaiting Mint Start',
+				showBlocks,
+				showDuration
+			);
 
-	const getTimeUntil3xBonus = () => {
 		return (
-			<DetailedListItem
-				title={'Time Until 3x Time Bonus:'}
-				main={getBlocksRemaining(
-					addressLock.blockNumber,
-					161280 + 5760,
-					addressDetails.blockNumber,
-					'Awaiting Mint Start',
-					false,
-					true
-				)}
-				description={
-					<>
-						<Typography
-							component="div"
-							color="textSecondary"
-							variant="body2"
-							sx={{
-								display: 'inline',
-							}}
-						>
-							{getBlocksRemaining(
-								addressLock.blockNumber,
-								161280 + 5760,
-								addressDetails.blockNumber,
-								'Awaiting Mint Start',
-								true,
-								false
-							)}
-						</Typography>
-					</>
+			<ProgressBar
+				title="3x Time Bonus:"
+				progress={elapsedBlocks / TIME_BONUS_FULL_BLOCKS}
+				startName="Started Mint Age"
+				startLabel={getDurationLabel(getBlockDuration(addressLock.blockNumber))}
+				middleName="Last Mint"
+				middleLabel={getLastMintLabel()}
+				endName="Time Until 3x Time Bonus"
+				endLabel={
+					isFullBonus
+						? 'Reached'
+						: getDurationLabel({ time: getRemaining(false, true), blocks: getRemaining(true, false) })
 				}
 			/>
 		);
@@ -238,17 +173,8 @@ const MintStatsCard: React.FC = () => {
 				>
 					<Divider />
 				</Box>
-				<Grid container>
-					<Grid size={{ xs: 12, md: 6 }}>
-						{getTimeUntil3xBonus()}
-						{getFluxToBurnFor2x()}
-						{getFluxToBurnForMaxBurn()}
-					</Grid>
-					<Grid size={{ xs: 12, md: 6 }}>
-						{getDamLockinDuration()}
-						{getLastMint()}
-					</Grid>
-				</Grid>
+				<BurnRatioChart extraLegendItems={getBurnLegendItems()} />
+				<Box sx={{ mt: 3 }}>{getTimeBonusProgress()}</Box>
 			</CardContent>
 		</Card>
 	);

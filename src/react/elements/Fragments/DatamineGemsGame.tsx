@@ -719,7 +719,7 @@ const DatamineGemsGame: React.FC<DatamineGemsGameProps> = ({
 		const totalDollarAmount = batchOfGemsToCollect.reduce((total, gem) => total + gem.dollarAmount, 0);
 		return (
 			<Button onClick={handleCollectAllGems} color="secondary" variant="outlined">
-				Collect All Gems ($ {totalDollarAmount.toFixed(localConfig.dollarDecimalPlaces)})
+				Collect All Gems (${totalDollarAmount.toFixed(localConfig.dollarDecimalPlaces)})
 			</Button>
 		);
 	};

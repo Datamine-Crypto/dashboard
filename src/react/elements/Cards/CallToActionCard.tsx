@@ -53,6 +53,7 @@ import {
 	getFormattedMultiplier,
 	getPriceToggle,
 	getPriceToggleBig,
+	TIME_BONUS_FULL_BLOCKS,
 } from '@/utils/mathHelpers';
 import LightTooltip from '@/react/elements/LightTooltip';
 import { tss } from 'tss-react/mui';
@@ -425,7 +426,7 @@ const CallToActionCard: React.FC = () => {
 								return (
 									<TableRow>
 										<TableCell>With x{3 * maxBurnMultiplier} Multiplier</TableCell>
-										<TableCell align="right">$ {blanceWitMaxBonusesInUsdc} USD</TableCell>
+										<TableCell align="right">${blanceWitMaxBonusesInUsdc}</TableCell>
 									</TableRow>
 								);
 							};
@@ -435,7 +436,7 @@ const CallToActionCard: React.FC = () => {
 										<TableBody>
 											<TableRow>
 												<TableCell width={20}>Without Multipliers</TableCell>
-												<TableCell align="right">$ {blanceWithoutBonusesInUsdc} USD</TableCell>
+												<TableCell align="right">${blanceWithoutBonusesInUsdc}</TableCell>
 											</TableRow>
 											{getMaxMultipliers()}
 										</TableBody>
@@ -806,7 +807,7 @@ const CallToActionCard: React.FC = () => {
 										style={{ width: `${Math.ceil(((30000 - addressDetails.addressTimeMultiplier) / 30000) * 100)}%` }}
 									>
 										<LightTooltip
-											title={`You will receive the full x3 Time Bonus multiplier after leaving your ${lockableTokenShortName} locked-in for another ${getBlocksRemaining(addressLock.blockNumber, 161280 + 5760, addressDetails.blockNumber, 'Awaiting Mint Start')}`}
+											title={`You will receive the full x3 Time Bonus multiplier after leaving your ${lockableTokenShortName} locked-in for another ${getBlocksRemaining(addressLock.blockNumber, TIME_BONUS_FULL_BLOCKS, addressDetails.blockNumber, 'Awaiting Mint Start')}`}
 										>
 											<LinearProgress
 												variant="determinate"
@@ -973,7 +974,7 @@ const CallToActionCard: React.FC = () => {
 							<TableRow>
 								<TableCell align="left">
 									<Typography component="div" color="textSecondary" variant="body1">
-										Forecasted {mintableTokenShortName} Price (in USD)
+										Forecasted {mintableTokenShortName} Price
 									</Typography>
 								</TableCell>
 								<TableCell align="left">
@@ -989,7 +990,7 @@ const CallToActionCard: React.FC = () => {
 						if (forecastSettings.enabled) {
 							return (
 								<>
-									Forecasted {forecastSettings.blocks.toFixed(0)}Unminted Blocks{' '}
+									Forecasted {forecastSettings.blocks.toFixed(0)} Unminted Blocks{' '}
 									<LightTooltip title="This estimated time is based on assumption that 1 Ethereum Block is genereated every 12 seconds">
 										<Box
 											sx={{
@@ -1031,7 +1032,7 @@ const CallToActionCard: React.FC = () => {
 							balances,
 							round: 2,
 						});
-						return `($ ${usdcAmount} USD)`;
+						return `($${usdcAmount})`;
 					};
 
 					const getBottomRightText = () => {
@@ -1460,7 +1461,7 @@ const CallToActionCard: React.FC = () => {
 		};
 		const getFluxPrice = () => {
 			const shortFluxPrice = `${getPriceToggle({ value: 1n * 10n ** 18n, inputToken: Token.Mintable, outputToken: Token.USDC, balances, round: mintableTokenPriceDecimals })}`;
-			const actualFluxPrice = `$ ${shortFluxPrice}`;
+			const actualFluxPrice = `$${shortFluxPrice}`;
 			return (
 				<>
 					<Box
@@ -1487,7 +1488,7 @@ const CallToActionCard: React.FC = () => {
 		};
 		const getDamPrice = () => {
 			const shortDamPrice = `${getPriceToggle({ value: 1n * 10n ** 18n, inputToken: Token.Lockable, outputToken: Token.USDC, balances, round: 4 })}`;
-			const actualDamPrice = `$ ${shortDamPrice}`;
+			const actualDamPrice = `$${shortDamPrice}`;
 			return (
 				<>
 					<Box
@@ -1514,7 +1515,7 @@ const CallToActionCard: React.FC = () => {
 		};
 		const getEthPrice = () => {
 			const shortFluxPrice = `${getPriceToggle({ value: 1n * 10n ** 18n, inputToken: Token.ETH, outputToken: Token.USDC, balances, round: 2 })}`;
-			const actualFluxPrice = `$ ${shortFluxPrice}`;
+			const actualFluxPrice = `$${shortFluxPrice}`;
 			return (
 				<>
 					<Box

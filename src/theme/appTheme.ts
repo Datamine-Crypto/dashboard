@@ -90,6 +90,8 @@ export const colors = {
 	BRONZE: '#CD7F32',
 	ORANGE: '#FF9B00',
 	ORANGE_DARK: '#FF8C00',
+	/** Deeper orange for chart marks. The UI oranges are too light for filled marks on the navy surface. */
+	ORANGE_600: '#D97706',
 	/** Error / destructive state. */
 	RED: '#F87171',
 	/** Deep red used as the dark end of error-themed surfaces. */
@@ -180,6 +182,21 @@ export const rankTierColors = {
 	first: colors.GOLD,
 	second: colors.SILVER,
 	third: colors.BRONZE,
+} as const;
+
+/**
+ * Chart colors, in fixed order. `primary` is the brand highlight by choice: it is lighter than the
+ * dataviz lightness band but passes CVD separation and 3:1 contrast. `secondary` and `burned` pass
+ * every dataviz palette check against `appPalette.background`.
+ * `rest` is the neutral "everything else" slice. It is just under 3:1, so charts always show
+ * a legend with values next to it.
+ */
+export const chartColors = {
+	primary: appPalette.highlight,
+	secondary: colors.PURPLE,
+	/** Anything burned (FLUX burned, burn ratio). */
+	burned: colors.ORANGE_600,
+	rest: colors.GRAY_500,
 } as const;
 
 // ============================================================================
